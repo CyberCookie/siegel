@@ -1,0 +1,96 @@
+@import '../utils'
+    
+$ID: '.-ui-input'
+
+#{$ID}
+    --height:           42px
+    --border_x:         1px
+    --border_x_focus:   2px
+
+    --font_size:                    calc(var(--height) / 3)
+    --border_delta_x:               calc(var(--border_x_focus) - var(--border_x))
+    --border_radius:                calc(var(--height) / 2 + 1px)
+    --padding_x:                    calc(var(--height) / 5 + 2px)
+    --padding_x1:                   calc(var(--padding_x) * 2)
+    --padding_x2:                   calc(var(--padding_x) * 3)
+    --textarea_height:              calc((var(--height) * 4) + 4px)
+    --padding_y__textarea_focus:    calc(var(--padding_x1) - var(--border_delta_x))
+    --padding_x__field_focus:       calc(var(--padding_x2) - var(--border_delta_x))
+    --left__label_focus:            calc(var(--padding_x1) + var(--border_x_focus))
+    --left__error:                  calc(var(--padding_x2) + var(--border_x_focus))
+    --font_size__error:             calc(var(--font_size) - 2px)
+    --bottom__error:                calc(var(--font_size__error) / -3)
+
+    --p-error: red//var(--red)
+    --p-text: grey//var(--grey-three)
+    --p-border: grey//var(--grey-four)
+    --p-border-focus: blue//var(--blue)
+    --p-label-background-focus: white//var(--white)
+
+    position: relative
+
+
+
+#{$ID}_error_text
+    @include absolute('','', var(--bottom__error), var(--left__error))
+    @include font(var(--font_size__error), '', var(--p-error), 300)
+    transform: translateY(100%)
+
+
+#{$ID}_label_text, #{$ID}_field
+    @include font(var(--font_size), '', var(--p-text))
+
+
+#{$ID}_label_text
+    @include absolute('', '', '', var(--left__error))
+    font-weight: 300
+    
+    #{$ID}[error] &
+        color: var(--p-error)
+    
+    #{$ID}__focus &
+        top: 0
+        left: var(--left__label_focus)
+        background: var(--p-label-background-focus)
+        padding: 0 var(--padding_x)
+        font-size: var(--font_size__error)
+        transform: translateY(-50%)
+        visibility: visible
+
+    $NOT_FOCUS: $ID + ':not(' + $ID + '__focus)'
+    #{$NOT_FOCUS} &
+        top: calc(50% - 0.5px)
+        transform: translateY(-50%)
+
+    #{$NOT_FOCUS}[filled] &
+        visibility: hidden
+
+    #{$NOT_FOCUS}.#{$ID}_textarea &
+        top: var(--padding_x1)
+        transform: translateY(0)
+
+
+#{$ID}_field
+    height: var(--height)
+    padding: 0 var(--padding_x2)
+    border: var(--border_x) solid var(--p-border)
+    border-radius: var(--border_radius)
+
+    #{$ID}_textarea &
+        padding-top: var(--padding_x1)
+        padding-bottom: var(--padding_x1)
+        resize: none
+        height: var(--textarea_height)
+    
+    #{$ID}__focus &, #{$ID}[error] &
+        border: var(--border_x_focus) solid
+        padding-left: var(--padding_x__field_focus)
+
+    #{$ID}__focus &
+        border-color: var(--p-border-focus)
+    
+    #{$ID}[error] &
+        border-color: var(--p-error)
+
+    #{$ID}_textarea.#{$ID}__focus &
+        padding-top: var(--padding_y__textarea_focus)

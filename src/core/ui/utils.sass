@@ -1,0 +1,56 @@
+// shorthand for css variable declaration
+@function v($var, $fallback: null)
+    @if ($fallback)
+        @return var(--#{$var}, --#{$fallback})
+    @else
+        @return var(--#{$var})
+
+
+// if not empty string
+@mixin if_not_empty($val)
+    @if $val != ''
+        @content
+
+
+    
+// common flexbox declarations
+@mixin flex($x_center: '', $y_center: '')
+    display: flex
+
+    @include if_not_empty($x_center)
+        justify-content: $x_center
+    
+    @include if_not_empty($y_center)
+        align-items: $y_center
+
+
+// common font declarations
+@mixin font($size: '', $height: '', $color: '', $weight: '')
+    @include if_not_empty($size)
+        font-size: $size
+    
+    @include if_not_empty($height)
+        line-height: $height
+    
+    @include if_not_empty($color)
+        color: $color
+    
+    @include if_not_empty($weight)
+        font-weight: $weight
+
+
+// common absolute positioned block declarations
+@mixin absolute($top: '', $right: '', $bottom: '', $left: '')
+    position: absolute
+
+    @include if_not_empty($top)
+        top: $top
+
+    @include if_not_empty($right)
+        right: $right
+
+    @include if_not_empty($bottom)
+        bottom: $bottom
+
+    @include if_not_empty($left)
+        left: $left

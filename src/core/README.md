@@ -1,0 +1,1 @@
+Here will be React Core documentation

@@ -1,0 +1,51 @@
+@import '../variables'
+@import 'core-ui/utils'
+
+    
+.select
+    height: 25px
+    font-size: 12px
+    line-height: 25px
+    color: $grey_12
+    border-radius: 2px
+    border: 1px solid $grey_11
+    position: relative
+    cursor: pointer
+
+.select_active
+    .title i
+        transform: rotateX(180deg)
+    
+    .options
+        display: block
+
+.options
+    width: 100px
+    left: -1px
+    top: 23px
+    position: absolute
+    border: 1px solid $grey_ten
+    background: $white
+    border-radius: 2px
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16)
+    padding: 11px 11px 7px 7px
+    display: none
+
+
+.option
+    display: flex
+    align-items: center
+    justify-content: space-between
+    
+
+.title
+    height: 100%
+    padding: 0 8px
+    display: flex
+    align-items: center
+
+    i
+        font-size: 5px
+        line-height: 1
+        padding-left: 7px
+        color: $blue !important //css modules!

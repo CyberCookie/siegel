@@ -1,0 +1,90 @@
+@import '../utils'
+
+$ID: '.-ui-button'
+
+#{$ID}
+    --p-primary:            var(--blue)
+    --p-primary_hover:      #1A53CD
+    --p-primary_disabled:   #95B5FB 
+    --p-secondary:          var(--orange)
+    --p-secondary_hover:    #C7322F
+    --p-secondary_disabled: #F7A8A1
+
+    @include font(16px, 1, var(--white))
+    cursor: pointer
+    height: 44px
+    padding: 0 36px
+    border-radius: 22px
+    border: none
+    background: var(--p-primary)
+    box-shadow: var(--shadow-lg)
+    transition: var(--transition)
+
+    &:hover
+        background: var(--p-primary_hover)
+    
+    &:focus
+        outline: none
+    
+    &:disabled
+        cursor: default
+        pointer-events: none
+        --p-primary: var(--p-primary_disabled)
+
+
+
+#{$ID}__secondary
+    background: var(--p-secondary)
+
+    &:hover
+        background: var(--p-secondary_hover)
+    
+    &:disabled
+        --p-secondary: var(--p-secondary_disabled)
+
+
+#{$ID}__bordered
+    --color: var(--p-primary)
+    
+    border: 2px solid var(--color)
+    padding: 0 34px
+    color: var(--color)
+    background: var(--white)
+    box-shadow: none
+
+    &:hover
+        border-color: var(--color)
+        background: var(--color)
+        color: var(--white)
+
+    #{$ID}__with-icon
+        &:hover
+            path, polygon
+                fill: var(--white)
+
+        path, polygon
+            fill: var(--color) 
+
+
+#{$ID}__pinbot
+    $shadow_piece: 0 0 16px var(--white)
+    $shadow-pinbot: -16px $shadow_piece, 16px $shadow_piece
+
+    @include absolute('','', 0, 50%)
+    transform: translate(-50%, 50%)
+    z-index: 2
+    box-shadow: $shadow-pinbot
+
+    &:not(.bordered)
+        box-shadow: var(--shadow-lg), $shadow-pinbot
+
+
+#{$ID}__with-icon
+    @include flex('', center)
+    padding: 0 19px
+
+    svg
+        margin-right: 8px
+
+    path, polygon
+        fill: var(--white)

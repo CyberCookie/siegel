@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+		"target": "esnext",
+		"moduleResolution": "node",
+		"module": "esnext",
+		"allowJs": true,
+		"noEmit": true,
+		"noEmitHelpers": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"jsx": "react",
+		"baseUrl": "./",
+		"paths": {
+			"core/*": ["./src/core/*"],
+			"core-store/*": ["./src/core/store/*"],
+			"core-ui/*": ["./src/core/ui/*"],
+			"core-utils/*": ["./src/core/utils/*"],
+			"app/*": ["./src/demo_app/main/*"]
+		}
+	},
+    "include": ["./src"]
+}

@@ -1,0 +1,29 @@
+@import '../variables'
+@import 'core-ui/utils'
+    
+
+.checkbox
+    position: relative
+    width: 14px
+    height: 14px
+    background: transparent
+    border-radius: 1px
+    border: 1px solid $grey_ten
+    margin: 0
+
+    &:checked:before
+        content: ''
+        @include absolute(2px, '', '', 2px)
+        width: 8px
+        height: 8px
+        background: $blue
+
+
+.wrapper
+    display: flex
+    align-items: center
+
+    span
+        padding-right: 20px
+        font-size: 18px
+        text-transform: capitalize

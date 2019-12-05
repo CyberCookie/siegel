@@ -1,0 +1,21 @@
+@import '../theme'
+
+.-ui-tabs
+    .tab-labels
+        display: flex
+
+    .tab
+        flex: 1
+        position: relative
+        padding: 15px 30px
+        font-size: 16px
+        line-height: 18px
+        font-weight: 500
+        background: $core_palette_secondary-one
+        cursor: pointer
+        color: white
+        border-radius: 8px 8px 0 0
+
+        &.active
+            background: white
+            color: $core_palette_primary
