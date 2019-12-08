@@ -3,7 +3,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const HTMLPlugin = require('html-webpack-plugin')
 const fileCopyPlugin = require('copy-webpack-plugin')
-const compression = require('compression-webpack-plugin')
+const compressionPlugin = require('compression-webpack-plugin')
 const cssSVG = require('iconfont-webpack-plugin')
 const autoprefixer = require('autoprefixer')
 const cssMinifier = require('cssnano')
@@ -12,23 +12,21 @@ const config = require('./config')
 
 const { input, output, aliases, publicPath } = config.build;
 
-var WEBPACK_COMPILLER;
 
-
-function getWebpackConfig({ isProd, isServer }) {
-    const CSSExtract = (isProd || !isServer) && miniCssExtract;
+function getWebpackConfig({ isProd, isServer, isDevServer }) {
+    const isExtractCSS = isProd || !isServer;
 
     return {
         mode: process.env.NODE_ENV || 'development',
-        cache: isServer,
+        cache: isDevServer,
         devtool: isProd ? '' : 'cheap-module-eval-source-map',
         resolve: {
             alias: aliases,
             extensions: ['.js', '.jsx', '.ts', '.tsx', '.sass']
         },
         entry: [
-            input.js,
-            ...( isServer ? ['webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true'] : [] )
+            ...( isDevServer ? ['webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true'] : [] ),
+            input.js
         ],
         output: {
             publicPath,
@@ -36,31 +34,47 @@ function getWebpackConfig({ isProd, isServer }) {
             chunkFilename: 'chunk.[contenthash].js',
             filename: isProd ? 'app.[contenthash].js' : 'app.js',
         },
-        plugins : [
+        plugins: [
             new fileCopyPlugin([
                 { from: input.assets.images, to: output.assets + '/images' },
                 { from: input.assets.sw, to: output.loc },
                 { from: input.assets.pwa, to: output.assets + '/pwa' }
             ]),
-            ...( CSSExtract ? [ new CSSExtract({ filename: `styles.[contenthash].css`}) ] : [] ),
-            new HTMLPlugin({ template: input.html }),
-            ...( isServer ? [ new webpack.HotModuleReplacementPlugin() ] : [] ),
 
-            // ...(
-            //     isProd
-            //         ?   [new compression({
-            //                 test: /\.(js|css|html|woff2|ico|png)$/,
-            //                 filename: '[path].br[query]',
-            //                 algorithm: 'brotliCompress',
-            //                 compressionOptions: {
-            //                     level: 11
-            //                 },
-            //                 threshold: 10240,
-            //                 minRatio: 0.8,
-            //                 deleteOriginalAssets: false
-            //             })]
-            //         :   []
-            //     )
+            ...( isExtractCSS ? [ new miniCssExtract({ filename: `styles.[hash].css`}) ] : [] ),
+
+            new HTMLPlugin({
+                template: input.html,
+                minify: true
+            }),
+
+            // new webpack.HotModuleReplacementPlugin(),
+            // ...( isDevServer ? [ new webpack.HotModuleReplacementPlugin() ] : [] ),
+            ...( isProd ? [] : [ new webpack.HotModuleReplacementPlugin() ] ),
+
+            ...(
+                isProd
+                    ?   [
+                            new compressionPlugin({
+                                test: /\.*$/,
+                                filename: '[path].br[query]',
+                                algorithm: 'brotliCompress',
+                                compressionOptions: {
+                                    level: 11
+                                },
+                                threshold: 10240
+                                // deleteOriginalAssets: true
+                            }),
+
+                            new compressionPlugin({
+                                test: /\.*$/,
+                                filename: '[path].gz[query]',
+                                threshold: 10240
+                                // deleteOriginalAssets: true
+                            })
+                        ]
+                    :   []
+                )
         ],
 
         module: {   
@@ -94,22 +108,24 @@ function getWebpackConfig({ isProd, isServer }) {
                         }
                     ]
                 },
-                ...(
-                    isProd
-                        ?   []
-                        :   [{
-                                test: /\.(js|jsx|ts|tsx)$/,
-                                use: 'react-hot-loader/webpack',
-                                include: /node_modules/
-                            }]
-                ),
+
+                // ...(
+                //     isDevServer
+                //         ?   [{
+                //                 test: /\.(js|jsx|ts|tsx)$/,
+                //                 use: 'react-hot-loader/webpack',
+                //                 include: /node_modules/
+                //             }]
+                //         :   []
+                // ),
+
 
                 {
                     test: /\.sass$/,
                     include: input.include,
                     exclude: input.exclude,
                     use: [
-                        CSSExtract ? CSSExtract.loader : 'style-loader',
+                        isExtractCSS ? miniCssExtract.loader : 'style-loader',
                         
                         {
                             loader: 'css-loader',
@@ -139,7 +155,7 @@ function getWebpackConfig({ isProd, isServer }) {
                             options: { sourceMap: !isProd }
                         },
 
-                        // uses with css modules
+                        // use with css modules
                         {
                             loader: 'sass-resources-loader',
                             options: {
@@ -165,37 +181,39 @@ function getWebpackConfig({ isProd, isServer }) {
 }
 
 
-module.exports = {
-    run: options => {
-        const webpackConfig = getWebpackConfig(options);
-        WEBPACK_COMPILLER = webpack(webpackConfig);
+const statsOptions = {
+    colors: true,
+    modules: false,
+    children: false
+}
 
-        if (!options.isServer) {
-            WEBPACK_COMPILLER.run((err, stats) => {
+
+module.exports = {
+    run: options => new Promise(resolve => {
+        const webpackConfig = getWebpackConfig(options);
+        const webpackCompiller = webpack(webpackConfig);
+
+        if (!options.isDevServer) {
+            webpackCompiller.run((err, stats) => {
                 let errMsg = err || (
                     stats.hasErrors()
                         ?   stats.compilation.errors
-                        :   stats.toString({ colors: true })
+                        :   stats.toString(statsOptions)
                 )
 
                 console.log(errMsg)
+                resolve(webpackCompiller)
             })
-        }
-    },
+        } else resolve(webpackCompiller)
+    }),
 
-    getDevMiddlewares: () => ({
-        dev: webpackDevMiddleware(WEBPACK_COMPILLER, {
+    getDevMiddlewares: webpackCompiller => ({
+        dev: webpackDevMiddleware(webpackCompiller, {
             publicPath,
             hot: true,
-            stats: {
-                colors: true,
-                chunks: false,
-                hash: false,
-                modules: false,
-                children: false
-            }
+            stats: statsOptions
         }),
 
-        hot: webpackHotMiddleware(WEBPACK_COMPILLER)
+        hot: webpackHotMiddleware(webpackCompiller)
     })
 }

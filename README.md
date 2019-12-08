@@ -1,6 +1,22 @@
-- Install NodeJS
-- From working directory open terminal and run to install all dependencies `npm i`
-- To run the project in development mode: `npm run dev`
-- To build the project in dev/prod mode run `npm run prod:build` / `npm run dev:build` accordingly
-- To host the project locally using NodeJS server make sure you had built it first running one of the commands above and then run `npm run server`. 
+- Install NodeJS.
+- From working directory open terminal and run to install all dependencies `npm i`.
+- Project structure:
+    - `dev_tools` - folder to keep all files related to nodejs server and build process:
+        - `index.js` - dev_tools entrypoint. You may run this script with the following arguments:
+            - `-b` - build a project with webpack.
+            - `-s` - start express nodejs server.
+        - `config.js` - server constants and build I/O paths.
+        - `server.js` - provides API to run express server with optional middlewares.
+        - `webpack.js` - provides API to build project and to retrieve build dev middlewares.
+        - `pm2.js` - run `npm run serv` command as pm2 process.
+    - `src` - folder to keep client side code
+        - `core` - library of usefull tools, react components, redux / hook store creators.
+        - `demo_app` - demo project that demonstrates abilities of the `core` library. Folder structure must reflect `dev_tools/config.js` build input paths.
 
+
+- List and explanation of npm commands in package.json:
+    - To build a project you may run `npm run build` / `npm run build:prod`.
+    - To host a project you may run `npm run serv` / `npm run serv:prod`.
+    - To start a project in development watch mode run `npm run dev` [alias `npm run build_serv`].
+    - To deploy project from scratch to running process run `npm run deploy`. It installs all the dependencies, in production mode builds project and hosts it using express server wrapped in pm2 daemon.
+    - To do the same as `npm run deploy` but whithout node_modules installation run `npm run build_serv:prod`

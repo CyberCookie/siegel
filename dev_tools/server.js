@@ -1,3 +1,5 @@
+//  HTTPS version
+
 // const https = require('https'),
 //     fs = require('fs');
 // https
@@ -12,16 +14,19 @@
 //             ? console.error(err)
 //             : console.info('Starting server on %s:%s.', serverConfig.nodeHost, serverConfig.nodePort) 
 //     })
+
+
 const http = require('http')
 const querystring = require('querystring')
 const express = require('express')
-const compression = require('compression')
-// const compression = require('express-static-gzip')
+const expressStatic = require('express-static-gzip')
 const historyApiFallback = require('connect-history-api-fallback')
 const config = require('./config')
 
 const { nodeHost, nodePort, proxyHost, proxyPort } = config.server;
+
 const app = express()
+app.disable('x-powered-by')
 
 
 const proxy = (port = proxyPort, host = proxyHost) => (clientReq, clientRes) => {
@@ -54,16 +59,16 @@ const proxy = (port = proxyPort, host = proxyHost) => (clientReq, clientRes) => 
 
 module.exports = {
     run: (middlewares = []) => {
-        app.disable('x-powered-by')        
         app.use(historyApiFallback())
-        app.use(compression())
         app.use(express.json())
 
         middlewares.forEach(m => app.use(m))
 
-        app.use(express.static( config.build.output.loc ))
-        // app.use('/', compression(config.build.output.loc, { enableBrotli: true }))
-
+        app.use('/', expressStatic(config.build.output.loc, {
+            enableBrotli: true,
+            orderPreference: ['br', 'gzip']
+        }))
+        
         
         return app.listen(nodePort, nodeHost, err => {
             err
