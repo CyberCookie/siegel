@@ -1,37 +1,40 @@
 import React, { useState, useLayoutEffect } from 'react'
 
-import { dateLocalization } from 'core-utils/date_const'
-import dateParse from 'core-utils/date_parse'
+import { dateLocalizationByLocale, msIn } from 'core/utils/date_const'
+import dateParse from 'core/utils/date_parse'
 
-interface Props {
-    locale?: string,
-    zeroing?: boolean
+
+const componentID = '-ui-clocks'
+
+const defaults = {
+    className: componentID,
+    locale: 'en',
+    updateInterval: 1000,
+    zeroing: true,
+    builder: null
 }
 
-interface DefaultProps {
-    locale: string
-}
+const setDefaults = customDefaults => Object.assign(defaults, customDefaults)
 
 
-const defaults: DefaultProps = {
-    locale: 'en'
-}
+const Clocks = props => {
+    let className = defaults.className;
+    props.className && (className += ` ${props.className}`)
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+    let { locale, updateInterval, builder, zeroing } = Object.assign({}, defaults, props)
 
-
-const Clocks = (props: Props) => {
-    let { locale, zeroing } = Object.assign({}, defaults, props)
-    let [{ time, day, date }, setState ] = useState(getNextClockState())
+    let [ parsedDate, setState ] = useState(getNextClockState())
 
     useLayoutEffect(() => {
         let date = new Date()
-        let deltaTime = 60000 - (date.getSeconds() * 1000) - date.getMilliseconds()
 
-        let intervalID: number;
+        let deltaTime = updateInterval - date.getMilliseconds()
+        updateInterval == msIn.minute && (deltaTime -= (date.getSeconds() * 1000))
+
+        let intervalID;
         let timeoutID = setTimeout(() => {
             tick()
-            intervalID = setInterval(tick, 60000)
+            intervalID = setInterval(tick, updateInterval)
         }, deltaTime)
         
 
@@ -41,27 +44,23 @@ const Clocks = (props: Props) => {
         }
     }, [])
 
+
     function tick() { setState(getNextClockState()) }
 
     function getNextClockState() {
-        let { monthsShort, daysShort } = dateLocalization[locale]
-        let { month, date, day, hours, minutes } = dateParse(undefined, zeroing)
+        let { monthsShort, daysShort } = dateLocalizationByLocale[locale];
+        let parsedDate = dateParse(Date.now(), zeroing)
 
-        return {
-            time: `${hours}:${minutes}`,
-            date: `${date} ${monthsShort[month]}`,
-            day: daysShort[day]
-        }
+        
+        return builder && builder({
+            ...parsedDate,
+            monthShort: monthsShort[parsedDate.month - 1],
+            dayShort: daysShort[parsedDate.day]
+        })
     }
 
 
-    return (
-        <div className='clocks'>
-            <div className='time' children={time} />
-            <div className='date' children={date} />
-            <div className='day' children={day} />
-        </div>
-    )
+    return <div className={className} children={parsedDate} />
 }
 
 

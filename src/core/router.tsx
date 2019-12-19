@@ -15,7 +15,8 @@ type CreateRouter = (options: {
     Layout?: React.ComponentType,
     isLazy?: boolean,
     notFound?: React.ComponentType<any>,
-    routes: RouterConfig
+    routes: RouterConfig,
+    history?: History
 }) => JSX.Element
 
 type CreateRoutes = (routerConfig: RouterConfig, urlPref?: string) => JSX.Element[]
@@ -48,7 +49,7 @@ const createRoutes: CreateRoutes = (routeConfig, urlPref = '') => {
     return result
 }
 
-const createRouter: CreateRouter = ({ routes, Layout, notFound, isLazy }) => {
+const createRouter: CreateRouter = ({ routes, Layout, notFound, isLazy, history }) => {
     let createdRoutes = createRoutes(routes)
     notFound && createdRoutes.push( <Route key={404} component={notFound} /> )
 
@@ -58,7 +59,7 @@ const createRouter: CreateRouter = ({ routes, Layout, notFound, isLazy }) => {
     Layout && (routerContent = <Layout children={routerContent} />)
 
 
-    return <Router history={createBrowserHistory()} children={routerContent} />
+    return <Router history={history || createBrowserHistory()} children={routerContent} />
 }
 
 

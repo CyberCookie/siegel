@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-import { dateLocalization } from '../../services/date'
+import { dateLocalizationByLocale } from '../../services/date'
 
 import Days from './days_of_month'
 import s from './styles'
@@ -89,7 +89,7 @@ const Calendar = props => {
     let ref = useRef()
     
     let { inProgress, beginOfMonth } = state;
-    let _locale = dateLocalization[locale || 'en']
+    let _locale = dateLocalizationByLocale[locale || 'en']
     let days = weekStartsFrom ? shiftWeekDays() : _locale.daysShort;
 
 

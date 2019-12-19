@@ -54,7 +54,7 @@ const Form = ({ onSubmit, className, wrapperAttr = {}, inputs }) => {
     
                 extraProps = {
                     value, name, onChange,
-                    errorMsg: values[name] ? values[name].errorMsg : '',
+                    errorMsg: props.errorMsg || (values[name] ? values[name].errorMsg : ''),
                     onBlur(e) {
                         onChange(e.target.value)
                         return false

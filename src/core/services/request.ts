@@ -29,12 +29,15 @@ const defaultSetup: SetupFnParams = {
 
 
 const extractRequestData = (request: RequestFnParams) => {
-    const { url, query, headers, method = 'GET', body, credentials } = request;
+    const { url, query, headers, method, body, credentials } = request;
 
-    const options: RequestInit = { method }
+    const options: RequestInit = { method: method || 'GET' }
     credentials && (options.credentials = credentials)
     headers && (options.headers = headers)
-    body && (options.body = JSON.stringify(body))
+    if (body) {
+        options.body = JSON.stringify(body)
+        method || (options.method = 'POST')
+    }
     
     const fetchParams = { url, options }
 
@@ -77,15 +80,16 @@ const request = async (req: RequestFnParams) => {
     try {
         let { url, options } = extractRequestData(req)
         let res = await fetch(url, options)
-    
+        let parsedRes = await extractResponseData(req, res)
+
         if (res.ok) {
-            let parsedRes = await extractResponseData(req, res)
             defaultSetup.afterRequest && defaultSetup.afterRequest({ url, options }, parsedRes)
             return parsedRes
         } else {
             throw {
                 status: res.status || 500,
-                message: res.statusText
+                message: res.statusText,
+                res: parsedRes
             }
         }
     } catch (err) {

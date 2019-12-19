@@ -1,4 +1,4 @@
-import * as signalR from '@aspnet/signalr/dist/browser/signalr';
+import { HubConnectionBuilder, HttpTransportType, JsonHubProtocol } from '@aspnet/signalr/dist/browser/signalr';
 
 
 const ALL_CONNECTIONS_PARAMS = {};
@@ -10,15 +10,15 @@ const SET_ALL_CONNECTIONS_PARAMS = params => ALL_CONNECTIONS_PARAMS = params
 const getSocket = socketKey => CONNECTIONS[socketKey || DEFAULT_CONNECTION_NAME]
 
 
-const createSignalRConnection = (options = {}, cb) => {
+const createSignalRConnection = (options, cb) => {
     let connectionParams = Object.assign({}, ALL_CONNECTIONS_PARAMS, options);
     let { connectionKey, url, endpoint, transport, protocol, serverTimeout, handlers = {} } = connectionParams;
         
-    let socketConnection = new signalR.HubConnectionBuilder()
+    let socketConnection = new HubConnectionBuilder()
         .withUrl((url || window.location.origin) + endpoint, { 
-            transport: signalR.HttpTransportType[transport || 'WebSockets']
+            transport: HttpTransportType[transport || 'WebSockets']
         })
-        .withHubProtocol(protocol || (new signalR.JsonHubProtocol()))
+        .withHubProtocol(protocol || (new JsonHubProtocol()))
         .build();
 
     const successRunHandler = () => {
@@ -44,9 +44,7 @@ const createSignalRConnection = (options = {}, cb) => {
         this.connection.connectionState < 2 && this.stop()
     }
 
-    socketConnection.isAlive = function() {
-        return this.connection.connectionState === 1
-    }
+    socketConnection.isAlive = () => this.connection.connectionState === 1;
 
     CONNECTIONS[connectionKey || DEFAULT_CONNECTION_NAME] = socketConnection
     cb && cb(socketConnection)

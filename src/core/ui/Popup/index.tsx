@@ -1,29 +1,10 @@
-import React, { useState, useLayoutEffect,
-    ReactNode, MouseEventHandler, MouseEvent } from 'react'
+import React from 'react'
 
-import './styles'
-
-interface Props {
-    theme: UITheme,
-    closeIcon: ReactNode
-}
-
-interface DefaultProps {
-    theme: UITheme,
-    closeIcon: ReactNode
-}
-
-type PopupState = {
-    visibility: boolean,
-    content: ReactNode,
-    className: string
-}
-
-type PopupTrigger = ((content: ReactNode, className: string) => void | undefined)
+import s from './styles'
 
 
 const componentID = '-ui-popup'
-const defaults: DefaultProps = {
+const defaults = {
     theme: {
         popup: componentID,
         content: componentID + '_content',
@@ -33,69 +14,33 @@ const defaults: DefaultProps = {
     closeIcon: 'X'
 }
 
+const setDefaults = customDefaults => Object.assign(defaults, customDefaults)
 
-let triggerPopup: PopupTrigger;
-const initialState: PopupState = {
-    visibility: false,
-    content: null,
-    className: ''
-}
+const onPopupBodyClick = e => e.stopPropagation();
 
-const bodyClassList = document.body.classList;
-
-const onPopupBodyClick: MouseEventHandler = (e: MouseEvent) => e.stopPropagation();
-
-const Popup = (props: Props) => {
+const Popup = props => {
     let theme = props.theme
         ?   Object.assign({}, defaults.theme, props.theme)
         :   defaults.theme;
 
-    let closeIcon = props.closeIcon || defaults.closeIcon;
+    let { className, closeIcon, content, onClose } = Object.assign({}, defaults, props)
 
-    let [ state, setState ] = useState(initialState)
-
-    useLayoutEffect(() => {
-        triggerPopup = (content: ReactNode, className: string) => {
-            let nextState;
-            if (content) {
-                bodyClassList.add('popup-active')
-                nextState = {
-                    content, className,
-                    visibility: true
-                }
-            } else {
-                bodyClassList.remove('popup-active')
-                nextState = initialState
-            }
-
-            setState(nextState)
-        }
-    }, [])
+    let wrapperClassName = `${s.popup} ${theme.popup}` ;
+    className && (wrapperClassName += ` ${className}`)
 
 
-    function onClose() {
-        bodyClassList.remove('popup-active')
-        setState(initialState)
-    }
-    
-    let wrapperClassName = theme.popup;
-    state.className && (wrapperClassName += ` ${state.className}`)
-
-
-    return state.visibility && state.content && (
+    return (
         <div className={wrapperClassName} onMouseDown={onClose}>
             <div className={theme.content} onMouseDown={onPopupBodyClick}>
-                { closeIcon && (
-                    <div onMouseDown={onClose} className={theme.close}
-                        children={closeIcon} />
-                )}
+                <div onMouseDown={onClose} className={`${s.close} ${theme.close}`}
+                    children={closeIcon} />
 
-                { state.content }
+                { content }
             </div>
         </div>
     )
 }
 
 
-export { triggerPopup }
+export { setDefaults }
 export default Popup
