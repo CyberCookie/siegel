@@ -2,7 +2,8 @@ import React, { useState, useLayoutEffect,
     ReactNode, Attributes, SetStateAction } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import './styles'
+import s from './styles.sass'
+
 
 type BreadcrumbsPiece = {
     path: string,
@@ -35,7 +36,7 @@ interface defaultProps {
 
 
 let forceUpdate: React.Dispatch<SetStateAction<object>> | undefined;
-const dynamicCrumbs: IndexingObject = {}
+const dynamicCrumbs: Indexable = {}
 const setDynamicCrumb = (crumpId: string, value: ReactNode, isForceUpdate = true) => {
     if (dynamicCrumbs[crumpId] != value) {
         dynamicCrumbs[crumpId] = value;
@@ -43,7 +44,7 @@ const setDynamicCrumb = (crumpId: string, value: ReactNode, isForceUpdate = true
     }
 }
 
-const setDynamicCrumbsBatch = (crumbIDValueMap: IndexingObject, isForceUpdate = true) => {
+const setDynamicCrumbsBatch = (crumbIDValueMap: Indexable, isForceUpdate = true) => {
     for (let crumbID in crumbIDValueMap) {
         let value = crumbIDValueMap[crumbID]
         dynamicCrumbs[crumbID] = value
@@ -52,9 +53,10 @@ const setDynamicCrumbsBatch = (crumbIDValueMap: IndexingObject, isForceUpdate = 
     isForceUpdate && forceUpdate!({})
 }
 
+let componentID = '-ui-breadcrumbs'
 
 let defaults: defaultProps = {
-    className: '-ui-breadcrumbs',
+    className: s[componentID],
     separator: ''
 }
 
@@ -65,7 +67,7 @@ const useLayoutEffectFunc = () => () => {
 
 const Breadcrumbs = (props: Props) => {
     let className = defaults.className;
-    props.className && (className += ` ${defaults.className}`)
+    props.className && (className += ` ${props.className}`)
 
     let { attributes, location, separator, config } = Object.assign({}, defaults, props);
 

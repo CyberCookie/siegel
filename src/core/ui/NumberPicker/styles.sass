@@ -1,36 +1,16 @@
-@import '../theme'
-
-$-ui-number-picker-height:          35px
-$-ui-number-picker-width:           125px
-$-ui-number-picker-background:      white
-$-ui-number-picker-border:          $border
-$-ui-number-picker-input-width:     50px
-$-ui-number-picker-input-font_size: 14px
-$-ui-number-picker-signs-font_size: 18px
-$-ui-number-picker-font_color:      $core_palette_primary
-$-ui-number-picker-sign-font_color: $core_palette_secondary-one
-$-ui-number-picker-corner-radius:   50%
-
-
 .-ui-number-picker 
     display:        flex
     flex-direction: row
-    height:         $-ui-number-picker-height
-    width:          $-ui-number-picker-width
 
     input, button 
-        background: $-ui-number-picker-background
         height:     100%
-        border:     $-ui-number-picker-border
         @extend .animation
     
     input 
-        width:              $-ui-number-picker-input-width
         text-align:         center
         border-left-width:  0
         border-right-width: 0
         font-weight:        600
-        color:              $-ui-number-picker-font_color
     
     label
         position:       relative
@@ -39,7 +19,6 @@ $-ui-number-picker-corner-radius:   50%
 
         &::before, &::after
             position:       absolute
-            font-size:      $-ui-number-picker-input-font_size
             line-height:    normal
             font-weight:    bold
 
@@ -53,17 +32,10 @@ $-ui-number-picker-corner-radius:   50%
 
     button 
         flex:       1
-        font-size:  $-ui-number-picker-signs-font_size
-        color:      $-ui-number-picker-sign-font_color
         cursor:     pointer
-
-        &:disabled 
-            color: $-ui-number-picker-sign-font_color
         
         &.plus 
             text-indent:    -3px
-            border-radius:  0 $-ui-number-picker-corner-radius $-ui-number-picker-corner-radius 0
         
         &.minus 
             text-indent:    3px
-            border-radius:  $-ui-number-picker-corner-radius 0 0 $-ui-number-picker-corner-radius

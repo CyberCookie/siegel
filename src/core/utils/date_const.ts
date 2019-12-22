@@ -1,7 +1,9 @@
 type DateLocalizationKeys = 'months' | 'monthsShort' | 'days' | 'daysShort'
 
-type DateLocalization = {
-    [key in DateLocalizationKeys]: string[]
+type DateLocalizationByLocale = {
+    [key: string]: {
+        [key in DateLocalizationKeys]: string[]
+    }
 }
 
 
@@ -11,7 +13,7 @@ const msIn = {
     minute: 60000
 }
 
-const dateLocalizationByLocale: Record<string, DateLocalization> = {
+const dateLocalizationByLocale: DateLocalizationByLocale = {
     en: {
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -20,8 +22,8 @@ const dateLocalizationByLocale: Record<string, DateLocalization> = {
     }
 }
 
-function extendDateLocalization(locale: string, dateConstants: DateLocalization) {
-    dateLocalizationByLocale[locale] = dateConstants
+function extendDateLocalization(dateConstants: DateLocalizationByLocale) {
+    Object.assign(dateLocalizationByLocale, dateConstants)
 }
 
 

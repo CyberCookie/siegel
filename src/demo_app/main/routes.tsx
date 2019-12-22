@@ -11,11 +11,11 @@ const pagePathMap = {
 
 export default {
     '': {
-        Component: lazy(() => import('app/pages/Home'))
+        component: lazy(() => import('app/pages/Home'))
     },
 
-    [pagePathMap.page_test]: { Component: () => <div>123</div> },
-    [pagePathMap.page_test_second]: { Component: () => <div>456</div> },
+    [pagePathMap.page_test]: { component: () => <div>123</div> },
+    [pagePathMap.page_test_second]: { component: () => <div>456</div> },
 
     // [pagePathMap.login]: {
     //     lazy: React.lazy(() => import('app/pages/Login'))

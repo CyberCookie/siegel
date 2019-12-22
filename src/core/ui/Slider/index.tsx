@@ -103,7 +103,7 @@ const Slider = (props: Props) => {
         let { slideArea, firstSlidePage } = getSlideElements()
 
         let nextLeft = firstSlidePage.clientWidth;
-        let slidePageStyles: IndexingObject = window.getComputedStyle(firstSlidePage)
+        let slidePageStyles: Indexable = window.getComputedStyle(firstSlidePage)
         slidePageStyles['margin-left'] && (nextLeft += parseInt(slidePageStyles['margin-left']))
         slidePageStyles['margin-right'] && (nextLeft += parseInt(slidePageStyles['margin-right']))
         slidePageStyles['border-left-width'] && (nextLeft += parseInt(slidePageStyles['border-left-width']))

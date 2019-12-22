@@ -1,22 +1,20 @@
-type IndexableAny = Indexable | any[]
-
 /**
  * Recursively makes clone of a given object
- * @param  {Object | *[]} obj - object to copy
- * @return {Object | *[]} copied object
+ * @param  {*} obj - object to copy
+ * @return {*} copied object
  */
-function deepClone(obj: IndexableAny): IndexableAny {
-    if (!obj || typeof obj !== 'object') return obj;
+function deepClone<T>(obj: T): T {
+    if (typeof obj !== 'object') return obj;
 
-    let result;
-    if (obj.constructor === Array) {
+    let result: Indexable;
+    if (obj instanceof Array) {
         result = []
 
         for (var i = 0, l = obj.length; i < l; i++) {
             result[i] = deepClone(obj[i])
         }
 
-        return result
+        return result as T
     }
 
     result = {}
@@ -24,7 +22,7 @@ function deepClone(obj: IndexableAny): IndexableAny {
         result[i] = deepClone(obj[i])
     }
 
-    return result
+    return result as T
 }
 
 

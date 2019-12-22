@@ -7,7 +7,7 @@ type Actions = {
 type HookSetState = React.Dispatch<React.SetStateAction<any>>
 
 interface StoreBase {
-    state: object,
+    state: Indexable,
     listeners: HookSetState[]
 }
 
@@ -22,9 +22,7 @@ interface StoreActions extends StoreBase {
 type Store = StoreActions & StoreSetState
 
 
-// let id = 0;
-
-function setState(this: Store, newState: object) {
+function setState(this: Store, newState: Indexable) {
     this.state = { ...newState }
     let listenersCount = this.listeners.length
 
@@ -37,11 +35,9 @@ function useCustom(this: Store) {
     const newListener = useState()[1]
     
     useLayoutEffect(() => {
-        // console.log(_id)
         this.listeners.push(newListener)
         
         return () => {
-            // console.log(_id)
             const removeListener = (listener: HookSetState) => listener !== newListener
             this.listeners = this.listeners.filter(removeListener)
         }
@@ -52,7 +48,7 @@ function useCustom(this: Store) {
 
 function bindActions(store: StoreSetState, actions: Actions) {
     const { state, setState } = store;
-    const result: IndexingObject = {}
+    const result: Indexable = {}
 
     for (let ACTION_ID in actions) {
         result[ACTION_ID] = actions[ACTION_ID].bind(null, state, setState)
@@ -62,7 +58,7 @@ function bindActions(store: StoreSetState, actions: Actions) {
 }
 
 
-const createHookStore = (initialState: object, actions: Actions) => {
+const createHookStore = (initialState: Indexable, actions: Actions) => {
     const store: StoreBase = { state: initialState, listeners: [] };
 
     (store as StoreSetState).setState = setState.bind(store as Store);

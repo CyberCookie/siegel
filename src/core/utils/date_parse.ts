@@ -1,29 +1,25 @@
-type DateParsed = {
+type ZeroingDatePartsKeys = 'month' | 'date' | 'hours' | 'minutes' | 'seconds'
+type ZeroingDatePartsVals = number | string
+type DateParsedZeroed = IndexObjectKeys<ZeroingDatePartsKeys, ZeroingDatePartsVals>
+
+type DateParsedNonZeroed = {
     year: number,
     day: number
 }
 
-
-type DatePartWithZeroPrefix = number | string
-
-type ParsedDateKeys = 'month' | 'date' | 'hours' | 'minutes' | 'seconds'
-
-type DateParsedWithZeroPrefix = {
-    [key in ParsedDateKeys]: DatePartWithZeroPrefix
-}// & Record<string, DatePartWithZeroPrefix>
-// type DateParsedWithZeroPrefix = Record<ParsedDateKeys, DatePartWithZeroPrefix>
+interface DateParsed extends DateParsedZeroed, DateParsedNonZeroed {}
 
 
 /**
  * Parse provided or current date into localized separated date pieces
- * @param {string | undefined} date - any valid Date value 
+ * @param {string | number} date - any valid Date value 
  * @param {boolean} zeroPrefix - determine whether to prefix date parts if it's < 10
- * @return {object}
+ * @return {DateParsed}
 */
-function dateParse(date?: string | number | Date, zeroPrefix?: boolean) {
-    let localDate = date ? (new Date(date)) : new Date()
+function dateParse(date: string | number = Date.now(), zeroPrefix?: boolean) {
+    let localDate = new Date(date)
 
-    let result: DateParsedWithZeroPrefix = {
+    let result: DateParsedZeroed = {
         month: localDate.getMonth() + 1,
         date: localDate.getDate(),
         hours: localDate.getHours(),
@@ -38,11 +34,11 @@ function dateParse(date?: string | number | Date, zeroPrefix?: boolean) {
         }
     }
 
-    result.year = localDate.getFullYear()
-    result.day = localDate.getDay()
+    (result as DateParsed).year = localDate.getFullYear();
+    (result as DateParsed).day = localDate.getDay()
 
     
-    return result// as DateParsed
+    return result as DateParsed
 }
 
 

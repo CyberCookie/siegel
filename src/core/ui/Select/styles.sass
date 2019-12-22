@@ -1,27 +1,18 @@
-@import '../theme'
-
 .-ui-select
     line-height: 42px
     font-size: 14px
     letter-spacing: 0.2px
-    color: $core_palette_primary
-    border: $core_palette_secondary-one
     border-radius: 10px
     position: relative
     cursor: pointer
     background: white
     
-    &.active
-        border-radius: $core_border_radius $core_border_radius 0 0
-
-        .options
-            display: block
+    &.active .options
+        display: block
 
 .value, .option
     user-select: none
 
-.value
-    padding: 0 $core_gap_default
 
 .icon-arrow
     position: absolute
@@ -39,15 +30,7 @@
     top: 100%
     background: white
     width: calc(100% + 2px)
-    border: $core_border_default
-    border-radius: 0 0 $core_border_radius $core_border_radius
 
-.option
-    padding: 0 $core_gap_default
-
-    &.active
-        background: $core_palette_secondary-one
-
-    &.disabled
-        opacity: 0.7
-        pointer-events: none
+.option.disabled
+    opacity: 0.7
+    pointer-events: none

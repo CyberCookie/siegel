@@ -1,11 +1,10 @@
 /**
- * Set object property by given path
- * @param  {Object} obj - object where to set a value
+ * Set object property by mutating it using given `path`
+ * @param  {Indexable} obj - object where to set a value
  * @param  {Array<number | string> | string | number} path - chain of links using to set a value into given `obj`
  * @param  {*} value - value to set
- * @return {Object} modified `obj`
  */
-function deepSet(obj: IndexingObject, path: Indexer[] | Indexer, value: any): IndexingObject {
+function deepSet(obj: Indexable, path: string[] | string, value: any): void {
     let link = obj;
     let pathSequence = Array.isArray(path) ? path : [path]
 
@@ -20,8 +19,6 @@ function deepSet(obj: IndexingObject, path: Indexer[] | Indexer, value: any): In
             link = deepLink
         }
     }
-
-    return obj
 }
 
 

@@ -1,13 +1,13 @@
 import React, { Suspense } from 'react'
 import { Switch, Router, Route, Redirect } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
+import { createBrowserHistory, History } from 'history'
 
 interface RouterConfig {
     [path: string]: {
         exact?: boolean,
         redirectTo?: string,
         children?: RouterConfig,
-        Component: React.ComponentType<any>
+        component: React.ComponentType<any>
     }
 }
 
@@ -26,17 +26,15 @@ const createRoutes: CreateRoutes = (routeConfig, urlPref = '') => {
     let result: JSX.Element[] = []
 
     for (let path in routeConfig) {
-        let { exact = true, Component, children, redirectTo } = routeConfig[path]
+        let { exact = true, component, children, redirectTo } = routeConfig[path]
         
         if (redirectTo) {
-            result.push(<Redirect exact={exact} from={path} to={redirectTo} />)
+            result.push( <Redirect exact={exact} from={path} to={redirectTo} /> )
         } else {
             let pathResult = `${urlPref}/${path}`;
 
             result.push(
-                <Route key={pathResult} exact={exact}
-                    path={pathResult}
-                    component={Component} />
+                <Route key={pathResult} exact={exact} path={pathResult} component={component} />
             )
 
             if (children) {

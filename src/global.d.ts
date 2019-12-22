@@ -1,12 +1,24 @@
 declare module '*.sass'
 
 
-type UITheme = {
-    [key: string]: string
+type UITheme = Record<string, string>
+
+
+type Indexable<V = any> = {
+    [key: string]: V
 }
 
-type Indexable<T = any> = {
-    [key: string]: T
-}
 
-type IndexingObject = {[key: string]: any}
+type IndexObjectKeys<K extends string, V = any> = {
+    [key in K]: V
+} & Indexable
+
+
+type IndexObject<T, V = any> = {
+    [key in keyof T]: V
+} & Indexable
+
+
+type RequiredWithDefaults<T, V = any> = {
+    [P in keyof T]-?: V
+}

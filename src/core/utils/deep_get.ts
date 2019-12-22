@@ -1,11 +1,11 @@
 /**
  * Get object property by a given path
- * @param  {Object} obj - object where to find a value
+ * @param  {Indexable} obj - object where to find a value
  * @param  {Array<number | string> | string | number} path - chain of links to get seeking value in given `obj`
  * @param  {*} defaultValue - value to be returned if `path` cannot be resolved in given `obj`
  * @return {*} value resolved by given `path` or `defaultValue`
  */
-function deepGet(obj: IndexingObject, path: Indexer[] | Indexer, defaultVal?: any): any {
+function deepGet(obj: Indexable, path: string[] | string, defaultVal?: any): any {
     let arrayPath = Array.isArray(path) ? path : [path]
     let deepLink = obj[arrayPath[0]]
 

@@ -1,28 +1,28 @@
 import React from 'react'
 
 import Select, { setDefaults as setSelectDefaults } from 'core-ui/Select'
-import selectTheme from 'app/styles/theme/select'
+import selectTheme from './styles/select'
 
 import Input, { setDefaults as setInputDefaults } from 'core-ui/Input'
-import inputTheme from 'app/styles/theme/input'
+import inputTheme from './styles/theme/input'
 
 import Checkbox, { setDefaults as setCheckboxDefaults } from 'core-ui/Checkbox'
-import checkboxTheme from 'app/styles/theme/checkbox'
+import checkboxTheme from './styles/theme/checkbox'
 
 import Button, { setDefaults as setButtonDefaults } from 'core-ui/Button'
-import buttonTheme from 'app/styles/theme/button'
+import buttonTheme from './styles/theme/button'
 
 import Table, { setDefaults as setTableDefaults } from 'core-ui/Table'
-import tableTheme from 'app/styles/theme/table'
+import tableTheme from './styles/theme/table'
 
 import Calendar, { setTheme as setCalendarTheme } from 'core-ui/Calendar'
 import calendarTheme from 'core-ui/Calendar/theme_fa'
-import calendarAppTheme from 'app/styles/theme/calendar'
+import calendarAppTheme from './styles/theme/calendar'
 
 import Pagination, { setDefaults as setPaginationDefaults } from 'core-ui/Pagination'
-import paginationAppTheme from 'app/styles/theme/pagination'
+import paginationAppTheme from './stylestheme/pagination'
 
-import iconStyles from 'app/styles/icons'
+import iconStyles from '../icons/styles'
 
 
 const dropdownIcon = <i className={iconStyles.dropdown} />;

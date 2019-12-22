@@ -3,10 +3,10 @@ interface FetchParams {
     options: RequestInit
 }
 
-interface SetupFnParams extends IndexingObject {
-    beforeRequest?: ((opts: FetchParams) => FetchParams) | null,
-    afterRequest?: ((fetchParams: FetchParams, parseRes: Promise<any>) => void) | null,
-    errorHandler?: ((error: any) => void) | null
+interface SetupFnParams extends Indexable {
+    beforeRequest?: (opts: FetchParams) => FetchParams,
+    afterRequest?: (fetchParams: FetchParams, parseRes: Promise<any>) => void,
+    errorHandler?: (error: Error, req: FetchParams) => void
 }
 
 interface RequestFnParams extends RequestInit {
@@ -21,11 +21,7 @@ function setup(newDefaults: SetupFnParams): void {
         defaultSetup[key] = newDefaults[key]
 } 
 
-const defaultSetup: SetupFnParams = {
-    beforeRequest: null,
-    afterRequest: null,
-    errorHandler: null
-}
+const defaultSetup: SetupFnParams = {}
 
 
 const extractRequestData = (request: RequestFnParams) => {
@@ -50,7 +46,7 @@ const extractRequestData = (request: RequestFnParams) => {
 }
 
 
-const extractResponseData = async (req: RequestFnParams, res: Response & IndexingObject): Promise<any> => {
+const extractResponseData = async (req: RequestFnParams, res: Response & Indexable): Promise<any> => {
     let parseMethod = req.parseMethod;
     let contentType;
 
@@ -77,23 +73,25 @@ const extractResponseData = async (req: RequestFnParams, res: Response & Indexin
 
 
 const request = async (req: RequestFnParams) => {
+    let reqData = extractRequestData(req)
+
     try {
-        let { url, options } = extractRequestData(req)
-        let res = await fetch(url, options)
+        let res = await fetch(reqData.url, reqData.options)
         let parsedRes = await extractResponseData(req, res)
 
         if (res.ok) {
-            defaultSetup.afterRequest && defaultSetup.afterRequest({ url, options }, parsedRes)
+            defaultSetup.afterRequest && defaultSetup.afterRequest(reqData, parsedRes)
             return parsedRes
         } else {
             throw {
                 status: res.status || 500,
                 message: res.statusText,
-                res: parsedRes
+                res: parsedRes,
+                req: reqData
             }
         }
     } catch (err) {
-        defaultSetup.errorHandler && defaultSetup.errorHandler(err)
+        defaultSetup.errorHandler && defaultSetup.errorHandler(err, reqData)
         throw err
     }
 }

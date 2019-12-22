@@ -1,19 +1,18 @@
-type lookupFn = (elem: lookupObject) => boolean
-
-interface lookupObject {
-    [key: string]: lookupObject[]
-}
+type LookupFn = (elem: any) => boolean
 
 
 /**
  * Loop over array of objects `arr` to find object by given condition function `fn`.
  * If fails tries again but loop over `arr[key]` array
- * @param {conditionCallback} fn - callback function that executes recursively on every `arr`
+ * @param {LookupFn} fn - callback function that executes recursively on every `arr`
  * entry until return `true`
- * @param {object[]} obj - object where to find
+ * @param {Indexable} obj - object where to find
  * @param {string} key - object property key to recursively dive into `obj`
 */
-function deepFind(fn: lookupFn, obj: lookupObject, key: Indexer): any {
+function deepFind
+<K extends string, T extends IndexObjectKeys<K, T[]>>
+(fn: LookupFn, obj: T, key: K): any {
+
     let seekIn = obj[key]
 
     for (var i = 0, l = seekIn.length; i < l; i++) {
