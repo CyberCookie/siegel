@@ -14,55 +14,25 @@
 //             ? console.error(err)
 //             : console.info('Starting server on %s:%s.', serverConfig.nodeHost, serverConfig.nodePort) 
 //     })
-
-
-const http = require('http')
-const querystring = require('querystring')
 const express = require('express')
 const expressStatic = require('express-static-gzip')
 const historyApiFallback = require('connect-history-api-fallback')
-const config = require('./config')
+const config = require('../config')
 
-const { nodeHost, nodePort, proxyHost, proxyPort } = config.server;
+const { nodeHost, nodePort } = config.server;
 
 const app = express()
 app.disable('x-powered-by')
 
 
-const proxy = (port = proxyPort, host = proxyHost) => (clientReq, clientRes) => {
-    const { path, method, headers, query } = clientReq;
-
-    const options = {
-        method, headers, host, port,
-        path: Object.keys(query).length
-            ?   `${path}?${querystring.stringify(query)}`
-            :   path
-    }
-
-
-    const proxyReq = http.request(options, proxyRes => {
-        if (proxyRes.statusCode !== 200) {
-            console.error(path, proxyRes.statusCode)
-            proxyRes.resume()
-        }
-        
-        clientRes.writeHead(proxyRes.statusCode, proxyRes.headers)
-
-        proxyRes.pipe(clientRes, { end: true })
-    })
-    .on('error', console.error)
-
-
-    clientReq.pipe(proxyReq, { end: true })
-}
-
-
 module.exports = {
-    run: (middlewares = []) => {
+    run: (devMiddlewares = [], serverExtend) => {
         app.use(historyApiFallback())
-        app.use(express.json())
+        devMiddlewares.forEach(m => app.use(m))
 
-        middlewares.forEach(m => app.use(m))
+
+        serverExtend && serverExtend(app)
+
 
         app.use('/', expressStatic(config.build.output.loc, {
             enableBrotli: true,

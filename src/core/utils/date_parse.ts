@@ -12,9 +12,9 @@ interface DateParsed extends DateParsedZeroed, DateParsedNonZeroed {}
 
 /**
  * Parse provided or current date into localized separated date pieces
- * @param {string | number} date - any valid Date value 
- * @param {boolean} zeroPrefix - determine whether to prefix date parts if it's < 10
- * @return {DateParsed}
+ * @param date - any valid Date value 
+ * @param zeroPrefix - determine whether to prefix date parts if it's < 10
+ * @returns parsed date object
 */
 function dateParse(date: string | number = Date.now(), zeroPrefix?: boolean) {
     let localDate = new Date(date)

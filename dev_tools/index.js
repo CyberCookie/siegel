@@ -1,7 +1,6 @@
-process.on('warning', console.log)
-process.on('uncaughtException', console.log)
+process.on('warning', console.warn)
+process.on('uncaughtException', console.error)
 
-const config = require('./config')
 
 const RUN_ARGUMENTS = process.argv;
 const RUN_PARAMS = {
@@ -13,39 +12,60 @@ const RUN_PARAMS = {
 RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer;
 
 
+
 (async function () {
     let  devMiddlewares = []
     if (RUN_PARAMS.isBuild) {
-        const { run, getDevMiddlewares } = require(config.build.loc)
+        const { run, getDevMiddlewares } = require('./webpack')
         const webpackCompiller = await run(RUN_PARAMS)
-
+        
         if (RUN_PARAMS.isDevServer) {
             devMiddlewares = Object.values(getDevMiddlewares(webpackCompiller))
         }
     }
     
-
+    
     if (RUN_PARAMS.isServer) {
-        const serverLocation = config.server.loc;
-        const initServer = () => require(serverLocation).run(devMiddlewares)
-        
-    
-        let server = initServer()
-        let lock = false;
-    
-        function onServerFileChange() {
-            lock || (lock = setTimeout(() => {
-                server.close()
-                delete require.cache[serverLocation]
-        
-                server = initServer()
-                lock = false
-            }, 100))
+        const SERVER_LOC = require('path').join(process.cwd(), 'server', 'index.js')
+        const { customServerLoc, watch } = require('./config').server;
+
+        const devServer = require(SERVER_LOC)
+        const initDevServer = extendExpressDevServer => devServer.run(devMiddlewares, extendExpressDevServer)
+
+
+        if (customServerLoc) {
+            function getCustomExpressExtender() {
+                let userExtendExpressDevServer = require(customServerLoc).extendExpressDevServer;
+                if (userExtendExpressDevServer instanceof Function) {
+                    return userExtendExpressDevServer;
+                } else throw 'custom sever doesn\`t have required extendExpressDevServer method'
+            }
+
+            try {
+                let extendExpressDevServer = getCustomExpressExtender()
+
+                if (watch) {
+                    let devServerInstance = initDevServer(extendExpressDevServer)
+                    let lock = false;
+
+                    require('fs')
+                        .watch(customServerLoc)
+                        .on('change', () => {
+                            lock || (lock = setTimeout(() => {
+                                delete require.cache[customServerLoc]
+                                delete require.cache[SERVER_LOC]
+
+                                devServerInstance.close()
+                                devServerInstance = initDevServer(getCustomExpressExtender())
+
+                                lock = false
+                            }, 100))
+                        })
+                }
+            } catch(err) { console.error(err) }
+        } else {
+            initDevServer()
         }
-    
-        require('fs')
-            .watch(serverLocation)
-            .on('change', onServerFileChange)
     }
     
     

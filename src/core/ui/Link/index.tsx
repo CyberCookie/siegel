@@ -22,7 +22,7 @@ const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDef
 
 
 const onMouseDown = (e: MouseEvent<HTMLAnchorElement>) => {
-    let { target, href } = (e.target as HTMLAnchorElement);
+    let { target, href } = (e.currentTarget as HTMLAnchorElement);
     window.open(href, target)
 }
 

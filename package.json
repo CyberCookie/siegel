@@ -12,7 +12,7 @@
         "serv": "node ./dev_tools/index.js -s",
         "serv:prod": "export NODE_ENV=production && npm run serv",
         "deploy": "npm i && npm run build_serv:prod",
-        "pm2": "node ./dev_tools/pm2.js",
+        "pm2": "node ./dev_tools/server/pm2.js",
         "validate": "./node_modules/.bin/tsc && ./node_modules/.bin/eslint",
         "with_args": "node ./dev_tools/index.js"
     },

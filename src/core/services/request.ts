@@ -6,7 +6,7 @@ interface FetchParams {
 interface SetupFnParams extends Indexable {
     beforeRequest?: (opts: FetchParams) => FetchParams,
     afterRequest?: (fetchParams: FetchParams, parseRes: Promise<any>) => void,
-    errorHandler?: (error: Error, req: FetchParams) => void
+    errorHandler?: (error: { message: Error, req: FetchParams }) => void
 }
 
 interface RequestFnParams extends RequestInit {
@@ -91,7 +91,12 @@ const request = async (req: RequestFnParams) => {
             }
         }
     } catch (err) {
-        defaultSetup.errorHandler && defaultSetup.errorHandler(err, reqData)
+        err.res || (err = {
+            message: err,
+            req: reqData
+        })
+
+        defaultSetup.errorHandler && defaultSetup.errorHandler(err)
         throw err
     }
 }

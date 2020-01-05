@@ -2,7 +2,6 @@ const join = require('path').join;
 const cwd = process.cwd()
 
 
-const devTools = join(cwd, 'dev_tools')
 const output = join(cwd, 'dist')
 const src = join(cwd, 'src')
 
@@ -30,7 +29,8 @@ function getAliasesFromTSconfig() {
 
 const config = {
     server: {
-        loc: join(devTools, 'server.js'),
+        customServerLoc: join(cwd, 'demo_rest_serv.js'),
+        watch: true,
 
         nodeHost: process.env.NODE_HOST || 'localhost',
         nodePort: process.env.NODE_PORT || 3000
@@ -38,7 +38,6 @@ const config = {
 
     
     build: {
-        loc: join(devTools, 'webpack.js'),
         publicPath: '/',
 
         input: {

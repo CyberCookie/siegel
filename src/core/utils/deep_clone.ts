@@ -1,7 +1,7 @@
 /**
  * Recursively makes clone of a given object
- * @param  {*} obj - object to copy
- * @return {*} copied object
+ * @param obj - object to copy
+ * @returns copied object
  */
 function deepClone<T>(obj: T): T {
     if (typeof obj !== 'object') return obj;

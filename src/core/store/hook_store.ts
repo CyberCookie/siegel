@@ -1,28 +1,29 @@
 import { useState, useLayoutEffect } from 'react'
 
+
 type Actions = {
     [action: string]: Function
+}
+
+type SetState = {
+    (this: StoreBase, newState: Indexable): void
 }
 
 type HookSetState = React.Dispatch<React.SetStateAction<any>>
 
 interface StoreBase {
     state: Indexable,
-    listeners: HookSetState[]
+    listeners: HookSetState[],
+    actions?: Actions,
 }
 
-interface StoreSetState extends StoreBase {
-    setState: Function
+interface Store extends StoreBase {
+    setState: SetState
 }
 
-interface StoreActions extends StoreBase {
-    actions: Actions
-}
-
-type Store = StoreActions & StoreSetState
 
 
-function setState(this: Store, newState: Indexable) {
+const setState: SetState = function(this, newState) {
     this.state = { ...newState }
     let listenersCount = this.listeners.length
 
@@ -38,20 +39,17 @@ function useCustom(this: Store) {
         this.listeners.push(newListener)
         
         return () => {
-            const removeListener = (listener: HookSetState) => listener !== newListener
-            this.listeners = this.listeners.filter(removeListener)
+            this.listeners = this.listeners.filter((l: HookSetState) => l !== newListener)
         }
     }, [])
 
     return [ this.state, this.actions ]
 }
 
-function bindActions(store: StoreSetState, actions: Actions) {
-    const { state, setState } = store;
+function bindActions(store: Store, actions: Actions) {
     const result: Indexable = {}
-
     for (let ACTION_ID in actions) {
-        result[ACTION_ID] = actions[ACTION_ID].bind(null, state, setState)
+        result[ACTION_ID] = actions[ACTION_ID].bind(null, store)
     }
 
     return result
@@ -60,12 +58,13 @@ function bindActions(store: StoreSetState, actions: Actions) {
 
 const createHookStore = (initialState: Indexable, actions: Actions) => {
     const store: StoreBase = { state: initialState, listeners: [] };
+    (store as Store).setState = setState.bind(store);
 
-    (store as StoreSetState).setState = setState.bind(store as Store);
-    (store as StoreActions).actions = bindActions(store as Store, actions)
+    actions && (store.actions = bindActions(<Store>store, actions))
 
+    
     return {
-        useStore: useCustom.bind(store as Store),
+        useStore: useCustom.bind(<Store>store),
         store
     }
 }

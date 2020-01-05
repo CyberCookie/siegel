@@ -1,8 +1,8 @@
 /**
  * Set object property by mutating it using given `path`
- * @param  {Indexable} obj - object where to set a value
- * @param  {Array<number | string> | string | number} path - chain of links using to set a value into given `obj`
- * @param  {*} value - value to set
+ * @param obj - object where to set a value
+ * @param path - chain of links using to set a value into given `obj`
+ * @param value - value to set
  */
 function deepSet(obj: Indexable, path: string[] | string, value: any): void {
     let link = obj;

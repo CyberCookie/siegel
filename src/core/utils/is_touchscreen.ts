@@ -1,7 +1,4 @@
-/**
- * Determine whether current device has a touch screen
- * @return {boolean}
- */
+/** Determine whether current device has a touch screen */
 function isTouchScreen(): boolean {
     try { document.createEvent("TouchEvent") } 
     catch (e) { return false }

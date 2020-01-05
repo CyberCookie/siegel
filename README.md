@@ -11,7 +11,7 @@
         - `pm2.js` - run `npm run serv` command as pm2 process.
     - `src` - folder to keep client side code
         - `core` - library of usefull tools, react components, redux / hook store creators.
-        - `demo_app` - demo project that demonstrates abilities of the `core` library. Folder structure must reflect `dev_tools/config.js` build input paths.
+        - `demo_app` - demo project that demonstrates abilities of the `core` library. Folder structure must reflect 
 
 
 - List and explanation of npm commands in package.json:

@@ -17,7 +17,7 @@ interface Props {
     attributes?: React.Attributes,
     data: TabData[],
     onTabClick: (id: TabDataID) => void,
-    activeTab: string | number
+    activeTab: TabDataID
 }
 
 interface DefaultProps {

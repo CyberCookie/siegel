@@ -7,7 +7,7 @@ type DateLocalizationByLocale = {
 }
 
 
-const msIn = {
+const msIn: Readonly<Indexable<number>> = {
     day: 86400000,
     hour: 3600000,
     minute: 60000
