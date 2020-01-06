@@ -2,40 +2,48 @@ process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
 
-const RUN_ARGUMENTS = process.argv;
-const RUN_PARAMS = {
-    isServer: RUN_ARGUMENTS.includes('-s'),
-    isBuild: RUN_ARGUMENTS.includes('-b'),
-    isStorybook: RUN_ARGUMENTS.includes('-sb'),
-    isProd: process.env.NODE_ENV == 'production'
+const join = require('path').join;
+
+const PATHS = {
+    build: join(__dirname, 'webpack.js'),
+    staticServer: join(__dirname, 'server', 'index.js'),
+    clientCore: join(__dirname, '..', 'ui_core'),
+    nodeModules: join(__dirname, '..', '..', 'node_modules')
 }
-RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer;
 
 
+const DEFAULT_RUN_PARAMS = {
+    isServer: true,
+    isBuild: true,
+    // isStorybook: false,
+    isProd: true
+}
 
-(async function () {
+
+const main = async function (CONFIG = {}, RUN_PARAMS = DEFAULT_RUN_PARAMS) {
+    RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer;
+    
     let  devMiddlewares = []
     if (RUN_PARAMS.isBuild) {
-        const { run, getDevMiddlewares } = require('./webpack')
-        const webpackCompiller = await run(RUN_PARAMS)
+        const { run, getDevMiddlewares } = require(PATHS.build)
+        const webpackCompiller = await run(CONFIG, RUN_PARAMS)
         
         if (RUN_PARAMS.isDevServer) {
-            devMiddlewares = Object.values(getDevMiddlewares(webpackCompiller))
+            devMiddlewares = Object.values(getDevMiddlewares(CONFIG, webpackCompiller))
         }
     }
     
     
     if (RUN_PARAMS.isServer) {
-        const SERVER_LOC = require('path').join(process.cwd(), 'server', 'index.js')
-        const { customServerLoc, watch } = require('./config').server;
+        const { extenderLoc, watch } = CONFIG.server;
 
-        const devServer = require(SERVER_LOC)
-        const initDevServer = extendExpressDevServer => devServer.run(devMiddlewares, extendExpressDevServer)
+        const devServer = require(PATHS.staticServer)
+        const initDevServer = extendExpressDevServer => devServer.run(CONFIG, devMiddlewares, extendExpressDevServer)
 
 
-        if (customServerLoc) {
+        if (extenderLoc) {
             function getCustomExpressExtender() {
-                let userExtendExpressDevServer = require(customServerLoc).extendExpressDevServer;
+                let userExtendExpressDevServer = require(extenderLoc).extendExpressDevServer; //TODO
                 if (userExtendExpressDevServer instanceof Function) {
                     return userExtendExpressDevServer;
                 } else throw 'custom sever doesn\`t have required extendExpressDevServer method'
@@ -49,11 +57,11 @@ RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer;
                     let lock = false;
 
                     require('fs')
-                        .watch(customServerLoc)
+                        .watch(extenderLoc)
                         .on('change', () => {
                             lock || (lock = setTimeout(() => {
-                                delete require.cache[customServerLoc]
-                                delete require.cache[SERVER_LOC]
+                                delete require.cache[extenderLoc]
+                                delete require.cache[PATHS.staticServer]
 
                                 devServerInstance.close()
                                 devServerInstance = initDevServer(getCustomExpressExtender())
@@ -69,7 +77,7 @@ RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer;
     }
     
     
-    if (RUN_PARAMS.isStorybook) {
+    // if (RUN_PARAMS.isStorybook) {
         // require('@storybook/react/standalone')
         //     ({
         //         mode: 'dev',
@@ -78,5 +86,10 @@ RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer;
         //     })
         //     .then(console.log)
         //     .catch(console.error)
-    }
-})()
+    // }
+}
+
+
+module.parent
+    ?   (module.exports = main)
+    :   main()

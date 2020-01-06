@@ -8,13 +8,15 @@ const cssSVG = require('iconfont-webpack-plugin')
 const autoprefixer = require('autoprefixer')
 const cssMinifier = require('cssnano')
 const miniCssExtract = require('mini-css-extract-plugin')
-const config = require('./config')
-
-const { input, output, aliases, publicPath } = config.build;
 
 
-function getWebpackConfig({ isProd, isServer, isDevServer }) {
+
+function getWebpackConfig(CONFIG, RUN_PARAMS) {
+    const { input, output, aliases, publicPath } = CONFIG.build;
+    const { isProd, isServer, isDevServer } = RUN_PARAMS;
+
     const isExtractCSS = isProd || !isServer;
+
 
     return {
         mode: process.env.NODE_ENV || 'development',
@@ -189,27 +191,27 @@ const statsOptions = {
 
 
 module.exports = {
-    run: options => new Promise(resolve => {
-        const webpackConfig = getWebpackConfig(options);
+    run: (CONFIG, RUN_PARAMS) => new Promise(resolve => {
+        const webpackConfig = getWebpackConfig(CONFIG, RUN_PARAMS);
         const webpackCompiller = webpack(webpackConfig);
 
-        if (!options.isDevServer) {
+        if (!RUN_PARAMS.isDevServer) {
             webpackCompiller.run((err, stats) => {
-                let errMsg = err || (
+                let message = err || (
                     stats.hasErrors()
                         ?   stats.compilation.errors
                         :   stats.toString(statsOptions)
                 )
 
-                console.log(errMsg)
+                console.log(message)
                 resolve(webpackCompiller)
             })
         } else resolve(webpackCompiller)
     }),
 
-    getDevMiddlewares: webpackCompiller => ({
+    getDevMiddlewares: (CONFIG, webpackCompiller) => ({
         dev: webpackDevMiddleware(webpackCompiller, {
-            publicPath,
+            publicPath: CONFIG.build.publicPath,
             hot: true,
             stats: statsOptions
         }),

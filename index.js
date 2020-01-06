@@ -1,19 +1,20 @@
+const devCore = require('./oswell_ui_dev_core/dev_tools')
+
+
 const join = require('path').join;
 const cwd = process.cwd()
 
+const assetsFolderName = 'assets'
+const APP = join(cwd, 'client')
+const main = join(APP, 'main')
+const assets = join(APP, assetsFolderName)
 
 const output = join(cwd, 'dist')
-const src = join(cwd, 'src')
 
-const APP = join(src, 'demo_app')
-const main = join(APP, 'main')
-
-const assetsFolderName = 'assets'
-const assets = join(APP, assetsFolderName)
 
 
 function getAliasesFromTSconfig() {
-    const TSAliases = require('../tsconfig').compilerOptions.paths;
+    const TSAliases = require('./tsconfig').compilerOptions.paths;
     let aliases = {}
 
     for (let alias in TSAliases) {
@@ -27,24 +28,26 @@ function getAliasesFromTSconfig() {
 }
 
 
-const config = {
+const oswellDevCoreConfig = {
     server: {
-        customServerLoc: join(cwd, 'demo_rest_serv.js'),
+        extenderLoc: join(cwd, 'server.js'),
         watch: true,
-
-        nodeHost: process.env.NODE_HOST || 'localhost',
-        nodePort: process.env.NODE_PORT || 3000
+        
+        host: process.env.NODE_HOST || 'localhost',
+        port: process.env.NODE_PORT || 3000
     },
 
-    
+
     build: {
         publicPath: '/',
-
+        
         input: {
-            include: src,
+            include: [
+                APP,
+                join(cwd, 'oswell_ui_dev_core', 'ui_core')
+            ],
             exclude: join(cwd, 'node_modules'),
-            main,
-
+        
             js: join(APP, 'index.ts'),
             html: join(APP, 'index.html'),
             sassResources: join(main, 'styles', 'sass_resources.sass'),
@@ -56,15 +59,22 @@ const config = {
                 sw: join(assets, 'sw.js')
             }
         },
-
+        
         output: {
             loc: output,
             assets: join(output, assetsFolderName)
         },
-
+        
         aliases: getAliasesFromTSconfig()
     }
 }
 
 
-module.exports = config
+
+const RUN_ARGUMENTS = process.argv;
+
+devCore(oswellDevCoreConfig, {
+    isServer: RUN_ARGUMENTS.includes('-s'),
+    isBuild: RUN_ARGUMENTS.includes('-b'),
+    isProd: process.env.NODE_ENV == 'production'
+})

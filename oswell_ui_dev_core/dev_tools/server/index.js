@@ -17,16 +17,15 @@
 const express = require('express')
 const expressStatic = require('express-static-gzip')
 const historyApiFallback = require('connect-history-api-fallback')
-const config = require('../config')
-
-const { nodeHost, nodePort } = config.server;
 
 const app = express()
 app.disable('x-powered-by')
 
 
 module.exports = {
-    run: (devMiddlewares = [], serverExtend) => {
+    run: (CONFIG, devMiddlewares = [], serverExtend) => {
+        let { host, port } = CONFIG.server;
+
         app.use(historyApiFallback())
         devMiddlewares.forEach(m => app.use(m))
 
@@ -34,16 +33,16 @@ module.exports = {
         serverExtend && serverExtend(app)
 
 
-        app.use('/', expressStatic(config.build.output.loc, {
+        app.use('/', expressStatic(CONFIG.build.output.loc, {
             enableBrotli: true,
             orderPreference: ['br', 'gzip']
         }))
         
         
-        return app.listen(nodePort, nodeHost, err => {
+        return app.listen(port, host, err => {
             err
                 ?   console.error(err)
-                :   console.info('Starting server on %s:%s.', nodeHost, nodePort) 
+                :   console.info('Starting server on %s:%s.', host, port) 
         })
     }
 }

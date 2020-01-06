@@ -2,8 +2,8 @@ const express = require('express')
 
 
 module.exports = {
+    //So far we can only extend ui core' static server
     extendExpressDevServer(app) {
-        console.log(1234)
         app.use(express.json())
     }
 }

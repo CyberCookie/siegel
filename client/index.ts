@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import createRouter from 'core/router'
 // import { setup as requestServiceSetup } from 'core/services/request'
 
-import routes from 'app/cfg/routes'
+import routes from 'app/routes'
 import Layout from 'app/Layout'
 // import { store as authorizationStore } from 'app/modules/authorization'
 

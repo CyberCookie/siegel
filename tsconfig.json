@@ -11,12 +11,15 @@
 		"jsx": "react",
 		"baseUrl": "./",
 		"paths": {
-			"core/*": ["./src/core/*"],
-			"core-store/*": ["./src/core/store/*"],
-			"core-ui/*": ["./src/core/ui/*"],
-			"core-utils/*": ["./src/core/utils/*"],
-			"app/*": ["./src/demo_app/main/*"]
+			"core/*": ["./oswell_ui_dev_core/ui_core/*"],
+			"core-store/*": ["./oswell_ui_dev_core/ui_core/store/*"],
+			"core-ui/*": ["./oswell_ui_dev_core/ui_core/ui/*"],
+			"core-utils/*": ["./oswell_ui_dev_core/ui_core/utils/*"],
+			"app/*": ["./client/main/*"]
 		}
 	},
-    "include": ["./src"]
+    "include": [
+		"./oswell_ui_dev_core/ui_core",
+		"./client"
+	]
 }

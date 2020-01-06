@@ -1,20 +1,20 @@
 {
     "name": "oswell_client",
-    "description": "react based framework",
-    "version": "0.4.0",
+    "description": "oswell template",
+    "version": "0.5.0",
     "url": "",
     "scripts": {
         "dev": "npm run build_serv",
-        "build_serv": "node ./dev_tools/index.js -b -s",
+        "build_serv": "node ./index.js -b -s",
         "build_serv:prod": "npm run build:prod && npm run pm2",
-        "build": "node ./dev_tools/index.js -b",
+        "build": "node ./index.js -b",
         "build:prod": "export NODE_ENV=production && npm run build",
-        "serv": "node ./dev_tools/index.js -s",
+        "serv": "node ./index.js -s",
         "serv:prod": "export NODE_ENV=production && npm run serv",
         "deploy": "npm i && npm run build_serv:prod",
-        "pm2": "node ./dev_tools/server/pm2.js",
+        "pm2": "node ./oswell_ui_dev_core/server/pm2.js",
         "validate": "./node_modules/.bin/tsc && ./node_modules/.bin/eslint",
-        "with_args": "node ./dev_tools/index.js"
+        "with_args": "node ./index.js"
     },
     "dependencies": {
         "connect-history-api-fallback": "^1.6.0",
