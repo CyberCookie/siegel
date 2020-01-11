@@ -1,31 +1,15 @@
 process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
-
-const join = require('path').join;
-
-const PATHS = {
-    build: join(__dirname, 'webpack.js'),
-    staticServer: join(__dirname, 'server', 'index.js'),
-    clientCore: join(__dirname, '..', 'ui_core'),
-    nodeModules: join(__dirname, '..', '..', 'node_modules')
-}
+const CONSTANTS = require('../constants')
 
 
-const DEFAULT_RUN_PARAMS = {
-    isServer: true,
-    isBuild: true,
-    // isStorybook: false,
-    isProd: true
-}
-
-
-const main = async function (CONFIG = {}, RUN_PARAMS = DEFAULT_RUN_PARAMS) {
+const main = async function (CONFIG = {}, RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PARAMS) {
     RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer;
     
     let  devMiddlewares = []
     if (RUN_PARAMS.isBuild) {
-        const { run, getDevMiddlewares } = require(PATHS.build)
+        const { run, getDevMiddlewares } = require(CONSTANTS.PATHS.build)
         const webpackCompiller = await run(CONFIG, RUN_PARAMS)
         
         if (RUN_PARAMS.isDevServer) {
@@ -37,7 +21,7 @@ const main = async function (CONFIG = {}, RUN_PARAMS = DEFAULT_RUN_PARAMS) {
     if (RUN_PARAMS.isServer) {
         const { extenderLoc, watch } = CONFIG.server;
 
-        const devServer = require(PATHS.staticServer)
+        const devServer = require(CONSTANTS.PATHS.staticServer)
         const initDevServer = extendExpressDevServer => devServer.run(CONFIG, devMiddlewares, extendExpressDevServer)
 
 
@@ -61,7 +45,7 @@ const main = async function (CONFIG = {}, RUN_PARAMS = DEFAULT_RUN_PARAMS) {
                         .on('change', () => {
                             lock || (lock = setTimeout(() => {
                                 delete require.cache[extenderLoc]
-                                delete require.cache[PATHS.staticServer]
+                                delete require.cache[CONSTANTS.PATHS.staticServer]
 
                                 devServerInstance.close()
                                 devServerInstance = initDevServer(getCustomExpressExtender())

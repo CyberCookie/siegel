@@ -7,11 +7,11 @@ type DateLocalizationByLocale = {
 }
 
 
-const msIn: Readonly<Indexable<number>> = {
+const msIn = {
     day: 86400000,
     hour: 3600000,
     minute: 60000
-}
+} as const
 
 const dateLocalizationByLocale: DateLocalizationByLocale = {
     en: {

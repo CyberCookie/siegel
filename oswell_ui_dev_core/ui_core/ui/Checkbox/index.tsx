@@ -1,22 +1,24 @@
-import React,
-    { ReactNode, InputHTMLAttributes } from 'react'
+import React from 'react'
 
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
 import styles from './styles.sass'
 
-interface Props {
-    theme?: UITheme,
-    className?: string,
+type Props = {
     onChange: (checked: boolean, e: React.MouseEvent) => void,
     checkboxAttr?: React.HTMLAttributes<HTMLInputElement>,
     disabled?: boolean,
     value: boolean,
-    label: ReactNode
-}
+    label: React.ReactNode
+} & PropsComponentThemed
 
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>,
+    value: boolean
+}
 
 const componentID = '-ui-checkbox'
 
-const defaults = {
+const defaults: DefaultProps = {
     theme: {
         checkbox: componentID,
         label: componentID + '_label',
@@ -26,7 +28,9 @@ const defaults = {
     value: false
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 
 const _onChange = (e: React.ChangeEvent) => {
@@ -35,14 +39,9 @@ const _onChange = (e: React.ChangeEvent) => {
 }
 
 const Checkbox = (props: Props) => {
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
-
-    let { className, onChange, checkboxAttr, label, value, disabled } = Object.assign({}, defaults, props)
+    let { theme, className, onChange, checkboxAttr, label, value, disabled } = extractProps(defaults, props)
     
-    
-    let _checkboxAttr: InputHTMLAttributes<HTMLInputElement> = Object.assign({}, checkboxAttr, {
+    let _checkboxAttr: React.InputHTMLAttributes<HTMLInputElement> = Object.assign({}, checkboxAttr, {
         checked: value,
         type: 'checkbox',
         className: `${styles.checkbox} ${theme.checkbox}`,

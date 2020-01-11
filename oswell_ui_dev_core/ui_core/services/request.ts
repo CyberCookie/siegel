@@ -1,12 +1,19 @@
-interface FetchParams {
+type FetchParams = {
     url: RequestInfo,
     options: RequestInit
 }
 
+type ReqError = {
+    message: string,
+    status: number,
+    req: FetchParams,
+    res: any
+}
+
 interface SetupFnParams extends Indexable {
     beforeRequest?: (opts: FetchParams) => FetchParams,
-    afterRequest?: (fetchParams: FetchParams, parseRes: Promise<any>) => void,
-    errorHandler?: (error: { message: Error, req: FetchParams }) => void
+    afterRequest?: (fetchParams: FetchParams, parseRes: any) => void,
+    errorHandler?: (error: ReqError) => void
 }
 
 interface RequestFnParams extends RequestInit {
@@ -84,19 +91,21 @@ const request = async (req: RequestFnParams) => {
             return parsedRes
         } else {
             throw {
-                status: res.status || 500,
+                status: res.status,
                 message: res.statusText,
-                res: parsedRes,
-                req: reqData
+                res: parsedRes
             }
         }
     } catch (err) {
-        err.res || (err = {
-            message: err,
-            req: reqData
-        })
+        let finalErr = {
+            req: reqData,
+            res: err.res,
+            status: err.status || 500,
+            message: err.message || err.toString()
+        }
 
-        defaultSetup.errorHandler && defaultSetup.errorHandler(err)
+
+        defaultSetup.errorHandler && defaultSetup.errorHandler(finalErr)
         throw err
     }
 }

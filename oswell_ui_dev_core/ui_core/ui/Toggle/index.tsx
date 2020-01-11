@@ -1,26 +1,24 @@
-import React,
-    { ReactNode } from 'react'
+import React from 'react'
 
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
 import './styles'
 
-interface Props {
-    theme?: UITheme,
-    className?: string,
-    labelLeft?: React.ComponentType<any>,
-    labelRight?: ReactNode,
-    toggleIcon?: ReactNode,
+type Props = {
+    labelLeft?: React.ReactNode,
+    labelRight?: React.ReactNode,
+    toggleIcon?: React.ReactNode,
     isToggled?: boolean,
     onToggle?: (e: React.MouseEvent) => void,
-}
+} & PropsComponentThemed
 
-interface defaultProps {
-    theme: UITheme
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>
 }
 
 
 const componentID = '-ui-toggle'
 
-const defaults: defaultProps = {
+const defaults: DefaultProps = {
     theme: {
         toggle: componentID,
         toggle_checked: componentID + '__checked',
@@ -30,24 +28,20 @@ const defaults: defaultProps = {
     }
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 
 const Toggle = (props: Props) => {
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
+    let { theme, labelLeft, labelRight, isToggled, onToggle, className = '', toggleIcon } = extractProps(defaults, props)
 
-    let { labelLeft, labelRight, isToggled, onToggle, className, toggleIcon } = Object.assign({}, defaults, props)
-
-
-    let wrapperClassName = theme.toggle;
-    isToggled && (wrapperClassName += ` ${theme.toggle_checked}`)
-    className && (wrapperClassName += ` ${className}`)
+    className += ` ${theme.toggle}`;
+    isToggled && (className += ` ${theme.toggle_checked}`)
 
 
     return (
-        <div className={wrapperClassName} onMouseDown={onToggle}>
+        <div className={className} onMouseDown={onToggle}>
             { labelLeft && <div className={theme.label} children={labelLeft} /> }
 
             <div className={theme.toggle_area}>

@@ -1,27 +1,23 @@
-import React,
-    { ReactNode } from 'react'
+import React from 'react'
 
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
 import './styles'
 
-type TabDataID = string | number
-
-interface TabData {
-    id: TabDataID,
-    content: ReactNode,
-    label: ReactNode
+type TabData = {
+    id: ID,
+    content: React.ReactNode,
+    label: React.ReactNode
 }
 
-interface Props {
-    theme?: UITheme,
-    className?: string,
+type Props = {
     attributes?: React.Attributes,
     data: TabData[],
-    onTabClick: (id: TabDataID) => void,
-    activeTab: TabDataID
-}
+    onTabClick: (id: ID) => void,
+    activeTab: ID
+} & PropsComponentThemed
 
-interface DefaultProps {
-    theme: UITheme
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>
 }
 
 
@@ -38,10 +34,12 @@ const defaults: DefaultProps = {
     }
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 
-function getLabels({ data, activeTab, onTabClick }: DefaultProps & Props, theme: UITheme) {
+function getLabels({ data, activeTab, onTabClick, theme }: Props & DefaultProps) {
     function getLabel({ id, label }: TabData) {
         let labelClassName = theme.tab_label;
         activeTab == id && (labelClassName += ` ${theme.tab_label__active}`)
@@ -57,30 +55,20 @@ function getLabels({ data, activeTab, onTabClick }: DefaultProps & Props, theme:
 }
 
 const Tabs = (props: Props) => {
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
+    let mergedProps = extractProps(defaults, props)
+    let { theme, data, activeTab, attributes, className = '' } = mergedProps;
+    
+    let tab = data.find((tab: TabData) => tab.id == activeTab)
 
-    let mergedProps = Object.assign({}, defaults, props)
+    className += ` ${theme.tabs}`;
+    (tab && tab.content) || (className += ` ${theme.tab_content__empty}`)
 
-
-    let { data, activeTab, attributes, className } = mergedProps;
-
-    const findActiveTab = (tab: TabData) => tab.id == activeTab;
-    let tab = data.find(findActiveTab)
-
-    let wrapperClassName = theme.tabs;
-    (tab && tab.content) || (wrapperClassName += ` ${theme.tab_content__empty}`)
-    className && (wrapperClassName += ` ${className}`)
-
-    let wrapperAttr = Object.assign({}, attributes, {
-        className: wrapperClassName
-    })
+    let wrapperAttr = Object.assign({}, attributes, { className })
 
     
     return (
         <div {...wrapperAttr}>
-            { getLabels(mergedProps, theme) }
+            { getLabels(mergedProps) }
 
             { tab && (
                 <div data-value={activeTab} className={theme.tab_content}

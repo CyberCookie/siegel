@@ -1,23 +1,21 @@
-import React, { useState, useRef, useEffect,
-    ReactChild } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
-import cx from 'core-utils/cx'
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import cx from '../../utils/cx'
 
-interface Props {
-    theme?: UITheme,
-    className?: string,
+type Props = {
     searchPlaceholder?: string,
     minInputLength?: number,
-    closeIcon?: ReactChild,
-    searchIcon?: ReactChild,
+    closeIcon?: React.ReactChild,
+    searchIcon?: React.ReactChild,
     autofocus?: boolean,
-    optionBuilder: (searchOption: any) => ReactChild,
+    optionBuilder: (searchOption: any) => React.ReactChild,
     onSearch: (searchValue: string) => void,
     searchOptions: any[]
-}
+} & PropsComponentThemed
 
-interface DefaultProps {
-    theme: UITheme,
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>,
     minInputLength: number
 }
 
@@ -36,23 +34,19 @@ const defaults: DefaultProps = {
     minInputLength: 3
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 const DropdownSearch = (props: Props) => {
-    const clearInput = () => setState({ searchValue: '' })
-
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
-    
-    let mergedProps = Object.assign({}, defaults, props)
-    let { className, searchPlaceholder, searchOptions, minInputLength, onSearch, closeIcon, searchIcon,
-        optionBuilder, autofocus } = mergedProps;
+    let mergedProps = extractProps(defaults, props)
+    let { className = '', theme, searchPlaceholder, searchOptions, minInputLength, onSearch,
+        closeIcon, searchIcon, optionBuilder, autofocus } = mergedProps;
 
     let [ state, setState ] = useState({
         searchValue: ''
     })
-
+    
     let inputProps: React.HTMLProps<HTMLInputElement> = {
         className: theme.search_field,
         placeholder: searchPlaceholder,
@@ -60,31 +54,32 @@ const DropdownSearch = (props: Props) => {
         onChange(e: React.ChangeEvent<HTMLInputElement>) {
             let searchValue = e.target.value;
             setState({ searchValue })
-    
+            
             searchValue.length >= minInputLength && onSearch(searchValue)
         }
     }
-
+    
     if (autofocus) {
         inputProps.ref = useRef<HTMLInputElement>(null)
-
+        
         useEffect(() => {
             (inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus()    
         }, [])
     }
-
+    
     let searchLength = state.searchValue.length;
     let showOptions = searchOptions.length && searchLength >= minInputLength;
-
-    let wrapeprClassName = cx(theme.search_dropdown, {
+    
+    className += cx(` ${theme.search_dropdown}`, {
         [theme.search_dropdown__with_suggestions]: showOptions,
         [theme.search_dropdown__filled_field]: searchLength
     })
-    className && (wrapeprClassName += ` ${className}`)
-
+        
+    const clearInput = () => setState({ searchValue: '' })
     
+
     return (
-        <div className={wrapeprClassName}>
+        <div className={className}>
             <input {...inputProps} />
             
             { !!showOptions && (

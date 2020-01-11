@@ -42,10 +42,7 @@ const oswellDevCoreConfig = {
         publicPath: '/',
         
         input: {
-            include: [
-                APP,
-                join(cwd, 'oswell_ui_dev_core', 'ui_core')
-            ],
+            include: APP,
             exclude: join(cwd, 'node_modules'),
         
             js: join(APP, 'index.ts'),

@@ -1,14 +1,14 @@
-import React,
-    { MouseEvent, AnchorHTMLAttributes } from 'react'
+import React from 'react'
 
-interface Props {
-    className?: string,
+import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
+
+type Props = {
     path: string,
-    title: string | JSX.Element
-}
+    title: React.ReactNode
+} & PropsComponentBase
 
-interface DefaultProps {
-    className: string
+type DefaultProps = {
+    className: NonNullable<PropsComponentBase['className']>
 }
 
 
@@ -18,24 +18,22 @@ const defaults: DefaultProps = {
     className: componentID
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 
-const onMouseDown = (e: MouseEvent<HTMLAnchorElement>) => {
-    let { target, href } = (e.currentTarget as HTMLAnchorElement);
+const onMouseDown = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    let { target, href } = e.currentTarget;
     window.open(href, target)
 }
 
-const onClick = (e: MouseEvent) => e.preventDefault()
+const onClick = (e: React.MouseEvent) => e.preventDefault()
 
 const ExternalLink = (props: Props) => {
-    let className = defaults.className;
-    props.className && (className += ` ${props.className}`)
-
-    let { path, title } = Object.assign({}, defaults, props)
-
+    let { className, path, title } = extractProps(defaults, props)
     
-    let attributes: AnchorHTMLAttributes<HTMLAnchorElement> = {
+    let attributes: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
         onClick, onMouseDown, className,
         target: '_blank',
         rel: 'noreferrer',

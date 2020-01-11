@@ -1,17 +1,18 @@
-import React,
-    { ButtonHTMLAttributes, MouseEventHandler } from 'react'
+import React from 'react'
 
-interface Props {
+import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
+
+
+type Props = {
     type?: string,
     value?: number | string,
     disabled?: boolean,
-    className?: string,
     wrapperAttr?: object,
-    onClick?: MouseEventHandler
-}
+    onClick?: React.MouseEventHandler
+} & PropsComponentBase
 
-interface DefaultProps {
-    className: string,
+type DefaultProps = {
+    className: NonNullable<PropsComponentBase['className']>,
     type: string
 }
 
@@ -23,16 +24,15 @@ const defaults: DefaultProps = {
     type: 'button'
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 
 const Button = (props: Props) => {
-    let className = defaults.className;
-    props.className && (className += ` ${props.className}`)
-    
-    let { onClick, type, value, disabled, wrapperAttr } = Object.assign({}, defaults, props)
+    let { className, onClick, type, value, disabled, wrapperAttr } = extractProps(defaults, props)
 
-    let buttonProps: ButtonHTMLAttributes<HTMLButtonElement> = Object.assign({}, wrapperAttr, {
+    let buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = Object.assign({}, wrapperAttr, {
         type, className,
         children: value
     })

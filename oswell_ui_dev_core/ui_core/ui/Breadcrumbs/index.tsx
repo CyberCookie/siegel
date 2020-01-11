@@ -1,7 +1,7 @@
-import React, { useState, useLayoutEffect,
-    ReactNode, Attributes, SetStateAction } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 
+import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
 import s from './styles.sass'
 
 
@@ -22,22 +22,21 @@ type BreadcrumbsConfig = {
     [path: string]: BreadcrumbsConfigByPath
 }
 
-interface Props {
-    className?: string,
-    attributes?: Attributes,
+type Props = {
+    attributes?: React.Attributes,
     location: string,
     config: BreadcrumbsConfig
+} & PropsComponentBase
+
+type DefaultProps = {
+    className: NonNullable<PropsComponentBase['className']>,
+    separator: React.ReactNode
 }
 
-interface defaultProps {
-    className: string,
-    separator: ReactNode
-}
 
-
-let forceUpdate: React.Dispatch<SetStateAction<object>> | undefined;
+let forceUpdate: React.Dispatch<React.SetStateAction<object>> | undefined;
 const dynamicCrumbs: Indexable = {}
-const setDynamicCrumb = (crumpId: string, value: ReactNode, isForceUpdate = true) => {
+const setDynamicCrumb = (crumpId: string, value: React.ReactNode, isForceUpdate = true) => {
     if (dynamicCrumbs[crumpId] != value) {
         dynamicCrumbs[crumpId] = value;
         isForceUpdate && forceUpdate!({})
@@ -55,7 +54,7 @@ const setDynamicCrumbsBatch = (crumbIDValueMap: Indexable, isForceUpdate = true)
 
 let componentID = '-ui-breadcrumbs'
 
-let defaults: defaultProps = {
+let defaults: DefaultProps = {
     className: s[componentID],
     separator: ''
 }
@@ -65,22 +64,18 @@ const useLayoutEffectFunc = () => () => {
     forceUpdate = undefined
 }
 
-const Breadcrumbs = (props: Props) => {
-    let className = defaults.className;
-    props.className && (className += ` ${props.className}`)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
-    let { attributes, location, separator, config } = Object.assign({}, defaults, props);
+const Breadcrumbs = (props: Props) => {
+    let { className, attributes, location, separator, config } = extractProps(defaults, props);
 
     let [ _, _forceUpdate ] = useState()
     forceUpdate = _forceUpdate;
 
     useLayoutEffect(useLayoutEffectFunc, [])
 
-    
-    const breadcrumbDataMapper = (data: BreadcrumbsPiece, i: number) => (
-        <NavLink key={data.path} to={data.path}
-            children={`${i ? separator : ''} ${data.name}`} />
-    )
 
     let breadcrumbProps = {
         ...attributes,
@@ -117,7 +112,11 @@ const Breadcrumbs = (props: Props) => {
             }
         }
         
-        return breadcrumbData.map(breadcrumbDataMapper)
+
+        return breadcrumbData.map((data: BreadcrumbsPiece, i: number) => (
+            <NavLink key={data.path} to={data.path}
+                children={`${i ? separator : ''} ${data.name}`} />
+        ))
     }
 
     
@@ -125,5 +124,5 @@ const Breadcrumbs = (props: Props) => {
 }
 
 
-export { setDynamicCrumb, setDynamicCrumbsBatch }
+export { setDefaults, setDynamicCrumb, setDynamicCrumbsBatch }
 export default Breadcrumbs

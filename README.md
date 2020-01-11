@@ -1,17 +1,7 @@
+This is Oswell WebApp template with demo app and `oswell_ui_dev_core` as future npm module.
+
 - Install NodeJS.
 - From working directory open terminal and run to install all dependencies `npm i`.
-- Project structure:
-    - `dev_tools` - folder to keep all files related to nodejs server and build process:
-        - `index.js` - dev_tools entrypoint. You may run this script with the following arguments:
-            - `-b` - build a project with webpack.
-            - `-s` - start express nodejs server.
-        - `config.js` - server constants and build I/O paths.
-        - `server.js` - provides API to run express server with optional middlewares.
-        - `webpack.js` - provides API to build project and to retrieve build dev middlewares.
-        - `pm2.js` - run `npm run serv` command as pm2 process.
-    - `src` - folder to keep client side code
-        - `core` - library of usefull tools, react components, redux / hook store creators.
-        - `demo_app` - demo project that demonstrates abilities of the `core` library. Folder structure must reflect 
 
 
 - List and explanation of npm commands in package.json:

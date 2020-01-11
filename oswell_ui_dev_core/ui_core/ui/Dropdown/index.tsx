@@ -1,22 +1,21 @@
-import React,
-    { ReactNode } from 'react'
+import React from 'react'
+
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
 
 type ListElement = {
-    title: ReactNode,
+    title: React.ReactNode,
     children: ListElement[]
 }
 
-interface Props {
-    theme?: UITheme,
-    className?: string,
+type Props = {
     soloOpen?: boolean,
-    dropdownIcon: ReactNode,
+    dropdownIcon: React.ReactNode,
     list: ListElement[],
-    builder?: (title: ReactNode) => ({ className: string, elem: ReactNode })
-}
+    builder?: (title: React.ReactNode) => ({ className: string, elem: React.ReactNode })
+} & PropsComponentThemed
 
-interface DefaultProps {
-    theme: UITheme
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>
 }
 
 
@@ -31,7 +30,9 @@ const defaults: DefaultProps = {
     }
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 
 const onClickHandler = (e: React.MouseEvent) => {
@@ -40,15 +41,9 @@ const onClickHandler = (e: React.MouseEvent) => {
 }
 
 const Dropdown = (props: Props) => {
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
+    let { theme, className = '', list, builder, dropdownIcon, soloOpen } = extractProps(defaults, props)
 
-    let { list, builder, dropdownIcon, soloOpen, className } = Object.assign({}, defaults, props)
-
-
-    let wrapperClassName = theme.dropdown;
-    className && (wrapperClassName += ` ${className}`)
+    className += ` ${theme.dropdown}`;
 
 
     function onDropdownToggle(e: React.MouseEvent<HTMLDetailsElement>) {
@@ -96,9 +91,7 @@ const Dropdown = (props: Props) => {
     }
 
 
-    return (
-        <div children={list.map(childrenMapper)} className={wrapperClassName} />
-    )
+    return <div children={list.map(childrenMapper)} className={className} />
 }
 
 

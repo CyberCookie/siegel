@@ -1,39 +1,51 @@
-import React, { useLayoutEffect,
-    ReactNode, HTMLAttributes } from 'react'
+import React, { useLayoutEffect } from 'react'
 
-import isTouchScreen from 'core-utils/is_touchscreen'
+import isTouchScreen from '../../utils/is_touchscreen'
+import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
 
 type HTMLSwipeMouseEvent = MouseEvent | TouchEvent
 
-interface Props {
-    className?: string,
-    children?: ReactNode,
+type Props = {
+    children?: React.ReactNode,
     xAxis?: boolean,
     deltaPos?: number,
     onSwipe: (dirrection: boolean, e: HTMLSwipeMouseEvent) => void
+} & PropsComponentBase
+
+type DefaultProps = {
+    className: NonNullable<PropsComponentBase['className']>,
+    deltaPos: number
 }
 
-interface State {
+type State = {
     mouseDownPos: number | null,
     swipeStart: boolean,
     blocked: boolean
 }
 
 
+const componentID = '-ui-swipe'
+
+const defaults: DefaultProps = {
+    className: componentID,
+    deltaPos: 60
+}
+
 const _isTouchScreen = isTouchScreen()
 const passiveEv = { passive: true }
 
-const Swipe = (props: Props) => {
-    let { children, xAxis, deltaPos = 60, onSwipe } = props;
-    let wrapperProps: HTMLAttributes<HTMLDivElement> = {
-        className: '-ui-tap-slide',
-        children
-    }
-    props.className && (wrapperProps.className += ` ${props.className}`)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
+
+const Swipe = (props: Props) => {
+    let { className, children, xAxis, deltaPos, onSwipe } = extractProps(defaults, props);
+
+    let wrapperAttr: React.HTMLAttributes<HTMLDivElement> = { className, children }
     isTouchScreen
-        ?   (wrapperProps.onTouchStart = onMouseDown)
-        :   (wrapperProps.onMouseDown = onMouseDown);
+        ?   (wrapperAttr.onTouchStart = onMouseDown)
+        :   (wrapperAttr.onMouseDown = onMouseDown);
 
     useLayoutEffect(() => removeTouchEvents, [])
 
@@ -99,8 +111,9 @@ const Swipe = (props: Props) => {
     }
 
 
-    return <div {...wrapperProps} />
+    return <div {...wrapperAttr} />
 }
 
 
+export { setDefaults }
 export default Swipe

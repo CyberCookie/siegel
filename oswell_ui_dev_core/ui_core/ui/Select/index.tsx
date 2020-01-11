@@ -1,40 +1,34 @@
-import React, { useState, useEffect, useRef,
-    ReactNode, ReactChild, Dispatch, SetStateAction } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
 
-type onOptionSelectFn = (id: string, data?: any) => void
+type OnOptionSelectFn = (id: ID, data?: any) => void
 
-type SelectValue = {
-    id: string,
-    title: ReactNode
+type SelectOptions = {
+    disabled?: boolean,
+    data?: any,
+    id: ID,
+    title: React.ReactNode
 }
 
-type selectOptions = {
-    [id: string]: {
-        disabled?: boolean,
-        data?: any,
-        title: ReactNode
-    }
-}
-
-interface DefaultProps {
-    theme: UITheme,
-    closeOnSelect: boolean,
-    dropdownIcon: ReactNode
-}
-
-interface Props {
-    theme?: UITheme,
-    className?: string,
+type Props = {
     attributes?: React.Attributes,
-    dropdownIcon?: ReactNode,
+    dropdownIcon?: React.ReactNode,
     closeOnSelect?: boolean,
-    label?: ReactNode,
-    onSelect: onOptionSelectFn,
-    options: selectOptions[],
-    value: SelectValue
+    label?: React.ReactNode,
+    onSelect: OnOptionSelectFn,
+    options: SelectOptions[],
+    selected: ID,
+    displayValue: React.ReactNode
+} & PropsComponentThemed
+
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>,
+    closeOnSelect: boolean,
+    dropdownIcon: React.ReactNode
 }
+
 
 
 const componentID = '-ui-select'
@@ -55,24 +49,25 @@ const defaults: DefaultProps = {
     dropdownIcon: null
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 
 const _isTouchScreen = isTouchScreen()
 
-function getOptions(props: DefaultProps & Props, setActive: Dispatch<SetStateAction<boolean>>): ReactChild[] {
-    let { options, value, theme, onSelect, closeOnSelect }: Props = props;
+function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
+    let { options, selected, theme, onSelect, closeOnSelect } = props;
 
-    let result = []
+
+    return options.map(option => {
+        let { disabled, data, title, id } = option;
     
-    for (let id in options) {
-        let { disabled, data, title } = options[id]
-
         let optionClassName = theme.option;
-        id === value.id && (optionClassName += ` ${theme.option_active}`)
+        id === selected && (optionClassName += ` ${theme.option_active}`)
         disabled && (optionClassName += ` ${theme.option_disabled}`)
-
-        result.push(
+    
+        return (
             <div key={id} children={title} className={optionClassName}
                 onMouseDown={e => {
                     e.stopPropagation()
@@ -80,25 +75,34 @@ function getOptions(props: DefaultProps & Props, setActive: Dispatch<SetStateAct
                     closeOnSelect && setActive(false)
                 }} />
         )
-    }
-
-    return result
+    })
 }
 
 
-const Select = (props: Props) => {    
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
-
-    let mergedProps = Object.assign({}, defaults, props)
-    let { className, attributes, value, dropdownIcon, label } = mergedProps
-
-
+const Select = (props: Props) => {
     let [ isActive, setActive ] = useState(false)
-    let ref = useRef<HTMLDivElement>(null)
+
+    let mergedProps = extractProps(defaults, props)
+    let { theme, className = '', attributes, displayValue, dropdownIcon, label } = mergedProps
+
+    className += ` ${theme.select}`;
+    isActive && (className += ` ${theme.select_active}`)
     
+    let wrapperAttr = Object.assign({}, attributes, {
+        ref: (useRef() as React.MutableRefObject<HTMLDivElement>),
+        className,
+        onMouseDown(e: React.MouseEvent) {
+            e.stopPropagation()
+            e.preventDefault()
+    
+            setActive(!isActive)
+        }
+    })
+
     useEffect(() => {
+        const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+            wrapperAttr.ref.current.contains(e.target as Node) || setActive(false)
+        }
         let eventOptions = { passive: true }
 
         _isTouchScreen
@@ -111,40 +115,19 @@ const Select = (props: Props) => {
                 :   document.removeEventListener('mousedown', handleOutsideClick)
         }
     }, [])
-
-    
-    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
-        ref.current!.contains(e.target as Node) || setActive(false)
-    }
-    
-    let wrapperClassName = theme.select;
-    isActive && (wrapperClassName += ` ${theme.select_active}`)
-    className && (wrapperClassName += ` ${className}`)
-    
-    let wrapperAttributes = Object.assign({}, attributes, {
-        ref,
-        className: wrapperClassName,
-        onMouseDown(e: React.MouseEvent) {
-            e.stopPropagation()
-            e.preventDefault()
-    
-            setActive(!isActive)
-        }
-    })
     
     
     return (
-        <div {...wrapperAttributes}>
+        <div {...wrapperAttr}>
             { label && <div className={theme.label} children={label} /> }
 
             <div className={theme.title}>
-                { value.title }
+                { displayValue }
                 { dropdownIcon }
             </div>
 
-            <div className={theme.options}>
-                { getOptions(mergedProps, setActive) }
-            </div>
+            <div className={theme.options}
+                children={getOptions(mergedProps, setActive)} />
         </div>
     )
 }

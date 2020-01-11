@@ -1,7 +1,13 @@
 declare module '*.sass'
 
 
-type UITheme = Record<string, string>
+type PropsBase = {
+    className?: string,
+    theme?: Indexable<string>
+}
+
+type ID = string | number
+
 
 
 type Indexable<V = any> = {
@@ -17,8 +23,3 @@ type IndexObjectKeys<K extends string, V = any> = {
 type IndexObject<T, V = any> = {
     [key in keyof T]: V
 } & Indexable
-
-
-type RequiredWithDefaults<T, V = any> = {
-    [P in keyof T]-?: V
-}

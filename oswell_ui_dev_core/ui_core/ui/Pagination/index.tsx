@@ -1,8 +1,8 @@
-import React, { ReactNode, ReactChild } from 'react'
+import React from 'react'
 
-interface Props {
-    theme?: UITheme,
-    className?: string,
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+
+type Props = {
     wrapperAttr?: React.Attributes,
     listLength: number,
     curPage: number,
@@ -10,12 +10,12 @@ interface Props {
     elementsBySide?: number,
     elementsByMiddle?: number,
     onPageClick: (nextPage: number) => void,
-    controlIcon?: ReactNode,
-    separator?: ReactNode
-}
+    controlIcon?: React.ReactNode,
+    separator?: React.ReactNode
+} & PropsComponentThemed
 
-interface DefaultProps {
-    theme: UITheme,
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>,
     elementsBySide: number,
     elementsByMiddle: number,
     separator: string
@@ -38,22 +38,18 @@ const defaults: DefaultProps = {
     separator: '...'
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 const Pagination = (props: Props) => {
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
-
-    let { className, wrapperAttr, listLength, curPage, showPerPage, elementsBySide, elementsByMiddle,
-        onPageClick, controlIcon, separator } = Object.assign({}, defaults, props)
+    let { theme, className = '', wrapperAttr, listLength, curPage, showPerPage, elementsBySide,
+        elementsByMiddle, onPageClick, controlIcon, separator } = extractProps(defaults, props)
     
-        
-    let wrapperClassName = theme.pagination;
-    className && (wrapperClassName += ` ${className}`)
+    className += ` ${theme.pagination}`;
     
     let _wrapperAttr = Object.assign({}, wrapperAttr, {
-        className: wrapperClassName,
+        className,
         onMouseDown(e: React.MouseEvent<HTMLElement>) {
             let page = (e.target as HTMLDivElement).dataset.page;
     
@@ -85,7 +81,7 @@ const Pagination = (props: Props) => {
     )
 
     function getPaginationElements() {
-        let result: ReactNode[] = []
+        let result = []
 
         let from = curPage - elementsByMiddle;
         let minFrom = elementsBySide + 1;

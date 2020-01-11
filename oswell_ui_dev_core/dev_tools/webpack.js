@@ -5,10 +5,12 @@ const HTMLPlugin = require('html-webpack-plugin')
 const fileCopyPlugin = require('copy-webpack-plugin')
 const compressionPlugin = require('compression-webpack-plugin')
 const cssSVG = require('iconfont-webpack-plugin')
+const sass = require('sass')
 const autoprefixer = require('autoprefixer')
 const cssMinifier = require('cssnano')
 const miniCssExtract = require('mini-css-extract-plugin')
 
+const CONSTANTS = require('../constants')
 
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
@@ -17,6 +19,17 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
 
     const isExtractCSS = isProd || !isServer;
 
+
+    let loadersInclude = [CONSTANTS.PATHS.uiCore]
+    input.include instanceof Array
+        ?   (loadersInclude = loadersInclude.concat(input.include))
+        :   loadersInclude.push(input.include)
+    
+    let loadersExclude = [/*CONSTANTS.PATHS.nodeModules*/]
+    input.exclude instanceof Array
+        ?   (loadersExclude = loadersExclude.concat(input.exclude))
+        :   loadersInclude.push(input.exclude)
+        
 
     return {
         mode: process.env.NODE_ENV || 'development',
@@ -50,8 +63,6 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
                 minify: true
             }),
 
-            // new webpack.HotModuleReplacementPlugin(),
-            // ...( isDevServer ? [ new webpack.HotModuleReplacementPlugin() ] : [] ),
             ...( isProd ? [] : [ new webpack.HotModuleReplacementPlugin() ] ),
 
             ...(
@@ -83,8 +94,8 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             rules: [
                 {
                     test: /\.(js|jsx|ts|tsx)$/,
-                    include: input.include,
-                    exclude: input.exclude,
+                    include: loadersInclude,
+                    exclude: loadersExclude,
                     use: [
                         {
                             loader: 'babel-loader',
@@ -96,7 +107,6 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
                                     '@babel/plugin-proposal-export-default-from',
                                     '@babel/plugin-proposal-export-namespace-from',
                                     '@babel/plugin-syntax-dynamic-import',
-                                    // ['@babel/plugin-proposal-decorators', { legacy: true }],
                                     ['@babel/plugin-proposal-class-properties', { loose: true }]
                                 ]
                             }
@@ -111,21 +121,10 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
                     ]
                 },
 
-                // ...(
-                //     isDevServer
-                //         ?   [{
-                //                 test: /\.(js|jsx|ts|tsx)$/,
-                //                 use: 'react-hot-loader/webpack',
-                //                 include: /node_modules/
-                //             }]
-                //         :   []
-                // ),
-
-
                 {
                     test: /\.sass$/,
-                    include: input.include,
-                    exclude: input.exclude,
+                    include: loadersInclude,
+                    exclude: loadersExclude,
                     use: [
                         isExtractCSS ? miniCssExtract.loader : 'style-loader',
                         
@@ -154,7 +153,10 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
 
                         {
                             loader: 'sass-loader',
-                            options: { sourceMap: !isProd }
+                            options: {
+                                sourceMap: !isProd,
+                                implementation: sass
+                            }
                         },
 
                         // use with css modules
@@ -170,8 +172,8 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
                 {
                     // test: /\.(woff2|ico|png|jpg)$/,
                     test: /\.woff2$/,
-                    include: input.include,
-                    exclude: input.exclude,
+                    include: loadersInclude,
+                    exclude: loadersExclude,
                     loader: 'file-loader',
                     options: { 
                         name: input.assets.assetsFolderName + '/[folder]/[name].[ext]'

@@ -1,30 +1,31 @@
-import React, { useRef, useEffect,
-    ReactNode, InputHTMLAttributes, RefAttributes, MutableRefObject } from 'react'
+import React, { useRef, useEffect } from 'react'
 
-interface CurrentWrapperAttributes extends React.HTMLAttributes<HTMLDivElement> {
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+
+type CurrentWrapperAttributes = {
     error: string | null,
     filled: string | null
 }
 
-interface Props {
-    theme?: UITheme,
-    className?: string,
+type ComponentInputAttributes = React.RefAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>
+
+type Props = {
     wrapperAttr?: React.HTMLAttributes<HTMLDivElement>,
     inputAttr?: React.HTMLAttributes<HTMLInputElement>,
-    label?: ReactNode,
+    label?: React.ReactNode,
     placeholder?: string,
     value?: string,
-    errorMsg?: ReactNode,
+    errorMsg?: React.ReactNode,
     type?: string,
     disabled?: boolean,
     autofocus?: boolean,
     onBlur?: () => any,
     onChange?: (value: string, e: React.FormEvent) => any,
     onFocus?: () => void
-}
+} & PropsComponentThemed
 
-interface DefaultProps {
-    theme: UITheme,
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>,
     wrapperAttr: React.HTMLAttributes<HTMLDivElement>
 }
 
@@ -46,27 +47,20 @@ const defaults: DefaultProps = {
     wrapperAttr: {}
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
-
-interface ComponentInputAttributes extends RefAttributes<HTMLInputElement>, InputHTMLAttributes<HTMLInputElement> {}
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 //[email, password, search, tel, text, url, (textarea)]
-
 const Input = (props: Props) => {
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
+    let { theme, className = '', wrapperAttr, inputAttr, label, placeholder, value, errorMsg,
+        type, disabled, autofocus, onBlur, onChange, onFocus } = extractProps(defaults, props)
 
-    let { className, wrapperAttr, inputAttr, label, placeholder, value, errorMsg, type,
-        disabled, autofocus, onBlur, onChange, onFocus } = Object.assign({}, defaults, props)
-
-
-    let _className = `${theme.input} `
-    className && (_className += className);
+    className += ` ${theme.input}`;
+    wrapperAttr.className = className;
     (wrapperAttr as CurrentWrapperAttributes).error = errorMsg ? '' : null;
     (wrapperAttr as CurrentWrapperAttributes).filled = value ? '' : null;
     
-
     let _inputAttr: ComponentInputAttributes = Object.assign({}, inputAttr, {
         className: theme.field,
         placeholder, onFocus, onBlur, disabled
@@ -82,9 +76,9 @@ const Input = (props: Props) => {
 
     if (autofocus) {
         _inputAttr.ref = useRef<HTMLInputElement>(null)
-        
+
         useEffect(() => {
-            (_inputAttr.ref as MutableRefObject<HTMLInputElement>).current.focus()
+            (_inputAttr.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
         }, [])
     }
 
@@ -92,7 +86,7 @@ const Input = (props: Props) => {
     if (type) {
         if (type == 'textarea') {
             InputTag = type
-            _className += ` ${theme.textarea}`
+            className += ` ${theme.textarea}`
         } else {
             _inputAttr.type = type
         }
@@ -110,7 +104,7 @@ const Input = (props: Props) => {
     
 
     return (
-        <div {...wrapperAttr} className={_className}
+        <div {...wrapperAttr}
             onFocus={e => e.currentTarget.classList.add(theme.focus)}
             onBlur={e => e.currentTarget.classList.remove(theme.focus)}>
 

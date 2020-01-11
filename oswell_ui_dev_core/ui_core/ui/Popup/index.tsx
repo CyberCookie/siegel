@@ -1,10 +1,22 @@
 import React from 'react'
 
-import s from './styles'
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import s from './styles.sass'
+
+type Props = {
+    closeIcon?: React.ReactNode,
+    content?: React.ReactNode,
+    onClose: (e: React.MouseEvent) => void
+} & PropsComponentThemed
+
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>,
+    closeIcon: React.ReactNode
+}
 
 
 const componentID = '-ui-popup'
-const defaults = {
+const defaults: DefaultProps = {
     theme: {
         popup: componentID,
         content: componentID + '_content',
@@ -14,23 +26,20 @@ const defaults = {
     closeIcon: 'X'
 }
 
-const setDefaults = customDefaults => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
-const onPopupBodyClick = e => e.stopPropagation();
+const onPopupBodyClick = (e: React.MouseEvent) => e.stopPropagation();
 
-const Popup = props => {
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
+const Popup = (props: Props) => {
+    let { theme, className = '', closeIcon, content, onClose } = extractProps(defaults, props)
 
-    let { className, closeIcon, content, onClose } = Object.assign({}, defaults, props)
-
-    let wrapperClassName = `${s.popup} ${theme.popup}` ;
-    className && (wrapperClassName += ` ${className}`)
+    className += ` ${s.popup} ${theme.popup}` ;
 
 
     return (
-        <div className={wrapperClassName} onMouseDown={onClose}>
+        <div className={className} onMouseDown={onClose}>
             <div className={theme.content} onMouseDown={onPopupBodyClick}>
                 <div onMouseDown={onClose} className={`${s.close} ${theme.close}`}
                     children={closeIcon} />

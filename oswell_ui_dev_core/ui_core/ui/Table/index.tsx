@@ -1,7 +1,9 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
+
+import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
 
 type tableCell = {
-    value: ReactNode,
+    value: React.ReactNode,
     attributes: React.Attributes
 }
 
@@ -10,16 +12,15 @@ type tableRow = {
     attributes: React.Attributes
 }
 
-interface Props {
+type Props = {
     attributes?: React.Attributes,
-    className?: string,
     body?: tableRow[],
     head?: tableRow[],
     foot?: tableRow[]
-}
+} & PropsComponentBase
 
-interface DefaultProps {
-    className: string
+type DefaultProps = {
+    className: NonNullable<PropsComponentBase['className']>
 }
 
 
@@ -29,7 +30,9 @@ const defaults: DefaultProps = {
     className: componentID
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 
 let CellHTMLTag: React.ElementType;
@@ -55,16 +58,13 @@ function getTableSection(data: tableRow[], SectionHTMLTag: React.ElementType) {
 }
 
 const Table = (props: Props) => {
-    let className = defaults.className;
-    props.className && (className += ` ${props.className}`)
-
-    let { head, body, foot, attributes } = Object.assign({}, defaults, props)
-
-    let _attributes = Object.assign({}, attributes, { className })
+    let { className, head, body, foot, attributes } = extractProps(defaults, props)
+    
+    let wrapperAttr = Object.assign({}, attributes, { className })
 
     
     return (
-        <table {..._attributes}>
+        <table {...wrapperAttr}>
             { head ? getTableSection(head, 'thead') : null }
     
             { body ? getTableSection(body, 'tbody') : null }

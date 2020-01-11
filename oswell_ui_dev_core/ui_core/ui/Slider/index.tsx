@@ -1,26 +1,25 @@
-import React, { useState, useEffect, useRef, HTMLAttributes, Attributes, RefAttributes, MutableRefObject } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
-import Swipe from 'core-ui/Swipe'
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import Swipe from '../Swipe'
 import './styles'
 
 type SliderElementsResult = {
-    slidePages: JSX.Element[],
-    pageControlls?: JSX.Element
+    slidePages: React.ReactNode[],
+    pageControlls?: React.ReactNode
 }
 
-interface Props {
-    theme?: UITheme,
-    className?: string,
+type Props = {
     startFrom?: number,
     noControlls?: boolean,
     showNumber?: number,
     attributes?: React.Attributes,
     onSlide?: (nextPage: number) => void,
     data: React.ReactNode[]
-}
+} & PropsComponentThemed
 
-interface DefaultProps {
-    theme: UITheme,
+type DefaultProps = {
+    theme: NonNullable<PropsComponentThemed['theme']>,
     showNumber: number
 }
 
@@ -41,24 +40,18 @@ const defaults: DefaultProps = {
     showNumber: 1
 }
 
-const setDefaults = (customDefaults: Props) => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 const Slider = (props: Props) => {
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
+    let { theme, className = '', startFrom, showNumber, data, noControlls, attributes, onSlide } = extractProps(defaults, props)
 
-    let { className, startFrom, showNumber, data, noControlls, attributes, onSlide } = Object.assign({}, defaults, props)
-
-
-    let _className = `${theme.slider} `
-    className && (_className += className)
-
-    let wrapperProps: RefAttributes<HTMLDivElement> = Object.assign({}, attributes, {
+    className += ` ${theme.slider}`;
+    let wrapperProps = Object.assign({}, attributes, {
         className,
-        ref: useRef<HTMLDivElement>()
+        ref: (useRef() as React.MutableRefObject<HTMLDivElement>)
     })
-
 
     let [ curPage, setPage ] = useState(0)
 
@@ -82,8 +75,8 @@ const Slider = (props: Props) => {
     let numberOfPages = Math.ceil(data.length / showNumber)
 
     function getSlideElements() {
-        let wrapperChilds = (wrapperProps.ref as MutableRefObject<HTMLDivElement>).current.childNodes;
-        let slideArea = noControlls ? (wrapperChilds[0] as HTMLElement) : (wrapperChilds[1] as HTMLElement)
+        let wrapperChilds = wrapperProps.ref.current.childNodes;
+        let slideArea = ((noControlls ? wrapperChilds[0] : wrapperChilds[1]) as HTMLElement)
         let firstSlidePage = (slideArea.childNodes[0] as HTMLElement)
 
         return { slideArea, firstSlidePage }
