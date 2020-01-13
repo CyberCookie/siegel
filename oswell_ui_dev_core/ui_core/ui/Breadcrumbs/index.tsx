@@ -1,41 +1,13 @@
 import React, { useState, useLayoutEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 import s from './styles.sass'
 
 
-type BreadcrumbsPiece = {
-    path: string,
-    name: string
-}
-
-type BreadcrumbsConfigByPath = {
-    dynamicCrumb: string,
-    crumb: string | ((path: string, name: string) => void),
-    nested: {
-        [path: string]: BreadcrumbsConfigByPath
-    }
-}
-
-type BreadcrumbsConfig = {
-    [path: string]: BreadcrumbsConfigByPath
-}
-
-type Props = {
-    attributes?: React.Attributes,
-    location: string,
-    config: BreadcrumbsConfig
-} & PropsComponentBase
-
-type DefaultProps = {
-    className: NonNullable<PropsComponentBase['className']>,
-    separator: React.ReactNode
-}
-
-
 let forceUpdate: React.Dispatch<React.SetStateAction<object>> | undefined;
-const dynamicCrumbs: Indexable = {}
+const dynamicCrumbs: Indexable<React.ReactNode> = {}
 const setDynamicCrumb = (crumpId: string, value: React.ReactNode, isForceUpdate = true) => {
     if (dynamicCrumbs[crumpId] != value) {
         dynamicCrumbs[crumpId] = value;
@@ -113,7 +85,7 @@ const Breadcrumbs = (props: Props) => {
         }
         
 
-        return breadcrumbData.map((data: BreadcrumbsPiece, i: number) => (
+        return breadcrumbData.map((data, i) => (
             <NavLink key={data.path} to={data.path}
                 children={`${i ? separator : ''} ${data.name}`} />
         ))

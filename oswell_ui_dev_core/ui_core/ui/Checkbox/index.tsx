@@ -1,20 +1,9 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 import styles from './styles.sass'
 
-type Props = {
-    onChange: (checked: boolean, e: React.MouseEvent) => void,
-    checkboxAttr?: React.HTMLAttributes<HTMLInputElement>,
-    disabled?: boolean,
-    value: boolean,
-    label: React.ReactNode
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>,
-    value: boolean
-}
 
 const componentID = '-ui-checkbox'
 

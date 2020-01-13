@@ -28,7 +28,7 @@ const main = async function (CONFIG = {}, RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PAR
         if (extenderLoc) {
             function getCustomExpressExtender() {
                 let userExtendExpressDevServer = require(extenderLoc).extendExpressDevServer; //TODO
-                if (userExtendExpressDevServer instanceof Function) {
+                if (typeof userExtendExpressDevServer === 'function') {
                     return userExtendExpressDevServer;
                 } else throw 'custom sever doesn\`t have required extendExpressDevServer method'
             }

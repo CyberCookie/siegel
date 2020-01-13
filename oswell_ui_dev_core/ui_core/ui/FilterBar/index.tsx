@@ -1,6 +1,6 @@
 import React from 'react'
 
-import cx from 'core-utils/cx'
+import cx from '../../utils/cx'
 import './styles'
 
 

@@ -21,12 +21,12 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
 
 
     let loadersInclude = [CONSTANTS.PATHS.uiCore]
-    input.include instanceof Array
+    Array.isArray(input.include)
         ?   (loadersInclude = loadersInclude.concat(input.include))
         :   loadersInclude.push(input.include)
     
     let loadersExclude = [/*CONSTANTS.PATHS.nodeModules*/]
-    input.exclude instanceof Array
+    Array.isArray(input.exclude)
         ?   (loadersExclude = loadersExclude.concat(input.exclude))
         :   loadersInclude.push(input.exclude)
         

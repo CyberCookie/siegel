@@ -1,11 +1,6 @@
 declare module '*.sass'
 
 
-type PropsBase = {
-    className?: string,
-    theme?: Indexable<string>
-}
-
 type ID = string | number
 
 

@@ -1,27 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import { setDefaultProps, extractProps } from '../ui_utils'
 import Swipe from '../Swipe'
+import { Props, DefaultProps, SliderElementsResult } from './types'
 import './styles'
-
-type SliderElementsResult = {
-    slidePages: React.ReactNode[],
-    pageControlls?: React.ReactNode
-}
-
-type Props = {
-    startFrom?: number,
-    noControlls?: boolean,
-    showNumber?: number,
-    attributes?: React.Attributes,
-    onSlide?: (nextPage: number) => void,
-    data: React.ReactNode[]
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>,
-    showNumber: number
-}
 
 
 const componentID = '-ui-slider'

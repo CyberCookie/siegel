@@ -1,27 +1,8 @@
 import React, { useLayoutEffect } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
-import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
-
-type HTMLSwipeMouseEvent = MouseEvent | TouchEvent
-
-type Props = {
-    children?: React.ReactNode,
-    xAxis?: boolean,
-    deltaPos?: number,
-    onSwipe: (dirrection: boolean, e: HTMLSwipeMouseEvent) => void
-} & PropsComponentBase
-
-type DefaultProps = {
-    className: NonNullable<PropsComponentBase['className']>,
-    deltaPos: number
-}
-
-type State = {
-    mouseDownPos: number | null,
-    swipeStart: boolean,
-    blocked: boolean
-}
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps, State, HTMLSwipeMouseEvent } from './types'
 
 
 const componentID = '-ui-swipe'

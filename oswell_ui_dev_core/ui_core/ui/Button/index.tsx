@@ -1,20 +1,7 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
-
-
-type Props = {
-    type?: string,
-    value?: number | string,
-    disabled?: boolean,
-    wrapperAttr?: object,
-    onClick?: React.MouseEventHandler
-} & PropsComponentBase
-
-type DefaultProps = {
-    className: NonNullable<PropsComponentBase['className']>,
-    type: string
-}
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 
 
 const componentID = '-ui-button'

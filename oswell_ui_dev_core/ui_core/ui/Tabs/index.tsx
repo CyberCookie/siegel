@@ -1,24 +1,8 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 import './styles'
-
-type TabData = {
-    id: ID,
-    content: React.ReactNode,
-    label: React.ReactNode
-}
-
-type Props = {
-    attributes?: React.Attributes,
-    data: TabData[],
-    onTabClick: (id: ID) => void,
-    activeTab: ID
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>
-}
 
 
 const componentID = `-ui-tabs`
@@ -40,25 +24,24 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 
 
 function getLabels({ data, activeTab, onTabClick, theme }: Props & DefaultProps) {
-    function getLabel({ id, label }: TabData) {
+    let labels = data.map(({ label, id }) => {
         let labelClassName = theme.tab_label;
         activeTab == id && (labelClassName += ` ${theme.tab_label__active}`)
-
+    
         return (
             <div key={id} className={labelClassName} children={label}
                 onMouseDown={() => onTabClick(id)} />
         )
-    }
+    })
 
-
-    return <div className={theme.label_wrapper} children={data.map(getLabel)} />
+    return <div className={theme.label_wrapper} children={labels} />
 }
 
 const Tabs = (props: Props) => {
     let mergedProps = extractProps(defaults, props)
     let { theme, data, activeTab, attributes, className = '' } = mergedProps;
     
-    let tab = data.find((tab: TabData) => tab.id == activeTab)
+    let tab = data.find(tab => tab.id === activeTab)
 
     className += ` ${theme.tabs}`;
     (tab && tab.content) || (className += ` ${theme.tab_content__empty}`)

@@ -1,14 +1,15 @@
 import React, { useRef, useState } from 'react'
 
-import { dateLocalizationByLocale } from '../../services/date'
-
+import { dateLocalizationByLocale } from '../../utils/date_const'
+import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
 import Days from './days_of_month'
-import s from './styles'
+import s from './styles.sass'
+import { ActiveDateRange, Props, DefaultProps } from './types'
 
 
 const componentID = '-ui-calendar';
 
-const defaults = {
+const defaults: DefaultProps = {
     theme: {
         calendar: componentID,
         title__side: componentID + '_title__side',
@@ -46,7 +47,9 @@ const defaults = {
     missedRow: ''
 }
 
-const setDefaults = customDefaults => Object.assign(defaults, customDefaults)
+const setDefaults = (customDefaults: Partial<Props>) => {
+    setDefaultProps(defaults, customDefaults)
+}
 
 
 function getBeginOfMonth(rangeDateStart, monthsBefore) {
@@ -65,16 +68,11 @@ function getWeekDayNames(days, theme) {
     return <div className={`${theme.week} ${s.week}`} children={days.map(getWeekDay)} />
 }
 
-const Calendar = props => {
-    let theme = props.theme
-        ?   Object.assign({}, defaults.theme, props.theme)
-        :   defaults.theme;
+const Calendar = (props: Props) => {
+    let { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon,
+        nextIcon, noControlls, onDateRangePick, triggerOnlyWhenFinished, className = '' } = extractProps(defaults, props)
     
-    let { activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon, nextIcon, noControlls,
-        onDateRangePick, triggerOnlyWhenFinished } = Object.assign({}, defaults, props)
-    
-    let className = `${theme.calendar} ${s.calendar}`;
-    props.className && (className += ` ${props.className}`)
+    className += ` ${theme.calendar} ${s.calendar}`;
     
     let { rangeDateStart, rangeDateEnd } = activeDate;
 

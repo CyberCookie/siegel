@@ -1,33 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
-
-type CurrentWrapperAttributes = {
-    error: string | null,
-    filled: string | null
-}
-
-type ComponentInputAttributes = React.RefAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>
-
-type Props = {
-    wrapperAttr?: React.HTMLAttributes<HTMLDivElement>,
-    inputAttr?: React.HTMLAttributes<HTMLInputElement>,
-    label?: React.ReactNode,
-    placeholder?: string,
-    value?: string,
-    errorMsg?: React.ReactNode,
-    type?: string,
-    disabled?: boolean,
-    autofocus?: boolean,
-    onBlur?: () => any,
-    onChange?: (value: string, e: React.FormEvent) => any,
-    onFocus?: () => void
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>,
-    wrapperAttr: React.HTMLAttributes<HTMLDivElement>
-}
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps, DefaultWrapperAttributes, ComponentInputAttributes } from './types'
 
 
 const componentID = '-ui-input'
@@ -58,8 +32,8 @@ const Input = (props: Props) => {
 
     className += ` ${theme.input}`;
     wrapperAttr.className = className;
-    (wrapperAttr as CurrentWrapperAttributes).error = errorMsg ? '' : null;
-    (wrapperAttr as CurrentWrapperAttributes).filled = value ? '' : null;
+    (wrapperAttr as DefaultWrapperAttributes).error = errorMsg ? '' : null;
+    (wrapperAttr as DefaultWrapperAttributes).filled = value ? '' : null;
     
     let _inputAttr: ComponentInputAttributes = Object.assign({}, inputAttr, {
         className: theme.field,

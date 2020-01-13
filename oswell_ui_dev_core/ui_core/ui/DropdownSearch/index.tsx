@@ -1,23 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 import cx from '../../utils/cx'
-
-type Props = {
-    searchPlaceholder?: string,
-    minInputLength?: number,
-    closeIcon?: React.ReactChild,
-    searchIcon?: React.ReactChild,
-    autofocus?: boolean,
-    optionBuilder: (searchOption: any) => React.ReactChild,
-    onSearch: (searchValue: string) => void,
-    searchOptions: any[]
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>,
-    minInputLength: number
-}
 
 
 const componentID = '-ui-search-dropdown'

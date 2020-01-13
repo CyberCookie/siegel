@@ -1,22 +1,7 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
-
-type ListElement = {
-    title: React.ReactNode,
-    children: ListElement[]
-}
-
-type Props = {
-    soloOpen?: boolean,
-    dropdownIcon: React.ReactNode,
-    list: ListElement[],
-    builder?: (title: React.ReactNode) => ({ className: string, elem: React.ReactNode })
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>
-}
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps, ListElement } from './types'
 
 
 const componentID = '-ui-dropdown'

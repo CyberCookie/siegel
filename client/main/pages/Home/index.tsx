@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React    from 'react'
 import { hot } from 'react-hot-loader/root'
 
 import Button from 'core-ui/Button'
 import buttonTheme from 'core-ui/Button/theme_sc.sass'
 
-import Tabs from 'core-ui/Tabs'
+// import Tabs from 'core-ui/Tabs'
 
 import s from './styles.sass'
 

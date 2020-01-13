@@ -7,7 +7,7 @@ function deepClone<T>(obj: T): T {
     if (typeof obj !== 'object') return obj;
 
     let result: Indexable;
-    if (obj instanceof Array) {
+    if (Array.isArray(obj)) {
         result = []
 
         for (var i = 0, l = obj.length; i < l; i++) {

@@ -11,15 +11,15 @@ type SetState = {
 
 type HookSetState = React.Dispatch<React.SetStateAction<any>>
 
-interface StoreBase {
+type StoreBase = {
     state: Indexable,
     listeners: HookSetState[],
     actions?: Actions,
 }
 
-interface Store extends StoreBase {
+type Store = {
     setState: SetState
-}
+} & StoreBase
 
 
 

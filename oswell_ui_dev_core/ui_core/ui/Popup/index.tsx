@@ -1,18 +1,8 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 import s from './styles.sass'
-
-type Props = {
-    closeIcon?: React.ReactNode,
-    content?: React.ReactNode,
-    onClose: (e: React.MouseEvent) => void
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>,
-    closeIcon: React.ReactNode
-}
 
 
 const componentID = '-ui-popup'

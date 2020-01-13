@@ -1,6 +1,11 @@
 import React from 'react'
 
-import s from './styles'
+import s from './styles.sass'
+import { Props as ParentProps } from ''
+
+type Props = {
+
+}
 
 
 const missedRowType = {

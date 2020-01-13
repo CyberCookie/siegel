@@ -1,34 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
-
-type OnOptionSelectFn = (id: ID, data?: any) => void
-
-type SelectOptions = {
-    disabled?: boolean,
-    data?: any,
-    id: ID,
-    title: React.ReactNode
-}
-
-type Props = {
-    attributes?: React.Attributes,
-    dropdownIcon?: React.ReactNode,
-    closeOnSelect?: boolean,
-    label?: React.ReactNode,
-    onSelect: OnOptionSelectFn,
-    options: SelectOptions[],
-    selected: ID,
-    displayValue: React.ReactNode
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>,
-    closeOnSelect: boolean,
-    dropdownIcon: React.ReactNode
-}
-
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 
 
 const componentID = '-ui-select'
@@ -46,7 +20,7 @@ const defaults: DefaultProps = {
     },
 
     closeOnSelect: true,
-    dropdownIcon: null
+    dropdownIcon: ''
 }
 
 const setDefaults = (customDefaults: Partial<Props>) => {

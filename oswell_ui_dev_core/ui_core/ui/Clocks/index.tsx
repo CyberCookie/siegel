@@ -2,24 +2,13 @@ import React, { useState, useLayoutEffect } from 'react'
 
 import { msIn } from '../../utils/date_const'
 import dateParse from '../../utils/date_parse'
-import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
-
-type Props = {
-    updateInterval?: number,
-    zeroing?: boolean,
-    builder: (x: any) => any
-} & PropsComponentBase
-
-type DefaultProps = {
-    className: NonNullable<PropsComponentBase['className']>,
-    updateInterval: number,
-    zeroing: boolean
-}
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 
 
 const componentID = '-ui-clocks'
 
-const defaults = {
+const defaults: DefaultProps = {
     className: componentID,
     updateInterval: 1000,
     zeroing: true

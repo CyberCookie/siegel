@@ -1,25 +1,7 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
-
-type Props = {
-    wrapperAttr?: React.Attributes,
-    listLength: number,
-    curPage: number,
-    showPerPage: number,
-    elementsBySide?: number,
-    elementsByMiddle?: number,
-    onPageClick: (nextPage: number) => void,
-    controlIcon?: React.ReactNode,
-    separator?: React.ReactNode
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>,
-    elementsBySide: number,
-    elementsByMiddle: number,
-    separator: string
-}
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 
 
 const componentID = '-ui-pagination'

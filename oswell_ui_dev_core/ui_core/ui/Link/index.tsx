@@ -1,15 +1,7 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentBase } from '../ui_utils'
-
-type Props = {
-    path: string,
-    title: React.ReactNode
-} & PropsComponentBase
-
-type DefaultProps = {
-    className: NonNullable<PropsComponentBase['className']>
-}
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 
 
 const componentID = '-ui-external_link'

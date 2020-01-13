@@ -16,23 +16,13 @@ const spinner = (
     </svg>
 )
 
+const componentID = '-ui-spinner'
+
 const Spinner = props => {
-    let { watchActions, requests, children, visible, conditions, className = '' } = props;
-
-    const findFailureCondition = condition => !condition;
-    const findProcessing = request => requests.includes(request);
-
-    let isNoRender = watchActions.some(findProcessing) || conditions.some(findFailureCondition);
+    let { className = '' } = props;
 
 
-    return isNoRender
-        ?   <div className={`${className} -ui-spinner`}>
-                <div className='spinner' children={spinner} />
-
-                { visible && children }
-            </div>
-            
-        :   children || null
+    return <div className={`${className} ${componentID}`} children={spinner} />
 }
 
 

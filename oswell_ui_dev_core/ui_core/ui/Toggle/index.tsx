@@ -1,19 +1,8 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 import './styles'
-
-type Props = {
-    labelLeft?: React.ReactNode,
-    labelRight?: React.ReactNode,
-    toggleIcon?: React.ReactNode,
-    isToggled?: boolean,
-    onToggle?: (e: React.MouseEvent) => void,
-} & PropsComponentThemed
-
-type DefaultProps = {
-    theme: NonNullable<PropsComponentThemed['theme']>
-}
 
 
 const componentID = '-ui-toggle'
