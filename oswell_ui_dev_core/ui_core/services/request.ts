@@ -10,17 +10,17 @@ type ReqError = {
     res: any
 }
 
-interface SetupFnParams extends Indexable {
+type SetupFnParams = {
     beforeRequest?: (opts: FetchParams) => FetchParams,
     afterRequest?: (fetchParams: FetchParams, parseRes: any) => void,
     errorHandler?: (error: ReqError) => void
-}
+} & Indexable
 
-interface RequestFnParams extends RequestInit {
+type RequestFnParams = {
     url: RequestInfo,
     parseMethod?: string,
     query?: string | string[][] | Record<string, string> | URLSearchParams
-}
+} & RequestInit
 
 
 function setup(newDefaults: SetupFnParams): void {

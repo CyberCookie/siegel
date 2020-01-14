@@ -14,10 +14,49 @@ const CONSTANTS = require('../constants')
 
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
-    const { input, output, aliases, publicPath } = CONFIG.build;
+    const { input, output, aliases, publicPath, extendPlugins, extendModuleRules } = CONFIG.build;
     const { isProd, isServer, isDevServer } = RUN_PARAMS;
 
     const isExtractCSS = isProd || !isServer;
+
+    let PLUGINS = [
+        new fileCopyPlugin([
+            { from: input.assets.images, to: output.assets + '/images' },
+            { from: input.assets.sw, to: output.loc },
+            { from: input.assets.pwa, to: output.assets + '/pwa' }
+        ]),
+
+        ...( isExtractCSS ? [ new miniCssExtract({ filename: `styles.[hash].css`}) ] : [] ),
+
+        new HTMLPlugin({ template: input.html }),
+
+        ...( isProd ? [] : [ new webpack.HotModuleReplacementPlugin() ] ),
+
+        ...(
+            isProd
+                ?   [
+                        new compressionPlugin({
+                            test: /\.*$/,
+                            filename: '[path].br[query]',
+                            algorithm: 'brotliCompress',
+                            compressionOptions: {
+                                level: 11
+                            },
+                            threshold: 10240
+                            // deleteOriginalAssets: true
+                        }),
+
+                        new compressionPlugin({
+                            test: /\.*$/,
+                            filename: '[path].gz[query]',
+                            threshold: 10240
+                            // deleteOriginalAssets: true
+                        })
+                    ]
+                :   []
+            )
+    ]
+    extendPlugins && (PLUGINS = extendPlugins(PLUGINS))
 
 
     let loadersInclude = [CONSTANTS.PATHS.uiCore]
@@ -29,7 +68,88 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
     Array.isArray(input.exclude)
         ?   (loadersExclude = loadersExclude.concat(input.exclude))
         :   loadersInclude.push(input.exclude)
-        
+
+    let MODULE_RULES = [
+        {
+            test: /\.(js|jsx|ts|tsx)$/,
+            include: loadersInclude,
+            exclude: loadersExclude,
+            use: [
+                {
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true,
+                        presets: ['@babel/preset-react', '@babel/typescript'],
+                        plugins: [
+                            'react-hot-loader/babel',
+                            '@babel/plugin-proposal-export-default-from',
+                            '@babel/plugin-proposal-export-namespace-from',
+                            '@babel/plugin-syntax-dynamic-import',
+                            ['@babel/plugin-proposal-class-properties', { loose: true }]
+                        ]
+                    }
+                },
+                {
+                    loader: 'eslint-loader',
+                    options: {
+                        emitWarning: true,
+                        // eslintPath: __dirname
+                    }
+                }
+            ]
+        },
+
+        {
+            test: /\.sass$/,
+            include: loadersInclude,
+            exclude: loadersExclude,
+            use: [
+                isExtractCSS ? miniCssExtract.loader : 'style-loader',
+                
+                {
+                    loader: 'css-loader',
+                    options: {
+                        sourceMap: !isProd,
+                        importLoaders: 2,
+                        modules: {
+                            localIdentName: isProd ? '[hash:base64:4]' : '[local]--[hash:base64:4]'
+                        }
+                    }
+                },
+                
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        sourceMap: !isProd,
+                        plugins: loader => [
+                            autoprefixer({ overrideBrowserList: 'last 1 version' }),
+                            cssMinifier({ preset: 'default' }),
+                            new cssSVG(loader)
+                        ]
+                    }
+                },
+
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        sourceMap: !isProd,
+                        implementation: sass
+                    }
+                },
+
+                // use with css modules
+                {
+                    loader: 'sass-resources-loader',
+                    options: {
+                        resources: input.sassResources
+                    }
+                }
+            ]
+        }
+    ]
+    extendModuleRules && (MODULE_RULES = extendModuleRules(MODULE_RULES))
+
+
 
     return {
         mode: process.env.NODE_ENV || 'development',
@@ -49,138 +169,9 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             chunkFilename: 'chunk.[contenthash].js',
             filename: isProd ? 'app.[contenthash].js' : 'app.js',
         },
-        plugins: [
-            new fileCopyPlugin([
-                { from: input.assets.images, to: output.assets + '/images' },
-                { from: input.assets.sw, to: output.loc },
-                { from: input.assets.pwa, to: output.assets + '/pwa' }
-            ]),
 
-            ...( isExtractCSS ? [ new miniCssExtract({ filename: `styles.[hash].css`}) ] : [] ),
-
-            new HTMLPlugin({
-                template: input.html,
-                minify: true
-            }),
-
-            ...( isProd ? [] : [ new webpack.HotModuleReplacementPlugin() ] ),
-
-            ...(
-                isProd
-                    ?   [
-                            new compressionPlugin({
-                                test: /\.*$/,
-                                filename: '[path].br[query]',
-                                algorithm: 'brotliCompress',
-                                compressionOptions: {
-                                    level: 11
-                                },
-                                threshold: 10240
-                                // deleteOriginalAssets: true
-                            }),
-
-                            new compressionPlugin({
-                                test: /\.*$/,
-                                filename: '[path].gz[query]',
-                                threshold: 10240
-                                // deleteOriginalAssets: true
-                            })
-                        ]
-                    :   []
-                )
-        ],
-
-        module: {   
-            rules: [
-                {
-                    test: /\.(js|jsx|ts|tsx)$/,
-                    include: loadersInclude,
-                    exclude: loadersExclude,
-                    use: [
-                        {
-                            loader: 'babel-loader',
-                            options: {
-                                cacheDirectory: true,
-                                presets: ['@babel/preset-react', '@babel/typescript'],
-                                plugins: [
-                                    'react-hot-loader/babel',
-                                    '@babel/plugin-proposal-export-default-from',
-                                    '@babel/plugin-proposal-export-namespace-from',
-                                    '@babel/plugin-syntax-dynamic-import',
-                                    ['@babel/plugin-proposal-class-properties', { loose: true }]
-                                ]
-                            }
-                        },
-                        {
-                            loader: 'eslint-loader',
-                            options: {
-                                emitWarning: true,
-                                // eslintPath: __dirname
-                            }
-                        }
-                    ]
-                },
-
-                {
-                    test: /\.sass$/,
-                    include: loadersInclude,
-                    exclude: loadersExclude,
-                    use: [
-                        isExtractCSS ? miniCssExtract.loader : 'style-loader',
-                        
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                sourceMap: !isProd,
-                                importLoaders: 2,
-                                modules: {
-                                    localIdentName: isProd ? '[hash:base64:4]' : '[local]--[hash:base64:4]'
-                                }
-                            }
-                        },
-                        
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                sourceMap: !isProd,
-                                plugins: loader => [
-                                    new cssSVG(loader),
-                                    autoprefixer({ overrideBrowserList: 'last 1 version' }),
-                                    cssMinifier({ preset: 'default' })
-                                ]
-                            }
-                        },
-
-                        {
-                            loader: 'sass-loader',
-                            options: {
-                                sourceMap: !isProd,
-                                implementation: sass
-                            }
-                        },
-
-                        // use with css modules
-                        {
-                            loader: 'sass-resources-loader',
-                            options: {
-                                resources: input.sassResources
-                            }
-                        }
-                    ]
-                },
-
-                {
-                    // test: /\.(woff2|ico|png|jpg)$/,
-                    test: /\.woff2$/,
-                    include: loadersInclude,
-                    exclude: loadersExclude,
-                    loader: 'file-loader',
-                    options: { 
-                        name: input.assets.assetsFolderName + '/[folder]/[name].[ext]'
-                    }
-                }
-            ]
-        }
+        plugins: PLUGINS,
+        module: { rules: MODULE_RULES }
     }
 }
 

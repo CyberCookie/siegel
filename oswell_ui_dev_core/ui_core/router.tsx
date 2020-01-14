@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import { Switch, Router, Route, Redirect } from 'react-router-dom'
 import { createBrowserHistory, History } from 'history'
 
-interface RouterConfig {
+type RouterConfig = {
     [path: string]: {
         exact?: boolean,
         redirectTo?: string,
