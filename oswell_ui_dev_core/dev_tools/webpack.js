@@ -14,7 +14,7 @@ const CONSTANTS = require('../constants')
 
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
-    const { input, output, aliases, publicPath, extendPlugins, extendModuleRules } = CONFIG.build;
+    const { input, output, aliases, publicPath, postProcessWebpackConfig } = CONFIG.build;
     const { isProd, isServer, isDevServer } = RUN_PARAMS;
 
     const isExtractCSS = isProd || !isServer;
@@ -56,7 +56,6 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
                 :   []
             )
     ]
-    extendPlugins && (PLUGINS = extendPlugins(PLUGINS))
 
 
     let loadersInclude = [CONSTANTS.PATHS.uiCore]
@@ -147,11 +146,9 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             ]
         }
     ]
-    extendModuleRules && (MODULE_RULES = extendModuleRules(MODULE_RULES))
 
 
-
-    return {
+    let config = {
         mode: process.env.NODE_ENV || 'development',
         cache: isDevServer,
         devtool: isProd ? '' : 'cheap-module-eval-source-map',
@@ -173,6 +170,13 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         plugins: PLUGINS,
         module: { rules: MODULE_RULES }
     }
+    
+    if (typeof postProcessWebpackConfig == 'function') {
+        config = postProcessWebpackConfig(config)
+    }
+
+
+    return config
 }
 
 

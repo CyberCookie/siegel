@@ -63,12 +63,8 @@ const oswellDevCoreConfig = {
         
         aliases: getAliasesFromTSconfig(),
 
-        extendPlugins(plugins) {
-            return plugins
-        },
-
-        extendModuleRules(rules) {
-            rules.push({
+        postProcessWebpackConfig(config) {
+            config.module.rules.push({
                 // test: /\.(woff2|ico|png|jpg)$/,
                 test: /\.woff2$/,
                 include: APP,
@@ -79,8 +75,7 @@ const oswellDevCoreConfig = {
                 }
             })
 
-
-            return rules
+            return config
         }
     }
 }
