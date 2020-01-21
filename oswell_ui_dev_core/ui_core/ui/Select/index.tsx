@@ -35,7 +35,7 @@ function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React
 
 
     return options.map(option => {
-        let { disabled, data, title, id } = option;
+        let { disabled, title, id } = option;
     
         let optionClassName = theme.option;
         id === selected && (optionClassName += ` ${theme.option_active}`)
@@ -45,7 +45,7 @@ function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React
             <div key={id} children={title} className={optionClassName}
                 onMouseDown={e => {
                     e.stopPropagation()
-                    onSelect(id, data)
+                    onSelect(id, e)
                     closeOnSelect && setActive(false)
                 }} />
         )

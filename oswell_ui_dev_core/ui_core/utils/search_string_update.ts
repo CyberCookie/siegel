@@ -32,4 +32,5 @@ const updateURLQueryParams: UpdateURLQueryParams = function(history, key, value)
 }
 
 
+export { UpdateURLQueryParams }
 export default updateURLQueryParams

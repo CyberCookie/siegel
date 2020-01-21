@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, MutableRefObject } from 'react'
 
 import { dateLocalizationByLocale } from '../../utils/date_const'
-import { setDefaultProps, extractProps, PropsComponentThemed } from '../ui_utils'
+import { setDefaultProps, extractProps } from '../ui_utils'
 import Days from './days_of_month'
 import s from './styles.sass'
 import { ActiveDateRange, Props, DefaultProps } from './types'
@@ -43,8 +43,7 @@ const defaults: DefaultProps = {
     prevIcon: '<',
     nextIcon: '>',
     monthsBefore: 0,
-    monthsAfter: 0,
-    missedRow: ''
+    monthsAfter: 0
 }
 
 const setDefaults = (customDefaults: Partial<Props>) => {
@@ -52,7 +51,7 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 }
 
 
-function getBeginOfMonth(rangeDateStart, monthsBefore) {
+function getBeginOfMonth(rangeDateStart: ActiveDateRange['rangeDateStart'], monthsBefore: Props['monthsBefore']) {
     let curDate = new Date(rangeDateStart)
     curDate.setHours(0,0,0,0)
     curDate.setDate(1)
@@ -62,15 +61,16 @@ function getBeginOfMonth(rangeDateStart, monthsBefore) {
     return curDate
 }
 
-function getWeekDayNames(days, theme) {
-    const getWeekDay = day => <div className={theme.week_day} key={day} children={day} /> 
+function getWeekDayNames(days: string[], theme: DefaultProps['theme']) {
+    const getWeekDay = (day: string) => <div className={theme.week_day} key={day} children={day} /> 
 
     return <div className={`${theme.week} ${s.week}`} children={days.map(getWeekDay)} />
 }
 
 const Calendar = (props: Props) => {
+    let mergedProps = extractProps(defaults, props)
     let { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon,
-        nextIcon, noControlls, onDateRangePick, triggerOnlyWhenFinished, className = '' } = extractProps(defaults, props)
+        nextIcon, noControlls, onDateRangePick, triggerOnlyWhenFinished, className = '' } = mergedProps;
     
     className += ` ${theme.calendar} ${s.calendar}`;
     
@@ -78,13 +78,13 @@ const Calendar = (props: Props) => {
 
     let [ state, setState ] = useState({
         innerRangeStart: rangeDateStart,
-        innerRangeEnd: rangeDateStart || rangeDateEnd,
+        innerRangeEnd: rangeDateEnd || rangeDateStart,
         inProgress: false,
         anchor: 0,
         beginOfMonth: getBeginOfMonth(rangeDateStart, monthsBefore)
     })
 
-    let ref = useRef()
+    let ref = useRef<HTMLDivElement>()
     
     let { inProgress, beginOfMonth } = state;
     let _locale = dateLocalizationByLocale[locale || 'en']
@@ -96,20 +96,21 @@ const Calendar = (props: Props) => {
         return days.concat(days.splice(0, weekStartsFrom))
     }
 
-    function switchMonth(value, e) {
+    function switchMonth(value: number, e: React.MouseEvent) {
         e.stopPropagation()
         
         state.beginOfMonth.setMonth(beginOfMonth.getMonth() + value)
         setState({ ...state })
     }
 
-    function pickRangeStart(e) {
+    function pickRangeStart(e: React.MouseEvent) {
         e.stopPropagation()
-        let rangeDateStart = +e.target.dataset.timestamp;
+
+        let rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp;
 
         if (rangeDateStart) {
-            ref.current.addEventListener('mouseup', pickRangeFinish)
-            ref.current.addEventListener('mouseover', pickRangeProgress)
+            (ref as MutableRefObject<HTMLDivElement>).current.addEventListener('mouseup', pickRangeFinish);
+            (ref as MutableRefObject<HTMLDivElement>).current.addEventListener('mouseover', pickRangeProgress)
 
             let date = new Date(rangeDateStart)
             let rangeDateEnd = date.setDate(date.getDate() + 1) - 1;
@@ -125,9 +126,9 @@ const Calendar = (props: Props) => {
         }
     }
 
-    function pickRangeProgress(e) {
+    function pickRangeProgress(e: MouseEvent) {
         e.stopPropagation()
-        let timestamp = +e.target.dataset.timestamp;
+        let timestamp = +(e.target as HTMLDivElement).dataset.timestamp;
 
         if (timestamp) {
             let anchor = state.anchor;
@@ -152,10 +153,10 @@ const Calendar = (props: Props) => {
         }
     }
 
-    function pickRangeFinish(e) {
-        e.stopPropagation()
-        ref.current.removeEventListener('mouseup', pickRangeFinish)
-        ref.current.removeEventListener('mouseover', pickRangeProgress)
+    function pickRangeFinish(e: MouseEvent) {
+        e.stopPropagation();
+        (ref as MutableRefObject<HTMLDivElement>).current.removeEventListener('mouseup', pickRangeFinish);
+        (ref as MutableRefObject<HTMLDivElement>).current.removeEventListener('mouseover', pickRangeProgress)
                 
         state.inProgress = false;
         
@@ -196,11 +197,12 @@ const Calendar = (props: Props) => {
                     { getWeekDayNames(days, theme) }
 
                     <div className={className} onMouseDown={pickRangeStart}>
-                        <Days calendarProps={props} days={days} theme={theme}
+                        <Days calendarProps={mergedProps} days={days}
                             parentState={{
-                                ...state,
-                                beginOfMonth: new Date(start)
+                                innerRangeEnd: state.innerRangeEnd,
+                                innerRangeStart: state.innerRangeStart,
                             }}
+                            beginOfMonth={new Date(start)}
                             locale={_locale} />
                     </div>
                 </div>

@@ -1,20 +1,17 @@
 import React from 'react'
 
+import { DateLocalization } from '../../utils/date_const'
+import { ChildProps, AllDaysData, PrevNextDaysParams, GetDayClass } from './types'
 import s from './styles.sass'
-import { Props as ParentProps } from ''
-
-type Props = {
-
-}
 
 
 const missedRowType = {
     PLACEHOLDER: 'placeholder',
     FILLED: 'filled'
-}
+} as const
 
 
-function fillWithSiblingMonthDateRange(result, dateFrom, dateTo, date, hidden) {
+function fillWithSiblingMonthDateRange(result: AllDaysData[], dateFrom: number, dateTo: number, date: Date, hidden?: boolean) {
     let timestamp = date.getTime()
 
     for (let i = dateFrom; i <= dateTo; i++) {
@@ -28,8 +25,8 @@ function fillWithSiblingMonthDateRange(result, dateFrom, dateTo, date, hidden) {
     }
 }
 
-function getPreviousMonthDays(params) {
-    let result = []
+function getPreviousMonthDays(params: PrevNextDaysParams) {
+    let result: AllDaysData[] = []
     let { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom, days } = params;
 
     let date = new Date(beginOfMonth);
@@ -58,14 +55,14 @@ function getPreviousMonthDays(params) {
     return result
 }
 
-function fillWithCurrentMonthDays(result, beginOfMonth) {
+function fillWithCurrentMonthDays(result: AllDaysData[], beginOfMonth: Date) {
     let date = new Date(beginOfMonth)
     let timestamp = date.getTime();
     let lastDayinCurrentMonth = (new Date(beginOfMonth.getFullYear(), beginOfMonth.getMonth() + 1, 0)).getDate();
     let todayTimestamp = (new Date()).setHours(0, 0, 0, 0);
     
     for (let dateOfMonth = 1; dateOfMonth <= lastDayinCurrentMonth; dateOfMonth++) {
-        let dayData = {
+        let dayData: AllDaysData = {
             timestamp,
             date: dateOfMonth
         }
@@ -79,7 +76,7 @@ function fillWithCurrentMonthDays(result, beginOfMonth) {
     }
 }
 
-function fillWithNextMonthDays(result, params, locale) {
+function fillWithNextMonthDays(result: AllDaysData[], params: PrevNextDaysParams, locale: DateLocalization) {
     let { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom, days } = params;
 
     let date = new Date(beginOfMonth);
@@ -100,7 +97,7 @@ function fillWithNextMonthDays(result, params, locale) {
     return daysToAdd
 }
 
-function getCalendarMonthDays(prevNextDaysParams, locale) {
+function getCalendarMonthDays(prevNextDaysParams: PrevNextDaysParams, locale: DateLocalization) {
     let allDays = getPreviousMonthDays(prevNextDaysParams)
     let countBefore = allDays.length;
 
@@ -109,7 +106,7 @@ function getCalendarMonthDays(prevNextDaysParams, locale) {
     let countAfter = fillWithNextMonthDays(allDays, prevNextDaysParams, locale)
 
 
-    if (prevNextDaysParams == missedRowType.FILLED && allDays.length < 42) {
+    if (prevNextDaysParams.missedRow == missedRowType.FILLED && allDays.length < 42) {
         let isHiddenSiblings = prevNextDaysParams.hideSiblingMonthsDays;
 
         if (countBefore < countAfter) {
@@ -118,7 +115,7 @@ function getCalendarMonthDays(prevNextDaysParams, locale) {
             let date = new Date(timestamp)
             date.setDate(fromDate)
 
-            let pasteBefore = []
+            let pasteBefore: AllDaysData[] = []
             fillWithSiblingMonthDateRange(pasteBefore, fromDate, toDate - 1, date, isHiddenSiblings)
             allDays = pasteBefore.concat(allDays)
         } else {
@@ -132,8 +129,8 @@ function getCalendarMonthDays(prevNextDaysParams, locale) {
 }
 
 
-function getDayClass({ theme, dayObj, hideSiblingMonthsDays, innerRangeStart, innerRangeEnd }) {
-    let { timestamp, isSiblingMonth, isLast, isFirst, isToday } = dayObj
+const getDayClass: GetDayClass = ({ theme, dayObj, hideSiblingMonthsDays, innerRangeStart, innerRangeEnd }) => {
+    let { timestamp, isSiblingMonth, isLast, isFirst, isToday } = dayObj;
 
     let className = `${s.day} ${theme.day}`;
 
@@ -158,11 +155,11 @@ function getDayClass({ theme, dayObj, hideSiblingMonthsDays, innerRangeStart, in
 }
 
 
-const Days = props => {
-    let { calendarProps, parentState, days, theme, locale } = props;
+const Days = (props: ChildProps) => {
+    let { calendarProps, parentState, days, locale, beginOfMonth } = props;
 
-    let { weekStartsFrom, hideSiblingMonthsDays, missedRow } = calendarProps;
-    let { innerRangeStart, innerRangeEnd, beginOfMonth } = parentState
+    let { weekStartsFrom, hideSiblingMonthsDays, missedRow, theme } = calendarProps;
+    let { innerRangeStart, innerRangeEnd } = parentState
     
     let prevNextDaysParams = { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom, days, missedRow }
     let allDays = getCalendarMonthDays(prevNextDaysParams, locale)

@@ -26,17 +26,21 @@ const createSignalRConnection = options => {
         isAlive() {
             return this.nativeSocket.connectionState === 1
         },
-        async runSocket() {
-            if (!this.isAlive()) {
+        async runSocket(cb) {
+            if (this.isAlive()) {
+                cb && cb.call(this)
+            } else {
                 try {
                     await this.nativeSocket.start()
+
+                    cb && cb.call(this)
                     handlers.onopen && handlers.onopen.call(this)
                 } catch(err) {
                     handlers.onerror
                         ?   handlers.onerror.call(this, err)
                         :   console.error(err)
 
-                    reconnectInterval && setTimeout(() => this.runSocket(), reconnectInterval)
+                    reconnectInterval && setTimeout(() => this.runSocket(cb), reconnectInterval)
                 }
             }
         },
@@ -45,7 +49,9 @@ const createSignalRConnection = options => {
         },
 
         on: nativeSocket.on.bind(nativeSocket),
-        invoke: nativeSocket.invoke.bind(nativeSocket)
+        invoke(...args) {
+            this.isAlive() && nativeSocket.invoke.apply(nativeSocket, args)
+        }
     }
 
     handlers.onclose && nativeSocket.onclose(handlers.onclose.bind(socket))

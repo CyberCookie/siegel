@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import { setDefaultProps, extractProps } from '../ui_utils'
-import Swipe from '../Swipe'
+import Swipe, { HTMLSwipeMouseEvent } from '../Swipe'
 import { Props, DefaultProps, SliderElementsResult } from './types'
 import './styles'
 
@@ -64,15 +64,15 @@ const Slider = (props: Props) => {
         return { slideArea, firstSlidePage }
     }
 
-    function onSlideSwipe(isNext: boolean) {
+    function onSlideSwipe(isNext: boolean, e: HTMLSwipeMouseEvent) {
         if (isNext) {
-            (curPage < (numberOfPages - 1)) && switchPage(curPage + 1)
+            (curPage < (numberOfPages - 1)) && switchPage(curPage + 1, e)
         } else if (curPage) {
-            switchPage(curPage - 1)
+            switchPage(curPage - 1, e)
         }
     }
 
-    function switchPage(nextPage: number) {
+    function switchPage(nextPage: number, e?: HTMLSwipeMouseEvent | React.MouseEvent) {
         setPage(nextPage)
 
         let { slideArea, firstSlidePage } = getSlideElements()
@@ -86,7 +86,7 @@ const Slider = (props: Props) => {
 
         slideArea.style.left = (nextPage * -nextLeft) + 'px'
 
-        onSlide && onSlide(nextPage)
+        onSlide && onSlide(nextPage, e)
     }
     
     function getSliderElements() {
@@ -116,7 +116,7 @@ const Slider = (props: Props) => {
         noControlls || (result.pageControlls = (
             <div className={theme.slides_controlls} children={controlls} onMouseDown={e => {
                 let nextPage = (e.target as HTMLDivElement).dataset.page;
-                nextPage && switchPage(+nextPage)
+                nextPage && switchPage(+nextPage, e)
             }} />
         ))
 

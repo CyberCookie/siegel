@@ -29,4 +29,5 @@ function deepFind
 }
 
 
+export { LookupFn }
 export default deepFind

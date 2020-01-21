@@ -8,7 +8,7 @@ type Props = {
         content: React.ReactNode,
         label: React.ReactNode
     }[],
-    onTabClick: (id: ID) => void,
+    onTabClick: (id: ID, e: React.MouseEvent) => void,
     activeTab: ID
 } & PropsComponentThemed
 

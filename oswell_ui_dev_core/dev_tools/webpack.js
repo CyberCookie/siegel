@@ -14,11 +14,25 @@ const CONSTANTS = require('../constants')
 
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
-    const { input, output, aliases, publicPath, postProcessWebpackConfig } = CONFIG.build;
+    const { input, output, aliases = {}, publicPath, postProcessWebpackConfig } = CONFIG.build;
     const { isProd, isServer, isDevServer } = RUN_PARAMS;
+
+    aliases['react-dom'] = '@hot-loader/react-dom'
+
+    let loadersInclude = [CONSTANTS.PATHS.uiCore]
+    Array.isArray(input.include)
+        ?   (loadersInclude = loadersInclude.concat(input.include))
+        :   loadersInclude.push(input.include)
+    
+    let loadersExclude = [/*CONSTANTS.PATHS.nodeModules*/]
+    Array.isArray(input.exclude)
+        ?   (loadersExclude = loadersExclude.concat(input.exclude))
+        :   loadersInclude.push(input.exclude)
 
     const isExtractCSS = isProd || !isServer;
 
+
+    
     let PLUGINS = [
         new fileCopyPlugin([
             { from: input.assets.images, to: output.assets + '/images' },
@@ -57,16 +71,6 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             )
     ]
 
-
-    let loadersInclude = [CONSTANTS.PATHS.uiCore]
-    Array.isArray(input.include)
-        ?   (loadersInclude = loadersInclude.concat(input.include))
-        :   loadersInclude.push(input.include)
-    
-    let loadersExclude = [/*CONSTANTS.PATHS.nodeModules*/]
-    Array.isArray(input.exclude)
-        ?   (loadersExclude = loadersExclude.concat(input.exclude))
-        :   loadersInclude.push(input.exclude)
 
     let MODULE_RULES = [
         {

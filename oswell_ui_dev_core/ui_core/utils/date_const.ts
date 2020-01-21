@@ -1,9 +1,9 @@
-type DateLocalizationKeys = 'months' | 'monthsShort' | 'days' | 'daysShort'
+type DateLocalization = {
+    [key in 'months' | 'monthsShort' | 'days' | 'daysShort']: string[]
+}
 
 type DateLocalizationByLocale = {
-    [key: string]: {
-        [key in DateLocalizationKeys]: string[]
-    }
+    [key: string]: DateLocalization
 }
 
 
@@ -27,4 +27,4 @@ function extendDateLocalization(dateConstants: DateLocalizationByLocale) {
 }
 
 
-export { msIn, extendDateLocalization, dateLocalizationByLocale }
+export { msIn, extendDateLocalization, dateLocalizationByLocale, DateLocalization, DateLocalizationByLocale }

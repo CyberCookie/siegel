@@ -1,3 +1,4 @@
+import { HTMLSwipeMouseEvent } from '../Swipe'
 import { PropsComponentThemed } from '../ui_utils'
 
 
@@ -11,7 +12,7 @@ type Props = {
     noControlls?: boolean,
     showNumber?: number,
     attributes?: React.Attributes,
-    onSlide?: (nextPage: number) => void,
+    onSlide?: (nextPage: number, e?: HTMLSwipeMouseEvent | React.MouseEvent) => void,
     data: React.ReactNode[]
 } & PropsComponentThemed
 

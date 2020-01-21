@@ -8,7 +8,7 @@ type Props = {
     searchIcon?: React.ReactChild,
     autofocus?: boolean,
     optionBuilder: (searchOption: any) => React.ReactChild,
-    onSearch: (searchValue: string) => void,
+    onSearch: (searchValue: string, e: React.ChangeEvent) => void,
     searchOptions: any[]
 } & PropsComponentThemed
 

@@ -97,4 +97,5 @@ const Swipe = (props: Props) => {
 
 
 export { setDefaults }
+export * from './types'
 export default Swipe

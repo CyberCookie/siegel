@@ -21,4 +21,5 @@ const arrayObjSort = (object_a: Indexable, object_b: Indexable,
 }
 
 
+export { SortValue }
 export default arrayObjSort

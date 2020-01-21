@@ -30,7 +30,7 @@ function getLabels({ data, activeTab, onTabClick, theme }: Props & DefaultProps)
     
         return (
             <div key={id} className={labelClassName} children={label}
-                onMouseDown={() => onTabClick(id)} />
+                onMouseDown={e => onTabClick(id, e)} />
         )
     })
 

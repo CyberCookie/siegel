@@ -32,7 +32,7 @@ const Pagination = (props: Props) => {
     
     let _wrapperAttr = Object.assign({}, wrapperAttr, {
         className,
-        onMouseDown(e: React.MouseEvent<HTMLElement>) {
+        onMouseDown(e: React.MouseEvent) {
             let page = (e.target as HTMLDivElement).dataset.page;
     
             if (page) {
@@ -45,7 +45,7 @@ const Pagination = (props: Props) => {
                     newPage = +page
                 }
     
-                curPage != newPage && onPageClick(newPage)
+                curPage != newPage && onPageClick(newPage, e)
             }
         }
     })

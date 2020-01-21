@@ -6,10 +6,9 @@ type Props = {
     dropdownIcon?: React.ReactNode,
     closeOnSelect?: boolean,
     label?: React.ReactNode,
-    onSelect: (id: ID, data?: any) => void,
+    onSelect: (id: ID, e: React.MouseEvent, data?: any) => void,
     options: {
         disabled?: boolean,
-        data?: any,
         id: ID,
         title: React.ReactNode
     }[],

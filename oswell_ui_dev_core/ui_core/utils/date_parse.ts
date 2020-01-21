@@ -7,8 +7,7 @@ type DateParsedNonZeroed = {
     day: number
 }
 
-interface DateParsed extends DateParsedZeroed, DateParsedNonZeroed {}
-
+type DateParsed = {} & DateParsedZeroed & DateParsedNonZeroed
 
 /**
  * Parse provided or current date into localized separated date pieces
@@ -42,4 +41,5 @@ function dateParse(date: string | number = Date.now(), zeroPrefix?: boolean) {
 }
 
 
+export { ZeroingDatePartsKeys, ZeroingDatePartsVals, DateParsedZeroed, DateParsed }
 export default dateParse

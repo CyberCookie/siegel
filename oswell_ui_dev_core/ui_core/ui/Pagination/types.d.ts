@@ -8,7 +8,7 @@ type Props = {
     showPerPage: number,
     elementsBySide?: number,
     elementsByMiddle?: number,
-    onPageClick: (nextPage: number) => void,
+    onPageClick: (nextPage: number, e: React.MouseEvent) => void,
     controlIcon?: React.ReactNode,
     separator?: React.ReactNode
 } & PropsComponentThemed

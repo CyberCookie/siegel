@@ -40,7 +40,7 @@ const DropdownSearch = (props: Props) => {
             let searchValue = e.target.value;
             setState({ searchValue })
             
-            searchValue.length >= minInputLength && onSearch(searchValue)
+            searchValue.length >= minInputLength && onSearch(searchValue, e)
         }
     }
     
