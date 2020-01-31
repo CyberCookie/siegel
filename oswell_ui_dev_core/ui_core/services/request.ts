@@ -32,20 +32,23 @@ const defaultSetup: SetupFnParams = {}
 
 
 const extractRequestData = (request: RequestFnParams) => {
-    const { url, query, headers, method, body, credentials } = request;
+    let { url, query, headers, method, body, credentials } = request;
 
-    const options: RequestInit = { method: method || 'GET' }
-    credentials && (options.credentials = credentials)
-    headers && (options.headers = headers)
+    const options: RequestInit = {}
+    let _method;
+
     if (body) {
         options.body = JSON.stringify(body)
-        method || (options.method = 'POST')
-    }
+        _method = 'POST'
+    } else _method = 'GET';
+
+    options.method = method || _method;
+    query && (url += `?${(new URLSearchParams(query)).toString()}`)
+    credentials && (options.credentials = credentials)
+    headers && (options.headers = headers)
+    
     
     const fetchParams = { url, options }
-
-    query && (fetchParams.url += `?${(new URLSearchParams(query)).toString()}`)
-
 
     return defaultSetup.beforeRequest
         ?   defaultSetup.beforeRequest(fetchParams)

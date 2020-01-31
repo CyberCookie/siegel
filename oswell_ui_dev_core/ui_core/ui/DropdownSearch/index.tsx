@@ -25,7 +25,7 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 
 const DropdownSearch = (props: Props) => {
     let mergedProps = extractProps(defaults, props)
-    let { className = '', theme, searchPlaceholder, searchOptions, minInputLength, onSearch,
+    let { className, theme, searchPlaceholder, searchOptions, minInputLength, onSearch,
         closeIcon, searchIcon, optionBuilder, autofocus } = mergedProps;
 
     let [ state, setState ] = useState({
@@ -67,13 +67,13 @@ const DropdownSearch = (props: Props) => {
         <div className={className}>
             <input {...inputProps} />
             
-            { !!showOptions && (
+            { !!showOptions && 
                 <div children={searchOptions.map(optionBuilder)}
                     className={theme.options} />
-            )}
+            }
 
             { searchLength
-                ?   closeIcon && (<div children={closeIcon} onMouseDown={clearInput} />)
+                ?   closeIcon && <div children={closeIcon} onMouseDown={clearInput} />
                 :   searchIcon
             }
         </div>

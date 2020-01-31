@@ -20,41 +20,43 @@ const main = async function (CONFIG = {}, RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PAR
     
     if (RUN_PARAMS.isServer) {
         const { extenderLoc, watch } = CONFIG.server;
+        const devServerLoc = CONSTANTS.PATHS.staticServer;
 
-        const devServer = require(CONSTANTS.PATHS.staticServer)
+        const devServer = require(devServerLoc)
         const initDevServer = extendExpressDevServer => devServer.run(CONFIG, devMiddlewares, extendExpressDevServer)
 
 
         if (extenderLoc) {
             function getCustomExpressExtender() {
-                let userExtendExpressDevServer = require(extenderLoc).extendExpressDevServer; //TODO
-                if (typeof userExtendExpressDevServer === 'function') {
-                    return userExtendExpressDevServer;
-                } else throw 'custom sever doesn\`t have required extendExpressDevServer method'
+                try {
+                    let userExtendExpressDevServer = require(extenderLoc)
+                    if (typeof userExtendExpressDevServer === 'function') {
+                        return userExtendExpressDevServer;
+                    } else throw '[extenderLoc] export type not a function'
+                } catch(err) { console.error(err) }
             }
 
-            try {
-                let extendExpressDevServer = getCustomExpressExtender()
+            let extendExpressDevServer = getCustomExpressExtender()
 
-                if (watch) {
-                    let devServerInstance = initDevServer(extendExpressDevServer)
-                    let lock = false;
+            if (watch) {
+                let devServerInstance = initDevServer(extendExpressDevServer)
+                let lock = false;
 
-                    require('fs')
-                        .watch(extenderLoc)
-                        .on('change', () => {
-                            lock || (lock = setTimeout(() => {
-                                delete require.cache[extenderLoc]
-                                delete require.cache[CONSTANTS.PATHS.staticServer]
+                require('fs')
+                    // .watch(extenderLoc)
+                    .watch(devServerLoc)
+                    .on('change', () => {
+                        lock || (lock = setTimeout(() => {
+                            // delete require.cache[extenderLoc]
+                            delete require.cache[devServerLoc]
 
-                                devServerInstance.close()
-                                devServerInstance = initDevServer(getCustomExpressExtender())
+                            devServerInstance.close()
+                            devServerInstance = initDevServer(getCustomExpressExtender())
 
-                                lock = false
-                            }, 100))
-                        })
-                }
-            } catch(err) { console.error(err) }
+                            lock = false
+                        }, 100))
+                    })
+            }
         } else {
             initDevServer()
         }

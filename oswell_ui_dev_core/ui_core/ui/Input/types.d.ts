@@ -15,7 +15,7 @@ type Props = {
     placeholder?: string,
     value?: string,
     errorMsg?: React.ReactNode,
-    type?: string,
+    type?: 'input' | 'textarea' | 'password',
     disabled?: boolean,
     autofocus?: boolean,
     onBlur?: () => any,

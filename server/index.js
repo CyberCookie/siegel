@@ -1,4 +1,4 @@
-const devCore = require('./oswell_ui_dev_core/dev_tools')
+const devCore = require('../oswell_ui_dev_core/dev_tools')
 const devCoreConfig = require('./oswell_ui_dev_core_config')
 
 

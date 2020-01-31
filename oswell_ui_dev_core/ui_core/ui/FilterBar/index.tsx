@@ -1,10 +1,9 @@
 import React from 'react'
 
 import cx from '../../utils/cx'
-import './styles'
 
 
-const RowFilter = ({ filterData, selected, onSelect, disabled = false, isRadio = false, className = '', titleKey = '' }) => {
+const FilterBar = ({ filterData, selected, onSelect, disabled = false, isRadio = false, className = '', titleKey = '' }) => {
     let filterRow = filterData.map(dataItem => {
         let { id, title } = dataItem,
             isActive = isRadio ? selected == id : selected.includes(id);
@@ -38,4 +37,4 @@ const RowFilter = ({ filterData, selected, onSelect, disabled = false, isRadio =
     )
 }
 
-export default RowFilter
+export default FilterBar

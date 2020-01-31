@@ -2,7 +2,7 @@ import React from 'react'
 
 import { setDefaultProps, extractProps } from '../ui_utils'
 import { Props, DefaultProps } from './types'
-import styles from './styles.sass'
+import s from './styles.sass'
 
 
 const componentID = '-ui-checkbox'
@@ -13,7 +13,7 @@ const defaults: DefaultProps = {
         label: componentID + '_label',
         wrapper: componentID + '_wrapper'
     },
-
+    
     value: false
 }
 
@@ -33,7 +33,7 @@ const Checkbox = (props: Props) => {
     let _checkboxAttr: React.InputHTMLAttributes<HTMLInputElement> = Object.assign({}, checkboxAttr, {
         checked: value,
         type: 'checkbox',
-        className: `${styles.checkbox} ${theme.checkbox}`,
+        className: `${s.checkbox} ${theme.checkbox}`,
         onChange: _onChange
     })
 
@@ -44,6 +44,7 @@ const Checkbox = (props: Props) => {
     disabled && (_checkboxAttr.disabled = true)
     
     let wrapperClassName = theme.wrapper;
+
     if (className) {
         let classToAdd = ` ${className}`;
 
@@ -52,7 +53,7 @@ const Checkbox = (props: Props) => {
             :   (_checkboxAttr.className += classToAdd)
     }
 
-    let CheckboxElement = <input {..._checkboxAttr} />
+    let CheckboxElement = <input {...checkboxAttr} />
 
 
     return label

@@ -1,16 +1,18 @@
-const webpack = require('webpack')
-const webpackDevMiddleware = require('webpack-dev-middleware')
-const webpackHotMiddleware = require('webpack-hot-middleware')
-const HTMLPlugin = require('html-webpack-plugin')
-const fileCopyPlugin = require('copy-webpack-plugin')
-const compressionPlugin = require('compression-webpack-plugin')
-const cssSVG = require('iconfont-webpack-plugin')
-const sass = require('sass')
-const autoprefixer = require('autoprefixer')
-const cssMinifier = require('cssnano')
-const miniCssExtract = require('mini-css-extract-plugin')
+const webpack               = require('webpack')
+const webpackDevMiddleware  = require('webpack-dev-middleware')
+const webpackHotMiddleware  = require('webpack-hot-middleware')
+const HTMLPlugin            = require('html-webpack-plugin')
+const fileCopyPlugin        = require('copy-webpack-plugin')
+const terserPlugin          = require('terser-webpack-plugin')
+const compressionPlugin     = require('compression-webpack-plugin')
+const cleanPlugin           = require('clean-webpack-plugin').CleanWebpackPlugin;
+const cssSVG                = require('iconfont-webpack-plugin')
+const sass                  = require('sass')
+const autoprefixer          = require('autoprefixer')
+const cssMinifier           = require('cssnano')
+const miniCssExtract        = require('mini-css-extract-plugin')
 
-const CONSTANTS = require('../constants')
+const CONSTANTS             = require('../constants')
 
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
@@ -34,6 +36,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
 
     
     let PLUGINS = [
+        new cleanPlugin(),
         new fileCopyPlugin([
             { from: input.assets.images, to: output.assets + '/images' },
             { from: input.assets.sw, to: output.loc },
@@ -169,6 +172,16 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             path: output.loc,
             chunkFilename: 'chunk.[contenthash].js',
             filename: isProd ? 'app.[contenthash].js' : 'app.js',
+        },
+        optimization: {
+            minimizer: [
+                new terserPlugin({
+                    terserOptions: {
+                        output: { comments: false }
+                    },
+                    extractComments: false
+                })
+            ]
         },
 
         plugins: PLUGINS,

@@ -1,9 +1,10 @@
 const join = require('path').join;
 
+const devTools = join(__dirname, 'dev_tools')
 
 const PATHS = {
-    build: join(__dirname, 'dev_tools', 'webpack.js'),
-    staticServer: join(__dirname, 'dev_tools', 'server', 'index.js'),
+    build: join(devTools, 'webpack.js'),
+    staticServer: join(devTools, 'server', 'index.js'),
     uiCore: join(__dirname, 'ui_core'),
     nodeModules: join(__dirname, 'node_modules')
 }

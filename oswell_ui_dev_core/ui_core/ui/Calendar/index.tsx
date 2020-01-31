@@ -70,7 +70,7 @@ function getWeekDayNames(days: string[], theme: DefaultProps['theme']) {
 const Calendar = (props: Props) => {
     let mergedProps = extractProps(defaults, props)
     let { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon,
-        nextIcon, noControlls, onDateRangePick, triggerOnlyWhenFinished, className = '' } = mergedProps;
+        nextIcon, noControlls, onDateRangePick, triggerOnlyWhenFinished, className } = mergedProps;
     
     className += ` ${theme.calendar} ${s.calendar}`;
     

@@ -57,7 +57,7 @@ const Select = (props: Props) => {
     let [ isActive, setActive ] = useState(false)
 
     let mergedProps = extractProps(defaults, props)
-    let { theme, className = '', attributes, displayValue, dropdownIcon, label } = mergedProps
+    let { theme, className, attributes, displayValue, dropdownIcon, label } = mergedProps
 
     className += ` ${theme.select}`;
     isActive && (className += ` ${theme.select_active}`)

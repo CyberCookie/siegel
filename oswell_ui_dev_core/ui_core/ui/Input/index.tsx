@@ -27,7 +27,7 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 
 //[email, password, search, tel, text, url, (textarea)]
 const Input = (props: Props) => {
-    let { theme, className = '', wrapperAttr, inputAttr, label, placeholder, value, errorMsg,
+    let { theme, className, wrapperAttr, inputAttr, label, placeholder, value, errorMsg,
         type, disabled, autofocus, onBlur, onChange, onFocus } = extractProps(defaults, props)
 
     className += ` ${theme.input}`;
@@ -65,8 +65,8 @@ const Input = (props: Props) => {
             _inputAttr.type = type
         }
     }
-    
     let inputElement = <InputTag {..._inputAttr} />;
+    
     
     label && (inputElement = (
         <label className={theme.label}>

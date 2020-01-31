@@ -39,7 +39,7 @@ function getLabels({ data, activeTab, onTabClick, theme }: Props & DefaultProps)
 
 const Tabs = (props: Props) => {
     let mergedProps = extractProps(defaults, props)
-    let { theme, data, activeTab, attributes, className = '' } = mergedProps;
+    let { theme, data, activeTab, attributes, className } = mergedProps;
     
     let tab = data.find(tab => tab.id === activeTab)
 

@@ -52,21 +52,3 @@ if (rootComponent) {
         })
     }
 }
-
-
-// polyfill to add path key to the event object in mozilla, edge
-if (!('path' in Event.prototype)) {
-    Object.defineProperty(Event.prototype, 'path', {
-        get: function() {
-            let path = []
-            let currentElem = this.target;
-
-            while (currentElem) {
-                path.push(currentElem);
-                currentElem = currentElem.parentElement
-            }
-
-            return path
-        }
-    })
-}

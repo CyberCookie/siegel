@@ -2,7 +2,6 @@ import React from 'react'
 
 import { setDefaultProps, extractProps } from '../ui_utils'
 import { Props, DefaultProps } from './types'
-import './styles'
 
 
 const componentID = '-ui-toggle'
@@ -23,7 +22,7 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 
 
 const Toggle = (props: Props) => {
-    let { theme, labelLeft, labelRight, isToggled, onToggle, className = '', toggleIcon } = extractProps(defaults, props)
+    let { theme, labelLeft, labelRight, isToggled, onToggle, className, toggleIcon } = extractProps(defaults, props)
 
     className += ` ${theme.toggle}`;
     isToggled && (className += ` ${theme.toggle_checked}`)

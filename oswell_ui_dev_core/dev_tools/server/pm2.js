@@ -1,6 +1,6 @@
 const pm2 = require('pm2')
 
-//const config = require('../config')
+// const config = require('../../constants')
 
 
 pm2.connect(err => {

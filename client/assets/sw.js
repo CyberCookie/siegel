@@ -1,11 +1,11 @@
-const CACHE_NAME = 'cache_v3';
+const CACHE_NAME = '1';
 
 
-let cacheRegExp = /\.(woff2|woff|png|ico|html|css|js)/;
+let cacheRegExp = /\.(woff2|png|ico|html|css|js|json)/;
 let devCacheRegExp = /\.(woff2|png|jpg|ico)/;
 function isShouldFetch(req) {
     // return cacheRegExp.test(req.url)
-    return req.url.includes('/image?') || devCacheRegExp.test(req.url)
+    return devCacheRegExp.test(req.url)
 }
 
 self.addEventListener('fetch', e => {

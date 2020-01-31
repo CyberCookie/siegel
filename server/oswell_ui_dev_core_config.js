@@ -10,10 +10,11 @@ const assets = join(APP, assetsFolderName)
 
 const output = join(cwd, 'dist')
 
+const server = join(cwd, 'server')
 
 
 function getAliasesFromTSconfig() {
-    const TSAliases = require('./tsconfig').compilerOptions.paths;
+    const TSAliases = require('../tsconfig').compilerOptions.paths;
     let aliases = {}
 
     for (let alias in TSAliases) {
@@ -29,11 +30,17 @@ function getAliasesFromTSconfig() {
 
 const oswellDevCoreConfig = {
     server: {
-        extenderLoc: join(cwd, 'server.js'),
+        extenderLoc: server,
         watch: true,
         
         host: process.env.NODE_HOST || 'localhost',
-        port: process.env.NODE_PORT || 3000
+        port: process.env.NODE_PORT || 3000,
+
+        http2: true,
+        ssl: {
+            keyPath: join(server, 'cert', 'localhost.key'),
+            certPath: join(server, 'cert', 'localhost.crt')
+        }
     },
 
 

@@ -7,7 +7,7 @@ import s from './styles.sass'
 
 
 let forceUpdate: React.Dispatch<React.SetStateAction<object>> | undefined;
-const dynamicCrumbs: Indexable<React.ReactNode> = {}
+let dynamicCrumbs: Indexable<React.ReactNode> = {}
 const setDynamicCrumb = (crumpId: string, value: React.ReactNode, isForceUpdate = true) => {
     if (dynamicCrumbs[crumpId] != value) {
         dynamicCrumbs[crumpId] = value;

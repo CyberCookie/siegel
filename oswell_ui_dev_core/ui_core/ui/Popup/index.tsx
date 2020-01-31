@@ -23,7 +23,7 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 const onPopupBodyClick = (e: React.MouseEvent) => e.stopPropagation();
 
 const Popup = (props: Props) => {
-    let { theme, className = '', closeIcon, content, onClose } = extractProps(defaults, props)
+    let { theme, className, closeIcon, content, onClose } = extractProps(defaults, props)
 
     className += ` ${s.popup} ${theme.popup}` ;
 

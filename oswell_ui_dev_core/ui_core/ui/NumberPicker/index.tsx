@@ -1,51 +1,98 @@
 import React from 'react'
 
-import './styles'
+import { setDefaultProps, extractProps } from '../ui_utils'
+import { Props, DefaultProps } from './types'
 
+const componentID = '-ui-number-picker'
 
-class NumberPicker extends React.Component {
-    onInputChange = e => {
-        if (!this.props.inputDisabled && (!e.nativeEvent.data || (/\d|\./).test(e.nativeEvent.data))) {
-            this.onNumberPickerChange(e.target.value)
-        }
-    }
+const defaults = {
+    theme: {
+        number_picker: componentID,
+        number_picker__disabled: componentID + '__disabled',
+        controls: componentID + '_controls',
+        button_minus: componentID + '_minus',
+        button_plus: componentID + '_plus',
+        label_wrapper: componentID + '_label_wrapper',
+        label: componentID + '_label',
+        field: componentID + '_field'
+    },
 
-    onNumberPickerChange = value => {
-        this.props.onChange({ 
-            value,
-            previousValue: this.props.value,
-            ...this.props.onChangeParams
-        })
-    }
-
-    onBlur = e => {
-        e.persist()
-        this.onNumberPickerChange( parseFloat(e.target.value) || 0 )
-    }
-
-    render() {
-        let { value, prefix, sufix, inputDisabled } = this.props;
-        let numberValue = parseFloat(value) || 0;
-        let stringValue = value[0] === '0' && value[1] !== '.' 
-        ?   value.slice(1, value.length) 
-        :   value;
-
-        return (
-            <div className='-ui-number-picker'>
-                <button className='minus' disabled={numberValue <= 0} 
-                    onClick={() => this.onNumberPickerChange(numberValue - 1)}>−</button>
-
-                <label data-prefix={prefix} data-sufix={sufix}>
-                    <input disabled={inputDisabled} value={String(stringValue).substr(0, 4)}
-                        onChange={this.onInputChange} 
-                        onBlur={this.onBlur} />
-                </label>
-
-                <button className='plus' disabled={numberValue >= 100} 
-                    onClick={() => this.onNumberPickerChange(numberValue + 1)}>+</button>
-            </div>
-        );
-    }
+    step: 1,
+    min: 0,
+    max: Infinity,
+    minusIcon: '-',
+    plusIcon: '+'
 }
 
+const setDefaults = (customDefaults: DefaultProps) => {
+    setDefaultProps(defaults, customDefaults)
+}
+
+const validSymbolSeqRegExp = /^\-?(\d*\.?)?\d*$/;
+
+const NumberPicker = (props: Props) => {
+    let {
+        theme, className, value, disabled, onChange, step, min, max, minusIcon, plusIcon, label
+    } = extractProps(defaults, props);
+
+    className += ` ${theme.number_picker}`;
+    disabled && (className += ` ${theme.number_picker__disabled}`)
+
+    let numberValue = parseFloat(value as string) || 0;
+
+    function onBlur(e: React.FocusEvent<HTMLInputElement>) {
+        e.persist()
+        onNumberPickerChange(parseFloat(e.target.value) || 0, e)
+    }
+
+    function onNumberPickerChange(value: number, e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>) {
+        disabled || onChange(value, e)
+    }
+
+    function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (!disabled) {
+            let value = e.target.value;
+            let numberValue = +value;
+
+            if (value === ''
+                || (isNaN(numberValue) && validSymbolSeqRegExp.test(value))
+                || (numberValue >= min && numberValue <= max)
+            ) {
+                onChange(value, e)
+            }
+        }
+    }
+    
+    let inputElement = (
+        <input className={theme.field} disabled={disabled} value={value}
+            onChange={onInputChange} 
+            onBlur={onBlur} />
+    )
+    label && (inputElement = (
+        <label className={theme.label_wrapper}>
+            <span className={theme.label} children={label} />
+
+            { inputElement }
+        </label>
+    ))
+
+    return (
+        <div className={className}>
+            <div className={theme.controls}>
+                <button className={theme.button_minus} children={minusIcon}
+                    disabled={((disabled || (min && numberValue <= min)) as boolean )}
+                    onMouseDown={e => onNumberPickerChange(numberValue - step, e)} />
+
+                <button className={theme.button_plus} children={plusIcon}
+                    disabled={((disabled || (max && numberValue >= max)) as boolean )}
+                    onMouseDown={e => onNumberPickerChange(numberValue + step, e)} />
+            </div>
+
+            { inputElement }
+        </div>
+    )
+}
+
+
+export { setDefaults }
 export default NumberPicker

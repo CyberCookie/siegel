@@ -25,7 +25,7 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 }
 
 const Pagination = (props: Props) => {
-    let { theme, className = '', wrapperAttr, listLength, curPage, showPerPage, elementsBySide,
+    let { theme, className, wrapperAttr, listLength, curPage, showPerPage, elementsBySide,
         elementsByMiddle, onPageClick, controlIcon, separator } = extractProps(defaults, props)
     
     className += ` ${theme.pagination}`;

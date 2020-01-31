@@ -26,7 +26,7 @@ const onClickHandler = (e: React.MouseEvent) => {
 }
 
 const Dropdown = (props: Props) => {
-    let { theme, className = '', list, builder, dropdownIcon, soloOpen } = extractProps(defaults, props)
+    let { theme, className, list, builder, dropdownIcon, soloOpen } = extractProps(defaults, props)
 
     className += ` ${theme.dropdown}`;
 
@@ -54,7 +54,7 @@ const Dropdown = (props: Props) => {
 
         if (builder) {
             let { elem, className } = builder(title)
-            title = elem
+            title = elem;
             wrapperClass = className
         }
 

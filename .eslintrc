@@ -15,7 +15,7 @@
         "ecmaFeatures": { "jsx": true },
         "sourceType": "module"
     },
-    "plugins": ["react"],
+    "plugins": ["@typescript-eslint", "react"],
     "rules": {
         "react/jsx-no-bind": [
             "error",
@@ -39,6 +39,7 @@
         "no-dupe-args": "error",
         "no-dupe-keys": "error",
         "no-unused-vars": "warn",
+        // "no-unused-vars-experimental": "warn",
         "no-fallthrough": "error",
         "no-extra-boolean-cast": "error",
         "no-extra-semi": "error",
