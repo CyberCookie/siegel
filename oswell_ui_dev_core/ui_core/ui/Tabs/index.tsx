@@ -23,14 +23,14 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 }
 
 
-function getLabels({ data, activeTab, onTabClick, theme }: Props & DefaultProps) {
+function getLabels({ data, activeTab, onChange, theme }: Props & DefaultProps) {
     let labels = data.map(({ label, id }) => {
         let labelClassName = theme.tab_label;
         activeTab == id && (labelClassName += ` ${theme.tab_label__active}`)
     
         return (
             <div key={id} className={labelClassName} children={label}
-                onMouseDown={e => onTabClick(id, e)} />
+                onMouseDown={e => onChange(id, e)} />
         )
     })
 

@@ -27,7 +27,7 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 }
 
 const Slider = (props: Props) => {
-    let { theme, className, startFrom, showNumber, data, noControlls, attributes, onSlide } = extractProps(defaults, props)
+    let { theme, className, startFrom, showNumber, data, noControlls, attributes, onChange } = extractProps(defaults, props)
 
     className += ` ${theme.slider}`;
     let wrapperProps = Object.assign({}, attributes, {
@@ -86,7 +86,7 @@ const Slider = (props: Props) => {
 
         slideArea.style.left = (nextPage * -nextLeft) + 'px'
 
-        onSlide && onSlide(nextPage, e)
+        onChange && onChange(nextPage, e)
     }
     
     function getSliderElements() {

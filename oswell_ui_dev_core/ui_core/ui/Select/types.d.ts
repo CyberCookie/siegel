@@ -2,23 +2,24 @@ import { PropsComponentThemed } from '../ui_utils'
 
 
 type Props = {
-    attributes?: React.Attributes,
-    dropdownIcon?: React.ReactNode,
-    closeOnSelect?: boolean,
-    label?: React.ReactNode,
-    onSelect: (id: ID, e: React.MouseEvent, data?: any) => void,
+    attributes?: React.Attributes
+    dropdownIcon?: React.ReactNode
+    closeOnSelect?: boolean
+    label?: React.ReactNode
+    onChange: (id: ID, e: React.MouseEvent, payload: any) => void
     options: {
-        disabled?: boolean,
-        id: ID,
+        disabled?: boolean
+        payload?: any
+        id: ID
         title: React.ReactNode
     }[],
-    selected: ID,
+    selected?: ID
     displayValue: React.ReactNode
 } & PropsComponentThemed
 
 type DefaultProps = {
-    theme: NonNullable<Props['theme']>,
-    closeOnSelect: NonNullable<Props['closeOnSelect']>,
+    theme: NonNullable<Props['theme']>
+    closeOnSelect: NonNullable<Props['closeOnSelect']>
     dropdownIcon: NonNullable<Props['dropdownIcon']>
 }
 

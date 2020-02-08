@@ -32,7 +32,7 @@ const validSymbolSeqRegExp = /^\-?(\d*\.?)?\d*$/;
 
 const NumberPicker = (props: Props) => {
     let {
-        theme, className, value, disabled, onChange, step, min, max, minusIcon, plusIcon, label
+        theme, className, value, disabled, onChange, step, min, max, minusIcon, plusIcon, label, payload
     } = extractProps(defaults, props);
 
     className += ` ${theme.number_picker}`;
@@ -46,7 +46,7 @@ const NumberPicker = (props: Props) => {
     }
 
     function onNumberPickerChange(value: number, e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>) {
-        disabled || onChange(value, e)
+        disabled || onChange(value, e, payload)
     }
 
     function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -58,7 +58,7 @@ const NumberPicker = (props: Props) => {
                 || (isNaN(numberValue) && validSymbolSeqRegExp.test(value))
                 || (numberValue >= min && numberValue <= max)
             ) {
-                onChange(value, e)
+                onChange(value, e, payload)
             }
         }
     }

@@ -2,7 +2,7 @@ import { PropsComponentBase } from '../ui_utils'
 
 
 type TableCell = {
-    value: React.ReactNode,
+    value: React.ReactNode
     attributes: React.Attributes
 }
 
@@ -12,9 +12,9 @@ type TableRow = {
 }
 
 type Props = {
-    attributes?: React.Attributes,
-    body?: TableRow[],
-    head?: TableRow[],
+    attributes?: React.Attributes
+    body?: TableRow[]
+    head?: TableRow[]
     foot?: TableRow[]
 } & PropsComponentBase
 

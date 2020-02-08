@@ -2,13 +2,14 @@ import { PropsComponentThemed } from '../ui_utils'
 
 
 type Props = {
-    attributes?: React.Attributes,
+    attributes?: React.Attributes
     data: {
-        id: ID,
-        content: React.ReactNode,
+        id: ID
+        content: React.ReactNode
         label: React.ReactNode
+        payload?: any
     }[],
-    onTabClick: (id: ID, e: React.MouseEvent) => void,
+    onChange: (id: ID, e: React.MouseEvent, payload: any) => void
     activeTab: ID
 } & PropsComponentThemed
 

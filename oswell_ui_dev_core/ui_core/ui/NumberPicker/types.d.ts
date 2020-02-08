@@ -11,7 +11,12 @@ type Props = {
     label?: React.ReactNode
     minusIcon?: React.ReactNode
     plusIcon?: React.ReactNode
-    onChange: (value: Value, e) => void
+    payload?: any
+    onChange: (
+        value: Value,
+        e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement>,
+        payload: any
+    ) => void
 } & PropsComponentThemed
 
 type DefaultProps = {

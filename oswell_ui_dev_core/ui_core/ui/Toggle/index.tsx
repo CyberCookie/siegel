@@ -22,14 +22,14 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 
 
 const Toggle = (props: Props) => {
-    let { theme, labelLeft, labelRight, isToggled, onToggle, className, toggleIcon } = extractProps(defaults, props)
+    let { theme, labelLeft, labelRight, isToggled, onChange, className, toggleIcon } = extractProps(defaults, props)
 
     className += ` ${theme.toggle}`;
     isToggled && (className += ` ${theme.toggle_checked}`)
 
 
     return (
-        <div className={className} onMouseDown={onToggle}>
+        <div className={className} onMouseDown={onChange}>
             { labelLeft && <div className={theme.label} children={labelLeft} /> }
 
             <div className={theme.toggle_area}>

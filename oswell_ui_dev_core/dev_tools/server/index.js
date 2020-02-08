@@ -1,6 +1,4 @@
 const fs = require('fs')
-const path = require('path');
-
 
 
 const listen = (server, host, port) => (
@@ -56,6 +54,7 @@ function createHTTP2Server(CONFIG, devMiddlewares, serverExtend) {
 
     const http2 = require('http2')
     const mime = require('mime-types')
+    const path = require('path')
 
     const {
         HTTP2_HEADER_CONTENT_ENCODING,

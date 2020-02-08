@@ -2,7 +2,7 @@ import { PropsComponentBase } from '../ui_utils'
 
 
 type Props = {
-    path: string,
+    path: string
     title: React.ReactNode
 } & PropsComponentBase
 

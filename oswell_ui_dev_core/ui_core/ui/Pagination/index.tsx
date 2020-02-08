@@ -26,7 +26,7 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 
 const Pagination = (props: Props) => {
     let { theme, className, wrapperAttr, listLength, curPage, showPerPage, elementsBySide,
-        elementsByMiddle, onPageClick, controlIcon, separator } = extractProps(defaults, props)
+        elementsByMiddle, onChange, controlIcon, separator, payload } = extractProps(defaults, props)
     
     className += ` ${theme.pagination}`;
     
@@ -45,7 +45,7 @@ const Pagination = (props: Props) => {
                     newPage = +page
                 }
     
-                curPage != newPage && onPageClick(newPage, e)
+                curPage != newPage && onChange(newPage, e, payload)
             }
         }
     })

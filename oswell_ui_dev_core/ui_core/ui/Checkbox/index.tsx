@@ -28,7 +28,7 @@ const _onChange = (e: React.ChangeEvent) => {
 }
 
 const Checkbox = (props: Props) => {
-    let { theme, className, onChange, checkboxAttr, label, value, disabled } = extractProps(defaults, props)
+    let { theme, className, onChange, checkboxAttr, label, value, disabled, payload } = extractProps(defaults, props)
     
     let _checkboxAttr: React.InputHTMLAttributes<HTMLInputElement> = Object.assign({}, checkboxAttr, {
         checked: value,
@@ -38,7 +38,7 @@ const Checkbox = (props: Props) => {
     })
 
     onChange
-        ?   (_checkboxAttr.onMouseDown = (e: React.MouseEvent) => onChange(!(e.target as HTMLInputElement).checked, e))
+        ?   (_checkboxAttr.onMouseDown = (e: React.MouseEvent) => onChange(!(e.target as HTMLInputElement).checked, e, payload))
         :   (_checkboxAttr.readOnly = true);
 
     disabled && (_checkboxAttr.disabled = true)

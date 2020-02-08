@@ -31,11 +31,11 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 const _isTouchScreen = isTouchScreen()
 
 function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
-    let { options, selected, theme, onSelect, closeOnSelect } = props;
+    let { options, selected, theme, onChange, closeOnSelect } = props;
 
 
     return options.map(option => {
-        let { disabled, title, id } = option;
+        let { disabled, title, id, payload } = option;
     
         let optionClassName = theme.option;
         id === selected && (optionClassName += ` ${theme.option_active}`)
@@ -45,7 +45,7 @@ function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React
             <div key={id} children={title} className={optionClassName}
                 onMouseDown={e => {
                     e.stopPropagation()
-                    onSelect(id, e)
+                    onChange(id, e, payload)
                     closeOnSelect && setActive(false)
                 }} />
         )

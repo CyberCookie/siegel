@@ -69,8 +69,8 @@ function getWeekDayNames(days: string[], theme: DefaultProps['theme']) {
 
 const Calendar = (props: Props) => {
     let mergedProps = extractProps(defaults, props)
-    let { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon,
-        nextIcon, noControlls, onDateRangePick, triggerOnlyWhenFinished, className } = mergedProps;
+    let { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon, payload,
+        nextIcon, noControlls, onChange, triggerOnlyWhenFinished, className } = mergedProps;
     
     className += ` ${theme.calendar} ${s.calendar}`;
     
@@ -122,7 +122,7 @@ const Calendar = (props: Props) => {
 
             triggerOnlyWhenFinished
                 ?   setState({ ...state })
-                :   onDateRangePick({ rangeDateStart, rangeDateEnd })
+                :   onChange({ rangeDateStart, rangeDateEnd }, false, payload)
         }
     }
 
@@ -146,10 +146,10 @@ const Calendar = (props: Props) => {
 
             triggerOnlyWhenFinished
                 ?   setState({ ...state })
-                :   onDateRangePick({
+                :   onChange({
                         rangeDateStart: state.innerRangeStart,
                         rangeDateEnd: state.innerRangeEnd
-                    })
+                    }, false, payload)
         }
     }
 
@@ -160,10 +160,10 @@ const Calendar = (props: Props) => {
                 
         state.inProgress = false;
         
-        onDateRangePick({
+        onChange({
             rangeDateStart: state.innerRangeStart,
             rangeDateEnd: state.innerRangeEnd
-        }, true)
+        }, true, payload)
     }
 
     function getAllMonths() {

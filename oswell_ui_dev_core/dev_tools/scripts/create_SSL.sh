@@ -22,6 +22,6 @@ openssl x509 -req -sha256 -days 1024 -in localhost.csr -CA RootCA.pem -CAkey Roo
 
 
 echo "
-add localhost.crt and localhost.key to your server
-import RootCA.crt to chrome browser SSL settings Authorities 
+add localhost.crt and localhost.key to your server config
+import RootCA.crt to the chrome browser SSL settings -> Authorities 
 "

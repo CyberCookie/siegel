@@ -25,8 +25,8 @@ const setDefaults = (customDefaults: Partial<Props>) => {
 
 const DropdownSearch = (props: Props) => {
     let mergedProps = extractProps(defaults, props)
-    let { className, theme, searchPlaceholder, searchOptions, minInputLength, onSearch,
-        closeIcon, searchIcon, optionBuilder, autofocus } = mergedProps;
+    let { className, theme, searchPlaceholder, searchOptions, minInputLength, onChange,
+        closeIcon, searchIcon, optionBuilder, autofocus, payload } = mergedProps;
 
     let [ state, setState ] = useState({
         searchValue: ''
@@ -40,7 +40,7 @@ const DropdownSearch = (props: Props) => {
             let searchValue = e.target.value;
             setState({ searchValue })
             
-            searchValue.length >= minInputLength && onSearch(searchValue, e)
+            searchValue.length >= minInputLength && onChange(searchValue, e, payload)
         }
     }
     
