@@ -1,32 +1,25 @@
 import React, { useLayoutEffect } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps, State, HTMLSwipeMouseEvent } from './types'
+import { extractProps } from '../ui_utils'
+import { State, HTMLSwipeMouseEvent, _Swipe } from './types'
 
 
 const componentID = '-ui-swipe'
 
-const defaults: DefaultProps = {
-    className: componentID,
-    deltaPos: 60
-}
-
 const _isTouchScreen = isTouchScreen()
 const passiveEv = { passive: true }
 
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
+const Swipe: _Swipe = (props, withDefaults) => {
+    let { className, children, xAxis, deltaPos, onSwipe, attributes } = withDefaults
+        ?   (props as _Swipe['defaults'] & typeof props)
+        :   extractProps(Swipe.defaults, props);
 
-
-const Swipe = (props: Props) => {
-    let { className, children, xAxis, deltaPos, onSwipe } = extractProps(defaults, props);
-
-    let wrapperAttr: React.HTMLAttributes<HTMLDivElement> = { className, children }
+    let swipeRootAttributes: React.HTMLAttributes<HTMLDivElement> = { className, children }
     isTouchScreen
-        ?   (wrapperAttr.onTouchStart = onMouseDown)
-        :   (wrapperAttr.onMouseDown = onMouseDown);
+        ?   (swipeRootAttributes.onTouchStart = onMouseDown)
+        :   (swipeRootAttributes.onMouseDown = onMouseDown);
+    attributes && (swipeRootAttributes = Object.assign(swipeRootAttributes, attributes))
 
     useLayoutEffect(() => removeTouchEvents, [])
 
@@ -92,10 +85,15 @@ const Swipe = (props: Props) => {
     }
 
 
-    return <div {...wrapperAttr} />
+    return <div {...swipeRootAttributes} />
 }
+Swipe.defaults = {
+    className: componentID,
+    deltaPos: 60
+}
+Swipe.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export * from './types'
 export default Swipe

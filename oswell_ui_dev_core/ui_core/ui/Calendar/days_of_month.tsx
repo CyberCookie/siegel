@@ -29,11 +29,11 @@ function getPreviousMonthDays(params: PrevNextDaysParams) {
     let result: AllDaysData[] = []
     let { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom, days } = params;
 
-    let date = new Date(beginOfMonth);
+    let date = new Date(beginOfMonth)
     date.setDate(0)
 
-    let lastDate = date.getDate();
-    let lastDay = date.getDay();
+    let lastDate = date.getDate()
+    let lastDay = date.getDay()
     let startDate = lastDate - lastDay;
 
     if (weekStartsFrom) {
@@ -47,7 +47,7 @@ function getPreviousMonthDays(params: PrevNextDaysParams) {
     let isFullRow = (lastDate - (startDate - 1)) === days.length;
     
     if (!(hideSiblingMonthsDays && isFullRow)) {
-        date.setDate(startDate);
+        date.setDate(startDate)
 
         fillWithSiblingMonthDateRange(result, startDate, lastDate, date, hideSiblingMonthsDays)
     }
@@ -57,9 +57,9 @@ function getPreviousMonthDays(params: PrevNextDaysParams) {
 
 function fillWithCurrentMonthDays(result: AllDaysData[], beginOfMonth: Date) {
     let date = new Date(beginOfMonth)
-    let timestamp = date.getTime();
+    let timestamp = date.getTime()
     let lastDayinCurrentMonth = (new Date(beginOfMonth.getFullYear(), beginOfMonth.getMonth() + 1, 0)).getDate();
-    let todayTimestamp = (new Date()).setHours(0, 0, 0, 0);
+    let todayTimestamp = (new Date()).setHours(0, 0, 0, 0)
     
     for (let dateOfMonth = 1; dateOfMonth <= lastDayinCurrentMonth; dateOfMonth++) {
         let dayData: AllDaysData = {
@@ -79,14 +79,14 @@ function fillWithCurrentMonthDays(result: AllDaysData[], beginOfMonth: Date) {
 function fillWithNextMonthDays(result: AllDaysData[], params: PrevNextDaysParams, locale: DateLocalization) {
     let { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom, days } = params;
 
-    let date = new Date(beginOfMonth);
-    let firstDay = date.getDay();
+    let date = new Date(beginOfMonth)
+    let firstDay = date.getDay()
 
     let daysToAdd = 0;
     
     if (!(hideSiblingMonthsDays && firstDay == weekStartsFrom)) {
-        date.setMonth(date.getMonth() + 1);
-        daysToAdd = days.length - (result.length % days.length);
+        date.setMonth(date.getMonth() + 1)
+        daysToAdd = days.length - (result.length % days.length)
 
         fillWithSiblingMonthDateRange(result, 1, daysToAdd, date, hideSiblingMonthsDays)
 
@@ -119,7 +119,7 @@ function getCalendarMonthDays(prevNextDaysParams: PrevNextDaysParams, locale: Da
             fillWithSiblingMonthDateRange(pasteBefore, fromDate, toDate - 1, date, isHiddenSiblings)
             allDays = pasteBefore.concat(allDays)
         } else {
-            let { date: fromDate, timestamp } = allDays[allDays.length - 1];
+            let { date: fromDate, timestamp } = allDays[allDays.length - 1]
             let date = new Date(timestamp)
             fillWithSiblingMonthDateRange(allDays, fromDate + 1, fromDate + 7, date, isHiddenSiblings)
         }
@@ -132,7 +132,7 @@ function getCalendarMonthDays(prevNextDaysParams: PrevNextDaysParams, locale: Da
 const getDayClass: GetDayClass = ({ theme, dayObj, hideSiblingMonthsDays, innerRangeStart, innerRangeEnd }) => {
     let { timestamp, isSiblingMonth, isLast, isFirst, isToday } = dayObj;
 
-    let className = `${s.day} ${theme.day}`;
+    let className = `${s.day} ${theme.day}`
 
     let rangeEndZero = (new Date(innerRangeEnd)).setHours(0,0,0,0)
 
@@ -165,12 +165,12 @@ const Days = (props: ChildProps) => {
     let allDays = getCalendarMonthDays(prevNextDaysParams, locale)
 
 
-    let rows = [];
+    let rows = []
     for (let i = 0, day = 0; i <= allDays.length / days.length && day < allDays.length; i++) {
-        let dayRow = [];
+        let dayRow = []
 
         for (let dayInWeek = 0; dayInWeek < days.length; dayInWeek++, day++) {
-            let { timestamp, date, subText, hidden } = allDays[day];
+            let { timestamp, date, subText, hidden } = allDays[day]
 
             let HTMLDay = hidden
                 ?   <div key={timestamp} className={`${theme.day} ${theme.day_hidden}`} />
@@ -182,7 +182,7 @@ const Days = (props: ChildProps) => {
                         })}>
 
                         { date }
-                    </div>;
+                    </div>
 
 
             dayRow.push(HTMLDay)

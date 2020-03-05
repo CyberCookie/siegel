@@ -1,50 +1,44 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps, TableCell, TableRow } from './types'
+import { extractProps } from '../ui_utils'
+import { TableBodyRow, TableHeadRow, TableTH, TableTD, _Table } from './types'
 
 
 const componentID = '-ui-table'
 
-const defaults: DefaultProps = {
-    className: componentID
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
-
 let CellHTMLTag: React.ElementType;
 
-function getTableRow(row: TableRow, rowIndex: number) {
+function getTableRow(row: TableHeadRow | TableBodyRow, rowIndex: number) {
     let { children, attributes = {} } = row;
     attributes.key = attributes.key || rowIndex;
 
     return <tr {...attributes} children={children.map(getTableCell)} />
 }
 
-function getTableCell(cell: TableCell, cellIndex: number) {
+function getTableCell(cell: TableTH | TableTD, cellIndex: number) {
     let { value, attributes = {} } = cell;
     attributes.key = attributes.key || cellIndex;
 
     return <CellHTMLTag {...attributes} children={value} />
 }
 
-function getTableSection(data: TableRow[], SectionHTMLTag: React.ElementType) {
+function getTableSection(data: TableHeadRow[] | TableBodyRow[], SectionHTMLTag: React.ElementType) {
     CellHTMLTag = SectionHTMLTag == 'thead' ? 'th' : 'td'
 
     return <SectionHTMLTag children={data.map(getTableRow)} />
 }
 
-const Table = (props: Props) => {
-    let { className, head, body, foot, attributes } = extractProps(defaults, props)
+const Table: _Table = (props, withDefaults) => {
+    let { className, head, body, foot, attributes } = withDefaults
+        ?   (props as _Table['defaults'] & typeof props)
+        :   extractProps(Table.defaults, props)
     
-    let wrapperAttr = Object.assign({}, attributes, { className })
+    let tableRootProps = { className }
+    attributes && (tableRootProps = Object.assign(tableRootProps, attributes))
 
     
     return (
-        <table {...wrapperAttr}>
+        <table {...tableRootProps}>
             { head ? getTableSection(head, 'thead') : null }
     
             { body ? getTableSection(body, 'tbody') : null }
@@ -53,7 +47,11 @@ const Table = (props: Props) => {
         </table>
     )
 }
+Table.defaults = {
+    className: componentID
+}
+Table.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Table

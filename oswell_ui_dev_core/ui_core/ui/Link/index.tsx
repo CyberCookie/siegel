@@ -1,19 +1,10 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { _Link } from './types'
 
 
 const componentID = '-ui-external_link'
-
-const defaults: DefaultProps = {
-    className: componentID
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
 
 const onMouseDown = (e: React.MouseEvent<HTMLAnchorElement>) => {
     let { target, href } = e.currentTarget;
@@ -22,21 +13,29 @@ const onMouseDown = (e: React.MouseEvent<HTMLAnchorElement>) => {
 
 const onClick = (e: React.MouseEvent) => e.preventDefault()
 
-const ExternalLink = (props: Props) => {
-    let { className, path, title } = extractProps(defaults, props)
+const Link: _Link = (props, withDefaults) => {
+    let { className, path, title, attributes } = withDefaults
+        ?   (props as _Link['defaults'] & typeof props)
+        :   extractProps(Link.defaults, props)
     
-    let attributes: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
+    let linkRootAttributes: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
         onClick, onMouseDown, className,
         target: '_blank',
         rel: 'noreferrer',
         href: path.startsWith('http') ? path : ('https://' + path)
     }
-    title && (attributes.children = title)
+    title && (linkRootAttributes.children = title)
+
+    attributes && (linkRootAttributes = Object.assign(linkRootAttributes, attributes))
 
 
-    return <a {...attributes} />
+    return <a {...linkRootAttributes} />
 }
+Link.defaults = {
+    className: componentID
+}
+Link.ID = componentID
 
 
-export { setDefaults }
-export default ExternalLink
+export { componentID }
+export default Link

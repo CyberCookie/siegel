@@ -2,20 +2,18 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 
-const DEFAULT_STORE_PROP_KEY = 'store';
-const DEFAULT_ACTIONS_PROP_KEY = 'actions';
+const DEFAULT_STORE_PROP_KEY = 'store'
+const DEFAULT_ACTIONS_PROP_KEY = 'actions'
 
 
-function bindActions(actions, propKey) {
-    return function (dispatch) {
-        return { [propKey]: bindActionCreators(actions, dispatch) }
-    }
-}
+const bindActions = (actions, propKey) => dispatch => ({
+    [propKey]: bindActionCreators(actions, dispatch)
+})
 
 function bindStateKeys(state, keys, storeName) {
-    let result = {};
-    for (let i = 0; i < keys[storeName].length; i++) {
-        let prop = keys[storeName][i];
+    let result = {}
+    for (let i = 0, l = keys[storeName].length; i < l; i++) {
+        let prop = keys[storeName][i]
         result[prop] = state[storeName][prop]
     }
 
@@ -23,21 +21,18 @@ function bindStateKeys(state, keys, storeName) {
 }
 
 
-function bindState(keys, propName, singleStoreName) {
-    // bindout
-    return function(state) {
-        let result = {};
-            
-        if (singleStoreName) {
-            result = bindStateKeys(state, keys, singleStoreName)
-        } else {
-            for (let storeKey in keys) {
-                result[storeKey] = bindStateKeys(state, keys, storeKey)
-            }
+const bindState = (keys, propName, singleStoreName) => state => {
+    let result = {}
+        
+    if (singleStoreName) {
+        result = bindStateKeys(state, keys, singleStoreName)
+    } else {
+        for (let storeKey in keys) {
+            result[storeKey] = bindStateKeys(state, keys, storeKey)
         }
-
-        return { [propName]: result }
     }
+
+    return { [propName]: result }
 }
 
 function connector({ stateBinding, actionsBinding, areStatePropsEqual, reduxOptions, options = {} }) {
@@ -53,8 +48,8 @@ function connector({ stateBinding, actionsBinding, areStatePropsEqual, reduxOpti
 
     if (typeof stateBinding == 'object') {
         let storePropKey = DEFAULT_STORE_PROP_KEY || options.storePropKey;
-        let storesToMap = Object.keys(stateBinding);
-        let singleStoreName = storesToMap.length == 1 && storesToMap[0];
+        let storesToMap = Object.keys(stateBinding)
+        let singleStoreName = storesToMap.length == 1 && storesToMap[0]
 
         _keys = bindState(stateBinding, storePropKey, singleStoreName)
     }
@@ -64,9 +59,8 @@ function connector({ stateBinding, actionsBinding, areStatePropsEqual, reduxOpti
         _actions = bindActions(actionsBinding, actionsPropKey)
     }
 
-    return function(Component) {
-        return connect(_keys, _actions, mergeFunc, reduxOptions)(Component)    
-    }
+
+    return Component => connect(_keys, _actions, mergeFunc, reduxOptions)(Component)
 }
 
 

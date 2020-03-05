@@ -1,13 +1,13 @@
-import { HubConnectionBuilder, HttpTransportType, JsonHubProtocol } from '@aspnet/signalr/dist/browser/signalr';
+import { HubConnectionBuilder, HttpTransportType, JsonHubProtocol } from '@aspnet/signalr/dist/browser/signalr'
 
 
-const defaults = {};
+const defaults = {}
 
 const setDefaults = params => defaults = params;
 
 
 const createSignalRConnection = options => {
-    let connectionParams = Object.assign({}, defaults, options);
+    let connectionParams = Object.assign({}, defaults, options)
     let { url, reconnectInterval, endpoint, transport, protocol, serverTimeout, handlers = {} } = connectionParams;
     
 
@@ -16,7 +16,7 @@ const createSignalRConnection = options => {
             transport: HttpTransportType[transport || 'WebSockets']
         })
         .withHubProtocol(protocol || (new JsonHubProtocol()))
-        .build();
+        .build()
 
     serverTimeout && (nativeSocket.serverTimeoutInMilliseconds = serverTimeout)
     

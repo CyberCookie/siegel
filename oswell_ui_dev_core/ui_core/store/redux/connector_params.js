@@ -4,7 +4,7 @@ export default _modules => {
     
     
     if (isSingleModule) {
-        stateBinding = { [_modules.STORE_KEY]: Object.keys(_modules.initState) };
+        stateBinding = { [_modules.STORE_KEY]: Object.keys(_modules.initState) }
         actionsBinding = _modules.actions;
 
         areStatePropsEqual = ({ store: pStore }, { store: nStore }) => (

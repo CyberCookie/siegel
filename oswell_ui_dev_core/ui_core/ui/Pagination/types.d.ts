@@ -1,8 +1,7 @@
-import { PropsComponentThemed } from '../ui_utils'
+import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type Props = {
-    wrapperAttr?: React.Attributes
     listLength: number
     curPage: number
     showPerPage: number
@@ -12,6 +11,7 @@ type Props = {
     controlIcon?: React.ReactNode
     separator?: React.ReactNode
     payload?: any
+    attributes?: ComponentAttributes
 } & PropsComponentThemed
 
 type DefaultProps = {
@@ -21,5 +21,7 @@ type DefaultProps = {
     separator: NonNullable<Props['separator']>
 }
 
+type _Pagination = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps }
+
+export { Props, DefaultProps, _Pagination }

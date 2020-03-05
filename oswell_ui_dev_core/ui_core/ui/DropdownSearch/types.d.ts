@@ -1,4 +1,4 @@
-import { PropsComponentThemed } from '../ui_utils'
+import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type Props = {
@@ -11,6 +11,8 @@ type Props = {
     onChange: (searchValue: string, e: React.ChangeEvent, payload: any) => void
     searchOptions: any[]
     payload?: any
+    inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+    attributes?: ComponentAttributes
 } & PropsComponentThemed
 
 type DefaultProps = {
@@ -18,5 +20,7 @@ type DefaultProps = {
     minInputLength: NonNullable<Props['minInputLength']>
 }
 
+type _DropdownSearch = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps }
+
+export { Props, DefaultProps, _DropdownSearch }

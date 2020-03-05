@@ -1,8 +1,7 @@
-import { PropsComponentThemed } from '../ui_utils'
+import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type Props = {
-    attributes?: React.Attributes
     data: {
         id: ID
         content: React.ReactNode
@@ -11,11 +10,14 @@ type Props = {
     }[],
     onChange: (id: ID, e: React.MouseEvent, payload: any) => void
     activeTab: ID
+    attributes?: ComponentAttributes
 } & PropsComponentThemed
 
 type DefaultProps = {
     theme: NonNullable<Props['theme']>
 }
 
+type _Tabs = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps }
+
+export { Props, DefaultProps, _Tabs }

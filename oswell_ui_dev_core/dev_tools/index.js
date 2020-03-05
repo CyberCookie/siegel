@@ -7,7 +7,7 @@ const CONSTANTS = require('../constants')
 const main = async function (CONFIG = {}, RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PARAMS) {
     RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer;
     
-    let  devMiddlewares = []
+    let devMiddlewares = []
     if (RUN_PARAMS.isBuild) {
         const { run, getDevMiddlewares } = require(CONSTANTS.PATHS.build)
         const webpackCompiller = await run(CONFIG, RUN_PARAMS)
@@ -32,7 +32,7 @@ const main = async function (CONFIG = {}, RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PAR
                     let userExtendExpressDevServer = require(extenderLoc)
                     if (typeof userExtendExpressDevServer === 'function') {
                         return userExtendExpressDevServer;
-                    } else throw '[extenderLoc] export type not a function'
+                    } else throw '[extenderLoc] export type is not a function'
                 } catch(err) { console.error(err) }
             }
 
@@ -43,12 +43,12 @@ const main = async function (CONFIG = {}, RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PAR
                 let lock = false;
 
                 require('fs')
-                    // .watch(extenderLoc)
-                    .watch(devServerLoc)
+                    .watch(extenderLoc)
+                    // .watch(devServerLoc)
                     .on('change', () => {
                         lock || (lock = setTimeout(() => {
-                            // delete require.cache[extenderLoc]
-                            delete require.cache[devServerLoc]
+                            delete require.cache[extenderLoc]
+                            // delete require.cache[devServerLoc]
 
                             devServerInstance.close()
                             devServerInstance = initDevServer(getCustomExpressExtender())

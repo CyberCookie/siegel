@@ -1,39 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
+import { extractProps } from '../ui_utils'
 import Swipe, { HTMLSwipeMouseEvent } from '../Swipe'
-import { Props, DefaultProps, SliderElementsResult } from './types'
+import { SliderElementsResult, _Slider } from './types'
+
 import './styles'
 
 
 const componentID = '-ui-slider'
 
-const defaults: DefaultProps = {
-    theme: {
-        slider: componentID,
-        slides: componentID + '_slides',
-        slide_page: componentID + '_slide_page',
-        slides_controls: componentID + '_slides_controls',
-        control: componentID + '_control',
-        control__active: componentID + '__active',
-        slide: componentID + '_slide'
-    },
+const Slider: _Slider = (props, withDefaults) => {
+    let { theme, className, startFrom, showNumber, data, noControlls, attributes, onChange } = withDefaults
+        ?   (props as _Slider['defaults'] & typeof props)
+        :   extractProps(Slider.defaults, props)
 
-    showNumber: 1
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
-const Slider = (props: Props) => {
-    let { theme, className, startFrom, showNumber, data, noControlls, attributes, onChange } = extractProps(defaults, props)
-
-    className += ` ${theme.slider}`;
-    let wrapperProps = Object.assign({}, attributes, {
+    className += ` ${theme.slider}`
+    let sliderRootProps = {
         className,
         ref: (useRef() as React.MutableRefObject<HTMLDivElement>)
-    })
+    }
+    attributes && (sliderRootProps = Object.assign(sliderRootProps, attributes))
 
     let [ curPage, setPage ] = useState(0)
 
@@ -57,7 +43,7 @@ const Slider = (props: Props) => {
     let numberOfPages = Math.ceil(data.length / showNumber)
 
     function getSlideElements() {
-        let wrapperChilds = wrapperProps.ref.current.childNodes;
+        let wrapperChilds = sliderRootProps.ref.current.childNodes;
         let slideArea = ((noControlls ? wrapperChilds[0] : wrapperChilds[1]) as HTMLElement)
         let firstSlidePage = (slideArea.childNodes[0] as HTMLElement)
 
@@ -128,7 +114,7 @@ const Slider = (props: Props) => {
 
 
     return (
-        <div {...wrapperProps}>
+        <div {...sliderRootProps}>
             { noControlls || pageControlls }
 
             <Swipe children={slidePages} className={theme.slides} xAxis
@@ -137,7 +123,21 @@ const Slider = (props: Props) => {
         </div>
     )
 }
+Slider.defaults = {
+    theme: {
+        slider: componentID,
+        slides: componentID + '_slides',
+        slide_page: componentID + '_slide_page',
+        slides_controls: componentID + '_slides_controls',
+        control: componentID + '_control',
+        control__active: componentID + '__active',
+        slide: componentID + '_slide'
+    },
+
+    showNumber: 1
+}
+Slider.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Slider

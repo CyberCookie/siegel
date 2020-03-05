@@ -1,4 +1,4 @@
-import { PropsComponentThemed } from '../ui_utils'
+import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type Props = {
@@ -7,11 +7,14 @@ type Props = {
     toggleIcon?: React.ReactNode
     isToggled?: boolean
     onChange?: (e: React.MouseEvent) => void
+    attributes?: ComponentAttributes
 } & PropsComponentThemed
 
 type DefaultProps = {
     theme: NonNullable<Props['theme']>
 }
 
+type _Toggle = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps }
+
+export { Props, DefaultProps, _Toggle }

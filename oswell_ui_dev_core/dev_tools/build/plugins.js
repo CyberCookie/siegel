@@ -119,11 +119,10 @@ function getPlugins(CONFIG, RUN_PARAMS) {
 
         copy: {
             plugin: fileCopyPlugin,
-            enabled: true,
-            options: [
-                { from: input.assets.images, to: output.assets + '/images' },
-                { from: input.assets.pwa, to: output.assets + '/pwa' }
-            ]
+            enabled: input.assets && output.assets,
+            options: [{
+                from: input.assets, to: output.assets
+            }]
         },
 
         sw: {

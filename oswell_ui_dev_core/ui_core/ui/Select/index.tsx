@@ -1,32 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { Props, DefaultProps, _Select } from './types'
 
 
 const componentID = '-ui-select'
-
-const defaults: DefaultProps = {
-    theme: {
-        select: componentID,
-        label: componentID + '_label',
-        title: componentID + '_title',
-        select_active: componentID + '__active',
-        options: componentID + '_options',
-        option: componentID + '_option',
-        option_active: componentID + '_option__active',
-        option_disabled: componentID + '_option__disabled'
-    },
-
-    closeOnSelect: true,
-    dropdownIcon: ''
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
 
 const _isTouchScreen = isTouchScreen()
 
@@ -52,17 +31,18 @@ function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React
     })
 }
 
-
-const Select = (props: Props) => {
+const Select: _Select = (props, withDefaults) => {
     let [ isActive, setActive ] = useState(false)
 
-    let mergedProps = extractProps(defaults, props)
+    let mergedProps = withDefaults
+        ?   (props as _Select['defaults'] & typeof props)
+        :   extractProps(Select.defaults, props)
     let { theme, className, attributes, displayValue, dropdownIcon, label } = mergedProps
 
-    className += ` ${theme.select}`;
+    className += ` ${theme.select}`
     isActive && (className += ` ${theme.select_active}`)
     
-    let wrapperAttr = Object.assign({}, attributes, {
+    let selectRootProps = {
         ref: (useRef() as React.MutableRefObject<HTMLDivElement>),
         className,
         onMouseDown(e: React.MouseEvent) {
@@ -71,11 +51,12 @@ const Select = (props: Props) => {
     
             setActive(!isActive)
         }
-    })
+    }
+    attributes && (selectRootProps = Object.assign(selectRootProps, attributes))
 
     useEffect(() => {
         const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
-            wrapperAttr.ref.current.contains(e.target as Node) || setActive(false)
+            selectRootProps.ref.current.contains(e.target as Node) || setActive(false)
         }
         let eventOptions = { passive: true }
 
@@ -92,7 +73,7 @@ const Select = (props: Props) => {
     
     
     return (
-        <div {...wrapperAttr}>
+        <div {...selectRootProps}>
             { label && <div className={theme.label} children={label} /> }
 
             <div className={theme.title}>
@@ -100,12 +81,30 @@ const Select = (props: Props) => {
                 { dropdownIcon }
             </div>
 
-            <div className={theme.options}
-                children={getOptions(mergedProps, setActive)} />
+            { isActive && (
+                <div className={theme.options}
+                    children={getOptions(mergedProps, setActive)} />
+            )}
         </div>
     )
 }
+Select.defaults = {
+    theme: {
+        select: componentID,
+        label: componentID + '_label',
+        title: componentID + '_title',
+        select_active: componentID + '__active',
+        options: componentID + '_options',
+        option: componentID + '_option',
+        option_active: componentID + '_option__active',
+        option_disabled: componentID + '_option__disabled'
+    },
+
+    closeOnSelect: true,
+    dropdownIcon: ''
+}
+Select.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Select

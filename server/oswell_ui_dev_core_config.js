@@ -3,14 +3,14 @@ const cwd = process.cwd()
 
 const NODE_MODULES = join(cwd, 'node_modules')
 
-const assetsFolderName = 'assets'
-const APP = join(cwd, 'client')
-const main = join(APP, 'main')
-const assets = join(APP, assetsFolderName)
 
+const server = join(cwd, 'server', 'express_extender.js')
 const output = join(cwd, 'dist')
+const APP = join(cwd, 'client')
 
-const server = join(cwd, 'server')
+const assetsFolderName = 'assets'
+const main = join(APP, 'main')
+
 
 
 function getAliasesFromTSconfig() {
@@ -36,17 +36,15 @@ const oswellDevCoreConfig = {
         host: process.env.NODE_HOST || 'localhost',
         port: process.env.NODE_PORT || 3000,
 
-        http2: true,
-        ssl: {
-            keyPath: join(server, 'cert', 'localhost.key'),
-            certPath: join(server, 'cert', 'localhost.crt')
-        }
+        // http2: true,
+        // ssl: {
+        //     keyPath: join(server, 'cert', 'localhost.key'),
+        //     certPath: join(server, 'cert', 'localhost.crt')
+        // }
     },
 
 
     build: {
-        publicPath: '/',
-        
         input: {
             include: APP,
             exclude: NODE_MODULES,
@@ -54,13 +52,9 @@ const oswellDevCoreConfig = {
             js: join(APP, 'index.ts'),
             sw: join(APP, 'sw.js'),
             html: join(APP, 'index.html'),
-            sassResources: join(main, 'styles', 'sass_resources.sass'),
-            assets: {
-                loc: assets,
-                assetsFolderName,
-                images: join(assets, 'images'),
-                pwa: join(assets, 'pwa')
-            }
+            assets: join(APP, assetsFolderName),
+
+            sassResources: join(main, 'styles', 'sass_resources.sass')
         },
         
         output: {
@@ -70,33 +64,32 @@ const oswellDevCoreConfig = {
         
         aliases: getAliasesFromTSconfig(),
 
-        plugins: {
-            // compression: {
-            //     instances: {
-            //         br: {
-            //             options: { deleteOriginalAssets: false }
-            //         },
-            //         gzip: {
-            //             options: { deleteOriginalAssets: false }
-            //         }
-            //     }
-            // }
-        },
+        // plugins: {
+        //     compression: {
+        //         instances: {
+        //             br: {
+        //                 options: { deleteOriginalAssets: false }
+        //             },
+        //             gzip: {
+        //                 options: { deleteOriginalAssets: false }
+        //             }
+        //         }
+        //     }
+        // },
 
-        postProcessWebpackConfig(config) {
-            config.module.rules.push({
-                // test: /\.(woff2|ico|png|jpg)$/,
-                test: /\.woff2$/,
-                include: APP,
-                exclude: NODE_MODULES,
-                loader: 'file-loader',
-                options: { 
-                    name: assetsFolderName + '/[folder]/[name].[ext]'
-                }
-            })
+        // postProcessWebpackConfig(config) {
+        //     config.module.rules.push({
+        //         test: /\.woff2$/, // /\.(woff2|ico|png|jpg)$/
+        //         include: APP,
+        //         exclude: NODE_MODULES,
+        //         loader: 'file-loader',
+        //         options: { 
+        //             name: assetsFolderName + '/[folder]/[name].[ext]'
+        //         }
+        //     })
 
-            return config
-        }
+        //     return config
+        // }
     }
 }
 

@@ -40,7 +40,7 @@ const extractRequestData = (request: RequestFnParams) => {
     if (body) {
         options.body = JSON.stringify(body)
         _method = 'POST'
-    } else _method = 'GET';
+    } else _method = 'GET'
 
     options.method = method || _method;
     query && (url += `?${(new URLSearchParams(query)).toString()}`)
@@ -61,8 +61,8 @@ const extractResponseData = async (req: RequestFnParams, res: Response & Indexab
     let contentType;
 
     if (!parseMethod) {
-        parseMethod = 'text';
-        contentType = res.headers.get('content-type');
+        parseMethod = 'text'
+        contentType = res.headers.get('content-type')
 
         if (contentType) {
             if (contentType.startsWith('application/json')) {

@@ -1,36 +1,20 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { _Pagination } from './types'
 
 
 const componentID = '-ui-pagination'
 
-const defaults: DefaultProps = {
-    theme: {
-        pagination: componentID,
-        separator: componentID + '_separator',
-        control: componentID + '_control',
-        control__active: componentID + '_control__active',
-        control__disabled: componentID + '_control__disabled'
-    },
-
-    elementsBySide: 1,
-    elementsByMiddle : 1,
-    separator: '...'
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
-const Pagination = (props: Props) => {
-    let { theme, className, wrapperAttr, listLength, curPage, showPerPage, elementsBySide,
-        elementsByMiddle, onChange, controlIcon, separator, payload } = extractProps(defaults, props)
+const Pagination: _Pagination = (props, withDefaults) => {
+    let { theme, className, attributes, listLength, curPage, showPerPage, elementsBySide,
+        elementsByMiddle, onChange, controlIcon, separator, payload } = withDefaults
+            ?   (props as _Pagination['defaults'] & typeof props)
+            :   extractProps(Pagination.defaults, props)
     
-    className += ` ${theme.pagination}`;
+    className += ` ${theme.pagination}`
     
-    let _wrapperAttr = Object.assign({}, wrapperAttr, {
+    let paginationRootProps = {
         className,
         onMouseDown(e: React.MouseEvent) {
             let page = (e.target as HTMLDivElement).dataset.page;
@@ -48,7 +32,8 @@ const Pagination = (props: Props) => {
                 curPage != newPage && onChange(newPage, e, payload)
             }
         }
-    })
+    }
+    attributes && (paginationRootProps = Object.assign(paginationRootProps, attributes))
 
     let numberOfPages = Math.ceil(listLength / showPerPage)
 
@@ -92,19 +77,38 @@ const Pagination = (props: Props) => {
     }
 
 
-    return numberOfPages > 1 && (
-        <div {..._wrapperAttr}>
-            <div children={controlIcon} data-page='prev'
-                className={`${theme.control} ${curPage == 1 ? theme.control__disabled : ''}`} />
+    return (
+        <div {...paginationRootProps}>
+            { numberOfPages > 1
+                ?   <>
+                        <div children={controlIcon} data-page='prev'
+                            className={`${theme.control} ${curPage == 1 ? theme.control__disabled : ''}`} />
 
-            { getPaginationElements() }
+                        { getPaginationElements() }
 
-            <div children={controlIcon} data-page='next'
-                className={`${theme.control} ${curPage == numberOfPages ? theme.control__disabled : ''}`} />
+                        <div children={controlIcon} data-page='next'
+                            className={`${theme.control} ${curPage == numberOfPages ? theme.control__disabled : ''}`} />
+                    </>
+                : null 
+            }
         </div>
     )
 }
+Pagination.defaults = {
+    theme: {
+        pagination: componentID,
+        separator: componentID + '_separator',
+        control: componentID + '_control',
+        control__active: componentID + '_control__active',
+        control__disabled: componentID + '_control__disabled'
+    },
+
+    elementsBySide: 1,
+    elementsByMiddle : 1,
+    separator: '...'
+}
+Pagination.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Pagination

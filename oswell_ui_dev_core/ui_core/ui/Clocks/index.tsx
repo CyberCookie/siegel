@@ -2,29 +2,26 @@ import React, { useState, useLayoutEffect } from 'react'
 
 import { msIn } from '../../utils/date_const'
 import dateParse from '../../utils/date_parse'
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { _Clocks } from './types'
 
 
 const componentID = '-ui-clocks'
 
-const defaults: DefaultProps = {
-    className: componentID,
-    updateInterval: 1000,
-    zeroing: true
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
-
-const Clocks = (props: Props) => {
-    let { className, updateInterval, builder, zeroing } = extractProps(defaults, props)
+const Clocks: _Clocks = (props, withDefaults) => {
+    let { className, updateInterval, builder, zeroing, attributes } = withDefaults
+        ?   (props as _Clocks['defaults'] & typeof props)
+        :   extractProps(Clocks.defaults, props)
 
     const getNextClockState = () => builder && builder(dateParse(Date.now(), zeroing))
     
     let [ parsedDate, setState ] = useState(getNextClockState())
+
+    let clocksRootProps = {
+        className,
+        children: parsedDate
+    }
+    attributes && (Object.assign(clocksRootProps, attributes))
 
     useLayoutEffect(() => {
         let date = new Date()
@@ -50,9 +47,15 @@ const Clocks = (props: Props) => {
 
 
 
-    return <div className={className} children={parsedDate} />
+    return <div {...clocksRootProps} />
 }
+Clocks.defaults = {
+    className: componentID,
+    updateInterval: 1000,
+    zeroing: true
+}
+Clocks.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Clocks

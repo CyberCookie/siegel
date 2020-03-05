@@ -1,4 +1,4 @@
-const FETCH_ACTION_TYPE = 'FETCH';
+const FETCH_ACTION_TYPE = 'FETCH'
 
 const initialState = {
     requests: [],

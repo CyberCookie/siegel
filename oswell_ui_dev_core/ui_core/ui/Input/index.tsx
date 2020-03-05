@@ -1,58 +1,45 @@
 import React, { useRef, useEffect } from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps, DefaultWrapperAttributes, ComponentInputAttributes } from './types'
+import { extractProps, AnyAttributes } from '../ui_utils'
+import { ComponentInputAttributes, _Input } from './types'
 
 
 const componentID = '-ui-input'
 
-const defaults: DefaultProps = {
-    theme: {
-        input: componentID,
-        field: componentID + '_field',
-        textarea: componentID + '_textarea',
-        extra: componentID + '_extra',
-        error_text: componentID + '_error_text',
-        label: componentID + '_label',
-        label_text: componentID + '_label_text',
-        focus: componentID + '__focus'
-    },
-
-    wrapperAttr: {}
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
 //[email, password, search, tel, text, url, (textarea)]
-const Input = (props: Props) => {
-    let { theme, className, wrapperAttr, inputAttr, label, placeholder, value, errorMsg,
-        type, disabled, autofocus, onBlur, onChange, onFocus, payload } = extractProps(defaults, props)
+const Input: _Input = (props, withDefaults) => {
+    let { theme, className, attributes, inputAttr, label, placeholder, value, errorMsg,
+        type, disabled, autofocus, onBlur, onChange, onFocus, payload } = withDefaults
+            ?   (props as _Input['defaults'] & typeof props)
+            :   extractProps(Input.defaults, props)
 
-    className += ` ${theme.input}`;
-    wrapperAttr.className = className;
-    (wrapperAttr as DefaultWrapperAttributes).error = errorMsg ? '' : null;
-    (wrapperAttr as DefaultWrapperAttributes).filled = value ? '' : null;
-    
-    let _inputAttr: ComponentInputAttributes = Object.assign({}, inputAttr, {
+    className += ` ${theme.input}`
+
+    let inputRootAttributes: AnyAttributes = {
+        className,
+        error: errorMsg ? '' : null,
+        filled: value ? '' : null
+    }
+    attributes && (inputRootAttributes = Object.assign(inputRootAttributes, attributes))
+
+    let inputFieldAttributes: ComponentInputAttributes = {
         className: theme.field,
         placeholder, onFocus, onBlur, disabled
-    })
+    }
     
     if (onChange) {
-        _inputAttr.onChange = e => onChange!(e.target.value, e, payload)
-        _inputAttr.value = value
+        inputFieldAttributes.onChange = (e: React.ChangeEvent<HTMLInputElement>) => onChange!(e.target.value, e, payload)
+        inputFieldAttributes.value = value
     } else {
-        _inputAttr.defaultValue = value
+        inputFieldAttributes.defaultValue = value
     }
     
 
     if (autofocus) {
-        _inputAttr.ref = useRef<HTMLInputElement>(null)
+        inputFieldAttributes.ref = useRef<HTMLInputElement>(null)
 
         useEffect(() => {
-            (_inputAttr.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
+            (inputFieldAttributes.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
         }, [])
     }
 
@@ -62,38 +49,53 @@ const Input = (props: Props) => {
             InputTag = type
             className += ` ${theme.textarea}`
         } else {
-            _inputAttr.type = type
+            inputFieldAttributes.type = type
         }
     }
-    let inputElement = <InputTag {..._inputAttr} />;
-    
-    
-    label && (inputElement = (
-        <label className={theme.label}>
-            <span className={theme.label_text} children={label} />
 
-            { inputElement }
-        </label>
-    ))
+    inputAttr && (inputFieldAttributes = Object.assign(inputFieldAttributes, inputAttr))
+    let inputElement = <InputTag {...inputFieldAttributes} />
+    
+    if (label) {
+        inputElement = (
+            <label className={theme.label}>
+                <span className={theme.label_text} children={label} />
+
+                { inputElement }
+            </label>
+        )
+    }
     
 
     return (
-        <div {...wrapperAttr}
+        <div {...inputRootAttributes}
             onFocus={e => e.currentTarget.classList.add(theme.focus)}
             onBlur={e => e.currentTarget.classList.remove(theme.focus)}>
 
             { inputElement }
 
-            { wrapperAttr.children && (
-                <span className={theme.extra} children={wrapperAttr.children} />
+            { inputRootAttributes.children && (
+                <span className={theme.extra} children={inputRootAttributes.children} />
             )}
             
             { errorMsg && <span className={theme.error_text} children={errorMsg} /> }
         </div>
     )
 }
-Input.id = componentID
+Input.defaults = {
+    theme: {
+        input: componentID,
+        field: componentID + '_field',
+        textarea: componentID + '_textarea',
+        extra: componentID + '_extra',
+        error_text: componentID + '_error_text',
+        label: componentID + '_label',
+        label_text: componentID + '_label_text',
+        focus: componentID + '__focus'
+    }
+}
+Input.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Input

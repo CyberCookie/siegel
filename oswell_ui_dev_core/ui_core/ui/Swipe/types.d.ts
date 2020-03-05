@@ -1,4 +1,4 @@
-import { PropsComponentBase } from '../ui_utils'
+import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type HTMLSwipeMouseEvent = MouseEvent | TouchEvent
@@ -8,6 +8,7 @@ type Props = {
     xAxis?: boolean
     deltaPos?: number
     onSwipe: (dirrection: boolean, e: HTMLSwipeMouseEvent) => void
+    attributes?: ComponentAttributes
 } & PropsComponentBase
 
 type DefaultProps = {
@@ -21,5 +22,7 @@ type State = {
     blocked: boolean
 }
 
+type _Swipe = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps, State, HTMLSwipeMouseEvent }
+
+export { Props, DefaultProps, State, HTMLSwipeMouseEvent, _Swipe }

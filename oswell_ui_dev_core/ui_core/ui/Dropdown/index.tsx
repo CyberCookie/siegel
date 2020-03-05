@@ -1,59 +1,26 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps, ListElement } from './types'
+import { extractProps } from '../ui_utils'
+import { ListElement, _Dropdown } from './types'
 
 
 const componentID = '-ui-dropdown'
-
-const defaults: DefaultProps = {
-    theme: {
-        dropdown: componentID,
-        item_with_child: componentID + '_item_with_child',
-        item_title: componentID + '_item_title',
-        item_without_child: componentID + '_item_without_child'
-    }
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
 
 const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
 }
 
-const Dropdown = (props: Props) => {
-    let { theme, className, list, builder, dropdownIcon, soloOpen } = extractProps(defaults, props)
-
-    className += ` ${theme.dropdown}`;
-
-
-    function onDropdownToggle(e: React.MouseEvent<HTMLDetailsElement>) {
-        e.stopPropagation()
-        let dropdownTitle = e.currentTarget;
-        let curState = dropdownTitle.open;
-
-        if (soloOpen) {
-            let sibling = dropdownTitle.parentElement!.firstChild;
-
-            while (sibling) {
-                (sibling as HTMLDetailsElement).open = false;
-                sibling = sibling.nextSibling
-            }
-        }
-        
-        dropdownTitle.open = !curState
-    }
-
+const Dropdown: _Dropdown = (props, withDefaults) => {
+    let { theme, className, list, builder, dropdownIcon, soloOpen, attributes } = withDefaults
+        ?   (props as _Dropdown['defaults'] & typeof props)
+        :   extractProps(Dropdown.defaults, props)
 
     function childrenMapper({ title, children }: ListElement, i: number) {
         let wrapperClass;
 
         if (builder) {
-            let { elem, className } = builder(title)
+            let { elem, className } = builder(title, children)
             title = elem;
             wrapperClass = className
         }
@@ -75,10 +42,44 @@ const Dropdown = (props: Props) => {
                     children={title} />
     }
 
+    function onDropdownToggle(e: React.MouseEvent<HTMLDetailsElement>) {
+        e.stopPropagation()
+        let dropdownTitle = e.currentTarget;
+        let curState = dropdownTitle.open;
 
-    return <div children={list.map(childrenMapper)} className={className} />
+        if (soloOpen) {
+            let sibling = dropdownTitle.parentElement!.firstChild;
+
+            while (sibling) {
+                (sibling as HTMLDetailsElement).open = false;
+                sibling = sibling.nextSibling
+            }
+        }
+        
+        dropdownTitle.open = !curState
+    }
+    
+
+    className += ` ${theme.dropdown}`
+    let dropdownRootProps = {
+        className,
+        children: list.map(childrenMapper)
+    }
+    attributes && (Object.assign(dropdownRootProps, attributes))
+
+
+    return <div {...dropdownRootProps} />
 }
+Dropdown.defaults = {
+    theme: {
+        dropdown: componentID,
+        item_with_child: componentID + '_item_with_child',
+        item_title: componentID + '_item_title',
+        item_without_child: componentID + '_item_without_child'
+    }
+}
+Dropdown.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Dropdown

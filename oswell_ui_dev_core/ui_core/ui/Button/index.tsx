@@ -1,35 +1,34 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { _Button } from './types'
 
 
 const componentID = '-ui-button'
 
-const defaults: DefaultProps = {
-    className: componentID,
-    type: 'button'
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
-
-const Button = (props: Props) => {
-    let { className, onClick, type, value, disabled, wrapperAttr } = extractProps(defaults, props)
-
-    let buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = Object.assign({}, wrapperAttr, {
+const Button: _Button = (props, withDefaults) => {
+    let { className, onClick, type, value, disabled, attributes } = withDefaults
+        ?   (props as _Button['defaults'] & typeof props)
+        :   extractProps(Button.defaults, props)
+    
+    
+    let buttonRootProps: typeof attributes = {
         type, className,
         children: value
-    })
-    disabled && (buttonProps.disabled = disabled)
-    onClick && (buttonProps.onMouseDown = onClick)
-
-
-    return <button {...buttonProps} />
+    }
+    disabled && (buttonRootProps.disabled = disabled)
+    onClick && (buttonRootProps.onMouseDown = onClick)
+    attributes && (buttonRootProps = Object.assign(buttonRootProps, attributes))
+    
+    
+    return <button {...buttonRootProps} />
 }
+Button.defaults = {
+    className: componentID,
+    type: 'button',
+}
+Button.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Button

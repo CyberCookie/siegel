@@ -1,5 +1,5 @@
 import { HTMLSwipeMouseEvent } from '../Swipe'
-import { PropsComponentThemed } from '../ui_utils'
+import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type SliderElementsResult = {
@@ -11,9 +11,9 @@ type Props = {
     startFrom?: number
     noControlls?: boolean
     showNumber?: number
-    attributes?: React.Attributes
     onChange?: (nextPage: number, e?: HTMLSwipeMouseEvent | React.MouseEvent) => void
     data: React.ReactNode[]
+    attributes?: ComponentAttributes
 } & PropsComponentThemed
 
 type DefaultProps = {
@@ -21,5 +21,7 @@ type DefaultProps = {
     showNumber: number
 }
 
+type _Slider = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps, SliderElementsResult }
+
+export { Props, DefaultProps, SliderElementsResult, _Slider }

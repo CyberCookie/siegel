@@ -1,55 +1,13 @@
-import React, { useRef, useState, MutableRefObject } from 'react'
+import React, { useRef, useState } from 'react'
 
 import { dateLocalizationByLocale } from '../../utils/date_const'
-import { setDefaultProps, extractProps } from '../ui_utils'
+import { extractProps } from '../ui_utils'
 import Days from './days_of_month'
 import s from './styles.sass'
-import { ActiveDateRange, Props, DefaultProps } from './types'
+import { ActiveDateRange, Props, DefaultProps, _Calendar } from './types'
 
 
-const componentID = '-ui-calendar';
-
-const defaults: DefaultProps = {
-    theme: {
-        calendar: componentID,
-        title__side: componentID + '_title__side',
-        title__left: componentID + '_title__left',
-        title__right: componentID + '_title__right',
-        icon_next: componentID + '_icon_next',
-        icon_prev: componentID + '_icon_prev',
-        month_title: componentID + '_month_title',
-        month_days: componentID + '_month_days',
-        month_selector: componentID + '_month_selector',
-        month__sibling: componentID + '_month__sibling',
-        week: componentID + '_week',
-        week_day: componentID + '_week_day',
-        day: componentID + '_day',
-        day_subtext: componentID + '_day_subtext',
-        day__selected: componentID + '_day__selected',
-        day__first: componentID + '_day__first',
-        day__last: componentID + '_day__last',
-        day__today: componentID + '_day__today',
-        day__hidden: componentID + '_day__hidden',
-        date: componentID + '_date',
-        date__anchor: componentID + '_date__anchor',
-        start: componentID + '_start',
-        end: componentID + '_end',
-        start_end: componentID + '_start_end',
-        in_progress: componentID + '_in_progress',
-        row: componentID + '_row',
-        row_placeholder: componentID + '_row_placeholder'
-    },
-
-    prevIcon: '<',
-    nextIcon: '>',
-    monthsBefore: 0,
-    monthsAfter: 0
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
+const componentID = '-ui-calendar'
 
 function getBeginOfMonth(rangeDateStart: ActiveDateRange['rangeDateStart'], monthsBefore: Props['monthsBefore']) {
     let curDate = new Date(rangeDateStart)
@@ -67,12 +25,15 @@ function getWeekDayNames(days: string[], theme: DefaultProps['theme']) {
     return <div className={`${theme.week} ${s.week}`} children={days.map(getWeekDay)} />
 }
 
-const Calendar = (props: Props) => {
-    let mergedProps = extractProps(defaults, props)
+const Calendar: _Calendar = (props, withDefaults) => {
+    let mergedProps = withDefaults
+        ?   (props as _Calendar['defaults'] & typeof props)
+        :   extractProps(Calendar.defaults, props)
+
     let { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon, payload,
         nextIcon, noControlls, onChange, triggerOnlyWhenFinished, className } = mergedProps;
     
-    className += ` ${theme.calendar} ${s.calendar}`;
+    className += ` ${theme.calendar} ${s.calendar}`
     
     let { rangeDateStart, rangeDateEnd } = activeDate;
 
@@ -84,7 +45,7 @@ const Calendar = (props: Props) => {
         beginOfMonth: getBeginOfMonth(rangeDateStart, monthsBefore)
     })
 
-    let ref = useRef<HTMLDivElement>()
+    let ref = useRef<HTMLDivElement>(null)
     
     let { inProgress, beginOfMonth } = state;
     let _locale = dateLocalizationByLocale[locale || 'en']
@@ -105,12 +66,13 @@ const Calendar = (props: Props) => {
 
     function pickRangeStart(e: React.MouseEvent) {
         e.stopPropagation()
+        
+        let rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp!;
 
-        let rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp;
 
         if (rangeDateStart) {
-            (ref as MutableRefObject<HTMLDivElement>).current.addEventListener('mouseup', pickRangeFinish);
-            (ref as MutableRefObject<HTMLDivElement>).current.addEventListener('mouseover', pickRangeProgress)
+            ref.current!.addEventListener('mouseup', pickRangeFinish)
+            ref.current!.addEventListener('mouseover', pickRangeProgress)
 
             let date = new Date(rangeDateStart)
             let rangeDateEnd = date.setDate(date.getDate() + 1) - 1;
@@ -128,7 +90,7 @@ const Calendar = (props: Props) => {
 
     function pickRangeProgress(e: MouseEvent) {
         e.stopPropagation()
-        let timestamp = +(e.target as HTMLDivElement).dataset.timestamp;
+        let timestamp = +(e.target as HTMLDivElement).dataset.timestamp!;
 
         if (timestamp) {
             let anchor = state.anchor;
@@ -154,9 +116,9 @@ const Calendar = (props: Props) => {
     }
 
     function pickRangeFinish(e: MouseEvent) {
-        e.stopPropagation();
-        (ref as MutableRefObject<HTMLDivElement>).current.removeEventListener('mouseup', pickRangeFinish);
-        (ref as MutableRefObject<HTMLDivElement>).current.removeEventListener('mouseover', pickRangeProgress)
+        e.stopPropagation()
+        ref.current!.removeEventListener('mouseup', pickRangeFinish)
+        ref.current!.removeEventListener('mouseover', pickRangeProgress)
                 
         state.inProgress = false;
         
@@ -167,16 +129,16 @@ const Calendar = (props: Props) => {
     }
 
     function getAllMonths() {
-        let start = new Date(beginOfMonth);
+        let start = new Date(beginOfMonth)
         
         let className = theme.month_days;
         inProgress && (className += ` ${theme.in_progress}`)
         
 
-        let months = [];
+        let months = []
         for (let i = 0, l = monthsBefore + monthsAfter + 1; i < l; i++) {
-            let titleMonth = _locale.months[start.getMonth()];
-            let titleYear = start.getFullYear();
+            let titleMonth = _locale.months[start.getMonth()]
+            let titleYear = start.getFullYear()
 
             months.push(
                 <div key={i}>
@@ -217,7 +179,44 @@ const Calendar = (props: Props) => {
 
     return <div className={className} ref={ref} children={getAllMonths()} />
 }
+Calendar.defaults = {
+    theme: {
+        calendar: componentID,
+        title__side: componentID + '_title__side',
+        title__left: componentID + '_title__left',
+        title__right: componentID + '_title__right',
+        icon_next: componentID + '_icon_next',
+        icon_prev: componentID + '_icon_prev',
+        month_title: componentID + '_month_title',
+        month_days: componentID + '_month_days',
+        month_selector: componentID + '_month_selector',
+        month__sibling: componentID + '_month__sibling',
+        week: componentID + '_week',
+        week_day: componentID + '_week_day',
+        day: componentID + '_day',
+        day_subtext: componentID + '_day_subtext',
+        day__selected: componentID + '_day__selected',
+        day__first: componentID + '_day__first',
+        day__last: componentID + '_day__last',
+        day__today: componentID + '_day__today',
+        day__hidden: componentID + '_day__hidden',
+        date: componentID + '_date',
+        date__anchor: componentID + '_date__anchor',
+        start: componentID + '_start',
+        end: componentID + '_end',
+        start_end: componentID + '_start_end',
+        in_progress: componentID + '_in_progress',
+        row: componentID + '_row',
+        row_placeholder: componentID + '_row_placeholder'
+    },
+
+    prevIcon: '<',
+    nextIcon: '>',
+    monthsBefore: 0,
+    monthsAfter: 0
+}
+Calendar.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Calendar

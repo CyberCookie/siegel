@@ -1,26 +1,44 @@
-import { PropsComponentBase } from '../ui_utils'
+import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
+
+type TableRow = {
+    attributes?: ComponentAttributes<HTMLTableRowElement, React.TableHTMLAttributes<HTMLTableRowElement>>
+}
+
+type TableHeadRow = {
+    children: TableTH[]
+} & TableRow
+
+type TableBodyRow = {
+    children: TableTD[]
+} & TableRow
 
 type TableCell = {
     value: React.ReactNode
-    attributes: React.Attributes
 }
 
-type TableRow = {
-    children: TableCell[],
-    attributes: React.Attributes
-}
+type TableTD = {
+    attributes?: ComponentAttributes<HTMLTableCellElement, React.TableHTMLAttributes<HTMLTableCellElement>>
+} & TableCell
+
+type TableTH = {
+    attributes?: ComponentAttributes<HTMLTableHeaderCellElement, React.TableHTMLAttributes<HTMLTableHeaderCellElement>>
+} & TableCell
+
+
 
 type Props = {
-    attributes?: React.Attributes
-    body?: TableRow[]
-    head?: TableRow[]
-    foot?: TableRow[]
+    head?: TableHeadRow[]
+    body?: TableBodyRow[]
+    foot?: TableBodyRow[]
+    attributes?: ComponentAttributes<HTMLTableElement, React.TableHTMLAttributes<HTMLTableElement>>
 } & PropsComponentBase
 
 type DefaultProps = {
     className: NonNullable<Props['className']>
 }
 
+type _Table = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps, TableCell, TableRow }
+
+export { _Table, Props, DefaultProps, TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow }

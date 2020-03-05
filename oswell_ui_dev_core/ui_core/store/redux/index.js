@@ -4,15 +4,15 @@ import { applyMiddleware, createStore, combineReducers } from 'redux'
 export default (appReducers, options = {}) => {
     let allReducers = typeof appReducers == 'function'
             ?   appReducers
-            :   combineReducers(appReducers),
+            :   combineReducers(appReducers);
 
-        middlewares = options.middlewares.length
+    let middlewares = options.middlewares.length
             ?   applyMiddleware(...options.middlewares)
             :   [];
 
     if (options.RootReducer) {
-        let appReducerTemp = allReducers,
-            appReducerWrapper = options.RootReducer;
+        let appReducerTemp = allReducers;
+        let appReducerWrapper = options.RootReducer;
 
         allReducers = (state, action) => appReducerTemp(
             appReducerWrapper(state, action),

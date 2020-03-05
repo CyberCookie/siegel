@@ -1,12 +1,14 @@
-import { PropsComponentBase } from '../ui_utils'
+import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
+
+type _Attributes = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
 
 type Props = {
-    type?: string
-    value?: number | string
-    disabled?: boolean
-    wrapperAttr?: object
-    onClick?: React.MouseEventHandler
+    type?: _Attributes['type']
+    value?: _Attributes['value']
+    disabled?: _Attributes['disabled']
+    onClick?: _Attributes['onClick']
+    attributes?: _Attributes
 } & PropsComponentBase
 
 type DefaultProps = {
@@ -14,5 +16,7 @@ type DefaultProps = {
     type: NonNullable<Props['type']>
 }
 
+type _Button = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps }
+
+export { Props, DefaultProps, _Button }

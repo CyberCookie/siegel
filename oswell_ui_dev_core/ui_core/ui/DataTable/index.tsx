@@ -42,11 +42,11 @@ const initDataGridState = () => useState({
         showPerPage: 16,
         currentPage: 1
     }
-});
+})
 
 
 const DataGrid = ({ entities, columnsConfig, rowActions = {}, className, hookState, withPagination }) => {
-    let [ state, setState ] = hookState || initDataGridState();
+    let [ state, setState ] = hookState || initDataGridState()
     let { showPerPage, currentPage } = state.bodyData;
 
     useEffect(() => {
@@ -65,7 +65,7 @@ const DataGrid = ({ entities, columnsConfig, rowActions = {}, className, hookSta
         return () => {
             window.removeEventListener('mousedown', listener, evOptions)
         }
-    }, []);
+    }, [])
     
     
     function getPagination() {

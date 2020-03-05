@@ -1,8 +1,7 @@
-import { PropsComponentThemed } from '../ui_utils'
+import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type Props = {
-    attributes?: React.Attributes
     dropdownIcon?: React.ReactNode
     closeOnSelect?: boolean
     label?: React.ReactNode
@@ -15,6 +14,7 @@ type Props = {
     }[],
     selected?: ID
     displayValue: React.ReactNode
+    attributes?: ComponentAttributes
 } & PropsComponentThemed
 
 type DefaultProps = {
@@ -23,5 +23,7 @@ type DefaultProps = {
     dropdownIcon: NonNullable<Props['dropdownIcon']>
 }
 
+type _Select = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps }
+
+export { Props, DefaultProps, _Select }

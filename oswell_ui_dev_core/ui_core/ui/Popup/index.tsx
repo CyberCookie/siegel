@@ -1,35 +1,31 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { _Popup } from './types'
+
 import s from './styles.sass'
 
 
 const componentID = '-ui-popup'
-const defaults: DefaultProps = {
-    theme: {
-        popup: componentID,
-        content: componentID + '_content',
-        close: componentID + '_close'
-    },
 
-    closeIcon: 'X'
-}
+const onPopupBodyClick = (e: React.MouseEvent) => e.stopPropagation()
 
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
+const Popup: _Popup = (props, withDefaults) => {
+    let { theme, className, closeIcon, content, onClose, attributes } = withDefaults
+        ?   (props as _Popup['defaults'] & typeof props)
+        :   extractProps(Popup.defaults, props)
 
-const onPopupBodyClick = (e: React.MouseEvent) => e.stopPropagation();
+    className += ` ${s.popup} ${theme.popup}`
 
-const Popup = (props: Props) => {
-    let { theme, className, closeIcon, content, onClose } = extractProps(defaults, props)
-
-    className += ` ${s.popup} ${theme.popup}` ;
+    let popupRootAttributes = {
+        className,
+        onMouseDown: onClose
+    }
+    attributes && (popupRootAttributes = Object.assign(popupRootAttributes, attributes))
 
 
     return (
-        <div className={className} onMouseDown={onClose}>
+        <div {...popupRootAttributes}>
             <div className={theme.content} onMouseDown={onPopupBodyClick}>
                 <div onMouseDown={onClose} className={`${s.close} ${theme.close}`}
                     children={closeIcon} />
@@ -39,7 +35,17 @@ const Popup = (props: Props) => {
         </div>
     )
 }
+Popup.defaults = {
+    theme: {
+        popup: componentID,
+        content: componentID + '_content',
+        close: componentID + '_close'
+    },
+
+    closeIcon: 'X'
+}
+Popup.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Popup

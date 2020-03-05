@@ -11,18 +11,28 @@ function isShouldFetch(req) {
 self.addEventListener('fetch', e => {
     let req = e.request;
 
+    console.log(req)
     if (req.method == 'GET' && isShouldFetch(req)) {
         e.respondWith(
-            caches.open(CACHE_NAME)
-                .then(cache => cache.match(req)
-                    .then(cachedData => 
-                        cachedData || fetch(req).then(res => {
-                            cache.put(req, res.clone())
-                            return res
-                        })
-                    )
-                .catch(console.log)
-        ))
+            caches.match(req).then(resp => (
+                resp || fetch(req).then(res => (
+                    caches.open(CACHE_NAME).then(cache => {
+                        cache.put(req, res.clone())
+                        return res
+                    })
+                ))
+                .catch(console.error)
+            ))
+            // caches.open(CACHE_NAME)
+            //     .then(cache => cache.match(req))
+            //     .then(cachedData => 
+            //         cachedData || fetch(req).then(res => {
+            //             cache.put(req, res.clone())
+            //             return res
+            //         })
+            //     )
+            //     .catch(console.log)
+        )
     }
 })
 
@@ -34,9 +44,12 @@ self.addEventListener('activate', () => {
                     key != CACHE_NAME && caches.delete(key)
                 })
             })
+
+            caches.open(CACHE_NAME)
+                .then(cache => cache.addAll(serviceWorkerOption.assets))
+
             console.log('Client has claimed, new service worker is ready to use')
         })
-        .catch(console.log)
 })
 
 self.addEventListener('install', () => { self.skipWaiting() })

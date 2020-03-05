@@ -1,4 +1,4 @@
-import { PropsComponentThemed } from '../ui_utils'
+import { PropsComponentThemed, CoreIUComponent } from '../ui_utils'
 import { DateLocalization } from '../../utils/date_const'
 
 
@@ -70,5 +70,7 @@ type GetDayClass = (params: {
     innerRangeEnd: ChildProps['parentState']['innerRangeEnd']
 }) => string
 
+type _Calendar = CoreIUComponent<Props, DefaultProps>
 
-export { ActiveDateRange, Props, DefaultProps, ChildProps, AllDaysData, PrevNextDaysParams, GetDayClass }
+
+export { _Calendar, ActiveDateRange, Props, DefaultProps, ChildProps, AllDaysData, PrevNextDaysParams, GetDayClass }

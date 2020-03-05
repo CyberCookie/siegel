@@ -33,7 +33,7 @@ function getBody(params) {
         
         let isSelected;
         if (selectable) {
-            isSelected = selected.has(entityID);
+            isSelected = selected.has(entityID)
             children.push({
                 value: <Checkbox value={isSelected} onChange={() => selectItem(entityID)} />
             })
@@ -95,7 +95,7 @@ function getBody(params) {
                             ?   false
                             :   valueToFilter.toString().toLowerCase().includes(searchString)
                     }
-                });
+                })
     }
 
 
@@ -134,7 +134,7 @@ function getBody(params) {
         if (!entityID) break;
 
         let itemToPush = getEntityRow(entityID, i)
-        postProcessBodyRow && (itemToPush = postProcessBodyRow(itemToPush, byID[entityID]));
+        postProcessBodyRow && (itemToPush = postProcessBodyRow(itemToPush, byID[entityID]))
 
         resultList.push(itemToPush)
     }

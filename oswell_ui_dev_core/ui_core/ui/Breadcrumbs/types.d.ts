@@ -1,4 +1,4 @@
-import { PropsComponentBase } from '../ui_utils'
+import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type BreadcrumbsConfigByPath = {
@@ -14,8 +14,8 @@ type Props = {
         [path: string]: BreadcrumbsConfigByPath
     }
     location: string
-    attributes?: React.Attributes
     separator?: React.ReactNode
+    attributes?: ComponentAttributes
 } & PropsComponentBase
 
 type DefaultProps = {
@@ -23,5 +23,7 @@ type DefaultProps = {
     separator: NonNullable<Props['separator']>
 }
 
+type _Breadcrumbs = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps }
+
+export { Props, DefaultProps, _Breadcrumbs }

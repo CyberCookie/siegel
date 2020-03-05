@@ -31,7 +31,7 @@ const createRoutes: CreateRoutes = (routeConfig, urlPref = '') => {
         if (redirectTo) {
             result.push( <Redirect exact={exact} from={path} to={redirectTo} /> )
         } else {
-            let pathResult = `${urlPref}/${path}`;
+            let pathResult = `${urlPref}/${path}`
 
             result.push(
                 <Route key={pathResult} exact={exact} path={pathResult} component={component} />

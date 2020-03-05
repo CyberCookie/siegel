@@ -68,6 +68,7 @@ function getModules(CONFIG, RUN_PARAMS) {
                     options: {
                         sourceMap: !isProd,
                         importLoaders: 3,
+                        url: url => url.endsWith('.svg'),
                         modules: {
                             localIdentName: isProd ? '[hash:base64:4]' : '[local]--[hash:base64:4]'
                         }

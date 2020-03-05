@@ -13,8 +13,8 @@ const FilterBar = ({ filterData, selected, onSelect, disabled = false, isRadio =
             if (isRadio) {
                 value = id
             } else {
-                value = [...selected];
-                let index = selected.indexOf(id);
+                value = [...selected]
+                let index = selected.indexOf(id)
 
                 index > -1 ? value.splice(index, 1) : value.push(id)
             }
@@ -28,7 +28,7 @@ const FilterBar = ({ filterData, selected, onSelect, disabled = false, isRadio =
                 {titleKey ? dataItem[titleKey] : title}
             </div>
         )
-    });
+    })
 
     return (
         <div className={cx(`-ui-row-filter ${className}`, { disabled })}>

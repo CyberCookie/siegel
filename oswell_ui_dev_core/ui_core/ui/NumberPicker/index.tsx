@@ -1,42 +1,27 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { _NumberPicker } from './types'
+
 
 const componentID = '-ui-number-picker'
 
-const defaults = {
-    theme: {
-        number_picker: componentID,
-        number_picker__disabled: componentID + '__disabled',
-        controls: componentID + '_controls',
-        button_minus: componentID + '_minus',
-        button_plus: componentID + '_plus',
-        label_wrapper: componentID + '_label_wrapper',
-        label: componentID + '_label',
-        field: componentID + '_field'
-    },
-
-    step: 1,
-    min: 0,
-    max: Infinity,
-    minusIcon: '-',
-    plusIcon: '+'
-}
-
-const setDefaults = (customDefaults: DefaultProps) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
 const validSymbolSeqRegExp = /^\-?(\d*\.?)?\d*$/;
 
-const NumberPicker = (props: Props) => {
+const NumberPicker: _NumberPicker = (props, withDefaults) => {
     let {
-        theme, className, value, disabled, onChange, step, min, max, minusIcon, plusIcon, label, payload
-    } = extractProps(defaults, props);
+        theme, className, value, disabled, onChange, step, min, max, minusIcon, plusIcon, label, payload,
+        disableInput, attributes, inputAttributes
+    } = withDefaults
+        ?   (props as _NumberPicker['defaults'] & typeof props)
+        :   extractProps(NumberPicker.defaults, props)
 
-    className += ` ${theme.number_picker}`;
+    className += ` ${theme.number_picker}`
     disabled && (className += ` ${theme.number_picker__disabled}`)
+
+    let numberpickerRootProps = { className }
+    attributes && (Object.assign({}, attributes, numberpickerRootProps))
+
 
     let numberValue = parseFloat(value as string) || 0;
 
@@ -63,11 +48,15 @@ const NumberPicker = (props: Props) => {
         }
     }
     
-    let inputElement = (
-        <input className={theme.field} disabled={disabled} value={value}
-            onChange={onInputChange} 
-            onBlur={onBlur} />
-    )
+    let inputFieldAttributes = {
+        value, onBlur,
+        onChange: onInputChange,
+        className: theme.field,
+        disabled: disableInput || disabled,
+    }
+    inputAttributes && (Object.assign({}, inputAttributes, inputFieldAttributes))
+
+    let inputElement = <input {...inputFieldAttributes} />
     label && (inputElement = (
         <label className={theme.label_wrapper}>
             <span className={theme.label} children={label} />
@@ -77,7 +66,7 @@ const NumberPicker = (props: Props) => {
     ))
 
     return (
-        <div className={className}>
+        <div {...numberpickerRootProps}>
             <div className={theme.controls}>
                 <button className={theme.button_minus} children={minusIcon}
                     disabled={((disabled || (min && numberValue <= min)) as boolean )}
@@ -92,7 +81,26 @@ const NumberPicker = (props: Props) => {
         </div>
     )
 }
+NumberPicker.defaults = {
+    theme: {
+        number_picker: componentID,
+        number_picker__disabled: componentID + '__disabled',
+        controls: componentID + '_controls',
+        button_minus: componentID + '_minus',
+        button_plus: componentID + '_plus',
+        label_wrapper: componentID + '_label_wrapper',
+        label: componentID + '_label',
+        field: componentID + '_field'
+    },
+
+    step: 1,
+    min: 0,
+    max: Infinity,
+    minusIcon: '-',
+    plusIcon: '+'
+}
+NumberPicker.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default NumberPicker

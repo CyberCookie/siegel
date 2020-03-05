@@ -1,10 +1,12 @@
 import React, { useState, useLayoutEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { _Breadcrumbs } from './types'
 import s from './styles.sass'
 
+
+let componentID = '-ui-breadcrumbs'
 
 let forceUpdate: React.Dispatch<React.SetStateAction<object>> | undefined;
 let dynamicCrumbs: Indexable<React.ReactNode> = {}
@@ -24,43 +26,32 @@ const setDynamicCrumbsBatch = (crumbIDValueMap: Indexable, isForceUpdate = true)
     isForceUpdate && forceUpdate!({})
 }
 
-let componentID = '-ui-breadcrumbs'
-
-let defaults: DefaultProps = {
-    className: s[componentID],
-    separator: ''
-}
-
-
 const useLayoutEffectFunc = () => () => {
     forceUpdate = undefined
 }
 
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
+const Breadcrumbs: _Breadcrumbs = (props, withDefaults) => {
+    let { className, attributes, location, separator, config } = withDefaults
+        ?   (props as _Breadcrumbs['defaults'] & typeof props)
+        :   extractProps(Breadcrumbs.defaults, props)
 
-const Breadcrumbs = (props: Props) => {
-    let { className, attributes, location, separator, config } = extractProps(defaults, props);
-
-    let [ _, _forceUpdate ] = useState()
-    forceUpdate = _forceUpdate;
+    forceUpdate = useState({})[1]
 
     useLayoutEffect(useLayoutEffectFunc, [])
 
 
-    let breadcrumbProps = {
-        ...attributes,
+    let breadcrumbsRootProps: typeof attributes = {
         className,
         children: getBreadcrumbs()
     }
+    attributes && (breadcrumbsRootProps = Object.assign(breadcrumbsRootProps, attributes))
 
 
     function getBreadcrumbs() {
         let breadcrumbData = []
         let locationArray = location == '/' ? [''] : location.split('/')
         let loocupScope = config;
-        let path = '';
+        let path = ''
     
         for (let i = 0; i < locationArray.length; i++) {
             let loc = locationArray[i]
@@ -92,9 +83,14 @@ const Breadcrumbs = (props: Props) => {
     }
 
     
-    return <div {...breadcrumbProps} />
+    return <div {...breadcrumbsRootProps} />
 }
+Breadcrumbs.defaults = {
+    className: s[componentID],
+    separator: ''
+}
+Breadcrumbs.ID = componentID;
 
 
-export { setDefaults, setDynamicCrumb, setDynamicCrumbsBatch }
+export { setDynamicCrumb, setDynamicCrumbsBatch, componentID }
 export default Breadcrumbs

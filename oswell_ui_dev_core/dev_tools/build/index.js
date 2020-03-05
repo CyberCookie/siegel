@@ -7,8 +7,11 @@ const defaultPluginsResolve = require('./plugins')
 const defaultModulesResolve = require('./modules')
 
 
+const DEFAULT_PUBLICK_PATH = '/'
+
+
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
-    const { input, output, aliases = {}, publicPath, postProcessWebpackConfig } = CONFIG.build;
+    const { input, output, aliases = {}, publicPath = DEFAULT_PUBLICK_PATH, postProcessWebpackConfig } = CONFIG.build;
     const { isProd, isDevServer } = RUN_PARAMS;
 
     aliases['react-dom'] = '@hot-loader/react-dom'
@@ -91,7 +94,7 @@ module.exports = {
 
     getDevMiddlewares: (CONFIG, webpackCompiller) => ({
         dev: webpackDevMiddleware(webpackCompiller, {
-            publicPath: CONFIG.build.publicPath,
+            publicPath: CONFIG.build.publicPath || DEFAULT_PUBLICK_PATH,
             hot: true,
             stats: statsOptions
         }),

@@ -1,37 +1,34 @@
 import React, { useState, useRef, useEffect } from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { _DropdownSearch } from './types'
 import cx from '../../utils/cx'
 
 
 const componentID = '-ui-search-dropdown'
 
-const defaults: DefaultProps = {
-    theme: {
-        search_dropdown: componentID,
-        search_dropdown__with_suggestions: `${componentID}__with_suggestions`,
-        search_dropdown__filled_field: `${componentID}__filled_field`,
-        search_field: `${componentID}_search_field`,
-        options: `${componentID}_options`
-    },
-
-    minInputLength: 3
-}
-
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
-const DropdownSearch = (props: Props) => {
-    let mergedProps = extractProps(defaults, props)
+const DropdownSearch: _DropdownSearch = (props, withDefaults) => {
+    let mergedProps = withDefaults
+        ?   (props as _DropdownSearch['defaults'] & typeof props)
+        :   extractProps(DropdownSearch.defaults, props)
     let { className, theme, searchPlaceholder, searchOptions, minInputLength, onChange,
-        closeIcon, searchIcon, optionBuilder, autofocus, payload } = mergedProps;
+        closeIcon, searchIcon, optionBuilder, autofocus, payload, attributes, inputAttributes } = mergedProps;
 
     let [ state, setState ] = useState({
         searchValue: ''
     })
     
+    let searchLength = state.searchValue.length;
+    let showOptions = searchOptions.length && searchLength >= minInputLength;
+    
+    className += cx(` ${theme.search_dropdown}`, {
+        [theme.search_dropdown__with_suggestions]: showOptions,
+        [theme.search_dropdown__filled_field]: searchLength
+    })
+
+    let dropdownSearchRootProps = { className }
+    attributes && (Object.assign(dropdownSearchRootProps, attributes))
+
     let inputProps: React.HTMLProps<HTMLInputElement> = {
         className: theme.search_field,
         placeholder: searchPlaceholder,
@@ -52,19 +49,11 @@ const DropdownSearch = (props: Props) => {
         }, [])
     }
     
-    let searchLength = state.searchValue.length;
-    let showOptions = searchOptions.length && searchLength >= minInputLength;
-    
-    className += cx(` ${theme.search_dropdown}`, {
-        [theme.search_dropdown__with_suggestions]: showOptions,
-        [theme.search_dropdown__filled_field]: searchLength
-    })
-        
-    const clearInput = () => setState({ searchValue: '' })
+    inputAttributes && (Object.assign({}, inputAttributes, inputProps))
     
 
     return (
-        <div className={className}>
+        <div {...dropdownSearchRootProps}>
             <input {...inputProps} />
             
             { !!showOptions && 
@@ -73,13 +62,25 @@ const DropdownSearch = (props: Props) => {
             }
 
             { searchLength
-                ?   closeIcon && <div children={closeIcon} onMouseDown={clearInput} />
+                ?   closeIcon && <div children={closeIcon} onMouseDown={() => setState({ searchValue: '' })} />
                 :   searchIcon
             }
         </div>
     )
 }
+DropdownSearch.defaults = {
+    theme: {
+        search_dropdown: componentID,
+        search_dropdown__with_suggestions: `${componentID}__with_suggestions`,
+        search_dropdown__filled_field: `${componentID}__filled_field`,
+        search_field: `${componentID}_search_field`,
+        options: `${componentID}_options`
+    },
+
+    minInputLength: 3
+}
+DropdownSearch.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default DropdownSearch

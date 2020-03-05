@@ -1,35 +1,28 @@
 import React from 'react'
 
-import { setDefaultProps, extractProps } from '../ui_utils'
-import { Props, DefaultProps } from './types'
+import { extractProps } from '../ui_utils'
+import { _Toggle } from './types'
 
 
 const componentID = '-ui-toggle'
 
-const defaults: DefaultProps = {
-    theme: {
-        toggle: componentID,
-        toggle_checked: componentID + '__checked',
-        label: componentID + '_label',
-        toggle_area: componentID + '_toggle_area',
-        toggler: componentID + '_toggler'
-    }
-}
+const Toggle: _Toggle = (props, withDefaults) => {
+    let { theme, labelLeft, labelRight, isToggled, onChange, className, toggleIcon, attributes } = withDefaults
+        ?   (props as _Toggle['defaults'] & typeof props)
+        :   extractProps(Toggle.defaults, props)
 
-const setDefaults = (customDefaults: Partial<Props>) => {
-    setDefaultProps(defaults, customDefaults)
-}
-
-
-const Toggle = (props: Props) => {
-    let { theme, labelLeft, labelRight, isToggled, onChange, className, toggleIcon } = extractProps(defaults, props)
-
-    className += ` ${theme.toggle}`;
+    className += ` ${theme.toggle}`
     isToggled && (className += ` ${theme.toggle_checked}`)
+
+    let toggleRootProps = {
+        className,
+        onMouseDown: onChange
+    }
+    attributes && (toggleRootProps = Object.assign({}, attributes, toggleRootProps))
 
 
     return (
-        <div className={className} onMouseDown={onChange}>
+        <div {...toggleRootProps}>
             { labelLeft && <div className={theme.label} children={labelLeft} /> }
 
             <div className={theme.toggle_area}>
@@ -40,7 +33,17 @@ const Toggle = (props: Props) => {
         </div>
     )
 }
+Toggle.defaults = {
+    theme: {
+        toggle: componentID,
+        toggle_checked: componentID + '__checked',
+        label: componentID + '_label',
+        toggle_area: componentID + '_toggle_area',
+        toggler: componentID + '_toggler'
+    }
+}
+Toggle.ID = componentID;
 
 
-export { setDefaults }
+export { componentID }
 export default Toggle

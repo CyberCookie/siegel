@@ -1,16 +1,9 @@
-import { PropsComponentThemed } from '../ui_utils'
+import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
-
-type DefaultWrapperAttributes = {
-    error: string | null
-    filled: string | null
-}
-
-type ComponentInputAttributes = React.RefAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>
 
 type Props = {
-    wrapperAttr?: React.HTMLAttributes<HTMLDivElement>
-    inputAttr?: React.HTMLAttributes<HTMLInputElement>
+    inputAttr?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+    attributes?: ComponentAttributes
     label?: React.ReactNode
     placeholder?: string
     value?: string
@@ -26,8 +19,9 @@ type Props = {
 
 type DefaultProps = {
     theme: NonNullable<Props['theme']>
-    wrapperAttr: NonNullable<Props['wrapperAttr']>
 }
 
+type _Input = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps, DefaultWrapperAttributes, ComponentInputAttributes }
+
+export { Props, DefaultProps, ComponentInputAttributes, _Input }

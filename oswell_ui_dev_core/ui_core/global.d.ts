@@ -18,3 +18,7 @@ type IndexObjectKeys<K extends string, V = any> = {
 type IndexObject<T, V = any> = {
     [key in keyof T]: V
 } & Indexable
+
+
+//#TS_sucks.
+declare function isNaN(a: any): boolean

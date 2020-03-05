@@ -1,8 +1,8 @@
 import { ACTION_IDS, initialState } from './cfg'
 
 
-const filterErrors = (errors, key) => errors.filter(err => err.id !== key);
-const filterSuccess = (success, key) => success.filter(suc => suc !== key);
+const filterErrors = (errors, key) => errors.filter(err => err.id !== key)
+const filterSuccess = (success, key) => success.filter(suc => suc !== key)
 
 const reducers = {
     [ACTION_IDS.FETCH_START]: (state, action) => ({
@@ -12,8 +12,8 @@ const reducers = {
     }),
 
     [ACTION_IDS.FETCH_END]: (state, action) => {
-        let successResponses = [...state.success],
-            id = action.data;
+        let successResponses = [...state.success]
+        let id = action.data;
 
         successResponses.includes(id) || successResponses.push(id)
             
@@ -25,9 +25,9 @@ const reducers = {
     },
 
     [ACTION_IDS.FETCH_ERROR]: (state, action) => {
-        let { status, message } = action.error,
-            id = action.data,
-            newError = { status, message, id };
+        let { status, message } = action.error;
+        let id = action.data;
+        let newError = { status, message, id }
 
         return {
             requests: filterSuccess(state.requests, id),

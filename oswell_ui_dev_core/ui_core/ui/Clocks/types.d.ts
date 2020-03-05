@@ -1,10 +1,11 @@
-import { PropsComponentBase } from '../ui_utils'
+import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type Props = {
     updateInterval?: number
     zeroing?: boolean
     builder: (x: any) => any
+    attributes?: ComponentAttributes
 } & PropsComponentBase
 
 type DefaultProps = {
@@ -13,5 +14,7 @@ type DefaultProps = {
     zeroing: NonNullable<Props['zeroing']>
 }
 
+type _Clocks = CoreIUComponent<Props, DefaultProps>
 
-export { Props, DefaultProps }
+
+export { Props, DefaultProps, _Clocks }

@@ -49,7 +49,7 @@ const Form = ({ onSubmit, className, wrapperAttr = {}, inputs }) => {
             let extraProps = {}
             let value = values[name] ? values[name].value : ''
 
-            if (Component.id == '-ui-input') {
+            if (Component.ID == '-ui-input') {
                 let onChange = onInputChange.bind(null, validators, name)
     
                 extraProps = {
@@ -60,7 +60,7 @@ const Form = ({ onSubmit, className, wrapperAttr = {}, inputs }) => {
                         return false
                     }
                 }
-            } else if (Component.id == '-ui-checkbox') {
+            } else if (Component.ID == '-ui-checkbox') {
                 extraProps = {
                     value,
                     onChange: onCheckboxChange.bind(null, name)

@@ -9,7 +9,7 @@ function dispatchResponse(store, action, resData, error) {
         _FETCH_ID: resData ? ACTION_IDS.FETCH_END : ACTION_IDS.FETCH_ERROR,
         data: id,
         error
-    };
+    }
 
     if (!beforeDispatch || beforeDispatch(resData, error)) {
         Object.assign(dispatchObject, {
