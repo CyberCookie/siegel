@@ -10,9 +10,12 @@ import './styles'
 const componentID = '-ui-slider'
 
 const Slider: _Slider = (props, withDefaults) => {
-    let { theme, className, startFrom, showNumber, data, noControlls, attributes, onChange } = withDefaults
+    const mergedProps = withDefaults
         ?   (props as _Slider['defaults'] & typeof props)
         :   extractProps(Slider.defaults, props)
+    
+    const { theme, startFrom, showNumber, data, noControlls, attributes, onChange } = mergedProps;
+    let className = mergedProps.className;
 
     className += ` ${theme.slider}`
     let sliderRootProps = {
@@ -21,31 +24,29 @@ const Slider: _Slider = (props, withDefaults) => {
     }
     attributes && (sliderRootProps = Object.assign(sliderRootProps, attributes))
 
-    let [ curPage, setPage ] = useState(0)
+    const [ curPage, setPage ] = useState(0)
 
     useEffect(() => {
         if (startFrom !== undefined) {
             // Hack since React triggers useEffect before childs mount
-            function switchInterval() {
-                let firstSlidePage = getSlideElements().firstSlidePage;
+            const switchIntervalID = setInterval(() => {
+                const firstSlidePage = getSlideElements().firstSlidePage;
     
                 if (firstSlidePage) {
                     clearInterval(switchIntervalID)
-                    switchPage(startFrom!)
+                    switchPage(startFrom)
                 }
-            }
-
-            let switchIntervalID = setInterval(switchInterval, 100)
+            }, 100)
         }
     }, [])
 
 
-    let numberOfPages = Math.ceil(data.length / showNumber)
+    const numberOfPages = Math.ceil(data.length / showNumber)
 
     function getSlideElements() {
-        let wrapperChilds = sliderRootProps.ref.current.childNodes;
-        let slideArea = ((noControlls ? wrapperChilds[0] : wrapperChilds[1]) as HTMLElement)
-        let firstSlidePage = (slideArea.childNodes[0] as HTMLElement)
+        const wrapperChilds = sliderRootProps.ref.current.childNodes;
+        const slideArea = ((noControlls ? wrapperChilds[0] : wrapperChilds[1]) as HTMLElement)
+        const firstSlidePage = (slideArea.childNodes[0] as HTMLElement)
 
         return { slideArea, firstSlidePage }
     }
@@ -61,10 +62,10 @@ const Slider: _Slider = (props, withDefaults) => {
     function switchPage(nextPage: number, e?: HTMLSwipeMouseEvent | React.MouseEvent) {
         setPage(nextPage)
 
-        let { slideArea, firstSlidePage } = getSlideElements()
+        const { slideArea, firstSlidePage } = getSlideElements()
 
         let nextLeft = firstSlidePage.clientWidth;
-        let slidePageStyles: Indexable = window.getComputedStyle(firstSlidePage)
+        const slidePageStyles: Indexable = window.getComputedStyle(firstSlidePage)
         slidePageStyles['margin-left'] && (nextLeft += parseInt(slidePageStyles['margin-left']))
         slidePageStyles['margin-right'] && (nextLeft += parseInt(slidePageStyles['margin-right']))
         slidePageStyles['border-left-width'] && (nextLeft += parseInt(slidePageStyles['border-left-width']))
@@ -76,11 +77,11 @@ const Slider: _Slider = (props, withDefaults) => {
     }
     
     function getSliderElements() {
-        let controlls = []
-        let slidePages = []
+        const controlls = []
+        const slidePages = []
 
         for (let i = 0, curSlideIndex = 0; i < numberOfPages; i++) {
-            let slides = []
+            const slides = []
 
             noControlls || controlls.push(
                 <div key={i} className={`${theme.control} ${i == curPage ? theme.control__active : ''}`}
@@ -98,10 +99,10 @@ const Slider: _Slider = (props, withDefaults) => {
             )
         }
         
-        let result: SliderElementsResult = { slidePages }
+        const result: SliderElementsResult = { slidePages }
         noControlls || (result.pageControlls = (
             <div className={theme.slides_controlls} children={controlls} onMouseDown={e => {
-                let nextPage = (e.target as HTMLDivElement).dataset.page;
+                const nextPage = (e.target as HTMLDivElement).dataset.page;
                 nextPage && switchPage(+nextPage, e)
             }} />
         ))
@@ -110,7 +111,7 @@ const Slider: _Slider = (props, withDefaults) => {
         return result
     }
 
-    let { pageControlls, slidePages } = getSliderElements()
+    const { pageControlls, slidePages } = getSliderElements()
 
 
     return (

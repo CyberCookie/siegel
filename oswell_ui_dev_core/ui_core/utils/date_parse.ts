@@ -15,10 +15,10 @@ type DateParsed = {} & DateParsedZeroed & DateParsedNonZeroed
  * @param zeroPrefix - determine whether to prefix date parts if it's < 10
  * @returns parsed date object
 */
-function dateParse(date: string | number = Date.now(), zeroPrefix?: boolean) {
-    let localDate = new Date(date)
+const dateParse = (date: string | number = Date.now(), zeroPrefix?: boolean) => {
+    const localDate = new Date(date)
 
-    let result: DateParsedZeroed = {
+    const result: DateParsedZeroed = {
         month: localDate.getMonth() + 1,
         date: localDate.getDate(),
         hours: localDate.getHours(),
@@ -27,8 +27,8 @@ function dateParse(date: string | number = Date.now(), zeroPrefix?: boolean) {
     }
 
     if (zeroPrefix) {
-        for (let datePartKey in result) {
-            let datePart = result[datePartKey]
+        for (const datePartKey in result) {
+            const datePart = result[datePartKey]
             datePart < 10 && (result[datePartKey] = '0' + datePart)
         }
     }

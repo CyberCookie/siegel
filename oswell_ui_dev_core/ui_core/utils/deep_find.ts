@@ -14,15 +14,15 @@ function deepFind
 <K extends string, T extends IndexObjectKeys<K, T[]>>
 (fn: LookupFn, obj: T, key: K): T | void {
 
-    let seekIn = obj[key]
+    const seekIn = obj[key]
 
-    for (var i = 0, l = seekIn.length; i < l; i++) {
-        let elem = seekIn[i]
+    for (let i = 0, l = seekIn.length; i < l; i++) {
+        const elem = seekIn[i]
 
         if (fn(elem)) return elem;
 
-        if (elem[key]) {
-            let result = deepFind(fn, elem, key)
+        if (Array.isArray(elem[key])) {
+            const result = deepFind(fn, elem, key)
             if (result) return result
         }
     }

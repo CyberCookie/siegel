@@ -1,51 +1,41 @@
 {
-    "parser": "@typescript-eslint/parser",
     "env": {
         "browser": true,
         "node": true,
-        "es6": true
+        "es6": true,
+        "es2017": true
     },
     "settings": {
         "react": {
             "version": "detect"
         }
     },
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "project": "tsconfig.json",
+        "tsconfigRootDir": ".",
         "ecmaVersion": 8,
         "ecmaFeatures": { "jsx": true },
         "sourceType": "module"
     },
+    "extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:react/recommended"
+    ],
     "plugins": ["@typescript-eslint", "react"],
     "rules": {
-        "react/jsx-no-bind": [
-            "error",
-            {
-                "allowArrowFunctions": true,
-                "allowBind": false,
-                "ignoreRefs": true
-            }
-        ],
-        "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error",
-        "react/jsx-key": "error",
-        "react/jsx-indent": 0,
-        "react/jsx-indent-props": 0,
-        "react/jsx-tag-spacing": 0,
-        "react/no-deprecated": "warn",
-        "react/no-did-update-set-state": "error",
-        "react/react-in-jsx-scope": "error",
-        "react/no-unknown-property": "error",
-        "getter-return": "error",
-        "no-dupe-args": "error",
-        "no-dupe-keys": "error",
-        "no-unused-vars": "warn",
-        // "no-unused-vars-experimental": "warn",
-        "no-fallthrough": "error",
-        "no-extra-boolean-cast": "error",
-        "no-extra-semi": "error",
-        "no-invalid-regexp": "error",
-        "no-unreachable": "error",
-        "no-undef": "error",
-        "default-case": "warn"
+        "react/jsx-no-bind": 0,
+        "react/no-children-prop": 0,
+        "react/prop-types": 0,
+        "@typescript-eslint/no-var-requires": 0,
+        "@typescript-eslint/explicit-function-return-type": 0,
+        "@typescript-eslint/no-use-before-define": 0,
+        "@typescript-eslint/no-non-null-assertion": 0,
+        "@typescript-eslint/camelcase": 0,
+        "@typescript-eslint/member-delimiter-style": 0,
+        "@typescript-eslint/no-explicit-any": 0
     }
 }

@@ -11,9 +11,12 @@ const componentID = '-ui-popup'
 const onPopupBodyClick = (e: React.MouseEvent) => e.stopPropagation()
 
 const Popup: _Popup = (props, withDefaults) => {
-    let { theme, className, closeIcon, content, onClose, attributes } = withDefaults
+    const mergedProps = withDefaults
         ?   (props as _Popup['defaults'] & typeof props)
         :   extractProps(Popup.defaults, props)
+
+    const { theme, closeIcon, content, onClose, attributes } = mergedProps;
+    let className = mergedProps.className;
 
     className += ` ${s.popup} ${theme.popup}`
 

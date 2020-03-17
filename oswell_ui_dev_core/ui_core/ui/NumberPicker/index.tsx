@@ -1,60 +1,99 @@
 import React from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps, ComponentAttributes } from '../ui_utils'
+import isExists from '../../utils/is_exists'
 import { _NumberPicker } from './types'
 
 
 const componentID = '-ui-number-picker'
 
-const validSymbolSeqRegExp = /^\-?(\d*\.?)?\d*$/;
+const getIntSize = (value: number) => (Math.abs(parseInt(value)) + '').length;
+
+function getRegExp(min?: number, max?: number, precision?: number): string {
+    const minLimit = Math.min((min as number), (max as number))
+    let regexpTemplate = '^'
+
+    minLimit < 0 && (regexpTemplate += '-?')
+    regexpTemplate += '\\d'
+
+    const floatRegExp = '\\.?\\d'
+    
+    const isFiniteMin = isFinite(min)
+    const isFiniteMax = isFinite(max)
+    if (isFiniteMax || isFiniteMin) {
+        const sizeMin = isFiniteMin ? getIntSize(min!) : 0;
+        const sizeMax = isFiniteMax ? getIntSize(max!) : 0;
+        regexpTemplate += `{0,${Math.max(sizeMin, sizeMax)}}`
+    } else {
+        regexpTemplate += '*'
+    }
+
+    if (precision === undefined) {
+        regexpTemplate += `${floatRegExp}*`
+    } else if (precision != 0) {
+        regexpTemplate += `${floatRegExp}{0,${precision}}`
+    }
+
+    regexpTemplate += '$'
+
+
+    return regexpTemplate
+}
 
 const NumberPicker: _NumberPicker = (props, withDefaults) => {
-    let {
-        theme, className, value, disabled, onChange, step, min, max, minusIcon, plusIcon, label, payload,
-        disableInput, attributes, inputAttributes
-    } = withDefaults
+    const mergedProps = withDefaults
         ?   (props as _NumberPicker['defaults'] & typeof props)
         :   extractProps(NumberPicker.defaults, props)
+    
+    const {
+        theme, value, disabled, onChange, step, minusIcon, plusIcon, label, payload,
+        disableInput, attributes, inputAttributes, placeholder, precision, regexp
+    } = mergedProps;
+    let { className, min, max } = mergedProps;
 
     className += ` ${theme.number_picker}`
     disabled && (className += ` ${theme.number_picker__disabled}`)
 
-    let numberpickerRootProps = { className }
+    isExists(min) || (min = -Infinity)
+    isExists(max) || (max = Infinity)
+
+    const numberpickerRootProps = { className }
     attributes && (Object.assign({}, attributes, numberpickerRootProps))
 
 
-    let numberValue = parseFloat(value as string) || 0;
+    const numberValue = parseFloat(value as string) || 0;
+    const regexpString = regexp || getRegExp(min, max, precision)
+    const numberMask = new RegExp(regexpString)
 
     function onBlur(e: React.FocusEvent<HTMLInputElement>) {
         e.persist()
         onNumberPickerChange(parseFloat(e.target.value) || 0, e)
     }
 
-    function onNumberPickerChange(value: number, e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>) {
-        disabled || onChange(value, e, payload)
+    function onNumberPickerChange(value: number, e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>, isButtonClick?: boolean) {
+        if (!disabled) {
+            value < min! && (value = (min as number))
+            value > max! && (value = (max as number))
+
+            onChange(value, e, payload)
+        }
     }
 
     function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (!disabled) {
-            let value = e.target.value;
-            let numberValue = +value;
-
-            if (value === ''
-                || (isNaN(numberValue) && validSymbolSeqRegExp.test(value))
-                || (numberValue >= min && numberValue <= max)
-            ) {
-                onChange(value, e, payload)
-            }
+            const value = e.target.value;
+            numberMask.test(value) && onChange(value, e, payload)
         }
     }
     
-    let inputFieldAttributes = {
+    const inputFieldAttributes: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>> = {
         value, onBlur,
         onChange: onInputChange,
         className: theme.field,
         disabled: disableInput || disabled,
     }
-    inputAttributes && (Object.assign({}, inputAttributes, inputFieldAttributes))
+    placeholder && (inputFieldAttributes.placeholder = placeholder)
+    inputAttributes && (Object.assign(inputFieldAttributes, inputAttributes))
 
     let inputElement = <input {...inputFieldAttributes} />
     label && (inputElement = (
@@ -67,15 +106,17 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
 
     return (
         <div {...numberpickerRootProps}>
-            <div className={theme.controls}>
-                <button className={theme.button_minus} children={minusIcon}
-                    disabled={((disabled || (min && numberValue <= min)) as boolean )}
-                    onMouseDown={e => onNumberPickerChange(numberValue - step, e)} />
+            { isExists(step) && (
+                <div className={theme.controls}>
+                    <button className={theme.button_minus} children={minusIcon}
+                        disabled={((disabled || (min && numberValue <= min)) as boolean )}
+                        onMouseDown={e => onNumberPickerChange(numberValue - step, e, true)} />
 
-                <button className={theme.button_plus} children={plusIcon}
-                    disabled={((disabled || (max && numberValue >= max)) as boolean )}
-                    onMouseDown={e => onNumberPickerChange(numberValue + step, e)} />
-            </div>
+                    <button className={theme.button_plus} children={plusIcon}
+                        disabled={((disabled || (max && numberValue >= max)) as boolean )}
+                        onMouseDown={e => onNumberPickerChange(numberValue + step, e, true)} />
+                </div>
+            )}
 
             { inputElement }
         </div>
@@ -93,9 +134,6 @@ NumberPicker.defaults = {
         field: componentID + '_field'
     },
 
-    step: 1,
-    min: 0,
-    max: Infinity,
     minusIcon: '-',
     plusIcon: '+'
 }

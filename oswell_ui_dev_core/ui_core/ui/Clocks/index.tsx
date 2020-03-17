@@ -9,30 +9,30 @@ import { _Clocks } from './types'
 const componentID = '-ui-clocks'
 
 const Clocks: _Clocks = (props, withDefaults) => {
-    let { className, updateInterval, builder, zeroing, attributes } = withDefaults
+    const { className, updateInterval, builder, zeroing, attributes } = withDefaults
         ?   (props as _Clocks['defaults'] & typeof props)
         :   extractProps(Clocks.defaults, props)
 
     const getNextClockState = () => builder && builder(dateParse(Date.now(), zeroing))
     
-    let [ parsedDate, setState ] = useState(getNextClockState())
+    const [ parsedDate, setState ] = useState(getNextClockState())
 
-    let clocksRootProps = {
+    const clocksRootProps = {
         className,
         children: parsedDate
     }
     attributes && (Object.assign(clocksRootProps, attributes))
 
     useLayoutEffect(() => {
-        let date = new Date()
+        const date = new Date()
 
         let deltaTime = updateInterval - date.getMilliseconds()
         updateInterval == msIn.minute && (deltaTime -= (date.getSeconds() * 1000))
 
         let intervalID: number;
-        let timeoutID = setTimeout(() => {
+        const timeoutID = setTimeout(() => {
             tick()
-            intervalID = setInterval(tick, updateInterval)
+            intervalID = (setInterval as typeof window.setInterval)(tick, updateInterval)
         }, deltaTime)
         
 
@@ -44,7 +44,6 @@ const Clocks: _Clocks = (props, withDefaults) => {
 
 
     function tick() { setState(getNextClockState()) }
-
 
 
     return <div {...clocksRootProps} />

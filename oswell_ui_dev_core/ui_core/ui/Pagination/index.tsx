@@ -7,17 +7,20 @@ import { _Pagination } from './types'
 const componentID = '-ui-pagination'
 
 const Pagination: _Pagination = (props, withDefaults) => {
-    let { theme, className, attributes, listLength, curPage, showPerPage, elementsBySide,
-        elementsByMiddle, onChange, controlIcon, separator, payload } = withDefaults
+    const mergedProps = withDefaults
             ?   (props as _Pagination['defaults'] & typeof props)
             :   extractProps(Pagination.defaults, props)
     
+    const { theme, attributes, listLength, curPage, showPerPage, elementsBySide,
+        elementsByMiddle, onChange, controlIcon, separator, payload } = mergedProps;
+    let className = mergedProps.className;
+
     className += ` ${theme.pagination}`
     
     let paginationRootProps = {
         className,
         onMouseDown(e: React.MouseEvent) {
-            let page = (e.target as HTMLDivElement).dataset.page;
+            const page = (e.target as HTMLDivElement).dataset.page;
     
             if (page) {
                 let newPage = curPage;
@@ -35,7 +38,7 @@ const Pagination: _Pagination = (props, withDefaults) => {
     }
     attributes && (paginationRootProps = Object.assign(paginationRootProps, attributes))
 
-    let numberOfPages = Math.ceil(listLength / showPerPage)
+    const numberOfPages = Math.ceil(listLength / showPerPage)
 
     
     const getPageElement = (page: number) => (
@@ -48,13 +51,13 @@ const Pagination: _Pagination = (props, withDefaults) => {
     )
 
     function getPaginationElements() {
-        let result = []
+        const result = []
 
         let from = curPage - elementsByMiddle;
-        let minFrom = elementsBySide + 1;
+        const minFrom = elementsBySide + 1;
         
         let to = curPage + elementsByMiddle;
-        let maxTo = numberOfPages - elementsBySide;
+        const maxTo = numberOfPages - elementsBySide;
 
 
         for (let i = 1; i <= elementsBySide; i++) {

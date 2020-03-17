@@ -1,4 +1,4 @@
-const cssSVG                = require('iconfont-webpack-plugin')
+// const cssSVG                = require('iconfont-webpack-plugin')
 const sass                  = require('sass')
 const autoprefixer          = require('autoprefixer')
 const cssMinifier           = require('cssnano')
@@ -17,12 +17,12 @@ function getModules(CONFIG, RUN_PARAMS) {
     let loadersInclude = [CONSTANTS.PATHS.uiCore]
     Array.isArray(input.include)
         ?   (loadersInclude = loadersInclude.concat(input.include))
-        :   loadersInclude.push(input.include)
+        :   loadersInclude.push(input.include);
     
     let loadersExclude = [/*CONSTANTS.PATHS.nodeModules*/]
     Array.isArray(input.exclude)
         ?   (loadersExclude = loadersExclude.concat(input.exclude))
-        :   loadersInclude.push(input.exclude)
+        :   loadersInclude.push(input.exclude);
 
 
 
@@ -41,8 +41,8 @@ function getModules(CONFIG, RUN_PARAMS) {
                             'react-hot-loader/babel',
                             '@babel/plugin-proposal-export-default-from',
                             '@babel/plugin-proposal-export-namespace-from',
-                            '@babel/plugin-syntax-dynamic-import',
-                            ['@babel/plugin-proposal-class-properties', { loose: true }]
+                            '@babel/plugin-syntax-dynamic-import'
+                            // ['@babel/plugin-proposal-class-properties', { loose: true }]
                         ]
                     }
                 },
@@ -74,15 +74,15 @@ function getModules(CONFIG, RUN_PARAMS) {
                         }
                     }
                 },
-                
+
                 {
                     loader: 'postcss-loader',
                     options: {
                         sourceMap: !isProd,
                         plugins: loader => [
                             autoprefixer({ overrideBrowserList: 'last 1 version' }),
-                            cssMinifier({ preset: 'default' }),
-                            new cssSVG(loader)
+                            cssMinifier({ preset: 'default' })
+                            // new cssSVG(loader)
                         ]
                     }
                 },
@@ -103,7 +103,12 @@ function getModules(CONFIG, RUN_PARAMS) {
                     }
                 }
             ]
-        }
+        },
+
+        // {
+        //     test: /\.(svg|eot|ttf|woff|woff2)?$/,
+        //     loader: "url-loader"
+        // }
     ]
 
 

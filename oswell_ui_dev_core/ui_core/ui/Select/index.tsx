@@ -10,11 +10,11 @@ const componentID = '-ui-select'
 const _isTouchScreen = isTouchScreen()
 
 function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
-    let { options, selected, theme, onChange, closeOnSelect } = props;
+    const { options, selected, theme, onChange, closeOnSelect } = props;
 
 
     return options.map(option => {
-        let { disabled, title, id, payload } = option;
+        const { disabled, title, id, payload } = option;
     
         let optionClassName = theme.option;
         id === selected && (optionClassName += ` ${theme.option_active}`)
@@ -32,12 +32,14 @@ function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React
 }
 
 const Select: _Select = (props, withDefaults) => {
-    let [ isActive, setActive ] = useState(false)
+    const [ isActive, setActive ] = useState(false)
 
-    let mergedProps = withDefaults
+    const mergedProps = withDefaults
         ?   (props as _Select['defaults'] & typeof props)
         :   extractProps(Select.defaults, props)
-    let { theme, className, attributes, displayValue, dropdownIcon, label } = mergedProps
+
+    const { theme, attributes, displayValue, dropdownIcon, label } = mergedProps;
+    let className = mergedProps.className;
 
     className += ` ${theme.select}`
     isActive && (className += ` ${theme.select_active}`)
@@ -58,7 +60,7 @@ const Select: _Select = (props, withDefaults) => {
         const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
             selectRootProps.ref.current.contains(e.target as Node) || setActive(false)
         }
-        let eventOptions = { passive: true }
+        const eventOptions = { passive: true }
 
         _isTouchScreen
             ?   document.addEventListener('touchstart', handleOutsideClick, eventOptions)

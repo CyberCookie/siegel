@@ -1,4 +1,3 @@
-import React from 'react'
 import { withDefaults } from 'core-ui/ui_utils'
 
 import _Button from 'core-ui/Button'

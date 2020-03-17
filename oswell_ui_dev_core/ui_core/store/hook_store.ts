@@ -25,9 +25,9 @@ type Store = {
 
 const setState: SetState = function(this, newState) {
     this.state = { ...newState }
-    let listenersCount = this.listeners.length
+    const listenersCount = this.listeners.length
 
-    for (var i = 0; i < listenersCount; i++) {
+    for (let i = 0; i < listenersCount; i++) {
         this.listeners[i](this.state)
     }
 }
@@ -48,7 +48,7 @@ function useCustom(this: Store) {
 
 function bindActions(store: Store, actions: Actions) {
     const result: Indexable = {}
-    for (let ACTION_ID in actions) {
+    for (const ACTION_ID in actions) {
         result[ACTION_ID] = actions[ACTION_ID].bind(null, store)
     }
 
@@ -60,11 +60,11 @@ const createHookStore = (initialState: Indexable, actions: Actions) => {
     const store: StoreBase = { state: initialState, listeners: [] };
     (store as Store).setState = setState.bind(store);
 
-    actions && (store.actions = bindActions(<Store>store, actions))
+    actions && (store.actions = bindActions((store as Store), actions))
 
     
     return {
-        useStore: useCustom.bind(<Store>store),
+        useStore: useCustom.bind((store as Store)),
         store
     }
 }

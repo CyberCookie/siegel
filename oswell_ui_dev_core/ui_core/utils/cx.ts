@@ -5,7 +5,7 @@
  */
 function cx(staticClassName: string, rules: Record<string, string | number | boolean>): string {
     let result = staticClassName;
-    for (let key in rules) {
+    for (const key in rules) {
         rules[key] && (result += ` ${key}`)
     }
 

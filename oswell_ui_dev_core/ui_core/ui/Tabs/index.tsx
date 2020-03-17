@@ -8,7 +8,7 @@ import './styles'
 const componentID = `-ui-tabs`
 
 function getLabels({ data, activeTab, onChange, theme }: Props & DefaultProps) {
-    let labels = data.map(({ label, id, payload }) => {
+    const labels = data.map(({ label, id, payload }) => {
         let labelClassName = theme.tab_label;
         activeTab == id && (labelClassName += ` ${theme.tab_label__active}`)
     
@@ -22,13 +22,15 @@ function getLabels({ data, activeTab, onChange, theme }: Props & DefaultProps) {
 }
 
 const Tabs: _Tabs = (props, withDefaults) => {
-    let mergedProps = withDefaults
+    const mergedProps = withDefaults
         ?   (props as _Tabs['defaults'] & typeof props)
         :   extractProps(Tabs.defaults, props)
-    let { theme, data, activeTab, attributes, className } = mergedProps;
-    
-    let tab = data.find(tab => tab.id === activeTab)
 
+    const { theme, data, activeTab, attributes } = mergedProps;
+    let className = mergedProps.className;
+    
+    const tab = data.find(tab => tab.id === activeTab)
+    
     className += ` ${theme.tabs}`;
     (tab && tab.content) || (className += ` ${theme.tab_content__empty}`)
 

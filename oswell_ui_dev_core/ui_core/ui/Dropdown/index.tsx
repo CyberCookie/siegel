@@ -12,15 +12,18 @@ const onClickHandler = (e: React.MouseEvent) => {
 }
 
 const Dropdown: _Dropdown = (props, withDefaults) => {
-    let { theme, className, list, builder, dropdownIcon, soloOpen, attributes } = withDefaults
+    const mergedProps = withDefaults
         ?   (props as _Dropdown['defaults'] & typeof props)
         :   extractProps(Dropdown.defaults, props)
+    
+    const { theme, list, builder, dropdownIcon, soloOpen, attributes } = mergedProps;
+    let className = mergedProps.className;
 
     function childrenMapper({ title, children }: ListElement, i: number) {
         let wrapperClass;
 
         if (builder) {
-            let { elem, className } = builder(title, children)
+            const { elem, className } = builder(title, children)
             title = elem;
             wrapperClass = className
         }
@@ -44,8 +47,8 @@ const Dropdown: _Dropdown = (props, withDefaults) => {
 
     function onDropdownToggle(e: React.MouseEvent<HTMLDetailsElement>) {
         e.stopPropagation()
-        let dropdownTitle = e.currentTarget;
-        let curState = dropdownTitle.open;
+        const dropdownTitle = e.currentTarget;
+        const curState = dropdownTitle.open;
 
         if (soloOpen) {
             let sibling = dropdownTitle.parentElement!.firstChild;
@@ -61,7 +64,7 @@ const Dropdown: _Dropdown = (props, withDefaults) => {
     
 
     className += ` ${theme.dropdown}`
-    let dropdownRootProps = {
+    const dropdownRootProps = {
         className,
         children: list.map(childrenMapper)
     }

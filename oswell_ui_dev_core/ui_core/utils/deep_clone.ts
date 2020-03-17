@@ -9,8 +9,7 @@ function deepClone<T>(obj: T): T {
     let result: Indexable;
     if (Array.isArray(obj)) {
         result = []
-
-        for (var i = 0, l = obj.length; i < l; i++) {
+        for (let i = 0, l = obj.length; i < l; i++) {
             result[i] = deepClone(obj[i])
         }
 
@@ -18,7 +17,7 @@ function deepClone<T>(obj: T): T {
     }
 
     result = {}
-    for (let i in obj) {
+    for (const i in obj) {
         result[i] = deepClone(obj[i])
     }
 

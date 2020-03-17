@@ -19,7 +19,8 @@
 		}
 	},
     "include": [
-		"./oswell_ui_dev_core/ui_core",
-		"./client"
+		"./oswell_ui_dev_core",
+		"./client",
+		"./server"
 	]
 }

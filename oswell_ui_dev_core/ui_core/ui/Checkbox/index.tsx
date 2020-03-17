@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { extractProps, withDefaults } from '../ui_utils'
-import { Props, _Checkbox } from './types'
+import { extractProps } from '../ui_utils'
+import { _Checkbox } from './types'
 
 import s from './styles.sass'
 
@@ -14,7 +14,7 @@ const _onChange = (e: React.ChangeEvent) => {
 }
 
 const Checkbox: _Checkbox = (props, withDefaults) => {
-    let { theme, className, onChange, attributes, label, value, disabled, payload } = withDefaults
+    const { theme, className, onChange, attributes, label, value, disabled, payload } = withDefaults
         ?   (props as _Checkbox['defaults'] & typeof props)
         :   extractProps(Checkbox.defaults, props)
     
@@ -34,7 +34,7 @@ const Checkbox: _Checkbox = (props, withDefaults) => {
     let wrapperClassName = theme.wrapper;
 
     if (className) {
-        let classToAdd = ` ${className}`
+        const classToAdd = ` ${className}`
 
         label
             ?   (wrapperClassName += classToAdd)
@@ -43,7 +43,7 @@ const Checkbox: _Checkbox = (props, withDefaults) => {
 
     attributes && (checkboxInputProps = Object.assign(checkboxInputProps, attributes))
 
-    let CheckboxElement = <input {...checkboxInputProps} />
+    const CheckboxElement = <input {...checkboxInputProps} />
 
 
     return label

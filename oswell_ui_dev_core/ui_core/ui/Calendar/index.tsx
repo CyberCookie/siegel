@@ -9,8 +9,8 @@ import { ActiveDateRange, Props, DefaultProps, _Calendar } from './types'
 
 const componentID = '-ui-calendar'
 
-function getBeginOfMonth(rangeDateStart: ActiveDateRange['rangeDateStart'], monthsBefore: Props['monthsBefore']) {
-    let curDate = new Date(rangeDateStart)
+const getBeginOfMonth = (rangeDateStart: ActiveDateRange['rangeDateStart'], monthsBefore: Props['monthsBefore']) => {
+    const curDate = new Date(rangeDateStart)
     curDate.setHours(0,0,0,0)
     curDate.setDate(1)
 
@@ -26,18 +26,19 @@ function getWeekDayNames(days: string[], theme: DefaultProps['theme']) {
 }
 
 const Calendar: _Calendar = (props, withDefaults) => {
-    let mergedProps = withDefaults
+    const mergedProps = withDefaults
         ?   (props as _Calendar['defaults'] & typeof props)
         :   extractProps(Calendar.defaults, props)
 
-    let { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon, payload,
-        nextIcon, noControlls, onChange, triggerOnlyWhenFinished, className } = mergedProps;
+    const { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon, payload,
+        nextIcon, noControlls, onChange, triggerOnlyWhenFinished } = mergedProps;
+    let className = mergedProps.className;
     
     className += ` ${theme.calendar} ${s.calendar}`
     
-    let { rangeDateStart, rangeDateEnd } = activeDate;
+    const { rangeDateStart, rangeDateEnd } = activeDate;
 
-    let [ state, setState ] = useState({
+    const [ state, setState ] = useState({
         innerRangeStart: rangeDateStart,
         innerRangeEnd: rangeDateEnd || rangeDateStart,
         inProgress: false,
@@ -45,15 +46,15 @@ const Calendar: _Calendar = (props, withDefaults) => {
         beginOfMonth: getBeginOfMonth(rangeDateStart, monthsBefore)
     })
 
-    let ref = useRef<HTMLDivElement>(null)
+    const ref = useRef<HTMLDivElement>(null)
     
-    let { inProgress, beginOfMonth } = state;
-    let _locale = dateLocalizationByLocale[locale || 'en']
-    let days = weekStartsFrom ? shiftWeekDays() : _locale.daysShort;
+    const { inProgress, beginOfMonth } = state;
+    const _locale = dateLocalizationByLocale[locale || 'en']
+    const days = weekStartsFrom ? shiftWeekDays() : _locale.daysShort;
 
 
     function shiftWeekDays() {
-        let days = [..._locale.daysShort]
+        const days = [..._locale.daysShort]
         return days.concat(days.splice(0, weekStartsFrom))
     }
 
@@ -67,15 +68,15 @@ const Calendar: _Calendar = (props, withDefaults) => {
     function pickRangeStart(e: React.MouseEvent) {
         e.stopPropagation()
         
-        let rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp!;
+        const rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp!;
 
 
         if (rangeDateStart) {
             ref.current!.addEventListener('mouseup', pickRangeFinish)
             ref.current!.addEventListener('mouseover', pickRangeProgress)
 
-            let date = new Date(rangeDateStart)
-            let rangeDateEnd = date.setDate(date.getDate() + 1) - 1;
+            const date = new Date(rangeDateStart)
+            const rangeDateEnd = date.setDate(date.getDate() + 1) - 1;
             
             state.innerRangeEnd = rangeDateEnd;
             state.innerRangeStart = rangeDateStart;
@@ -90,17 +91,17 @@ const Calendar: _Calendar = (props, withDefaults) => {
 
     function pickRangeProgress(e: MouseEvent) {
         e.stopPropagation()
-        let timestamp = +(e.target as HTMLDivElement).dataset.timestamp!;
+        const timestamp = +(e.target as HTMLDivElement).dataset.timestamp!;
 
         if (timestamp) {
-            let anchor = state.anchor;
+            const anchor = state.anchor;
             if (timestamp > anchor) {
-                let date = new Date(timestamp)
+                const date = new Date(timestamp)
 
                 state.innerRangeStart = anchor;
                 state.innerRangeEnd = date.setDate(date.getDate() + 1) - 1
             } else if (timestamp < anchor) {
-                let date = new Date(anchor)
+                const date = new Date(anchor)
 
                 state.innerRangeStart = timestamp;
                 state.innerRangeEnd = date.setDate(date.getDate() + 1) - 1
@@ -129,16 +130,16 @@ const Calendar: _Calendar = (props, withDefaults) => {
     }
 
     function getAllMonths() {
-        let start = new Date(beginOfMonth)
+        const start = new Date(beginOfMonth)
         
         let className = theme.month_days;
         inProgress && (className += ` ${theme.in_progress}`)
         
 
-        let months = []
+        const months = []
         for (let i = 0, l = monthsBefore + monthsAfter + 1; i < l; i++) {
-            let titleMonth = _locale.months[start.getMonth()]
-            let titleYear = start.getFullYear()
+            const titleMonth = _locale.months[start.getMonth()]
+            const titleYear = start.getFullYear()
 
             months.push(
                 <div key={i}>
@@ -164,8 +165,7 @@ const Calendar: _Calendar = (props, withDefaults) => {
                                 innerRangeEnd: state.innerRangeEnd,
                                 innerRangeStart: state.innerRangeStart,
                             }}
-                            beginOfMonth={new Date(start)}
-                            locale={_locale} />
+                            beginOfMonth={new Date(start)} />
                     </div>
                 </div>
             )

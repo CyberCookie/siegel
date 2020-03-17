@@ -1,5 +1,4 @@
 import { PropsComponentThemed, CoreIUComponent } from '../ui_utils'
-import { DateLocalization } from '../../utils/date_const'
 
 
 type ActiveDateRange = {
@@ -41,7 +40,6 @@ type ChildProps = {
     }
     beginOfMonth: Date
     days: string[]
-    locale: DateLocalization
 }
 
 type AllDaysData = {

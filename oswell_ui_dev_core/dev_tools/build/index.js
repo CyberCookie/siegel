@@ -9,7 +9,6 @@ const defaultModulesResolve = require('./modules')
 
 const DEFAULT_PUBLICK_PATH = '/'
 
-
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
     const { input, output, aliases = {}, publicPath = DEFAULT_PUBLICK_PATH, postProcessWebpackConfig } = CONFIG.build;
     const { isProd, isDevServer } = RUN_PARAMS;
@@ -33,7 +32,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             publicPath,
             path: output.loc,
             chunkFilename: 'chunk.[contenthash].js',
-            filename: isProd ? 'app.[contenthash].js' : 'app.js',
+            filename: isProd ? 'app.[contenthash].js' : 'app.[hash].js',
         },
 
         ...( isProd
@@ -52,6 +51,9 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             :   {}
         ),
 
+        // optimization: {
+        //     runtimeChunk: 'single'
+        // },
         
         plugins: defaultPluginsResolve(CONFIG, RUN_PARAMS),
         module: { rules: defaultModulesResolve(CONFIG, RUN_PARAMS) }
@@ -80,7 +82,7 @@ module.exports = {
 
         if (!RUN_PARAMS.isDevServer) {
             webpackCompiller.run((err, stats) => {
-                let message = err || (
+                const message = err || (
                     stats.hasErrors()
                         ?   stats.compilation.errors
                         :   stats.toString(statsOptions)

@@ -2,6 +2,9 @@ import React, { Suspense } from 'react'
 import { Switch, Router, Route, Redirect } from 'react-router-dom'
 import { createBrowserHistory, History } from 'history'
 
+import isExists from './utils/is_exists'
+
+
 type RouterConfig = {
     [path: string]: {
         exact?: boolean,
@@ -25,20 +28,20 @@ type CreateRoutes = (routerConfig: RouterConfig, urlPref?: string) => JSX.Elemen
 const createRoutes: CreateRoutes = (routeConfig, urlPref = '') => {
     let result: JSX.Element[] = []
 
-    for (let path in routeConfig) {
-        let { exact = true, component, children, redirectTo } = routeConfig[path]
+    for (const path in routeConfig) {
+        const { exact = true, component, children, redirectTo } = routeConfig[path]
         
-        if (redirectTo) {
+        if (isExists(redirectTo)) {
             result.push( <Redirect exact={exact} from={path} to={redirectTo} /> )
         } else {
-            let pathResult = `${urlPref}/${path}`
+            const pathResult = `${urlPref}/${path}`
 
             result.push(
                 <Route key={pathResult} exact={exact} path={pathResult} component={component} />
             )
 
             if (children) {
-                let childrenRoutes = createRoutes(children, pathResult)
+                const childrenRoutes = createRoutes(children, pathResult)
                 result = result.concat(childrenRoutes)
             }
         }
@@ -48,7 +51,7 @@ const createRoutes: CreateRoutes = (routeConfig, urlPref = '') => {
 }
 
 const createRouter: CreateRouter = ({ routes, Layout, notFound, isLazy, history }) => {
-    let createdRoutes = createRoutes(routes)
+    const createdRoutes = createRoutes(routes)
     notFound && createdRoutes.push( <Route key={404} component={notFound} /> )
 
     let routerContent = <Switch children={createdRoutes} />
@@ -56,7 +59,7 @@ const createRouter: CreateRouter = ({ routes, Layout, notFound, isLazy, history 
     isLazy && (routerContent = <Suspense fallback='' children={routerContent} />)
     Layout && (routerContent = <Layout children={routerContent} />)
 
-
+    
     return <Router history={history || createBrowserHistory()} children={routerContent} />
 }
 

@@ -9,14 +9,14 @@ const componentID = '-ui-table'
 let CellHTMLTag: React.ElementType;
 
 function getTableRow(row: TableHeadRow | TableBodyRow, rowIndex: number) {
-    let { children, attributes = {} } = row;
+    const { children, attributes = {} } = row;
     attributes.key = attributes.key || rowIndex;
 
     return <tr {...attributes} children={children.map(getTableCell)} />
 }
 
 function getTableCell(cell: TableTH | TableTD, cellIndex: number) {
-    let { value, attributes = {} } = cell;
+    const { value, attributes = {} } = cell;
     attributes.key = attributes.key || cellIndex;
 
     return <CellHTMLTag {...attributes} children={value} />
@@ -29,7 +29,7 @@ function getTableSection(data: TableHeadRow[] | TableBodyRow[], SectionHTMLTag: 
 }
 
 const Table: _Table = (props, withDefaults) => {
-    let { className, head, body, foot, attributes } = withDefaults
+    const { className, head, body, foot, attributes } = withDefaults
         ?   (props as _Table['defaults'] & typeof props)
         :   extractProps(Table.defaults, props)
     

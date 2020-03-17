@@ -26,9 +26,9 @@ function extractProps
 <T extends PropsComponentThemed, U extends PropsComponentThemed>
 (defaultProps: T, props: U) {
 
-    let { className, theme } = props;
-    let { className: defaultClassName, theme: defaultTheme } = defaultProps;
-    let result = Object.assign({}, defaultProps, props)
+    const { className, theme } = props;
+    const { className: defaultClassName, theme: defaultTheme } = defaultProps;
+    const result = Object.assign({}, defaultProps, props)
 
     if (className && defaultClassName) {
         result.className += ` ${defaultClassName}`
@@ -45,7 +45,7 @@ function extractProps
 
 
 const withDefaults = <C extends CoreIUComponent>(Component: C, newDefaults: Parameters<C>[0]) => {
-    let mergedDefaults = extractProps(Component.defaults, newDefaults)
+    const mergedDefaults = extractProps(Component.defaults, newDefaults)
 
     return (props: typeof newDefaults) => Component(
         extractProps(mergedDefaults, props),

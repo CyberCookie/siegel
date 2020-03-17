@@ -14,6 +14,9 @@ type Props = {
     plusIcon?: React.ReactNode
     payload?: any
     disableInput?: boolean
+    placeholder?: string
+    regexp?: string
+    precision?: number
     onChange: (
         value: Value,
         e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement>,
@@ -25,9 +28,6 @@ type Props = {
 
 type DefaultProps = {
     theme: NonNullable<Props['theme']>
-    step: NonNullable<Props['step']>
-    min: NonNullable<Props['min']>
-    max: NonNullable<Props['max']>
     minusIcon: NonNullable<Props['minusIcon']>
     plusIcon: NonNullable<Props['plusIcon']>
 }

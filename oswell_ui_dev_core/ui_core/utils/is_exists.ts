@@ -1,3 +1,1 @@
-const isExists = (value: any) => value !== void 0;
-
-export default isExists
+export default <T = any>(value: T): value is Exclude<T, undefined> => value !== void 0

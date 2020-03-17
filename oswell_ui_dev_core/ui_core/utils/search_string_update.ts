@@ -16,14 +16,13 @@ type UpdateURLQueryParams = {
  * @param value to set if `key` is string. otherwice ignored
  */
 const updateURLQueryParams: UpdateURLQueryParams = function(history, key, value) {
-    let { pathname, search } = window.location;
-
-    let query = new URLSearchParams(search)
+    const { pathname, search } = window.location;
+    const query = new URLSearchParams(search)
 
     if (typeof key == 'string') {
-        query.set(key, <string>value)
+        query.set(key, (value as string))
     } else {
-        for (let searchKey in key) {
+        for (const searchKey in key) {
             query.set(searchKey, key[searchKey])
         }
     }

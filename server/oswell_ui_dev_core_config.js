@@ -49,7 +49,7 @@ const oswellDevCoreConfig = {
             include: APP,
             exclude: NODE_MODULES,
         
-            js: join(APP, 'index.ts'),
+            js: join(APP, 'index.tsx'),
             sw: join(APP, 'sw.js'),
             html: join(APP, 'index.html'),
             assets: join(APP, assetsFolderName),
@@ -65,16 +65,16 @@ const oswellDevCoreConfig = {
         aliases: getAliasesFromTSconfig(),
 
         // plugins: {
-        //     compression: {
-        //         instances: {
-        //             br: {
-        //                 options: { deleteOriginalAssets: false }
-        //             },
-        //             gzip: {
-        //                 options: { deleteOriginalAssets: false }
-        //             }
-        //         }
-        //     }
+            // compression: {
+            //     instances: {
+            //         br: {
+            //             options: { deleteOriginalAssets: false }
+            //         },
+            //         gzip: {
+            //             options: { deleteOriginalAssets: false }
+            //         }
+            //     }
+            // }
         // },
 
         // postProcessWebpackConfig(config) {

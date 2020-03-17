@@ -2,7 +2,7 @@ import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../u
 
 
 type Props = {
-    inputAttr?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+    inputAttr?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
     attributes?: ComponentAttributes
     label?: React.ReactNode
     placeholder?: string
@@ -23,5 +23,9 @@ type DefaultProps = {
 
 type _Input = CoreIUComponent<Props, DefaultProps>
 
+type ComponentRootAttributes = NonNullable<Props['inputAttr']> & {
+    error: '' | null,
+    filled: '' | null
+}
 
-export { Props, DefaultProps, ComponentInputAttributes, _Input }
+export { Props, DefaultProps, ComponentRootAttributes, _Input }

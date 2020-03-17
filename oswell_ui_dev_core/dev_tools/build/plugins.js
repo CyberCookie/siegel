@@ -7,7 +7,6 @@ const serviceWorkerPlugin   = require('serviceworker-webpack-plugin')
 const miniCssExtract        = require('mini-css-extract-plugin')
 
 
-
 function mergeOptions(defaultOptions, userOptions, rewrite) {
     let result = userOptions;
     if (typeof defaultOptions == 'object' && !rewrite) {
@@ -138,7 +137,8 @@ function getPlugins(CONFIG, RUN_PARAMS) {
             plugin: miniCssExtract,
             enabled: isProd || !isServer,
             options: {
-                filename: 'styles.[hash].css'
+                filename: 'styles.[contenthash].css',
+                chunkFilename: '[id].[contenthash].css'
             }
         },
 

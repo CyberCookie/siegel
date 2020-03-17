@@ -7,10 +7,13 @@ import { _Toggle } from './types'
 const componentID = '-ui-toggle'
 
 const Toggle: _Toggle = (props, withDefaults) => {
-    let { theme, labelLeft, labelRight, isToggled, onChange, className, toggleIcon, attributes } = withDefaults
+    const mergedProps = withDefaults
         ?   (props as _Toggle['defaults'] & typeof props)
         :   extractProps(Toggle.defaults, props)
 
+    const { theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes } = mergedProps;
+    
+    let className = mergedProps.className;
     className += ` ${theme.toggle}`
     isToggled && (className += ` ${theme.toggle_checked}`)
 

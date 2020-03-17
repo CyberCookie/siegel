@@ -8,33 +8,35 @@ import cx from '../../utils/cx'
 const componentID = '-ui-search-dropdown'
 
 const DropdownSearch: _DropdownSearch = (props, withDefaults) => {
-    let mergedProps = withDefaults
+    const mergedProps = withDefaults
         ?   (props as _DropdownSearch['defaults'] & typeof props)
         :   extractProps(DropdownSearch.defaults, props)
-    let { className, theme, searchPlaceholder, searchOptions, minInputLength, onChange,
-        closeIcon, searchIcon, optionBuilder, autofocus, payload, attributes, inputAttributes } = mergedProps;
 
-    let [ state, setState ] = useState({
+    const { theme, searchPlaceholder, searchOptions, minInputLength, onChange,
+        closeIcon, searchIcon, optionBuilder, autofocus, payload, attributes, inputAttributes } = mergedProps;
+    let className = mergedProps.className;
+
+    const [ state, setState ] = useState({
         searchValue: ''
     })
     
-    let searchLength = state.searchValue.length;
-    let showOptions = searchOptions.length && searchLength >= minInputLength;
+    const searchLength = state.searchValue.length;
+    const showOptions = searchOptions.length && searchLength >= minInputLength;
     
     className += cx(` ${theme.search_dropdown}`, {
         [theme.search_dropdown__with_suggestions]: showOptions,
         [theme.search_dropdown__filled_field]: searchLength
     })
 
-    let dropdownSearchRootProps = { className }
+    const dropdownSearchRootProps = { className }
     attributes && (Object.assign(dropdownSearchRootProps, attributes))
 
-    let inputProps: React.HTMLProps<HTMLInputElement> = {
+    const inputProps: React.HTMLProps<HTMLInputElement> = {
         className: theme.search_field,
         placeholder: searchPlaceholder,
         value: state.searchValue,
         onChange(e: React.ChangeEvent<HTMLInputElement>) {
-            let searchValue = e.target.value;
+            const searchValue = e.target.value;
             setState({ searchValue })
             
             searchValue.length >= minInputLength && onChange(searchValue, e, payload)

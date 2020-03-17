@@ -1,15 +1,16 @@
 import React, { useState, useLayoutEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 
+import isE from '../../utils/is_exists'
 import { extractProps } from '../ui_utils'
 import { _Breadcrumbs } from './types'
 import s from './styles.sass'
 
 
-let componentID = '-ui-breadcrumbs'
+const componentID = '-ui-breadcrumbs'
 
 let forceUpdate: React.Dispatch<React.SetStateAction<object>> | undefined;
-let dynamicCrumbs: Indexable<React.ReactNode> = {}
+const dynamicCrumbs: Indexable<React.ReactNode> = {}
 const setDynamicCrumb = (crumpId: string, value: React.ReactNode, isForceUpdate = true) => {
     if (dynamicCrumbs[crumpId] != value) {
         dynamicCrumbs[crumpId] = value;
@@ -18,8 +19,8 @@ const setDynamicCrumb = (crumpId: string, value: React.ReactNode, isForceUpdate 
 }
 
 const setDynamicCrumbsBatch = (crumbIDValueMap: Indexable, isForceUpdate = true) => {
-    for (let crumbID in crumbIDValueMap) {
-        let value = crumbIDValueMap[crumbID]
+    for (const crumbID in crumbIDValueMap) {
+        const value = crumbIDValueMap[crumbID]
         dynamicCrumbs[crumbID] = value
     }
 
@@ -31,7 +32,7 @@ const useLayoutEffectFunc = () => () => {
 }
 
 const Breadcrumbs: _Breadcrumbs = (props, withDefaults) => {
-    let { className, attributes, location, separator, config } = withDefaults
+    const { className, attributes, location, separator, config } = withDefaults
         ?   (props as _Breadcrumbs['defaults'] & typeof props)
         :   extractProps(Breadcrumbs.defaults, props)
 
@@ -48,19 +49,19 @@ const Breadcrumbs: _Breadcrumbs = (props, withDefaults) => {
 
 
     function getBreadcrumbs() {
-        let breadcrumbData = []
-        let locationArray = location == '/' ? [''] : location.split('/')
+        const breadcrumbData = []
+        const locationArray = location == '/' ? [''] : location.split('/')
         let loocupScope = config;
         let path = ''
     
-        for (let i = 0; i < locationArray.length; i++) {
-            let loc = locationArray[i]
-            let data = loocupScope[loc] || Object.values(loocupScope)[0]
+        for (let i = 0, l = locationArray.length; i < l; i++) {
+            const loc = locationArray[i]
+            const data = loocupScope[loc] || Object.values(loocupScope)[0]
     
             if (data) {
-                let { crumb, dynamicCrumb, nested } = data;
+                const { crumb, dynamicCrumb, nested } = data;
     
-                let name = dynamicCrumb
+                const name = dynamicCrumb
                     ?   (dynamicCrumbs[dynamicCrumb] || '--')
                     :   typeof crumb == 'function'
                             ?   crumb(path, loc)

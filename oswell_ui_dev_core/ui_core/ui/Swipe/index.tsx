@@ -11,7 +11,7 @@ const _isTouchScreen = isTouchScreen()
 const passiveEv = { passive: true }
 
 const Swipe: _Swipe = (props, withDefaults) => {
-    let { className, children, xAxis, deltaPos, onSwipe, attributes } = withDefaults
+    const { className, children, xAxis, deltaPos, onSwipe, attributes } = withDefaults
         ?   (props as _Swipe['defaults'] & typeof props)
         :   extractProps(Swipe.defaults, props);
 
@@ -24,14 +24,14 @@ const Swipe: _Swipe = (props, withDefaults) => {
     useLayoutEffect(() => removeTouchEvents, [])
 
 
-    let state: State = {
+    const state: State = {
         mouseDownPos: null,
         swipeStart: false,
         blocked: false
     }
 
     function getMousePos(e: HTMLSwipeMouseEvent) {
-        let { touches, x, y } = (e as MouseEvent & TouchEvent)
+        const { touches, x, y } = (e as MouseEvent & TouchEvent)
 
         return _isTouchScreen
             ?   (xAxis ? touches[0].screenX : touches[0].screenY)
@@ -72,10 +72,11 @@ const Swipe: _Swipe = (props, withDefaults) => {
     }
 
     function onMouseMove(e: HTMLSwipeMouseEvent) {
-        let { swipeStart, blocked, mouseDownPos } = state;
+        const { swipeStart, mouseDownPos } = state;
+        let blocked = state.blocked;
 
         if (mouseDownPos && swipeStart && !blocked) {
-            let deltaPosition = getMousePos(e) - mouseDownPos;
+            const deltaPosition = getMousePos(e) - mouseDownPos;
 
             if (Math.abs(deltaPosition) > deltaPos) {
                 onSwipe(deltaPosition < 0, e)

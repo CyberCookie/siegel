@@ -24,7 +24,7 @@ type RequestFnParams = {
 
 
 function setup(newDefaults: SetupFnParams): void {
-    for (let key in newDefaults)
+    for (const key in newDefaults)
         defaultSetup[key] = newDefaults[key]
 } 
 
@@ -32,7 +32,8 @@ const defaultSetup: SetupFnParams = {}
 
 
 const extractRequestData = (request: RequestFnParams) => {
-    let { url, query, headers, method, body, credentials } = request;
+    const { query, headers, method, body, credentials } = request;
+    let url = request.url;
 
     const options: RequestInit = {}
     let _method;
@@ -83,11 +84,11 @@ const extractResponseData = async (req: RequestFnParams, res: Response & Indexab
 
 
 const request = async (req: RequestFnParams) => {
-    let reqData = extractRequestData(req)
+    const reqData = extractRequestData(req)
 
     try {
-        let res = await fetch(reqData.url, reqData.options)
-        let parsedRes = await extractResponseData(req, res)
+        const res = await fetch(reqData.url, reqData.options)
+        const parsedRes = await extractResponseData(req, res)
 
         if (res.ok) {
             defaultSetup.afterRequest && defaultSetup.afterRequest(reqData, parsedRes)
@@ -100,7 +101,7 @@ const request = async (req: RequestFnParams) => {
             }
         }
     } catch (err) {
-        let finalErr = {
+        const finalErr = {
             req: reqData,
             res: err.res,
             status: err.status || 500,
