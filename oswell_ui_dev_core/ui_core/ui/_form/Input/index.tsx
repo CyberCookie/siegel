@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps } from '../../ui_utils'
 import { ComponentRootAttributes, _Input } from './types'
 
 

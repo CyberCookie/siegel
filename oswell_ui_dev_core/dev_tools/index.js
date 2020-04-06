@@ -25,21 +25,21 @@ const main = async function (CONFIG = {}, RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PAR
         const devServer = require(devServerLoc)
         const initDevServer = extendExpressDevServer => devServer.run(CONFIG, devMiddlewares, extendExpressDevServer)
 
-
+        
         if (extenderLoc) {
             function getCustomExpressExtender() {
                 try {
-                    let userExtendExpressDevServer = require(extenderLoc)
+                    const userExtendExpressDevServer = require(extenderLoc)
                     if (typeof userExtendExpressDevServer === 'function') {
                         return userExtendExpressDevServer;
                     } else throw '[extenderLoc] export type is not a function'
                 } catch(err) { console.error(err) }
             }
-
-            let extendExpressDevServer = getCustomExpressExtender()
+            
+            const extendExpressDevServer = getCustomExpressExtender()
+            let devServerInstance = initDevServer(extendExpressDevServer)
 
             if (watch) {
-                let devServerInstance = initDevServer(extendExpressDevServer)
                 let lock = false;
 
                 require('fs')

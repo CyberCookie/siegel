@@ -1,6 +1,6 @@
 import { withDefaults } from 'core-ui/ui_utils'
 
-import _Button from 'core-ui/Button'
+import _Button from 'core-ui/_form/Button'
 import buttonTheme from './styles/button'
 
 

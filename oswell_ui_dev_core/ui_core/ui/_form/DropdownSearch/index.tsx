@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps } from '../../ui_utils'
 import { _DropdownSearch } from './types'
-import cx from '../../utils/cx'
+import cx from '../../../utils/cx'
 
 
 const componentID = '-ui-search-dropdown'
@@ -51,7 +51,7 @@ const DropdownSearch: _DropdownSearch = (props, withDefaults) => {
         }, [])
     }
     
-    inputAttributes && (Object.assign({}, inputAttributes, inputProps))
+    inputAttributes && (Object.assign(inputProps, inputAttributes))
     
 
     return (

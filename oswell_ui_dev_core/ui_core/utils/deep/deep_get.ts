@@ -1,4 +1,4 @@
-import isExists from './is_exists'
+import isExists from './../is_exists'
 
 /**
  * Get object property by a given path

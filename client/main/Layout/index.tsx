@@ -1,6 +1,5 @@
 import { hot } from 'react-hot-loader/root'
 // import React, { useLayoutEffect } from 'react'
-import { withRouter } from 'react-router-dom'
 
 // import { pagePathMap } from 'app/cfg/routes'
 // import authorizationModule, { initState as authorizationInitState } from 'app/modules/authorization'
@@ -65,4 +64,4 @@ const Layout = ({ children/*, location, history*/ }) => {
 }
 
 
-export default withRouter(hot(Layout))
+export default hot(Layout)

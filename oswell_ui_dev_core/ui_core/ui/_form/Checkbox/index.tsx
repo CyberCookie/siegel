@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps } from '../../ui_utils'
 import { _Checkbox } from './types'
 
 import s from './styles.sass'
@@ -46,14 +46,25 @@ const Checkbox: _Checkbox = (props, withDefaults) => {
     const CheckboxElement = <input {...checkboxInputProps} />
 
 
-    return label
-        ?   <label className={wrapperClassName}>
-                <span className={theme.label} children={label} />
+    if (label) {
+        const labelProps: {
+            className: string,
+            onMouseDown?: (e: React.MouseEvent) => void
+        } = { className: wrapperClassName }
 
+        onChange && (labelProps.onMouseDown = e => {
+            onChange(!value, e, payload)
+        })
+
+        
+        return (
+            <label {...labelProps}>
+                <span className={theme.label} children={label} />
+            
                 { CheckboxElement }
             </label>
-            
-        :   CheckboxElement
+        )
+    } else return CheckboxElement
 }
 Checkbox.defaults = {
     theme: {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import isTouchScreen from '../../utils/is_touchscreen'
-import { extractProps } from '../ui_utils'
+import isTouchScreen from '../../../utils/is_touchscreen'
+import { extractProps } from '../../ui_utils'
 import { Props, DefaultProps, _Select } from './types'
 
 

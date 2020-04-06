@@ -17,15 +17,16 @@ const isCachable = req => {
 }
 
 self.addEventListener('fetch', e => {
-    let req = e.request;
+    const req = e.request;
     isCachable(req) && e.respondWith(
         caches.match(req)
             .then(cachedResp => (
                 cachedResp || fetch(req)
                     .then(res => {
                         if (res.ok) {
+                            const clonedRes = res.clone()
                             caches.open(req.url)
-                                .then(cache => cache.put(req, res.clone()))
+                                .then(cache => cache.put(req, clonedRes))
             
                             return res
                         }

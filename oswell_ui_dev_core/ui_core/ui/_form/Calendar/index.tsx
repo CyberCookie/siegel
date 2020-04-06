@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 
-import { dateLocalizationByLocale } from '../../utils/date_const'
-import { extractProps } from '../ui_utils'
+import { dateLocalizationByLocale } from '../../../utils/date/date_const'
+import { extractProps } from '../../ui_utils'
 import Days from './days_of_month'
 import s from './styles.sass'
 import { ActiveDateRange, Props, DefaultProps, _Calendar } from './types'

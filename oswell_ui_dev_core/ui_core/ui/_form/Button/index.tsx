@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps } from '../../ui_utils'
 import { _Button } from './types'
 
 
