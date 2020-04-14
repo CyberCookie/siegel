@@ -1,126 +1,122 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import Table from '../Table'
-import Select from '../Select'
+import Select from '../_form/Select'
 import Pagination from '../Pagination'
-
+import { extractProps } from '../ui_utils'
 import tableHeadRows from './head'
 import tableBodyRows from './body'
+import { _DataTable, DataTableTableProps } from './types'
 
-import styles from './styles'
-
-
-const selectTheme = {
-    select: styles.select,
-    label: styles.select_label,
-    options: styles.select_options,
-    option: styles.select_option,
-    title: styles.select_title
-}
-
-const showPerPageOptions = [
-    { title: 16, id: 16 },
-    { title: 30, id: 30 },
-    { title: 60, id: 60 },
-    { title: 90, id: 90 }
-]
+import s from './styles.sass'
 
 
-const initDataGridState = () => useState({
+const componentID = '-ui-data_grid'
+
+const initDataGridStore = () => useState({
     headData: {
         sortByField: {
-            index: '',
-            value: ''
+            index: 0,
+            value: 0
         },
-        searchByField: {},
-        isAllSelected: false,
-        showFieldCalendar: ''
+        searchByField: {}
     },
 
     bodyData: {
-        selected: new Set(),
         showPerPage: 16,
         currentPage: 1
     }
 })
 
+const DataTable: _DataTable = (props, withDefaults) => {
+    const mergedProps = withDefaults
+        ?   (props as _DataTable['defaults'] & typeof props)
+        :   extractProps(DataTable.defaults, props)
 
-const DataGrid = ({ entities, columnsConfig, rowActions = {}, className, hookState, withPagination }) => {
-    let [ state, setState ] = hookState || initDataGridState()
-    let { showPerPage, currentPage } = state.bodyData;
+    const { theme, attributes, hookState, entities, pagination, tableAttributes } = mergedProps;
 
-    useEffect(() => {
-        let evOptions = { passive: true }
-        function listener() {
-            let showCalendar = state.headData.showCalendar;
-            
-            if (showCalendar) {
-                state.headData.showCalendar = ''
+    const rootAttributes = {
+        className: `${s.table} ${mergedProps.className} ${theme.data_table}`
+    }
+    attributes && (Object.assign(rootAttributes, attributes))
+
+    const [ state, setState ] = hookState;
+    const { showPerPage, currentPage } = state.bodyData;
+
+    
+    function getPagination() {
+        const { displayQuantity, selectProps, paginationProps } = pagination as NonNullable<typeof pagination>;
+
+        const maxPages = Math.ceil(entities.sorted.length / showPerPage)
+        currentPage > maxPages && (state.bodyData.currentPage = 1)
+
+        const dataTableSelectProps = Object.assign({
+            displayValue: showPerPage,
+            onChange(value: number) {
+                state.bodyData.showPerPage = value;
+        
+                const maxPages = Math.ceil(entities.sorted.length / value)
+                if (currentPage > maxPages) {
+                    state.bodyData.currentPage = maxPages
+                }
+        
+                setState({ ...state })
+            }
+        }, selectProps)
+
+        const dataTablePaginationProps = {
+            showPerPage,
+            listLength: resultIDs.length,
+            curPage: currentPage,
+            onChange(value: number) {
+                state.bodyData.currentPage = value;
                 setState({ ...state })
             }
         }
-        
-        window.addEventListener('mousedown', listener, evOptions)
-        
-        return () => {
-            window.removeEventListener('mousedown', listener, evOptions)
-        }
-    }, [])
-    
-    
-    function getPagination() {
-        function onShowPerPageChange(value) {
-            state.bodyData.showPerPage = +value;
-    
-            let maxPages = Math.ceil(entities.sorted.length / +value)
-            if (currentPage > maxPages) {
-                state.bodyData.currentPage = maxPages
-            }
-    
-            setState({ ...state })
-        }
-    
-        function onPaginationChange(value) {
-            state.bodyData.currentPage = value;
-            setState({ ...state })
-        }
+        paginationProps && Object.assign(dataTablePaginationProps, paginationProps)
+
         
         
         return (
-            <div className={styles.pagination_wrapper}>
-                <div className={styles.quantity}><span children={resultIDs.length} /> Results</div>
+            <div className={s.pagination_wrapper}>
+                { displayQuantity && displayQuantity(resultIDs.length) }
 
-                <Select label='Событий на странице' options={showPerPageOptions}
-                    theme={selectTheme}
-                    displayValue={showPerPage}
-                    onChange={onShowPerPageChange} />
+                <Select {...dataTableSelectProps} />
 
-                <Pagination showPerPage={showPerPage}
-                    listLength={resultIDs.length}
-                    curPage={currentPage}
-                    onChange={onPaginationChange} />
+                <Pagination {...dataTablePaginationProps} />
             </div>
         )
     }
 
-    let maxPages = Math.ceil(entities.sorted.length / showPerPage)
-    currentPage > maxPages && (state.bodyData.currentPage = 1)
 
-
-    let rowData = { state, setState, entities, columnsConfig, rowActions, withPagination }
-    let { body, resultIDs } = tableBodyRows(rowData)
-    let head = tableHeadRows(rowData, resultIDs)
+    const { body, resultIDs } = tableBodyRows(mergedProps, state)
+    const head = tableHeadRows(mergedProps, resultIDs)
     
+    const dataTableTableProps: DataTableTableProps = {
+        head, body,
+        className: `${s.table} ${theme.data_table}`
+    }
+    tableAttributes && (dataTableTableProps.attributes = tableAttributes)
+
 
     return (
-        <div className={className || ''}>
-            <Table className={styles.table} head={head} body={body} />
+        <div {...rootAttributes}>
+            <Table {...dataTableTableProps} />
             
-            { withPagination && getPagination() }
+            { pagination && getPagination() }
         </div>
     )
 }
+DataTable.defaults = {
+    theme: {
+        data_table: componentID,
+        table: componentID + '_table',
+        table_resizer: componentID + '_table_resizer',
+        pagination_wrapper: componentID + '_pagination_wrapper'
+    }
+}
+DataTable.ID = componentID;
 
 
-export { initDataGridState }
-export default DataGrid
+export { initDataGridStore, componentID }
+export default DataTable

@@ -1,4 +1,4 @@
-import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
 type _Attributes = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>

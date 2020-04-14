@@ -32,9 +32,7 @@ const Calendar: _Calendar = (props, withDefaults) => {
 
     const { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon, payload,
         nextIcon, noControlls, onChange, triggerOnlyWhenFinished } = mergedProps;
-    let className = mergedProps.className;
-    
-    className += ` ${theme.calendar} ${s.calendar}`
+    const className = `${mergedProps.className} ${theme.calendar} ${s.calendar}`;
     
     const { rangeDateStart, rangeDateEnd } = activeDate;
 

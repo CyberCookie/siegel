@@ -16,9 +16,7 @@ const Popup: _Popup = (props, withDefaults) => {
         :   extractProps(Popup.defaults, props)
 
     const { theme, closeIcon, content, onClose, attributes } = mergedProps;
-    let className = mergedProps.className;
-
-    className += ` ${s.popup} ${theme.popup}`
+    const className = `${mergedProps.className} ${s.popup} ${theme.popup}`
 
     let popupRootAttributes = {
         className,

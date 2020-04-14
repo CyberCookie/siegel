@@ -1,12 +1,12 @@
-type SortCBNative = NonNullable<Parameters<typeof Array.prototype.sort>[0]>
-type SortCBNativeReturnType = ReturnType<SortCBNative>
+type Entities = ReturnType<typeof entities>
+type EntitiesRaw = ReturnType<Entities['raw']>
 
 
 function entities<K extends ID>(uniq: K) {
     type Entity = {
         [key in K]: K
     } & Indexable
-    type SortCB = (entity_a: Entity, entity_b: Entity) => SortCBNativeReturnType
+    type SortCB = (entity_a: Entity, entity_b: Entity) => SortReturnValue
     type EachCB = (entity: Entity, index: number) => boolean | void
 
     let byID: Indexable<Entity> = {}
@@ -41,16 +41,18 @@ function entities<K extends ID>(uniq: K) {
             sorted.sort((ID_a, ID_b) => cb(byID[ID_a], byID[ID_b]))
         },
 
-        each(cb: EachCB) {
-            for (let i = 0, l = sorted.length; i < l; i++) {
+        each(cb: EachCB, from = 0, to = sorted.length) {
+            for (let i = from; i < to; i++) {
                 if (cb(byID[sorted[i]], i)) break;
             }
         },
 
-        len: () => sorted.length
+        len: () => sorted.length,
+
+        raw: () => ({ byID, sorted })
     }
 }
 
 
-
+export { Entities, EntitiesRaw }
 export default entities

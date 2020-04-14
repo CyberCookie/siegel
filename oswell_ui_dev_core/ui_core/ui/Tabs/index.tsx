@@ -27,11 +27,10 @@ const Tabs: _Tabs = (props, withDefaults) => {
         :   extractProps(Tabs.defaults, props)
 
     const { theme, data, activeTab, attributes } = mergedProps;
-    let className = mergedProps.className;
+    let className = `${mergedProps.className} ${theme.tabs}`;
     
-    const tab = data.find(tab => tab.id === activeTab)
+    const tab = data.find(tab => tab.id === activeTab);
     
-    className += ` ${theme.tabs}`;
     (tab && tab.content) || (className += ` ${theme.tab_content__empty}`)
 
     let tabsRootProps = { className }

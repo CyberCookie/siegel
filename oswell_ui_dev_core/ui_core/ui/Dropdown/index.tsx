@@ -17,7 +17,7 @@ const Dropdown: _Dropdown = (props, withDefaults) => {
         :   extractProps(Dropdown.defaults, props)
     
     const { theme, list, builder, dropdownIcon, soloOpen, attributes } = mergedProps;
-    let className = mergedProps.className;
+    const className = `${mergedProps.className} ${theme.dropdown}`;
 
     function childrenMapper({ title, children }: ListElement, i: number) {
         let wrapperClass;
@@ -63,7 +63,6 @@ const Dropdown: _Dropdown = (props, withDefaults) => {
     }
     
 
-    className += ` ${theme.dropdown}`
     const dropdownRootProps = {
         className,
         children: list.map(childrenMapper)

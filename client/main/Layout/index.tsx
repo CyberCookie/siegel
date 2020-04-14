@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader/root'
-// import React, { useLayoutEffect } from 'react'
+import React from 'react'
 
 // import { pagePathMap } from 'app/cfg/routes'
 // import authorizationModule, { initState as authorizationInitState } from 'app/modules/authorization'
@@ -60,7 +60,7 @@ const Layout = ({ children/*, location, history*/ }) => {
 
     // return isAuthorized !== null && children
 
-    return children
+    return <main children={children} />
 }
 
 

@@ -1,4 +1,4 @@
-import { PropsComponentThemed,ComponentAttributes, CoreIUComponent, extractProps } from '../ui_utils'
+import { PropsComponentThemed,ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
 type Props = {

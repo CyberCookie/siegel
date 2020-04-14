@@ -14,17 +14,17 @@ function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React
 
 
     return options.map(option => {
-        const { disabled, title, id, payload } = option;
+        const { disabled, title, value, payload } = option;
     
         let optionClassName = theme.option;
-        id === selected && (optionClassName += ` ${theme.option_active}`)
+        value === selected && (optionClassName += ` ${theme.option_active}`)
         disabled && (optionClassName += ` ${theme.option_disabled}`)
     
         return (
-            <div key={id} children={title} className={optionClassName}
+            <div key={value} children={title} className={optionClassName}
                 onMouseDown={e => {
                     e.stopPropagation()
-                    onChange(id, e, payload)
+                    onChange(value, e, payload)
                     closeOnSelect && setActive(false)
                 }} />
         )
@@ -39,9 +39,8 @@ const Select: _Select = (props, withDefaults) => {
         :   extractProps(Select.defaults, props)
 
     const { theme, attributes, displayValue, dropdownIcon, label } = mergedProps;
-    let className = mergedProps.className;
-
-    className += ` ${theme.select}`
+    
+    let className = `${mergedProps.className} ${theme.select}`;
     isActive && (className += ` ${theme.select_active}`)
     
     let selectRootProps = {

@@ -15,9 +15,8 @@ const Slider: _Slider = (props, withDefaults) => {
         :   extractProps(Slider.defaults, props)
     
     const { theme, startFrom, showNumber, data, noControlls, attributes, onChange } = mergedProps;
-    let className = mergedProps.className;
+    const className = `${mergedProps.className} ${theme.slider}`;
 
-    className += ` ${theme.slider}`
     let sliderRootProps = {
         className,
         ref: (useRef() as React.MutableRefObject<HTMLDivElement>)

@@ -1,82 +1,19 @@
-.table
-    th, td
-        word-break: break-all
-
-        &:not(:first-child), &:not(:last-child)
-            min-width: 96px
-
-        &:first-child, &:last-child
-            width: 40px
-            max-width: 40px
-            min-width: 40px
-            padding: 0 10px
-            text-align: center
-        
-        &:first-child input
-            margin: 0 auto
-        
-
-    thead
-        user-select: none
-
-        th
-            position: sticky
-            top: 0
-            background: $white
-            z-index: 1
-    
-    td:nth-last-child(2)
-        border-right: $border_light
+.table th
+    &:first-child .resizer:first-child,
+    &:last-child .resizer:last-child
+        display: none
 
 
-
-.pagination_wrapper
-    @include flex('', center)
-    position: fixed
-    bottom: 0
-    width: 100%
-    height: 40px
-    border-top: $border_light
-    background: $black_50
-    padding: 0 16px
-
-.quantity
-    display: none
-
-.select
-    composes: select from '~app/components/theme/styles/select'
-    order: 1
-    width: auto
-
-.select_label
-    @include absolute(4px, 0)
-    @include font(12px, '','', 500)
-    transform: translateX(100%)
-    font-size: 12px
-    padding-left: 8px
-    white-space: nowrap
-
-.select_title
-    composes: title from '~app/components/theme/styles/select'
-    line-height: 18px
-    height: 20px
-    width: 60px
-    padding-left: 8px
-    background: $white
-
-    i
-        @include font(16px, '', $black_300)
-        font-size: 16px
-
-.select_options
-    composes: options from '~app/components/theme/styles/select'
-    --translateY: calc(-100% + 1px)
+.resizer
+    position: absolute
+    height: 100%
+    width: 10px
+    cursor: ew-resize
+    z-index: 10
     top: 0
-    transform: translateY(var(--translateY))
-    width: 100%
-    padding: 0
 
-.select_option
-    composes: option from '~app/components/theme/styles/select'
-    height: auto
-    padding: 4px 0 4px 8px
+    &:first-child
+        left: 0
+    
+    &:last-child
+        right: 0

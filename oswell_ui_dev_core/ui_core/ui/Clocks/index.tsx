@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect } from 'react'
 
-import { msIn } from '../../utils/date_const'
-import dateParse from '../../utils/date_parse'
+import { msIn } from '../../utils/date/date_const'
+import dateParse from '../../utils/date/date_parse'
 import { extractProps } from '../ui_utils'
 import { _Clocks } from './types'
 

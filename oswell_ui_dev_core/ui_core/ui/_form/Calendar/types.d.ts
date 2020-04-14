@@ -1,4 +1,4 @@
-import { PropsComponentThemed, CoreIUComponent } from '../ui_utils'
+import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
 
 
 type ActiveDateRange = {

@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader/root'
 import React, { useLayoutEffect } from 'react'
-import Button_Base from 'core-ui/Button'
+import Button_Base from 'core-ui/_form/Button'
 
 import { icons, theme } from 'app/components'
 import testModule from 'app/modules/test'

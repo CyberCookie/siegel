@@ -5,6 +5,10 @@ type TableRow = {
     attributes?: ComponentAttributes<HTMLTableRowElement, React.TableHTMLAttributes<HTMLTableRowElement>>
 }
 
+type TableCell = {
+    value: React.ReactNode
+}
+
 type TableHeadRow = {
     children: TableTH[]
 } & TableRow
@@ -12,10 +16,6 @@ type TableHeadRow = {
 type TableBodyRow = {
     children: TableTD[]
 } & TableRow
-
-type TableCell = {
-    value: React.ReactNode
-}
 
 type TableTD = {
     attributes?: ComponentAttributes<HTMLTableCellElement, React.TableHTMLAttributes<HTMLTableCellElement>>

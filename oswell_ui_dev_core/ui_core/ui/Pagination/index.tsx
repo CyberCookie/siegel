@@ -8,14 +8,13 @@ const componentID = '-ui-pagination'
 
 const Pagination: _Pagination = (props, withDefaults) => {
     const mergedProps = withDefaults
-            ?   (props as _Pagination['defaults'] & typeof props)
-            :   extractProps(Pagination.defaults, props)
+        ?   (props as _Pagination['defaults'] & typeof props)
+        :   extractProps(Pagination.defaults, props)
     
     const { theme, attributes, listLength, curPage, showPerPage, elementsBySide,
         elementsByMiddle, onChange, controlIcon, separator, payload } = mergedProps;
-    let className = mergedProps.className;
+    const className = `${mergedProps.className} ${theme.pagination}`;
 
-    className += ` ${theme.pagination}`
     
     let paginationRootProps = {
         className,

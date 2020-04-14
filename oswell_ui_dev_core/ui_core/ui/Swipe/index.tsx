@@ -13,7 +13,7 @@ const passiveEv = { passive: true }
 const Swipe: _Swipe = (props, withDefaults) => {
     const { className, children, xAxis, deltaPos, onSwipe, attributes } = withDefaults
         ?   (props as _Swipe['defaults'] & typeof props)
-        :   extractProps(Swipe.defaults, props);
+        :   extractProps(Swipe.defaults, props)
 
     let swipeRootAttributes: React.HTMLAttributes<HTMLDivElement> = { className, children }
     isTouchScreen

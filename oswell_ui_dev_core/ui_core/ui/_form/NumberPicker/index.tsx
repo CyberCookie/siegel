@@ -49,9 +49,9 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
         theme, value, disabled, onChange, step, minusIcon, plusIcon, label, payload,
         disableInput, attributes, inputAttributes, placeholder, precision, regexp
     } = mergedProps;
-    let { className, min, max } = mergedProps;
+    let { min, max } = mergedProps;
 
-    className += ` ${theme.number_picker}`
+    let className = `${mergedProps.className} ${theme.number_picker}`
     disabled && (className += ` ${theme.number_picker__disabled}`)
 
     isExists(min) || (min = -Infinity)

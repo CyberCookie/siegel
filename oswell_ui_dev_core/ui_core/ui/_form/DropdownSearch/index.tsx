@@ -14,7 +14,6 @@ const DropdownSearch: _DropdownSearch = (props, withDefaults) => {
 
     const { theme, searchPlaceholder, searchOptions, minInputLength, onChange,
         closeIcon, searchIcon, optionBuilder, autofocus, payload, attributes, inputAttributes } = mergedProps;
-    let className = mergedProps.className;
 
     const [ state, setState ] = useState({
         searchValue: ''
@@ -23,7 +22,7 @@ const DropdownSearch: _DropdownSearch = (props, withDefaults) => {
     const searchLength = state.searchValue.length;
     const showOptions = searchOptions.length && searchLength >= minInputLength;
     
-    className += cx(` ${theme.search_dropdown}`, {
+    const className = cx(`${mergedProps.className} ${theme.search_dropdown}`, {
         [theme.search_dropdown__with_suggestions]: showOptions,
         [theme.search_dropdown__filled_field]: searchLength
     })

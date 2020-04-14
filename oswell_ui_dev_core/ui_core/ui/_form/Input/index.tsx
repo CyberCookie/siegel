@@ -14,9 +14,9 @@ const Input: _Input = (props, withDefaults) => {
     
     const { theme, attributes, inputAttr, label, placeholder, value, errorMsg,
         type, disabled, autofocus, onBlur, onChange, onFocus, payload } = mergedProps;
-    let className = mergedProps.className;
 
-    className += ` ${theme.input}`
+    let className = `${mergedProps.className} ${theme.input}`;
+
 
     let inputRootAttributes: ComponentRootAttributes = {
         className,

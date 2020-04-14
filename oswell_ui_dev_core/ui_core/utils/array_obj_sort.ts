@@ -1,6 +1,3 @@
-type SortValue = -1 | 1
-
-
 /**
  * Sort function used as a callback in `Array.sort()` method
  * @param  object_a - previous object
@@ -11,7 +8,7 @@ type SortValue = -1 | 1
  * @returns comparsion result as result of `Array.sort` callback
  */
 function arrayObjSort(object_a: Indexable, object_b: Indexable,
-    primaryKey: string, secondaryKey: string, sortValue: SortValue = 1
+    primaryKey: string, secondaryKey: string, sortValue: SortReturnValue = 1
 ) {
     const isBigger_a = object_a[primaryKey] == object_b[primaryKey]
         ?   object_a[secondaryKey] >= object_b[secondaryKey]
@@ -21,5 +18,4 @@ function arrayObjSort(object_a: Indexable, object_b: Indexable,
 }
 
 
-export { SortValue }
 export default arrayObjSort

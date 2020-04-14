@@ -13,8 +13,7 @@ const Toggle: _Toggle = (props, withDefaults) => {
 
     const { theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes } = mergedProps;
     
-    let className = mergedProps.className;
-    className += ` ${theme.toggle}`
+    let className = `${mergedProps.className} ${theme.toggle}`;
     isToggled && (className += ` ${theme.toggle_checked}`)
 
     let toggleRootProps = {

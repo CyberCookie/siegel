@@ -1,18 +1,18 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
-type Props = {
+type Props<V = any> = {
     dropdownIcon?: React.ReactNode
     closeOnSelect?: boolean
     label?: React.ReactNode
-    onChange: (id: ID, e: React.MouseEvent, payload: any) => void
+    onChange: (value: V, e: React.MouseEvent, payload: any) => void
     options: {
         disabled?: boolean
         payload?: any
-        id: ID
+        value: V
         title: React.ReactNode
     }[],
-    selected?: ID
+    selected?: V
     displayValue: React.ReactNode
     attributes?: ComponentAttributes
 } & PropsComponentThemed

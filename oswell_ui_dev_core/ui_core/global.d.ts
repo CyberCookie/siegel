@@ -1,8 +1,10 @@
 declare module '*.sass'
 
 
-type ID = string | number
+type SortReturnValue = -1 | 0 | 1
 
+
+type ID = string | number
 
 
 type Indexable<V = any> = {
@@ -21,6 +23,9 @@ type IndexObject<T, V = any> = {
 
 
 //#TS_sucks.
+interface Array<T = any> {
+    [key: string]: T
+}
 declare function isNaN(value: any): boolean
 declare function isFinite(value: any): boolean
 declare function parseInt(value: any, radix?: string): number
