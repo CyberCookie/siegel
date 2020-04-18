@@ -51,7 +51,7 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
     } = mergedProps;
     let { min, max } = mergedProps;
 
-    let className = `${mergedProps.className} ${theme.number_picker}`
+    let className = mergedProps.className;
     disabled && (className += ` ${theme.number_picker__disabled}`)
 
     isExists(min) || (min = -Infinity)
@@ -71,7 +71,7 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
     }
 
     function onNumberPickerChange(value: number, e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>, isButtonClick?: boolean) {
-        if (!disabled) {
+        if (!disabled || isButtonClick) {
             value < min! && (value = (min as number))
             value > max! && (value = (max as number))
 
@@ -124,7 +124,7 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
 }
 NumberPicker.defaults = {
     theme: {
-        number_picker: componentID,
+        root: componentID,
         number_picker__disabled: componentID + '__disabled',
         controls: componentID + '_controls',
         button_minus: componentID + '_minus',
@@ -140,5 +140,6 @@ NumberPicker.defaults = {
 NumberPicker.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default NumberPicker

@@ -6,9 +6,16 @@ type ActiveDateRange = {
     rangeDateEnd?: number
 }
 
+
+type ThemeKeys = 'icon_next' | 'icon_prev' | 'month_title' | 'month_days' | 'month_selector'
+    | 'month__sibling' | 'week' | 'week_day' | 'day' | 'day_subtext' | 'day__selected' | 'day__first'
+    | 'day__last' | 'day__today' | 'day__hidden' | 'date' | 'date__anchor' | 'start' | 'end' | 'start_end'
+    | 'in_progress' | 'row' | 'row_placeholder'
+
 type Props = {
-    hideSiblingMonthsDays?: boolean
     activeDate: ActiveDateRange
+    onChange: (range: ActiveDateRange, isFinished: boolean, payload: any) => void
+    hideSiblingMonthsDays?: boolean
     prevIcon?: React.ReactNode
     nextIcon?: React.ReactNode
     monthsBefore?: number
@@ -19,11 +26,10 @@ type Props = {
     triggerOnlyWhenFinished?: boolean
     locale?: string
     payload?: any
-    onChange: (range: ActiveDateRange, isFinished: boolean, payload: any) => void
-} & PropsComponentThemed
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
-    theme: NonNullable<Props['theme']>
+    theme: NonNullable<Required<Props['theme']>>
     prevIcon: NonNullable<Props['prevIcon']>
     nextIcon: NonNullable<Props['nextIcon']>
     monthsBefore: NonNullable<Props['monthsBefore']>

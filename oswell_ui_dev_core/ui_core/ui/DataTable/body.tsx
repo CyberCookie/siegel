@@ -5,7 +5,7 @@ import { TableTD, TableBodyRow } from '../Table/types'
 
 
 function getBody(props: Props & DefaultProps, state: State) {
-    const { entities, columnsConfig, postProcessBodyRow, pagination } = props;
+    const { entities, columnsConfig, postProcessBodyRow, withPagination } = props;
     const { byID, sorted } = entities;
 
     const { showPerPage, currentPage } = state.bodyData;
@@ -99,7 +99,7 @@ function getBody(props: Props & DefaultProps, state: State) {
 
 
     let from, to;
-    if (pagination) {
+    if (withPagination) {
         from = (currentPage - 1) * showPerPage;
         to = from + showPerPage
     } else {

@@ -1,5 +1,4 @@
 import React, { useState, useLayoutEffect } from 'react'
-import { NavLink } from 'react-router-dom'
 
 import isE from '../../utils/is_exists'
 import { extractProps } from '../ui_utils'
@@ -31,10 +30,13 @@ const useLayoutEffectFunc = () => () => {
     forceUpdate = undefined
 }
 
+const linkClickPreventDefault = (e: React.MouseEvent) => { e.preventDefault() }
+
 const Breadcrumbs: _Breadcrumbs = (props, withDefaults) => {
-    const { className, attributes, location, separator, config } = withDefaults
+    const { className, theme, attributes, location, separator, config, onChange } = withDefaults
         ?   (props as _Breadcrumbs['defaults'] & typeof props)
         :   extractProps(Breadcrumbs.defaults, props)
+
 
     forceUpdate = useState({})[1]
 
@@ -45,7 +47,7 @@ const Breadcrumbs: _Breadcrumbs = (props, withDefaults) => {
         className,
         children: getBreadcrumbs()
     }
-    attributes && (breadcrumbsRootProps = Object.assign(breadcrumbsRootProps, attributes))
+    isE(attributes) && (breadcrumbsRootProps = Object.assign(breadcrumbsRootProps, attributes))
 
 
     function getBreadcrumbs() {
@@ -58,11 +60,11 @@ const Breadcrumbs: _Breadcrumbs = (props, withDefaults) => {
             const loc = locationArray[i]
             const data = loocupScope[loc] || Object.values(loocupScope)[0]
     
-            if (data) {
+            if (isE(data)) {
                 const { crumb, dynamicCrumb, nested } = data;
     
                 const name = dynamicCrumb
-                    ?   (dynamicCrumbs[dynamicCrumb] || '--')
+                    ?   dynamicCrumbs[dynamicCrumb]
                     :   typeof crumb == 'function'
                             ?   crumb(path, loc)
                             :   crumb;
@@ -70,16 +72,18 @@ const Breadcrumbs: _Breadcrumbs = (props, withDefaults) => {
                 path += ((loc ? '/' : '') + loc)
     
                 breadcrumbData[breadcrumbData.length] = { path, name }
-                nested && (loocupScope = nested)
+                isE(nested) && (loocupScope = nested)
             } else {
                 break
             }
         }
         
 
-        return breadcrumbData.map((data, i) => (
-            <NavLink key={data.path} to={data.path}
-                children={`${i ? separator : ''} ${data.name}`} />
+        return breadcrumbData.map(({ path, name }, i) => (
+            <a key={path} className={theme.link}
+                children={`${i ? separator : ''} ${name}`}
+                onClick={linkClickPreventDefault}
+                onMouseDown={e => { onChange(path, e) }} />
         ))
     }
 
@@ -87,11 +91,16 @@ const Breadcrumbs: _Breadcrumbs = (props, withDefaults) => {
     return <div {...breadcrumbsRootProps} />
 }
 Breadcrumbs.defaults = {
-    className: s[componentID],
-    separator: ''
+    className: s.breadcrumbs,
+    separator: '',
+    theme: {
+        root: componentID,
+        link: componentID + '_link'
+    }
 }
 Breadcrumbs.ID = componentID;
 
 
+export * from './types'
 export { setDynamicCrumb, setDynamicCrumbsBatch, componentID }
 export default Breadcrumbs

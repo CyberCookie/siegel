@@ -7,10 +7,11 @@ type SortReturnValue = -1 | 0 | 1
 type ID = string | number
 
 
+type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<T>
+
 type Indexable<V = any> = {
     [key: string]: V
 }
-
 
 type IndexObjectKeys<K extends string, V = any> = {
     [key in K]: V

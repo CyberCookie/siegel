@@ -11,9 +11,8 @@ const Pagination: _Pagination = (props, withDefaults) => {
         ?   (props as _Pagination['defaults'] & typeof props)
         :   extractProps(Pagination.defaults, props)
     
-    const { theme, attributes, listLength, curPage, showPerPage, elementsBySide,
+    const { className, theme, attributes, listLength, curPage, showPerPage, elementsBySide,
         elementsByMiddle, onChange, controlIcon, separator, payload } = mergedProps;
-    const className = `${mergedProps.className} ${theme.pagination}`;
 
     
     let paginationRootProps = {
@@ -98,7 +97,7 @@ const Pagination: _Pagination = (props, withDefaults) => {
 }
 Pagination.defaults = {
     theme: {
-        pagination: componentID,
+        root: componentID,
         separator: componentID + '_separator',
         control: componentID + '_control',
         control__active: componentID + '_control__active',
@@ -112,5 +111,6 @@ Pagination.defaults = {
 Pagination.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Pagination

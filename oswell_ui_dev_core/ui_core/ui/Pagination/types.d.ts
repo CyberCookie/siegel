@@ -1,21 +1,23 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
+type ThemeKeys = 'separator' | 'control' | 'control__active' | 'control__disabled'
+
 type Props = {
     listLength: number
     curPage: number
     showPerPage: number
+    onChange: (nextPage: number, e: React.MouseEvent, payload: any) => void
     elementsBySide?: number
     elementsByMiddle?: number
-    onChange: (nextPage: number, e: React.MouseEvent, payload: any) => void
     controlIcon?: React.ReactNode
     separator?: React.ReactNode
     payload?: any
     attributes?: ComponentAttributes
-} & PropsComponentThemed
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
-    theme: NonNullable<Props['theme']>
+    theme: NonNullable<Required<Props['theme']>>
     elementsBySide: NonNullable<Props['elementsBySide']>
     elementsByMiddle: NonNullable<Props['elementsByMiddle']>
     separator: NonNullable<Props['separator']>

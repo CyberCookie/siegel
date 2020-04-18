@@ -1,29 +1,41 @@
-import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
-type BreadcrumbsConfigByPath = {
+type DynamicCrumb = {
     dynamicCrumb: string
+}
+type Crumb = {
     crumb: string | ((path: string, name: string) => void)
+}
+type BreadcrumbsConfigByPath = {
     nested: {
         [path: string]: BreadcrumbsConfigByPath
     }
-}
+} & (
+    (Partial<DynamicCrumb> & Crumb)
+        |   (DynamicCrumb & Partial<Crumb>)
+)
+
+
+type ThemeKeys = 'link'
 
 type Props = {
+    onChange: (path: string, e: React.MouseEvent) => void
     config: {
         [path: string]: BreadcrumbsConfigByPath
     }
     location: string
     separator?: React.ReactNode
     attributes?: ComponentAttributes
-} & PropsComponentBase
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
     className: NonNullable<Props['className']>
     separator: NonNullable<Props['separator']>
+    theme: Required<NonNullable<Props['theme']>>
 }
 
 type _Breadcrumbs = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Breadcrumbs }
+export { Props, DefaultProps, _Breadcrumbs, BreadcrumbsConfigByPath }

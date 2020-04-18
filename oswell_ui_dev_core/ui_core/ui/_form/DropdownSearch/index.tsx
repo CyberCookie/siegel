@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 
 import { extractProps } from '../../ui_utils'
 import { _DropdownSearch } from './types'
-import cx from '../../../utils/cx'
 
 
 const componentID = '-ui-search-dropdown'
@@ -22,10 +21,9 @@ const DropdownSearch: _DropdownSearch = (props, withDefaults) => {
     const searchLength = state.searchValue.length;
     const showOptions = searchOptions.length && searchLength >= minInputLength;
     
-    const className = cx(`${mergedProps.className} ${theme.search_dropdown}`, {
-        [theme.search_dropdown__with_suggestions]: showOptions,
-        [theme.search_dropdown__filled_field]: searchLength
-    })
+    let className = mergedProps.className;
+    showOptions && (className += ` ${theme.search_dropdown__with_suggestions}`)
+    searchLength && (className += ` ${theme.search_dropdown__filled_field}`)
 
     const dropdownSearchRootProps = { className }
     attributes && (Object.assign(dropdownSearchRootProps, attributes))
@@ -71,7 +69,7 @@ const DropdownSearch: _DropdownSearch = (props, withDefaults) => {
 }
 DropdownSearch.defaults = {
     theme: {
-        search_dropdown: componentID,
+        root: componentID,
         search_dropdown__with_suggestions: `${componentID}__with_suggestions`,
         search_dropdown__filled_field: `${componentID}__filled_field`,
         search_field: `${componentID}_search_field`,
@@ -83,5 +81,6 @@ DropdownSearch.defaults = {
 DropdownSearch.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default DropdownSearch

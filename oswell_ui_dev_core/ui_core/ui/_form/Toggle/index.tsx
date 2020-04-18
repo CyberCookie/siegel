@@ -13,7 +13,7 @@ const Toggle: _Toggle = (props, withDefaults) => {
 
     const { theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes } = mergedProps;
     
-    let className = `${mergedProps.className} ${theme.toggle}`;
+    let className = mergedProps.className;
     isToggled && (className += ` ${theme.toggle_checked}`)
 
     let toggleRootProps = {
@@ -37,7 +37,7 @@ const Toggle: _Toggle = (props, withDefaults) => {
 }
 Toggle.defaults = {
     theme: {
-        toggle: componentID,
+        root: componentID,
         toggle_checked: componentID + '__checked',
         label: componentID + '_label',
         toggle_area: componentID + '_toggle_area',
@@ -47,5 +47,6 @@ Toggle.defaults = {
 Toggle.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Toggle

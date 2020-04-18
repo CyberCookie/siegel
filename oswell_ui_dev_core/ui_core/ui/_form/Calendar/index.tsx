@@ -32,7 +32,7 @@ const Calendar: _Calendar = (props, withDefaults) => {
 
     const { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon, payload,
         nextIcon, noControlls, onChange, triggerOnlyWhenFinished } = mergedProps;
-    const className = `${mergedProps.className} ${theme.calendar} ${s.calendar}`;
+    const className = `${mergedProps.className} ${s.calendar}`;
     
     const { rangeDateStart, rangeDateEnd } = activeDate;
 
@@ -179,10 +179,7 @@ const Calendar: _Calendar = (props, withDefaults) => {
 }
 Calendar.defaults = {
     theme: {
-        calendar: componentID,
-        title__side: componentID + '_title__side',
-        title__left: componentID + '_title__left',
-        title__right: componentID + '_title__right',
+        root: componentID,
         icon_next: componentID + '_icon_next',
         icon_prev: componentID + '_icon_prev',
         month_title: componentID + '_month_title',
@@ -216,5 +213,6 @@ Calendar.defaults = {
 Calendar.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Calendar

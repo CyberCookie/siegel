@@ -24,22 +24,13 @@ const Checkbox: _Checkbox = (props, withDefaults) => {
         className: `${s[componentID]} ${theme.checkbox}`,
         onChange: _onChange
     }
+    label || (checkboxInputProps.className += ` ${className}`)
 
     onChange
         ?   (checkboxInputProps.onMouseDown = (e: React.MouseEvent) => onChange(!(e.target as HTMLInputElement).checked, e, payload))
         :   (checkboxInputProps.readOnly = true);
 
     disabled && (checkboxInputProps.disabled = true)
-    
-    let wrapperClassName = theme.wrapper;
-
-    if (className) {
-        const classToAdd = ` ${className}`
-
-        label
-            ?   (wrapperClassName += classToAdd)
-            :   (checkboxInputProps.className += classToAdd)
-    }
 
     attributes && (checkboxInputProps = Object.assign(checkboxInputProps, attributes))
 
@@ -48,9 +39,9 @@ const Checkbox: _Checkbox = (props, withDefaults) => {
 
     if (label) {
         const labelProps: {
-            className: string,
+            className?: string,
             onMouseDown?: (e: React.MouseEvent) => void
-        } = { className: wrapperClassName }
+        } = { className }
 
         onChange && (labelProps.onMouseDown = e => {
             onChange(!value, e, payload)
@@ -68,9 +59,9 @@ const Checkbox: _Checkbox = (props, withDefaults) => {
 }
 Checkbox.defaults = {
     theme: {
+        root: componentID + '_wrapper',
         checkbox: componentID,
-        label: componentID + '_label',
-        wrapper: componentID + '_wrapper'
+        label: componentID + '_label'
     },
     
     value: false
@@ -78,5 +69,6 @@ Checkbox.defaults = {
 Checkbox.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Checkbox

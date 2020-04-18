@@ -27,7 +27,7 @@ const Tabs: _Tabs = (props, withDefaults) => {
         :   extractProps(Tabs.defaults, props)
 
     const { theme, data, activeTab, attributes } = mergedProps;
-    let className = `${mergedProps.className} ${theme.tabs}`;
+    let className = mergedProps.className;
     
     const tab = data.find(tab => tab.id === activeTab);
     
@@ -50,7 +50,7 @@ const Tabs: _Tabs = (props, withDefaults) => {
 }
 Tabs.defaults = {
     theme: {
-        tabs: componentID,
+        root: componentID,
         label_wrapper: componentID + '_label_wrapper',
         tab_label: componentID + '_tab_label',
         tab_label__active: componentID + '_tab_label__active',
@@ -61,5 +61,6 @@ Tabs.defaults = {
 Tabs.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Tabs

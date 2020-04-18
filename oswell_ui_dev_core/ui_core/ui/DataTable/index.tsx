@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 
 import Table from '../Table'
-import Select from '../_form/Select'
-import Pagination from '../Pagination'
 import { extractProps } from '../ui_utils'
 import tableHeadRows from './head'
 import tableBodyRows from './body'
@@ -23,7 +21,7 @@ const initDataGridStore = () => useState({
     },
 
     bodyData: {
-        showPerPage: 16,
+        showPerPage: 15,
         currentPage: 1
     }
 })
@@ -33,11 +31,9 @@ const DataTable: _DataTable = (props, withDefaults) => {
         ?   (props as _DataTable['defaults'] & typeof props)
         :   extractProps(DataTable.defaults, props)
 
-    const { theme, attributes, hookState, entities, pagination, tableAttributes } = mergedProps;
+    const { className, theme, attributes, hookState, entities, withPagination, tableAttributes } = mergedProps;
 
-    const rootAttributes = {
-        className: `${s.table} ${mergedProps.className} ${theme.data_table}`
-    }
+    const rootAttributes = { className }
     attributes && (Object.assign(rootAttributes, attributes))
 
     const [ state, setState ] = hookState;
@@ -45,7 +41,9 @@ const DataTable: _DataTable = (props, withDefaults) => {
 
     
     function getPagination() {
-        const { displayQuantity, selectProps, paginationProps } = pagination as NonNullable<typeof pagination>;
+        const { displayQuantity, select, pagination } = withPagination as NonNullable<typeof withPagination>;
+        const { props: selectProps, component: Select } = select;
+        const { props: paginationProps, component: Pagination } = pagination;
 
         const maxPages = Math.ceil(entities.sorted.length / showPerPage)
         currentPage > maxPages && (state.bodyData.currentPage = 1)
@@ -94,7 +92,7 @@ const DataTable: _DataTable = (props, withDefaults) => {
     
     const dataTableTableProps: DataTableTableProps = {
         head, body,
-        className: `${s.table} ${theme.data_table}`
+        className: `${s.table} ${theme.table}`
     }
     tableAttributes && (dataTableTableProps.attributes = tableAttributes)
 
@@ -103,13 +101,13 @@ const DataTable: _DataTable = (props, withDefaults) => {
         <div {...rootAttributes}>
             <Table {...dataTableTableProps} />
             
-            { pagination && getPagination() }
+            { withPagination && getPagination() }
         </div>
     )
 }
 DataTable.defaults = {
     theme: {
-        data_table: componentID,
+        root: componentID,
         table: componentID + '_table',
         table_resizer: componentID + '_table_resizer',
         pagination_wrapper: componentID + '_pagination_wrapper'
@@ -118,5 +116,6 @@ DataTable.defaults = {
 DataTable.ID = componentID;
 
 
+export * from './types'
 export { initDataGridStore, componentID }
 export default DataTable

@@ -1,17 +1,19 @@
 import { PropsComponentThemed,ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
+type ThemeKeys = 'label' | 'checkbox'
+
 type Props = {
+    value: boolean
     onChange: (checked: boolean, e: React.MouseEvent, payload: any) => void
     attributes?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
     disabled?: boolean
-    value: boolean
     label?: React.ReactNode
     payload?: any
-} & PropsComponentThemed
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
-    theme: NonNullable<Props['theme']>
+    theme: NonNullable<Required<Props['theme']>>
     value: NonNullable<Props['value']>
 }
 

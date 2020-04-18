@@ -1,6 +1,8 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
+type ThemeKeys = 'field' | 'textarea' | 'extra' | 'error_text' | 'label' | 'label_text' | 'focus'
+
 type Props = {
     inputAttr?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
     attributes?: ComponentAttributes
@@ -15,10 +17,10 @@ type Props = {
     onBlur?: (e: React.FocusEvent) => any
     onChange?: (value: string, e: React.FormEvent, payload: any) => any
     onFocus?: (e: React.FocusEvent) => void
-} & PropsComponentThemed
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
-    theme: NonNullable<Props['theme']>
+    theme: NonNullable<Required<Props['theme']>>
 }
 
 type _Input = CoreIUComponent<Props, DefaultProps>

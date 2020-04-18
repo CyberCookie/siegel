@@ -1,24 +1,27 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
+type ThemeKeys = 'label' | 'title' | 'select_input' | 'select_active' | 'options' | 'option'
+    | 'option_active' | 'option_disabled'
+
 type Props<V = any> = {
-    dropdownIcon?: React.ReactNode
-    closeOnSelect?: boolean
-    label?: React.ReactNode
-    onChange: (value: V, e: React.MouseEvent, payload: any) => void
+    displayValue: React.ReactNode
     options: {
         disabled?: boolean
         payload?: any
         value: V
         title: React.ReactNode
     }[],
+    onChange: (value: V, e: React.MouseEvent, payload: any) => void
+    dropdownIcon?: React.ReactNode
+    closeOnSelect?: boolean
+    label?: React.ReactNode
     selected?: V
-    displayValue: React.ReactNode
     attributes?: ComponentAttributes
-} & PropsComponentThemed
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
-    theme: NonNullable<Props['theme']>
+    theme: NonNullable<Required<Props['theme']>>
     closeOnSelect: NonNullable<Props['closeOnSelect']>
     dropdownIcon: NonNullable<Props['dropdownIcon']>
 }

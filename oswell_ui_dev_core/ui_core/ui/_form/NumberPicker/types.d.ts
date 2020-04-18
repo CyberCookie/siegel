@@ -3,8 +3,17 @@ import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../.
 
 type Value = number | string
 
+
+type ThemeKeys = 'number_picker__disabled' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
+    | 'label' | 'field'
+
 type Props = {
     value: Value
+    onChange: (
+        value: Value,
+        e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement>,
+        payload: any
+    ) => void
     disabled?: boolean
     step?: number
     min?: number
@@ -17,17 +26,12 @@ type Props = {
     placeholder?: string
     regexp?: string
     precision?: number
-    onChange: (
-        value: Value,
-        e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement>,
-        payload: any
-    ) => void
     attributes?: ComponentAttributes
     inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
-} & PropsComponentThemed
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
-    theme: NonNullable<Props['theme']>
+    theme: NonNullable<Required<Props['theme']>>
     minusIcon: NonNullable<Props['minusIcon']>
     plusIcon: NonNullable<Props['plusIcon']>
 }

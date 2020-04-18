@@ -6,16 +6,18 @@ type ListElement = {
     children: ListElement[]
 }
 
+type ThemeKeys = 'item_with_child' | 'item_title' | 'item_without_child'
+
 type Props = {
-    soloOpen?: boolean
     dropdownIcon: React.ReactNode
     list: ListElement[]
+    soloOpen?: boolean
     builder?: (title: React.ReactNode, children?: ListElement[]) => ({ className: string, elem: React.ReactNode })
     attributes?: ComponentAttributes
-} & PropsComponentThemed
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
-    theme: NonNullable<Props['theme']>
+    theme: NonNullable<Required<Props['theme']>>
 }
 
 type _Dropdown = CoreIUComponent<Props, DefaultProps>

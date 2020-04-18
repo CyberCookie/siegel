@@ -14,8 +14,7 @@ const Slider: _Slider = (props, withDefaults) => {
         ?   (props as _Slider['defaults'] & typeof props)
         :   extractProps(Slider.defaults, props)
     
-    const { theme, startFrom, showNumber, data, noControlls, attributes, onChange } = mergedProps;
-    const className = `${mergedProps.className} ${theme.slider}`;
+    const { className, theme, startFrom, showNumber, data, noControlls, attributes, onChange, swipeDelta } = mergedProps;
 
     let sliderRootProps = {
         className,
@@ -118,14 +117,14 @@ const Slider: _Slider = (props, withDefaults) => {
             { noControlls || pageControlls }
 
             <Swipe children={slidePages} className={theme.slides} xAxis
-                deltaPos={30}
+                deltaPos={swipeDelta}
                 onSwipe={onSlideSwipe} />
         </div>
     )
 }
 Slider.defaults = {
     theme: {
-        slider: componentID,
+        root: componentID,
         slides: componentID + '_slides',
         slide_page: componentID + '_slide_page',
         slides_controls: componentID + '_slides_controls',
@@ -134,10 +133,12 @@ Slider.defaults = {
         slide: componentID + '_slide'
     },
 
-    showNumber: 1
+    showNumber: 1,
+    swipeDelta: 30
 }
 Slider.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Slider

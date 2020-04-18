@@ -14,9 +14,9 @@ const Input: _Input = (props, withDefaults) => {
     
     const { theme, attributes, inputAttr, label, placeholder, value, errorMsg,
         type, disabled, autofocus, onBlur, onChange, onFocus, payload } = mergedProps;
-
-    let className = `${mergedProps.className} ${theme.input}`;
-
+    
+    let className = mergedProps.className;
+    
 
     let inputRootAttributes: ComponentRootAttributes = {
         className,
@@ -87,7 +87,7 @@ const Input: _Input = (props, withDefaults) => {
 }
 Input.defaults = {
     theme: {
-        input: componentID,
+        root: componentID,
         field: componentID + '_field',
         textarea: componentID + '_textarea',
         extra: componentID + '_extra',
@@ -100,5 +100,6 @@ Input.defaults = {
 Input.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Input

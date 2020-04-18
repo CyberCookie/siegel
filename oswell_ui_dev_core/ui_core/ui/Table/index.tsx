@@ -53,5 +53,6 @@ Table.defaults = {
 Table.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Table

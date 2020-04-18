@@ -16,8 +16,8 @@ const Dropdown: _Dropdown = (props, withDefaults) => {
         ?   (props as _Dropdown['defaults'] & typeof props)
         :   extractProps(Dropdown.defaults, props)
     
-    const { theme, list, builder, dropdownIcon, soloOpen, attributes } = mergedProps;
-    const className = `${mergedProps.className} ${theme.dropdown}`;
+    const { className, theme, list, builder, dropdownIcon, soloOpen, attributes } = mergedProps;
+
 
     function childrenMapper({ title, children }: ListElement, i: number) {
         let wrapperClass;
@@ -74,7 +74,7 @@ const Dropdown: _Dropdown = (props, withDefaults) => {
 }
 Dropdown.defaults = {
     theme: {
-        dropdown: componentID,
+        root: componentID,
         item_with_child: componentID + '_item_with_child',
         item_title: componentID + '_item_title',
         item_without_child: componentID + '_item_without_child'
@@ -83,5 +83,6 @@ Dropdown.defaults = {
 Dropdown.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Dropdown

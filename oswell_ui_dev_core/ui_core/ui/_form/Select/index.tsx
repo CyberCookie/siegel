@@ -40,7 +40,7 @@ const Select: _Select = (props, withDefaults) => {
 
     const { theme, attributes, displayValue, dropdownIcon, label } = mergedProps;
     
-    let className = `${mergedProps.className} ${theme.select}`;
+    let className = mergedProps.className;
     isActive && (className += ` ${theme.select_active}`)
     
     let selectRootProps = {
@@ -72,28 +72,39 @@ const Select: _Select = (props, withDefaults) => {
         }
     }, [])
     
+
+    const selectInput = <>
+        <div className={theme.title}>
+            { displayValue }
+            { dropdownIcon }
+        </div>
+
+        { isActive && (
+            <div className={theme.options}
+                children={getOptions(mergedProps, setActive)} />
+        )}
+    </>
     
     return (
         <div {...selectRootProps}>
-            { label && <div className={theme.label} children={label} /> }
+            { label
+                ?   <>
+                        <div className={theme.label} children={label} />
 
-            <div className={theme.title}>
-                { displayValue }
-                { dropdownIcon }
-            </div>
-
-            { isActive && (
-                <div className={theme.options}
-                    children={getOptions(mergedProps, setActive)} />
-            )}
+                        <div className={theme.select_input} children={selectInput} />
+                    </>
+                
+                :   selectInput
+            }
         </div>
     )
 }
 Select.defaults = {
     theme: {
-        select: componentID,
+        root: componentID,
         label: componentID + '_label',
         title: componentID + '_title',
+        select_input: componentID + '_input',
         select_active: componentID + '__active',
         options: componentID + '_options',
         option: componentID + '_option',
@@ -107,5 +118,6 @@ Select.defaults = {
 Select.ID = componentID;
 
 
+export * from './types'
 export { componentID }
 export default Select

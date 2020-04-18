@@ -11,7 +11,7 @@ const onMouseDown = (e: React.MouseEvent<HTMLAnchorElement>) => {
     window.open(href, target)
 }
 
-const onClick = (e: React.MouseEvent) => e.preventDefault()
+const onClick = (e: React.MouseEvent) => { e.preventDefault() }
 
 const Link: _Link = (props, withDefaults) => {
     const { className, path, title, attributes } = withDefaults
@@ -37,5 +37,6 @@ Link.defaults = {
 Link.ID = componentID
 
 
+export * from './types'
 export { componentID }
 export default Link

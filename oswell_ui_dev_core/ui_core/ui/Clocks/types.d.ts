@@ -2,9 +2,9 @@ import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_
 
 
 type Props = {
+    builder: (x: any) => any
     updateInterval?: number
     zeroing?: boolean
-    builder: (x: any) => any
     attributes?: ComponentAttributes
 } & PropsComponentBase
 

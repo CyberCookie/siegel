@@ -4,10 +4,10 @@ import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_
 type HTMLSwipeMouseEvent = MouseEvent | TouchEvent
 
 type Props = {
+    onSwipe: (dirrection: boolean, e: HTMLSwipeMouseEvent) => void
     children?: React.ReactNode
     xAxis?: boolean
     deltaPos?: number
-    onSwipe: (dirrection: boolean, e: HTMLSwipeMouseEvent) => void
     attributes?: ComponentAttributes
 } & PropsComponentBase
 
