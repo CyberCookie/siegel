@@ -8,10 +8,10 @@ import { _Clocks } from './types'
 
 const componentID = '-ui-clocks'
 
-const Clocks: _Clocks = (props, withDefaults) => {
-    const { className, updateInterval, builder, zeroing, attributes } = withDefaults
-        ?   (props as _Clocks['defaults'] & typeof props)
-        :   extractProps(Clocks.defaults, props)
+const Clocks: _Clocks = (props, noDefaults) => {
+    const { className, updateInterval, builder, zeroing, attributes } = noDefaults
+        ?   extractProps(Clocks.defaults, props)
+        :   (props as _Clocks['defaults'] & typeof props)
 
     const getNextClockState = () => builder && builder(dateParse(Date.now(), zeroing))
     
@@ -56,6 +56,5 @@ Clocks.defaults = {
 Clocks.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Clocks

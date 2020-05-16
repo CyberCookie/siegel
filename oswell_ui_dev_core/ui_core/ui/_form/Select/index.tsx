@@ -5,9 +5,18 @@ import { extractProps } from '../../ui_utils'
 import { Props, DefaultProps, _Select } from './types'
 
 
+type SelectRootProps = {
+    ref: React.MutableRefObject<HTMLDivElement>
+    className?: string
+    disabled?: boolean
+    onMouseDown?: (e: React.MouseEvent) => void
+}
+
 const componentID = '-ui-select'
 
 const _isTouchScreen = isTouchScreen()
+const stopPropagationHandler = (e: React.MouseEvent) => { e.stopPropagation() }
+
 
 function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
     const { options, selected, theme, onChange, closeOnSelect } = props;
@@ -31,28 +40,30 @@ function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React
     })
 }
 
-const Select: _Select = (props, withDefaults) => {
+const Select: _Select = (props, noDefaults) => {
     const [ isActive, setActive ] = useState(false)
 
-    const mergedProps = withDefaults
-        ?   (props as _Select['defaults'] & typeof props)
-        :   extractProps(Select.defaults, props)
+    const mergedProps = noDefaults
+        ?   extractProps(Select.defaults, props)
+        :   (props as _Select['defaults'] & typeof props)
 
-    const { theme, attributes, displayValue, dropdownIcon, label } = mergedProps;
+    const { theme, attributes, displayValue, dropdownIcon, label, disabled } = mergedProps;
     
     let className = mergedProps.className;
     isActive && (className += ` ${theme.select_active}`)
     
-    let selectRootProps = {
-        ref: (useRef() as React.MutableRefObject<HTMLDivElement>),
+    let selectRootProps: SelectRootProps = {
         className,
-        onMouseDown(e: React.MouseEvent) {
-            e.stopPropagation()
-            e.preventDefault()
-    
-            setActive(!isActive)
-        }
+        ref: (useRef() as React.MutableRefObject<HTMLDivElement>)
     }
+    disabled
+        ?   (selectRootProps.disabled = true)
+        :   (selectRootProps.onMouseDown = (e: React.MouseEvent) => {
+                e.stopPropagation()
+                e.preventDefault()
+            
+                setActive(!isActive)
+            });
     attributes && (selectRootProps = Object.assign(selectRootProps, attributes))
 
     useEffect(() => {
@@ -80,7 +91,7 @@ const Select: _Select = (props, withDefaults) => {
         </div>
 
         { isActive && (
-            <div className={theme.options}
+            <div className={theme.options} onMouseDown={stopPropagationHandler}
                 children={getOptions(mergedProps, setActive)} />
         )}
     </>
@@ -90,7 +101,6 @@ const Select: _Select = (props, withDefaults) => {
             { label
                 ?   <>
                         <div className={theme.label} children={label} />
-
                         <div className={theme.select_input} children={selectInput} />
                     </>
                 
@@ -118,6 +128,5 @@ Select.defaults = {
 Select.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Select

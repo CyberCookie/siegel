@@ -6,10 +6,10 @@ import { _Button } from './types'
 
 const componentID = '-ui-button'
 
-const Button: _Button = (props, withDefaults) => {
-    const { className, onClick, type, value, disabled, attributes } = withDefaults
-        ?   (props as _Button['defaults'] & typeof props)
-        :   extractProps(Button.defaults, props)
+const Button: _Button = (props, noDefaults) => {
+    const { className, onClick, type, value, disabled, attributes } = noDefaults
+        ?   extractProps(Button.defaults, props)
+        :   (props as _Button['defaults'] & typeof props)
     
     
     let buttonRootProps: typeof attributes = {
@@ -30,6 +30,5 @@ Button.defaults = {
 Button.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Button

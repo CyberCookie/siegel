@@ -21,10 +21,10 @@ function getLabels({ data, activeTab, onChange, theme }: Props & DefaultProps) {
     return <div className={theme.label_wrapper} children={labels} />
 }
 
-const Tabs: _Tabs = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _Tabs['defaults'] & typeof props)
-        :   extractProps(Tabs.defaults, props)
+const Tabs: _Tabs = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(Tabs.defaults, props)
+        :   (props as _Tabs['defaults'] & typeof props)
 
     const { theme, data, activeTab, attributes } = mergedProps;
     let className = mergedProps.className;
@@ -61,6 +61,5 @@ Tabs.defaults = {
 Tabs.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Tabs

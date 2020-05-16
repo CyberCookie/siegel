@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import { extractProps } from '../ui_utils'
-import Swipe, { HTMLSwipeMouseEvent } from '../Swipe'
+import Swipe from '../Swipe'
+import { HTMLSwipeMouseEvent } from '../Swipe/types'
 import { SliderElementsResult, _Slider } from './types'
 
 import './styles'
@@ -9,10 +10,10 @@ import './styles'
 
 const componentID = '-ui-slider'
 
-const Slider: _Slider = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _Slider['defaults'] & typeof props)
-        :   extractProps(Slider.defaults, props)
+const Slider: _Slider = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(Slider.defaults, props)
+        :   (props as _Slider['defaults'] & typeof props)
     
     const { className, theme, startFrom, showNumber, data, noControlls, attributes, onChange, swipeDelta } = mergedProps;
 
@@ -99,7 +100,7 @@ const Slider: _Slider = (props, withDefaults) => {
         
         const result: SliderElementsResult = { slidePages }
         noControlls || (result.pageControlls = (
-            <div className={theme.slides_controlls} children={controlls} onMouseDown={e => {
+            <div className={theme.slides_controls} children={controlls} onMouseDown={e => {
                 const nextPage = (e.target as HTMLDivElement).dataset.page;
                 nextPage && switchPage(+nextPage, e)
             }} />
@@ -139,6 +140,5 @@ Slider.defaults = {
 Slider.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Slider

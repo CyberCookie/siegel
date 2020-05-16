@@ -10,10 +10,10 @@ const componentID = '-ui-swipe'
 const _isTouchScreen = isTouchScreen()
 const passiveEv = { passive: true }
 
-const Swipe: _Swipe = (props, withDefaults) => {
-    const { className, children, xAxis, deltaPos, onSwipe, attributes } = withDefaults
-        ?   (props as _Swipe['defaults'] & typeof props)
-        :   extractProps(Swipe.defaults, props)
+const Swipe: _Swipe = (props, noDefaults) => {
+    const { className, children, xAxis, deltaPos, onSwipe, attributes } = noDefaults
+        ?   extractProps(Swipe.defaults, props)
+        :   (props as _Swipe['defaults'] & typeof props)
 
     let swipeRootAttributes: React.HTMLAttributes<HTMLDivElement> = { className, children }
     isTouchScreen
@@ -95,6 +95,5 @@ Swipe.defaults = {
 Swipe.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Swipe

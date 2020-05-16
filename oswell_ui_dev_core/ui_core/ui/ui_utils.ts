@@ -16,7 +16,7 @@ type PropsComponentThemed<K extends string = string> = {
 type CoreIUComponent<P extends PropsComponentThemed, D extends PropsComponentThemed> = {
     (props: P, withDefaults?: boolean): JSX.Element;
     //#TS_sucks when overload;
-    // (props: P & D, withDefaults: true): JSX.Element;
+    // (props: P & D, withDefaults: false): JSX.Element;
     defaults: D
     ID: string
 }
@@ -39,12 +39,12 @@ function extractProps
     isE(result.className) || (result.className = '')
 
     if (defaultTheme) {
-        if (theme) {
-            //TODO merge values instead keys. or not to do
-            result.theme = Object.assign({}, defaultTheme, theme)
-        }
+        //TODO merge values instead keys. or not to do
+        result.theme = theme
+            ?   Object.assign({}, defaultTheme, theme)
+            :   defaultTheme;
         
-        result.className += ` ${result.theme!.root}`
+        result.className += ` ${result.theme.root}`
     }
 
 
@@ -55,17 +55,16 @@ function extractProps
 function withDefaults
 <
     C extends CoreIUComponent<any, any>,
-    P extends Partial<Parameters<C>[0]>,
-    D = C['defaults']
+    NewDefaults extends Partial<Parameters<C>[0]>,
+    ComponentDefaults = C['defaults']
 >
-(Component: C, newDefaults: P & Partial<Parameters<C>[0]>) {
-    type PP = Parameters<C>[0]
-    const mergedDefaults = extractProps(Component.defaults as D, newDefaults)
+(Component: C, newDefaults: NewDefaults & Partial<Parameters<C>[0]>) {
+    const mergedDefaults = extractProps(Component.defaults as ComponentDefaults, newDefaults)
 
-    type Props = PartialKeys<PP, keyof D | keyof P>
+    type Props = PartialKeys<Parameters<C>[0], keyof ComponentDefaults | keyof NewDefaults>
     return (props: Props) => Component(
         extractProps(mergedDefaults, props),
-        true
+        false
     )
 }
 

@@ -4,23 +4,32 @@ import { extractProps } from '../../ui_utils'
 import { _Toggle } from './types'
 
 
+type ToggleRootProps = {
+    className?: string,
+    onMouseDown?: (e: React.MouseEvent) => void
+}
+
 const componentID = '-ui-toggle'
 
-const Toggle: _Toggle = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _Toggle['defaults'] & typeof props)
-        :   extractProps(Toggle.defaults, props)
+const Toggle: _Toggle = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(Toggle.defaults, props)
+        :   (props as _Toggle['defaults'] & typeof props)
 
-    const { theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes } = mergedProps;
+    const { theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes,
+        payload, disabled, className } = mergedProps;
     
-    let className = mergedProps.className;
-    isToggled && (className += ` ${theme.toggle_checked}`)
+        
+    let toggleRootProps: ToggleRootProps = { className }
 
-    let toggleRootProps = {
-        className,
-        onMouseDown: onChange
+    isToggled && (toggleRootProps.className += ` ${theme._toggled}`)
+    
+    if (disabled) {
+        toggleRootProps.className += ` ${theme._disabled}`
+    } else if (onChange) {
+        toggleRootProps.onMouseDown = (e: React.MouseEvent) => { onChange(!isToggled, e, payload) }
     }
-    attributes && (toggleRootProps = Object.assign({}, attributes, toggleRootProps))
+    attributes && (toggleRootProps = Object.assign(toggleRootProps, attributes))
 
 
     return (
@@ -38,7 +47,8 @@ const Toggle: _Toggle = (props, withDefaults) => {
 Toggle.defaults = {
     theme: {
         root: componentID,
-        toggle_checked: componentID + '__checked',
+        _disabled: componentID + '__disabled',
+        _toggled: componentID + '__toggled',
         label: componentID + '_label',
         toggle_area: componentID + '_toggle_area',
         toggler: componentID + '_toggler'
@@ -47,6 +57,5 @@ Toggle.defaults = {
 Toggle.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Toggle

@@ -5,7 +5,7 @@ type _Attributes = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttrib
 
 type Props = {
     type?: _Attributes['type']
-    value?: _Attributes['value']
+    value?: React.ReactNode
     disabled?: _Attributes['disabled']
     onClick?: _Attributes['onClick']
     attributes?: _Attributes

@@ -32,10 +32,10 @@ const useLayoutEffectFunc = () => () => {
 
 const linkClickPreventDefault = (e: React.MouseEvent) => { e.preventDefault() }
 
-const Breadcrumbs: _Breadcrumbs = (props, withDefaults) => {
-    const { className, theme, attributes, location, separator, config, onChange } = withDefaults
-        ?   (props as _Breadcrumbs['defaults'] & typeof props)
-        :   extractProps(Breadcrumbs.defaults, props)
+const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
+    const { className, theme, attributes, location, separator, config, onChange } = noDefaults
+        ?   extractProps(Breadcrumbs.defaults, props)
+        :   (props as _Breadcrumbs['defaults'] & typeof props)
 
 
     forceUpdate = useState({})[1]
@@ -101,6 +101,5 @@ Breadcrumbs.defaults = {
 Breadcrumbs.ID = componentID;
 
 
-export * from './types'
 export { setDynamicCrumb, setDynamicCrumbsBatch, componentID }
 export default Breadcrumbs

@@ -5,33 +5,19 @@ import isExists from '../../../utils/is_exists'
 import { _NumberPicker } from './types'
 
 
-const componentID = '-ui-number-picker'
-
-const getIntSize = (value: number) => (Math.abs(parseInt(value)) + '').length;
+const componentID = '-ui-number_picker'
 
 function getRegExp(min?: number, max?: number, precision?: number): string {
     const minLimit = Math.min((min as number), (max as number))
     let regexpTemplate = '^'
 
     minLimit < 0 && (regexpTemplate += '-?')
-    regexpTemplate += '\\d'
-
-    const floatRegExp = '\\.?\\d'
-    
-    const isFiniteMin = isFinite(min)
-    const isFiniteMax = isFinite(max)
-    if (isFiniteMax || isFiniteMin) {
-        const sizeMin = isFiniteMin ? getIntSize(min!) : 0;
-        const sizeMax = isFiniteMax ? getIntSize(max!) : 0;
-        regexpTemplate += `{0,${Math.max(sizeMin, sizeMax)}}`
-    } else {
-        regexpTemplate += '*'
-    }
+    regexpTemplate += '\\d*\\.?\\d'
 
     if (precision === undefined) {
-        regexpTemplate += `${floatRegExp}*`
-    } else if (precision != 0) {
-        regexpTemplate += `${floatRegExp}{0,${precision}}`
+        regexpTemplate += '*'
+    } else if (precision !== 0) {
+        regexpTemplate += `{0,${precision}}`
     }
 
     regexpTemplate += '$'
@@ -40,10 +26,23 @@ function getRegExp(min?: number, max?: number, precision?: number): string {
     return regexpTemplate
 }
 
-const NumberPicker: _NumberPicker = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _NumberPicker['defaults'] & typeof props)
-        :   extractProps(NumberPicker.defaults, props)
+function numberToFloat(value: string, min?: number, max?: number) {
+    const numberFloat = parseFloat(value)
+
+    return isNaN(numberFloat)
+        ?   isFinite(min)
+                ?   min
+                :   isFinite(max) && max! < 0
+                        ?   max
+                        :   0
+
+        :   numberFloat
+}
+
+const NumberPicker: _NumberPicker = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(NumberPicker.defaults, props)
+        :   (props as _NumberPicker['defaults'] & typeof props)
     
     const {
         theme, value, disabled, onChange, step, minusIcon, plusIcon, label, payload,
@@ -52,7 +51,7 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
     let { min, max } = mergedProps;
 
     let className = mergedProps.className;
-    disabled && (className += ` ${theme.number_picker__disabled}`)
+    disabled && (className += ` ${theme._disabled}`)
 
     isExists(min) || (min = -Infinity)
     isExists(max) || (max = Infinity)
@@ -61,13 +60,22 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
     attributes && (Object.assign({}, attributes, numberpickerRootProps))
 
 
-    const numberValue = parseFloat(value as string) || 0;
     const regexpString = regexp || getRegExp(min, max, precision)
     const numberMask = new RegExp(regexpString)
 
+    let numberValue = parseFloat(value as string)
+    if (isNaN(numberValue)) {
+        numberValue = isFinite(min)
+            ?   min
+            :   isFinite(max)
+                    ?   max
+                    :   0
+    }
+
+
     function onBlur(e: React.FocusEvent<HTMLInputElement>) {
         e.persist()
-        onNumberPickerChange(parseFloat(e.target.value) || 0, e)
+        onNumberPickerChange(numberValue, e)
     }
 
     function onNumberPickerChange(value: number, e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>, isButtonClick?: boolean) {
@@ -75,7 +83,19 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
             value < min! && (value = (min as number))
             value > max! && (value = (max as number))
 
-            onChange(value, e, payload)
+            let result = value;
+
+            if (isButtonClick && (step! % 1 > 0)) {
+                let _precision = precision;
+                if (!_precision) {
+                    const stringStep = ''+step;
+                    _precision = stringStep.length - stringStep.lastIndexOf('.') - 1
+                }
+
+                result = parseFloat(value.toFixed(_precision))
+            }   
+
+            onChange(''+result, e, payload)
         }
     }
 
@@ -85,9 +105,9 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
             numberMask.test(value) && onChange(value, e, payload)
         }
     }
-    
+
     const inputFieldAttributes: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>> = {
-        value, onBlur,
+        onBlur, value, 
         onChange: onInputChange,
         className: theme.field,
         disabled: disableInput || disabled,
@@ -104,17 +124,18 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
         </label>
     ))
 
+    
     return (
         <div {...numberpickerRootProps}>
             { isExists(step) && (
                 <div className={theme.controls}>
                     <button className={theme.button_minus} children={minusIcon}
                         disabled={((disabled || (min && numberValue <= min)) as boolean )}
-                        onMouseDown={e => onNumberPickerChange(numberValue - step, e, true)} />
+                        onMouseDown={e => onNumberPickerChange(numberValue - step!, e, true)} />
 
                     <button className={theme.button_plus} children={plusIcon}
                         disabled={((disabled || (max && numberValue >= max)) as boolean )}
-                        onMouseDown={e => onNumberPickerChange(numberValue + step, e, true)} />
+                        onMouseDown={e => onNumberPickerChange(numberValue + step!, e, true)} />
                 </div>
             )}
 
@@ -125,13 +146,13 @@ const NumberPicker: _NumberPicker = (props, withDefaults) => {
 NumberPicker.defaults = {
     theme: {
         root: componentID,
-        number_picker__disabled: componentID + '__disabled',
         controls: componentID + '_controls',
         button_minus: componentID + '_minus',
         button_plus: componentID + '_plus',
         label_wrapper: componentID + '_label_wrapper',
         label: componentID + '_label',
-        field: componentID + '_field'
+        field: componentID + '_field',
+        _disabled: componentID + '__disabled'
     },
 
     minusIcon: '-',
@@ -140,6 +161,5 @@ NumberPicker.defaults = {
 NumberPicker.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default NumberPicker

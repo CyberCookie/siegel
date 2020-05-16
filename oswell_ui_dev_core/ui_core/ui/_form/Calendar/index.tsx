@@ -25,13 +25,13 @@ function getWeekDayNames(days: string[], theme: DefaultProps['theme']) {
     return <div className={`${theme.week} ${s.week}`} children={days.map(getWeekDay)} />
 }
 
-const Calendar: _Calendar = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _Calendar['defaults'] & typeof props)
-        :   extractProps(Calendar.defaults, props)
+const Calendar: _Calendar = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(Calendar.defaults, props)
+        :   (props as _Calendar['defaults'] & typeof props)
 
     const { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon, payload,
-        nextIcon, noControlls, onChange, triggerOnlyWhenFinished } = mergedProps;
+        nextIcon, noControlls, onChange, triggerOnlyWhenFinished, rangePick } = mergedProps;
     const className = `${mergedProps.className} ${s.calendar}`;
     
     const { rangeDateStart, rangeDateEnd } = activeDate;
@@ -70,18 +70,20 @@ const Calendar: _Calendar = (props, withDefaults) => {
 
 
         if (rangeDateStart) {
-            ref.current!.addEventListener('mouseup', pickRangeFinish)
-            ref.current!.addEventListener('mouseover', pickRangeProgress)
+            if (rangePick) {
+                ref.current!.addEventListener('mouseup', pickRangeFinish)
+                ref.current!.addEventListener('mouseover', pickRangeProgress)
+            }
 
             const date = new Date(rangeDateStart)
             const rangeDateEnd = date.setDate(date.getDate() + 1) - 1;
             
             state.innerRangeEnd = rangeDateEnd;
             state.innerRangeStart = rangeDateStart;
-            state.inProgress = true;
+            state.inProgress = rangePick as boolean;
             state.anchor = rangeDateStart;
 
-            triggerOnlyWhenFinished
+            triggerOnlyWhenFinished && rangePick
                 ?   setState({ ...state })
                 :   onChange({ rangeDateStart, rangeDateEnd }, false, payload)
         }
@@ -213,6 +215,5 @@ Calendar.defaults = {
 Calendar.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Calendar

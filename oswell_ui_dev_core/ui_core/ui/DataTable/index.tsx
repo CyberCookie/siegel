@@ -26,10 +26,10 @@ const initDataGridStore = () => useState({
     }
 })
 
-const DataTable: _DataTable = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _DataTable['defaults'] & typeof props)
-        :   extractProps(DataTable.defaults, props)
+const DataTable: _DataTable = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(DataTable.defaults, props)
+        :   (props as _DataTable['defaults'] & typeof props)
 
     const { className, theme, attributes, hookState, entities, withPagination, tableAttributes } = mergedProps;
 
@@ -116,6 +116,5 @@ DataTable.defaults = {
 DataTable.ID = componentID;
 
 
-export * from './types'
 export { initDataGridStore, componentID }
 export default DataTable

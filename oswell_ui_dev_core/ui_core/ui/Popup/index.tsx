@@ -8,26 +8,26 @@ import s from './styles.sass'
 
 const componentID = '-ui-popup'
 
-const onPopupBodyClick = (e: React.MouseEvent) => e.stopPropagation()
-
-const Popup: _Popup = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _Popup['defaults'] & typeof props)
-        :   extractProps(Popup.defaults, props)
+const Popup: _Popup = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(Popup.defaults, props)
+        :   (props as _Popup['defaults'] & typeof props)
 
     const { theme, closeIcon, content, onClose, attributes } = mergedProps;
     const className = `${mergedProps.className} ${s.popup}`
 
     let popupRootAttributes = {
         className,
-        onMouseDown: onClose
+        onMouseDown(e: React.MouseEvent) {
+            e.target === e.currentTarget && onClose(e)
+        }
     }
     attributes && (popupRootAttributes = Object.assign(popupRootAttributes, attributes))
 
 
     return (
         <div {...popupRootAttributes}>
-            <div className={theme.content} onMouseDown={onPopupBodyClick}>
+            <div className={theme.content}>
                 <div onMouseDown={onClose} className={`${s.close} ${theme.close}`}
                     children={closeIcon} />
 
@@ -48,6 +48,5 @@ Popup.defaults = {
 Popup.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Popup

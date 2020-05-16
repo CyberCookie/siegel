@@ -13,10 +13,10 @@ const onMouseDown = (e: React.MouseEvent<HTMLAnchorElement>) => {
 
 const onClick = (e: React.MouseEvent) => { e.preventDefault() }
 
-const Link: _Link = (props, withDefaults) => {
-    const { className, path, title, attributes } = withDefaults
-        ?   (props as _Link['defaults'] & typeof props)
-        :   extractProps(Link.defaults, props)
+const Link: _Link = (props, noDefaults) => {
+    const { className, path, title, attributes } = noDefaults
+        ?   extractProps(Link.defaults, props)
+        :   (props as _Link['defaults'] & typeof props)
     
     let linkRootAttributes: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
         onClick, onMouseDown, className,
@@ -37,6 +37,5 @@ Link.defaults = {
 Link.ID = componentID
 
 
-export * from './types'
 export { componentID }
 export default Link

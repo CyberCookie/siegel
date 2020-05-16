@@ -24,6 +24,10 @@ export default {
     // [pagePathMap.login]: {
     //     lazy: React.lazy(() => import('app/pages/Login'))
     // }
+
+    _styleguide: {
+        component: lazy(() => import('core-ui/__DemoPage'))
+    }
 }
 
 

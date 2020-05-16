@@ -28,10 +28,10 @@ function getTableSection(data: TableHeadRow[] | TableBodyRow[], SectionHTMLTag: 
     return <SectionHTMLTag children={data.map(getTableRow)} />
 }
 
-const Table: _Table = (props, withDefaults) => {
-    const { className, head, body, foot, attributes } = withDefaults
-        ?   (props as _Table['defaults'] & typeof props)
-        :   extractProps(Table.defaults, props)
+const Table: _Table = (props, noDefaults) => {
+    const { className, head, body, foot, attributes } = noDefaults
+        ?   extractProps(Table.defaults, props)
+        :   (props as _Table['defaults'] & typeof props)
     
     let tableRootProps = { className }
     attributes && (tableRootProps = Object.assign(tableRootProps, attributes))
@@ -53,6 +53,5 @@ Table.defaults = {
 Table.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Table

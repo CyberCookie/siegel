@@ -17,6 +17,7 @@ type Props<V = any> = {
     closeOnSelect?: boolean
     label?: React.ReactNode
     selected?: V
+    disabled?: boolean
     attributes?: ComponentAttributes
 } & PropsComponentThemed<ThemeKeys>
 

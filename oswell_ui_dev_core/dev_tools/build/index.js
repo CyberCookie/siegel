@@ -30,7 +30,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         ],
         output: {
             publicPath,
-            path: output.loc,
+            path: output,
             chunkFilename: 'chunk.[contenthash].js',
             filename: isProd ? 'app.[contenthash].js' : 'app.[hash].js',
         },

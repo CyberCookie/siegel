@@ -26,6 +26,7 @@ type Props = {
     triggerOnlyWhenFinished?: boolean
     locale?: string
     payload?: any
+    rangePick?: boolean
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

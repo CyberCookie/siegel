@@ -6,10 +6,10 @@ import { _Pagination } from './types'
 
 const componentID = '-ui-pagination'
 
-const Pagination: _Pagination = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _Pagination['defaults'] & typeof props)
-        :   extractProps(Pagination.defaults, props)
+const Pagination: _Pagination = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(Pagination.defaults, props)
+        :   (props as _Pagination['defaults'] & typeof props)
     
     const { className, theme, attributes, listLength, curPage, showPerPage, elementsBySide,
         elementsByMiddle, onChange, controlIcon, separator, payload } = mergedProps;
@@ -111,6 +111,5 @@ Pagination.defaults = {
 Pagination.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Pagination

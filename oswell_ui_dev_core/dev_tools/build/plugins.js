@@ -1,3 +1,5 @@
+const path                  = require('path')
+
 const webpack               = require('webpack')
 const HTMLPlugin            = require('html-webpack-plugin')
 const fileCopyPlugin        = require('copy-webpack-plugin')
@@ -7,27 +9,24 @@ const serviceWorkerPlugin   = require('serviceworker-webpack-plugin')
 const miniCssExtract        = require('mini-css-extract-plugin')
 
 
-function mergeOptions(defaultOptions, userOptions, rewrite) {
-    let result = userOptions;
-    if (typeof defaultOptions == 'object' && !rewrite) {
-        result = Array.isArray(defaultOptions)
+
+const mergeOptions = (defaultOptions, userOptions, rewrite) => (
+    !rewrite && typeof defaultOptions == 'object'
+        ?   Array.isArray(defaultOptions)
             ?   defaultOptions.concat(userOptions)
             :   Object.assign({}, defaultOptions, userOptions)
-    }
-
-    return result
-}
-
+        :   userOptions
+)
 
 function mergePlugins(defaultPlugins, userPlugins = {}) {
-    let result = []
+    const result = []
 
-    function addWithNoMerge(pluginConfig) {
-        let { instances, enabled, plugin, options } = pluginConfig;
+    function addWithoutMerge(pluginConfig) {
+        const { instances, enabled, plugin, options } = pluginConfig;
 
         if (instances) {
-            for (let instanceKey in instances) {
-                let { enabled, options } = instances[instanceKey]
+            for (const instanceKey in instances) {
+                const { enabled, options } = instances[instanceKey]
                 enabled && result.push( new plugin(options) )
             }
         } else if (enabled) {
@@ -35,12 +34,12 @@ function mergePlugins(defaultPlugins, userPlugins = {}) {
         }
     }
 
-    for (let pluginKey in defaultPlugins) {
-        let pluginConfig = defaultPlugins[pluginKey]
-        let { plugin, options, instances } = pluginConfig;
+    for (const pluginKey in defaultPlugins) {
+        const pluginConfig = defaultPlugins[pluginKey]
+        const { plugin, options, instances } = pluginConfig;
 
         if (userPlugins[pluginKey]) {
-            let {
+            const {
                 rewrite,
                 plugin: userPlugin = plugin,
                 options: userOptions,
@@ -48,14 +47,14 @@ function mergePlugins(defaultPlugins, userPlugins = {}) {
             } = userPlugins[pluginKey]
 
             if (userInstances) {
-                for (let userPluginInstanceKey in userInstances) {
-                    let userInstance = userInstances[userPluginInstanceKey]
+                for (const userPluginInstanceKey in userInstances) {
+                    const userInstance = userInstances[userPluginInstanceKey]
 
                     if (userInstance) {
-                        let { rewrite, options: userInstanceOptions } = userInstance
+                        const { rewrite, options: userInstanceOptions } = userInstance
     
                         let finalPluginInstanceOptions = userInstanceOptions;
-                        let defaultInstance = instances[userPluginInstanceKey]
+                        const defaultInstance = instances[userPluginInstanceKey]
 
                         if (defaultInstance) {
                             finalPluginInstanceOptions = mergeOptions(defaultInstance.options, userInstanceOptions, rewrite)
@@ -65,16 +64,16 @@ function mergePlugins(defaultPlugins, userPlugins = {}) {
                     }
                 }
             } else {
-                let finalPluginOptions = mergeOptions(options, userOptions, rewrite)
+                const finalPluginOptions = mergeOptions(options, userOptions, rewrite)
                 result.push( new userPlugin(finalPluginOptions) )
             }
         } else if (userPlugins[pluginKey] !== false) {
-            addWithNoMerge(pluginConfig)
+            addWithoutMerge(pluginConfig)
         }
     }
 
-    for (let userPluginKey in userPlugins) {
-        defaultPlugins[userPluginKey] || addWithNoMerge(userPlugins[userPluginKey])
+    for (const userPluginKey in userPlugins) {
+        defaultPlugins[userPluginKey] || addWithoutMerge(userPlugins[userPluginKey])
     }
 
 
@@ -85,9 +84,9 @@ function mergePlugins(defaultPlugins, userPlugins = {}) {
 function getPlugins(CONFIG, RUN_PARAMS) {
     const { input, output, plugins: userPlugins } = CONFIG.build;
     const { isProd, isServer } = RUN_PARAMS;
+    
 
-
-    let defaults = {
+    const defaults = {
         compression: {
             plugin: compressionPlugin,
             instances: {
@@ -118,9 +117,16 @@ function getPlugins(CONFIG, RUN_PARAMS) {
 
         copy: {
             plugin: fileCopyPlugin,
-            enabled: input.assets && output.assets,
+            enabled: input.assetsDir,
             options: [{
-                from: input.assets, to: output.assets
+                from: input.assetsDir,
+                to: path.join(
+                        output,
+                        path.relative(
+                            path.parse(input.html).dir,
+                            input.assetsDir
+                        )
+                    )
             }]
         },
 

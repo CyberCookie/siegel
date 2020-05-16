@@ -16,7 +16,7 @@ const extractSSL = ssl => ({
 
 
 function createHTTPServer(CONFIG, devMiddlewares, serverExtend) {
-    let { host, port, ssl } = CONFIG.server;
+    const { host, port, ssl } = CONFIG.server;
 
     const expressApp = require('express')()
     const expressStatic = require('express-static-gzip')
@@ -32,7 +32,7 @@ function createHTTPServer(CONFIG, devMiddlewares, serverExtend) {
     serverExtend && serverExtend(expressApp)
 
 
-    expressApp.use('/', expressStatic(CONFIG.build.output.loc, {
+    expressApp.use('/', expressStatic(CONFIG.build.output, {
         enableBrotli: true,
         orderPreference: ['br', 'gzip']
     }))
@@ -49,8 +49,9 @@ function createHTTPServer(CONFIG, devMiddlewares, serverExtend) {
 }
 
 
-function createHTTP2Server(CONFIG, devMiddlewares, serverExtend) {
+function createHTTP2Server(CONFIG, serverExtend) {
     const { host, port, ssl } = CONFIG.server;
+    const staticFolder = CONFIG.build.output;
 
     const http2 = require('http2')
     const mime = require('mime-types')
@@ -75,20 +76,18 @@ function createHTTP2Server(CONFIG, devMiddlewares, serverExtend) {
     server.on('error', console.error)
 
     server.on('stream', (stream, headers) => {
-        let reqFilePath = headers[HTTP2_HEADER_PATH]
-        let staticFolder = CONFIG.build.output.loc;
-
-        let ext = path.extname(reqFilePath)
+        const reqFilePath = headers[HTTP2_HEADER_PATH]
+        const ext = path.extname(reqFilePath)
         let filePath = path.join(staticFolder, ext ? reqFilePath : 'index.html')
 
-        let reponseHeaders = {
+        const reponseHeaders = {
             [HTTP2_HEADER_CONTENT_TYPE]: mime.contentType(path.extname(filePath))
         }
 
 
-        let encodingOrder = ['br', 'gzip']
+        const encodingOrder = ['br', 'gzip']
         for (let i = 0, l = encodingOrder.length; i < l; i++) {
-            let encoding = encodingOrder[i]
+            const encoding = encodingOrder[i]
 
             if (fs.existsSync(`${filePath},${encoding}`)) {
                 filePath += `.${encoding}`
@@ -119,7 +118,7 @@ function createHTTP2Server(CONFIG, devMiddlewares, serverExtend) {
 module.exports = {
     run(CONFIG, devMiddlewares = [], serverExtend) {
         return CONFIG.server.http2
-            ?   createHTTP2Server(...arguments)
-            :   createHTTPServer(...arguments)
+            ?   createHTTP2Server(CONFIG, serverExtend)
+            :   createHTTPServer(CONFIG, devMiddlewares, serverExtend)
     }
 }

@@ -11,7 +11,7 @@ type ReqError = {
 }
 
 type SetupFnParams = {
-    beforeRequest?: (opts: FetchParams) => FetchParams,
+    beforeRequest?: (opts: RequestFnParams) => RequestFnParams,
     afterRequest?: (fetchParams: FetchParams, parseRes: any) => void,
     errorHandler?: (error: ReqError) => void
 } & Indexable
@@ -51,9 +51,7 @@ const extractRequestData = (request: RequestFnParams) => {
     
     const fetchParams = { url, options }
 
-    return defaultSetup.beforeRequest
-        ?   defaultSetup.beforeRequest(fetchParams)
-        :   fetchParams
+    return fetchParams
 }
 
 
@@ -84,6 +82,9 @@ const extractResponseData = async (req: RequestFnParams, res: Response & Indexab
 
 
 const request = async (req: RequestFnParams) => {
+    const { beforeRequest, afterRequest, errorHandler } = defaultSetup;
+    beforeRequest && (req = beforeRequest(req))
+
     const reqData = extractRequestData(req)
 
     try {
@@ -91,7 +92,7 @@ const request = async (req: RequestFnParams) => {
         const parsedRes = await extractResponseData(req, res)
 
         if (res.ok) {
-            defaultSetup.afterRequest && defaultSetup.afterRequest(reqData, parsedRes)
+            afterRequest && afterRequest(reqData, parsedRes)
             return parsedRes
         } else {
             throw {
@@ -109,7 +110,7 @@ const request = async (req: RequestFnParams) => {
         }
 
 
-        defaultSetup.errorHandler && defaultSetup.errorHandler(finalErr)
+        errorHandler && errorHandler(finalErr)
         throw err
     }
 }

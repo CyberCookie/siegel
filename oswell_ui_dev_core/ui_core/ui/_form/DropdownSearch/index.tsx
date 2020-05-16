@@ -6,10 +6,10 @@ import { _DropdownSearch } from './types'
 
 const componentID = '-ui-search-dropdown'
 
-const DropdownSearch: _DropdownSearch = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _DropdownSearch['defaults'] & typeof props)
-        :   extractProps(DropdownSearch.defaults, props)
+const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(DropdownSearch.defaults, props)
+        :   (props as _DropdownSearch['defaults'] & typeof props)
 
     const { theme, searchPlaceholder, searchOptions, minInputLength, onChange,
         closeIcon, searchIcon, optionBuilder, autofocus, payload, attributes, inputAttributes } = mergedProps;
@@ -81,6 +81,5 @@ DropdownSearch.defaults = {
 DropdownSearch.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default DropdownSearch

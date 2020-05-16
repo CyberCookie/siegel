@@ -1,7 +1,8 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
-type ThemeKeys = 'field' | 'textarea' | 'extra' | 'error_text' | 'label' | 'label_text' | 'focus'
+type ThemeKeys = 'field' | 'textarea' | 'extra' | 'error_text' | 'label' | 'label_text'
+    | '_focused' | '_filled' | '_touched' | '_error' | '_disabled'
 
 type Props = {
     inputAttr?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>

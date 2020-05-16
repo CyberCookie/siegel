@@ -1,4 +1,4 @@
-import { HTMLSwipeMouseEvent } from '../Swipe'
+import { HTMLSwipeMouseEvent } from '../Swipe/types'
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 

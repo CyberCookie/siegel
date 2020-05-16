@@ -11,10 +11,10 @@ const onClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation()
 }
 
-const Dropdown: _Dropdown = (props, withDefaults) => {
-    const mergedProps = withDefaults
-        ?   (props as _Dropdown['defaults'] & typeof props)
-        :   extractProps(Dropdown.defaults, props)
+const Dropdown: _Dropdown = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(Dropdown.defaults, props)
+        :   (props as _Dropdown['defaults'] & typeof props)
     
     const { className, theme, list, builder, dropdownIcon, soloOpen, attributes } = mergedProps;
 
@@ -83,6 +83,5 @@ Dropdown.defaults = {
 Dropdown.ID = componentID;
 
 
-export * from './types'
 export { componentID }
 export default Dropdown

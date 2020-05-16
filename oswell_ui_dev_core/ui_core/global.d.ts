@@ -15,12 +15,12 @@ type Indexable<V = any> = {
 
 type IndexObjectKeys<K extends string, V = any> = {
     [key in K]: V
-} & Indexable
+}
 
 
 type IndexObject<T, V = any> = {
     [key in keyof T]: V
-} & Indexable
+}
 
 
 //#TS_sucks.

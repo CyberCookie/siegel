@@ -1,16 +1,13 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
-type Value = number | string
-
-
-type ThemeKeys = 'number_picker__disabled' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
+type ThemeKeys = '_disabled' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
     | 'label' | 'field'
 
 type Props = {
-    value: Value
+    value: number | string
     onChange: (
-        value: Value,
+        value: string,
         e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement>,
         payload: any
     ) => void

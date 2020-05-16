@@ -8,18 +8,17 @@ const server = join(cwd, 'server', 'express_extender.js')
 const output = join(cwd, 'dist')
 const APP = join(cwd, 'client')
 
-const assetsFolderName = 'assets'
 const main = join(APP, 'main')
 
 
 
 function getAliasesFromTSconfig() {
     const TSAliases = require('../tsconfig').compilerOptions.paths;
-    let aliases = {}
+    const aliases = {}
 
-    for (let alias in TSAliases) {
-        let WPAlias = alias.replace('/*', '')
-        let WPPath = TSAliases[alias][0].replace('/*', '')
+    for (const alias in TSAliases) {
+        const WPAlias = alias.replace('/*', '')
+        const WPPath = TSAliases[alias][0].replace('/*', '')
 
         aliases[WPAlias] = join(cwd, WPPath)
     }
@@ -52,15 +51,12 @@ const oswellDevCoreConfig = {
             js: join(APP, 'index.tsx'),
             sw: join(APP, 'sw.js'),
             html: join(APP, 'index.html'),
-            assets: join(APP, assetsFolderName),
+            assetsDir: join(APP, 'assets'),
 
             sassResources: join(main, 'styles', 'sass_resources.sass')
         },
         
-        output: {
-            loc: output,
-            assets: join(output, assetsFolderName)
-        },
+        output,
         
         aliases: getAliasesFromTSconfig(),
 
