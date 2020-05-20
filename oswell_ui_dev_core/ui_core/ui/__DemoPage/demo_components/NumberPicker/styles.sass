@@ -1,0 +1,63 @@
+@import '../theme'
+
+
+$width: 100px
+$controls_width: 20px
+
+
+.number_picker
+    width: $width
+    position: relative
+
+
+.controls
+    @include absolute('', $gutter_sm, 0)
+    display: flex
+    flex-direction: column-reverse
+
+    svg polygon
+        transition: $transition
+
+    button
+        background: none
+        cursor: pointer
+        height: 20px
+
+        &:hover svg polygon
+            fill: $primary
+    
+    svg
+        width: 20px
+        height: 20px
+
+.minus_icon svg
+    transform: rotate(180deg)
+
+    
+.label
+    composes: label_text from '../Input/styles'
+
+
+.field
+    composes: field from '../Input/styles'
+    padding-right: $controls_width + $gutter_sm
+
+
+._focused
+    .field
+        border-color: $primary
+    
+    .label
+        color: $primary
+
+._disabled
+    .field
+        color: $border_color_light
+    
+    .controls
+        button
+            cursor: default
+            
+        button:hover svg polygon,
+        svg polygon
+            fill: $border_color_light

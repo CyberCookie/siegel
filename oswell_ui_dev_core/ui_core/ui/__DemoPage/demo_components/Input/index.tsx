@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import Input from '../../../_form/Input'
 import { Props } from '../../../_form/Input/types'
-import Icon from '../../icon'
+import { icon } from '../../icons'
 
 import s from './styles.sass'
 
@@ -42,7 +42,7 @@ const Demo = () => {
         <h2>with error, label and extra content as icon</h2>
         <Input {...props}
             errorMsg={inputValue.length < 5 ? 'too short' : ''}
-            attributes={{ children: Icon }}
+            attributes={{ children: icon }}
             label='some_label' />
         
         <h2>textfield</h2>

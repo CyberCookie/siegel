@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import Checkbox from '../../../_form/Checkbox'
 import { Props } from '../../../_form/Checkbox/types'
-import Icon from '../../icon'
+import { icon } from '../../icons'
 
 import s from './styles.sass'
 
@@ -34,7 +34,7 @@ const Demo = () => {
         <Checkbox {...props} />
 
         <h2>with icon and label</h2>
-        <Checkbox {...props} label='Some label' icon={Icon} />
+        <Checkbox {...props} label='Some label' icon={icon} />
 
         <h2>disabled</h2>
         <Checkbox {...props} disabled />

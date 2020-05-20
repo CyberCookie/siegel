@@ -9,9 +9,9 @@ const icons = {
     trashDeleted: <TrashDeletedIcon />
 }
 
-let iconNames = ['Eye_enable', 'Users']
+const iconNames = ['eye_enable', 'users']
 iconNames.forEach(name => {
-    icons[name] = <i className={s[name.toLowerCase()]} />
+    icons[name] = <i className={s[name]} />
 })
 
 

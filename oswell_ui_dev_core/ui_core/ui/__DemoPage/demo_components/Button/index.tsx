@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
-import Button from '../../../_form/Button'
-import Icon from '../../icon'
+import Button/*, { Props }*/ from '../../../_form/Button'
+import { Props } from '../../../_form/Button/types'
+import { icon } from '../../icons'
 
 import s from './styles.sass'
 
@@ -9,8 +10,8 @@ import s from './styles.sass'
 const Demo = () => {
     const [ counter, setCounter ] = useState(0)
 
-    const props = {
-        value: <>{Icon} click me</>,
+    const props: Props = {
+        value: <>{icon} click me</>,
         className: s.button,
         onClick() {
             setCounter(counter + 1)

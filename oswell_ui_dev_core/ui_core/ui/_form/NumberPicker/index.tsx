@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { extractProps, ComponentAttributes } from '../../ui_utils'
 import isExists from '../../../utils/is_exists'
@@ -7,7 +7,7 @@ import { _NumberPicker } from './types'
 
 const componentID = '-ui-number_picker'
 
-function getRegExp(min?: number, max?: number, precision?: number): string {
+function getRegExp(min?: number, max?: number, precision?: number): RegExp {
     const minLimit = Math.min((min as number), (max as number))
     let regexpTemplate = '^'
 
@@ -23,17 +23,17 @@ function getRegExp(min?: number, max?: number, precision?: number): string {
     regexpTemplate += '$'
 
 
-    return regexpTemplate
+    return new RegExp(regexpTemplate)
 }
 
-function numberToFloat(value: string, min?: number, max?: number) {
-    const numberFloat = parseFloat(value)
+function getNumberValue(value: string | number, min?: number, max?: number) {
+    const numberFloat = parseFloat(value as string)
 
     return isNaN(numberFloat)
         ?   isFinite(min)
-                ?   min
-                :   isFinite(max) && max! < 0
-                        ?   max
+                ?   min!
+                :   isFinite(max)
+                        ?   max!
                         :   0
 
         :   numberFloat
@@ -48,29 +48,28 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         theme, value, disabled, onChange, step, minusIcon, plusIcon, label, payload,
         disableInput, attributes, inputAttributes, placeholder, precision, regexp
     } = mergedProps;
-    let { min, max } = mergedProps;
 
-    let className = mergedProps.className;
+    const [ focused, setFocused ] = useState(false)
+
+
+    let { min, max, className } = mergedProps;
+
     disabled && (className += ` ${theme._disabled}`)
+    focused && (className += ` ${theme._focused}`)
 
     isExists(min) || (min = -Infinity)
     isExists(max) || (max = Infinity)
 
-    const numberpickerRootProps = { className }
+    const numberpickerRootProps = {
+        className,
+        onFocus() { focused || setFocused(true) },
+        onBlur() { focused && setFocused(false) }
+    }
     attributes && (Object.assign({}, attributes, numberpickerRootProps))
 
 
-    const regexpString = regexp || getRegExp(min, max, precision)
-    const numberMask = new RegExp(regexpString)
-
-    let numberValue = parseFloat(value as string)
-    if (isNaN(numberValue)) {
-        numberValue = isFinite(min)
-            ?   min
-            :   isFinite(max)
-                    ?   max
-                    :   0
-    }
+    const numberMask = regexp || getRegExp(min, max, precision)
+    const numberValue = getNumberValue(value, min, max)
 
 
     function onBlur(e: React.FocusEvent<HTMLInputElement>) {
@@ -107,7 +106,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     }
 
     const inputFieldAttributes: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>> = {
-        onBlur, value, 
+        onBlur, value,
         onChange: onInputChange,
         className: theme.field,
         disabled: disableInput || disabled,
@@ -118,7 +117,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     let inputElement = <input {...inputFieldAttributes} />
     label && (inputElement = (
         <label className={theme.label_wrapper}>
-            <span className={theme.label} children={label} />
+            <div className={theme.label} children={label} />
 
             { inputElement }
         </label>
@@ -131,11 +130,11 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
                 <div className={theme.controls}>
                     <button className={theme.button_minus} children={minusIcon}
                         disabled={((disabled || (min && numberValue <= min)) as boolean )}
-                        onMouseDown={e => onNumberPickerChange(numberValue - step!, e, true)} />
+                        onMouseDown={e => onNumberPickerChange(numberValue - step, e, true)} />
 
                     <button className={theme.button_plus} children={plusIcon}
                         disabled={((disabled || (max && numberValue >= max)) as boolean )}
-                        onMouseDown={e => onNumberPickerChange(numberValue + step!, e, true)} />
+                        onMouseDown={e => onNumberPickerChange(numberValue + step, e, true)} />
                 </div>
             )}
 
@@ -152,7 +151,8 @@ NumberPicker.defaults = {
         label_wrapper: componentID + '_label_wrapper',
         label: componentID + '_label',
         field: componentID + '_field',
-        _disabled: componentID + '__disabled'
+        _disabled: componentID + '__disabled',
+        _focused: componentID + '__focused'
     },
 
     minusIcon: '-',

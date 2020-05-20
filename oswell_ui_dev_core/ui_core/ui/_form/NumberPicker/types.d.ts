@@ -1,7 +1,7 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
-type ThemeKeys = '_disabled' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
+type ThemeKeys = '_disabled' | '_focused' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
     | 'label' | 'field'
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
     payload?: any
     disableInput?: boolean
     placeholder?: string
-    regexp?: string
+    regexp?: RegExp
     precision?: number
     attributes?: ComponentAttributes
     inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>

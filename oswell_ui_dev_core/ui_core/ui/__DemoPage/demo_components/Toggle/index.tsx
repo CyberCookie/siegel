@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import Toggle from '../../../_form/Toggle'
 import { Props } from '../../../_form/Toggle/types'
-import Icon from '../../icon'
+import { icon } from '../../icons'
 
 import s from './styles.sass'
 
@@ -33,7 +33,7 @@ const Demo = () => {
         <Toggle {...props} />
 
         <h2>with icon and labels</h2>
-        <Toggle {...props} toggleIcon={Icon}
+        <Toggle {...props} toggleIcon={icon}
             labelLeft='Left label'
             labelRight='Left label' />
         

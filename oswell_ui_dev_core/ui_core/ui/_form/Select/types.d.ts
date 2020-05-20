@@ -1,8 +1,8 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
-type ThemeKeys = 'label' | 'title' | 'select_input' | 'select_active' | 'options' | 'option'
-    | 'option_active' | 'option_disabled'
+type ThemeKeys = 'label' | 'title' | 'input_wrapper' | '_active' | '_disabled' | 'options'
+    | 'option' | '_option_active' | '_option_disabled'
 
 type Props<V = any> = {
     displayValue: React.ReactNode

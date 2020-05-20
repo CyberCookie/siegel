@@ -14,12 +14,8 @@ $toggler_size: $toggle_area_size * $toggler_size_koef
     cursor: pointer
     user-select: none
 
-    &:not(._toggled)
-        .toggler
-            left: 0
-
-        .label:first-of-type
-            color: $secondary
+    &:not(._toggled) .label:first-of-type
+        color: $secondary
     
     &._disabled
         cursor: default
@@ -35,7 +31,7 @@ $toggler_size: $toggle_area_size * $toggler_size_koef
 
 ._toggled
     .toggler
-        left: 100%
+        transform: translateX(100%) translateY(-50%)
         
 
     .label:last-of-type
@@ -54,7 +50,7 @@ $toggler_size: $toggle_area_size * $toggler_size_koef
 .toggler
     @include absolute(50%, 50%)
     @include flex(center, center)
-    transform: translateX(-50%) translateY(-50%)
+    transform: translateX(0) translateY(-50%)
     height: $toggler_size
     width: $toggler_size
     border-radius: 50%

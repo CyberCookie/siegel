@@ -71,26 +71,27 @@ const Input: _Input = (props, noDefaults) => {
     }
     
 
-    let inputRootAttributes: typeof inputAttr = { className }
+    let inputRootAttributes: typeof inputAttr = {
+        className,
+        onFocus() {
+            if (!focused) {
+                state.focused = true;
+                setState({ ...state })
+            }
+        },
+        onBlur() {
+            if (!touched || focused) {
+                touched || (state.touched = true)
+                focused && (state.focused = false)
+        
+                setState({ ...state })
+            }
+        }
+    }
     attributes && (inputRootAttributes = Object.assign(inputRootAttributes, attributes))
 
     return (
-        <div {...inputRootAttributes}
-            onFocus={() => {
-                if (!focused) {
-                    state.focused = true;
-                    setState({ ...state })
-                }
-            }}
-            onBlur={() => {
-                if (!touched || focused) {
-                    touched || (state.touched = true)
-                    focused && (state.focused = false)
-
-                    setState({ ...state })
-                }
-            }}>
-
+        <div {...inputRootAttributes}>
             { inputElement }
 
             { inputRootAttributes.children && (

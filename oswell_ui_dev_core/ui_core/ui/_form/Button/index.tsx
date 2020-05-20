@@ -31,4 +31,5 @@ Button.ID = componentID;
 
 
 export { componentID }
+// export { Props } from './types'
 export default Button
