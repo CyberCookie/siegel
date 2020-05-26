@@ -22,6 +22,7 @@ const Demo = () => {
             _option_disabled: s._option_disabled
         },
         dropdownIcon: chevron,
+        placeholder: 'placeholder',
         displayValue: selectedOption && `selected - ${selectedOption}`,
         selected: selectedOption,
         options: [

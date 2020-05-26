@@ -74,8 +74,10 @@ function createHTTP2Server(CONFIG, serverExtend) {
 
 
     server.on('error', console.error)
+    server.on('stream', onStream)
 
-    server.on('stream', (stream, headers) => {
+
+    function onStream(stream, headers) {
         const reqFilePath = headers[HTTP2_HEADER_PATH]
         const ext = path.extname(reqFilePath)
         let filePath = path.join(staticFolder, ext ? reqFilePath : 'index.html')
@@ -106,8 +108,9 @@ function createHTTP2Server(CONFIG, serverExtend) {
         }
 
 
-        stream.respondWithFile(filePath, reponseHeaders, { onError})
-    })
+        stream.respondWithFile(filePath, reponseHeaders, { onError })
+    }
+
 
 
     return listen(server, host, port)

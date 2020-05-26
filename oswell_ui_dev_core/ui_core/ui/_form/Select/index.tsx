@@ -1,3 +1,4 @@
+//TODO: option builder default?
 import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../../utils/is_touchscreen'
@@ -53,7 +54,7 @@ const Select: _Select = (props, noDefaults) => {
         ?   extractProps(Select.defaults, props)
         :   (props as _Select['defaults'] & typeof props)
 
-    const { theme, attributes, displayValue, dropdownIcon, label, disabled } = mergedProps;
+    const { theme, attributes, displayValue, dropdownIcon, label, disabled, placeholder } = mergedProps;
     
     let className = mergedProps.className;
     isActive && (className += ` ${theme._active}`)
@@ -92,7 +93,7 @@ const Select: _Select = (props, noDefaults) => {
 
     const selectInput = <>
         <div className={theme.title}>
-            { displayValue }
+            { displayValue || placeholder }
             { dropdownIcon }
         </div>
 

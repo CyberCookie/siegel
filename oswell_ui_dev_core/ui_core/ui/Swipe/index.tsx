@@ -16,9 +16,10 @@ const Swipe: _Swipe = (props, noDefaults) => {
         :   (props as _Swipe['defaults'] & typeof props)
 
     let swipeRootAttributes: React.HTMLAttributes<HTMLDivElement> = { className, children }
-    isTouchScreen
+    _isTouchScreen
         ?   (swipeRootAttributes.onTouchStart = onMouseDown)
         :   (swipeRootAttributes.onMouseDown = onMouseDown);
+
     attributes && (swipeRootAttributes = Object.assign(swipeRootAttributes, attributes))
 
     useLayoutEffect(() => removeTouchEvents, [])
@@ -72,15 +73,14 @@ const Swipe: _Swipe = (props, noDefaults) => {
     }
 
     function onMouseMove(e: HTMLSwipeMouseEvent) {
-        const { swipeStart, mouseDownPos } = state;
-        let blocked = state.blocked;
+        const { swipeStart, mouseDownPos, blocked } = state;
 
         if (mouseDownPos && swipeStart && !blocked) {
             const deltaPosition = getMousePos(e) - mouseDownPos;
 
             if (Math.abs(deltaPosition) > deltaPos) {
                 onSwipe(deltaPosition < 0, e)
-                blocked = true
+                state.blocked = true
             }
         }
     }

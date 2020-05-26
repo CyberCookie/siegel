@@ -2,23 +2,47 @@ import React from 'react'
 
 import { extractProps } from '../ui_utils'
 import { Props, DefaultProps, _Tabs } from './types'
-import './styles'
 
 
 const componentID = `-ui-tabs`
 
-function getLabels({ data, activeTab, onChange, theme }: Props & DefaultProps) {
-    const labels = data.map(({ label, id, payload }) => {
-        let labelClassName = theme.tab_label;
-        activeTab == id && (labelClassName += ` ${theme.tab_label__active}`)
+function getTabsVisual(mergedProps: Props & DefaultProps) {
+    const { tabs, activeTab, onChange, theme } = mergedProps;
+
+    let activeTabContent: React.ReactNode; 
+    const labels = tabs.map(tab => {
+        const { label, id, payload, content } = tab;
+
+        let labelClassName = theme.label;
+        if (activeTab == id) {
+            labelClassName += ` ${theme.label__active}`
+            activeTabContent = content
+        }
     
         return (
             <div key={id} className={labelClassName} children={label}
-                onMouseDown={e => onChange(id, e, payload)} />
+                onMouseDown={e => { onChange(id, e, payload) }} />
         )
     })
 
-    return <div className={theme.label_wrapper} children={labels} />
+
+    return {
+        activeTabContent: activeTabContent && <div className={theme.content} children={activeTabContent} />,
+        labels: <div className={theme.labels_wrapper} children={labels} />
+    }
+}
+
+function getTabRootProps(mergedProps: Props & DefaultProps, activeTabContent: React.ReactNode) {
+    const { theme, attributes } = mergedProps;
+    let className = mergedProps.className;
+
+    activeTabContent || (className += ` ${theme.content__empty}`)
+
+    let tabsRootProps = { className }
+    attributes && (tabsRootProps = Object.assign(tabsRootProps, attributes))
+
+
+    return tabsRootProps
 }
 
 const Tabs: _Tabs = (props, noDefaults) => {
@@ -26,36 +50,25 @@ const Tabs: _Tabs = (props, noDefaults) => {
         ?   extractProps(Tabs.defaults, props)
         :   (props as _Tabs['defaults'] & typeof props)
 
-    const { theme, data, activeTab, attributes } = mergedProps;
-    let className = mergedProps.className;
     
-    const tab = data.find(tab => tab.id === activeTab);
+    const { activeTabContent, labels } = getTabsVisual(mergedProps)
     
-    (tab && tab.content) || (className += ` ${theme.tab_content__empty}`)
 
-    let tabsRootProps = { className }
-    attributes && (tabsRootProps = Object.assign(tabsRootProps, attributes))
-
-    
     return (
-        <div {...tabsRootProps}>
-            { getLabels(mergedProps) }
-
-            { tab && (
-                <div data-value={activeTab} className={theme.tab_content}
-                    children={tab.content} />
-            )}
+        <div {...getTabRootProps(mergedProps, activeTabContent)}>
+            { labels }
+            { activeTabContent }
         </div>
     )
 }
 Tabs.defaults = {
     theme: {
         root: componentID,
-        label_wrapper: componentID + '_label_wrapper',
-        tab_label: componentID + '_tab_label',
-        tab_label__active: componentID + '_tab_label__active',
-        tab_content: componentID + '_tab_content',
-        tab_content__empty: componentID + '_tab_content__empty'
+        labels_wrapper: componentID + '_labels_wrapper',
+        label: componentID + '_label',
+        label__active: componentID + '_label__active',
+        content: componentID + '_content',
+        content__empty: componentID + '_content__empty'
     }
 }
 Tabs.ID = componentID;

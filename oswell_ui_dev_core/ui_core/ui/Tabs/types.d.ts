@@ -1,18 +1,17 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
-type ThemeKeys = 'label_wrapper' | 'tab_label' | 'tab_label__active'
-    | 'tab_content' | 'tab_content__empty'
+type ThemeKeys = 'labels_wrapper' | 'label' | 'label__active' | 'content' | 'content__empty'
 
 type Props = {
-    data: {
+    tabs: {
         id: ID
         content: React.ReactNode
         label: React.ReactNode
         payload?: any
     }[],
     onChange: (id: ID, e: React.MouseEvent, payload: any) => void
-    activeTab: ID
+    activeTab?: ID
     attributes?: ComponentAttributes
 } & PropsComponentThemed<ThemeKeys>
 

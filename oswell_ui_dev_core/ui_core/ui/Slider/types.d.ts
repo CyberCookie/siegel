@@ -1,32 +1,27 @@
-import { HTMLSwipeMouseEvent } from '../Swipe/types'
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
-type SliderElementsResult = {
-    slidePages: React.ReactNode[]
-    pageControlls?: React.ReactNode
-}
-
-type ThemeKeys = 'slides' | 'slide_page' | 'slides_controls' | 'control' | 'control__active'
-    | 'slide'
+type ThemeKeys = 'slides_wrapper' | 'slide' | 'slide__active' | 'controls_wrapper' | 'control' | 'control__active'
 
 type Props = {
-    data: React.ReactNode[]
+    slides: React.ReactNode[]
+    store?: [
+        number,
+        (nextPage: number) => void
+    ]
     startFrom?: number
-    noControlls?: boolean
-    showNumber?: number
+    withControlls?: boolean
     swipeDelta?: number
-    onChange?: (nextPage: number, e?: HTMLSwipeMouseEvent | React.MouseEvent) => void
+    loop?: boolean
     attributes?: ComponentAttributes
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
-    showNumber: NonNullable<Props['showNumber']>
     swipeDelta: NonNullable<Props['swipeDelta']>
 }
 
 type _Slider = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, SliderElementsResult, _Slider }
+export { Props, DefaultProps, _Slider }

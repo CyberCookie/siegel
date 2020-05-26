@@ -9,21 +9,21 @@ type TableCell = {
     value: React.ReactNode
 }
 
+//TODO React.ThHTMLAttributes
+type TableTH = {
+    attributes?: ComponentAttributes<HTMLTableHeaderCellElement, React.TdHTMLAttributes<HTMLTableHeaderCellElement>>
+} & TableCell
 type TableHeadRow = {
     children: TableTH[]
 } & TableRow
 
+type TableTD = {
+    attributes?: ComponentAttributes<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>
+} & TableCell
 type TableBodyRow = {
     children: TableTD[]
 } & TableRow
 
-type TableTD = {
-    attributes?: ComponentAttributes<HTMLTableCellElement, React.TableHTMLAttributes<HTMLTableCellElement>>
-} & TableCell
-
-type TableTH = {
-    attributes?: ComponentAttributes<HTMLTableHeaderCellElement, React.TableHTMLAttributes<HTMLTableHeaderCellElement>>
-} & TableCell
 
 
 

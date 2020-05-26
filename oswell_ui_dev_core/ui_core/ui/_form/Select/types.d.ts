@@ -16,6 +16,7 @@ type Props<V = any> = {
     dropdownIcon?: React.ReactNode
     closeOnSelect?: boolean
     label?: React.ReactNode
+    placeholder?: React.ReactNode
     selected?: V
     disabled?: boolean
     attributes?: ComponentAttributes

@@ -18,6 +18,9 @@ $width: 200px
 
             svg
                 transform: rotate(0)
+    
+    &:not(._disabled) .title
+        cursor: pointer
 
 .title
     composes: field from '../Input/styles'
@@ -62,4 +65,5 @@ $width: 200px
     color: $primary
 
 ._option_disabled
+    cursor: default
     color: $border_color_light

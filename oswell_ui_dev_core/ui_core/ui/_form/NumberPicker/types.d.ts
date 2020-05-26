@@ -31,6 +31,8 @@ type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
     minusIcon: NonNullable<Props['minusIcon']>
     plusIcon: NonNullable<Props['plusIcon']>
+    min: NonNullable<Props['min']>
+    max: NonNullable<Props['max']>
 }
 
 type _NumberPicker = CoreIUComponent<Props, DefaultProps>

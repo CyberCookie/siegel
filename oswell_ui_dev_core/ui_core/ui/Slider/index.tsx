@@ -1,140 +1,145 @@
+//TODO: loop visual
+//TODO: autoslide
+
 import React, { useState, useEffect, useRef } from 'react'
 
+import isE from '../../utils/is_exists'
 import { extractProps } from '../ui_utils'
 import Swipe from '../Swipe'
-import { HTMLSwipeMouseEvent } from '../Swipe/types'
-import { SliderElementsResult, _Slider } from './types'
+import { _Slider, Props, DefaultProps } from './types'
 
 import './styles'
 
 
+type MergedProps = Props & DefaultProps
+type SwitchSlide = (nextPage: number) => void
+
+
 const componentID = '-ui-slider'
+
+function getSliderRootProps(mergedProps: MergedProps) {
+    const { className, attributes } = mergedProps;
+    let result = {
+        className,
+        ref: (useRef() as React.MutableRefObject<HTMLDivElement>)
+    }
+    attributes && (result = Object.assign(result, attributes))
+
+
+    return result
+}
+
+function getSliderVisuals(mergedProps: MergedProps, switchSlide: SwitchSlide, curSlide: number) {
+    const { withControlls, theme, swipeDelta, slides, loop } = mergedProps;
+
+    const controlls = []
+    const slidePages = []
+    const slidesLength = slides.length;
+    
+    function onSlideSwipe(isNext: boolean) {
+        let nextPage, next;
+        if (isNext) {
+            next = curSlide + 1
+            nextPage = next < slidesLength
+                ?   next
+                :   loop ? 0 : undefined
+        } else {
+            next = curSlide - 1
+            nextPage = next >= 0
+                ?   next
+                :   loop ? slidesLength - 1 : undefined
+        }
+
+        isE(nextPage) && switchSlide(nextPage)
+    }
+
+
+    for (let i = 0; i < slidesLength; i++) {
+        withControlls && controlls.push(
+            <div key={i} className={`${theme.control} ${i == curSlide ? theme.control__active : ''}`}
+                data-page={i} />
+        )
+        
+        let className = theme.slide;
+        i == curSlide && (className += ` ${theme.slide__active}`)
+
+        slidePages.push( <div className={className} key={i} children={slides[i]} /> )
+    }
+    
+
+    return {
+        pageControlls: withControlls && (
+            <div className={theme.controls_wrapper} children={controlls} onMouseDown={e => {
+                const nextPage = (e.target as HTMLDivElement).dataset.page;
+                nextPage && switchSlide(+nextPage)
+            }} />
+        ),
+        
+        slidePages: (
+            <Swipe children={slidePages} className={theme.slides_wrapper} xAxis
+                deltaPos={swipeDelta}
+                onSwipe={onSlideSwipe} />
+        )
+    }
+}
+
+function getSlideElements(rootChilds: NodeListOf<ChildNode>, withControlls: MergedProps['withControlls']) {
+    const slideArea = ((withControlls ? rootChilds[1] : rootChilds[0]) as HTMLElement)
+    const firstSlidePage = (slideArea.childNodes[0] as HTMLElement)
+
+    return { slideArea, firstSlidePage }
+}
 
 const Slider: _Slider = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Slider.defaults, props)
         :   (props as _Slider['defaults'] & typeof props)
     
-    const { className, theme, startFrom, showNumber, data, noControlls, attributes, onChange, swipeDelta } = mergedProps;
+    const { withControlls, store } = mergedProps;
 
-    let sliderRootProps = {
-        className,
-        ref: (useRef() as React.MutableRefObject<HTMLDivElement>)
-    }
-    attributes && (sliderRootProps = Object.assign(sliderRootProps, attributes))
+    const [ curSlide, setSlide ] = store || useState(0)
 
-    const [ curPage, setPage ] = useState(0)
+
+    const sliderRootProps = getSliderRootProps(mergedProps)
 
     useEffect(() => {
-        if (startFrom !== undefined) {
-            // Hack since React triggers useEffect before childs mount
-            const switchIntervalID = setInterval(() => {
-                const firstSlidePage = getSlideElements().firstSlidePage;
-    
-                if (firstSlidePage) {
-                    clearInterval(switchIntervalID)
-                    switchPage(startFrom)
-                }
-            }, 100)
-        }
+        // Hack since React triggers useEffect before childs mount
+        curSlide && setTimeout(() => { switchSlide(curSlide) })
     }, [])
+    
 
+    const switchSlide: SwitchSlide = nextPage => {
+        const { slideArea, firstSlidePage } = getSlideElements(sliderRootProps.ref.current.childNodes, withControlls)
+        const offset = (nextPage * -firstSlidePage.offsetWidth) + 'px';
 
-    const numberOfPages = Math.ceil(data.length / showNumber)
+        slideArea.style.setProperty('--offset_left', offset)
+        slideArea.style.marginLeft = offset
 
-    function getSlideElements() {
-        const wrapperChilds = sliderRootProps.ref.current.childNodes;
-        const slideArea = ((noControlls ? wrapperChilds[0] : wrapperChilds[1]) as HTMLElement)
-        const firstSlidePage = (slideArea.childNodes[0] as HTMLElement)
-
-        return { slideArea, firstSlidePage }
-    }
-
-    function onSlideSwipe(isNext: boolean, e: HTMLSwipeMouseEvent) {
-        if (isNext) {
-            (curPage < (numberOfPages - 1)) && switchPage(curPage + 1, e)
-        } else if (curPage) {
-            switchPage(curPage - 1, e)
-        }
-    }
-
-    function switchPage(nextPage: number, e?: HTMLSwipeMouseEvent | React.MouseEvent) {
-        setPage(nextPage)
-
-        const { slideArea, firstSlidePage } = getSlideElements()
-
-        let nextLeft = firstSlidePage.clientWidth;
-        const slidePageStyles: Indexable = window.getComputedStyle(firstSlidePage)
-        slidePageStyles['margin-left'] && (nextLeft += parseInt(slidePageStyles['margin-left']))
-        slidePageStyles['margin-right'] && (nextLeft += parseInt(slidePageStyles['margin-right']))
-        slidePageStyles['border-left-width'] && (nextLeft += parseInt(slidePageStyles['border-left-width']))
-        slidePageStyles['border-right-width'] && (nextLeft += parseInt(slidePageStyles['border-right-width']))
-
-        slideArea.style.left = (nextPage * -nextLeft) + 'px'
-
-        onChange && onChange(nextPage, e)
+        setSlide(nextPage)
     }
     
-    function getSliderElements() {
-        const controlls = []
-        const slidePages = []
 
-        for (let i = 0, curSlideIndex = 0; i < numberOfPages; i++) {
-            const slides = []
-
-            noControlls || controlls.push(
-                <div key={i} className={`${theme.control} ${i == curPage ? theme.control__active : ''}`}
-                    data-page={i} />
-            )
-
-            for (let j = 0; j < showNumber && curSlideIndex < data.length; j++, curSlideIndex++) {
-                slides.push(
-                    <div key={j} className={theme.slide} children={data[curSlideIndex]} />
-                )
-            }
-
-            slidePages.push(
-                <div className={theme.slide_page} key={i} children={slides} />
-            )
-        }
-        
-        const result: SliderElementsResult = { slidePages }
-        noControlls || (result.pageControlls = (
-            <div className={theme.slides_controls} children={controlls} onMouseDown={e => {
-                const nextPage = (e.target as HTMLDivElement).dataset.page;
-                nextPage && switchPage(+nextPage, e)
-            }} />
-        ))
-
-
-        return result
-    }
-
-    const { pageControlls, slidePages } = getSliderElements()
+    const { pageControlls, slidePages } = getSliderVisuals(mergedProps, switchSlide, curSlide)
 
 
     return (
         <div {...sliderRootProps}>
-            { noControlls || pageControlls }
-
-            <Swipe children={slidePages} className={theme.slides} xAxis
-                deltaPos={swipeDelta}
-                onSwipe={onSlideSwipe} />
+            { pageControlls }
+            { slidePages }
         </div>
     )
 }
 Slider.defaults = {
     theme: {
         root: componentID,
-        slides: componentID + '_slides',
-        slide_page: componentID + '_slide_page',
-        slides_controls: componentID + '_slides_controls',
+        slides_wrapper: componentID + '_slides_wrapper',
+        slide: componentID + '_slide',
+        slide__active: componentID + '_slide__active',
+        controls_wrapper: componentID + '_controls_wrapper',
         control: componentID + '_control',
         control__active: componentID + '__active',
-        slide: componentID + '_slide'
     },
 
-    showNumber: 1,
     swipeDelta: 30
 }
 Slider.ID = componentID;

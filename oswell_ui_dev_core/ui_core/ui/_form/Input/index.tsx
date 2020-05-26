@@ -1,3 +1,4 @@
+//TODO: masks
 import React, { useRef, useEffect, useState } from 'react'
 
 import { extractProps } from '../../ui_utils'
@@ -26,24 +27,49 @@ const Input: _Input = (props, noDefaults) => {
     errorMsg && (className += ` ${theme._error}`)
     value && (className += ` ${theme._filled}`)
     focused && (className += ` ${theme._focused}`)
-    disabled && (className += ` ${theme._disabled}`)
     
+    let inputRootProps: typeof inputAttr = { className }
 
-    let inputFieldAttributes: NonNullable<typeof inputAttr> = {
+    let inputProps: NonNullable<typeof inputAttr> = {
         className: theme.field,
-        placeholder, onFocus, onBlur, disabled, value
+        placeholder, disabled, value
     }
-    if (onChange) {
-        inputFieldAttributes.onChange = (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value, e, payload)
+
+
+    if (disabled) {
+        inputRootProps.className += ` ${theme._disabled}`
     } else {
-        inputFieldAttributes.readOnly = true
+        inputRootProps.onFocus = () => {
+            if (!focused) {
+                state.focused = true;
+                setState({ ...state })
+            }
+        }
+
+        inputRootProps.onBlur = () => {
+            if (!touched || focused) {
+                touched || (state.touched = true)
+                focused && (state.focused = false)
+        
+                setState({ ...state })
+            }
+        }
+
+        onFocus && (inputProps.onFocus = onFocus)
+        onBlur && (inputProps.onBlur = onBlur)
+        if (onChange) {
+            inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value, e, payload)
+        } else {
+            inputProps.readOnly = true
+        }
     }
+
     
     if (autofocus) {
-        inputFieldAttributes.ref = useRef<HTMLInputElement>(null)
+        inputProps.ref = useRef<HTMLInputElement>(null)
         
         useEffect(() => {
-            (inputFieldAttributes.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
+            disabled || (inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
         }, [])
     }
     
@@ -51,15 +77,15 @@ const Input: _Input = (props, noDefaults) => {
     if (type) {
         if (type == 'textarea') {
             InputTag = type
-            className += ` ${theme.textarea}`
+            inputRootProps.className += ` ${theme.textarea}`
         } else {
-            inputFieldAttributes.type = type
+            inputProps.type = type
         }
     }
     
-    inputAttr && (inputFieldAttributes = Object.assign(inputFieldAttributes, inputAttr))
-    let inputElement = <InputTag {...inputFieldAttributes} />
-    
+    inputAttr && (inputProps = Object.assign(inputProps, inputAttr))
+
+    let inputElement = <InputTag {...inputProps} />
     if (label) {
         inputElement = (
             <label className={theme.label}>
@@ -69,33 +95,16 @@ const Input: _Input = (props, noDefaults) => {
             </label>
         )
     }
-    
 
-    let inputRootAttributes: typeof inputAttr = {
-        className,
-        onFocus() {
-            if (!focused) {
-                state.focused = true;
-                setState({ ...state })
-            }
-        },
-        onBlur() {
-            if (!touched || focused) {
-                touched || (state.touched = true)
-                focused && (state.focused = false)
-        
-                setState({ ...state })
-            }
-        }
-    }
-    attributes && (inputRootAttributes = Object.assign(inputRootAttributes, attributes))
+    attributes && (inputRootProps = Object.assign(inputRootProps, attributes))
+
 
     return (
-        <div {...inputRootAttributes}>
+        <div {...inputRootProps}>
             { inputElement }
 
-            { inputRootAttributes.children && (
-                <div className={theme.extra} children={inputRootAttributes.children} />
+            { inputRootProps.children && (
+                <div className={theme.extra} children={inputRootProps.children} />
             )}
             
             { errorMsg && <div className={theme.error_text} children={errorMsg} /> }

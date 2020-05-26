@@ -1,9 +1,9 @@
-import React from 'react'
+// import React from 'react'
 
 import { withDefaults } from 'core-ui/ui_utils'
 
 import ButtonCore from 'core-ui/_form/Button'
-import TabsCore from 'core-ui/Tabs'
+// import TabsCore from 'core-ui/Tabs'
 import buttonTheme from './styles/button.sass'
 
 
@@ -21,9 +21,9 @@ const Button = withDefaults(ButtonCore, {
 // const y: Y = {
 
 // }
-const Tabs = withDefaults(TabsCore, {
+// const Tabs = withDefaults(TabsCore, {
     
-    activeTab: 2,
+    // activeTab: 2,
     // onChange() {console.log(123)},
 
     // data: [{
@@ -31,8 +31,8 @@ const Tabs = withDefaults(TabsCore, {
     //     content: 1,
     //     label: '',
     // }]
-})
-const y = <Tabs   />
+// })
+// const y = <Tabs   />
 
 // const Tabss = withDefaults<_Tabs>(TabsCore, {
     

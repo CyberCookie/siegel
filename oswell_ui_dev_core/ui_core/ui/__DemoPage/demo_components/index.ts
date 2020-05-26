@@ -4,6 +4,11 @@ export * as Toggle from './Toggle'
 export * as Input from './Input'
 export * as NumberPicker from './NumberPicker'
 export * as Select from './Select'
-
+export * as DropdownSearch from './DropdownSearch'
+export * as Tabs from './Tabs'
+export * as Table from './Table'
+export * as Slider from './Slider'
+export * as Pagination from './Pagination'
+export * as Dropdown from './Dropdown'
 
 // export * as Calendar from './Calendar'

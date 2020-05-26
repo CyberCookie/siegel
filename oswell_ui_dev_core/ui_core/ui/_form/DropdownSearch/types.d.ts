@@ -2,15 +2,19 @@ import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../.
 
 
 type ThemeKeys = 'search_dropdown__with_suggestions' | 'search_dropdown__filled_field' | 'search_field' | 'options'
+    | 'label' | 'label_text' | '_disabled'
 
 type Props = {
-    optionBuilder: (searchOption: any) => React.ReactChild
-    onChange: (searchValue: string, e: React.ChangeEvent, payload: any) => void
+    optionBuilder: (searchOption: any) => React.ReactNode
+    onChange: (searchValue: string, e: React.ChangeEvent | React.MouseEvent, payload: any) => void
     searchOptions: any[]
-    searchPlaceholder?: string
+    value: string
+    label?: React.ReactNode
+    disabled?: boolean
+    placeholder?: string
     minInputLength?: number
-    closeIcon?: React.ReactChild
-    searchIcon?: React.ReactChild
+    closeIcon?: React.ReactNode
+    searchIcon?: React.ReactNode
     autofocus?: boolean
     payload?: any
     inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
@@ -18,7 +22,7 @@ type Props = {
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>,
+    theme: NonNullable<Required<Props['theme']>>
     minInputLength: NonNullable<Props['minInputLength']>
 }
 

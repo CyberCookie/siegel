@@ -1,7 +1,7 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
-type ThemeKeys = 'separator' | 'control' | 'control__active' | 'control__disabled'
+type ThemeKeys = 'separator' | 'single' | 'control' | 'control__active' | 'control__disabled'
 
 type Props = {
     listLength: number
