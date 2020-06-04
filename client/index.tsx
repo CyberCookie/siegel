@@ -16,14 +16,15 @@ if (rootComponent) {
             .catch(console.error)
     }
 
+
+    const extraHeades = {
+        'Content-Type': 'application/json'
+    }
     requestServiceSetup({
-        beforeRequest: fetchParams => {
-            fetchParams.options.headers = {
-                ...fetchParams.options.headers,
-                'Content-Type': 'application/json'
-            }
-            
-            return fetchParams
+        beforeRequest(fetchParams) {
+            fetchParams.headers
+                ?   Object.assign(fetchParams.headers, extraHeades)
+                :   (fetchParams.headers = extraHeades)
         }
     })
 

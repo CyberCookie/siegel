@@ -1,15 +1,16 @@
 import React, { useRef, useState } from 'react'
 
-import { dateLocalizationByLocale } from '../../../utils/date/date_const'
+import { calendarNames } from '../../../utils/date/date_const'
 import { extractProps } from '../../ui_utils'
 import Days from './days_of_month'
+
 import s from './styles.sass'
-import { ActiveDateRange, Props, DefaultProps, _Calendar } from './types'
+import { Props, DefaultProps, MergedProps, _Calendar, Store } from './types'
 
 
 const componentID = '-ui-calendar'
 
-const getBeginOfMonth = (rangeDateStart: ActiveDateRange['rangeDateStart'], monthsBefore: Props['monthsBefore']) => {
+const getBeginOfMonth = (rangeDateStart: Props['initDate']['rangeDateStart'], monthsBefore: Props['monthsBefore']) => {
     const curDate = new Date(rangeDateStart)
     curDate.setHours(0,0,0,0)
     curDate.setDate(1)
@@ -19,10 +20,78 @@ const getBeginOfMonth = (rangeDateStart: ActiveDateRange['rangeDateStart'], mont
     return curDate
 }
 
-function getWeekDayNames(days: string[], theme: DefaultProps['theme']) {
+
+function getWeekDaysShifted(weekStartsFrom: MergedProps['weekStartsFrom'], weekDays: string[]) {
+    const localeWeek = [...weekDays]
+    return localeWeek.concat(localeWeek.splice(0, weekStartsFrom))
+}
+
+function switchMonth(value: number, store: Store, e: React.MouseEvent) {
+    e.stopPropagation()
+    
+    const [ state, setState ] = store;
+    state.beginOfMonth.setMonth(state.beginOfMonth.getMonth() + value)
+    setState({ ...state })
+}
+
+function getWeekDayRow(localeWeek: string[], theme: DefaultProps['theme']) {
     const getWeekDay = (day: string) => <div className={theme.week_day} key={day} children={day} /> 
 
-    return <div className={`${theme.week} ${s.week}`} children={days.map(getWeekDay)} />
+    return <div className={`${theme.week} ${s.week}`} children={localeWeek.map(getWeekDay)} />
+}
+
+function getCalendarVisuals(
+    mergedProps: MergedProps,
+    store: Store,
+    pickRangeStart: (e: React.MouseEvent) => void
+) {
+    const { prevIcon, nextIcon, noControls, theme, monthsBefore, monthsAfter, weekStartsFrom, strings } = mergedProps;
+    const state = store[0]
+
+
+    const weekDayNames = weekStartsFrom ? getWeekDaysShifted(weekStartsFrom, strings.weekDays) : strings.weekDays;
+    const weekdaysRow = getWeekDayRow(weekDayNames, theme)
+    const iconPrev = noControls || (
+        <div className={theme.icon} onMouseDown={e => switchMonth(-1, store, e)}
+            children={prevIcon} />
+    )
+    const iconNext = noControls || (
+        <div className={theme.icon} onMouseDown={e => switchMonth(1, store, e)}
+            children={nextIcon} />
+    )
+
+    const start = new Date(state.beginOfMonth)
+    
+    const months = []
+    for (let i = 0, l = monthsBefore + monthsAfter + 1; i < l; i++) {
+        const month = start.getMonth()
+        
+        months.push(
+            <div key={i} className={theme.month_wrapper}>
+                <div className={`${theme.month_title_wrapper} ${s.month_title_wrapper}`}>
+                    { iconPrev }
+
+                    <div className={theme.month_title}>
+                        { strings.months[month] }&nbsp;
+                        { start.getFullYear() }
+                    </div>
+
+                    { iconNext }
+                </div>
+
+                { weekdaysRow }
+
+                <Days calendarProps={mergedProps}
+                    pickRangeStart={pickRangeStart}
+                    parentState={state}
+                    beginOfMonth={new Date(start)} />
+            </div>
+        )
+
+        start.setMonth(month + 1)
+    }
+
+    return months
 }
 
 const Calendar: _Calendar = (props, noDefaults) => {
@@ -30,38 +99,22 @@ const Calendar: _Calendar = (props, noDefaults) => {
         ?   extractProps(Calendar.defaults, props)
         :   (props as _Calendar['defaults'] & typeof props)
 
-    const { theme, activeDate, locale, weekStartsFrom, monthsBefore, monthsAfter, prevIcon, payload,
-        nextIcon, noControlls, onChange, triggerOnlyWhenFinished, rangePick } = mergedProps;
+    const { initDate, monthsBefore, payload, onChange, triggerOnlyWhenFinished, rangePick } = mergedProps;
     const className = `${mergedProps.className} ${s.calendar}`;
     
-    const { rangeDateStart, rangeDateEnd } = activeDate;
+    const { rangeDateStart, rangeDateEnd } = initDate;
 
-    const [ state, setState ] = useState({
+    const store = useState({
         innerRangeStart: rangeDateStart,
         innerRangeEnd: rangeDateEnd || rangeDateStart,
         inProgress: false,
         anchor: 0,
         beginOfMonth: getBeginOfMonth(rangeDateStart, monthsBefore)
     })
+    const [ state, setState ] = store;
 
     const ref = useRef<HTMLDivElement>(null)
-    
-    const { inProgress, beginOfMonth } = state;
-    const _locale = dateLocalizationByLocale[locale || 'en']
-    const days = weekStartsFrom ? shiftWeekDays() : _locale.daysShort;
 
-
-    function shiftWeekDays() {
-        const days = [..._locale.daysShort]
-        return days.concat(days.splice(0, weekStartsFrom))
-    }
-
-    function switchMonth(value: number, e: React.MouseEvent) {
-        e.stopPropagation()
-        
-        state.beginOfMonth.setMonth(beginOfMonth.getMonth() + value)
-        setState({ ...state })
-    }
 
     function pickRangeStart(e: React.MouseEvent) {
         e.stopPropagation()
@@ -83,9 +136,12 @@ const Calendar: _Calendar = (props, noDefaults) => {
             state.inProgress = rangePick as boolean;
             state.anchor = rangeDateStart;
 
-            triggerOnlyWhenFinished && rangePick
-                ?   setState({ ...state })
-                :   onChange({ rangeDateStart, rangeDateEnd }, false, payload)
+            setState({ ...state })
+
+            const isSinglePick = !rangePick
+            if (onChange && (isSinglePick || (rangePick && !triggerOnlyWhenFinished))) {
+                onChange({ rangeDateStart, rangeDateEnd }, isSinglePick, payload)
+            }
         }
     }
 
@@ -95,7 +151,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
 
         if (timestamp) {
             const anchor = state.anchor;
-            if (timestamp > anchor) {
+            if (timestamp >= anchor) {
                 const date = new Date(timestamp)
 
                 state.innerRangeStart = anchor;
@@ -107,12 +163,11 @@ const Calendar: _Calendar = (props, noDefaults) => {
                 state.innerRangeEnd = date.setDate(date.getDate() + 1) - 1
             }
 
-            triggerOnlyWhenFinished
-                ?   setState({ ...state })
-                :   onChange({
-                        rangeDateStart: state.innerRangeStart,
-                        rangeDateEnd: state.innerRangeEnd
-                    }, false, payload)
+            setState({ ...state })
+            onChange && !triggerOnlyWhenFinished && onChange({
+                rangeDateStart: state.innerRangeStart,
+                rangeDateEnd: state.innerRangeEnd
+            }, false, payload)
         }
     }
 
@@ -123,90 +178,49 @@ const Calendar: _Calendar = (props, noDefaults) => {
                 
         state.inProgress = false;
         
-        onChange({
+        onChange && onChange({
             rangeDateStart: state.innerRangeStart,
             rangeDateEnd: state.innerRangeEnd
         }, true, payload)
     }
 
-    function getAllMonths() {
-        const start = new Date(beginOfMonth)
-        
-        let className = theme.month_days;
-        inProgress && (className += ` ${theme.in_progress}`)
-        
 
-        const months = []
-        for (let i = 0, l = monthsBefore + monthsAfter + 1; i < l; i++) {
-            const titleMonth = _locale.months[start.getMonth()]
-            const titleYear = start.getFullYear()
-
-            months.push(
-                <div key={i}>
-                    <div className={`${theme.month_selector} ${s.month_selector}`}>
-                        { noControlls || (
-                            <div className={`${s.icon_prev} ${theme.icon_prev}`} onMouseDown={e => switchMonth(-1, e)}
-                                children={prevIcon} />
-                        )}
-
-                        <div className={theme.month_title}>{titleMonth} {titleYear}</div>
-
-                        { noControlls || (
-                            <div className={`${s.icon_next} ${theme.icon_next}`} onMouseDown={e => switchMonth(1, e)}
-                                children={nextIcon} />
-                        )}
-                    </div>
-
-                    { getWeekDayNames(days, theme) }
-
-                    <div className={className} onMouseDown={pickRangeStart}>
-                        <Days calendarProps={mergedProps} days={days}
-                            parentState={{
-                                innerRangeEnd: state.innerRangeEnd,
-                                innerRangeStart: state.innerRangeStart,
-                            }}
-                            beginOfMonth={new Date(start)} />
-                    </div>
-                </div>
-            )
-
-            start.setMonth( start.getMonth() + 1 )
-        }
-
-        return months
-    }
-
-
-    return <div className={className} ref={ref} children={getAllMonths()} />
+    return (
+        <div className={className} ref={ref}>
+            { getCalendarVisuals(mergedProps, store, pickRangeStart) }
+        </div>
+    )
 }
 Calendar.defaults = {
     theme: {
         root: componentID,
-        icon_next: componentID + '_icon_next',
-        icon_prev: componentID + '_icon_prev',
+        icon: componentID + '_icon',
+        month_wrapper: componentID + '_month_wrapper',
         month_title: componentID + '_month_title',
-        month_days: componentID + '_month_days',
-        month_selector: componentID + '_month_selector',
+        month_days_wrapper: componentID + '_month_days_wrapper',
+        month_title_wrapper: componentID + '_month_title_wrapper',
         month__sibling: componentID + '_month__sibling',
         week: componentID + '_week',
         week_day: componentID + '_week_day',
+        row: componentID + '_row',
+        row_placeholder: componentID + '_row_placeholder',
         day: componentID + '_day',
-        day_subtext: componentID + '_day_subtext',
         day__selected: componentID + '_day__selected',
         day__first: componentID + '_day__first',
         day__last: componentID + '_day__last',
         day__today: componentID + '_day__today',
-        day__hidden: componentID + '_day__hidden',
-        date: componentID + '_date',
-        date__anchor: componentID + '_date__anchor',
-        start: componentID + '_start',
-        end: componentID + '_end',
-        start_end: componentID + '_start_end',
-        in_progress: componentID + '_in_progress',
-        row: componentID + '_row',
-        row_placeholder: componentID + '_row_placeholder'
+        day__placeholder: componentID + '_day__placeholder',
+        from: componentID + '_from',
+        to: componentID + '_to',
+        _in_progress: componentID + '__in_progress'
+    },
+    strings: {
+        //TODO
+        months: [...calendarNames.months],
+        weekDays: [...calendarNames.daysShort]
     },
 
+    triggerOnlyWhenFinished: true,
     prevIcon: '<',
     nextIcon: '>',
     monthsBefore: 0,

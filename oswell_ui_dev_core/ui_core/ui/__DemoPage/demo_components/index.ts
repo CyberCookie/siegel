@@ -1,5 +1,6 @@
 export * as Button from './Button'
 export * as Checkbox from './Checkbox'
+export * as Calendar from './Calendar'
 export * as Toggle from './Toggle'
 export * as Input from './Input'
 export * as NumberPicker from './NumberPicker'
@@ -10,5 +11,4 @@ export * as Table from './Table'
 export * as Slider from './Slider'
 export * as Pagination from './Pagination'
 export * as Dropdown from './Dropdown'
-
-// export * as Calendar from './Calendar'
+export * as Clocks from './Clocks'

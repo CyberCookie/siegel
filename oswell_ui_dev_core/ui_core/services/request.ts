@@ -11,7 +11,7 @@ type ReqError = {
 }
 
 type SetupFnParams = {
-    beforeRequest?: (opts: RequestFnParams) => RequestFnParams,
+    beforeRequest?: (opts: RequestFnParams) => void,
     afterRequest?: (fetchParams: FetchParams, parseRes: any) => void,
     errorHandler?: (error: ReqError) => void
 } & Indexable
@@ -20,7 +20,7 @@ type RequestFnParams = {
     url: RequestInfo,
     parseMethod?: string,
     query?: string | string[][] | Record<string, string> | URLSearchParams
-} & RequestInit
+} & RequestInit & { headers?: Indexable }
 
 
 function setup(newDefaults: SetupFnParams): void {
@@ -32,18 +32,18 @@ const defaultSetup: SetupFnParams = {}
 
 
 const extractRequestData = (request: RequestFnParams) => {
-    const { query, headers, method, body, credentials } = request;
-    let url = request.url;
+    const { query, headers, body, credentials } = request;
+    let { url, method } = request;
 
     const options: RequestInit = {}
-    let _method;
+
 
     if (body) {
         options.body = JSON.stringify(body)
-        _method = 'POST'
-    } else _method = 'GET'
+        method || (method = 'POST')
+    }
 
-    options.method = method || _method;
+    options.method = method || 'GET';
     query && (url += `?${(new URLSearchParams(query)).toString()}`)
     credentials && (options.credentials = credentials)
     headers && (options.headers = headers)
@@ -83,7 +83,7 @@ const extractResponseData = async (req: RequestFnParams, res: Response & Indexab
 
 const request = async (req: RequestFnParams) => {
     const { beforeRequest, afterRequest, errorHandler } = defaultSetup;
-    beforeRequest && (req = beforeRequest(req))
+    beforeRequest && beforeRequest(req)
 
     const reqData = extractRequestData(req)
 

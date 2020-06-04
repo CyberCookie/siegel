@@ -1,8 +1,9 @@
 import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import { DateParsed } from '../../utils/date/date_parse'
 
 
 type Props = {
-    builder: (x: any) => any
+    builder: (x: DateParsed) => any
     updateInterval?: number
     zeroing?: boolean
     attributes?: ComponentAttributes

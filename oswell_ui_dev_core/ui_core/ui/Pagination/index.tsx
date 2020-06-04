@@ -56,27 +56,31 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number, i
     const { theme, separator, elementsByMiddle, elementsBySide, controlIcon } = mergedProps;
     const result = []
     
-    let from = curPage - elementsByMiddle;
-    const minFrom = elementsBySide + 1;
+    if (isSinglePage) {
+        result.push(getPageElement(1, theme, curPage))
+    } else {
+        let from = curPage - elementsByMiddle;
+        const minFrom = elementsBySide + 1;
+        
+        let to = curPage + elementsByMiddle;
+        const maxTo = numberOfPages - elementsBySide;
     
-    let to = curPage + elementsByMiddle;
-    const maxTo = numberOfPages - elementsBySide;
-
-
-    for (let i = 1; i <= elementsBySide; i++) {
-        result.push(getPageElement(i, theme, curPage))
-    }
-    from > minFrom && result.push(getSeparator(tokenPrevPage, theme, separator))
-
-    from <= elementsBySide && (from = minFrom)
-    to > maxTo && (to = maxTo)
-    for (let i = from; i <= to; i++) {
-        result.push(getPageElement(i, theme, curPage))
-    }
     
-    to < maxTo && result.push(getSeparator(tokenNextPage, theme, separator))
-    for (let i = maxTo + 1; i <= numberOfPages; i++) {
-        result.push(getPageElement(i, theme, curPage))
+        for (let i = 1; i <= elementsBySide; i++) {
+            result.push(getPageElement(i, theme, curPage))
+        }
+        from > minFrom && result.push(getSeparator(tokenPrevPage, theme, separator))
+    
+        from <= elementsBySide && (from = minFrom)
+        to > maxTo && (to = maxTo)
+        for (let i = from; i <= to; i++) {
+            result.push(getPageElement(i, theme, curPage))
+        }
+        
+        to < maxTo && result.push(getSeparator(tokenNextPage, theme, separator))
+        for (let i = maxTo + 1; i <= numberOfPages; i++) {
+            result.push(getPageElement(i, theme, curPage))
+        }
     }
     
 

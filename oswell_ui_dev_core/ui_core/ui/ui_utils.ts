@@ -13,7 +13,7 @@ type PropsComponentThemed<K extends string = string> = {
 } & PropsComponentBase
 
 
-type CoreIUComponent<P extends PropsComponentThemed, D extends PropsComponentThemed> = {
+type CoreIUComponent<P extends PropsComponentThemed, D extends PropsComponentThemed> =  {
     (props: P, withDefaults?: boolean): JSX.Element;
     //#TS_sucks when overload;
     // (props: P & D, withDefaults: false): JSX.Element;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import Dropdown from '../../../Dropdown'
 import { Props } from '../../../Dropdown/types'
@@ -8,14 +8,42 @@ import s from './styles.sass'
 
 
 const theme = {
+    root: s.dropdown,
+    item: s.item,
+    item__empty: s.item__empty,
+    item_title: s.item_title
 }
 
 const Demo = () => {
-    const [ curPage, setCur ] = useState(1)
-
     const props: Props = {
         theme,
-
+        dropdownIcon: chevron,
+        list: [
+            { title: 'item 1' },
+            { title: 'item 2' },
+            { title: 'item 3' },
+            { title: 'item 4' },
+            {
+                title: 'item 5',
+                children: [
+                    { title: 'subitem 1' },
+                    { title: 'subitem 2' }
+                ]
+            },
+            {
+                title: 'item 6',
+                children: [{
+                    title: 'subitem 1',
+                    children: [{
+                        title: 'subitem 1',
+                        children: [{
+                            title: 'subitem 1',
+                            children: [{ title: 'final' }]
+                        }]
+                    }]
+                }]
+            }
+        ]
     }
 
 
@@ -23,7 +51,7 @@ const Demo = () => {
         <h1>{Dropdown.ID}</h1>
 
         <h2>simple</h2>
-        {/* <Dropdown {...props} /> */}
+        <Dropdown {...props} />
     </>
 }
 Demo.id = Dropdown.ID;

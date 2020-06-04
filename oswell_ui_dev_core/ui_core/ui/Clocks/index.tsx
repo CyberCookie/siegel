@@ -13,7 +13,7 @@ const Clocks: _Clocks = (props, noDefaults) => {
         ?   extractProps(Clocks.defaults, props)
         :   (props as _Clocks['defaults'] & typeof props)
 
-    const getNextClockState = () => builder && builder(dateParse(Date.now(), zeroing))
+    const getNextClockState = () => builder(dateParse(Date.now(), zeroing))
     
     const [ parsedDate, setState ] = useState(getNextClockState())
 

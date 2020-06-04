@@ -1,20 +1,19 @@
+//TODO: fix strings defaultProps type
+
 import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
 
 
-type ActiveDateRange = {
-    rangeDateStart: number
-    rangeDateEnd?: number
-}
+type ThemeKeys = 'month_wrapper' | 'month_title_wrapper' | 'icon' | 'month_title'
+    | 'month_days_wrapper' | 'month__sibling' | 'week' | 'week_day' | 'row' | 'row_placeholder' | 'day' | 'day__selected' | 'day__first'
+    | 'day__last' | 'day__today' | 'day__placeholder' | 'from' | 'to' | '_in_progress'
 
-
-type ThemeKeys = 'icon_next' | 'icon_prev' | 'month_title' | 'month_days' | 'month_selector'
-    | 'month__sibling' | 'week' | 'week_day' | 'day' | 'day_subtext' | 'day__selected' | 'day__first'
-    | 'day__last' | 'day__today' | 'day__hidden' | 'date' | 'date__anchor' | 'start' | 'end' | 'start_end'
-    | 'in_progress' | 'row' | 'row_placeholder'
 
 type Props = {
-    activeDate: ActiveDateRange
-    onChange: (range: ActiveDateRange, isFinished: boolean, payload: any) => void
+    initDate: {
+        rangeDateStart: number
+        rangeDateEnd?: number
+    }
+    onChange?: (range: Props['initDate'], isFinished: boolean, payload: any) => void
     hideSiblingMonthsDays?: boolean
     prevIcon?: React.ReactNode
     nextIcon?: React.ReactNode
@@ -22,31 +21,44 @@ type Props = {
     monthsAfter?: number
     missedRow?: 'placeholder' | 'filled'
     weekStartsFrom?: 1 | 2 | 3 | 4 | 5 | 6
-    noControlls?: boolean
+    noControls?: boolean
     triggerOnlyWhenFinished?: boolean
     locale?: string
     payload?: any
     rangePick?: boolean
+    strings?: {
+        weekDays: string[]
+        months: string[]
+    }
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
+    strings: NonNullable<Props['strings']>
     prevIcon: NonNullable<Props['prevIcon']>
     nextIcon: NonNullable<Props['nextIcon']>
     monthsBefore: NonNullable<Props['monthsBefore']>
-    monthsAfter: NonNullable<Props['monthsAfter']>
+    monthsAfter: NonNullable<Props['monthsAfter']>,
+    triggerOnlyWhenFinished: NonNullable<Props['triggerOnlyWhenFinished']>
 }
 
+type MergedProps = Props & DefaultProps
 
+type State = {
+    innerRangeStart: Props['initDate']['rangeDateStart']
+    innerRangeEnd: NonNullable<Props['initDate']['rangeDateEnd']>
+    inProgress: boolean
+    anchor: number
+    beginOfMonth: Date
+}
+
+type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
 type ChildProps = {
-    calendarProps: Props & DefaultProps
-    parentState: {
-        innerRangeStart: ActiveDateRange['rangeDateStart']
-        innerRangeEnd: NonNullable<ActiveDateRange['rangeDateEnd']>
-    }
+    calendarProps: MergedProps
+    parentState: State
     beginOfMonth: Date
-    days: string[]
+    pickRangeStart: (e: React.MouseEvent) => void
 }
 
 type AllDaysData = {
@@ -61,21 +73,21 @@ type AllDaysData = {
 
 type PrevNextDaysParams = {
     beginOfMonth: ChildProps['beginOfMonth']
-    days: ChildProps['days']
-    hideSiblingMonthsDays: ChildProps['calendarProps']['hideSiblingMonthsDays']
-    weekStartsFrom: ChildProps['calendarProps']['weekStartsFrom']
-    missedRow: ChildProps['calendarProps']['missedRow']
+    hideSiblingMonthsDays: MergedProps['hideSiblingMonthsDays']
+    weekStartsFrom: MergedProps['weekStartsFrom']
+    missedRow: MergedProps['missedRow']
 }
 
 type GetDayClass = (params: {
-    theme: ChildProps['calendarProps']['theme']
     dayObj: AllDaysData
-    hideSiblingMonthsDays: ChildProps['calendarProps']['hideSiblingMonthsDays']
-    innerRangeStart: ChildProps['parentState']['innerRangeStart']
-    innerRangeEnd: ChildProps['parentState']['innerRangeEnd']
+    theme: MergedProps['theme']
+    hideSiblingMonthsDays: MergedProps['hideSiblingMonthsDays']
+    innerRangeStart: State['innerRangeStart']
+    innerRangeEnd: State['innerRangeEnd']
 }) => string
 
 type _Calendar = CoreIUComponent<Props, DefaultProps>
 
 
-export { _Calendar, ActiveDateRange, Props, DefaultProps, ChildProps, AllDaysData, PrevNextDaysParams, GetDayClass }
+export { _Calendar, Store, Props, DefaultProps, MergedProps, ChildProps,
+    AllDaysData, PrevNextDaysParams, GetDayClass }

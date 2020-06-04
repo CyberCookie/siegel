@@ -1,7 +1,11 @@
+//TODO: rename
+
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
 import { ListElement, _Dropdown } from './types'
+
+import s from './styles.sass'
 
 
 const componentID = '-ui-dropdown'
@@ -23,17 +27,17 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
         let wrapperClass;
 
         if (builder) {
-            const { elem, className } = builder(title, children)
+            const { elem, parentCLassName } = builder(title, children)
             title = elem;
-            wrapperClass = className
+            wrapperClass = parentCLassName
         }
 
         return children
-            ?   <details key={i} className={theme.item_with_child}
+            ?   <details key={i} className={theme.item}
                     onClick={onClickHandler}
                     onMouseDown={onDropdownToggle}>
 
-                    <summary className={`${theme.item_title} ${wrapperClass || ''}`}>
+                    <summary className={`${theme.item_title} ${s.item_title} ${wrapperClass || ''}`}>
                         { title }
                         { dropdownIcon }
                     </summary>
@@ -41,7 +45,7 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
                     { children.map(childrenMapper) }
                 </details>
 
-            :   <div key={i} className={theme.item_without_child}
+            :   <div key={i} className={theme.item__empty}
                     children={title} />
     }
 
@@ -75,9 +79,9 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
 Dropdown.defaults = {
     theme: {
         root: componentID,
-        item_with_child: componentID + '_item_with_child',
-        item_title: componentID + '_item_title',
-        item_without_child: componentID + '_item_without_child'
+        item: componentID + '_item',
+        item__empty: componentID + '_item__empty',
+        item_title: componentID + '_item_title'
     }
 }
 Dropdown.ID = componentID;

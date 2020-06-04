@@ -35,21 +35,18 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             filename: isProd ? 'app.[contenthash].js' : 'app.[hash].js',
         },
 
-        ...( isProd
-            ?   {
-                    optimization: {
-                        minimizer: [
-                            new terserPlugin({
-                                terserOptions: {
-                                    output: { comments: false }
-                                },
-                                extractComments: false
-                            })
-                        ]
-                    }
+        ...( isProd ? {
+                optimization: {
+                    minimizer: [
+                        new terserPlugin({
+                            terserOptions: {
+                                output: { comments: false }
+                            },
+                            extractComments: false
+                        })
+                    ]
                 }
-            :   {}
-        ),
+        } : {}),
 
         // optimization: {
         //     runtimeChunk: 'single'
