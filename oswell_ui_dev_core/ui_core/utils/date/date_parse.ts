@@ -1,6 +1,6 @@
 type ZeroingDatePartsKeys = 'month' | 'date' | 'hours' | 'minutes' | 'seconds'
 type ZeroingDatePartsVals = number | string
-type DateParsedZeroed = IndexObjectKeys<ZeroingDatePartsKeys, ZeroingDatePartsVals>
+type DateParsedZeroed = IndexObjectKeys<ZeroingDatePartsKeys, ZeroingDatePartsVals> & Indexable
 
 type DateParsedNonZeroed = {
     year: number,

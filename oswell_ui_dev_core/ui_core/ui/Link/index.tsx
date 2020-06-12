@@ -6,20 +6,13 @@ import { _Link } from './types'
 
 const componentID = '-ui-external_link'
 
-const onMouseDown = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const { target, href } = e.currentTarget;
-    window.open(href, target)
-}
-
-const onClick = (e: React.MouseEvent) => { e.preventDefault() }
-
 const Link: _Link = (props, noDefaults) => {
     const { className, path, title, attributes } = noDefaults
         ?   extractProps(Link.defaults, props)
         :   (props as _Link['defaults'] & typeof props)
     
     let linkRootAttributes: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
-        onClick, onMouseDown, className,
+        className,
         target: '_blank',
         rel: 'noreferrer',
         href: path.startsWith('http') ? path : ('https://' + path)

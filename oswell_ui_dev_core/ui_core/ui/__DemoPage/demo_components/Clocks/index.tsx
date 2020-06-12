@@ -8,12 +8,10 @@ import s from './styles.sass'
 
 const Demo = () => {
     const props: Props = {
-        className: s.button,
-        updateInterval: 1000,
-        builder: ({ date, month, year, hours, minutes, seconds }) => {
-            console.log(seconds)
+        className: s.clocks,
+        builder: ({ date, month, year, hours, minutes, seconds }) => (
             `${date} . ${month} . ${year} | ${hours} : ${minutes} : ${seconds}`
-        }
+        )
     }
 
 
@@ -21,7 +19,7 @@ const Demo = () => {
         <h1>{Clocks.ID}</h1>
 
         <h2>simple</h2>
-        {/* <Clocks {...props} /> */}
+        <Clocks {...props} />
     </>
 }
 Demo.id = Clocks.ID;

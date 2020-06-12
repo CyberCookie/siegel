@@ -5,7 +5,7 @@ import { extractProps } from '../../ui_utils'
 import { _DropdownSearch } from './types'
 
 
-const componentID = '-ui-search-dropdown'
+const componentID = '-ui-dropdown_search'
 
 const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     const mergedProps = noDefaults

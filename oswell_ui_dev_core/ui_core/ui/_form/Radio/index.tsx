@@ -1,40 +1,61 @@
 import React from 'react'
 
-import cx from '../../utils/cx'
+import { extractProps } from '../../ui_utils'
+import { _Radio, Option, Props, DefaultProps } from './types'
 
 
-const FilterBar = ({ filterData, selected, onSelect, disabled = false, isRadio = false, className = '', titleKey = '' }) => {
-    let filterRow = filterData.map(dataItem => {
-        let { id, title } = dataItem,
-            isActive = isRadio ? selected == id : selected.includes(id);
+const componentID = '-ui-radio'
 
-        const onDatePick = () => {
-            let value;
-            if (isRadio) {
-                value = id
-            } else {
-                value = [...selected]
-                let index = selected.indexOf(id)
+function getOptions(mergedProps: Props & DefaultProps) {
+    const { options, theme, onChange, multiple, selected, disabled } = mergedProps;
 
-                index > -1 ? value.splice(index, 1) : value.push(id)
-            }
 
-            onSelect(value)
+    return options.map((option: Option) => {
+        const { id, content, className } = option;
+
+        let optionClassName = theme.option;
+        className && (optionClassName += ` ${className}`)
+
+        if ((multiple && (selected as Set<ID>).has(id)) || (!multiple && selected == id)) {
+            optionClassName += ` ${theme.option__selected}`
         }
 
+
         return (
-            <div key={id} onMouseDown={onDatePick}
-                className={cx('filter-btn', { active: isActive })}>
-                {titleKey ? dataItem[titleKey] : title}
-            </div>
+            <div key={id} className={optionClassName} children={content}
+                onMouseDown={(e: React.MouseEvent) => { disabled || onChange(id, e) }} />
         )
     })
-
-    return (
-        <div className={cx(`-ui-row-filter ${className}`, { disabled })}>
-            {filterRow}
-        </div>
-    )
 }
 
-export default FilterBar
+const Radio: _Radio = (props, noDefaults) => {
+    const mergedProps = noDefaults
+        ?   extractProps(Radio.defaults, props)
+        :   (props as _Radio['defaults'] & typeof props);
+
+    const { disabled, theme, attributes } = mergedProps;
+
+    
+    const rootProps = {
+        className: mergedProps.className,
+        children: getOptions(mergedProps)
+    }
+    disabled && (rootProps.className += ` ${theme._disabled}`)
+    attributes && Object.assign(rootProps, attributes)
+
+
+    return <div {...rootProps} />
+}
+Radio.defaults = {
+    theme: {
+        root: componentID,
+        option: componentID + '_option',
+        option__selected: componentID + '_option__selected',
+        _disabled: componentID + '__disabled'
+    }
+}
+Radio.ID = componentID;
+
+
+export { componentID }
+export default Radio
