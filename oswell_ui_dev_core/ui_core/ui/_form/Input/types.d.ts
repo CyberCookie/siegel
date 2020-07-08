@@ -1,24 +1,20 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
+import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
+import { InputTagProps } from '../autofocus'
 
 
 type ThemeKeys = 'field' | 'textarea' | 'extra' | 'error_text' | 'label' | 'label_text'
-    | '_focused' | '_filled' | '_touched' | '_error' | '_disabled'
+    | '_filled' | '_error' | keyof InputTagProps['theme']
 
 type Props = {
-    inputAttr?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
-    attributes?: ComponentAttributes
     label?: React.ReactNode
-    placeholder?: string
-    value?: string
     errorMsg?: React.ReactNode
     type?: 'input' | 'textarea' | 'password'
-    disabled?: boolean
-    autofocus?: boolean
     payload?: any
     onBlur?: (e: React.FocusEvent) => any
-    onChange?: (value: string, e: React.FormEvent, payload: any) => any
+    onChange?: (value: string, e: React.FormEvent, payload?: any) => any
     onFocus?: (e: React.FocusEvent) => void
-} & PropsComponentThemed<ThemeKeys>
+} & PropsComponentThemed<ThemeKeys> & Omit<InputTagProps, 'theme'>
+
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
@@ -26,7 +22,7 @@ type DefaultProps = {
 
 type _Input = CoreIUComponent<Props, DefaultProps>
 
-type ComponentRootAttributes = NonNullable<Props['inputAttr']> & {
+type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
     error: '' | null,
     filled: '' | null
 }

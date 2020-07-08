@@ -100,7 +100,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
         :   (props as _Calendar['defaults'] & typeof props)
 
     const { initDate, monthsBefore, payload, onChange, triggerOnlyWhenFinished, rangePick } = mergedProps;
-    const className = `${mergedProps.className} ${s.calendar}`;
+    const className = `${mergedProps.className} ${s.calendar}`
     
     const { rangeDateStart, rangeDateEnd } = initDate;
 

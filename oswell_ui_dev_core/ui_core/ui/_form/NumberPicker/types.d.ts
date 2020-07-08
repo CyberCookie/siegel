@@ -1,17 +1,16 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
+import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
+import { InputTagProps } from '../autofocus'
 
 
-type ThemeKeys = '_disabled' | '_focused' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
-    | 'label' | 'field'
+type ThemeKeys = '_disabled_all' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
+    | 'label' | 'field' | keyof InputTagProps['theme']
 
 type Props = {
-    value: number | string
     onChange: (
         value: string,
         e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement>,
-        payload: any
+        payload?: any
     ) => void
-    disabled?: boolean
     step?: number
     min?: number
     max?: number
@@ -19,13 +18,10 @@ type Props = {
     minusIcon?: React.ReactNode
     plusIcon?: React.ReactNode
     payload?: any
-    disableInput?: boolean
-    placeholder?: string
+    disabledInput?: boolean
     regexp?: RegExp
     precision?: number
-    attributes?: ComponentAttributes
-    inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
-} & PropsComponentThemed<ThemeKeys>
+} & PropsComponentThemed<ThemeKeys> & Omit<InputTagProps, 'theme'>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

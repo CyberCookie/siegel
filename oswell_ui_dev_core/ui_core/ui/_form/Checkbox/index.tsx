@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
+import getLabel from '../label'
 import { _Checkbox } from './types'
 
 import s from './styles.sass'
@@ -68,6 +69,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     }
 
 
+
     if (label) {
         const labelProps: WrapperProps = {
             className: `${className} ${modClass}`
@@ -75,14 +77,10 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
         onChange && (labelProps.onMouseDown = onCheckboxClick)
         attributes && Object.assign(labelProps, attributes)
 
-        
-        return (
-            <label {...labelProps}>
-                <div className={theme.label} children={label} />
-            
-                { CheckboxElement }
-            </label>
-        )
+        return getLabel(CheckboxElement, labelProps, {
+            className: theme.label,
+            children: label
+        })
     } else return CheckboxElement
 }
 Checkbox.defaults = {

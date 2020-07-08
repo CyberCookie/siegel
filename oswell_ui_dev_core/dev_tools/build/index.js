@@ -48,9 +48,12 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
                 }
         } : {}),
 
-        // optimization: {
-        //     runtimeChunk: 'single'
-        // },
+        optimization: {
+            // runtimeChunk: 'single',
+            splitChunks: {
+                chunks: 'all'
+            }
+        },
         
         plugins: defaultPluginsResolve(CONFIG, RUN_PARAMS),
         module: { rules: defaultModulesResolve(CONFIG, RUN_PARAMS) }

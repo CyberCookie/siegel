@@ -7,7 +7,7 @@ type ThemeKeys = 'label' | 'checkbox' | '_checked' | '_disabled' | 'with_icon_wr
 //TODO: attributes type depends on label <> icon
 type Props = {
     value: boolean
-    onChange?: (checked: boolean, e: React.MouseEvent, payload: any) => void
+    onChange?: (checked: boolean, e: React.MouseEvent, payload?: any) => void
     checkboxAttributes?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
     attributes?: ComponentAttributes
     disabled?: boolean

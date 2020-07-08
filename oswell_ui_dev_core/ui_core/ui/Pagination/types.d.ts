@@ -7,7 +7,7 @@ type Props = {
     listLength: number
     curPage: number
     showPerPage: number
-    onChange: (nextPage: number, e: React.MouseEvent, payload: any) => void
+    onChange: (nextPage: number, e: React.MouseEvent, payload?: any) => void
     elementsBySide?: number
     elementsByMiddle?: number
     controlIcon?: React.ReactNode

@@ -1,114 +1,102 @@
 //TODO: option builder default?
-import React, { useState, useRef, useEffect } from 'react'
+import React from 'react'
 
-import { extractProps } from '../../ui_utils'
-import { _DropdownSearch } from './types'
+import { extractProps, ComponentAttributes } from '../../ui_utils'
+import addInputFieldAttributes from '../autofocus'
+import getLabel from '../label'
+import { _DropdownSearch, Props, DefaultProps } from './types'
 
+
+type MergedProps = Props & DefaultProps
 
 const componentID = '-ui-dropdown_search'
+
+function getSearchOptions({ onSelect, searchOptions, theme, value }: MergedProps) {
+    const options: JSX.Element[] = []
+    for (let i = 0, l = searchOptions.length; i < l; i++) {
+        const { id, title, className, filter } = searchOptions[i]
+        
+        const canPush = filter
+            ?   typeof filter == 'string'
+                ?   filter.toLocaleLowerCase().includes(value!)
+                :   filter(value, id, i)
+            :   true;
+        
+
+        if (canPush) {
+            let optionClassMame = theme.option;
+            className && (optionClassMame += ` ${className}`);
+
+            options.push(
+                <div key={id} className={optionClassMame} children={title}
+                    onMouseDown={e => { onSelect(id, e) }} />
+            )
+        }
+    }
+
+
+    return <div children={options} className={theme.options} />
+}
 
 const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DropdownSearch.defaults, props)
         :   (props as _DropdownSearch['defaults'] & typeof props)
 
-    const { theme, placeholder, searchOptions, minInputLength, onChange, disabled, value, label,
-        closeIcon, searchIcon, optionBuilder, autofocus, payload, attributes, inputAttributes } = mergedProps;
+    const { theme, searchOptions, minInputLength, onChange, disabled, value, label, payload, className } = mergedProps;
 
-    const [ state, setState ] = useState({
-        isFocused: false,
-        isTouched: false
-    })
-    const { isFocused, isTouched } = state;
     
-    const searchLength = value.length;
-    const showOptions = searchOptions.length && searchLength >= minInputLength;
-    
+    const searchLength = value ? value.length : 0;
 
-    let className = mergedProps.className;
-    showOptions && (className += ` ${theme.search_dropdown__with_suggestions}`)
-    searchLength && (className += ` ${theme.search_dropdown__filled_field}`)
-
-    const dropdownSearchRootProps = { className }
-    attributes && (Object.assign(dropdownSearchRootProps, attributes))
-
-    const inputProps: React.HTMLProps<HTMLInputElement> = {
-        placeholder, value,
-        className: theme.search_field,
+    const dropdownSearchRootProps: ComponentAttributes = { className }
+    const inputProps: NonNullable<typeof props.inputAttributes> = {
+        disabled,
+        className: theme.field,
     }
-    
-    if (disabled) {
-        dropdownSearchRootProps.className += ` ${theme._disabled}`
-        inputProps.disabled = true
-    } else {
+
+    let options: JSX.Element | undefined
+
+    if (!disabled) {
         inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const searchValue = e.target.value;
-            searchValue.length >= minInputLength && onChange(searchValue, e, payload)
+            onChange(searchValue, e, payload)
         }
 
-        inputProps.onFocus = () => {
-            if (!isFocused) {
-                state.isFocused = state.isTouched = true;
-                setState({ ...state })
-            }
+        if  (!!searchOptions.length && searchLength >= minInputLength) {
+            options = getSearchOptions(mergedProps)
+            dropdownSearchRootProps.className +=  ` ${theme._with_suggestions}`
         }
-
-        inputProps.onBlur = () => {
-            if (isFocused) {
-                state.isTouched = false;
-                setState({ ...state })
-            }
-        }
-    }   
-
-
-    if (autofocus) {
-        inputProps.ref = useRef<HTMLInputElement>(null)
-        
-        useEffect(() => {
-            (inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus()    
-        }, [])
     }
-    inputAttributes && (Object.assign(inputProps, inputAttributes))
-    
+    addInputFieldAttributes(inputProps, dropdownSearchRootProps, mergedProps)
+
 
     let inputElement = <input {...inputProps} />
-    if (label) {
-        inputElement = (
-            <label className={theme.label}>
-                <div className={theme.label_text} children={label} />
+    label && (inputElement = getLabel(
+        inputElement,
+        { className: theme.label },
+        { className: theme.label_text, children: label }
+    ))
 
-                { inputElement }
-            </label>
-        )
-    }
-
+    
     return (
         <div {...dropdownSearchRootProps}>
             { inputElement }
-            
-            { !!showOptions && 
-                <div children={searchOptions.map(optionBuilder)} className={theme.options} />
-            }
-
-            { searchLength
-                ?   closeIcon && <div children={closeIcon}
-                        onMouseDown={(e: React.MouseEvent) => { onChange('', e, payload) }} />
-                :   searchIcon
-            }
+            { options }
         </div>
     )
 }
 DropdownSearch.defaults = {
     theme: {
         root: componentID,
-        search_dropdown__with_suggestions: componentID + '__with_suggestions',
-        search_dropdown__filled_field: componentID + '__filled_field',
-        search_field: componentID + '_search_field',
+        field: componentID + '_search_field',
         label: componentID + '_label',
         label_text: componentID + '_label_text',
         options: componentID + '_options',
-        _disabled: componentID + '_disabled'
+        option: componentID + '_option',
+        _with_suggestions: componentID + '__with_suggestions',
+        _disabled: componentID + '_disabled',
+        _focused: componentID + '__focused',
+        _touched: componentID + '__touched'
     },
 
     minInputLength: 3

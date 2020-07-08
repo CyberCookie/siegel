@@ -1,0 +1,1 @@
+export default (token: string) => JSON.parse( window.atob( token.split('.')[1] || '' ) || '{}' )

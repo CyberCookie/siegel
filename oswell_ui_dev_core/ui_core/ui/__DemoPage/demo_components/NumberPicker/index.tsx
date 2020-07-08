@@ -14,12 +14,12 @@ const theme = {
     controls: s.controls,
     button_minus: s.minus_icon,
     _disabled: s._disabled,
+    _disabled_all: s._disabled_all,
     _focused: s._focused
 }
 
 const Demo = () => {
     const [ value, setValue ] = useState('')
-
     const props: Props = {
         theme, value,
         placeholder: 'placeholder',
@@ -30,18 +30,17 @@ const Demo = () => {
         }
     }
 
-
     return <>
         <h1>{NumberPicker.ID}</h1>
 
         <h2>simple</h2>
         <NumberPicker {...props} />
 
-        <h2>with step[0.1] limit[0 - 10] precision[2]</h2>
-        <NumberPicker {...props} step={0.1} min={0} max={10} precision={2} />
+        <h2>with step[0.1] limit[0 - 10] precision[2] autofocus</h2>
+        <NumberPicker {...props} step={0.1} min={0} max={10} precision={2} autofocus />
 
         <h2>disabled input, step[1], label</h2>
-        <NumberPicker {...props} step={1} disableInput label='some label' />
+        <NumberPicker {...props} step={1} disabledInput label='some label' />
 
         <h2>disabled</h2>
         <NumberPicker {...props} step={1} disabled />

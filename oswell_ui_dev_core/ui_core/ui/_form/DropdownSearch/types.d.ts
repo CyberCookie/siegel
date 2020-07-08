@@ -1,25 +1,27 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
+import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
+import { InputTagProps } from '../autofocus'
 
 
-type ThemeKeys = 'search_dropdown__with_suggestions' | 'search_dropdown__filled_field' | 'search_field' | 'options'
-    | 'label' | 'label_text' | '_disabled'
+type FilterKey = {
+    filter?: string | ((value: Props['value'], id: ID, index: number) => boolean)
+}
+
+type ThemeKeys = 'field' | 'options'| 'option' | 'label' | 'label_text' | '_with_suggestions' |
+    keyof InputTagProps['theme']
 
 type Props = {
-    optionBuilder: (searchOption: any) => React.ReactNode
-    onChange: (searchValue: string, e: React.ChangeEvent | React.MouseEvent, payload: any) => void
-    searchOptions: any[]
-    value: string
+    onChange: (searchValue: string, e: React.ChangeEvent | React.MouseEvent, payload?: any) => void
+    onSelect: (id: ID, e: React.MouseEvent, payload?: any) => void
+    searchOptions: ({
+        id: ID
+        title: React.ReactNode
+        className?: string
+        payload?: any
+    } & FilterKey)[]
     label?: React.ReactNode
-    disabled?: boolean
-    placeholder?: string
     minInputLength?: number
-    closeIcon?: React.ReactNode
-    searchIcon?: React.ReactNode
-    autofocus?: boolean
     payload?: any
-    inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
-    attributes?: ComponentAttributes
-} & PropsComponentThemed<ThemeKeys>
+} & PropsComponentThemed<ThemeKeys> & Omit<InputTagProps, 'theme'>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

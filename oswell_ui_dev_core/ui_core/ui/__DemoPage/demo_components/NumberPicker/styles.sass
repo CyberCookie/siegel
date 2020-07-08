@@ -50,14 +50,11 @@ $controls_width: 20px
     .label
         color: $primary
 
-._disabled
-    .field
-        color: $border_color_light
+._disabled_all .field
+    color: $border_color_light
     
-    .controls
-        button
-            cursor: default
-            
-        button:hover svg polygon,
-        svg polygon
-            fill: $border_color_light
+.controls button:disabled
+    cursor: default
+    
+    svg polygon
+        fill: $border_color_light

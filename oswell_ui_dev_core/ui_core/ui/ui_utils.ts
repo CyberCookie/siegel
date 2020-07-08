@@ -3,7 +3,6 @@ import isE from '../utils/is_exists'
 
 type ComponentAttributes<E = HTMLDivElement, A = React.HTMLAttributes<E>> = A & React.RefAttributes<E>
 
-
 type PropsComponentBase = {
     className?: string
 }

@@ -1,3 +1,6 @@
+//TODO: reset store
+//TODO: setState without "..."
+
 import { useState, useLayoutEffect } from 'react'
 
 
@@ -65,7 +68,10 @@ const createHookStore = (initialState: Indexable, actions: Actions) => {
     
     return {
         useStore: useCustom.bind((store as Store)),
-        store
+        store,
+        // reset() {
+        //     setState()
+        // }
     }
 }
 

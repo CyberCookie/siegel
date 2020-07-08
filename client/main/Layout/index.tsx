@@ -17,7 +17,7 @@ import './styles'
 // }
 
 const Layout = ({ children/*, location, history*/ }) => {
-    // let [ { isAuthorized }, { validate, logout } ] = authorizationModule();
+    // let [ { isAuthorized }, { validate, logout } ] = authorizationModule()
     // let isCurrentLogin = isLoginPage(location.pathname)
     
     // useLayoutEffect(() => validate(), [])

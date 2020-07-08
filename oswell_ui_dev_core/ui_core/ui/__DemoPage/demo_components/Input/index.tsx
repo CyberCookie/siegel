@@ -39,8 +39,9 @@ const Demo = () => {
         <h2>simple</h2>
         <Input {...props} />
 
-        <h2>with error, label and extra content as icon</h2>
+        <h2>with error, label and extra content as icon, autofocus</h2>
         <Input {...props}
+            autofocus
             errorMsg={inputValue.length < 5 ? 'too short' : ''}
             attributes={{ children: icon }}
             label='some_label' />

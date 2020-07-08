@@ -1,0 +1,33 @@
+@import '../theme'
+
+
+
+$input_theme_path: '../Input/styles'
+$select_theme_path: '../Select/styles'
+
+
+.dropdown_search
+    position: relative
+    width: 300px
+    @include font(20px, 100%)
+
+.field
+    composes: field from $input_theme_path
+
+    ._with_suggestions &
+        border-radius: $radius $radius 0 0 
+ 
+.label_text
+    composes: label_text from $input_theme_path
+
+._focused
+    composes: _focused from $input_theme_path
+
+
+.options
+    composes: options from $select_theme_path
+    display: block
+    z-index: 1
+
+.option
+    composes: option from $select_theme_path

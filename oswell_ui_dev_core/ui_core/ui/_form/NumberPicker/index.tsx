@@ -1,10 +1,13 @@
 //TODO: masks
 //TODO: add precision to onBlur and input value
 //TODO: truncate zeroes left
-import React, { useState } from 'react'
+//TODO: autofocus
+import React from 'react'
 
-import { extractProps, ComponentAttributes } from '../../ui_utils'
 import isExists from '../../../utils/is_exists'
+import { extractProps, ComponentAttributes } from '../../ui_utils'
+import addInputFieldAttributes from '../autofocus'
+import getLabel from '../label'
 import { _NumberPicker, Props, DefaultProps } from './types'
 
 
@@ -51,7 +54,7 @@ function getNumberValue(value: MergedProps['value'], min: MergedProps['min'], ma
 }
 
 function getStepper(props: MergedProps, numberValue: number, onNumberPickerChange: OnNumberPickerChange) {
-    const { theme, disabled, step, plusIcon, minusIcon, min, max } = props;
+    const { theme, disabled: disabled, step, plusIcon, minusIcon, min, max } = props;
 
     const plusProps: BtnProps = {
         className: theme.button_plus,
@@ -86,19 +89,6 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
     )
 }
 
-function getInputField(inputFieldProps: InputFieldProps, theme: MergedProps['theme'], label: MergedProps['label']) {
-    let inputElement = <input {...inputFieldProps} />
-    label && (inputElement = (
-        <label className={theme.label_wrapper}>
-            <div className={theme.label} children={label} />
-
-            { inputElement }
-        </label>
-    ))
-
-
-    return inputElement
-}
 
 const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const mergedProps = noDefaults
@@ -106,35 +96,22 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         :   (props as _NumberPicker['defaults'] & typeof props)
     
     const {
-        theme, value, disabled, onChange, step, label, payload, disableInput, attributes, inputAttributes,
-        placeholder, precision, regexp, min, max
+        theme, value, disabled, onChange, step, label, payload, disabledInput,
+        precision, regexp, min, max, className
     } = mergedProps;
 
-    const [ focused, setFocused ] = useState(false)
-
-
-    let className = mergedProps.className;
-    focused && (className += ` ${theme._focused}`)
 
     const numberMask = regexp || getRegExp(min, max, precision)
     const numberValue = getNumberValue(value, min, max)
 
-
     const numberpickerRootProps: ComponentAttributes = { className }
-
     const inputFieldProps: InputFieldProps = {
-        value,
         className: theme.field,
-        disabled: disableInput || disabled,
+        disabled: disabled || disabledInput,
     }
-    placeholder && (inputFieldProps.placeholder = placeholder)
-
     if (disabled) {
-        numberpickerRootProps.className += ` ${theme._disabled}`
+        numberpickerRootProps.className += ` ${theme._disabled_all}`
     } else {
-        numberpickerRootProps.onFocus = () => { focused || setFocused(true) }
-        numberpickerRootProps.onBlur = () => { focused && setFocused(false) }
-
         inputFieldProps.onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
             e.persist()
             onNumberPickerChange(numberValue, e)
@@ -144,9 +121,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
             numberMask.test(value) && onChange(value, e, payload)
         }
     }
-
-    attributes && (Object.assign(numberpickerRootProps, attributes))
-    inputAttributes && (Object.assign(inputFieldProps, inputAttributes))
+    addInputFieldAttributes(inputFieldProps, numberpickerRootProps, mergedProps)
 
 
     const onNumberPickerChange: OnNumberPickerChange = (value, e, isButtonClick) => {
@@ -168,11 +143,19 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         onChange(''+result, e, payload)
     }
 
+    let inputElement = <input {...inputFieldProps} />
+    label && (inputElement = getLabel(
+        inputElement,
+        { className: theme.label_wrapper },
+        { className: theme.label, children: label }
+    ));
+
 
     return (
         <div {...numberpickerRootProps}>
             { isExists(step) && getStepper(mergedProps, numberValue, onNumberPickerChange) }
-            { getInputField(inputFieldProps, theme, label) }
+
+            { inputElement }
         </div>
     )
 }
@@ -185,8 +168,10 @@ NumberPicker.defaults = {
         label_wrapper: componentID + '_label_wrapper',
         label: componentID + '_label',
         field: componentID + '_field',
+        _disabled_all: componentID + '__disabled_all',
         _disabled: componentID + '__disabled',
-        _focused: componentID + '__focused'
+        _focused: componentID + '__focused',
+        _touched: componentID + '__touched'
     },
 
     minusIcon: '-',

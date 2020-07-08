@@ -30,10 +30,7 @@ if (rootComponent) {
 
     
     render(
-        createRouter({
-            routes, Layout,
-            isLazy: true
-        }),
+        createRouter({ routes, Layout }),
         rootComponent
     )
 

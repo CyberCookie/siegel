@@ -1,31 +1,33 @@
+//TODO: abort
+
 type FetchParams = {
-    url: RequestInfo,
+    url: RequestInfo
     options: RequestInit
 }
 
 type ReqError = {
-    message: string,
-    status: number,
-    req: FetchParams,
+    message: string
+    status: number
+    req: FetchParams
     res: any
 }
 
 type SetupFnParams = {
-    beforeRequest?: (opts: RequestFnParams) => void,
-    afterRequest?: (fetchParams: FetchParams, parseRes: any) => void,
+    beforeRequest?: (opts: RequestFnParams) => void
+    afterRequest?: (fetchParams: FetchParams, parseRes: any) => void
     errorHandler?: (error: ReqError) => void
 } & Indexable
 
 type RequestFnParams = {
-    url: RequestInfo,
-    parseMethod?: string,
+    url: RequestInfo
+    isFullRes?: boolean
+    parseMethod?: string
     query?: string | string[][] | Record<string, string> | URLSearchParams
 } & RequestInit & { headers?: Indexable }
 
 
 function setup(newDefaults: SetupFnParams): void {
-    for (const key in newDefaults)
-        defaultSetup[key] = newDefaults[key]
+    for (const key in newDefaults) defaultSetup[key] = newDefaults[key]
 } 
 
 const defaultSetup: SetupFnParams = {}
@@ -43,7 +45,7 @@ const extractRequestData = (request: RequestFnParams) => {
         method || (method = 'POST')
     }
 
-    options.method = method || 'GET';
+    options.method = method || 'GET'
     query && (url += `?${(new URLSearchParams(query)).toString()}`)
     credentials && (options.credentials = credentials)
     headers && (options.headers = headers)
@@ -89,7 +91,13 @@ const request = async (req: RequestFnParams) => {
 
     try {
         const res = await fetch(reqData.url, reqData.options)
-        const parsedRes = await extractResponseData(req, res)
+        const { headers, status, statusText } = res;
+
+        let parsedRes = await extractResponseData(req, res)
+        req.isFullRes && (parsedRes = {
+            status, statusText, headers,
+            data: parsedRes
+        })
 
         if (res.ok) {
             afterRequest && afterRequest(reqData, parsedRes)

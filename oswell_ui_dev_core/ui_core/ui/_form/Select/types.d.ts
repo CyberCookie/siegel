@@ -12,7 +12,7 @@ type Props<V = any> = {
         value: V
         title: React.ReactNode
     }[],
-    onChange: (value: V, e: React.MouseEvent, payload: any) => void
+    onChange: (value: V, e: React.MouseEvent, payload?: any) => void
     dropdownIcon?: React.ReactNode
     closeOnSelect?: boolean
     label?: React.ReactNode

@@ -8,7 +8,7 @@ export default (appReducers, options = {}) => {
 
     let middlewares = options.middlewares.length
             ?   applyMiddleware(...options.middlewares)
-            :   [];
+            :   []
 
     if (options.RootReducer) {
         let appReducerTemp = allReducers;
