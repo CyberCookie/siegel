@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../../utils/is_touchscreen'
 import { extractProps, ComponentAttributes } from '../../ui_utils'
-import { Props, DefaultProps, _Select } from './types'
+import { MergedProps, _Select } from './types'
 
 
 type SelectRootProps = {
@@ -19,7 +19,7 @@ const _isTouchScreen = isTouchScreen()
 const stopPropagationHandler = (e: React.MouseEvent) => { e.stopPropagation() }
 
 
-function getOptions(props: DefaultProps & Props, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
+function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
     const { options, selected, theme, onChange, closeOnSelect } = props;
 
 
@@ -70,7 +70,7 @@ const Select: _Select = (props, noDefaults) => {
                 e.preventDefault()
             
                 setActive(!isActive)
-            });
+            })
     attributes && (selectRootProps = Object.assign(selectRootProps, attributes))
 
     useEffect(() => {

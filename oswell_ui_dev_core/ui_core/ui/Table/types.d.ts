@@ -9,7 +9,7 @@ type TableCell = {
     value: React.ReactNode
 }
 
-//TODO React.ThHTMLAttributes
+//TODO: React.ThHTMLAttributes
 type TableTH = {
     attributes?: ComponentAttributes<HTMLTableHeaderCellElement, React.TdHTMLAttributes<HTMLTableHeaderCellElement>>
 } & TableCell
@@ -38,7 +38,9 @@ type DefaultProps = {
     className: NonNullable<Props['className']>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Table = CoreIUComponent<Props, DefaultProps>
 
 
-export { _Table, Props, DefaultProps, TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow }
+export { _Table, Props, DefaultProps, MergedProps, TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow }

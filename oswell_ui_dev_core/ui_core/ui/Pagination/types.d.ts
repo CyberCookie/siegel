@@ -1,7 +1,7 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
-type ThemeKeys = 'separator' | 'single' | 'control' | 'control__active' | 'control__disabled'
+type ThemeKeys = 'separator' | '_single' | 'control' | 'control__active' | 'control__disabled'
 
 type Props = {
     listLength: number
@@ -23,7 +23,9 @@ type DefaultProps = {
     separator: NonNullable<Props['separator']>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Pagination = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Pagination }
+export { Props, DefaultProps, MergedProps, _Pagination }

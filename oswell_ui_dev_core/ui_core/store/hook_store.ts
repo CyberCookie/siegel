@@ -1,7 +1,8 @@
-//TODO: reset store
 //TODO: setState without "..."
 
 import { useState, useLayoutEffect } from 'react'
+
+import deepClone from '../utils/deep/clone'
 
 
 type Actions = {
@@ -59,19 +60,21 @@ function bindActions(store: Store, actions: Actions) {
 }
 
 
-const createHookStore = (initialState: Indexable, actions: Actions) => {
-    const store: StoreBase = { state: initialState, listeners: [] };
-    (store as Store).setState = setState.bind(store);
+const createHookStore = (initialState: Indexable, actions: Actions, reset?: boolean) => {
+    const store: StoreBase = { state: initialState, listeners: [] }
+    ;(store as Store).setState = setState.bind(store)
 
     actions && (store.actions = bindActions((store as Store), actions))
 
-    
+    let resetStore;
+    if (reset) {
+        const clonnedState = deepClone(initialState)
+        resetStore = () => { (store as Store).setState(clonnedState) }
+    }
+
     return {
-        useStore: useCustom.bind((store as Store)),
-        store,
-        // reset() {
-        //     setState()
-        // }
+        store, resetStore,
+        useStore: useCustom.bind((store as Store))
     }
 }
 

@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
-import { _Radio, Option, Props, DefaultProps } from './types'
+import { _Radio, Option, MergedProps } from './types'
 
 
 const componentID = '-ui-radio'
 
-function getOptions(mergedProps: Props & DefaultProps) {
+function getOptions(mergedProps: MergedProps) {
     const { options, theme, onChange, multiple, selected, disabled } = mergedProps;
 
 
@@ -31,7 +31,7 @@ function getOptions(mergedProps: Props & DefaultProps) {
 const Radio: _Radio = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Radio.defaults, props)
-        :   (props as _Radio['defaults'] & typeof props);
+        :   (props as _Radio['defaults'] & typeof props)
 
     const { disabled, theme, attributes } = mergedProps;
 

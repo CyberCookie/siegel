@@ -18,7 +18,7 @@ const Swipe: _Swipe = (props, noDefaults) => {
     let swipeRootAttributes: React.HTMLAttributes<HTMLDivElement> = { className, children }
     _isTouchScreen
         ?   (swipeRootAttributes.onTouchStart = onMouseDown)
-        :   (swipeRootAttributes.onMouseDown = onMouseDown);
+        :   (swipeRootAttributes.onMouseDown = onMouseDown)
 
     attributes && (swipeRootAttributes = Object.assign(swipeRootAttributes, attributes))
 

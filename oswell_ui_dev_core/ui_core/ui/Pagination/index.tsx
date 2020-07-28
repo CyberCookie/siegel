@@ -1,22 +1,19 @@
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
-import { _Pagination, Props, DefaultProps } from './types'
-
-
-type MergedProps = Props & DefaultProps
+import { _Pagination, MergedProps } from './types'
 
 
 const componentID = '-ui-pagination'
 
-const tokenNextPage = 'next'
-const tokenPrevPage = 'prev'
+const tokenNextPage = 'n'
+const tokenPrevPage = 'p'
 
 function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number, isSinglePage: boolean) {
     const { attributes, curPage, onChange, payload, theme } = mergedProps;
     
     let className = mergedProps.className;
-    numberOfPages && (className += ` ${theme.single}`)
+    isSinglePage && (className += ` ${theme._single}`)
 
     let result = {
         className,
@@ -52,7 +49,7 @@ const getSeparator = (key: string, theme: MergedProps['theme'], separator: Merge
     <div children={separator} key={key} className={theme.separator} />
 )
 
-function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number, isSinglePage: boolean, curPage: number) {
+function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number, curPage: number, isSinglePage: boolean) {
     const { theme, separator, elementsByMiddle, elementsBySide, controlIcon } = mergedProps;
     const result = []
     
@@ -84,17 +81,15 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number, i
     }
     
 
-    return (
-        <>
-            <div children={controlIcon} data-page={tokenPrevPage}
-                className={`${theme.control} ${curPage == 1 ? theme.control__disabled : ''}`} />
+    return <>
+        <div children={controlIcon} data-page={tokenPrevPage}
+            className={`${theme.control} ${curPage == 1 ? theme.control__disabled : ''}`} />
 
-            { result }
+        { result }
 
-            <div children={controlIcon} data-page={tokenNextPage}
-                className={`${theme.control} ${curPage == numberOfPages ? theme.control__disabled : ''}`} />
-        </>
-    )
+        <div children={controlIcon} data-page={tokenNextPage}
+            className={`${theme.control} ${curPage == numberOfPages ? theme.control__disabled : ''}`} />
+    </>
 }
 
 const Pagination: _Pagination = (props, noDefaults) => {
@@ -104,24 +99,24 @@ const Pagination: _Pagination = (props, noDefaults) => {
     
     const { listLength, curPage, showPerPage } = mergedProps;
 
-    const numberOfPages = Math.ceil(listLength / showPerPage)
+    const numberOfPages = Math.ceil(listLength / showPerPage) || 1
     const isSinglePage = numberOfPages == 1
-
+    
 
     return (
         <div {...getPaginatorRootProps(mergedProps, numberOfPages, isSinglePage)}>
-            { getPaginationVisuals(mergedProps, numberOfPages, isSinglePage, curPage) }
+            { getPaginationVisuals(mergedProps, numberOfPages, curPage, isSinglePage) }
         </div>
     )
 }
 Pagination.defaults = {
     theme: {
         root: componentID,
-        single: componentID + '_single',
         separator: componentID + '_separator',
         control: componentID + '_control',
         control__active: componentID + '_control__active',
-        control__disabled: componentID + '_control__disabled'
+        control__disabled: componentID + '_control__disabled',
+        _single: componentID + '_single'
     },
 
     elementsBySide: 1,

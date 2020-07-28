@@ -12,8 +12,8 @@ const { Button: Button_Themed } = theme;
 
 
 const Home = () => {
-    let [{ someData }, { makeSomeFetch }] = testModule()
-
+    const [{ someData }, { makeSomeFetch }] = testModule()
+  
     useLayoutEffect(() => {
         makeSomeFetch({ someBody: 'body' })
     }, [])
@@ -34,7 +34,7 @@ const Home = () => {
 
             { icons.Eye_enable }
             { icons.Users }
-
+            
             <div>
                 from server received: { someData.received }
             </div> 

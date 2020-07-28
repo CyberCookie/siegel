@@ -67,7 +67,7 @@ function createHTTP2Server(CONFIG, serverExtend) {
 
     const server = ssl
         ?   http2.createSecureServer(extractSSL(ssl))
-        :   http2.createServer();
+        :   http2.createServer()
 
 
     serverExtend && serverExtend(server)

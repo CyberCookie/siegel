@@ -15,7 +15,9 @@ type DefaultProps = {
     closeIcon: NonNullable<Props['closeIcon']>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Popup = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Popup }
+export { Props, DefaultProps, MergedProps, _Popup }

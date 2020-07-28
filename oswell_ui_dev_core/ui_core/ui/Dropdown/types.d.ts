@@ -23,7 +23,9 @@ type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Dropdown = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, ListElement, _Dropdown }
+export { Props, DefaultProps, MergedProps, ListElement, _Dropdown }

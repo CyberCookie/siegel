@@ -1,5 +1,5 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
-import { EntitiesRaw } from '../../utils/entities_struct'
+import { Entities } from '../../utils/entities_struct'
 import { TableTH, TableBodyRow, TableHeadRow, Props as TableProps } from '../Table/types'
 import { Props as SelectProps, _Select } from '../_form/Select/types'
 import { Props as PaginationProps, _Pagination } from '../Pagination/types'
@@ -8,68 +8,79 @@ import { Props as PaginationProps, _Pagination } from '../Pagination/types'
 type DataTableTableProps = {
     head: NonNullable<TableProps['head']>
     body: NonNullable<TableProps['body']>
+    foot?: NonNullable<TableProps['foot']>
     className: NonNullable<TableProps['className']>
     attributes?: TableProps['attributes']
 }
 
-type SearchByFieldValue = number & { dateStart: number, dateEnd: number } & Set<string>
+type SearchByFieldText = string
+type SearchByFieldDate = { dateStart: number, dateEnd: number }
+type SearchByFieldSet = Set<ID>
+type SearchByFieldValue = SearchByFieldText | SearchByFieldDate | SearchByFieldSet
+
+type DisplayedEntityIDs<T extends Entities = Entities> = {
+    from: number
+    to: number
+    allPagesIDs: ReturnType<T['raw']>['sorted']
+} | undefined
 
 type State = {
-    headData: {
-        sortByField: {
-            index: number
-            value: SortReturnValue,
-        }
-        searchByField: Indexable<SearchByFieldValue>
+    sortByField: {
+        index: number
+        value: SortReturnValue,
     }
-    bodyData: {
-        showPerPage: number
-        currentPage: number
-    }
+    searchByField: Indexable<SearchByFieldValue>
+    showPerPage: number
+    currentPage: number
 }
 
 
 type ColumnsConfigEntityField = {
     entityFieldPath: string | string[]
 }
-type ColumnsConfigWithDefaults = {
-    showValue: (entity: object, index: number) => React.ReactNode
-    onSort: (IDs: ID[], byID: Indexable<object>, value: SortReturnValue) => ID[]
-    onFilter: (IDs: ID[], byID: Indexable<object>, search: SearchByFieldValue) => ID[]
+type ColumnsConfigWithDefaults<
+    T extends Entities,
+    Entity = ReturnType<T['get']>,
+    ByID = ReturnType<T['raw']>['byID'],
+    Sorted = ReturnType<T['raw']>['sorted']
+> = {
+    showValue: (entity: Entity, index: number) => React.ReactNode
+    onSort: (IDs: Sorted, byID: ByID, value: SortReturnValue) => Sorted
+    onFilter: (IDs: Sorted, byID: ByID, search: SearchByFieldValue) => Sorted
 }
-type ColumnsConfig = {
+type ColumnsConfig<T extends Entities = Entities> = {
     label: React.ReactNode
     type: 'text' | 'set' | 'date'
     putSetValue?: (value: any) => any
 } & (
-    (Partial<ColumnsConfigEntityField> & ColumnsConfigWithDefaults)
-    |   (ColumnsConfigEntityField & Partial<ColumnsConfigWithDefaults>)
+    (Partial<ColumnsConfigEntityField> & ColumnsConfigWithDefaults<T>)
+    |   (ColumnsConfigEntityField & Partial<ColumnsConfigWithDefaults<T>>)
 )
 
 
-type ThemeKeys = 'table' | 'table_resizer' | 'pagination_wrapper'
+type ThemeKeys = 'table' | 'table_resizer' | 'pagination_wrapper' | '_with_pagination'
 
-type Props = {
-    entities: EntitiesRaw
-    columnsConfig: ColumnsConfig[]
-    hookState: [ State, React.Dispatch<React.SetStateAction<State>> ]
+type Props<T extends Entities = Entities> = {
+    entities: T
+    columnsConfig: ColumnsConfig<T>[]
+    hookStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
     attributes?: ComponentAttributes
     withPagination?: {
         displayQuantity?: (quantity: number) => React.ReactNode
         select: {
-            props: SelectProps<number>
+            props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps>
             component: _Select
         }
         pagination: {
-            props?: PaginationProps
+            props?: Partial<PaginationProps>
             component: _Pagination
         }
     }
     tableAttributes?: TableProps['attributes']
     resizable?: boolean
-    postProcessHeadCell?: (cell: TableTH, columnsConfig: ColumnsConfig, index: number) => TableTH
-    postProcessHeadRow?: (rows: TableHeadRow[], IDs: ID[]) => TableHeadRow[]
-    postProcessBodyRow?: (row: TableBodyRow, entity: {}, index: number) => TableBodyRow
+    postProcessHeadCell?: (cell: TableTH, columnsConfig: ColumnsConfig, index: number, displayedEntityIDs: DisplayedEntityIDs) => TableTH
+    postProcessHeadRow?: (rows: TableHeadRow[], displayedEntityIDs: DisplayedEntityIDs) => TableHeadRow[]
+    postProcessBodyRow?: (row: TableBodyRow, entity: ReturnType<T['get']>, index: number) => TableBodyRow
 } & PropsComponentThemed<ThemeKeys>
 
 
@@ -77,7 +88,10 @@ type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _DataTable = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, State, DefaultProps, _DataTable, DataTableTableProps, ColumnsConfig }
+export { Props, State, DefaultProps, MergedProps, _DataTable, DataTableTableProps, ColumnsConfig,
+    SearchByFieldText, SearchByFieldDate, SearchByFieldSet, DisplayedEntityIDs }

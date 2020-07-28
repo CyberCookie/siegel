@@ -26,7 +26,7 @@ export default {
     // }
 
     _styleguide: {
-        component: lazy(() => import('core-ui/__DemoPage'))
+        component: lazy(() => import('core/_test/ComponentsDemoPage'))
     }
 }
 

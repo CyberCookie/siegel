@@ -21,7 +21,9 @@ type DefaultProps = {
     swipeDelta: NonNullable<Props['swipeDelta']>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Slider = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Slider }
+export { Props, DefaultProps, MergedProps, _Slider }

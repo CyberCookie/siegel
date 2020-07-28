@@ -1,5 +1,5 @@
 import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
-import { InputTagProps } from '../autofocus'
+import { InputTagProps } from '../input_field_attributes'
 
 
 type FilterKey = {
@@ -28,7 +28,9 @@ type DefaultProps = {
     minInputLength: NonNullable<Props['minInputLength']>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _DropdownSearch = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _DropdownSearch }
+export { Props, DefaultProps, MergedProps, _DropdownSearch }

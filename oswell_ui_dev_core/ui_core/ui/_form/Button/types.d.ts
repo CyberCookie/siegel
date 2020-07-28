@@ -16,7 +16,9 @@ type DefaultProps = {
     type: NonNullable<Props['type']>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Button = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Button }
+export { Props, DefaultProps, MergedProps, _Button }

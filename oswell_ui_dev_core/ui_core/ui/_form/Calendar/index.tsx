@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-import { calendarNames } from '../../../utils/date/date_const'
+import { calendarNames } from '../../../utils/date/consts'
 import { extractProps } from '../../ui_utils'
 import Days from './days_of_month'
 
@@ -120,8 +120,6 @@ const Calendar: _Calendar = (props, noDefaults) => {
         e.stopPropagation()
         
         const rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp!;
-
-
         if (rangeDateStart) {
             if (rangePick) {
                 ref.current!.addEventListener('mouseup', pickRangeFinish)
@@ -138,7 +136,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
 
             setState({ ...state })
 
-            const isSinglePick = !rangePick
+            const isSinglePick = !rangePick;
             if (onChange && (isSinglePick || (rangePick && !triggerOnlyWhenFinished))) {
                 onChange({ rangeDateStart, rangeDateEnd }, isSinglePick, payload)
             }
@@ -151,17 +149,15 @@ const Calendar: _Calendar = (props, noDefaults) => {
 
         if (timestamp) {
             const anchor = state.anchor;
+            let date: Date;
             if (timestamp >= anchor) {
-                const date = new Date(timestamp)
-
-                state.innerRangeStart = anchor;
-                state.innerRangeEnd = date.setDate(date.getDate() + 1) - 1
+                date = new Date(timestamp)
+                state.innerRangeStart = anchor
             } else if (timestamp < anchor) {
-                const date = new Date(anchor)
-
-                state.innerRangeStart = timestamp;
-                state.innerRangeEnd = date.setDate(date.getDate() + 1) - 1
+                date = new Date(anchor)
+                state.innerRangeStart = timestamp
             }
+            state.innerRangeEnd = date!.setDate(date!.getDate() + 1) - 1;
 
             setState({ ...state })
             onChange && !triggerOnlyWhenFinished && onChange({
@@ -215,7 +211,7 @@ Calendar.defaults = {
         _in_progress: componentID + '__in_progress'
     },
     strings: {
-        //TODO
+        //TODO:
         months: [...calendarNames.months],
         weekDays: [...calendarNames.daysShort]
     },

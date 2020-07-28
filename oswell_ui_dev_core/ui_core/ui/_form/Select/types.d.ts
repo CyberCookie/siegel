@@ -28,7 +28,9 @@ type DefaultProps = {
     dropdownIcon: NonNullable<Props['dropdownIcon']>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Select = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Select }
+export { Props, DefaultProps, MergedProps, _Select }

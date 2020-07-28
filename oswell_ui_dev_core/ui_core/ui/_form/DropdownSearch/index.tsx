@@ -2,12 +2,10 @@
 import React from 'react'
 
 import { extractProps, ComponentAttributes } from '../../ui_utils'
-import addInputFieldAttributes from '../autofocus'
+import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
-import { _DropdownSearch, Props, DefaultProps } from './types'
+import { _DropdownSearch, MergedProps } from './types'
 
-
-type MergedProps = Props & DefaultProps
 
 const componentID = '-ui-dropdown_search'
 
@@ -25,7 +23,7 @@ function getSearchOptions({ onSelect, searchOptions, theme, value }: MergedProps
 
         if (canPush) {
             let optionClassMame = theme.option;
-            className && (optionClassMame += ` ${className}`);
+            className && (optionClassMame += ` ${className}`)
 
             options.push(
                 <div key={id} className={optionClassMame} children={title}

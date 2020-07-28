@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
-import { Props, DefaultProps, _Tabs } from './types'
+import { MergedProps, _Tabs } from './types'
 
 
 const componentID = `-ui-tabs`
 
-function getTabsVisual(mergedProps: Props & DefaultProps) {
+function getTabsVisual(mergedProps: MergedProps) {
     const { tabs, activeTab, onChange, theme } = mergedProps;
 
     let activeTabContent: React.ReactNode; 
@@ -32,7 +32,7 @@ function getTabsVisual(mergedProps: Props & DefaultProps) {
     }
 }
 
-function getTabRootProps(mergedProps: Props & DefaultProps, activeTabContent: React.ReactNode) {
+function getTabRootProps(mergedProps: MergedProps, activeTabContent: React.ReactNode) {
     const { theme, attributes } = mergedProps;
     let className = mergedProps.className;
 

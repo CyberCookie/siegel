@@ -1,6 +1,8 @@
+//TODO: resizable handler for user added head colls
+
 import React from 'react'
 
-import { Props, DefaultProps } from './types'
+import { MergedProps, DisplayedEntityIDs } from './types'
 import { TableTH } from '../Table/types'
 
 import s from './styles.sass'
@@ -10,7 +12,7 @@ const passiveEv = { passive: true }
 
 function getResizeHandler() {
     let mouseXAnchor: number | null,
-        isLeftSide: boolean | null,
+        isLeftSide: ChildNode | null,
         targetColumn: HTMLTableCellElement | null,
         currentWidth: number | null,
         currentMinWidth: number | null,
@@ -29,7 +31,7 @@ function getResizeHandler() {
     function onMouseMove(e: MouseEvent) {
         let deltaX = e.x - mouseXAnchor!;
         isLeftSide && (deltaX = -deltaX)
-
+        
         const nextCurWidth = parseInt(currentWidth) + deltaX;
         const nextSiblingWidth = parseInt(siblingWidth) - deltaX;
         
@@ -44,13 +46,15 @@ function getResizeHandler() {
         e.preventDefault()
         e.stopPropagation()
 
-        mouseXAnchor = e.nativeEvent.x;
+        const resizerElement = e.currentTarget;
 
-        targetColumn = ((e.target as HTMLDivElement).parentElement as HTMLTableCellElement);
-        
-        siblingColumn = ((e.target as HTMLDivElement).nextSibling as HTMLTableCellElement)
+        mouseXAnchor = e.nativeEvent.x;
+        targetColumn = resizerElement.parentElement as HTMLTableCellElement;
+        isLeftSide = resizerElement.nextSibling;
+
+        siblingColumn = (resizerElement.nextSibling as HTMLTableCellElement)
             ?   (targetColumn.previousSibling as HTMLTableCellElement)
-            :   (targetColumn.nextSibling as HTMLTableCellElement);
+            :   (targetColumn.nextSibling as HTMLTableCellElement)
         
         
         if (siblingColumn) {
@@ -69,19 +73,24 @@ function getResizeHandler() {
 }
 
 
-function getHead(props: Props & DefaultProps, resultIDs: ID[]) {
+function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) {
     const { columnsConfig, resizable, theme, postProcessHeadRow, postProcessHeadCell } = props;
 
     let resizerClassName = s.resizer;
     resizerClassName && (resizerClassName += ` ${theme.table_resizer}`)
 
+    let displayedEntityIDs: DisplayedEntityIDs;
+    (postProcessHeadCell || postProcessHeadRow) && (displayedEntityIDs = {
+        from, to,
+        allPagesIDs: resultIDs
+    })
 
     const children: TableTH[] = []
     columnsConfig.forEach((columnConfig, configurationIndex: number) => {
         let nameCell = {
             value: columnConfig.label
         }
-        postProcessHeadCell && (nameCell = postProcessHeadCell(nameCell, columnConfig, configurationIndex))
+        postProcessHeadCell && (nameCell = postProcessHeadCell(nameCell, columnConfig, configurationIndex, displayedEntityIDs))
         
         
         if (resizable) {
@@ -101,7 +110,7 @@ function getHead(props: Props & DefaultProps, resultIDs: ID[]) {
     })
     
     let result = [{ children }]
-    postProcessHeadRow && (result = postProcessHeadRow(result, resultIDs))
+    postProcessHeadRow && (result = postProcessHeadRow(result, displayedEntityIDs))
 
 
     return result

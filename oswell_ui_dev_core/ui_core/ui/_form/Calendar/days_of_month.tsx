@@ -57,7 +57,7 @@ function getPreviousMonthDays(params: PrevNextDaysParams) {
 
 function fillWithCurrentMonthDays(result: AllDaysData[], beginOfMonth: Date) {
     const date = new Date(beginOfMonth)
-    const lastDayinCurrentMonth = (new Date(beginOfMonth.getFullYear(), beginOfMonth.getMonth() + 1, 0)).getDate();
+    const lastDayinCurrentMonth = (new Date(beginOfMonth.getFullYear(), beginOfMonth.getMonth() + 1, 0)).getDate()
     const todayTimestamp = (new Date()).setHours(0, 0, 0, 0)
     let timestamp = date.getTime()
     
@@ -143,7 +143,7 @@ const getDayClass: GetDayClass = ({ theme, dayObj, hideSiblingMonthsDays, innerR
     
     if (innerRangeStart != innerRangeEnd) {
         const rangeEndZero = (new Date(innerRangeEnd)).setHours(0,0,0,0)
-        innerRangeStart <= timestamp && timestamp <= rangeEndZero && (className += ` ${theme.day__selected}`);
+        innerRangeStart <= timestamp && timestamp <= rangeEndZero && (className += ` ${theme.day__selected}`)
 
         timestamp == innerRangeStart && (className += ` ${theme.from}`)
         timestamp == rangeEndZero && (className += ` ${theme.to}`)
@@ -164,7 +164,7 @@ const Days = (props: ChildProps) => {
 
     let className = theme.month_days_wrapper;
     inProgress && (className += ` ${theme._in_progress}`)
-
+    
     const rows = []
     for (let i = 0, day = 0; i <= allDays.length / DAYS_IN_WEEK && day < allDays.length; i++) {
         const dayRow = []

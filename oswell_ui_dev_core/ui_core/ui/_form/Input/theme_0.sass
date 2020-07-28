@@ -32,17 +32,17 @@ $ID: '.-ui-input'
 
 
 #{$ID}_error_text
-    @include absolute('','', var(--bottom__error), var(--left__error))
-    @include font(var(--font_size__error), '', var(--p-error), 300)
+    +absolute('','', var(--bottom__error), var(--left__error))
+    +font(var(--font_size__error), '', var(--p-error), 300)
     transform: translateY(100%)
 
 
 #{$ID}_label_text, #{$ID}_field
-    @include font(var(--font_size), '', var(--p-text))
+    +font(var(--font_size), '', var(--p-text))
 
 
 #{$ID}_label_text
-    @include absolute('', '', '', var(--left__error))
+    +absolute('', '', '', var(--left__error))
     font-weight: 300
     
     #{$ID}[error] &

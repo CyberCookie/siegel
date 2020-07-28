@@ -18,7 +18,9 @@ type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Toggle = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Toggle }
+export { Props, DefaultProps, MergedProps, _Toggle }

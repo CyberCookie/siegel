@@ -1,16 +1,12 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
+import isE from '../../../utils/is_exists'
 import getLabel from '../label'
-import { _Checkbox } from './types'
+import { _Checkbox, WrapperProps } from './types'
 
 import s from './styles.sass'
 
-
-type WrapperProps = {
-    className?: string
-    onMouseDown?: (e: React.MouseEvent) => void
-}
 
 const componentID = '-ui-checkbox'
 
@@ -28,6 +24,8 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     function onCheckboxClick(e: React.MouseEvent) { onChange!(!value, e, payload) }
 
     
+    const withLabel = isE(label)
+
     let checkboxInputProps: React.InputHTMLAttributes<HTMLInputElement> = {
         checked: value,
         type: 'checkbox',
@@ -36,7 +34,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     }
     
     let modClass = value ? theme._checked : ''
-    const hasWrapperTags = label || icon;
+    const hasWrapperTags = withLabel ? label : icon;
 
     if (disabled) {
         modClass += ` ${theme._disabled}`
@@ -54,7 +52,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
 
     if (icon) {
         const iconWrapperProps: WrapperProps = { className: theme.with_icon_wrapper }
-        if (!label) {
+        if (!withLabel) {
             iconWrapperProps.className += ` ${modClass}`
             onChange && (iconWrapperProps.onMouseDown = onCheckboxClick)
             attributes && Object.assign(iconWrapperProps, attributes)
@@ -69,8 +67,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     }
 
 
-
-    if (label) {
+    if (withLabel) {
         const labelProps: WrapperProps = {
             className: `${className} ${modClass}`
         }

@@ -1,5 +1,5 @@
 import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
-import { DateParsed } from '../../utils/date/date_parse'
+import { DateParsed } from '../../utils/date/parse'
 
 
 type Props = {
@@ -15,7 +15,9 @@ type DefaultProps = {
     zeroing: NonNullable<Props['zeroing']>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Clocks = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Clocks }
+export { Props, DefaultProps, MergedProps, _Clocks }

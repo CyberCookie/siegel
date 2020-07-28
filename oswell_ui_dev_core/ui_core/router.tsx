@@ -40,7 +40,7 @@ const createRoutes: CreateRoutes = (routeConfig, urlPref = '') => {
 
     for (const path in routeConfig) {
         const { exact = true, component, children, redirectTo, beforeEnter } = routeConfig[path]
-        isExists((component as LazyComponent)._result) && !isLazy && (isLazy = true);
+        isExists((component as LazyComponent)._result) && !isLazy && (isLazy = true)
         
         if (isExists(redirectTo)) {
             routes.push( <Redirect exact={exact} from={path} to={redirectTo} /> )

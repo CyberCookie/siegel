@@ -1,10 +1,9 @@
 type Entities = ReturnType<typeof entities>
-type EntitiesRaw = ReturnType<Entities['raw']>
 
 
-function entities<K extends ID>(uniq: K) {
+function entities<K extends ID = ''>(uniq: K) {
     type Entity = {
-        [key in K]: K
+        [key in K]: ID
     } & Indexable
     type SortCB = (entity_a: Entity, entity_b: Entity) => SortReturnValue
     type EachCB = (entity: Entity, index: number) => boolean | void
@@ -54,5 +53,5 @@ function entities<K extends ID>(uniq: K) {
 }
 
 
-export { Entities, EntitiesRaw }
+export { Entities }
 export default entities

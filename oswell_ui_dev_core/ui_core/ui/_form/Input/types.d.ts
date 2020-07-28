@@ -1,5 +1,5 @@
 import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
-import { InputTagProps } from '../autofocus'
+import { InputTagProps } from '../input_field_attributes'
 
 
 type ThemeKeys = 'field' | 'textarea' | 'extra' | 'error_text' | 'label' | 'label_text'
@@ -15,10 +15,11 @@ type Props = {
     onFocus?: (e: React.FocusEvent) => void
 } & PropsComponentThemed<ThemeKeys> & Omit<InputTagProps, 'theme'>
 
-
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
 }
+
+type MergedProps = Props & DefaultProps
 
 type _Input = CoreIUComponent<Props, DefaultProps>
 
@@ -27,4 +28,4 @@ type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
     filled: '' | null
 }
 
-export { Props, DefaultProps, ComponentRootAttributes, _Input }
+export { Props, DefaultProps, MergedProps, ComponentRootAttributes, _Input }

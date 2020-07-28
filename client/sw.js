@@ -6,9 +6,6 @@ assets.forEach(asset => {
 })
 
 
-// const ASSETS_CACHE_NAME = assets.toString()
-
-// const devCacheRegExp = /\.(woff2|png|jpg|ico)/;
 const cacheURLRegExp = /\.(woff2|png|jpg|ico|css|js|json)/;
 const cacheMethod = 'GET'
 const isCachable = req => {
@@ -57,11 +54,6 @@ self.addEventListener('activate', () => {
                     })
                 })
             })
-        // .then(() => caches.delete(ASSETS_CACHE_NAME))
-        // .then(() => caches.open(ASSETS_CACHE_NAME))
-        // .then(cache => cache.addAll(assets))
-        // .then(() => { console.log('Client has claimed, new service worker is ready to use') })
-        // .catch(console.error)
 })
 
 self.addEventListener('install', () => { self.skipWaiting() })

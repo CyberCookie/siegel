@@ -1,5 +1,5 @@
 import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
-import { InputTagProps } from '../autofocus'
+import { InputTagProps } from '../input_field_attributes'
 
 
 type ThemeKeys = '_disabled_all' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
@@ -8,7 +8,7 @@ type ThemeKeys = '_disabled_all' | 'controls' | 'button_minus' | 'button_plus' |
 type Props = {
     onChange: (
         value: string,
-        e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement>,
+        e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLDivElement>,
         payload?: any
     ) => void
     step?: number
@@ -31,7 +31,9 @@ type DefaultProps = {
     max: NonNullable<Props['max']>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _NumberPicker = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _NumberPicker }
+export { Props, DefaultProps, MergedProps, _NumberPicker }

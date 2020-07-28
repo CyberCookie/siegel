@@ -1,15 +1,14 @@
-import deepGet from '../../utils/deep/deep_get'
+import deepGet from '../../utils/deep/get'
 import isE from '../../utils/is_exists'
-import { Props, DefaultProps, State } from './types'
+import { MergedProps, State, SearchByFieldDate, SearchByFieldSet } from './types'
 import { TableTD, TableBodyRow } from '../Table/types'
 
 
-function getBody(props: Props & DefaultProps, state: State) {
+function getBody(props: MergedProps, state: State) {
     const { entities, columnsConfig, postProcessBodyRow, withPagination } = props;
-    const { byID, sorted } = entities;
+    const { byID, sorted } = entities.raw();
 
-    const { showPerPage, currentPage } = state.bodyData;
-    const { searchByField, sortByField } = state.headData;
+    const { searchByField, sortByField, showPerPage, currentPage } = state;
 
 
     function getEntityRow(entityID: ID, i: number): TableBodyRow {
@@ -24,7 +23,7 @@ function getBody(props: Props & DefaultProps, state: State) {
                 ?   configurationModel.showValue!(entity, i) //must not deattach showValue to keep `this`
                 :   Array.isArray(entityFieldPath)
                     ?   deepGet(entity, entityFieldPath)
-                    :   entity[entityFieldPath as NonNullable<typeof entityFieldPath>];
+                    :   entity[entityFieldPath as NonNullable<typeof entityFieldPath>]
 
 
             children.push({ value })
@@ -53,17 +52,17 @@ function getBody(props: Props & DefaultProps, state: State) {
             :   processedList.filter(itemID => {
                     let valueToFilter = Array.isArray(entityFieldPath)
                         ?   deepGet(byID[itemID], entityFieldPath)
-                        :   byID[itemID][entityFieldPath as NonNullable<typeof entityFieldPath>];
+                        :   byID[itemID][entityFieldPath as NonNullable<typeof entityFieldPath>]
                     
                     if (type == 'set') {
                         putSetValue && (valueToFilter = config.putSetValue!(valueToFilter))
                         
-                        return !searchString.has(valueToFilter)
+                        return !(searchString as SearchByFieldSet).has(valueToFilter)
                     } else if (type == 'date') {
-                        const { dateStart, dateEnd } = searchString;
+                        const { dateStart, dateEnd } = searchString as SearchByFieldDate;
                         const timestamp = valueToFilter
                             ?   (new Date(valueToFilter)).getTime()
-                            :   Date.now();
+                            :   Date.now()
 
                         return dateStart <= timestamp && timestamp < dateEnd
                     } else {
@@ -91,7 +90,7 @@ function getBody(props: Props & DefaultProps, state: State) {
             :   processedList.sort((IDa: ID, IDb: ID) => {
                     const isNextBigger = Array.isArray(entityFieldPath)
                         ?   deepGet(byID[IDa], entityFieldPath) < deepGet(byID[IDb], entityFieldPath)
-                        :   byID[IDa][entityFieldPath as EntityFieldString] < byID[IDb][entityFieldPath as EntityFieldString];
+                        :   byID[IDa][entityFieldPath as EntityFieldString] < byID[IDb][entityFieldPath as EntityFieldString]
                     
                     return isNextBigger ? value : -value
                 })
@@ -111,7 +110,7 @@ function getBody(props: Props & DefaultProps, state: State) {
     const resultList = []
     for (let i = from; i < to; i++) {
         const entityID = processedList[i]
-        if (!entityID) break;
+        if (!isE(entityID)) break;
 
         let itemToPush = getEntityRow(entityID, i)
         postProcessBodyRow && (itemToPush = postProcessBodyRow(itemToPush, byID[entityID], i))
@@ -121,8 +120,9 @@ function getBody(props: Props & DefaultProps, state: State) {
     
 
     return {
-        body: resultList,
-        resultIDs: processedList
+        from, to,
+        resultIDs: processedList,
+        body: resultList
     }
 }
 

@@ -35,7 +35,9 @@ type DefaultProps = {
     theme: Required<NonNullable<Props['theme']>>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Breadcrumbs = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Breadcrumbs, BreadcrumbsConfigByPath }
+export { Props, DefaultProps, MergedProps, _Breadcrumbs, BreadcrumbsConfigByPath }

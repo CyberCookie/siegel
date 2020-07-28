@@ -17,12 +17,12 @@ function getModules(CONFIG, RUN_PARAMS) {
     let loadersInclude = [CONSTANTS.PATHS.uiCore]
     Array.isArray(input.include)
         ?   (loadersInclude = loadersInclude.concat(input.include))
-        :   loadersInclude.push(input.include);
+        :   loadersInclude.push(input.include)
     
     let loadersExclude = [/*CONSTANTS.PATHS.nodeModules*/]
     Array.isArray(input.exclude)
         ?   (loadersExclude = loadersExclude.concat(input.exclude))
-        :   loadersInclude.push(input.exclude);
+        :   loadersInclude.push(input.exclude)
 
 
 

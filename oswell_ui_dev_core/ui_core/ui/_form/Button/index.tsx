@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
-import { _Button, Props, DefaultProps } from './types'
+import { _Button, MergedProps } from './types'
 
 
 const componentID = '-ui-button'
 
-function getRootProps(mergedProps: Props & DefaultProps) {
+function getRootProps(mergedProps: MergedProps) {
     const { className, onClick, type, value, disabled, attributes } = mergedProps;
 
     let buttonRootProps: typeof attributes = {
@@ -40,5 +40,4 @@ Button.ID = componentID;
 
 
 export { componentID }
-// export { Props } from './types'
 export default Button

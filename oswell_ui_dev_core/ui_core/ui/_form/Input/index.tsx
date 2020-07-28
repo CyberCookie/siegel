@@ -2,7 +2,7 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
-import addInputFieldAttributes from '../autofocus'
+import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
 import { _Input } from './types'
 
@@ -56,7 +56,7 @@ const Input: _Input = (props, noDefaults) => {
         inputElement,
         { className: theme.label },
         { className: theme.label_text, children: label }
-    ));
+    ))
 
 
     return (

@@ -21,7 +21,9 @@ type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
 }
 
+type MergedProps = Props & DefaultProps
+
 type _Radio = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, _Radio, Option }
+export { Props, DefaultProps, MergedProps, _Radio, Option }

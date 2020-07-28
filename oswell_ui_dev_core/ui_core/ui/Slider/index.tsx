@@ -6,14 +6,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import isE from '../../utils/is_exists'
 import { extractProps } from '../ui_utils'
 import Swipe from '../Swipe'
-import { _Slider, Props, DefaultProps } from './types'
+import { _Slider, MergedProps } from './types'
 
 import './styles'
 
 
-type MergedProps = Props & DefaultProps
 type SwitchSlide = (nextPage: number) => void
-
 
 const componentID = '-ui-slider'
 
@@ -110,7 +108,7 @@ const Slider: _Slider = (props, noDefaults) => {
 
     const switchSlide: SwitchSlide = nextPage => {
         const { slideArea, firstSlidePage } = getSlideElements(sliderRootProps.ref.current.childNodes, withControlls)
-        const offset = (nextPage * -firstSlidePage.offsetWidth) + 'px';
+        const offset = (nextPage * -firstSlidePage.offsetWidth) + 'px'
 
         slideArea.style.setProperty('--offset_left', offset)
         slideArea.style.marginLeft = offset

@@ -17,25 +17,25 @@
 @mixin flex($x_center: '', $y_center: '')
     display: flex
 
-    @include if_not_empty($x_center)
+    +if_not_empty($x_center)
         justify-content: $x_center
     
-    @include if_not_empty($y_center)
+    +if_not_empty($y_center)
         align-items: $y_center
 
 
 // common font declarations
 @mixin font($size: '', $height: '', $color: '', $weight: '')
-    @include if_not_empty($size)
+    +if_not_empty($size)
         font-size: $size
     
-    @include if_not_empty($height)
+    +if_not_empty($height)
         line-height: $height
     
-    @include if_not_empty($color)
+    +if_not_empty($color)
         color: $color
     
-    @include if_not_empty($weight)
+    +if_not_empty($weight)
         font-weight: $weight
 
 
@@ -43,14 +43,14 @@
 @mixin absolute($top: '', $right: '', $bottom: '', $left: '')
     position: absolute
 
-    @include if_not_empty($top)
+    +if_not_empty($top)
         top: $top
 
-    @include if_not_empty($right)
+    +if_not_empty($right)
         right: $right
 
-    @include if_not_empty($bottom)
+    +if_not_empty($bottom)
         bottom: $bottom
 
-    @include if_not_empty($left)
+    +if_not_empty($left)
         left: $left

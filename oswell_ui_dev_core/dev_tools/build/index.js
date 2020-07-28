@@ -49,7 +49,6 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         } : {}),
 
         optimization: {
-            // runtimeChunk: 'single',
             splitChunks: {
                 chunks: 'all'
             }
@@ -77,8 +76,8 @@ const statsOptions = {
 
 module.exports = {
     run: (CONFIG, RUN_PARAMS) => new Promise(resolve => {
-        const webpackConfig = getWebpackConfig(CONFIG, RUN_PARAMS);
-        const webpackCompiller = webpack(webpackConfig);
+        const webpackConfig = getWebpackConfig(CONFIG, RUN_PARAMS)
+        const webpackCompiller = webpack(webpackConfig)
 
         if (!RUN_PARAMS.isDevServer) {
             webpackCompiller.run((err, stats) => {

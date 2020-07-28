@@ -38,7 +38,7 @@ function extractProps
     isE(result.className) || (result.className = '')
 
     if (defaultTheme) {
-        //TODO merge values instead keys. or not to do
+        //TODO: merge values instead keys. or not to do
         result.theme = theme
             ?   Object.assign({}, defaultTheme, theme)
             :   defaultTheme;

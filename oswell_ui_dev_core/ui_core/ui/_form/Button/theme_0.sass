@@ -10,7 +10,7 @@ $ID: '.-ui-button'
     --p-secondary_hover:    #C7322F
     --p-secondary_disabled: #F7A8A1
 
-    @include font(16px, 1, var(--white))
+    +font(16px, 1, var(--white))
     cursor: pointer
     height: 44px
     padding: 0 36px
@@ -70,7 +70,7 @@ $ID: '.-ui-button'
     $shadow_piece: 0 0 16px var(--white)
     $shadow-pinbot: -16px $shadow_piece, 16px $shadow_piece
 
-    @include absolute('','', 0, 50%)
+    +absolute('','', 0, 50%)
     transform: translate(-50%, 50%)
     z-index: 2
     box-shadow: $shadow-pinbot
@@ -80,7 +80,7 @@ $ID: '.-ui-button'
 
 
 #{$ID}__with-icon
-    @include flex('', center)
+    +flex('', center)
     padding: 0 19px
 
     svg
