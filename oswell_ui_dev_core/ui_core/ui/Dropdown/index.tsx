@@ -27,9 +27,9 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
         let wrapperClass;
 
         if (builder) {
-            const { elem, parentCLassName } = builder(title, children)
+            const { elem, parentClassName } = builder(title, children)
             title = elem;
-            wrapperClass = parentCLassName
+            wrapperClass = parentClassName
         }
 
         return children

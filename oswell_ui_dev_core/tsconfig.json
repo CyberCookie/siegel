@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+		"target": "esnext",
+		"moduleResolution": "node",
+		"module": "esnext",
+		"allowJs": true,
+		"noEmit": true,
+		"noEmitHelpers": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"jsx": "react",
+		"baseUrl": "./"
+	},
+    "include": [
+		"./ui_core",
+		"./ui_core/_test/ComponentsDemoPage"
+	]
+}  

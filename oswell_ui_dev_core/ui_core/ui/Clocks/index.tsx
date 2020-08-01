@@ -1,8 +1,7 @@
-//TODO: configurable time speed
-import React, { useState, useLayoutEffect } from 'react'
+import { useState, useLayoutEffect } from 'react'
 
-import { msIn } from '../../utils/date/consts'
 import dateParse from '../../utils/date/parse'
+import { msIn } from '../../utils/date/consts'
 import { extractProps } from '../ui_utils'
 import { _Clocks } from './types'
 
@@ -10,48 +9,56 @@ import { _Clocks } from './types'
 const componentID = '-ui-clocks'
 
 const Clocks: _Clocks = (props, noDefaults) => {
-    const { className, updateInterval, builder, zeroing, attributes } = noDefaults
+    const { builder, initDate, zeroing, incrementEveryMinute, speedCoef  } = noDefaults
         ?   extractProps(Clocks.defaults, props)
         :   (props as _Clocks['defaults'] & typeof props)
 
-    const getNextClockState = () => builder(dateParse(Date.now(), zeroing))
+
+    const [ date, setDate ] = useState(initDate ? new Date(initDate) : new Date())
+
     
-    const [ parsedDate, setState ] = useState(getNextClockState())
-
-    const clocksRootProps = {
-        className,
-        children: parsedDate
-    }
-    attributes && (Object.assign(clocksRootProps, attributes))
-
     useLayoutEffect(() => {
-        const date = new Date()
+        const isNotNormalSpeed = speedCoef != 1
 
-        let deltaTime = updateInterval - date.getMilliseconds()
-        updateInterval == msIn.minute && (deltaTime -= (date.getSeconds() * 1000))
+        function tick() {
+            const newDate = isNotNormalSpeed
+                ?   (new Date(date.setMilliseconds(date.getMilliseconds() + msInIncrementValue)))
+                :   (new Date())
+
+            setDate(newDate)
+        }
+        
+        const msInIncrementValue = incrementEveryMinute ? msIn.minute : msIn.second;
+
+        let deltaToFirstTick = msInIncrementValue - date.getMilliseconds()
+        incrementEveryMinute && (deltaToFirstTick -= (date.getSeconds() * msIn.second))
+        
+        let updateInterval = msInIncrementValue;
+        if (isNotNormalSpeed) {
+            deltaToFirstTick /= speedCoef;
+            updateInterval /= speedCoef
+        }
+
 
         let intervalID: number;
-        const timeoutID = setTimeout(() => {
+        const deltaToFirstTickTimeoutID = setTimeout(() => {
             tick()
             intervalID = (setInterval as typeof window.setInterval)(tick, updateInterval)
-        }, deltaTime)
+        }, deltaToFirstTick)
         
 
         return () => {
-            clearTimeout(timeoutID)
+            clearTimeout(deltaToFirstTickTimeoutID)
             clearInterval(intervalID)
         }
     }, [])
 
 
-    function tick() { setState(getNextClockState()) }
-
-
-    return <div {...clocksRootProps} />
+    return (builder ? builder(dateParse(date, zeroing)) : date.toISOString()) as React.ReactElement
 }
 Clocks.defaults = {
-    className: componentID,
-    updateInterval: 1000,
+    speedCoef: 1,
+    incrementEveryMinute: true,
     zeroing: true
 }
 Clocks.ID = componentID;

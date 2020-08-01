@@ -16,15 +16,7 @@ type DefaultProps = {
     deltaPos: number
 }
 
-type MergedProps = Props & DefaultProps
-
-type State = {
-    mouseDownPos: number | null
-    swipeStart: boolean
-    blocked: boolean
-}
-
 type _Swipe = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, State, HTMLSwipeMouseEvent, _Swipe }
+export { Props, DefaultProps, HTMLSwipeMouseEvent, _Swipe }

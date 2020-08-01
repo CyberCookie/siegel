@@ -1,23 +1,22 @@
-import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
-import { DateParsed } from '../../utils/date/parse'
+import { PropsComponentBase, CoreIUComponent } from '../ui_utils'
+import dateParse from '../../utils/date/parse'
 
 
 type Props = {
-    builder: (x: DateParsed) => any
-    updateInterval?: number
+    initDate: Date
     zeroing?: boolean
-    attributes?: ComponentAttributes
+    incrementEveryMinute?: boolean
+    speedCoef?: number
+    builder?: (dateParsed: ReturnType<typeof dateParse>) => React.ReactNode
 } & PropsComponentBase
 
 type DefaultProps = {
-    className: NonNullable<Props['className']>
-    updateInterval: NonNullable<Props['updateInterval']>
+    speedCoef: NonNullable<Props['speedCoef']>
+    incrementEveryMinute: NonNullable<Props['incrementEveryMinute']>
     zeroing: NonNullable<Props['zeroing']>
-}
-
-type MergedProps = Props & DefaultProps
+} & PropsComponentBase
 
 type _Clocks = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Clocks }
+export { Props, DefaultProps, _Clocks }

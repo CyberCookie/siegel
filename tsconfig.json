@@ -1,14 +1,6 @@
 {
+	"extends": "./oswell_ui_dev_core/tsconfig.json",
     "compilerOptions": {
-		"target": "esnext",
-		"moduleResolution": "node",
-		"module": "esnext",
-		"allowJs": true,
-		"noEmit": true,
-		"noEmitHelpers": true,
-		"strict": true,
-		"esModuleInterop": true,
-		"jsx": "react",
 		"baseUrl": "./",
 		"paths": {
 			"core/*": ["./oswell_ui_dev_core/ui_core/*"],

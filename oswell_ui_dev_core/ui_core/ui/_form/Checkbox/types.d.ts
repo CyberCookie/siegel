@@ -2,12 +2,12 @@ import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../.
 
 
 type WrapperProps = {
-    className?: string
+    className: MergedProps['className']
     onMouseDown?: (e: React.MouseEvent) => void
 }
 
-type ThemeKeys = 'label' | 'checkbox' | '_checked' | '_disabled' | 'with_icon_wrapper'
 
+type ThemeKeys = 'label' | 'checkbox' | '_checked' | '_disabled' | 'with_icon_wrapper'
 
 //TODO: attributes type depends on label <> icon
 type Props = {

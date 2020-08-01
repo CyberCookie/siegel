@@ -15,7 +15,7 @@ type DateParsed = {} & DateParsedZeroed & DateParsedNonZeroed
  * @param zeroPrefix - determine whether to prefix date parts if it's < 10
  * @returns parsed date object
 */
-const dateParse = (date: string | number = Date.now(), zeroPrefix?: boolean) => {
+const dateParse = (date: Date | number = Date.now(), zeroPrefix?: boolean) => {
     const localDate = new Date(date)
 
     const result: DateParsedZeroed = {

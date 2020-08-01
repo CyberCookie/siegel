@@ -2,6 +2,12 @@ import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
 import { InputTagProps } from '../input_field_attributes'
 
 
+type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
+    error: '' | null,
+    filled: '' | null
+}
+
+
 type ThemeKeys = 'field' | 'textarea' | 'extra' | 'error_text' | 'label' | 'label_text'
     | '_filled' | '_error' | keyof InputTagProps['theme']
 
@@ -23,9 +29,5 @@ type MergedProps = Props & DefaultProps
 
 type _Input = CoreIUComponent<Props, DefaultProps>
 
-type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
-    error: '' | null,
-    filled: '' | null
-}
 
 export { Props, DefaultProps, MergedProps, ComponentRootAttributes, _Input }

@@ -1,6 +1,9 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
+type SwitchSlide = (nextPage: number) => void
+
+
 type ThemeKeys = 'slides_wrapper' | 'slide' | 'slide__active' | 'controls_wrapper' | 'control' | 'control__active'
 
 type Props = {
@@ -26,4 +29,4 @@ type MergedProps = Props & DefaultProps
 type _Slider = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Slider }
+export { Props, DefaultProps, MergedProps, _Slider, SwitchSlide }

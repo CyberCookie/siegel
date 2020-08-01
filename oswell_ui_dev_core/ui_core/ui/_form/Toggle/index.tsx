@@ -1,13 +1,8 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
-import { _Toggle } from './types'
+import { _Toggle, ToggleRootProps } from './types'
 
-
-type ToggleRootProps = {
-    className?: string,
-    onMouseDown?: (e: React.MouseEvent) => void
-}
 
 const componentID = '-ui-toggle'
 

@@ -101,7 +101,7 @@ const DataTable: _DataTable = (props, noDefaults) => {
     withPagination && (dataTableTableProps.foot = [{
         children: [{
             value: getPagination(mergedProps, resultIDs),
-            attributes: { colspan: '100%' }
+            attributes: { colSpan: 100 }
         }]
     }])
     tableAttributes && (dataTableTableProps.attributes = tableAttributes)

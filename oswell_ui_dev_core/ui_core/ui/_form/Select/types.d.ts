@@ -1,6 +1,13 @@
 import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
+type SelectRootProps = {
+    ref: React.MutableRefObject<HTMLDivElement>
+    className: MergedProps['className']
+    onMouseDown?: (e: React.MouseEvent) => void
+}
+
+
 type ThemeKeys = 'label' | 'title' | 'input_wrapper' | '_active' | '_disabled' | 'options'
     | 'option' | '_option_active' | '_option_disabled'
 
@@ -33,4 +40,4 @@ type MergedProps = Props & DefaultProps
 type _Select = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Select }
+export { Props, DefaultProps, MergedProps, _Select, SelectRootProps }

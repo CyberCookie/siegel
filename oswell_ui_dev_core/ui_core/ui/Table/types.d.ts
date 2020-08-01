@@ -26,7 +26,6 @@ type TableBodyRow = {
 
 
 
-
 type Props = {
     head?: TableHeadRow[]
     body?: TableBodyRow[]

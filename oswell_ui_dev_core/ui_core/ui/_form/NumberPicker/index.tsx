@@ -7,17 +7,8 @@ import isExists from '../../../utils/is_exists'
 import { extractProps, ComponentAttributes } from '../../ui_utils'
 import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
-import { _NumberPicker, MergedProps } from './types'
+import { _NumberPicker, MergedProps, BtnClickEv, BtnProps, InputFieldProps, OnNumberPickerChange } from './types'
 
-
-type BtnClickEv = React.MouseEvent<HTMLButtonElement>
-type BtnProps = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
-type InputFieldProps = ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
-type OnNumberPickerChange = (
-    value: number,
-    e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>,
-    isButtonClick?: boolean
-) => void
 
 const componentID = '-ui-number_picker'
 

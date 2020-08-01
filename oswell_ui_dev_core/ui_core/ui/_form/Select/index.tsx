@@ -3,15 +3,8 @@ import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../../utils/is_touchscreen'
 import { extractProps, ComponentAttributes } from '../../ui_utils'
-import { MergedProps, _Select } from './types'
+import { MergedProps, _Select, SelectRootProps } from './types'
 
-
-type SelectRootProps = {
-    ref: React.MutableRefObject<HTMLDivElement>
-    className?: string
-    disabled?: boolean
-    onMouseDown?: (e: React.MouseEvent) => void
-}
 
 const componentID = '-ui-select'
 

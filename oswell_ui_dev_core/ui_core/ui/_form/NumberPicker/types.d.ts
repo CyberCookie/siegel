@@ -1,5 +1,15 @@
-import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
+import { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../../ui_utils'
 import { InputTagProps } from '../input_field_attributes'
+
+
+type BtnClickEv = React.MouseEvent<HTMLButtonElement>
+type BtnProps = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
+type InputFieldProps = ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+type OnNumberPickerChange = (
+    value: number,
+    e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>,
+    isButtonClick?: boolean
+) => void
 
 
 type ThemeKeys = '_disabled_all' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
@@ -36,4 +46,4 @@ type MergedProps = Props & DefaultProps
 type _NumberPicker = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _NumberPicker }
+export { Props, DefaultProps, MergedProps, _NumberPicker, BtnClickEv, BtnProps, InputFieldProps, OnNumberPickerChange }

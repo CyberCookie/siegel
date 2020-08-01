@@ -6,6 +6,7 @@ type ListElement = {
     children?: ListElement[]
 }
 
+
 type ThemeKeys = 'item' | 'item_title' | 'item__empty'
 
 type Props = {
@@ -14,7 +15,7 @@ type Props = {
     soloOpen?: boolean
     builder?: (title: React.ReactNode, children?: ListElement[]) => ({
         elem: React.ReactNode,
-        parentCLassName: string
+        parentClassName: string
     })
     attributes?: ComponentAttributes
 } & PropsComponentThemed<ThemeKeys>
