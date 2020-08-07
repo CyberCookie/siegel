@@ -12,7 +12,7 @@ const DEFAULT_PUBLICK_PATH = '/'
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
     const { input, output, aliases = {}, publicPath = DEFAULT_PUBLICK_PATH, postProcessWebpackConfig } = CONFIG.build;
     const { isProd, isDevServer } = RUN_PARAMS;
-
+    
     aliases['react-dom'] = '@hot-loader/react-dom'
 
 
@@ -35,27 +35,26 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             filename: isProd ? 'app.[contenthash].js' : 'app.[hash].js',
         },
 
-        ...( isProd ? {
-                optimization: {
-                    minimizer: [
-                        new terserPlugin({
-                            terserOptions: {
-                                output: { comments: false }
-                            },
-                            extractComments: false
-                        })
-                    ]
-                }
-        } : {}),
 
         optimization: {
             splitChunks: {
                 chunks: 'all'
-            }
+            },
+
+            ...( isProd ? {
+                minimizer: [
+                    new terserPlugin({
+                        terserOptions: {
+                            output: { comments: false }
+                        },
+                        extractComments: false
+                    })
+                ]
+            } : {})
         },
         
         plugins: defaultPluginsResolve(CONFIG, RUN_PARAMS),
-        module: { rules: defaultModulesResolve(CONFIG, RUN_PARAMS) }
+        module: defaultModulesResolve(CONFIG, RUN_PARAMS)
     }
     
     if (typeof postProcessWebpackConfig == 'function') {

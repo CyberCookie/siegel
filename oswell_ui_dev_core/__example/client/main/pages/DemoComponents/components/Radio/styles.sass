@@ -1,0 +1,34 @@
+@import 'core-ui/utils'
+@import '../theme'
+    
+    
+.radio
+    display: flex
+
+    &:not(._disabled) .option:not(.option__selected):hover
+        background: $primary
+        color: $white
+
+.option
+    +font(24px, '', $primary)
+    border-radius: $radius
+    padding: $gutter
+    margin: 0 $gutter_sm
+    transition: $transition
+    cursor: pointer
+
+
+.option__selected
+    background: $secondary
+    color: $white
+
+._disabled
+    .option
+        cursor: default
+
+        &.option__selected
+            color: $white
+            background: $border_color
+        
+        &:not(.option__selected)
+            color: $border_color

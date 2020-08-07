@@ -12,8 +12,8 @@ const reducers = {
     }),
 
     [ACTION_IDS.FETCH_END]: (state, action) => {
-        let successResponses = [...state.success]
-        let id = action.data;
+        const successResponses = [...state.success]
+        const id = action.data;
 
         successResponses.includes(id) || successResponses.push(id)
             
@@ -25,9 +25,9 @@ const reducers = {
     },
 
     [ACTION_IDS.FETCH_ERROR]: (state, action) => {
-        let { status, message } = action.error;
-        let id = action.data;
-        let newError = { status, message, id }
+        const { status, message } = action.error;
+        const id = action.data;
+        const newError = { status, message, id }
 
         return {
             requests: filterSuccess(state.requests, id),

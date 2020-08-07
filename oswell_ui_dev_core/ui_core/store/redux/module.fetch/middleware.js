@@ -4,8 +4,8 @@ import { ACTION_IDS, FETCH_ACTION_TYPE } from './cfg'
 
 
 function dispatchResponse(store, action, resData, error) {
-    let { id, beforeDispatch, payload } = action;
-    let dispatchObject = {
+    const { id, beforeDispatch, payload } = action;
+    const dispatchObject = {
         _FETCH_ID: resData ? ACTION_IDS.FETCH_END : ACTION_IDS.FETCH_ERROR,
         data: id,
         error
@@ -31,7 +31,7 @@ export default store => next => action => {
         return next(action)
     }
 
-    let _dispatchResponse = dispatchResponse.bind(null, store, action)
+    const _dispatchResponse = dispatchResponse.bind(null, store, action)
 
     store.dispatch({
         _FETCH_ID: ACTION_IDS.FETCH_START,

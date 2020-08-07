@@ -18,7 +18,7 @@ const Swipe: _Swipe = (props, noDefaults) => {
     let swipeRootAttributes: React.HTMLAttributes<HTMLDivElement> = { className, children }
     _isTouchScreen
         ?   (swipeRootAttributes.onTouchStart = onMouseDown)
-        :   (swipeRootAttributes.onMouseDown = onMouseDown);
+        :   (swipeRootAttributes.onMouseDown = onMouseDown)
 
     attributes && (swipeRootAttributes = Object.assign(swipeRootAttributes, attributes))
 
@@ -35,12 +35,12 @@ const Swipe: _Swipe = (props, noDefaults) => {
     
             return _isTouchScreen
                 ?   (xAxis ? touches[0].screenX : touches[0].screenY)
-                :   (xAxis ? x : y) 
+                :   (xAxis ? x : y)
         }
 
         const mouseDownPos = getMousePos(e.nativeEvent)
         let swipeStart = true;
-        let blocked = false;
+        let isBlocked = false;
 
 
         if (_isTouchScreen) {
@@ -55,17 +55,17 @@ const Swipe: _Swipe = (props, noDefaults) => {
             e.stopPropagation()
             
             swipeStart = false;
-            blocked = false;
+            isBlocked = false;
             removeTouchEvents()
         }
     
         function onMouseMove(e: HTMLSwipeMouseEvent) {
-            if (mouseDownPos && swipeStart && !blocked) {
+            if (mouseDownPos && swipeStart && !isBlocked) {
                 const deltaPosition = getMousePos(e) - mouseDownPos;
     
                 if (Math.abs(deltaPosition) > deltaPos) {
-                    onSwipe(deltaPosition > 0, e)
-                    blocked = true
+                    onSwipe(deltaPosition < 0, e)
+                    isBlocked = true
                 }
             }
         }

@@ -153,8 +153,9 @@ function getPlugins(CONFIG, RUN_PARAMS) {
             enabled: input.html,
             options: {
                 template: input.html,
+                // scriptLoading: 'defer',
                 minify: {
-                    collapseWhitespace: true
+                    collapseWhitespace: true,
                 }
             }
         },

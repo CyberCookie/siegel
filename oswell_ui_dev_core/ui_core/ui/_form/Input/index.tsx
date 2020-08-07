@@ -5,9 +5,8 @@ import { extractProps } from '../../ui_utils'
 import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
 import { _Input } from './types'
+import componentID from './id'
 
-
-const componentID = '-ui-input'
 
 //[email, password, search, tel, text, url, (textarea)]
 const Input: _Input = (props, noDefaults) => {

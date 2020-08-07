@@ -1,0 +1,12 @@
+=add_icon($icon)
+    // font-icon: url('../icons/svg_sources/#{$icon}.svg')
+    @content
+
+=icon($icon)
+    .#{to-lower-case($icon)}:before
+        +add_icon($icon)
+            @content
+
+
++icon(eye_enable)
++icon(users)

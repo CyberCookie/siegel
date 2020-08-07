@@ -3,7 +3,7 @@ import { InputTagProps } from '../input_field_attributes'
 
 
 type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
-    error: '' | null,
+    error: '' | null
     filled: '' | null
 }
 

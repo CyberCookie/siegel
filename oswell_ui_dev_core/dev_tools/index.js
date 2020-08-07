@@ -1,78 +1,70 @@
 process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
+
 const CONSTANTS = require('../constants')
+const normalizeConfigs = require('./normalize_configs')
 
 
-const main = async function (CONFIG = {}, RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PARAMS) {
-    RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer;
-    
+const main = async function (CONFIG, RUN_PARAMS) {
+    normalizeConfigs(CONFIG, RUN_PARAMS)
+    const { isBuild, isDevServer, isServer } = RUN_PARAMS;
+
+
     let devMiddlewares = []
-    if (RUN_PARAMS.isBuild) {
+    if (isBuild) {
         const { run, getDevMiddlewares } = require(CONSTANTS.PATHS.build)
         const webpackCompiller = await run(CONFIG, RUN_PARAMS)
         
-        if (RUN_PARAMS.isDevServer) {
+        if (isDevServer) {
             devMiddlewares = Object.values(getDevMiddlewares(CONFIG, webpackCompiller))
         }
     }
     
     
-    if (RUN_PARAMS.isServer) {
+    if (isServer) {
         const { extenderLoc, watch } = CONFIG.server;
         const devServerLoc = CONSTANTS.PATHS.staticServer;
 
         const devServer = require(devServerLoc)
-        const initDevServer = extendExpressDevServer => devServer.run(CONFIG, devMiddlewares, extendExpressDevServer)
 
-        
-        if (extenderLoc) {
-            function getCustomExpressExtender() {
+        function initDevServer() {
+            let extender;
+            if (extenderLoc) {
                 try {
-                    const userExtendExpressDevServer = require(extenderLoc)
-                    if (typeof userExtendExpressDevServer === 'function') {
-                        return userExtendExpressDevServer;
-                    } else throw '[extenderLoc] export type is not a function'
+                    const _extender = require(extenderLoc)
+
+                    if (typeof _extender == 'function') extender = _extender;
+                    else throw '[extenderLoc] export type is not a function'
                 } catch(err) { console.error(err) }
             }
-            
-            const extendExpressDevServer = getCustomExpressExtender()
-            let devServerInstance = initDevServer(extendExpressDevServer)
 
-            if (watch) {
-                let lock = false;
+            return devServer.run(CONFIG, devMiddlewares, extender)
+        }
 
-                require('fs')
-                    .watch(extenderLoc)
-                    // .watch(devServerLoc)
-                    .on('change', () => {
-                        lock || (lock = setTimeout(() => {
-                            delete require.cache[extenderLoc]
-                            // delete require.cache[devServerLoc]
+        
+        let devServerInstance = initDevServer()
+        if (watch) {
+            let lock = false;
+            function reInitDevServer() {
+                delete require.cache[extenderLoc]
+                // delete require.cache[devServerLoc]
 
-                            devServerInstance.close()
-                            devServerInstance = initDevServer(getCustomExpressExtender())
+                devServerInstance.close()
+                devServerInstance = initDevServer()
 
-                            lock = false
-                        }, 100))
-                    })
+                lock = false
             }
-        } else {
-            initDevServer()
+
+
+            require('fs')
+                .watch(extenderLoc)
+                // .watch(devServerLoc)
+                .on('change', () => {
+                    lock || (lock = setTimeout(reInitDevServer, 100))
+                })
         }
     }
-    
-    
-    // if (RUN_PARAMS.isStorybook) {
-        // require('@storybook/react/standalone')
-        //     ({
-        //         mode: 'dev',
-        //         port: 9010,
-        //         configDir: path.join('src', 'core', '.dev', 'stories')
-        //     })
-        //     .then(console.log)
-        //     .catch(console.error)
-    // }
 }
 
 

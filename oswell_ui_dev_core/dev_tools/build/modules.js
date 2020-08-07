@@ -14,23 +14,14 @@ function getModules(CONFIG, RUN_PARAMS) {
     const isExtractCSS = isProd || !isServer;
 
 
-    let loadersInclude = [CONSTANTS.PATHS.uiCore]
-    Array.isArray(input.include)
-        ?   (loadersInclude = loadersInclude.concat(input.include))
-        :   loadersInclude.push(input.include)
-    
-    let loadersExclude = [/*CONSTANTS.PATHS.nodeModules*/]
-    Array.isArray(input.exclude)
-        ?   (loadersExclude = loadersExclude.concat(input.exclude))
-        :   loadersInclude.push(input.exclude)
+    const loadersInclude = ([ CONSTANTS.PATHS.uiCore ]).concat(input.include)
 
 
 
-    const MODULE_RULES = [
+    return { rules: [
         {
             test: /\.(js|jsx|ts|tsx)$/,
             include: loadersInclude,
-            exclude: loadersExclude,
             use: [
                 {
                     loader: 'babel-loader',
@@ -49,8 +40,7 @@ function getModules(CONFIG, RUN_PARAMS) {
                 {
                     loader: 'eslint-loader',
                     options: {
-                        emitWarning: true,
-                        // eslintPath: __dirname
+                        emitWarning: true
                     }
                 }
             ]
@@ -59,7 +49,6 @@ function getModules(CONFIG, RUN_PARAMS) {
         {
             test: /\.sass$/,
             include: loadersInclude,
-            exclude: loadersExclude,
             use: [
                 isExtractCSS ? miniCssExtract.loader : 'style-loader',
                 
@@ -82,6 +71,7 @@ function getModules(CONFIG, RUN_PARAMS) {
                         plugins: loader => [
                             autoprefixer({ overrideBrowserList: 'last 1 version' }),
                             cssMinifier({ preset: 'default' })
+                            //TODO:
                             // new cssSVG(loader)
                         ]
                     }
@@ -103,18 +93,9 @@ function getModules(CONFIG, RUN_PARAMS) {
                     }
                 }
             ]
-        },
-
-        // {
-        //     test: /\.(svg|eot|ttf|woff|woff2)?$/,
-        //     loader: "url-loader"
-        // }
-    ]
-
-
-    return MODULE_RULES
+        }
+    ]}
 }
-
 
 
 module.exports = getModules

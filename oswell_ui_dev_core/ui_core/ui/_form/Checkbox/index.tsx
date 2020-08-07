@@ -4,11 +4,10 @@ import { extractProps } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
 import getLabel from '../label'
 import { _Checkbox, WrapperProps } from './types'
+import componentID from './id'
 
 import s from './styles.sass'
 
-
-const componentID = '-ui-checkbox'
 
 const _onChange = (e: React.ChangeEvent) => {
     e.stopPropagation()

@@ -6,13 +6,13 @@ export default (appReducers, options = {}) => {
             ?   appReducers
             :   combineReducers(appReducers)
 
-    let middlewares = options.middlewares.length
+    const middlewares = options.middlewares.length
             ?   applyMiddleware(...options.middlewares)
             :   []
 
     if (options.RootReducer) {
-        let appReducerTemp = allReducers;
-        let appReducerWrapper = options.RootReducer;
+        const appReducerTemp = allReducers;
+        const appReducerWrapper = options.RootReducer;
 
         allReducers = (state, action) => appReducerTemp(
             appReducerWrapper(state, action),

@@ -1,0 +1,2 @@
+Finally! The package you been waiting for long!
+Webapp-dev-core by Oswell is already here to abstract all the boring routines you've been doing submissively on every project. Now nothing can stop you from diving into a business logic right after you've decided to install this package having saved your time needed to write a base.

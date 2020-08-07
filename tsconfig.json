@@ -10,9 +10,5 @@
 			"app/*": ["./client/main/*"]
 		}
 	},
-    "include": [
-		"./oswell_ui_dev_core",
-		"./client",
-		"./server"
-	]
-}  
+	"include": [ "./client", "./server", "./oswell_ui_dev_core" ]
+}

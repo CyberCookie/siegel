@@ -1,5 +1,5 @@
 export default _modules => {
-    let isSingleModule = !Array.isArray(_modules) || _modules.length == 1;
+    const isSingleModule = !Array.isArray(_modules) || _modules.length == 1;
     let stateBinding, actionsBinding, areStatePropsEqual;
     
     

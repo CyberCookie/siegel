@@ -9,10 +9,7 @@
 		"strict": true,
 		"esModuleInterop": true,
 		"jsx": "react",
-		"baseUrl": "./"
+		"baseUrl": "./",
 	},
-    "include": [
-		"./ui_core",
-		"./ui_core/_test/ComponentsDemoPage"
-	]
-}  
+    "include": [ "./ui_core" ]
+}

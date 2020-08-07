@@ -1,0 +1,14 @@
+{
+	"extends": "../tsconfig.json",
+    "compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"core/*": ["../ui_core/*"],
+			"core-store/*": ["../ui_core/store/*"],
+			"core-ui/*": ["../ui_core/ui/*"],
+			"core-utils/*": ["../ui_core/utils/*"],
+			"app/*": ["./client/main/*"]
+		}
+	},
+	"include": [ "./client", "./server", "./oswell_ui_dev_core" ]
+}

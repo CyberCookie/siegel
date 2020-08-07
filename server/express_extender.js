@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('../oswell_ui_dev_core/__server_deps/express')
 
 
 module.exports = app => {
@@ -6,7 +6,7 @@ module.exports = app => {
 
 
     app.post('/api/test', (req, res) => {
-        let body = req.body;
+        const body = req.body;
 
         res.json({
             sent: body,

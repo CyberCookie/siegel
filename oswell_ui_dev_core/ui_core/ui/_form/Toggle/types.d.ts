@@ -2,7 +2,7 @@ import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../.
 
 
 type ToggleRootProps = {
-    className: MergedProps['className'],
+    className: MergedProps['className']
     onMouseDown?: (e: React.MouseEvent) => void
 }
 

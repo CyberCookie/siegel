@@ -110,7 +110,7 @@ const Slider: _Slider = (props, noDefaults) => {
 
     const switchSlide: SwitchSlide = nextPage => {
         const { slideArea, firstSlidePage } = getSlideElements(sliderRootProps.ref.current.childNodes, withControlls)
-        const offset = (nextPage * -firstSlidePage.offsetWidth) + 'px';
+        const offset = (nextPage * -firstSlidePage.offsetWidth) + 'px'
 
         slideArea.style.setProperty('--offset_left', offset)
         slideArea.style.marginLeft = offset

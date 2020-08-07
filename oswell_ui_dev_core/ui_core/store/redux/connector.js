@@ -11,9 +11,9 @@ const bindActions = (actions, propKey) => dispatch => ({
 })
 
 function bindStateKeys(state, keys, storeName) {
-    let result = {}
+    const result = {}
     for (let i = 0, l = keys[storeName].length; i < l; i++) {
-        let prop = keys[storeName][i]
+        const prop = keys[storeName][i]
         result[prop] = state[storeName][prop]
     }
 
@@ -27,7 +27,7 @@ const bindState = (keys, propName, singleStoreName) => state => {
     if (singleStoreName) {
         result = bindStateKeys(state, keys, singleStoreName)
     } else {
-        for (let storeKey in keys) {
+        for (const storeKey in keys) {
             result[storeKey] = bindStateKeys(state, keys, storeKey)
         }
     }
@@ -37,7 +37,7 @@ const bindState = (keys, propName, singleStoreName) => state => {
 
 function connector({ stateBinding, actionsBinding, areStatePropsEqual, reduxOptions, options = {} }) {
     let _keys, _actions;
-    let mergeFunc = options.mergeFunc || null;
+    const mergeFunc = options.mergeFunc || null;
 
     if (areStatePropsEqual && !reduxOptions) {
         reduxOptions = {
@@ -47,15 +47,15 @@ function connector({ stateBinding, actionsBinding, areStatePropsEqual, reduxOpti
     }
 
     if (typeof stateBinding == 'object') {
-        let storePropKey = DEFAULT_STORE_PROP_KEY || options.storePropKey;
-        let storesToMap = Object.keys(stateBinding)
-        let singleStoreName = storesToMap.length == 1 && storesToMap[0]
+        const storePropKey = DEFAULT_STORE_PROP_KEY || options.storePropKey;
+        const storesToMap = Object.keys(stateBinding)
+        const singleStoreName = storesToMap.length == 1 && storesToMap[0]
 
         _keys = bindState(stateBinding, storePropKey, singleStoreName)
     }
 
     if (typeof actionsBinding == 'object') {
-        let actionsPropKey = DEFAULT_ACTIONS_PROP_KEY || options.actionsPropKey;
+        const actionsPropKey = DEFAULT_ACTIONS_PROP_KEY || options.actionsPropKey;
         _actions = bindActions(actionsBinding, actionsPropKey)
     }
 

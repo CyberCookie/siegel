@@ -10,12 +10,22 @@ const PATHS = {
 }
 
 
+const DEFAULT_CONFIG = {
+    server: {
+        host: 'localhost',
+        port: 3000
+    },
+
+    build: {
+        aliases: {}
+    }
+}
+
 const DEFAULT_RUN_PARAMS = {
     isServer: true,
     isBuild: true,
-    // isStorybook: false,
-    isProd: true
+    isProd: false
 }
 
 
-module.exports = { PATHS, DEFAULT_RUN_PARAMS }
+module.exports = { PATHS, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG }
