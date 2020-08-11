@@ -1,0 +1,63 @@
+@import '~core-ui/utils'
+@import './components/theme'
+
+
+$border_color: grey
+$border: $border
+
+
+.page
+    --border_color: #{$border_color}
+    --border: 1px solid var(--border_color)
+
+    +absolute(0, '','', 0)
+    display: flex
+    width: 100%
+    height: 100%
+    user-select: none
+    
+.sidebar
+    +font(20px, 30px)
+    padding: $gutter_lg
+    border-right: var(--border)
+    flex-shrink: 0
+
+    & > div
+        cursor: pointer
+
+        &:hover
+            font-weight: 600
+
+.active
+    font-weight: 600
+
+.demo_component
+    padding: 0 $gutter_lg $gutter
+    flex-grow: 1
+    height: 100%
+    overflow: auto
+
+    h1
+        +font(34px, '','', 600)
+        border-bottom: var(--border)
+        margin: 0 -#{$gutter_lg}
+        padding: $gutter $gutter_lg
+    
+    h2
+        +font(22px, '','', 500)
+        padding: $gutter 0
+
+        &:not(:first-of-type)
+            border-top: var(--border)
+            padding-top: $gutter_lg
+            margin-top: $gutter_lg
+    
+    h3
+        +font(16px, '','', 400)
+        padding-bottom: $gutter_sm
+
+
+@media (prefers-color-scheme: dark)
+    .page
+        --border_color: #4e4e4e
+        background: #2d2d2d

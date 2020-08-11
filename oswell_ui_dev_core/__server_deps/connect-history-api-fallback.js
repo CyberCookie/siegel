@@ -1,1 +1,0 @@
-module.exports = require('connect-history-api-fallback')

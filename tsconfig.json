@@ -1,14 +1,24 @@
 {
-	"extends": "./oswell_ui_dev_core/tsconfig.json",
     "compilerOptions": {
-		"baseUrl": "./",
-		"paths": {
-			"core/*": ["./oswell_ui_dev_core/ui_core/*"],
-			"core-store/*": ["./oswell_ui_dev_core/ui_core/store/*"],
-			"core-ui/*": ["./oswell_ui_dev_core/ui_core/ui/*"],
-			"core-utils/*": ["./oswell_ui_dev_core/ui_core/utils/*"],
-			"app/*": ["./client/main/*"]
-		}
+		"target": "esnext",
+		"moduleResolution": "node",
+		"module": "esnext",
+		"allowJs": true,
+		"noEmit": true,
+		"noEmitHelpers": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"jsx": "react",
+		"baseUrl": "./"
 	},
-	"include": [ "./client", "./server", "./oswell_ui_dev_core" ]
+	"include": [
+		"./__example/client",
+		"./ui_core",
+		"./ui_build",
+		"./server",
+		"./scripts",
+		"./index.js",
+		"./constants.js",
+		"./normalize_configs.js"
+	]
 }

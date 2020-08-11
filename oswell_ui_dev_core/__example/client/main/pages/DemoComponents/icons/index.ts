@@ -1,6 +1,0 @@
-export { default as icon } from './Icon'
-export { default as chevron } from './Chevron'
-export { default as check } from './Check'
-export { default as close } from './Close'
-export { default as moreVert } from './MoreVert'
-export { default as search } from './Search'
