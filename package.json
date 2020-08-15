@@ -5,9 +5,8 @@
     "author": "CyberCookie",
     "url": "",
     "config": {
-        "index": "./__example/server/index.js"
+        "index": "__example/server/index.js"
     },
-    "main": "./index.js",
     "scripts": {
         "dev": "npm run build_serv",
         "build_serv": "node $npm_package_config_index -b -s",
@@ -28,8 +27,8 @@
         "mime-types": "^2.1.27",
         "pm2": "^4.4.0",
         "react": "^16.13.0",
-        "react-dom": "^16.13.0",
-        "react-router-dom": "^5.2.0"
+        "react-router-dom": "^5.2.0",
+        "@hot-loader/react-dom": "^16.12.0"
     },
     "devDependencies": {
         "autoprefixer": "^9.8.6",
@@ -50,7 +49,6 @@
         "@types/react-dom": "^16.9.8",
         "@types/react-router-dom": "^5.1.5",
         "@types/webpack-env": "^1.15.2",
-        "@hot-loader/react-dom": "^16.12.0",
         "@babel/core": "^7.11.1",
         "@babel/plugin-proposal-class-properties": "^7.10.4",
         "@babel/plugin-proposal-export-default-from": "^7.10.4",

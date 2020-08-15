@@ -10,5 +10,5 @@
 			"app/*": ["./client/main/*"]
 		}
 	},
-	"include": [ "./client", "./server" ]
+	"exclude": [ "node_modueles" ]
 }

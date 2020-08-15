@@ -3,7 +3,7 @@ const rootPath = join(__dirname, '..')
 
 
 const APP = join(rootPath, 'client')
-const server = join(rootPath, 'server', 'express_extender.js')
+const server = join(rootPath, 'server', 'app_server.js')
 const output = join(rootPath, 'dist')
 
 const main = join(APP, 'main')

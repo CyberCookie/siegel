@@ -1,4 +1,4 @@
-const { dirname, join } = require('path')
+const { dirname, join, isAbsolute } = require('path')
 
 const CONSTANTS = require('./constants')
 
@@ -20,32 +20,34 @@ function mergeConfigWithDefaults(CONFIG, DEFAULT_CONFIG) {
 module.exports = (CONFIG, RUN_PARAMS) => {
     if (!CONFIG) { throw 'no config provided' }
 
+    const existsSync = require('fs').existsSync;
+
     if (typeof CONFIG == 'string') {
-        const existsSync = require('fs').existsSync;
-        const inputDirName = dirname(CONFIG)
-        
-        const output = existsSync(join(inputDirName, 'package.json'))
-            ?   join(inputDirName, 'dist')
-            :   join(inputDirName, '..', 'dist')
-
-
         CONFIG = {
             build: {
-                input: { js: CONFIG },
-                output
+                input: {
+                    js: isAbsolute(CONFIG)
+                        ?   CONFIG
+                        :   join(dirname(process.argv[1]), CONFIG)
+                }
             }
         }
-    } else if (!CONFIG.build) { throw 'no config build provided' }
+    } else if (!(CONFIG && CONFIG.build)) { throw 'no config build provided' }
 
 
     mergeConfigWithDefaults(CONFIG, CONSTANTS.DEFAULT_CONFIG)
-        
+
     const { input, output } = CONFIG.build;
 
-    if (!input) { throw 'no build.input provided' }
-    if (!input.js) { throw 'no build.input.js provided' }
-    if (!input.html) { throw 'no build.input.html provided' }
-    if (!output) { throw 'no build.output provided' }
+    if (!(input && input.js)) { throw 'no build.input.js provided' }
+
+    
+    if (!output) {
+        const inputDirName = dirname(input.js)
+        CONFIG.build.output = existsSync(inputDirName, 'package.json')
+            ?   join(inputDirName, 'dist')
+            :   join(inputDirName, '..', 'dist')   
+    }
 
     input.include || (input.include = dirname(input.js))
     
@@ -55,4 +57,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
     else RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PARAMS;
 
     RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer
+
+    console.log(CONFIG)
+    return { CONFIG, RUN_PARAMS }
 }

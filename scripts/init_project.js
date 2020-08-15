@@ -1,61 +1,74 @@
-const path = require('path')
+const { join, relative } = require('path')
 const fs = require('fs')
-const shell = require('child_process').execSync;
-
-const shellOptions = { stdio: 'inherit' }
-const scriptArguments = process.argv;
 
 
-
-//Copy test project
-const from = path.join(__dirname, '..', '__example')
-const to = path.join(process.cwd(), scriptArguments[2])
-
-shell(`mkdir -p ${to}`)
-shell(`cp -r ${from}/. ${to}`)
+const pckgJSON = 'package.json'
+const cwd = process.cwd()
+const targetPackageJSONPath = join(cwd, pckgJSON)
 
 
-
-//Update tsconfig.json and .eslintrc
-const packageJSON = require('../package.json')
-const n = '../Oswell-Webapp-template' || packageJSON.name
-const replaceDevPathWithModule = path => path.replace('..', n/*packageJSON.name*/)
+if (fs.existsSync(targetPackageJSONPath)) {
+    const shell = require('child_process').execSync;
+    const { PATHS } = require('../constants')
 
 
+    const toJSON = data => JSON.stringify(data, null, 4)
+    const replaceDevPathWithModule = path => path.replace('..', n/*devCorePackageJSON.name*/)
 
-const TSPath = path.join(to, 'tsconfig.json')
-const TSConfig = require(TSPath)
+    
+    //Copy test project
+    shell(`mkdir -p ${cwd}`)
+    shell(`cp -r ${PATHS.example}/. ${cwd}`)
 
-TSConfig.extends = replaceDevPathWithModule(TSConfig.extends)
 
-const paths = TSConfig.compilerOptions.paths;
-for (const alias in paths) {
-    paths[alias][0] = replaceDevPathWithModule(paths[alias][0])
+
+    const devCorePackageJSON = require(join(PATHS.root, pckgJSON))
+    const n = '../Oswell-Webapp-template' || devCorePackageJSON.name;
+
+    const targetPackageJSON = require(targetPackageJSONPath)
+
+    const TSPath = join(cwd, 'tsconfig.json')
+    const TSConfig = require(TSPath)
+
+    const ESLintPath = join(cwd, '.eslintrc')
+    const ESLintConfig = JSON.parse(fs.readFileSync(ESLintPath), 'utf8')
+
+
+
+ 
+    //Update project JSONs
+    const exampleDirPathFromRoot = relative(PATHS.root, PATHS.example)
+    let indexVar = devCorePackageJSON.config.index.replace(exampleDirPathFromRoot, '')
+    indexVar = indexVar.substr(indexVar.search(/\w/))
+    
+    targetPackageJSON.config = { index: indexVar }
+    targetPackageJSON.scripts = devCorePackageJSON.scripts;
+    fs.writeFileSync(targetPackageJSONPath, toJSON(targetPackageJSON))
+    
+    
+    
+    
+    TSConfig.extends = replaceDevPathWithModule(TSConfig.extends)
+    
+    const paths = TSConfig.compilerOptions.paths;
+    for (const alias in paths) {
+        paths[alias][0] = replaceDevPathWithModule(paths[alias][0])
+    }
+    paths['react/*'] = [ n + '/node_modules/react/*' ]
+    
+    fs.writeFileSync(TSPath, toJSON(TSConfig))
+    
+    
+    
+    
+    ESLintConfig.extends = replaceDevPathWithModule(ESLintConfig.extends[0])
+    fs.writeFileSync(ESLintPath, toJSON(ESLintConfig))
+    
+    
+    
+    //Run
+    process.argv.includes('--run') && shell('npm run dev', { stdio: 'inherit' })
+} else {
+    console.error('%s wasn`t found in current dir', pckgJSON)
+    process.exitCode = 1
 }
-paths['react/*'] = [ n + '/node_modules/react/*' ]
-paths['react-router-dom/*'] = [ n + '/node_modules/react-router-dom/*' ]
-
-fs.writeFileSync(TSPath, JSON.stringify(TSConfig, null, 4))
-
-
-
-
-const ESLintPath = path.join(to, '.eslintrc')
-const ESLintConfig = JSON.parse(fs.readFileSync(ESLintPath), 'utf8')
-
-ESLintConfig.extends = replaceDevPathWithModule(ESLintConfig.extends[0])
-
-fs.writeFileSync(ESLintPath, JSON.stringify(ESLintConfig, null, 4))
-
-
-
-//Install add the peerDependencies
-// if (scriptArguments.includes('--install')) {
-//     const peerDepsInstallRow = 'npm i -D ' + Object.keys(packageJSON.peerDependencies).join(' ')
-//     shell(peerDepsInstallRow, shellOptions)
-// }
-
-
-
-//Run
-scriptArguments.includes('--run') && shell('npm run dev', shellOptions)

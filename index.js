@@ -6,8 +6,8 @@ const CONSTANTS = require('./constants')
 const normalizeConfigs = require('./normalize_configs')
 
 
-const main = async function(CONFIG, RUN_PARAMS) {
-    normalizeConfigs(CONFIG, RUN_PARAMS)
+const main = async function(_CONFIG, _RUN_PARAMS) {
+    const { CONFIG, RUN_PARAMS } = normalizeConfigs(_CONFIG, _RUN_PARAMS)
     const { isBuild, isDevServer, isServer } = RUN_PARAMS;
 
 

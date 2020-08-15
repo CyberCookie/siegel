@@ -123,7 +123,7 @@ function getPlugins(CONFIG, RUN_PARAMS) {
                 to: path.join(
                         output,
                         path.relative(
-                            path.parse(input.html).dir,
+                            path.dirname(input.html),
                             input.assetsDir
                         )
                     )

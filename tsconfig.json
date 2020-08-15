@@ -11,14 +11,5 @@
 		"jsx": "react",
 		"baseUrl": "./"
 	},
-	"include": [
-		"./__example/client",
-		"./ui_core",
-		"./ui_build",
-		"./server",
-		"./scripts",
-		"./index.js",
-		"./constants.js",
-		"./normalize_configs.js"
-	]
+	"exclude": [ "node_modueles" ]
 }

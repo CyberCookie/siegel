@@ -70,7 +70,9 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
         }
     }
 
+    minusProps.tabIndex = plusProps.tabIndex = -1;
 
+    
     return (
         <div className={theme.controls}>
             <button {...minusProps} />
