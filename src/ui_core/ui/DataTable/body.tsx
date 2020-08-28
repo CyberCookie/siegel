@@ -99,7 +99,10 @@ function getBody(props: MergedProps, state: State) {
 
     let from, to;
     if (withPagination) {
-        from = (currentPage - 1) * showPerPage;
+        const maxPages = Math.ceil(processedList.length / showPerPage)
+        currentPage > maxPages && (state.currentPage = maxPages)
+
+        from = (state.currentPage - 1) * showPerPage;
         to = from + showPerPage
     } else {
         from = 0;

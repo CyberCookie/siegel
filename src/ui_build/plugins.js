@@ -7,6 +7,7 @@ const compressionPlugin     = require('compression-webpack-plugin')
 const cleanPlugin           = require('clean-webpack-plugin').CleanWebpackPlugin;
 const serviceWorkerPlugin   = require('serviceworker-webpack-plugin')
 const miniCssExtract        = require('mini-css-extract-plugin')
+const reactRefresh          = require('@pmmmwh/react-refresh-webpack-plugin')
 
 
 
@@ -168,6 +169,11 @@ function getPlugins(CONFIG, RUN_PARAMS) {
         clean: {
             plugin: cleanPlugin,
             enabled: true
+        },
+
+        reactRefresh: {
+            plugin: reactRefresh,
+            enabled: !isProd
         }
     }
 

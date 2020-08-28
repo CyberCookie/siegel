@@ -40,9 +40,9 @@ if (rootComponent) {
         }
     })
 
-    if (module.hot) {
-        module.hot.addStatusHandler((status: string) => {
-            status == 'idle' && console.clear()
-        })
-    }
+    // if (module.hot) {
+    //     module.hot.addStatusHandler((status: string) => {
+    //         status == 'idle' && console.clear()
+    //     })
+    // }
 }

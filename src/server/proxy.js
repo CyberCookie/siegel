@@ -1,5 +1,5 @@
-const http = require('http')
-const querystring = require('querystring')
+const http          = require('http')
+const querystring   = require('querystring')
 
 
 const proxy = (port, host) => (clientReq, clientRes) => {

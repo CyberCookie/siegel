@@ -6,7 +6,7 @@ const terserPlugin          = require('terser-webpack-plugin')
 const defaultPluginsResolve = require('./plugins')
 const defaultModulesResolve = require('./modules')
 
-const constants = require('../constants')
+const constants             = require('../constants')
 
 
 const DEFAULT_PUBLICK_PATH = '/'
@@ -14,10 +14,6 @@ const DEFAULT_PUBLICK_PATH = '/'
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
     const { input, output, aliases = {}, publicPath = DEFAULT_PUBLICK_PATH, postProcessWebpackConfig } = CONFIG.build;
     const { isProd, isDevServer } = RUN_PARAMS;
-    
-    aliases['react-dom'] = '@hot-loader/react-dom'
-
-    const modules = [ constants.PATHS.nodeModules ]
 
 
     let webpackConfig = {
@@ -27,9 +23,8 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         resolve: {
             alias: aliases,
             extensions: ['.js', '.jsx', '.ts', '.tsx', '.sass'],
-            modules
+            modules: [ constants.PATHS.nodeModules ]
         },
-        resolveLoader: { modules },
         entry: [
             ...( isDevServer ? ['webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true'] : [] ),
             input.js

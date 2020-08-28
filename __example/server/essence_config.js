@@ -25,7 +25,7 @@ function getAliasesFromTSconfig() {
 }
 
 
-const oswellDevCoreConfig = {
+const essenceConfig = {
     server: {
         extenderLoc: server,
         watch: true,
@@ -91,4 +91,4 @@ const oswellDevCoreConfig = {
 }
 
 
-module.exports = oswellDevCoreConfig
+module.exports = essenceConfig

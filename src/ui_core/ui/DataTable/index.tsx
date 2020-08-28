@@ -22,30 +22,19 @@ const initDataGridStore = () => useState({
 } as State)
 
 function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBodyRows>['resultIDs']) {
-    const { withPagination, entities, theme, hookStore } = props;
+    const { withPagination, theme, hookStore } = props;
 
     const [ state, setState ] = hookStore!;
-    const { showPerPage, currentPage } = state;
+    const showPerPage = state.showPerPage;
 
     const { displayQuantity, select, pagination } = withPagination!;
     const { props: selectProps, component: Select } = select;
     const { props: paginationProps, component: Pagination } = pagination;
 
-    const entitiesLen = entities.len()
-    const maxPages = Math.ceil(entitiesLen / showPerPage)
-    
-    currentPage > maxPages && (state.currentPage = 1)
-
     const dataTableSelectProps = Object.assign({
         displayValue: showPerPage,
         onChange(value: number) {
             state.showPerPage = value;
-    
-            const maxPages = Math.ceil(entitiesLen / value)
-            if (currentPage > maxPages) {
-                state.currentPage = maxPages
-            }
-    
             setState({ ...state })
         }
     }, selectProps)
@@ -53,7 +42,7 @@ function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBod
     const dataTablePaginationProps = {
         showPerPage,
         listLength: resultIDs.length,
-        curPage: currentPage,
+        curPage: state.currentPage,
         onChange(value: number) {
             state.currentPage = value;
             setState({ ...state })

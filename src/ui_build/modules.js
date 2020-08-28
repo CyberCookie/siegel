@@ -1,44 +1,39 @@
 // const cssSVG                = require('iconfont-webpack-plugin')
-const sass                  = require('sass')
 const autoprefixer          = require('autoprefixer')
 const cssMinifier           = require('cssnano')
 const miniCssExtract        = require('mini-css-extract-plugin')
 
-const CONSTANTS             = require('../constants')
+const resolve = require.resolve;
 
 
 function getModules(CONFIG, RUN_PARAMS) {
-    const input = CONFIG.build.input;
-
+    const { sassResources, include } = CONFIG.build.input;
     const { isProd, isServer } = RUN_PARAMS;
-    const isExtractCSS = isProd || !isServer;
-
-
-    const loadersInclude = ([ CONSTANTS.PATHS.uiCore ]).concat(input.include)
-
 
 
     return { rules: [
         {
             test: /\.(js|jsx|ts|tsx)$/,
-            include: loadersInclude,
+            include,
             use: [
                 {
-                    loader: 'babel-loader',
+                    loader: resolve('babel-loader'),
                     options: {
                         cacheDirectory: true,
-                        presets: ['@babel/preset-react', '@babel/typescript'],
+                        presets: [
+                            resolve('@babel/preset-react'),
+                            resolve('@babel/preset-typescript')
+                        ],
                         plugins: [
-                            'react-hot-loader/babel',
-                            '@babel/plugin-proposal-export-default-from',
-                            '@babel/plugin-proposal-export-namespace-from',
-                            '@babel/plugin-syntax-dynamic-import'
-                            // ['@babel/plugin-proposal-class-properties', { loose: true }]
+                            resolve('@babel/plugin-proposal-export-default-from'),
+                            resolve('@babel/plugin-proposal-export-namespace-from'),
+                            resolve('@babel/plugin-syntax-dynamic-import'),
+                            ...( isProd ? [] : [ resolve('react-refresh/babel') ])
                         ]
                     }
                 },
                 {
-                    loader: 'eslint-loader',
+                    loader: resolve('eslint-loader'),
                     options: {
                         emitWarning: true
                     }
@@ -48,12 +43,12 @@ function getModules(CONFIG, RUN_PARAMS) {
 
         {
             test: /\.sass$/,
-            include: loadersInclude,
+            include,
             use: [
-                isExtractCSS ? miniCssExtract.loader : 'style-loader',
+                isProd || !isServer ? miniCssExtract.loader : resolve('style-loader'),
                 
                 {
-                    loader: 'css-loader',
+                    loader: resolve('css-loader'),
                     options: {
                         sourceMap: !isProd,
                         importLoaders: 3,
@@ -65,7 +60,7 @@ function getModules(CONFIG, RUN_PARAMS) {
                 },
 
                 {
-                    loader: 'postcss-loader',
+                    loader: resolve('postcss-loader'),
                     options: {
                         sourceMap: !isProd,
                         plugins: loader => [
@@ -78,18 +73,17 @@ function getModules(CONFIG, RUN_PARAMS) {
                 },
 
                 {
-                    loader: 'sass-loader',
+                    loader: resolve('sass-loader'),
                     options: {
-                        sourceMap: !isProd,
-                        implementation: sass
+                        sourceMap: !isProd
                     }
                 },
 
                 // use with css modules
                 {
-                    loader: 'sass-resources-loader',
+                    loader: resolve('sass-resources-loader'),
                     options: {
-                        resources: input.sassResources
+                        resources: sassResources
                     }
                 }
             ]

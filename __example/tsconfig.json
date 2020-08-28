@@ -1,13 +1,16 @@
 {
 	"extends": "../tsconfig.json",
     "compilerOptions": {
-		"baseUrl": "./",
+		"baseUrl": ".",
 		"paths": {
-			"core/*": ["../ui_core/*"],
-			"core-store/*": ["../ui_core/store/*"],
-			"core-ui/*": ["../ui_core/ui/*"],
-			"core-utils/*": ["../ui_core/utils/*"],
-			"app/*": ["./client/main/*"]
+			"app/*": ["./client/main/*"],
+			"core/*": ["../src/ui_core/*"],
+			"core-store/*": ["../src/ui_core/store/*"],
+			"core-ui/*": ["../src/ui_core/ui/*"],
+			"core-utils/*": ["../src/ui_core/utils/*"],
+			"react/*": ["../node_modules/react/*"],
+			"react-dom/*": ["../node_modules/react-dom/*"],
+			"react-router-dom/*": ["../node_modules/react-router-dom/*"]
 		}
 	},
 	"exclude": [ "node_modueles" ]

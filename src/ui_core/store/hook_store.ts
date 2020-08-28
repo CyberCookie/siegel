@@ -51,12 +51,11 @@ function useCustom(this: Store) {
 }
 
 function bindActions(store: Store, actions: Actions) {
-    const result: Indexable = {}
     for (const ACTION_ID in actions) {
-        result[ACTION_ID] = actions[ACTION_ID].bind(null, store)
+        actions[ACTION_ID] = actions[ACTION_ID].bind(actions, store)
     }
 
-    return result
+    return actions
 }
 
 

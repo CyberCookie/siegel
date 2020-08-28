@@ -2,8 +2,8 @@ process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
 
-const CONSTANTS = require('./constants')
-const normalizeConfigs = require('./normalize_configs')
+const CONSTANTS         = require('./constants')
+const normalizeConfigs  = require('./normalize_configs')
 
 
 const main = async function(_CONFIG, _RUN_PARAMS) {

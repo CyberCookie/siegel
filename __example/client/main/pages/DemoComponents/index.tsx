@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader/root'
 import React, { useState } from 'react'
 
 import * as demoComponents from './components'
@@ -49,4 +48,4 @@ const DemoPage = () => {
 }
 
 
-export default hot(DemoPage)
+export default DemoPage

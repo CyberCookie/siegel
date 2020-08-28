@@ -10,6 +10,9 @@
     &.swiped div
         margin-top: 50%
 
+    &:not(.horizontal) div
+        transition-property: margin-top
+
     div
         +flex(center, center)
         +font(28px, '', $black, 500)
@@ -31,3 +34,4 @@
         margin-left: 0
         margin-top: 0 !important
         cursor: col-resize
+        transition-property: margin-left

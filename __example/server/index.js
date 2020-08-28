@@ -5,12 +5,12 @@ isProd && (process.env.NODE_ENV = 'production')
 
 
 let devCore;
-try { devCore = require('oswell_ui_dev_core') }
-catch(e) { devCore = require('../../index.js') }
+try { devCore = require('essence') }
+catch(e) { devCore = require('../../src/index') }
 
 
 devCore(
-    require('./oswell_ui_dev_core_config'),
+    require('./essence_config'),
     {
         isProd,
         isServer: RUN_ARGUMENTS.includes('-s'),

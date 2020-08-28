@@ -9,7 +9,7 @@
 		"strict": true,
 		"esModuleInterop": true,
 		"jsx": "react",
-		"baseUrl": "./"
+		"baseUrl": "."
 	},
 	"exclude": [ "node_modueles" ]
 }

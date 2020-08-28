@@ -24,6 +24,7 @@ type IndexObject<T, V = any> = {
 
 
 //#TS_sucks.
+// type X = Parameters<typeof window.parseInt>[1]
 interface Array<T = any> {
     [key: string]: T
 }

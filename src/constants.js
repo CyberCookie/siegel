@@ -1,12 +1,15 @@
 const join = require('path').join;
 
+const root = join(__dirname, '..')
+
 const PATHS = {
-    build: join(__dirname, 'ui_build', 'index.js'),
-    staticServer: join(__dirname, 'server', 'index.js'),
-    uiCore: join(__dirname, 'ui_core'),
-    nodeModules: join(__dirname, 'node_modules'),
-    example: join(__dirname, '__example'),
-    root: __dirname
+    root,
+    example: join(root, '__example'),
+    nodeModules: join(root, 'node_modules'),
+    package: join(root, 'package.json'),
+    build: join(__dirname, 'ui_build', 'index'),
+    staticServer: join(__dirname, 'server', 'index'),
+    uiCore: join(__dirname, 'ui_core')
 }
 
 
@@ -17,7 +20,6 @@ const DEFAULT_CONFIG = {
     },
 
     build: {
-        aliases: {},
         input: {
             html: join(PATHS.example, 'client', 'index.html'),
             assetsDir: ''
