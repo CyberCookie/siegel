@@ -1,5 +1,12 @@
 # ui_core
-Client side related code is located here. It's probably the main essence part.
+Front-end related part compatible with all modern browsers that includes:
+Services to work with api (wrappers around SignalR client and browser's FetchAPI);
+Utils and helpers to compute some common operations;
+Service worker that provides the best caching strategy; 
+React related parts:
+    - Widely used UI components that are lightweight, perfomant and - - highly configurable;
+    - Hook state manager or redux abstractions for those dinosaurs who still uses it :)
+    - React-router-dom wrapper to provide more declarative interface to build routers of any complexity.
 
 #### Services
 ##### request
