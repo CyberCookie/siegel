@@ -1,7 +1,7 @@
 import { render } from 'react-dom'
 
-import createRouter from 'core/router'
-import { setup as requestServiceSetup, RequestFnParams } from 'core/services/request'
+import createRouter from 'essence-router'
+import { setup as requestServiceSetup, RequestFnParams } from 'essence-services/request'
 
 import routes from 'app/routes'
 import Layout from 'app/Layout'

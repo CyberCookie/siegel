@@ -43,7 +43,7 @@ const essenceConfig = {
 
     build: {
         input: {
-            js: join(APP, 'index.tsx'),
+            js: join(APP, 'index.ts'),
             sw: join(APP, 'sw.js'),
             html: join(APP, 'index.html'),
             assetsDir: join(APP, 'assets'),

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Select from 'core-ui/_form/Select'
-import { Props } from 'core-ui/_form/Select/types'
+import Select from 'essence-ui/_form/Select'
+import { Props } from 'essence-ui/_form/Select/types'
 import { chevron } from '../../icons'
 import { theme as inputTheme } from '../Input'
 

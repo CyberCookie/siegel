@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Button from 'core-ui/_form/Button'
-import { Props } from 'core-ui/_form/Button/types'
+import Button from 'essence-ui/_form/Button'
+import { Props } from 'essence-ui/_form/Button/types'
 import { icon } from '../../icons'
 
 import theme from './styles.sass'

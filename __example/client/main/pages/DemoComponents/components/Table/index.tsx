@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Table from 'core-ui/Table'
-import { Props } from 'core-ui/Table/types'
+import Table from 'essence-ui/Table'
+import { Props } from 'essence-ui/Table/types'
 
 import theme from './styles.sass'
 

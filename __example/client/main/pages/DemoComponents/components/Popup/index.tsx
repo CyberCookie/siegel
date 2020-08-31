@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Popup from 'core-ui/Popup'
-import { Props } from 'core-ui/Popup/types'
+import Popup from 'essence-ui/Popup'
+import { Props } from 'essence-ui/Popup/types'
 import { close } from '../../icons'
 
 import s from './styles.sass'

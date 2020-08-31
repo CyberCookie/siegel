@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Toggle from 'core-ui/_form/Toggle'
-import { Props } from 'core-ui/_form/Toggle/types'
+import Toggle from 'essence-ui/_form/Toggle'
+import { Props } from 'essence-ui/_form/Toggle/types'
 import { icon } from '../../icons'
 
 import s from './styles.sass'

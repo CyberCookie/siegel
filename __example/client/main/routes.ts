@@ -2,22 +2,18 @@ import { lazy } from 'react'
 
 
 const pagePathMap = {
-    page_test: 'page_test',
-    page_test_second: 'page_test_second',
-
-    login: 'login'
-}
-
-
-export default {
-    '': {
-        component: lazy(() => import('app/pages/DemoComponents'))
-    },
-
-    'work_with_api': {
-        component: lazy(() => import('app/pages/DemoApi'))
-    }
+    home: '',
+    work_with_api: 'work_with_api'
 }
 
 
 export { pagePathMap }
+export default {
+    [pagePathMap.home]: {
+        component: lazy(() => import('app/pages/DemoComponents'))
+    },
+
+    [pagePathMap.work_with_api]: {
+        component: lazy(() => import('app/pages/DemoApi'))
+    }
+}

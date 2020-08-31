@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Radio from 'core-ui/_form/Radio'
-import { Props } from 'core-ui/_form/Radio/types'
+import Radio from 'essence-ui/_form/Radio'
+import { Props } from 'essence-ui/_form/Radio/types'
 
 import s from './styles.sass'
 

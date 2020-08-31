@@ -1,5 +1,5 @@
-import request from 'core/services/request'
-import createHookStore from 'core/store/hook_store'
+import request from 'essence-services/request'
+import createHookStore from 'essence-store/hook_store'
 
 
 const initState = {

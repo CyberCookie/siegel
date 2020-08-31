@@ -4,10 +4,12 @@
 		"baseUrl": ".",
 		"paths": {
 			"app/*": ["./client/main/*"],
-			"core/*": ["../src/ui_core/*"],
-			"core-store/*": ["../src/ui_core/store/*"],
-			"core-ui/*": ["../src/ui_core/ui/*"],
-			"core-utils/*": ["../src/ui_core/utils/*"],
+			"essence-services/*": ["../src/ui_core/services/*"],
+			"essence-store/*": ["../src/ui_core/store/*"],
+			"essence-ui/*": ["../src/ui_core/ui/*"],
+			"essence-utils/*": ["../src/ui_core/utils/*"],
+			"essence-router": ["../src/ui_core/router.tsx"],
+			"essence-tsglobals": ["../src/ui_core/global.d.ts"],
 			"react/*": ["../node_modules/react/*"],
 			"react-dom/*": ["../node_modules/react-dom/*"],
 			"react-router-dom/*": ["../node_modules/react-router-dom/*"]

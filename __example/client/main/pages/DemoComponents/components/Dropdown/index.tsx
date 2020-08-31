@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Dropdown from 'core-ui/Dropdown'
-import { Props } from 'core-ui/Dropdown/types'
+import Dropdown from 'essence-ui/Dropdown'
+import { Props } from 'essence-ui/Dropdown/types'
 import { chevron } from '../../icons'
 
 import s from './styles.sass'

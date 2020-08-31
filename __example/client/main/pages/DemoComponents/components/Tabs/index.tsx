@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Tabs from 'core-ui/Tabs'
-import { Props } from 'core-ui/Tabs/types'
+import Tabs from 'essence-ui/Tabs'
+import { Props } from 'essence-ui/Tabs/types'
 
 import s from './styles.sass'
 

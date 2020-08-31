@@ -1,1 +1,1 @@
-import 'core/global'
+import 'essence-tsglobals'

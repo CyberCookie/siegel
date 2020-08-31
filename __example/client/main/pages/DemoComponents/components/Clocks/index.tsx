@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Clocks from 'core-ui/Clocks'
-import { _Clocks } from 'core-ui/Clocks/types'
+import Clocks from 'essence-ui/Clocks'
+import { _Clocks } from 'essence-ui/Clocks/types'
 
 import s from './styles.sass'
 

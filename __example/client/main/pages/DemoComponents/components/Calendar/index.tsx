@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Calendar from 'core-ui/_form/Calendar'
-import { Props } from 'core-ui/_form/Calendar/types'
+import Calendar from 'essence-ui/_form/Calendar'
+import { Props } from 'essence-ui/_form/Calendar/types'
 import { chevron } from '../../icons'
 
 import s from './styles.sass'

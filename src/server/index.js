@@ -15,7 +15,7 @@ const extractSSL = ssl => ({
 })
 
 
-function createHTTPServer(CONFIG, devMiddlewares, serverExtend) {
+function createHTTPServer(CONFIG, middlewares, serverExtend) {
     const { host, port, ssl } = CONFIG.server;
 
     const express = require('express')
@@ -28,7 +28,7 @@ function createHTTPServer(CONFIG, devMiddlewares, serverExtend) {
     expressApp.disable('x-powered-by')
     
     expressApp.use(historyApiFallback())
-    devMiddlewares.forEach(m => expressApp.use(m))
+    middlewares.forEach(m => expressApp.use(m))
 
 
     serverExtend && serverExtend(expressApp, { express })
@@ -121,9 +121,9 @@ function createHTTP2Server(CONFIG, serverExtend) {
 
 
 module.exports = {
-    run(CONFIG, devMiddlewares = [], serverExtend) {
+    run(CONFIG, middlewares = [], serverExtend) {
         return CONFIG.server.http2
             ?   createHTTP2Server(CONFIG, serverExtend)
-            :   createHTTPServer(CONFIG, devMiddlewares, serverExtend)
+            :   createHTTPServer(CONFIG, middlewares, serverExtend)
     }
 }
