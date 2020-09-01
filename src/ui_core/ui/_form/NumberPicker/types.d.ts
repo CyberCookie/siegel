@@ -31,6 +31,7 @@ type Props = {
     disabledInput?: boolean
     regexp?: RegExp
     precision?: number
+    keyboardArrows?: boolean
 } & PropsComponentThemed<ThemeKeys> & Omit<InputTagProps, 'theme'>
 
 type DefaultProps = {
@@ -39,6 +40,7 @@ type DefaultProps = {
     plusIcon: NonNullable<Props['plusIcon']>
     min: NonNullable<Props['min']>
     max: NonNullable<Props['max']>
+    keyboardArrows: NonNullable<Props['keyboardArrows']>
 }
 
 type MergedProps = Props & DefaultProps

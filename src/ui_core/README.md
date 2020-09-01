@@ -51,4 +51,74 @@ setup({
 })
 ```
 
-#### signalr
+##### signalr
+...
+
+### State managers
+##### hook_store
+Store creator accepts three arguments:
+- initialState - object
+- actions - object
+- with reset - boolean
+example:
+```js
+// module.js
+import createHookStore from 'essence-store/hook_store'
+
+const initState = {
+    someKey: 0
+}
+
+const actions = {
+    update(store, data) {
+        const { state, setState } = store;
+        state.someKey = data;
+        setState(state)
+    }
+}
+
+const { store, useStore, reset } = createHookStore(initState, actions)
+
+export { store, reset }
+export default useStore
+```
+```js
+// some component
+import React, { useLayoutEffect } from 'react'
+import moduleStore, { store, reset } from './module.js'
+
+// you may use store actions directly in any part of your app
+const storeUpdate = store.actions.update;
+storeUpdate(Date.now())
+
+const Component = () => {
+    // subscribe on store changes
+    const [ state, actions ] = moduleStore()
+    
+    // reset store to inital state anytime
+    useLayoutEffect(() => {
+        return () => { reset() }
+    }, [])
+    
+    
+    return (
+        <div onMouseDown={() => { actions.update(Date.now()) }}>
+            { state.someKey }
+        </div>
+    )
+}
+```
+
+Hook store provides ready to use `fetch module` which is usefull for requests tracking in order to spin some loaders. Docs will be soon...
+
+##### redux
+...
+
+### router
+...
+### utils
+...
+### components
+
+
+

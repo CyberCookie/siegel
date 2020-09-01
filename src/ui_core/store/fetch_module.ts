@@ -3,8 +3,7 @@ import createHookStore from './hook_store'
 
 const initState = {
     requests: {},
-    errRes: {},
-    sucRes: {}
+    errRes: {}
 }
 
 

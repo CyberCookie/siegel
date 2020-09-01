@@ -89,7 +89,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     
     const {
         theme, value, disabled, onChange, step, label, payload, disabledInput,
-        precision, regexp, min, max, className
+        precision, regexp, min, max, keyboardArrows, className
     } = mergedProps;
 
 
@@ -136,19 +136,21 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     
     let stepper;
     if (isExists(step)) {
-        isFocused && !inputFieldProps.disabled && (numberpickerRootProps.onKeyDown = e => {
-            const keyCode = e.nativeEvent.keyCode;
-            const isKeyUp = keyCode == keyUp;
-            const isKeyDown = keyCode == keyDown;
-    
-            if (isKeyUp || isKeyDown) {
-                e.preventDefault()
-                let _step = step;
-                isKeyDown && (_step *= -1)
-    
-                onNumberPickerChange(numberValue + _step, e, true)
+        if (keyboardArrows && isFocused && !inputFieldProps.disabled) {
+            numberpickerRootProps.onKeyDown = e => {
+                const keyCode = e.nativeEvent.keyCode;
+                const isKeyUp = keyCode == keyUp;
+                const isKeyDown = keyCode == keyDown;
+        
+                if (isKeyUp || isKeyDown) {
+                    e.preventDefault()
+                    let _step = step;
+                    isKeyDown && (_step *= -1)
+        
+                    onNumberPickerChange(numberValue + _step, e, true)
+                }
             }
-        })
+        }
 
         stepper = getStepper(mergedProps, numberValue, onNumberPickerChange)
     } 
@@ -187,7 +189,8 @@ NumberPicker.defaults = {
     minusIcon: '-',
     plusIcon: '+',
     min: -Infinity,
-    max: Infinity
+    max: Infinity,
+    keyboardArrows: true
 }
 NumberPicker.ID = componentID;
 

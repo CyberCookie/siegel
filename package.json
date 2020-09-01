@@ -1,9 +1,16 @@
 {
     "name": "essence",
-    "description": "Framework based on React and Node to build fast and scalable web applications in short time",
     "version": "0.6.0",
-    "author": "CyberCookie",
-    "url": "",
+    "homepage": "https://github.com/OswellCrew/essence",
+    "url": "https://github.com/OswellCrew/essence",
+    "bugs": "https://github.com/OswellCrew/essence/issues",
+    "description": "Web application development ecosystem",
+    "keywords": [ "web", "react", "reactjs", "node", "nodejs", "create app", "essence", "ecosystem", "web application", "core" ],
+    "author": {
+        "name": "Alex Balahanov",
+        "url": "https://github.com/CyberCookie"
+    },
+    "licence": "MIT",
     "config": {
         "index": "__example/server/index.js"
     },
