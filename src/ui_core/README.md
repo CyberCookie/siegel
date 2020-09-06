@@ -1,7 +1,3 @@
-<style>
-  summary { display: flex; align-items: center }
-</style>
-
 <h1>ui_core</h1>
 <ul>Front-end related part compatible with all modern browsers that includes:
     <li>Services to work with api (wrappers around SignalR client and browser's FetchAPI).</li>
@@ -156,7 +152,7 @@ const Component = props => {
 <hr />
 
 <details>
-<summary><h2>Router</h2></summary>
+<summary style='display: flex;align-items: center'><h2>Router</h2></summary>
 This abstraction around react-router-dom module is to provide better declarative interface that allows to build recursive routing with dynamic pages.
 `essence-router` exports default routerCreator and history module.
 
@@ -513,7 +509,7 @@ updateURLQuery(window.history, 'somekey', 'someValue')
 <hr />
 
 <details>
-<summary><h2>Components</h2></summary>
+<summary style='display: flex;align-items: center'><h2>Components</h2></summary>
 `essence` provides big set of widely used components.
 Components support theming. Any component can receive className prop. Those one that consists of more than one DOM element receive theme property. theme is a key - value object where key is tied to component DOM element and value is a className string.
 Every component receives attributes prop which is valid set of attributes for a component root DOM element.

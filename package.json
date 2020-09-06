@@ -1,5 +1,5 @@
 {
-    "name": "essence",
+    "name": "@oswell/essence",
     "version": "0.6.0",
     "homepage": "https://github.com/OswellCrew/essence",
     "url": "https://github.com/OswellCrew/essence",
@@ -11,6 +11,9 @@
         "url": "https://github.com/CyberCookie"
     },
     "licence": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
     "config": {
         "index": "__example/server/index.js"
     },
