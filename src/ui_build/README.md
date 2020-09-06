@@ -26,7 +26,7 @@ Also this config includes:
 - sass-resources-loader (to include mixins and variables imports in every css file. Normally CSS modules breaks this functionality)
 
 ##### Plugins section
-There is a special approach to configure plugins described in [config section](../../README.md). For this puproses you will need to specify `plugin key`.
+There is a special approach to configure plugins described in [config section](https://github.com/CyberCookie/siegel). For this puproses you will need to specify `plugin key`.
 - compression-webpack-plugin (`compression`) - (brotli and gzip). Enabled if __runParams.isProd == true__
 - copy-webpack-plugin (`copy`) - enabled if __config.build.input.assetsDir__ is specified
 - serviceworker-webpack-plugin (`sw`) - enabled if __config.build.input.sw__ is specified

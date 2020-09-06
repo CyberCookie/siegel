@@ -12,12 +12,12 @@ const targetPackageJSONPath = join(cwd, targetPackageFilename)
 if (existsSync(targetPackageJSONPath)) {
     const shell = require('child_process').execSync;
     const {
-        // name: devCorePackageName,
+        name: devCorePackageName,
         scripts: devCorePackageScripts,
         config: devCorePackageConfig
     } = require(PATHS.package)
 
-    const devCorePackageName = '../siegel'
+    // const devCorePackageName = '../siegel'
 
     const toJSON = data => JSON.stringify(data, null, 4)
     const replaceDevPathWithModule = path => path.replace('..', devCorePackageName)

@@ -529,5 +529,5 @@ the same as
 <Button className='some-class' value={42} />
 ```
 
-You can look at how to use them in [demo project demo components folder](../../example/main/pages/DemoComponents/components).
+You can look at how to use them in [demo project demo components folder](https://github.com/CyberCookie/siegel/tree/__example/main/pages/DemoComponents/components).
 </details>

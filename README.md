@@ -5,13 +5,13 @@ Finally*! The package you been waiting for long is already here to abstract all 
 .* - the project is workable but still in alpha phase. Some configurations may change in future. Docs are not well written so far.
 
 In general this package is a site development platform that consists of three main parts (UI, build, server) that you can use individually or in conjuction with other parts:
-- [ui_core](./src/ui_core/README.md) - Front-end related code. It's the only part you will be using directrly.
-- [ui_build](./src/ui_build/README.md) - webpack build lives here.
-- [server](./src/server/README.md) - static server is here.
+- [ui_core](https://github.com/CyberCookie/siegel/tree/master/src/ui_core) - Front-end related code. It's the only part you will be using directrly.
+- [ui_build](https://github.com/CyberCookie/siegel/tree/master/src/ui_build) - webpack build lives here.
+- [server](https://github.com/CyberCookie/siegel/tree/master/src/server) - static server is here.
 
 And two helper parts (scripts, demo project):
-- [scripts](./src/scripts/README.md) - siegel helper scripts.
-- [demo project](./__example/README.md) - for inner tests and project installation.
+- [scripts](https://github.com/CyberCookie/siegel/tree/master/src/scripts) - siegel helper scripts.
+- [demo project](https://github.com/CyberCookie/siegel/tree/master/__example) - for inner tests and project installation.
 
 
 ### Installation
@@ -35,7 +35,7 @@ If you don't want to bother yourself with project creating and siegel configurin
 ```sh
 node ./node_modules/siegel/src/scripts/init_project.js --run --peers
 ```
-You may readt about script params in [scripts section](./src/scripts/README.md).
+You may readt about script params in [scripts section](https://github.com/CyberCookie/siegel/tree/master/src/scripts).
 ##### Config
 Defaults are commented.
 ```js
