@@ -119,16 +119,18 @@ function getPlugins(CONFIG, RUN_PARAMS) {
         copy: {
             plugin: fileCopyPlugin,
             enabled: input.assetsDir,
-            options: [{
-                from: input.assetsDir,
-                to: path.join(
-                        output,
-                        path.relative(
-                            path.dirname(input.html),
-                            input.assetsDir
+            options: {
+                patterns: [{
+                    from: input.assetsDir,
+                    to: path.join(
+                            output,
+                            path.relative(
+                                path.dirname(input.html),
+                                input.assetsDir
+                            )
                         )
-                    )
-            }]
+                }]
+            }
         },
 
         sw: {

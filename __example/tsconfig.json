@@ -10,10 +10,7 @@
 			"siegel-ui/*": ["../src/ui_core/ui/*"],
 			"siegel-utils/*": ["../src/ui_core/utils/*"],
 			"siegel-router": ["../src/ui_core/router.tsx"],
-			"siegel-tsglobals": ["../src/ui_core/global.d.ts"],
-			"react/*": ["../node_modules/react/*"],
-			"react-dom/*": ["../node_modules/react-dom/*"],
-			"react-router-dom/*": ["../node_modules/react-router-dom/*"]
+			"siegel-tsglobals": ["../src/ui_core/global.d.ts"]
 		}
 	},
 	"exclude": [ "node_modueles" ]
