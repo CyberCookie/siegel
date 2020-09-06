@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.6.4",
+    "version": "0.6.5",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -47,12 +47,12 @@
         "express": "^4.17.1",
         "express-static-gzip": "^2.0.7",
         "mime-types": "^2.1.27",
-        "pm2": "^4.4.0"
-    },
-    "devDependencies": {
+        "pm2": "^4.4.0",
         "react": "^16.13.0",
         "react-dom": "^16.13.1",
-        "react-router-dom": "^5.2.0",
+        "react-router-dom": "^5.2.0"
+    },
+    "devDependencies": {
         "@babel/core": "^7.11.6",
         "@babel/plugin-proposal-export-default-from": "^7.10.4",
         "@babel/plugin-proposal-export-namespace-from": "^7.10.4",
