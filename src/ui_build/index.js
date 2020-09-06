@@ -1,3 +1,4 @@
+const { join, basename }    = require('join')
 const webpack               = require('webpack')
 const webpackDevMiddleware  = require('webpack-dev-middleware')
 const webpackHotMiddleware  = require('webpack-hot-middleware')
@@ -23,7 +24,10 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         resolve: {
             alias: aliases,
             extensions: ['.js', '.jsx', '.ts', '.tsx', '.sass'],
-            modules: [ constants.PATHS.nodeModules ]
+            modules: [
+                constants.PATHS.nodeModules,
+                join(process.cwd(), basename(constants.PATHS.nodeModules))
+            ]
         },
         entry: [
             ...( isDevServer ? ['webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true'] : [] ),
