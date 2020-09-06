@@ -22,7 +22,7 @@ if (existsSync(targetPackageJSONPath)) {
     const toJSON = data => JSON.stringify(data, null, 4)
     const replaceDevPathWithModule = path => path.replace(
         '..',
-        join('node_modules', devCorePackageName)
+        join('./node_modules', devCorePackageName)
     )
 
     
