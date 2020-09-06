@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Input from 'essence-ui/_form/Input'
-import { Props } from 'essence-ui/_form/Input/types'
+import Input from 'siegel-ui/_form/Input'
+import { Props } from 'siegel-ui/_form/Input/types'
 import { search } from '../../icons'
 
 import s from './styles.sass'

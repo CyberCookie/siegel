@@ -3,10 +3,10 @@
 import React from 'react'
 
 import getEnchancedDataTableProps from './postProcessProps'
-import createEntitiesStruct from 'essence-utils/entities_struct'
-import { msIn } from 'essence-utils/date/consts'
-import DataTable from 'essence-ui/DataTable'
-import { Props } from 'essence-ui/DataTable/types'
+import createEntitiesStruct from 'siegel-utils/entities_struct'
+import { msIn } from 'siegel-utils/date/consts'
+import DataTable from 'siegel-ui/DataTable'
+import { Props } from 'siegel-ui/DataTable/types'
 
 import tableDemoTheme from '../Table/styles.sass'
 import s from './styles.sass'

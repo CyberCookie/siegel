@@ -1,1 +1,1 @@
-import 'essence-tsglobals'
+import 'siegel-tsglobals'

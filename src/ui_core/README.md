@@ -21,7 +21,7 @@
 Wrapper around FetchAPI with more convinient interface to make your request easier.<br />
 
 ```js
-import request from 'essence-services/request'
+import request from 'siegel-services/request'
 
 request({
     url: 'someurl.com',
@@ -44,7 +44,7 @@ request({
 
 Request service can also be configured with beforeRequest, afterRequest and errorHandler hooks
 ```js
-import { setup } from 'essence-services/request'
+import { setup } from 'siegel-services/request'
 
 setup({
     beforeRequest(request) {
@@ -78,7 +78,7 @@ example:
 
 ```js
 import React, { useLayoutEffect } from 'react'
-import createHookStore from 'essence-store/hook_store'
+import createHookStore from 'siegel-store/hook_store'
 
 
 // create store
@@ -133,7 +133,7 @@ Hook to check whether some props have been changed. Works like <b>componenDidUpd
 
 ``` js
 import React from 'react'
-import useDidUpdate from 'essence-hooks/did_update'
+import useDidUpdate from 'siegel-hooks/did_update'
 
 
 const Component = props => {
@@ -152,9 +152,9 @@ const Component = props => {
 <hr />
 
 <details>
-<summary style='display: flex;align-items: center'><h2>Router</h2></summary>
+<summary><h2>Router</h2></summary>
 This abstraction around react-router-dom module is to provide better declarative interface that allows to build recursive routing with dynamic pages.
-`essence-router` exports default routerCreator and history module.
+`siegel-router` exports default routerCreator and history module.
 
 <h3>createRouter = (options: RouterOptions) => Router</h3>
 
@@ -175,7 +175,7 @@ key - value object where key is a page url and value is a page route config. Con
 ```js
 import { lazy } from 'react'
 import { render } from 'react-dom'
-import createRouter, { history } from 'essence-router'
+import createRouter, { history } from 'siegel-router'
 
 
 const routesConfig = {
@@ -223,7 +223,7 @@ render(document.getElementById('app'), router)
 Adjust hours in date object to match UTC date. 
 
 ```js
-import toUTCDate from 'essence-utils/date/toUTCDate'
+import toUTCDate from 'siegel-utils/date/toUTCDate'
 
 const date = new Date() // Fri Jan 01 2020 04:00:00 GMT+0300 (Eastern European Summer Time)
 
@@ -240,7 +240,7 @@ console.log(date)
 Parse date into parts. accepts zeroPrefix as second argument to prefix values less than 10 with *0* symbol. Returns an object that includes year, month, date, hours, minutes, seconds, day.
 
 ```js
-import dateParse from 'essence-utils/date/parse'
+import dateParse from 'siegel-utils/date/parse'
 
 
 let date = new Date() // Fri Jan 01 2020 04:00:00 GMT+0300 (Eastern European Summer Time)
@@ -259,7 +259,7 @@ If you want to clone an object with nested objects and arrays:
 
 ```js
 
-import clone from 'essence-utils/deep/clone'
+import clone from 'siegel-utils/deep/clone'
 
 const someObject = {
     someProp: 22,
@@ -279,7 +279,7 @@ const clonnedObject = clone(someObject)
 To retrieve deeply nested value:
 
 ```js
-import deepGet from 'essence-utils/deep/get'
+import deepGet from 'siegel-utils/deep/get'
 
 const someObject = {
     a: {
@@ -298,7 +298,7 @@ deepGet(someObject, ['a', 'b', 'c'], 'default value')
 To set property deeply into an object:
 
 ```jsx
-import deepSet from 'essence-utils/deep/set'
+import deepSet from 'siegel-utils/deep/set'
 
 const someObject = {}
 
@@ -312,7 +312,7 @@ deepSet(someObject, ['a', 'b', 'c', 'd'], 'value to set')
 To find some property in recursive object:
 
 ```js
-import deepFind from 'essence-utils/deep/find'
+import deepFind from 'siegel-utils/deep/find'
 
 const someObject = {}
 ```
@@ -333,7 +333,7 @@ To sort objects in array.<br />
 
 
 ```js
-import objectsSort from 'essence-utils/array_obj_sort'
+import objectsSort from 'siegel-utils/array_obj_sort'
 
 const mock = [
     { id: 1, name: 'qwerty', birth: 2020 },
@@ -363,7 +363,7 @@ Iterates through array in range. Execs callback on each iteration step. Breaks a
 </ul>
 
 ```js
-import rangeEach from 'essence-utils/array_range_each'
+import rangeEach from 'siegel-utils/array_range_each'
 
 
 const mock = (new Array(10)).fill(1)
@@ -378,7 +378,7 @@ rangeEach(mock, (elem, index) => index == 3, 2, 5)
 Builds element className regarding to passed conditions.
 
 ```js
-import getClassName from 'essence-utils/classname'
+import getClassName from 'siegel-utils/classname'
 
 
 getClassName('initial_class', {
@@ -409,7 +409,7 @@ Accepts uniq entity key.
 </ul>
 
 ```js
-import entitiesStruct from 'essence-utils/entities_struct'
+import entitiesStruct from 'siegel-utils/entities_struct'
 
 const entities = entitiesStruct('id')
 
@@ -454,7 +454,7 @@ entities.raw()
 Is not undefind.
 
 ```js
-import isExists from 'essence-utils/is_exists'
+import isExists from 'siegel-utils/is_exists'
 
 isExists(undefined)
 // false
@@ -470,7 +470,7 @@ isExists('')
 Check if device has touch events.
 
 ```js
-import isTouchScreen from 'essence-utils/is_touchscreen'
+import isTouchScreen from 'siegel-utils/is_touchscreen'
 
 isTouchScreen()
 // false
@@ -483,7 +483,7 @@ isTouchScreen()
 Parses tocken string and extract a data from it
 
 ```js
-import parseJWT from 'essence-utils/parse_jwt'
+import parseJWT from 'siegel-utils/parse_jwt'
 
 parseJWT(someString)
 // {}
@@ -498,7 +498,7 @@ Updates URL string with new query param.
 Accepts browser history (or those one created with <b>history</b> module) object as first parameter.
 
 ```js
-import updateURLQuery from 'essence-utils/'
+import updateURLQuery from 'siegel-utils/'
 
 updateURLQuery(window.history, 'somekey', 'someValue') 
 ```
@@ -509,15 +509,15 @@ updateURLQuery(window.history, 'somekey', 'someValue')
 <hr />
 
 <details>
-<summary style='display: flex;align-items: center'><h2>Components</h2></summary>
-`essence` provides big set of widely used components.
+<summary><h2>Components</h2></summary>
+`siegel` provides big set of widely used components.
 Components support theming. Any component can receive className prop. Those one that consists of more than one DOM element receive theme property. theme is a key - value object where key is tied to component DOM element and value is a className string.
 Every component receives attributes prop which is valid set of attributes for a component root DOM element.
-`essence` provides HOC to theme components and set default props:
+`siegel` provides HOC to theme components and set default props:
 
 ```jsx
-import Button from 'essence-ui/_form/Button'
-import { withDefaults } from 'essence-ui/ui_utils'
+import Button from 'siegel-ui/_form/Button'
+import { withDefaults } from 'siegel-ui/ui_utils'
 
 const ThemedButton = withDefaults(Button, {
     className: 'some-class',

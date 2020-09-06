@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import DropdownSearch from 'essence-ui/_form/DropdownSearch'
-import { Props } from 'essence-ui/_form/DropdownSearch/types'
+import DropdownSearch from 'siegel-ui/_form/DropdownSearch'
+import { Props } from 'siegel-ui/_form/DropdownSearch/types'
 import { theme as inputTheme } from '../Input'
 import { theme as selectTheme } from '../Select'
 

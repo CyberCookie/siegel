@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Popup from 'essence-ui/Popup'
-import { Props } from 'essence-ui/Popup/types'
+import Popup from 'siegel-ui/Popup'
+import { Props } from 'siegel-ui/Popup/types'
 import { close } from '../../icons'
 
 import s from './styles.sass'

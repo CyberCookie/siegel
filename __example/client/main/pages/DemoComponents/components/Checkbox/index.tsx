@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Checkbox from 'essence-ui/_form/Checkbox'
-import { Props } from 'essence-ui/_form/Checkbox/types'
+import Checkbox from 'siegel-ui/_form/Checkbox'
+import { Props } from 'siegel-ui/_form/Checkbox/types'
 import { check } from '../../icons'
 
 import s from './styles.sass'

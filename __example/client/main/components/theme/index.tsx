@@ -1,8 +1,8 @@
 // import React from 'react'
 
-import { withDefaults } from 'essence-ui/ui_utils'
+import { withDefaults } from 'siegel-ui/ui_utils'
 
-import ButtonCore from 'essence-ui/_form/Button'
+import ButtonCore from 'siegel-ui/_form/Button'
 import buttonTheme from './styles/button.sass'
 
 

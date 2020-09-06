@@ -1,11 +1,11 @@
 {
-    "name": "@oswell/essence",
+    "name": "siegel",
     "version": "0.6.0",
-    "homepage": "https://github.com/OswellCrew/essence",
-    "url": "https://github.com/OswellCrew/essence",
-    "bugs": "https://github.com/OswellCrew/essence/issues",
+    "homepage": "https://github.com/CyberCookie/siegel",
+    "url": "https://github.com/CyberCookie/siegel",
+    "bugs": "https://github.com/CyberCookie/siegel/issues",
     "description": "Web application development ecosystem",
-    "keywords": [ "web", "react", "reactjs", "node", "nodejs", "create app", "essence", "ecosystem", "web application", "core" ],
+    "keywords": [ "web", "react", "reactjs", "node", "nodejs", "create app", "siegel", "ecosystem", "web application", "core" ],
     "author": {
         "name": "Alex Balahanov",
         "url": "https://github.com/CyberCookie"

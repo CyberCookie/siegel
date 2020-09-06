@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Pagination from 'essence-ui/Pagination'
-import { Props } from 'essence-ui/Pagination/types'
+import Pagination from 'siegel-ui/Pagination'
+import { Props } from 'siegel-ui/Pagination/types'
 import { chevron } from '../../icons'
 
 import s from './styles.sass'

@@ -15,7 +15,7 @@ server.ssl
 build.output
 
 ###### middlewares
-ExpressJS middlewares thus affects only http(s) server. By default essence passes webpack hot and dev middlewares into this method.
+ExpressJS middlewares thus affects only http(s) server. By default siegel passes webpack hot and dev middlewares into this method.
 
 ###### serverExtend
 config.server.extenderLoc

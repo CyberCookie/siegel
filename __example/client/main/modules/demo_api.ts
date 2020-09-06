@@ -1,5 +1,5 @@
-import request from 'essence-services/request'
-import createHookStore from 'essence-store/hook_store'
+import request from 'siegel-services/request'
+import createHookStore from 'siegel-store/hook_store'
 
 
 const initState = {

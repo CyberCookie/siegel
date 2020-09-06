@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Slider from 'essence-ui/Slider'
-import { Props } from 'essence-ui/Slider/types'
+import Slider from 'siegel-ui/Slider'
+import { Props } from 'siegel-ui/Slider/types'
 
 import s from './styles.sass'
 

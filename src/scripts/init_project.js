@@ -17,7 +17,7 @@ if (existsSync(targetPackageJSONPath)) {
         config: devCorePackageConfig
     } = require(PATHS.package)
 
-    const devCorePackageName = '../essence'
+    const devCorePackageName = '../siegel'
 
     const toJSON = data => JSON.stringify(data, null, 4)
     const replaceDevPathWithModule = path => path.replace('..', devCorePackageName)

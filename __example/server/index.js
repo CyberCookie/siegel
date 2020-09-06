@@ -5,12 +5,12 @@ isProd && (process.env.NODE_ENV = 'production')
 
 
 let devCore;
-try { devCore = require('essence') }
+try { devCore = require('siegel') }
 catch(e) { devCore = require('../../src/index') }
 
 
 devCore(
-    require('./essence_config'),
+    require('./siegel_config'),
     {
         isProd,
         isServer: RUN_ARGUMENTS.includes('-s'),

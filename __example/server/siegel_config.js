@@ -25,7 +25,7 @@ function getAliasesFromTSconfig() {
 }
 
 
-const essenceConfig = {
+const siegelConfig = {
     server: {
         extenderLoc: server,
         watch: true,
@@ -91,4 +91,4 @@ const essenceConfig = {
 }
 
 
-module.exports = essenceConfig
+module.exports = siegelConfig

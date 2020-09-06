@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import Swipe from 'essence-ui/Swipe'
-import { Props } from 'essence-ui/Swipe/types'
+import Swipe from 'siegel-ui/Swipe'
+import { Props } from 'siegel-ui/Swipe/types'
 
 import theme from './styles.sass'
 

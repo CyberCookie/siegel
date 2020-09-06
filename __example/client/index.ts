@@ -1,7 +1,7 @@
 import { render } from 'react-dom'
 
-import createRouter from 'essence-router'
-import { setup as requestServiceSetup, RequestFnParams } from 'essence-services/request'
+import createRouter from 'siegel-router'
+import { setup as requestServiceSetup, RequestFnParams } from 'siegel-services/request'
 
 import routes from 'app/routes'
 import Layout from 'app/Layout'

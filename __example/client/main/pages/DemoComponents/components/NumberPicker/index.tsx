@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import NumberPicker from 'essence-ui/_form/NumberPicker'
-import { Props } from 'essence-ui/_form/NumberPicker/types'
+import NumberPicker from 'siegel-ui/_form/NumberPicker'
+import { Props } from 'siegel-ui/_form/NumberPicker/types'
 import { chevron } from '../../icons'
 import { theme as inputTheme } from '../Input'
 

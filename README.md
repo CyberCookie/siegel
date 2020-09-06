@@ -1,4 +1,4 @@
-# Essence
+# siegel
 
 ### Description
 Finally*! The package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project. Now nothing can stop you from diving into a business logic right after installation.\
@@ -10,31 +10,30 @@ In general this package is a site development platform that consists of three ma
 - [server](./src/server/README.md) - static server is here.
 
 And two helper parts (scripts, demo project):
-- [scripts](./src/scripts/README.md) - essence helper scripts.
+- [scripts](./src/scripts/README.md) - siegel helper scripts.
 - [demo project](./__example/README.md) - for inner tests and project installation.
 
 
 ### Installation
-[Not yet available]
 ```sh
-npm i @oswell/essence
+npm i siegel
 ```
 You should install some peer dependencies in order to make inner eslint and typescript proper validate your code. There is an __install_peers.js__ script located in scripts part that can make it easier for you.
 
 ### Usage
-Essence is a function that accepts __config__ as a first argument and __runParams__ as a second.
+siegel is a function that accepts __config__ as a first argument and __runParams__ as a second.
 You may read about these parameters below.
 ```js
-require('essence')(config, runParams)
+require('siegel')(config, runParams)
 ```
-Essence supports minimal config for testing purposes where only react application entrypoint is required:
+siegel supports minimal config for testing purposes where only react application entrypoint is required:
 ```js
-require('essence')('./app.js')
+require('siegel')('./app.js')
 ```
 
-If you don't want to bother yourself with project creating and essence configuring - you can just run from root level helper script that creates it all for you:
+If you don't want to bother yourself with project creating and siegel configuring - you can just run from root level helper script that creates it all for you:
 ```sh
-node ./node_modules/essence/src/scripts/init_project.js --run --peers
+node ./node_modules/siegel/src/scripts/init_project.js --run --peers
 ```
 You may readt about script params in [scripts section](./src/scripts/README.md).
 ##### Config
@@ -71,7 +70,7 @@ Defaults are commented.
 }
 ```
 ##### server
-- __extenderLoc__ - path to a user defined server to extend the one created by essence. Server extender should be a function. Function receives instance of server as a first paramenter and dependencies used for creating this server as a second.\
+- __extenderLoc__ - path to a user defined server to extend the one created by siegel. Server extender should be a function. Function receives instance of server as a first paramenter and dependencies used for creating this server as a second.\
 - __watch__ - reload when some changes in user server occur.\
 - __host__ - host used in static server.\
 - __port__ - port used in static server.\
@@ -87,7 +86,7 @@ __input.assetsDir__ - path to an application static assets folder.\
 __input.sassResources__ - path to a styles files which will be included in every other styles file. (Because of CSS modules).\
 __output__ - path to a folder when output code will be stored.\
 __aliases__ - webpack compatible aliases.\
-__plugins__ - used to extend essence webpack plugins or to add your own. There are 8 plugins that are used during the build: compression, copy, sw, cssExtract, html, hot, clean and reactRefresh. Each of them you may disable or extend with your own options that will be merged with existing ones. Some plugins like compression may have several instances (one for brotli and another one for gzip). In this example described how plugins could be configured:
+__plugins__ - used to extend siegel webpack plugins or to add your own. There are 8 plugins that are used during the build: compression, copy, sw, cssExtract, html, hot, clean and reactRefresh. Each of them you may disable or extend with your own options that will be merged with existing ones. Some plugins like compression may have several instances (one for brotli and another one for gzip). In this example described how plugins could be configured:
 ```js
 plugins: {
     compression: {
