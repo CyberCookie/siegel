@@ -20,7 +20,10 @@ if (existsSync(targetPackageJSONPath)) {
     // const devCorePackageName = '../siegel'
 
     const toJSON = data => JSON.stringify(data, null, 4)
-    const replaceDevPathWithModule = path => path.replace('..', devCorePackageName)
+    const replaceDevPathWithModule = path => path.replace(
+        '..',
+        join('node_modules', devCorePackageName)
+    )
 
     
     //Copy test project
