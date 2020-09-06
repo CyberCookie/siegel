@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { Switch, Router, Route, Redirect, withRouter, RouteProps } from 'react-router-dom'
-import { createBrowserHistory, History } from 'history'
+import * as history from 'history'
 
 import isExists from './utils/is_exists'
 
@@ -25,7 +25,7 @@ type CreateRouter = (options: {
     Layout?: React.ComponentType<any>
     notFound?: React.ComponentType
     routes: RouterConfig
-    history?: History
+    history?: history.History
 }) => JSX.Element
 
 type CreateRoutes = (routerConfig: RouterConfig, urlPref?: string) => {
@@ -73,7 +73,7 @@ const createRoutes: CreateRoutes = (routeConfig, urlPref = '') => {
     return { routes, isLazy }
 }
 
-const createRouter: CreateRouter = ({ routes, Layout, notFound, history }) => {
+const createRouter: CreateRouter = ({ routes, Layout, notFound, history: _history }) => {
     const { routes: createdRoutes, isLazy } = createRoutes(routes)
     notFound && createdRoutes.push( <Route key={404} component={notFound} /> )
 
@@ -86,8 +86,9 @@ const createRouter: CreateRouter = ({ routes, Layout, notFound, history }) => {
     }
 
     
-    return <Router history={history || createBrowserHistory()} children={routerContent} />
+    return <Router history={_history || history.createBrowserHistory()} children={routerContent} />
 }
 
 
+export { history }
 export default createRouter

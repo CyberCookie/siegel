@@ -1,4 +1,4 @@
-type UpdateURLQueryParams = {
+type UpdateURLQuery = {
     (
         history: {
             replace: (path: string, state?: any) => void
@@ -15,7 +15,7 @@ type UpdateURLQueryParams = {
  * @param key - or map of key value pairs to set into search string
  * @param value to set if `key` is string. otherwice ignored
  */
-const updateURLQueryParams: UpdateURLQueryParams = function(history, key, value) {
+const updateURLQuery: UpdateURLQuery = function(history, key, value) {
     const { pathname, search } = window.location;
     const query = new URLSearchParams(search)
 
@@ -31,5 +31,5 @@ const updateURLQueryParams: UpdateURLQueryParams = function(history, key, value)
 }
 
 
-export { UpdateURLQueryParams }
-export default updateURLQueryParams
+export { UpdateURLQuery }
+export default updateURLQuery

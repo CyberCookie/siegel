@@ -6,6 +6,7 @@
 			"app/*": ["./client/main/*"],
 			"essence-services/*": ["../src/ui_core/services/*"],
 			"essence-store/*": ["../src/ui_core/store/*"],
+			"essence-hooks/*": ["../src/ui_core/hooks/*"],
 			"essence-ui/*": ["../src/ui_core/ui/*"],
 			"essence-utils/*": ["../src/ui_core/utils/*"],
 			"essence-router": ["../src/ui_core/router.tsx"],

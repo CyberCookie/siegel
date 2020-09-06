@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 
-import testModule from '../../modules/test'
+import testModule from '../../modules/demo_api'
 
 
 const X = () => {

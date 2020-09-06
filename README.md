@@ -5,16 +5,17 @@ Finally*! The package you been waiting for long is already here to abstract all 
 .* - the project is workable but still in alpha phase. Some configurations may change in future. Docs are not well written so far.
 
 In general this package is a site development platform that consists of three main parts (UI, build, server) that you can use individually or in conjuction with other parts:
-- [ui_core](./src/ui_core/README.md)
-- [ui_build](./src/ui_build/README.md)
-- [server](./src/server/README.md)
+- [ui_core](./src/ui_core/README.md) - Front-end related code. It's the only part you will be using directrly.
+- [ui_build](./src/ui_build/README.md) - webpack build lives here.
+- [server](./src/server/README.md) - static server is here.
 
 And two helper parts (scripts, demo project):
-- [scripts](./src/scripts/README.md)
-- [demo project](./__example/README.md)
+- [scripts](./src/scripts/README.md) - essence helper scripts.
+- [demo project](./__example/README.md) - for inner tests and project installation.
 
 
 ### Installation
+[Not yet available]
 ```sh
 npm i @oswell/essence
 ```
@@ -33,8 +34,9 @@ require('essence')('./app.js')
 
 If you don't want to bother yourself with project creating and essence configuring - you can just run from root level helper script that creates it all for you:
 ```sh
-node ./node_modules/essence/src/scripts/init_project.js
+node ./node_modules/essence/src/scripts/init_project.js --run --peers
 ```
+You may readt about script params in [scripts section](./src/scripts/README.md).
 ##### Config
 Defaults are commented.
 ```js
@@ -68,23 +70,24 @@ Defaults are commented.
     }
 }
 ```
+##### server
+- __extenderLoc__ - path to a user defined server to extend the one created by essence. Server extender should be a function. Function receives instance of server as a first paramenter and dependencies used for creating this server as a second.\
+- __watch__ - reload when some changes in user server occur.\
+- __host__ - host used in static server.\
+- __port__ - port used in static server.\
+- __http2__ - whether to use HTTP2 protocol.\
+- __ssl.keyPath__ - path to a ssl private key.\
+- __ssl.certPath__ - path to a signed certificate.\
 
-__server.extenderLoc__ - path to a user defined server to extend the one created by essence. Server extender should be a function. Function receives instance of server as a first paramenter and dependencies used for creating this server as a second.\
-__server.watch__ - reload when some changes in user server occur.\
-__server.host__ - host used in static server.\
-__server.port__ - port used in static server.\
-__server.http2__ - whether to use HTTP2 protocol.\
-__server.ssl.keyPath__ - path to a ssl private key.\
-__server.ssl.certPath__ - path to a signed certificate.\
-
-__build.input.js__ - path to a react application entrypoint.\
-__build.input.sw__ - path to a service worker.\
-__build.input.html__ - path to a site entrypoint.\
-__build.input.assetsDir__ - path to an application static assets folder.\
-__build.input.sassResources__ - path to a styles files which will be included in every other styles file. (Because of CSS modules).\
-__build.output__ - path to a folder when output code will be stored.\
-__build.aliases__ - webpack compatible aliases.\
-__build.plugins__ - used to extend essence webpack plugins or to add your own. There are 8 plugins that are used during the build: compression, copy, sw, cssExtract, html, hot, clean and reactRefresh. Each of them you may disable or extend with your own options that will be merged with existing ones. Some plugins like compression may have several instances (one for brotli and another one for gzip). In this example described how plugins could be configured:
+##### build
+__input.js__ - path to a react application entrypoint.\
+__input.sw__ - path to a service worker.\
+__input.html__ - path to a site entrypoint.\
+__input.assetsDir__ - path to an application static assets folder.\
+__input.sassResources__ - path to a styles files which will be included in every other styles file. (Because of CSS modules).\
+__output__ - path to a folder when output code will be stored.\
+__aliases__ - webpack compatible aliases.\
+__plugins__ - used to extend essence webpack plugins or to add your own. There are 8 plugins that are used during the build: compression, copy, sw, cssExtract, html, hot, clean and reactRefresh. Each of them you may disable or extend with your own options that will be merged with existing ones. Some plugins like compression may have several instances (one for brotli and another one for gzip). In this example described how plugins could be configured:
 ```js
 plugins: {
     compression: {
@@ -102,7 +105,7 @@ plugins: {
 }
 ```
 
-__build.postProcessWebpackConfig__ - function that receives full webpack config that you can postprocess giving you full controll over the build.
+__postProcessWebpackConfig__ - function that receives full webpack config that you can postprocess giving you full controll over the build.
 
 ##### runParams
 
