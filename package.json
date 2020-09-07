@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.6.8",
+    "version": "0.6.9",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -21,7 +21,7 @@
         "name": "Alex Balahanov",
         "url": "https://github.com/CyberCookie"
     },
-    "licence": "MIT",
+    "license": "MIT",
     "publishConfig": {
         "access": "public"
     },
@@ -80,7 +80,6 @@
         "mini-css-extract-plugin": "^0.11.0",
         "optimize-css-assets-webpack-plugin": "^5.0.4",
         "postcss-loader": "^3.0.0",
-        "react-refresh": "^0.8.3",
         "sass": "^1.26.10",
         "sass-loader": "^10.0.2",
         "sass-resources-loader": "^2.1.0",

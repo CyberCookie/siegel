@@ -164,7 +164,7 @@ This abstraction around react-router-dom module is to provide better declarative
 - notFound - page to render if no url was matched
 - history - browser history cteated with history module
 
-###### routes
+<h6>routes</h6>
 key - value object where key is a page url and value is a page route config. Config could have the next properties:
 - component - can be rendered component or lazy loaded component.
 - exact - react-router-dom's exact.

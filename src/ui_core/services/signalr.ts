@@ -6,12 +6,14 @@ const setDefaults = params => defaults = params;
 
 const createSignalRConnection = options => {
     let connectionParams = Object.assign({}, defaults, options)
-    let { url, reconnectInterval, endpoint, transport, protocol, serverTimeout, skipNegotiation = true, handlers = {} } = connectionParams;
+    let { url, reconnectInterval, endpoint, transport, protocol, serverTimeout,
+        skipNegotiation = true, handlers = {}, token } = connectionParams;
     
 
     let nativeSocket = new HubConnectionBuilder()
         .withUrl((url || window.location.origin) + endpoint, { 
             skipNegotiation,
+            accessTokenFactory: token,
             transport: HttpTransportType[transport || 'WebSockets']
         })
         .withHubProtocol(protocol || (new JsonHubProtocol()))
