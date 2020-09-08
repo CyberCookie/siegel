@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.6.9",
+    "version": "0.6.10",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -37,7 +37,7 @@
         "build:prod": "npm run build -- -p",
         "serv": "node $npm_package_config_index -s",
         "serv:prod": "npm run serv -- -p",
-        "deploy": "npm i && npm run build_serv:prod",
+        "deploy": "npm i && node ./node_modules/siegel/src/scripts/install_peers && npm run build_serv:prod",
         "pm2": "./node_modules/.bin/pm2 start $npm_package_config_index -- -s -p",
         "validate": "./node_modules/.bin/tsc || ./node_modules/.bin/eslint ./",
         "with_args": "node $npm_package_config_index"
