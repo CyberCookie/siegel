@@ -13,8 +13,8 @@ Project structure:
         - Layout - pages wrapper. Here you can add general components like header or footer to be displayed on every page.
         - components - if you have components that are used on multiple pages - here is the best place to put them. Also includes theming for siegel components.
         - pages - for a pages components.
-        - modules - all the logic regarding application state management including api calls is here.
-        - routes.tsx - siegel router config goes here.
+        - modules - all the logic regarding application state management including api calls.
+        - routes.tsx - siegel router config.
     - index.html - site entrypoint.
     - index.ts - JS entrypoint
     - global.d.ts

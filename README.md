@@ -1,8 +1,11 @@
 <h1>siegel</h1>
+[![npm version](https://badge.fury.io/js/siegel.svg)](https://badge.fury.io/js/siegel)
+[![Dependency Status](https://david-dm.org/cybercookie/siegel.svg)](https://david-dm.org/cybercookie/siegel)
+![build](https://github.com/cybercookie/siegel/workflows/Node.js%20CI/badge.svg)
 
 <h3>Description</h3>
-Finally*! The package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project. Now nothing can stop you from diving into a business logic right after installation.\
-<h6>* the project is workable but still in alpha phase. Some configurations may change in future. Docs are not well written so far.</h6>
+Finally*! The package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project. Now nothing can stop you from diving into a business logic right after installation.
+<h6>* the project is workable but still in alpha phase. Some configurations may change in future. Docs are not well written so far.</h6><br />
 
 In general this package is a site development platform that consists of three main parts (UI, build, server) that you can use individually or in conjuction with other parts:
 - [ui_core](https://github.com/CyberCookie/siegel/tree/master/src/ui_core) - Front-end related code. It's the only part you will be using directrly.

@@ -45,10 +45,14 @@ if (existsSync(targetPackageJSONPath)) {
  
     //Update project JSONs
     const exampleDirPathFromRoot = relative(PATHS.root, PATHS.example)
-    let indexVar = devCorePackageConfig.index.replace(exampleDirPathFromRoot, '')
-    indexVar = indexVar.substr(indexVar.search(/\w/))
+    let pathToIndex = devCorePackageConfig.index.replace(exampleDirPathFromRoot, '')
+    pathToIndex = pathToIndex.substr(pathToIndex.search(/\w/))
     
-    targetPackageJSON.config = { index: indexVar }
+
+    for (const command in devCorePackageScripts) {
+        devCorePackageScripts[command] = devCorePackageScripts[command]
+            .replace('$npm_package_config_index', pathToIndex)
+    }
     targetPackageJSON.scripts = devCorePackageScripts;
     writeFileSync(targetPackageJSONPath, toJSON(targetPackageJSON))
     
