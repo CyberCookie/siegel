@@ -1,7 +1,5 @@
-<h1>siegel</h1>
-[![npm version](https://badge.fury.io/js/siegel.svg)](https://badge.fury.io/js/siegel)
-[![Dependency Status](https://david-dm.org/cybercookie/siegel.svg)](https://david-dm.org/cybercookie/siegel)
-![build](https://github.com/cybercookie/siegel/workflows/Node.js%20CI/badge.svg)
+# siegel
+[![npm version](https://badge.fury.io/js/siegel.svg)](https://badge.fury.io/js/siegel) [![Dependency Status](https://david-dm.org/cybercookie/siegel.svg)](https://david-dm.org/cybercookie/siegel) ![build](https://github.com/cybercookie/siegel/workflows/Node.js%20CI/badge.svg)
 
 <h3>Description</h3>
 Finally*! The package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project. Now nothing can stop you from diving into a business logic right after installation.
