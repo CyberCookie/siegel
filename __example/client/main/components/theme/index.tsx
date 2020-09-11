@@ -1,5 +1,3 @@
-// import React from 'react'
-
 import { withDefaults } from 'siegel-ui/ui_utils'
 
 import ButtonCore from 'siegel-ui/_form/Button'

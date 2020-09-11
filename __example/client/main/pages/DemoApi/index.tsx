@@ -3,7 +3,7 @@ import React, { useLayoutEffect } from 'react'
 import testModule from '../../modules/demo_api'
 
 
-const X = () => {
+const DemoApi = () => {
     const [ state, { makeSomeFetch }] = testModule()
 
     useLayoutEffect(() => { makeSomeFetch({ someBody: 'body' }) }, [])
@@ -13,4 +13,4 @@ const X = () => {
 }
 
 
-export default X
+export default DemoApi

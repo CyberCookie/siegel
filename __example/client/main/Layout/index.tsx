@@ -1,10 +1,11 @@
 import React from 'react'
+import { SwitchProps, RouteComponentProps } from 'react-router-dom'
 
 import './styles'
 
 
-const Layout = ({ children }: any) => {
-    return <main children={children} />
+const Layout = (props: SwitchProps & RouteComponentProps) => {
+    return <main children={props.children} />
 }
 
 

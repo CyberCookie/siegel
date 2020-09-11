@@ -5,52 +5,42 @@ import { useState, useLayoutEffect } from 'react'
 import deepClone from '../utils/deep/clone'
 
 
-type Actions = {
-    [action: string]: (...args: any) => void
+type UseHookStore<T, A extends Actions<T>> = () => [
+    T,
+    A
+]
+
+type InnerStore<State extends Indexable> = {
+    state: State
+    listeners: HookSetState<State>[]
+    setState?: SetState<State>
+    actions?: Actions<State>
 }
 
-type SetState = {
-    (this: StoreBase, newState: Indexable): void
+type HookSetState<State extends Indexable> = React.Dispatch<React.SetStateAction<State>>
+
+type SetState<State extends Indexable> = {
+    (newState: State): void
 }
 
-type HookSetState = React.Dispatch<React.SetStateAction<any>>
-
-type StoreBase = {
-    state: Indexable,
-    listeners: HookSetState[],
-    actions?: Actions,
+type Actions<State extends Indexable> = {
+    [actions: string]: (store: Required<InnerStore<State>>, ...args: any[]) => void
 }
 
-type Store = {
-    setState: SetState
-} & StoreBase
 
-
-
-const setState: SetState = function(this, newState) {
+const setState: SetState<any> = function(this: Required<InnerStore<any>>, newState) {
     this.state = { ...newState }
-    const listenersCount = this.listeners.length
+    const listenersCount = this.listeners.length;
 
     for (let i = 0; i < listenersCount; i++) {
         this.listeners[i](this.state)
     }
 }
 
-function useCustom(this: Store) {
-    const newListener = useState()[1]
-    
-    useLayoutEffect(() => {
-        this.listeners.push(newListener)
-        
-        return () => {
-            this.listeners = this.listeners.filter((l: HookSetState) => l !== newListener)
-        }
-    }, [])
+function bindActions
+<State extends Indexable>
+(store: Required<InnerStore<State>>, actions: Actions<State>) {
 
-    return [ this.state, this.actions ]
-}
-
-function bindActions(store: Store, actions: Actions) {
     for (const ACTION_ID in actions) {
         actions[ACTION_ID] = actions[ACTION_ID].bind(actions, store)
     }
@@ -58,24 +48,50 @@ function bindActions(store: Store, actions: Actions) {
     return actions
 }
 
+function useCustom(this: InnerStore<any>) {
+    const newListener = useState()[1]
+    
+    useLayoutEffect(() => {
+        this.listeners.push(newListener)
+        
+        return () => {
+            this.listeners = this.listeners.filter((l: HookSetState<typeof this.state>) => l !== newListener)
+        }
+    }, [])
 
-const createHookStore = (initialState: Indexable, actions: Actions, reset?: boolean) => {
-    const store: StoreBase = { state: initialState, listeners: [] }
-    ;(store as Store).setState = setState.bind(store)
+    return [ this.state, this.actions ]
+}
 
-    actions && (store.actions = bindActions((store as Store), actions))
 
+function createHookStore
+<S extends Indexable, A extends Actions<S>>
+(initialState: S, actions: A, reset?: boolean) {
+    type Store = InnerStore<S>
+
+    const store: Store = {
+        state: initialState,
+        listeners: [],
+        setState: undefined,
+        actions: undefined
+    }
+    store.setState = setState.bind(store)
+    store.actions = bindActions((store as Required<Store>), actions)
+
+    
     let resetStore;
     if (reset) {
         const clonnedState = deepClone(initialState)
-        resetStore = () => { (store as Store).setState(clonnedState) }
+        resetStore = () => { store.setState!(clonnedState) }
     }
 
+
     return {
-        store, resetStore,
-        useStore: useCustom.bind((store as Store))
+        resetStore,
+        store: (store as Required<Store>), 
+        useStore: (useCustom.bind(store) as UseHookStore<S, A>)
     }
 }
 
 
+export { Actions }
 export default createHookStore

@@ -1,14 +1,20 @@
 import request from 'siegel-services/request'
-import createHookStore from 'siegel-store/hook_store'
+import createHookStore, { Actions } from 'siegel-store/hook_store'
 
 
-const initState = {
-    someData: {}
+type State = {
+    someData: {
+        received?: string
+    }
 }
 
 
-const actions = {
-    makeSomeFetch({ state, setState }, userData) {
+const initState: State = {
+    someData: {}
+}
+
+const actions: Actions<State> = {
+    makeSomeFetch({ state, setState }, userData: any) {
         request({
             url: '/api/test',
             body: userData

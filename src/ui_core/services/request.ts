@@ -13,17 +13,21 @@ type ReqError = {
 }
 
 type SetupFnParams = {
-    beforeRequest?: (opts: RequestFnParams) => void
+    beforeRequest?: (opts: RequestParams) => void
     afterRequest?: (fetchParams: FetchParams, parseRes: any) => void
     errorHandler?: (error: ReqError) => void
 } & Indexable
 
-type RequestFnParams = {
+type RequestParams = {
     url: RequestInfo
     isFullRes?: boolean
     parseMethod?: string
     query?: string | string[][] | Record<string, string> | URLSearchParams
-} & RequestInit & { headers?: Indexable }
+    headers?: Indexable
+    credentials?: RequestInit['credentials']
+    method?: RequestInit['method']
+    body?: any
+}
 
 
 function setup(newDefaults: SetupFnParams): void {
@@ -33,7 +37,7 @@ function setup(newDefaults: SetupFnParams): void {
 const defaultSetup: SetupFnParams = {}
 
 
-const extractRequestData = (request: RequestFnParams) => {
+const extractRequestData = (request: RequestParams) => {
     const { query, headers, body, credentials } = request;
     let { url, method } = request;
 
@@ -57,7 +61,7 @@ const extractRequestData = (request: RequestFnParams) => {
 }
 
 
-const extractResponseData = async (req: RequestFnParams, res: Response & Indexable): Promise<any> => {
+const extractResponseData = async (req: RequestParams, res: Response & Indexable): Promise<any> => {
     let parseMethod = req.parseMethod;
     let contentType;
 
@@ -83,7 +87,7 @@ const extractResponseData = async (req: RequestFnParams, res: Response & Indexab
 }
 
 
-const request = async (req: RequestFnParams) => {
+const request = async (req: RequestParams) => {
     const { beforeRequest, afterRequest, errorHandler } = defaultSetup;
     beforeRequest && beforeRequest(req)
 
@@ -124,7 +128,7 @@ const request = async (req: RequestFnParams) => {
 }
 
 
-export { setup, FetchParams, ReqError, SetupFnParams, RequestFnParams }
+export { setup, FetchParams, ReqError, SetupFnParams, RequestParams }
 export default request
 
 module.hot && module.hot.decline()

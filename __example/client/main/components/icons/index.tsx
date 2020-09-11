@@ -2,10 +2,10 @@ import React from 'react'
 
 import TrashDeletedIcon from './trash_deleted'
 
-import s from './styles'
+import s from './styles.sass'
 
 
-const icons = {
+const icons: Indexable = {
     trashDeleted: <TrashDeletedIcon />
 }
 
