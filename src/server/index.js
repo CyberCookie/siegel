@@ -25,15 +25,15 @@ function createHTTPServer(CONFIG, middlewares, serverExtend) {
     const historyApiFallback = require('connect-history-api-fallback')
     
 
-    expressApp.disable('x-powered-by')
-    
-    expressApp.use(historyApiFallback())
-    middlewares.forEach(m => expressApp.use(m))
-
-
     serverExtend && serverExtend(expressApp, { express })
 
 
+    expressApp.disable('x-powered-by')
+
+    expressApp.use(historyApiFallback())
+    
+    middlewares.forEach(m => expressApp.use(m))
+    
     expressApp.use('/', expressStatic(CONFIG.build.output, {
         enableBrotli: true,
         orderPreference: ['br', 'gzip']

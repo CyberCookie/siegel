@@ -1,6 +1,7 @@
 //TODO: masks
 //TODO: add precision to onBlur and input value
 //TODO: truncate zeroes left
+//TODO: arrow edit when field is focused
 import React from 'react'
 
 import isExists from '../../../utils/is_exists'
