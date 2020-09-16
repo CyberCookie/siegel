@@ -8,7 +8,7 @@ import s from './styles.sass'
 
 const componentID = '-ui-breadcrumbs'
 
-let forceUpdate: React.Dispatch<React.SetStateAction<object>> | undefined;
+let forceUpdate: React.Dispatch<React.SetStateAction<Indexable>> | undefined;
 const dynamicCrumbs: Indexable<React.ReactNode> = {}
 const setDynamicCrumb = (crumpId: string, value: React.ReactNode, isForceUpdate = true) => {
     if (dynamicCrumbs[crumpId] != value) {

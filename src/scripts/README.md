@@ -1,6 +1,6 @@
 # Scripts
 There are three scripts which could help you to automate some routines.\
-<b>All the next commands should be ran via bash terminal since scripts exec bash commands under the hood</b>
+<b>All the next commands should be ran via bash terminal since scripts exec shell commands under the hood.</b>
 
 ## init_project.js
 Must be ran at project root level where package.json is. This script creates production ready project with predefined folder structure including already configured siegel to provide the best expirience. Also it creates npm script commands in your package.json that cover mostly all the cases you will need during development. More about these scripts read in [demo project section](https://github.com/CyberCookie/siegel/tree/master/__example).

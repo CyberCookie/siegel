@@ -1,5 +1,5 @@
 import request from 'siegel-services/request'
-import createHookStore, { ActionsUnbinded } from 'siegel-store/hook_store'
+import createHookStore, { InnerStore } from 'siegel-store/hook_store'
 
 
 type State = {
@@ -9,14 +9,19 @@ type State = {
     _lastUpdate: number
 }
 
+type StoreInitialized = Required<InnerStore<State>>
+type Actions = {
+    makeSomeFetch(store: StoreInitialized, userData: string, x?: number): void
+}
+
 
 const initState: State = {
     someData: {},
     _lastUpdate: 0
 }
 
-const actions: ActionsUnbinded<State> = {
-    makeSomeFetch({ state, setState }, userData: any) {
+const actions: Actions = {
+    makeSomeFetch({ state, setState }, userData) {
         request({
             url: '/api/test',
             body: userData
@@ -28,7 +33,10 @@ const actions: ActionsUnbinded<State> = {
     }
 }
 
+
+
 const { useStore, store } = createHookStore(initState, actions)
+store.actions.makeSomeFetch('a')
 
 
 export { initState, store }

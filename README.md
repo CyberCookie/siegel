@@ -37,6 +37,17 @@ siegel supports minimal config for testing purposes where only react application
 require('siegel')('./app.js')
 ```
 
+<h5>app.js</h5>
+
+```js
+import { render } from 'react-dom'
+
+render(
+    'hello world',
+    document.getElementById('root')
+)
+```
+
 If you don't want to bother yourself with project creating and siegel configuring - you can just run from root level script that will create it all for you:
 
 ```sh
@@ -145,14 +156,22 @@ __postProcessWebpackConfig__ - function that receives full webpack config that y
     </ul></li>
     <li><ul><b>ui_core</b>
         <li>Resolve TODOs</li>
-        <li>More typization</li>
+        <li>Add typization to redux</li>
         <li>Prebuild</li>
         <li>SEO by updating meta tags on page render</li>
     </ul></li>
+    <li><ul><b>scripts</b>
+        <li>Replace bash commands with node solutions</li>
+        <li>Add npm packages update script</li>
+        <li>Move to .bin</li>
+        <li>Single command with subcommands</li>
+    </ul></li>
     <li><ul><b>siegel in general</b>
         <li>Better documentation</li>
-        <li>get rid of peer dependencies</li>
-        <li>less dependencies</li>
+        <li>Test coverage</li>
+        <li>Use as global</li>
+        <li>Get rid of peer dependencies</li>
+        <li>Less dependencies</li>
         <li>...</li>
         <li>GUI to build complex websites just by dragging components onto a page. GUI to tight it all to DB. Eventually - site builder that powerfull to build your own site builder :)</li>
     </ul></li>

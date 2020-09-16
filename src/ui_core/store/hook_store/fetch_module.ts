@@ -1,19 +1,33 @@
-import createHookStore from './hook_store'
+import createHookStore, { InnerStore } from './index'
 
 
-const initState = {
+type State = {
+    requests: any,
+    errRes: any
+}
+
+type StoreInitialized = Required<InnerStore<State>>
+type Actions = {
+    addToReqQueue(store: StoreInitialized, url: string): void
+    removeFromReqQueue(store: StoreInitialized, url: string): void
+    addToErrRes(store: StoreInitialized, res: Indexable, url: string): void
+    clearErrRes(store: StoreInitialized, url: string): void
+    getLastErrorMsg(store: StoreInitialized, url: string): void
+}
+
+const initState: State = {
     requests: {},
     errRes: {}
 }
 
 
-function decrementRequests(state, url) {
-    state.requests[url] > 1
-        ?   state.requests[url]--
-        :   (delete state.requests[url])
+function decrementRequests({ requests }: State, url: string) {
+    requests[url] > 1
+        ?   requests[url]--
+        :   (delete requests[url])
 }
 
-const actions = {
+const actions: Actions = {
     addToReqQueue({ state, setState }, url) {
         state.requests[url]
             ?   state.requests[url]++

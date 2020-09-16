@@ -1,7 +1,6 @@
 //TODO: masks
 //TODO: add precision to onBlur and input value
 //TODO: truncate zeroes left
-//TODO: arrow edit when field is focused
 import React from 'react'
 
 import isExists from '../../../utils/is_exists'
@@ -10,10 +9,12 @@ import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
 import { _NumberPicker, MergedProps, BtnClickEv, BtnProps, InputFieldProps, OnNumberPickerChange } from './types'
 
+import s from './styles.sass'
+
 
 const componentID = '-ui-number_picker'
 
-const keyDown = 40, keyUp = 38;
+const keyDown = 40, keyUp = 38, deleteCode = 46;
 
 function getRegExp(min: MergedProps['min'], max: MergedProps['max'], precision: MergedProps['precision']): RegExp {
     const minLimit = Math.min(min, max)
@@ -97,7 +98,10 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const numberMask = regexp || getRegExp(min, max, precision)
     const numberValue = getNumberValue(value, min, max)
 
-    const numberpickerRootProps: ComponentAttributes = { className }
+    const numberpickerRootProps: ComponentAttributes = {
+        className: `${className} ${s.root}`,
+        tabIndex: -1
+    }
     const inputFieldProps: InputFieldProps = {
         className: theme.field,
         disabled: disabled || disabledInput,
@@ -137,18 +141,25 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     
     let stepper;
     if (isExists(step)) {
-        if (keyboardArrows && isFocused && !inputFieldProps.disabled) {
+        if (keyboardArrows && isFocused) {
             numberpickerRootProps.onKeyDown = e => {
                 const keyCode = e.nativeEvent.keyCode;
-                const isKeyUp = keyCode == keyUp;
-                const isKeyDown = keyCode == keyDown;
-        
-                if (isKeyUp || isKeyDown) {
-                    e.preventDefault()
-                    let _step = step;
-                    isKeyDown && (_step *= -1)
-        
-                    onNumberPickerChange(numberValue + _step, e, true)
+
+                if (keyCode == deleteCode) {
+                    let newValue: string | number = isFinite(min) ? min : 0
+                    inputFieldProps.disabled || (newValue = '')
+                    
+                    onChange(''+newValue, e, payload)
+                } else {
+                    const isKeyDown = keyCode == keyDown;
+            
+                    if (keyCode == keyUp || isKeyDown) {
+                        e.preventDefault()
+                        let _step = step;
+                        isKeyDown && (_step *= -1)
+            
+                        onNumberPickerChange(numberValue + _step, e, true)
+                    }
                 }
             }
         }

@@ -1,13 +1,14 @@
 import React, { useLayoutEffect } from 'react'
+// import { RouteComponentProps } from 'react-router-dom'
 
 import testModule from '../../modules/demo_api'
 
 
-const DemoApi = () => {
+const DemoApi = (/*props: RouteComponentProps*/) => {
     const [ state, actions ] = testModule()
     
     useLayoutEffect(() => {
-        actions.makeSomeFetch({ someBody: 'body' })
+        actions.makeSomeFetch('some string')
     }, [])
 
 

@@ -57,7 +57,7 @@ const createRoutes: CreateRoutes = (routeConfig, urlPref = '') => {
                 ?   routeProps.render = (props: RouteProps) => <Page {...props} beforeEnter={beforeEnter(props)} />
                 :   routeProps.component = Page;
                 
-                routes.push( <Route key={pathResult} {...routeProps} /> )
+            routes.push( <Route key={pathResult} {...routeProps} /> )
 
 
             if (children) {

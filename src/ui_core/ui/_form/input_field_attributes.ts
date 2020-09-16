@@ -28,8 +28,7 @@ type AddInputFieldAttributes = (
 
 
 const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps, props) => {
-    const { disabled, autofocus, theme, placeholder, value,
-        attributes, inputAttributes } = props;
+    const { disabled, autofocus, theme, placeholder, value, attributes, inputAttributes } = props;
 
     const [ state, setState ] = useState({
         isTouched: false,
@@ -40,19 +39,19 @@ const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps,
     inputProps.ref = useRef<HTMLInputElement>(null)
 
 
+    isFocused && (rootProps.className += ` ${theme._focused}`)
+    isTouched && (rootProps.className += ` ${theme._touched}`)
     if (inputProps.disabled) {
         rootProps.className += ` ${theme._disabled}`
     }
-    isFocused && (rootProps.className += ` ${theme._focused}`)
-    isTouched && (rootProps.className += ` ${theme._touched}`)
-
-
-    rootProps.onFocus = () => {
+    disabled || (rootProps.onFocus = () => {
         if (!isFocused) {
             state.isFocused = true;
             setState({ ...state })
         }
-    }
+    })
+
+
     rootProps.onBlur = () => {
         if (!isTouched || isFocused) {
             isTouched || (state.isTouched = true)
@@ -67,9 +66,7 @@ const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps,
 
     if (autofocus) {
         useEffect(() => {
-            if (!disabled) {
-                (inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
-            }
+            disabled || ((inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus())
         }, [ disabled ])
     }
 
