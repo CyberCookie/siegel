@@ -1,16 +1,41 @@
 import { HubConnectionBuilder, HubConnectionState, HttpTransportType, JsonHubProtocol } from '@microsoft/signalr/dist/browser/signalr'
 
 
-const defaults = {}
-const setDefaults = params => defaults = params;
+type SignalROptions = {
+    url: string,
+    serverTimeout?: number
+    reconnectInterval?: number
+    endpoint?: string
+    transport?: any
+    protocol?: any
+    skipNegotiation?: boolean
+    token?: () => string
+    handlers?: {
+        onopen?: () => void
+        onclose?: () => void
+        onreconnect?: () => void
+        onerror?: (err: any) => void
+    }
+}
 
-const createSignalRConnection = options => {
-    let connectionParams = Object.assign({}, defaults, options)
-    let { url, reconnectInterval, endpoint, transport, protocol, serverTimeout,
-        skipNegotiation = true, handlers = {}, token } = connectionParams;
+let defaults = {
+    handlers: {},
+    skipNegotiation: true
+}
+const setDefaults = (params: Partial<SignalROptions>) => {
+    defaults = {
+        ...defaults,
+        ...params
+    }
+}
+
+const createSignalRConnection = (options: SignalROptions) => {
+    const connectionParams = Object.assign(options, defaults)
+    const { url, reconnectInterval, endpoint, transport, protocol, serverTimeout,
+        skipNegotiation, handlers, token } = connectionParams;
     
 
-    let nativeSocket = new HubConnectionBuilder()
+    const nativeSocket = new HubConnectionBuilder()
         .withUrl((url || window.location.origin) + endpoint, { 
             skipNegotiation,
             accessTokenFactory: token,
@@ -31,25 +56,25 @@ const createSignalRConnection = options => {
     return {
         nativeSocket,
         on: nativeSocket.on.bind(nativeSocket),
-        invoke(...args) {
+        invoke(...args: any[]) {
             this.isAlive() && nativeSocket.invoke.apply(nativeSocket, args)
         },
 
         isAlive: () => nativeSocket.state === HubConnectionState.Connected,
-        async runSocket(cb) {
+        async runSocket(cb: () => void) {
             if (this.isAlive()) {
                 cb && cb.call(this)
             } else if (nativeSocket.state === HubConnectionState.Connecting || nativeSocket.state === HubConnectionState.Reconnecting) {
-                setTimeout(() => this.runSocket(cb), 800)
+                setTimeout(() => { this.runSocket(cb) }, 800)
             } else {
                 try {
                     await nativeSocket.start()
                     
                     cb && cb.call(this)
-                    handlers.onopen && handlers.onopen(this)
+                    handlers.onopen && handlers.onopen.call(this)
                 } catch(err) {
                     handlers.onerror
-                        ?   handlers.onerror(this, err)
+                        ?   handlers.onerror.call(this, err)
                         :   console.error(err)
                 }
             }

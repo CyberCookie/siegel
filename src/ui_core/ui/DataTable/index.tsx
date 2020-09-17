@@ -50,7 +50,7 @@ function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBod
     }
     paginationProps && Object.assign(dataTablePaginationProps, paginationProps)
 
-    
+
     return (
         <div className={theme.pagination_wrapper}>
             { displayQuantity && displayQuantity(resultIDs.length) }

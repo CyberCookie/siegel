@@ -144,34 +144,36 @@ __postProcessWebpackConfig__ - function that receives full webpack config that y
     <li><ul><b>server</b>
         <li>Compatible HTTP1 and HTTP2 static server</li>
         <li>Watch for user server changes recursively</li>
-        <li>Isomorphic API</li>
         <li>SEO for crawlers (pages prebuild or build on the fly)</li>
+        <li>Isomorphic API</li>
     </ul></li>
     <li><ul><b>ui_build</b>
-        <li>Nice way to configure modules</li>
-        <li>Generate code documentation from TS</li>
-        <li>Contribute to the <b>iconfont-webpack-plugin</b> in order to add woff2 support and fix a problem with different contenthash from build to build</li>
         <li>ES modules</li>
+        <li>Nice way to configure modules</li>
         <li>Separate styles for different media query</li>
+        <li>Contribute to the <b>iconfont-webpack-plugin</b> in order to add woff2 support and fix a problem with different contenthash from build to build</li>
+        <li>Generate code documentation from TS</li>
     </ul></li>
     <li><ul><b>ui_core</b>
-        <li>Resolve TODOs</li>
-        <li>Add typization to redux</li>
         <li>Prebuild</li>
+        <li>PWA</li>
         <li>SEO by updating meta tags on page render</li>
+        <li>Resolve TODOs</li>
+        <li>Add typization to redux and signalR</li>
+        <li>React Native</li>
     </ul></li>
     <li><ul><b>scripts</b>
-        <li>Replace bash commands with node solutions</li>
         <li>Add npm packages update script</li>
-        <li>Move to .bin</li>
         <li>Single command with subcommands</li>
+        <li>Move to .bin</li>
+        <li>Replace bash commands with node solutions</li>
     </ul></li>
     <li><ul><b>siegel in general</b>
+        <li>Get rid of peer dependencies</li>
+        <li>Less dependencies</li>
         <li>Better documentation</li>
         <li>Test coverage</li>
         <li>Use as global</li>
-        <li>Get rid of peer dependencies</li>
-        <li>Less dependencies</li>
         <li>...</li>
         <li>GUI to build complex websites just by dragging components onto a page. GUI to tight it all to DB. Eventually - site builder that powerfull to build your own site builder :)</li>
     </ul></li>

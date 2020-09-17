@@ -63,10 +63,16 @@ function getModules(CONFIG, RUN_PARAMS) {
                     loader: resolve('postcss-loader'),
                     options: {
                         sourceMap: !isProd,
-                        plugins: loader => [
+                        // postcssOptions: {
+                        //     plugins: [
+                        //         [ require.resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ],
+                        //         [ require.resolve('cssnano'), { preset: 'default' } ]
+                        //     ]
+                        // }
+                        plugins: (/*loader*/) => [
                             autoprefixer({ overrideBrowserList: 'last 1 version' }),
                             cssMinifier({ preset: 'default' })
-                            //TODO:
+                            // TODO:
                             // new cssSVG(loader)
                         ]
                     }

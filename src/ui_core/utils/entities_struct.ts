@@ -26,7 +26,12 @@ function entities<K extends ID = ''>(uniq: K) {
             byID[entityID] || sorted.push(entityID)
             byID[entityID] = entity
         },
-    
+        
+        addAll(entities: Entity[]) {
+            for (let i = 0, l = entities.length; i < l; i++)
+                this.addOrUpdate(entities[i])
+        },
+
         remove(entityID: ID) {
             if (byID[entityID]) {
                 const indexOfEntity = sorted.findIndex(ID => entityID === ID)

@@ -19,7 +19,8 @@ const entitiesStruct = createEntitiesStruct('id')
     id: i,
     date: Date.now() + msIn.day * i,
     name: 'some text ' + i,
-    someNumer: i % 4
+    someNumer: i % 4,
+    bool: i % 2 == 0 ? true : false
 }))
 .forEach(el => entitiesStruct.addOrUpdate(el))
 // type Entities = typeof entitiesStruct
@@ -54,6 +55,12 @@ const columnsConfig: Props['columnsConfig'] = [
         label: 'Some number',
         type: 'set',
         entityFieldPath: 'someNumer'
+    },
+    {
+        label: 'Some boolean',
+        type: 'set',
+        entityFieldPath: 'bool',
+        showValue: entity => entity.bool ? '+' : '-'
     }
 ]
 

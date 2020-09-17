@@ -49,6 +49,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             ...( isProd ? {
                 minimizer: [
                     new terserPlugin({
+                        test: /\.(js|jsx|ts|tsx)$/,
                         terserOptions: {
                             output: { comments: false }
                         },

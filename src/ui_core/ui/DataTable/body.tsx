@@ -50,12 +50,14 @@ function getBody(props: MergedProps, state: State) {
             ?   config.onFilter!(processedList, byID, searchString) // must not deattach onSort to keep `this`
 
             :   processedList.filter(itemID => {
+                    const entity = byID[itemID]
+
                     let valueToFilter = Array.isArray(entityFieldPath)
-                        ?   deepGet(byID[itemID], entityFieldPath)
-                        :   byID[itemID][entityFieldPath as NonNullable<typeof entityFieldPath>]
+                        ?   deepGet(entity, entityFieldPath)
+                        :   entity[entityFieldPath as NonNullable<typeof entityFieldPath>]
                     
                     if (type == 'set') {
-                        putSetValue && (valueToFilter = config.putSetValue!(valueToFilter))
+                        putSetValue && (valueToFilter = config.putSetValue!(entity))
                         
                         return !(searchString as SearchByFieldSet).has(valueToFilter)
                     } else if (type == 'date') {
@@ -99,7 +101,7 @@ function getBody(props: MergedProps, state: State) {
 
     let from, to;
     if (withPagination) {
-        const maxPages = Math.ceil(processedList.length / showPerPage)
+        const maxPages = Math.ceil(processedList.length / showPerPage) || 1
         currentPage > maxPages && (state.currentPage = maxPages)
 
         from = (state.currentPage - 1) * showPerPage;

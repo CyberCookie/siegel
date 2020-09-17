@@ -87,22 +87,23 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postP
 
         function getSearch() {
             const searchByField = dataGridHookState.searchByField;
-            const type = config.type;
+            const { type, entityFieldPath, showValue } = config;
             let searchElement;
-
+            
             if (type == 'set') {
                 const resultCheckbox: JSX.Element[] = []
                 const searchSet = (searchByField[index] as SearchByFieldSet) || new Set();
                 const uniqValues: SearchByFieldSet = new Set()
-
-                entities.each(entity => {
-                    const setValue = entity[config.entityFieldPath as string]
+                
+                entities.each((entity, i) => {
+                    const setValue = entity[entityFieldPath as string]
                     if (!uniqValues.has(setValue)) {
                         uniqValues.add(setValue)
 
                         resultCheckbox.push(
                             <Checkbox key={setValue} theme={checkboxTheme} value={!searchSet.has(setValue)}
-                                className={s.set_checkbox} label={setValue} icon={check}
+                                className={s.set_checkbox} label={showValue ? showValue(entity, i) : setValue}
+                                icon={check}
                                 onChange={(checkboxValue, e) => {
                                     e.stopPropagation()
         
@@ -257,7 +258,7 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<Props['post
                         ?   selected.delete(entity.id)
                         :   selected.add(entity.id)
 
-                        setPostprocessData({ ...postProcessData })
+                    setPostprocessData({ ...postProcessData })
                 }} />
         )
     })

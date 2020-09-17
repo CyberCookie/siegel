@@ -13,5 +13,5 @@
 			"siegel-tsglobals": ["../src/ui_core/global.d.ts"]
 		}
 	},
-	"exclude": [ "node_modueles" ]
+	"exclude": [ "node_modules" ]
 }

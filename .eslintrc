@@ -31,6 +31,7 @@
         "react/jsx-no-bind": 0,
         "react/no-children-prop": 0,
         "react/prop-types": 0,
+        "prefer-spread": 0,
         "no-inner-declarations": 0,
         "@typescript-eslint/no-var-requires": 0,
         "@typescript-eslint/explicit-function-return-type": 0,
