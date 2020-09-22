@@ -6,15 +6,19 @@ const CONSTANTS                     = require('./constants')
 
 function mergeConfigWithDefaults(CONFIG, DEFAULT_CONFIG) {
     for (const key in DEFAULT_CONFIG) {
-        const value = DEFAULT_CONFIG[key]
+        const defaultValue = DEFAULT_CONFIG[key]
+        const configValue = CONFIG[key]
 
-        if (CONFIG[key] == undefined) {
-            CONFIG[key] = value
-        } else if (CONFIG[key].constructor.name == 'Object' && value.constructor.name == 'Object') {
-            mergeConfigWithDefaults(CONFIG[key], value)
+        if (configValue === undefined) {
+            CONFIG[key] = defaultValue
+        } else if (Array.isArray(configValue) && Array.isArray(defaultValue)) {
+            CONFIG[key] = Array.from(new Set( defaultValue.concat(configValue) ))
+        } else if (configValue.constructor.name == 'Object' && defaultValue.constructor.name == 'Object') {
+            mergeConfigWithDefaults(CONFIG[key], defaultValue)
         }
     }
 }
+
 
 
 //TODO:
@@ -25,40 +29,30 @@ module.exports = (CONFIG = {}, RUN_PARAMS = {}) => {
     RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer
 
 
-    
-    if (RUN_PARAMS.isBuild && typeof CONFIG == 'string') {
-        CONFIG = {
-            build: {
-                input: {
-                    js: isAbsolute(CONFIG)
-                        ?   CONFIG
-                        :   join(dirname(process.argv[1]), CONFIG)
-                }
-            }
-        }
-    }
 
+    let stringConfig;
+    if (typeof CONFIG == 'string') {
+        stringConfig = CONFIG;
+        CONFIG = {}
+    }
+    
     mergeConfigWithDefaults(CONFIG, CONSTANTS.DEFAULT_CONFIG)
 
     if (RUN_PARAMS.isBuild) {
-        const { input, output } = CONFIG.build;
+        const { input } = CONFIG.build;
+        
 
-        
-        if (!input.js) { throw 'no build.input.js provided' }
-        
-        if (!(output && input.include)) {
-            const inputDirName = dirname(input.js)
-            
-            
-            output || (
-                CONFIG.build.output = existsSync(inputDirName, 'package.json')
-                    ?   join(inputDirName, 'dist')
-                    :   join(inputDirName, '..', 'dist')
-            )
-                
-            input.include || (input.include = [ inputDirName ])
-            input.include.push(CONSTANTS.PATHS.uiCore)
+        if (stringConfig) {
+            input.js = isAbsolute(stringConfig)
+                ?   stringConfig
+                :   join(dirname(process.argv[1]), stringConfig)
         }
+        if (!existsSync(input.js)) {
+            throw `build.input.js ->> [${input.js}] file doesn't exists.`
+        }
+        
+
+        input.include.push( dirname(input.js) )
     }
 
 

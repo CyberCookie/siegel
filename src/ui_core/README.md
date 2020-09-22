@@ -43,6 +43,7 @@ request({
 ```
 
 Request service can also be configured with beforeRequest, afterRequest and errorHandler hooks
+
 ```js
 import { setup } from 'siegel-services/request'
 
@@ -59,6 +60,7 @@ setup({
     }
 })
 ```
+
 </details>
 <h4>signalr...</h4>
 
@@ -146,6 +148,7 @@ const Component = props => {
     ...
 }
 ```
+
 </details>
 
 
@@ -211,6 +214,7 @@ const router = createRouter({
 
 render(document.getElementById('app'), router)
 ```
+
 </details>
 
 <hr />
@@ -258,7 +262,6 @@ console.log(year, month, date, hours, minutes, day) // 2020, 00, 00, 04, 00, 01
 If you want to clone an object with nested objects and arrays:
 
 ```js
-
 import clone from 'siegel-utils/deep/clone'
 
 const someObject = {
@@ -343,8 +346,6 @@ const mock = [
 
 mock.sort(objectsSort.bind(null, 'name', 'birth'))
 // [{ id: 5... }, { id: 1... }, { id: 3... }]
-
-
 ```
 
 </details>
@@ -529,5 +530,5 @@ the same as
 <Button className='some-class' value={42} />
 ```
 
-You can look at how to use them in [demo project demo components folder](https://github.com/CyberCookie/siegel/tree/__example/main/pages/DemoComponents/components).
+You can look at how to use them in [demo project demo components folder](https://github.com/CyberCookie/siegel/tree/demo_app/main/pages/DemoComponents/components).
 </details>

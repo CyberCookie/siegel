@@ -28,7 +28,7 @@ const main = async function(_CONFIG, _RUN_PARAMS) {
 
         const devServer = require(devServerLoc)
 
-        function initDevServer() {
+        function createDevServer() {
             let extender;
             if (extenderLoc) {
                 try {
@@ -43,7 +43,7 @@ const main = async function(_CONFIG, _RUN_PARAMS) {
         }
 
         
-        let devServerInstance = initDevServer()
+        let devServerInstance = createDevServer()
         if (watch) {
             let lock = false;
             function reInitDevServer() {
@@ -51,7 +51,7 @@ const main = async function(_CONFIG, _RUN_PARAMS) {
                 // delete require.cache[devServerLoc]
 
                 devServerInstance.close()
-                devServerInstance = initDevServer()
+                devServerInstance = createDevServer()
 
                 lock = false
             }

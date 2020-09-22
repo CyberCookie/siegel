@@ -1,16 +1,16 @@
-const { join, basename }    = require('path')
-const webpack               = require('webpack')
-const webpackDevMiddleware  = require('webpack-dev-middleware')
-const webpackHotMiddleware  = require('webpack-hot-middleware')
-const terserPlugin          = require('terser-webpack-plugin')
+const webpack                   = require('webpack')
+const webpackDevMiddleware      = require('webpack-dev-middleware')
+const webpackHotMiddleware      = require('webpack-hot-middleware')
+const terserPlugin              = require('terser-webpack-plugin')
 
-const defaultPluginsResolve = require('./plugins')
-const defaultModulesResolve = require('./modules')
+const defaultPluginsResolve     = require('./plugins')
+const defaultModulesResolve     = require('./modules')
 
-const constants             = require('../constants')
+const { PATHS }                 = require('../constants')
 
 
 const DEFAULT_PUBLICK_PATH = '/'
+
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
     const { input, output, aliases = {}, publicPath = DEFAULT_PUBLICK_PATH, postProcessWebpackConfig } = CONFIG.build;
@@ -24,10 +24,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         resolve: {
             alias: aliases,
             extensions: ['.js', '.jsx', '.ts', '.tsx', '.sass'],
-            modules: [
-                constants.PATHS.nodeModules,
-                join(process.cwd(), basename(constants.PATHS.nodeModules))
-            ]
+            modules: [ PATHS.nodeModules, PATHS.parentNodeModules ]
         },
         entry: [
             ...( isDevServer ? ['webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true'] : [] ),

@@ -56,29 +56,19 @@ const siegelConfig = {
         aliases: getAliasesFromTSconfig(),
 
         // plugins: {
-            // compression: {
-            //     instances: {
-            //         br: {
-            //             options: { deleteOriginalAssets: false }
-            //         },
-            //         gzip: {
-            //             options: { deleteOriginalAssets: false }
-            //         }
-            //     }
-            // }
+        //     compression: {
+        //         instances: {
+        //             br: {
+        //                 options: { deleteOriginalAssets: false }
+        //             },
+        //             gzip: {
+        //                 options: { deleteOriginalAssets: false }
+        //             }
+        //         }
+        //     }
         // },
 
         // postProcessWebpackConfig(config) {
-        //     config.module.rules.push({
-        //         test: /\.woff2$/, // /\.(woff2|ico|png|jpg)$/
-        //         include: APP,
-        //         exclude: NODE_MODULES,
-        //         loader: 'file-loader',
-        //         options: { 
-        //             name: assetsFolderName + '/[folder]/[name].[ext]'
-        //         }
-        //     })
-
         //     config.module.rules.push({
         //         test: /\.(svg|eot|ttf|woff|woff2)?$/,
         //         loader: "url-loader"

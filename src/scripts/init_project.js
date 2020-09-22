@@ -27,7 +27,7 @@ if (existsSync(targetPackageJSONPath)) {
 
     
     //Copy test project
-    shell(`cp -r ${PATHS.example}/. .`)
+    shell(`cp -r ${PATHS.demoProject}/. .`)
 
 
 
@@ -44,7 +44,7 @@ if (existsSync(targetPackageJSONPath)) {
 
  
     //Update project JSONs
-    const exampleDirPathFromRoot = relative(PATHS.root, PATHS.example)
+    const exampleDirPathFromRoot = relative(PATHS.root, PATHS.demoProject)
     let pathToIndex = devCorePackageConfig.index.replace(exampleDirPathFromRoot, '')
     pathToIndex = pathToIndex.substr(pathToIndex.search(/\w/))
     

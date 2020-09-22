@@ -35,7 +35,7 @@
         "node": ">= 10.13.0"
     },
     "config": {
-        "index": "__example/server/index.js"
+        "index": "demo_app/server/index.js"
     },
     "main": "./src/index.js",
     "scripts": {
@@ -73,6 +73,7 @@
         "connect-history-api-fallback": "^1.6.0",
         "copy-webpack-plugin": "^6.1.0",
         "css-loader": "^4.3.0",
+        "cssnano": "^4.1.10",
         "eslint": "^7.9.0",
         "eslint-loader": "^4.0.2",
         "eslint-plugin-react": "^7.20.6",
@@ -82,7 +83,6 @@
         "iconfont-webpack-plugin": "^5.0.0",
         "mime-types": "^2.1.27",
         "mini-css-extract-plugin": "^0.11.2",
-        "optimize-css-assets-webpack-plugin": "^5.0.4",
         "pm2": "^4.4.0",
         "postcss-loader": "^3.0.0",
         "react": "^16.13.0",

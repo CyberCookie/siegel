@@ -7,14 +7,14 @@ const resolve = require.resolve;
 
 
 function getModules(CONFIG, RUN_PARAMS) {
-    const { sassResources, include } = CONFIG.build.input;
+    const { sassResources, include, exclude } = CONFIG.build.input;
     const { isProd, isServer } = RUN_PARAMS;
 
 
     return { rules: [
         {
             test: /\.(js|jsx|ts|tsx)$/,
-            include,
+            include, exclude,
             use: [
                 {
                     loader: resolve('babel-loader'),
@@ -43,7 +43,7 @@ function getModules(CONFIG, RUN_PARAMS) {
 
         {
             test: /\.sass$/,
-            include,
+            include, exclude,
             use: [
                 isProd || !isServer ? miniCssExtract.loader : resolve('style-loader'),
                 

@@ -122,7 +122,7 @@ function getPlugins(CONFIG, RUN_PARAMS) {
             options: {
                 patterns: [{
                     from: input.assetsDir,
-                    to: path.join(
+                    to: input.assetsDir && path.join(
                             output,
                             path.relative(
                                 path.dirname(input.html),

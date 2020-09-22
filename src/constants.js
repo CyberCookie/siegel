@@ -1,11 +1,24 @@
-const join = require('path').join;
+const join              = require('path').join;
+const { existsSync }    = require('fs')
 
+
+function getParentNodemodules() {
+    const paths = require.main.paths;
+    for (let i = 0, l = paths.length; i < l; i++) {
+        const nodePath = paths[i]
+        if (existsSync(nodePath)) return nodePath
+    }
+}
+
+
+const cwd = process.cwd()
 const root = join(__dirname, '..')
 
 const PATHS = {
     root,
-    example: join(root, '__example'),
+    demoProject: join(root, 'demo_app'),
     nodeModules: join(root, 'node_modules'),
+    parentNodeModules: getParentNodemodules(),
     package: join(root, 'package.json'),
     build: join(__dirname, 'ui_build', 'index'),
     staticServer: join(__dirname, 'server', 'index'),
@@ -21,11 +34,16 @@ const DEFAULT_CONFIG = {
 
     build: {
         input: {
-            html: join(PATHS.example, 'client', 'index.html'),
-            assetsDir: ''
-        }
+            html: join(PATHS.demoProject, 'client', 'index.html'),
+            js: join(cwd, 'app.ts'),
+            include: [ PATHS.uiCore ],
+            exclude: [ PATHS.nodeModules, PATHS.parentNodeModules ]
+        },
+
+        output: join(cwd, 'dist')
     }
 }
+
 
 const DEFAULT_RUN_PARAMS = {
     isServer: true,

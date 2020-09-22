@@ -1,5 +1,18 @@
 # siegel
-[![npm version](https://badge.fury.io/js/siegel.svg)](https://badge.fury.io/js/siegel) [![Dependency Status](https://david-dm.org/cybercookie/siegel.svg)](https://david-dm.org/cybercookie/siegel) ![build](https://github.com/cybercookie/siegel/workflows/build/badge.svg)
+
+<a href='https://badge.fury.io/js/siegel'>
+    <img src='https://badge.fury.io/js/siegel.svg' alt='npm version' />
+</a>
+
+<a href='https://david-dm.org/cybercookie/siegel'>
+    <img src='https://david-dm.org/cybercookie/siegel.svg' alt='Dependency Status' />
+</a>
+
+<a>
+    <img src='https://github.com/cybercookie/siegel/workflows/build/badge.svg' alt='build' />
+</a>
+
+
 
 <h3>Description</h3>
 Finally*! The package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project. Now nothing can stop you from diving into a business logic right after installation.
@@ -12,7 +25,7 @@ In general this package is a site development platform that consists of three ma
 
 And two helper parts (scripts, demo project):
 - [scripts](https://github.com/CyberCookie/siegel/tree/master/src/scripts) - siegel helper scripts.
-- [demo project](https://github.com/CyberCookie/siegel/tree/master/__example) - for inner tests and project installation.
+- [demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) - for inner tests and project installation.
 
 
 <h3>Installation</h3>
@@ -21,25 +34,24 @@ And two helper parts (scripts, demo project):
 npm i siegel
 ```
 
-You should install some peer dependencies in order to make inner eslint and typescript proper validate your code. There is an __install_peers.js__ script located in scripts part that can make it easier for you.
+You should install some peer dependencies in order to make inner eslint and typescript proper validate your code.\
+
+There is an __install_peers.js__ script located in scripts part that can make it easier for you.
 
 <h3>Usage</h3>
-siegel is a function that accepts __config__ as a first argument and __runParams__ as a second.
+siegel it's a function that accepts <b>config</b> as a first argument and <b>runParams</b> as a second.\
+
 You may read about these parameters below.
 
 ```js
 require('siegel')(config, runParams)
 ```
 
-siegel supports minimal config for testing purposes where only react application entrypoint is required:
+siegel supports zero configuration mode to make it super easy for you to try it out as soon as possible.\
+Create app.ts file somewhere in your project:
+<h5>app.ts</h5>
 
-```js
-require('siegel')('./app.js')
-```
-
-<h5>app.js</h5>
-
-```js
+```ts
 import { render } from 'react-dom'
 
 render(
@@ -47,6 +59,21 @@ render(
     document.getElementById('root')
 )
 ```
+
+Create simple index.js node file: 
+<h5>index.js</h5>
+
+```js
+require('siegel')()
+```
+
+And execute it via CLI:
+
+```sh
+node index.js
+```
+
+<br />
 
 If you don't want to bother yourself with project creating and siegel configuring - you can just run from root level script that will create it all for you:
 
@@ -75,13 +102,15 @@ Defaults are commented.
 
     build: {
         input: {
-            js: String,
+            js: String, // path.join(process.cwd(), 'app.ts')
             sw: String,
-            html: String,
+            html: String, // demo_project html (<div id='root'...)
             assetsDir: String,
-            sassResources: String
+            sassResources: String,
+            include: String[], // [ ui_core, path.dirname(build.input.js) ]
+            exclude: String[] // [ siegel's node_modules, parent node_modules ]
         },
-        output: String, // if entrypoint is located at root level - 'dist' folder will be created at the same level. Othervice 'dist' folder will be created one level upper regarding to an entrypoint.
+        output: String, // path.join(process.cwd(), 'dist')
         aliases: Object,
 
         plugins: Object,
@@ -139,42 +168,44 @@ __postProcessWebpackConfig__ - function that receives full webpack config that y
 }
 ```
 
-##### TODO
-<ul>Still plenty of work to do in order to make it more flexible and easier to setup. To bring as more optional cool features as possible!
-    <li><ul><b>server</b>
-        <li>Compatible HTTP1 and HTTP2 static server</li>
-        <li>Watch for user server changes recursively</li>
-        <li>SEO for crawlers (pages prebuild or build on the fly)</li>
-        <li>Isomorphic API</li>
-    </ul></li>
-    <li><ul><b>ui_build</b>
-        <li>ES modules</li>
-        <li>Nice way to configure modules</li>
-        <li>Separate styles for different media query</li>
-        <li>Contribute to the <b>iconfont-webpack-plugin</b> in order to add woff2 support and fix a problem with different contenthash from build to build</li>
-        <li>Generate code documentation from TS</li>
-    </ul></li>
-    <li><ul><b>ui_core</b>
-        <li>Prebuild</li>
-        <li>PWA</li>
-        <li>SEO by updating meta tags on page render</li>
-        <li>Resolve TODOs</li>
-        <li>Add typization to redux and signalR</li>
-        <li>React Native</li>
-    </ul></li>
-    <li><ul><b>scripts</b>
-        <li>Add npm packages update script</li>
-        <li>Single command with subcommands</li>
-        <li>Move to .bin</li>
-        <li>Replace bash commands with node solutions</li>
-    </ul></li>
-    <li><ul><b>siegel in general</b>
-        <li>Get rid of peer dependencies</li>
-        <li>Less dependencies</li>
-        <li>Better documentation</li>
-        <li>Test coverage</li>
-        <li>Use as global</li>
-        <li>...</li>
-        <li>GUI to build complex websites just by dragging components onto a page. GUI to tight it all to DB. Eventually - site builder that powerfull to build your own site builder :)</li>
-    </ul></li>
-</ul>
+<details>
+<summary><h5>TODO</h5></summary>
+    <ul>Still plenty of work to do in order to make it more flexible and easier to setup. To bring as more optional cool features as possible!
+        <li><ul><b>server</b>
+            <li>Compatible HTTP1 and HTTP2 static server</li>
+            <li>Watch for user server changes recursively</li>
+            <li>SEO for crawlers (pages prebuild or build on the fly)</li>
+            <li>Isomorphic API</li>
+        </ul></li>
+        <li><ul><b>ui_build</b>
+            <li>ES modules</li>
+            <li>Nice way to configure modules</li>
+            <li>Separate styles for different media query</li>
+            <li>Contribute to the <b>iconfont-webpack-plugin</b> in order to add woff2 support and fix a problem with different contenthash from build to build</li>
+            <li>Generate code documentation from TS</li>
+        </ul></li>
+        <li><ul><b>ui_core</b>
+            <li>Prebuild</li>
+            <li>PWA</li>
+            <li>SEO by updating meta tags on page render</li>
+            <li>Resolve TODOs</li>
+            <li>Add typization to redux and signalR</li>
+            <li>React Native</li>
+        </ul></li>
+        <li><ul><b>scripts</b>
+            <li>Add npm packages update script</li>
+            <li>Single command with subcommands</li>
+            <li>Move to .bin</li>
+            <li>Replace bash commands with node solutions</li>
+        </ul></li>
+        <li><ul><b>siegel in general</b>
+            <li>Get rid of peer dependencies</li>
+            <li>Less dependencies</li>
+            <li>Better documentation</li>
+            <li>Test coverage</li>
+            <li>Use as global</li>
+            <li>...</li>
+            <li>GUI to build complex websites just by dragging components onto a page. GUI to tight it all to DB. Eventually - site builder that powerfull to build your own site builder :)</li>
+        </ul></li>
+    </ul>
+</details>
