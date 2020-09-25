@@ -37,7 +37,7 @@ const DEFAULT_CONFIG = {
             html: join(PATHS.demoProject, 'client', 'index.html'),
             js: join(cwd, 'app.ts'),
             include: [ PATHS.uiCore ],
-            exclude: [ PATHS.nodeModules, PATHS.parentNodeModules ]
+            // exclude: [ PATHS.nodeModules, PATHS.parentNodeModules ]
         },
 
         output: join(cwd, 'dist')

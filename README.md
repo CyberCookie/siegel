@@ -34,12 +34,12 @@ And two helper parts (scripts, demo project):
 npm i siegel
 ```
 
-You should install some peer dependencies in order to make inner eslint and typescript proper validate your code.\
+You should install some peer dependencies in order to make inner eslint and typescript proper validate your code.
 
 There is an __install_peers.js__ script located in scripts part that can make it easier for you.
 
 <h3>Usage</h3>
-siegel it's a function that accepts <b>config</b> as a first argument and <b>runParams</b> as a second.\
+siegel it's a function that accepts <b>config</b> as a first argument and <b>runParams</b> as a second.
 
 You may read about these parameters below.
 
@@ -47,7 +47,8 @@ You may read about these parameters below.
 require('siegel')(config, runParams)
 ```
 
-siegel supports zero configuration mode to make it super easy for you to try it out as soon as possible.\
+siegel supports zero configuration mode to make it super easy for you to try it out as soon as possible.
+
 Create app.ts file somewhere in your project:
 <h5>app.ts</h5>
 
@@ -64,7 +65,7 @@ Create simple index.js node file:
 <h5>index.js</h5>
 
 ```js
-require('siegel')()
+require('siegel')(/*relative path to js entrypoint. Default is ./app.ts*/)
 ```
 
 And execute it via CLI:
