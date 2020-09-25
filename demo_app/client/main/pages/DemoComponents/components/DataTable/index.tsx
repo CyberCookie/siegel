@@ -1,15 +1,14 @@
 //TODO: config Props with Entities to get autocomplete in columnsConfig and postProcess hooks
 
 import React from 'react'
-
-import getEnchancedDataTableProps from './postProcessProps'
 import createEntitiesStruct from 'siegel-utils/entities_struct'
 import { msIn } from 'siegel-utils/date/consts'
-import DataTable from 'siegel-ui/DataTable'
 import { Props } from 'siegel-ui/DataTable/types'
 
-import tableDemoTheme from '../Table/styles.sass'
-import s from './styles.sass'
+import { DataTable } from 'app/components'
+import getEnchancedDataTableProps from './postProcessProps'
+
+
 
 
 const entitiesStruct = createEntitiesStruct('id')
@@ -25,13 +24,7 @@ const entitiesStruct = createEntitiesStruct('id')
 .forEach(el => entitiesStruct.addOrUpdate(el))
 // type Entities = typeof entitiesStruct
 
-const theme: Props['theme'] = {
-    root: s.data_table,
-    table: `${tableDemoTheme.table} ${s.table}`,
-    table_resizer: s.resizer,
-    pagination_wrapper: s.pagination_wrapper,
-    _with_pagination: s._with_pagination
-}
+
 const columnsConfig: Props['columnsConfig'] = [
     {
         label: 'ID',
@@ -66,7 +59,7 @@ const columnsConfig: Props['columnsConfig'] = [
 
 const Demo = () => {
     const props: Props = {
-        theme, columnsConfig,
+        columnsConfig,
         entities: entitiesStruct
     }
 
@@ -84,5 +77,4 @@ const Demo = () => {
 Demo.id = DataTable.ID;
 
 
-export { theme }
 export default Demo

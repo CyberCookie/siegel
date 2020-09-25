@@ -4,12 +4,13 @@
 import React from 'react'
 
 import isExists from '../../../utils/is_exists'
-import { extractProps, ComponentAttributes } from '../../ui_utils'
+import { extractProps } from '../../ui_utils'
 import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
-import { _NumberPicker, MergedProps, BtnClickEv, BtnProps, InputFieldProps, OnNumberPickerChange } from './types'
+import type { _NumberPicker, MergedProps, BtnClickEv, BtnProps, InputFieldProps, OnNumberPickerChange } from './types'
+import type { ComponentAttributes } from '../../ui_utils'
 
-import s from './styles.sass'
+import styles from './styles.sass'
 
 
 const componentID = '-ui-number_picker'
@@ -99,7 +100,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const numberValue = getNumberValue(value, min, max)
 
     const numberpickerRootProps: ComponentAttributes = {
-        className: `${className} ${s.root}`,
+        className: `${className} ${styles.root}`,
         tabIndex: -1
     }
     const inputFieldProps: InputFieldProps = {

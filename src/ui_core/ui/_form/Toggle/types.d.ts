@@ -1,4 +1,4 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
 type ToggleRootProps = {
@@ -29,4 +29,4 @@ type MergedProps = Props & DefaultProps
 type _Toggle = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Toggle, ToggleRootProps }
+export type { Props, DefaultProps, MergedProps, _Toggle, ToggleRootProps }

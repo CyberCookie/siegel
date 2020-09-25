@@ -1,4 +1,4 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type ThemeKeys = 'labels_wrapper' | 'label' | 'label__active' | 'content' | 'content__empty'
@@ -24,4 +24,4 @@ type MergedProps = Props & DefaultProps
 type _Tabs = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Tabs }
+export type { Props, DefaultProps, MergedProps, _Tabs }

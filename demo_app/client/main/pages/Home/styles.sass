@@ -1,0 +1,57 @@
+$transition: .7s ease-out
+$blessed_primary_color: lighten($primary, 34%)
+
+=text_shadow()
+    text-shadow: #fff 0 0 20px
+
+
+
+.page
+    text-align: center
+    background-image: linear-gradient(45deg,#5fcac0b3,transparent),linear-gradient(135deg,#ffef39d1,#c04eef9c)
+
+
+.text_block
+    +flex(space-around)
+    padding: $gutter_lg * 3 0
+    flex-direction: column
+    height: 100%
+    user-select: none
+
+    h1, h2
+        +text_shadow()
+        text-align: center
+
+    h1
+        +font(60px, 90px, $blessed_primary_color, 600)
+        letter-spacing: 1px
+        transition: letter-spacing $transition
+
+        &:hover
+            letter-spacing: 2px
+
+    h2
+        +font(40px, 60px, lighten($primary, 5%))
+        letter-spacing: 0.8px
+
+
+.docs_list
+    +font(30px, 44px)
+    +text_shadow()
+    letter-spacing: 0.6px
+    margin: $gutter_lg 0 0 20%
+    text-align: left
+
+    li
+        padding-left: $gutter_lg
+
+        &:first-child
+            padding-top: $gutter
+
+    a    
+        transition: color, letter-spacing $transition
+        
+        &:hover
+            color: $primary
+            letter-spacing: 1.4px
+            +text_shadow()

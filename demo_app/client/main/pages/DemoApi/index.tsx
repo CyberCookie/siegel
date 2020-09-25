@@ -1,18 +1,52 @@
-import React, { useLayoutEffect } from 'react'
 // import { RouteComponentProps } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Button, Input } from 'app/components'
 
 import testModule from '../../modules/demo_api'
 
+import styles from './styles.sass'
+
 
 const DemoApi = (/*props: RouteComponentProps*/) => {
-    const [ state, actions ] = testModule()
-    
-    useLayoutEffect(() => {
-        actions.makeSomeFetch('some string')
-    }, [])
+    const [
+        { received, counter },
+        { makeSomeFetch, updateCounter }
+    ] = testModule()
+
+    const [ requestString, setRequestString ] = useState(received)
 
 
-    return <h1>data from server: { state.someData.received }</h1>
+    function sendData() {
+        setRequestString('')
+        makeSomeFetch(requestString)
+    }
+
+    const isDisabledSend = !requestString.length
+
+    return (
+        <div className={styles.page}>
+            <div className={styles.api_block}>
+                <Input placeholder='type some text and send it...'
+                    label='Data to send:'
+                    value={requestString}
+                    attributes={{
+                        onKeyDown(e) {
+                            !isDisabledSend && e.key == 'Enter' && sendData()
+                        }
+                    }}
+                    onChange={value => { setRequestString(value) }} />
+                
+                <Button disabled={isDisabledSend} value='Send!' onClick={sendData} />
+
+                <h1>Received from server: { received }</h1>
+            </div>
+
+
+            <Button value={`update global counter [${counter}]`}
+                className={styles.global_counter}
+                onClick={updateCounter} />
+        </div>
+    )
 }
 
 

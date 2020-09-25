@@ -1,5 +1,5 @@
-import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
-import { InputTagProps } from '../input_field_attributes'
+import type { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
+import type { InputTagProps } from '../input_field_attributes'
 
 
 type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
@@ -30,4 +30,4 @@ type MergedProps = Props & DefaultProps
 type _Input = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, ComponentRootAttributes, _Input }
+export type { Props, DefaultProps, MergedProps, ComponentRootAttributes, _Input }

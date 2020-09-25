@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
-import { _Button, MergedProps } from './types'
+import type { _Button, MergedProps } from './types'
 
 
 const componentID = '-ui-button'

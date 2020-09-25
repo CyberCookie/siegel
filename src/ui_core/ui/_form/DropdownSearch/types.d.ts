@@ -1,5 +1,5 @@
-import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
-import { InputTagProps } from '../input_field_attributes'
+import type { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
+import type { InputTagProps } from '../input_field_attributes'
 
 
 type FilterKey = {
@@ -33,4 +33,4 @@ type MergedProps = Props & DefaultProps
 type _DropdownSearch = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _DropdownSearch }
+export type { Props, DefaultProps, MergedProps, _DropdownSearch }

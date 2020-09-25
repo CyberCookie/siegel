@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
-import { _Popup } from './types'
+import type { _Popup } from './types'
 
-import s from './styles.sass'
+import styles from './styles.sass'
 
 
 const componentID = '-ui-popup'
@@ -14,7 +14,7 @@ const Popup: _Popup = (props, noDefaults) => {
         :   (props as _Popup['defaults'] & typeof props)
 
     const { theme, closeIcon, content, onClose, attributes } = mergedProps;
-    const className = `${mergedProps.className} ${s.popup}`
+    const className = `${mergedProps.className} ${styles.popup}`
 
     let popupRootAttributes = {
         className,
@@ -28,7 +28,7 @@ const Popup: _Popup = (props, noDefaults) => {
     return (
         <div {...popupRootAttributes}>
             <div className={theme.content}>
-                <div onMouseDown={onClose} className={`${s.close} ${theme.close}`}
+                <div onMouseDown={onClose} className={`${styles.close} ${theme.close}`}
                     children={closeIcon} />
 
                 { content }

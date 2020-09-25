@@ -2,10 +2,10 @@
 
 import React from 'react'
 
-import { MergedProps, DisplayedEntityIDs } from './types'
-import { TableTH } from '../Table/types'
+import type { MergedProps, DisplayedEntityIDs } from './types'
+import type { TableTH } from '../Table/types'
 
-import s from './styles.sass'
+import styles from './styles.sass'
 
 
 const passiveEv = { passive: true }
@@ -76,7 +76,7 @@ function getResizeHandler() {
 function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) {
     const { columnsConfig, resizable, theme, postProcessHeadRow, postProcessHeadCell } = props;
 
-    let resizerClassName = s.resizer;
+    let resizerClassName = styles.resizer;
     resizerClassName && (resizerClassName += ` ${theme.table_resizer}`)
 
     let displayedEntityIDs: DisplayedEntityIDs;

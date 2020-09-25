@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
-import { _Toggle, ToggleRootProps } from './types'
+import type { _Toggle, ToggleRootProps } from './types'
 
 
 const componentID = '-ui-toggle'

@@ -3,13 +3,13 @@ import { useState, useLayoutEffect } from 'react'
 import dateParse from '../../utils/date/parse'
 import { msIn } from '../../utils/date/consts'
 import { extractProps } from '../ui_utils'
-import { _Clocks } from './types'
+import type { _Clocks } from './types'
 
 
 const componentID = '-ui-clocks'
 
 const Clocks: _Clocks = (props, noDefaults) => {
-    const { builder, initDate, zeroing, incrementEveryMinute, speedCoef  } = noDefaults
+    const { builder, initDate, zeroing, incrementEveryMinute, speedCoef } = noDefaults
         ?   extractProps(Clocks.defaults, props)
         :   (props as _Clocks['defaults'] & typeof props)
 

@@ -1,11 +1,17 @@
 import React from 'react'
 import { SwitchProps, RouteComponentProps } from 'react-router-dom'
 
-import './styles'
+import Header from './Header'
+
+import './styles.sass'
 
 
 const Layout = (props: SwitchProps & RouteComponentProps) => {
-    return <main children={props.children} />
+    return <>
+        <Header />
+
+        <main children={props.children} />
+    </>
 }
 
 

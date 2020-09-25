@@ -1,5 +1,5 @@
-import { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../../ui_utils'
-import { InputTagProps } from '../input_field_attributes'
+import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../../ui_utils'
+import type { InputTagProps } from '../input_field_attributes'
 
 
 type BtnClickEv = React.MouseEvent<HTMLButtonElement>
@@ -48,4 +48,4 @@ type MergedProps = Props & DefaultProps
 type _NumberPicker = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _NumberPicker, BtnClickEv, BtnProps, InputFieldProps, OnNumberPickerChange }
+export type { Props, DefaultProps, MergedProps, _NumberPicker, BtnClickEv, BtnProps, InputFieldProps, OnNumberPickerChange }

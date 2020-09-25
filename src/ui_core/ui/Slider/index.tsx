@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import isE from '../../utils/is_exists'
 import { extractProps } from '../ui_utils'
 import Swipe from '../Swipe'
-import { _Slider, Props, DefaultProps } from './types'
+import type { _Slider, Props, DefaultProps } from './types'
 
 import './styles'
 

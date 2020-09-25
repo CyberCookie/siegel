@@ -34,5 +34,5 @@ const updateURLQuery: UpdateURLQuery = function(history, key, value) {
 }
 
 
-export { UpdateURLQuery }
 export default updateURLQuery
+export type { UpdateURLQuery }

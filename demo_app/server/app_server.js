@@ -1,12 +1,7 @@
 module.exports = (app, { express }) => {
     app.use(express.json())
     
-    app.post('/api/test', (req, res) => {
-        const body = req.body;
-        
-        res.json({
-            sent: body,
-            received: 'some_data'
-        })
+    app.post('/api/send_data', (req, res) => {
+        res.json( req.body )
     })
 }

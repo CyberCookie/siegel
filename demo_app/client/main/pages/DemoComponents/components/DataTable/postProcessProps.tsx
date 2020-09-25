@@ -1,20 +1,11 @@
 import React, { useState } from 'react'
-
 import { initDataGridStore } from 'siegel-ui/DataTable'
 import { Props, SearchByFieldText, SearchByFieldDate, SearchByFieldSet } from 'siegel-ui/DataTable/types'
-import Paginator from 'siegel-ui/Pagination'
-import Select from 'siegel-ui/_form/Select'
-import Checkbox from 'siegel-ui/_form/Checkbox'
-import Input from 'siegel-ui/_form/Input'
-import Calendar from 'siegel-ui/_form/Calendar'
-import { theme as paginatorTheme } from '../Pagination'
-import { theme as selectTheme } from '../Select'
-import { theme as checkboxTheme } from '../Checkbox'
-import { theme as inputTheme } from '../Input'
-import { theme as calendarTheme } from '../Calendar'
-import { chevron, check, moreVert } from '../../icons'
 
-import s from './styles.sass'
+import { icons, Pagination, Select, Checkbox, Input, Calendar,
+    paginationTheme, selectTheme, checkboxTheme, inputTheme } from 'app/components'
+
+import styles from './styles.sass'
 
 
 type PostProcessState = {
@@ -26,12 +17,12 @@ type PostProcessStore = [ PostProcessState, React.Dispatch<React.SetStateAction<
 
 const dataTableSelectTheme = {
     ...selectTheme,
-    root: `${selectTheme.root} ${s.paginator_select}`,
-    title: `${selectTheme.title} ${s.paginator_select_title}`,
-    label: `${selectTheme.label} ${s.paginator_select_label}`,
-    input_wrapper: s.paginator_select_input_wrapper,
-    options: `${selectTheme.options} ${s.paginator_select_options}`,
-    _active: `${selectTheme._active} ${s.paginator_select__active}`
+    root: `${selectTheme.root} ${styles.paginator_select}`,
+    title: `${selectTheme.title} ${styles.paginator_select_title}`,
+    label: `${selectTheme.label} ${styles.paginator_select_label}`,
+    input_wrapper: styles.paginator_select_input_wrapper,
+    options: `${selectTheme.options} ${styles.paginator_select_options}`,
+    _active: `${selectTheme._active} ${styles.paginator_select__active}`
 }
 
 const paginatorSelectOptions = ([1,2,3]).map(num => {
@@ -102,8 +93,8 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postP
 
                         resultCheckbox.push(
                             <Checkbox key={setValue} theme={checkboxTheme} value={!searchSet.has(setValue)}
-                                className={s.set_checkbox} label={showValue ? showValue(entity, i) : setValue}
-                                icon={check}
+                                className={styles.set_checkbox} label={showValue ? showValue(entity, i) : setValue}
+                                icon={icons.check}
                                 onChange={(checkboxValue, e) => {
                                     e.stopPropagation()
         
@@ -123,8 +114,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postP
                 const rangeDateStart = dateStart || nowTimestamp;
 
                 searchElement = (
-                    <Calendar theme={calendarTheme} prevIcon={chevron} nextIcon={chevron}
-                        rangePick triggerOnlyWhenFinished={false}
+                    <Calendar rangePick triggerOnlyWhenFinished={false}
                         initDate={{
                             rangeDateStart,
                             rangeDateEnd: dateEnd || rangeDateStart
@@ -140,7 +130,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postP
             } else {
                 searchElement = (
                     <Input theme={inputTheme} value={(searchByField[index] as SearchByFieldText) || ''} autofocus
-                        className={s.search_input}
+                        className={styles.search_input}
                         onChange={value => {
                             (searchByField[index] as SearchByFieldText) = value;
                             setDataGridHookState({ ...dataGridHookState })
@@ -149,25 +139,25 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postP
             }
 
             
-            return <div className={s.search_wrapper} children={searchElement} />
+            return <div className={styles.search_wrapper} children={searchElement} />
         }
 
 
         return (
-            <div className={s.grid_col_menu} onMouseDown={e => e.stopPropagation()}>
-                <div className={s.grid_col_menu_sort} onMouseDown={onSort}
+            <div className={styles.grid_col_menu} onMouseDown={e => e.stopPropagation()}>
+                <div className={styles.grid_col_menu_sort} onMouseDown={onSort}
                     data-sortvalue='-1' data-sortindex={index}>
 
-                    {chevron} ASC
+                    {icons.chevron} ASC
                 </div>
 
-                <div className={s.grid_col_menu_sort} onMouseDown={onSort}
+                <div className={styles.grid_col_menu_sort} onMouseDown={onSort}
                     data-sortvalue='1' data-sortindex={index}>
 
-                    {chevron} DESC
+                    {icons.chevron} DESC
                 </div>
 
-                <div className={s.grid_col_search} children={getSearch()} />
+                <div className={styles.grid_col_search} children={getSearch()} />
             </div>
         )
     }
@@ -175,11 +165,11 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postP
 
     return {
         value: (
-            <div className={s.grid_col_label}>
+            <div className={styles.grid_col_label}>
                 { cell.value }
 
-                <div className={s.grid_col_menu_toggle}>
-                    { moreVert }
+                <div className={styles.grid_col_menu_toggle}>
+                    { icons.moreVert }
 
                     { isActiveLabelMenu && getActiveLabelMenu() }
                 </div>
@@ -189,7 +179,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postP
     }
 }
 
-const displayQuantity = (count: number) => <div className={s.paginator_count} children={'Total items: ' + count} />
+const displayQuantity = (count: number) => <div className={styles.paginator_count} children={'Total items: ' + count} />
 
 function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<Props['postProcessHeadRow']>>>(
 { row, displayedEntityIDs, postProcessStore }:
@@ -214,8 +204,7 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<Props['p
 
     row[0].children.unshift({
         value: (
-            <Checkbox theme={checkboxTheme} icon={check}
-                value={checkboxValue}
+            <Checkbox value={checkboxValue}
                 onChange={value => {
                     if (value) {
                         for (let i = from; i < to; i++) {
@@ -251,8 +240,7 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<Props['post
     
     row.children.unshift({
         value: (
-            <Checkbox theme={checkboxTheme} icon={check}
-                value={value}
+            <Checkbox value={value}
                 onChange={() => {
                     value
                         ?   selected.delete(entity.id)
@@ -288,14 +276,12 @@ export default (props: Props) => {
                 }
             },
             pagination: {
-                component: Paginator,
+                component: Pagination,
                 props: {
                     theme: {
-                        ...paginatorTheme,
-                        _single: s.pagination_single_page
-                    },
-                    controlIcon: chevron,
-                    separator: '---'
+                        ...paginationTheme,
+                        _single: styles.pagination_single_page
+                    }
                 }
             }
         },

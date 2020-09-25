@@ -1,4 +1,4 @@
-import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type HTMLSwipeMouseEvent = MouseEvent | TouchEvent
@@ -19,4 +19,4 @@ type DefaultProps = {
 type _Swipe = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, HTMLSwipeMouseEvent, _Swipe }
+export type { Props, DefaultProps, HTMLSwipeMouseEvent, _Swipe }

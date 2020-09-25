@@ -1,6 +1,6 @@
 //TODO: fix strings defaultProps type
 
-import { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
+import type { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
 
 
 type ThemeKeys = 'month_wrapper' | 'month_title_wrapper' | 'icon' | 'month_title'
@@ -89,5 +89,5 @@ type GetDayClass = (params: {
 type _Calendar = CoreIUComponent<Props, DefaultProps>
 
 
-export { _Calendar, Store, Props, DefaultProps, MergedProps, ChildProps,
+export type { _Calendar, Store, Props, DefaultProps, MergedProps, ChildProps,
     AllDaysData, PrevNextDaysParams, GetDayClass }

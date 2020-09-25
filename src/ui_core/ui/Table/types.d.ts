@@ -1,4 +1,4 @@
-import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type TableRow = {
@@ -42,4 +42,4 @@ type MergedProps = Props & DefaultProps
 type _Table = CoreIUComponent<Props, DefaultProps>
 
 
-export { _Table, Props, DefaultProps, MergedProps, TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow }
+export type { _Table, Props, DefaultProps, MergedProps, TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow }

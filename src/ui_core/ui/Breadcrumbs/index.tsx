@@ -2,8 +2,9 @@ import React, { useState, useLayoutEffect } from 'react'
 
 import isE from '../../utils/is_exists'
 import { extractProps } from '../ui_utils'
-import { _Breadcrumbs } from './types'
-import s from './styles.sass'
+import type { _Breadcrumbs } from './types'
+
+import styles from './styles.sass'
 
 
 const componentID = '-ui-breadcrumbs'
@@ -91,7 +92,7 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
     return <div {...breadcrumbsRootProps} />
 }
 Breadcrumbs.defaults = {
-    className: s.breadcrumbs,
+    className: styles.breadcrumbs,
     separator: '',
     theme: {
         root: componentID,

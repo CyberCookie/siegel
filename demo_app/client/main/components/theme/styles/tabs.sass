@@ -1,0 +1,29 @@
+.root
+    border: $border
+    border-radius: $radius
+    overflow: hidden
+
+.labels_wrapper
+    +flex('', center)
+    border-bottom: $border
+
+.label
+    +font(16px, 40px, $primary, 600)
+    cursor: pointer
+    padding: $gutter_sm $gutter_lg
+    letter-spacing: 1px
+    border-right: $border
+    transition: $transition
+    transition-property: background color
+
+.label__active
+    background: $secondary
+    color: $white
+
+.content
+    +font(40px, '', $secondary, 600)
+    padding: $gutter_sm
+    text-align: center
+
+.content__empty
+    padding: 0

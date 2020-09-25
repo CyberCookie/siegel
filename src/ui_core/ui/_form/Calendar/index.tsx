@@ -3,9 +3,9 @@ import React, { useRef, useState } from 'react'
 import { calendarNames } from '../../../utils/date/consts'
 import { extractProps } from '../../ui_utils'
 import Days from './days_of_month'
+import type { Props, DefaultProps, MergedProps, _Calendar, Store } from './types'
 
-import s from './styles.sass'
-import { Props, DefaultProps, MergedProps, _Calendar, Store } from './types'
+import styles from './styles.sass'
 
 
 const componentID = '-ui-calendar'
@@ -37,7 +37,7 @@ function switchMonth(value: number, store: Store, e: React.MouseEvent) {
 function getWeekDayRow(localeWeek: string[], theme: DefaultProps['theme']) {
     const getWeekDay = (day: string) => <div className={theme.week_day} key={day} children={day} /> 
 
-    return <div className={`${theme.week} ${s.week}`} children={localeWeek.map(getWeekDay)} />
+    return <div className={`${theme.week} ${styles.week}`} children={localeWeek.map(getWeekDay)} />
 }
 
 function getCalendarVisuals(
@@ -68,7 +68,7 @@ function getCalendarVisuals(
         
         months.push(
             <div key={i} className={theme.month_wrapper}>
-                <div className={`${theme.month_title_wrapper} ${s.month_title_wrapper}`}>
+                <div className={`${theme.month_title_wrapper} ${styles.month_title_wrapper}`}>
                     { iconPrev }
 
                     <div className={theme.month_title}>
@@ -100,7 +100,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
         :   (props as _Calendar['defaults'] & typeof props)
 
     const { initDate, monthsBefore, payload, onChange, triggerOnlyWhenFinished, rangePick } = mergedProps;
-    const className = `${mergedProps.className} ${s.calendar}`
+    const className = `${mergedProps.className} ${styles.calendar}`
     
     const { rangeDateStart, rangeDateEnd } = initDate;
 

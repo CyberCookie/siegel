@@ -90,5 +90,5 @@ function createHookStore
 }
 
 
-export { InnerStore }
 export default createHookStore
+export type { InnerStore }

@@ -128,7 +128,8 @@ const request = async (req: RequestParams) => {
 }
 
 
-export { setup, FetchParams, ReqError, SetupFnParams, RequestParams }
+export { setup }
 export default request
+export type { FetchParams, ReqError, SetupFnParams, RequestParams }
 
 module.hot && module.hot.decline()

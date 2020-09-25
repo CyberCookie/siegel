@@ -4,9 +4,9 @@ import Table from '../Table'
 import { extractProps } from '../ui_utils'
 import tableHeadRows from './head'
 import tableBodyRows from './body'
-import { _DataTable, DataTableTableProps, State, MergedProps } from './types'
+import type { _DataTable, DataTableTableProps, State, MergedProps } from './types'
 
-import s from './styles.sass'
+import styles from './styles.sass'
 
 
 const componentID = '-ui-data_grid'
@@ -85,7 +85,7 @@ const DataTable: _DataTable = (props, noDefaults) => {
     
     const dataTableTableProps: DataTableTableProps = {
         head, body,
-        className: `${s.table} ${theme.table}`
+        className: `${styles.table} ${theme.table}`
     }
     withPagination && (dataTableTableProps.foot = [{
         children: [{

@@ -3,10 +3,10 @@ import React from 'react'
 import { extractProps } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
 import getLabel from '../label'
-import { _Checkbox, WrapperProps } from './types'
 import componentID from './id'
+import type { _Checkbox, WrapperProps } from './types'
 
-import s from './styles.sass'
+import styles from './styles.sass'
 
 
 const _onChange = (e: React.ChangeEvent) => {
@@ -28,7 +28,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     let checkboxInputProps: React.InputHTMLAttributes<HTMLInputElement> = {
         checked: value,
         type: 'checkbox',
-        className: `${s[componentID]} ${theme.checkbox}`,
+        className: `${styles[componentID]} ${theme.checkbox}`,
         onChange: _onChange
     }
     

@@ -55,18 +55,19 @@ function withDefaults
 <
     C extends CoreIUComponent<any, any>,
     NewDefaults extends Partial<Parameters<C>[0]>,
-    ComponentDefaults = C['defaults']
 >
-(Component: C, newDefaults: NewDefaults & Partial<Parameters<C>[0]>) {
-    const mergedDefaults = extractProps(Component.defaults as ComponentDefaults, newDefaults)
+(Component: C, newDefaults: NewDefaults) {        
+    const mergedDefaults = extractProps(Component.defaults, newDefaults)
 
-    type Props = PartialKeys<Parameters<C>[0], keyof ComponentDefaults | keyof NewDefaults>
-    return (props: Props) => Component(
-        extractProps(mergedDefaults, props),
-        false
-    )
+    type Props = PartialKeys<Parameters<C>[0], keyof NewDefaults>
+
+    const componentWithDefaults = (props: Props) => Component(extractProps(mergedDefaults, props))
+    componentWithDefaults.ID = Component.ID;
+
+
+    return componentWithDefaults
 }
 
 
-export { extractProps, withDefaults,
-    PropsComponentBase, PropsComponentThemed, ComponentAttributes, CoreIUComponent }
+export { extractProps, withDefaults }
+export type { PropsComponentBase, PropsComponentThemed, ComponentAttributes, CoreIUComponent }

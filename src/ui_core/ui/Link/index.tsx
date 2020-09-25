@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
-import { _Link } from './types'
+import type { _Link } from './types'
 
 
 const componentID = '-ui-external_link'

@@ -58,5 +58,5 @@ function entities<K extends ID = ''>(uniq: K) {
 }
 
 
-export { Entities }
 export default entities
+export type { Entities }

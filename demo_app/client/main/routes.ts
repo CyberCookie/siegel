@@ -3,17 +3,22 @@ import { lazy } from 'react'
 
 const pagePathMap = {
     home: '',
-    work_with_api: 'work_with_api'
+    demo_components: 'demo_components',
+    demo_api: 'demo_api'
 }
 
 
 export { pagePathMap }
 export default {
     [pagePathMap.home]: {
+        component: lazy(() => import('app/pages/Home'))
+    },
+
+    [pagePathMap.demo_components]: {
         component: lazy(() => import('app/pages/DemoComponents'))
     },
 
-    [pagePathMap.work_with_api]: {
+    [pagePathMap.demo_api]: {
         component: lazy(() => import('app/pages/DemoApi'))
     }
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import * as demoComponents from './components'
 
-import s from './styles.sass'
+import styles from './styles.sass'
 
 
 type SidebarItemProps = {
@@ -21,28 +21,25 @@ const DemoPage = () => {
     for (const component in demoComponents) {
         const props: SidebarItemProps = {
             key: component,
-            children: _demoComponents[component].default.id,
+            children: _demoComponents[component].id,
             onMouseDown() { setActive(component) }
         }
-        component == active && (props.className = s.active)
+        component == active && (props.className = styles.active)
         
         componentsList.push( <div {...props} /> )
     }
 
     function getActiveComponent() {
-        const component = _demoComponents[active]
-        if (component) {
-            const Component = component.default;
-            return <Component />
-        }
+        const Component = _demoComponents[active]
+        return <Component />
     }
 
 
     return (
-        <div className={s.page}>
-            <div className={s.sidebar} children={componentsList} />
+        <div className={styles.page}>
+            <div className={styles.sidebar} children={componentsList} />
 
-            <div className={s.demo_component} children={ getActiveComponent() } />
+            <div className={styles.demo_component} children={ active && getActiveComponent() } />
         </div>
     )
 }

@@ -1,0 +1,42 @@
+.root
+    width: 40%
+    overflow: hidden
+    padding: $gutter_lg
+    border: $border
+    border-radius: $radius_lg
+
+
+.slides_wrapper, .control
+    transition: $transition
+
+.slides_wrapper
+    +flex('', center)
+    transition-property: margin-left
+
+.slides_wrapper, .slide
+    width: 100%
+
+.slide
+    +flex(center, center)
+    +font(36px, '', $secondary, 600)
+    flex-shrink: 0
+    height: 300px
+
+.controls_wrapper
+    +flex(center, center)
+    margin-right: auto
+    margin-bottom: $gutter
+
+
+.control
+    width: 20px
+    height: 20px
+    border-radius: 50%
+    border: $border
+    margin: 0 $gutter_sm
+    cursor: pointer
+    transition-property: background border-color
+
+.control__active
+    background: $primary
+    border-color: $primary

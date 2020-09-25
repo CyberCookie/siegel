@@ -12,12 +12,17 @@ Project structure:
     - main - UI and business logic.
         - Layout - pages wrapper. Here you can add general components like header or footer to be displayed on every page.
         - components - if you have components that are used on multiple pages - here is the best place to put them. Also includes theming for siegel components.
+            - theme - here we add default styles and props to the raw siegel's components making them ready to use in our demo application.
+            - icons - the best place to keep your icons in is here.
         - pages - for a pages components.
+            - Home - welcome depo page.
+            - DemoComponents - demo of all the themed siegel's components with their variations.
+            - DemoApi - example of how to use modules.
         - modules - all the logic regarding application state management including api calls.
         - routes.tsx - siegel router config.
     - index.html - site entrypoint.
-    - index.ts - JS entrypoint
-    - global.d.ts
+    - index.ts - JS entrypoint.
+    - global.d.ts - imports siegel's globals. Here you can add your own global declarations.
     - styles.sass - general styles that are not plugged in react components directly.
     - sw.js - service worker with uniq and the best caching strategy.
 - ./server - application entrypoint, siegel config and server with demo endpoint are located here.

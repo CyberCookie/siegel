@@ -4,8 +4,8 @@ import React from 'react'
 import { extractProps } from '../../ui_utils'
 import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
-import { _Input } from './types'
 import componentID from './id'
+import type { _Input } from './types'
 
 
 //[email, password, search, tel, text, url, (textarea)]

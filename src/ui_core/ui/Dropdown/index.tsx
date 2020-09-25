@@ -3,9 +3,7 @@
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
-import { ListElement, _Dropdown } from './types'
-
-import s from './styles.sass'
+import type { ListElement, _Dropdown } from './types'
 
 
 const componentID = '-ui-dropdown'
@@ -37,7 +35,7 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
                     onClick={onClickHandler}
                     onMouseDown={onDropdownToggle}>
 
-                    <summary className={`${theme.item_title} ${s.item_title} ${wrapperClass || ''}`}>
+                    <summary className={`${theme.item_title} ${wrapperClass || ''}`}>
                         { title }
                         { dropdownIcon }
                     </summary>

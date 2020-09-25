@@ -1,4 +1,4 @@
-import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
+import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
 type _Attributes = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
@@ -21,4 +21,4 @@ type MergedProps = Props & DefaultProps
 type _Button = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Button }
+export type { Props, DefaultProps, MergedProps, _Button }

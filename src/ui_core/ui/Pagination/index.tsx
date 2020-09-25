@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
-import { _Pagination, MergedProps } from './types'
+import type { _Pagination, MergedProps } from './types'
 
 
 const componentID = '-ui-pagination'

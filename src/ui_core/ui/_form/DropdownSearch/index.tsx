@@ -4,7 +4,7 @@ import React from 'react'
 import { extractProps, ComponentAttributes } from '../../ui_utils'
 import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
-import { _DropdownSearch, MergedProps } from './types'
+import type { _DropdownSearch, MergedProps } from './types'
 
 
 const componentID = '-ui-dropdown_search'

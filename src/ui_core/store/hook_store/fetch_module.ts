@@ -1,4 +1,5 @@
-import createHookStore, { InnerStore } from './index'
+import createHookStore from './index'
+import type { InnerStore } from './index'
 
 
 type State = {

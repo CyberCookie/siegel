@@ -1,9 +1,9 @@
 import React from 'react'
+import { _Clocks as ClocksComponent } from 'siegel-ui/Clocks/types'
 
-import Clocks from 'siegel-ui/Clocks'
-import { _Clocks } from 'siegel-ui/Clocks/types'
+import { Clocks } from 'app/components'
 
-import s from './styles.sass'
+import styles from './styles.sass'
 
 
 const Demo = () => {
@@ -16,7 +16,7 @@ const Demo = () => {
     )
 
 
-    const secondsClocksChildParams: Parameters<_Clocks>[0] = {
+    const secondsClocksChildParams: Parameters<ClocksComponent>[0] = {
         initDate,
         builder: ({ date, month, year, hours, minutes, seconds }) => (
             `${date} . ${month} . ${year} | ${hours} : ${minutes} : ${seconds}`
@@ -33,13 +33,13 @@ const Demo = () => {
         <h1>{Clocks.ID}</h1>
 
         <h2>simple</h2>
-        <div children={simpleClocksChild} className={s.clocks} />
+        <div className={styles.clocks} children={simpleClocksChild} />
 
         <h2>update every second</h2>
-        <div children={secondsClocksChild} className={s.clocks} />
+        <div className={styles.clocks} children={secondsClocksChild} />
 
         <h2>10x faster</h2>
-        <div children={secondsFastClocksChild} className={s.clocks} />
+        <div className={styles.clocks} children={secondsFastClocksChild} />
     </>
 }
 Demo.id = Clocks.ID;

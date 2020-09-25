@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../../utils/is_touchscreen'
-import { extractProps, ComponentAttributes } from '../../ui_utils'
-import { MergedProps, _Select, SelectRootProps } from './types'
+import { extractProps } from '../../ui_utils'
+import type { ComponentAttributes } from '../../ui_utils'
+import type{ MergedProps, _Select, SelectRootProps } from './types'
 
 
 const componentID = '-ui-select'

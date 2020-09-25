@@ -1,4 +1,4 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
 type WrapperProps = {
@@ -31,4 +31,4 @@ type MergedProps = Props & DefaultProps
 type _Checkbox = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Checkbox, WrapperProps }
+export type { Props, DefaultProps, MergedProps, _Checkbox, WrapperProps }

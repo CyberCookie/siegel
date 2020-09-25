@@ -1,4 +1,4 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
 type Option = {
@@ -26,4 +26,4 @@ type MergedProps = Props & DefaultProps
 type _Radio = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Radio, Option }
+export type { Props, DefaultProps, MergedProps, _Radio, Option }

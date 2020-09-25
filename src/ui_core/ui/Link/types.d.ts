@@ -1,4 +1,4 @@
-import { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type Props = {
@@ -16,4 +16,4 @@ type MergedProps = Props & DefaultProps
 type _Link = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Link }
+export type { Props, DefaultProps, MergedProps, _Link }

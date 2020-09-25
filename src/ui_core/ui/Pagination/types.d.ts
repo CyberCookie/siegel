@@ -1,4 +1,4 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type ThemeKeys = 'separator' | '_single' | 'control' | 'control__active' | 'control__disabled'
@@ -28,4 +28,4 @@ type MergedProps = Props & DefaultProps
 type _Pagination = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Pagination }
+export type { Props, DefaultProps, MergedProps, _Pagination }

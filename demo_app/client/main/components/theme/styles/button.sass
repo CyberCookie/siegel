@@ -1,40 +1,26 @@
 .button
-    border-radius: 24px
-    padding: 0 20px
-    cursor: pointer
-    background: $white
-    color: $blue
-    height: 30px
-    border: none
+    +font(20px, '', $font_color)
     +flex('', center)
+    padding: $gutter
+    border-radius: $radius
+    transition: background $transition
 
-    span
-        line-height: 30px
+    svg
+        width: 20px
+        height: 20px
+        margin-right: $gutter_sm
+
+        path
+            fill: $font_color
     
-    
-.with_icon
-    padding: 0 10px 0 15px
+    &:not(:disabled)
+        background: $primary
+        cursor: pointer
+        box-shadow: $shadow_4
 
-    i
-        margin-left: 10px
-        font-size: 10px
+        &:hover
+            background: darken($primary, 20%)
 
-        &:before
-            vertical-align: sub
-
-    
-.bordered
-    border: 1px solid $blue
-
-    &:hover
-        background: $blue
-        color: $white
-
-.ok
-    background: $green_2
-
-.cancel
-    background: $red_1
-
-.ok, .cancel
-    color: $white
+    &:disabled
+        background: #c3c3c3
+        cursor: default

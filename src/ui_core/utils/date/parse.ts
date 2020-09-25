@@ -9,13 +9,14 @@ type DateParsedNonZeroed = {
 
 type DateParsed = Indexable<string> & DateParsedZeroed & DateParsedNonZeroed
 
+type DateParse = (date: Date | number, zeroPrefix?: boolean) => DateParsed
 /**
  * Parse provided or current date into localized separated date pieces
  * @param date - any valid Date value 
  * @param zeroPrefix - determine whether to prefix date parts if it's < 10
  * @returns parsed date object
 */
-const dateParse = (date: Date | number = Date.now(), zeroPrefix?: boolean) => {
+const dateParse: DateParse = (date = Date.now(), zeroPrefix) => {
     const localDate = new Date(date)
 
     const result: DateParsedZeroed = {
@@ -41,5 +42,5 @@ const dateParse = (date: Date | number = Date.now(), zeroPrefix?: boolean) => {
 }
 
 
-export { ZeroingDatePartsKeys, ZeroingDatePartsVals, DateParsedZeroed, DateParsed }
 export default dateParse
+export type { ZeroingDatePartsKeys, ZeroingDatePartsVals, DateParsedZeroed, DateParsed, DateParse }

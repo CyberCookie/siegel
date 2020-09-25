@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
-import { TableBodyRow, TableHeadRow, TableTH, TableTD, _Table } from './types'
+import type { TableBodyRow, TableHeadRow, TableTH, TableTD, _Table } from './types'
 
 
 const componentID = '-ui-table'

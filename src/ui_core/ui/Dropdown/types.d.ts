@@ -1,4 +1,4 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type ListElement = {
@@ -29,4 +29,4 @@ type MergedProps = Props & DefaultProps
 type _Dropdown = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, ListElement, _Dropdown }
+export type { Props, DefaultProps, MergedProps, ListElement, _Dropdown }

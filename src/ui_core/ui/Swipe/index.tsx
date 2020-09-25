@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
 import { extractProps } from '../ui_utils'
-import { HTMLSwipeMouseEvent, _Swipe } from './types'
+import type { HTMLSwipeMouseEvent, _Swipe } from './types'
 
 
 const componentID = '-ui-swipe'

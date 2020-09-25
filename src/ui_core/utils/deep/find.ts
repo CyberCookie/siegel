@@ -29,5 +29,5 @@ function deepFind
 }
 
 
-export { LookupFn }
 export default deepFind
+export type { LookupFn }

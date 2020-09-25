@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 
 import { extractProps } from '../../ui_utils'
 import inputID from '../Input/id'
-import { _Input, Props as InputProps } from '../Input/types'
 import checkboxID from '../Checkbox/id'
-import { _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
-import { _Form, ValuesState, ValueStateValue, Validator } from './types'
+import type { _Input, Props as InputProps } from '../Input/types'
+import type { _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
+import type { _Form, ValuesState, ValueStateValue, Validator } from './types'
 
 
 const componentID = '-ui-form'

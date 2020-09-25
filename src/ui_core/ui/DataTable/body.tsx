@@ -1,7 +1,7 @@
 import deepGet from '../../utils/deep/get'
 import isE from '../../utils/is_exists'
-import { MergedProps, State, SearchByFieldDate, SearchByFieldSet } from './types'
-import { TableTD, TableBodyRow } from '../Table/types'
+import type { MergedProps, State, SearchByFieldDate, SearchByFieldSet } from './types'
+import type { TableTD, TableBodyRow } from '../Table/types'
 
 
 function getBody(props: MergedProps, state: State) {

@@ -1,4 +1,4 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
 type ThemeKeys = 'content' | 'close'
@@ -20,4 +20,4 @@ type MergedProps = Props & DefaultProps
 type _Popup = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Popup }
+export type { Props, DefaultProps, MergedProps, _Popup }

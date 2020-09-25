@@ -21,7 +21,6 @@ function mergeConfigWithDefaults(CONFIG, DEFAULT_CONFIG) {
 
 
 
-//TODO:
 module.exports = (CONFIG = {}, RUN_PARAMS = {}) => {
     if (RUN_PARAMS) mergeConfigWithDefaults(RUN_PARAMS, CONSTANTS.DEFAULT_RUN_PARAMS)
     else RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PARAMS;

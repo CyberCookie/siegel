@@ -1,4 +1,4 @@
-import { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
 type SelectRootProps = {
@@ -40,4 +40,4 @@ type MergedProps = Props & DefaultProps
 type _Select = CoreIUComponent<Props, DefaultProps>
 
 
-export { Props, DefaultProps, MergedProps, _Select, SelectRootProps }
+export type { Props, DefaultProps, MergedProps, _Select, SelectRootProps }

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
-import { _Radio, Option, MergedProps } from './types'
+import type { _Radio, Option, MergedProps } from './types'
 
 
 const componentID = '-ui-radio'

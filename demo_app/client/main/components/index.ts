@@ -1,5 +1,2 @@
-import icons from './icons'
-import * as theme from './theme'
-
-
-export { icons, theme }
+export * as icons from './icons'
+export * from './theme'

@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from 'react'
 
 
-export default function(
+function useDidUpdate(
     fn: () => void,
     dependencies: React.DependencyList,
     retFn: () => void
@@ -13,3 +13,6 @@ export default function(
         if (retFn) return () => retFn()
     }, dependencies)
 }
+
+
+export default useDidUpdate

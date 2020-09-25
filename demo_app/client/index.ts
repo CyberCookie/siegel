@@ -1,5 +1,4 @@
 import { render } from 'react-dom'
-
 import createRouter from 'siegel-router'
 import { setup as requestServiceSetup, RequestParams } from 'siegel-services/request'
 

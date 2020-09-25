@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
-import { MergedProps, _Tabs } from './types'
+import type { MergedProps, _Tabs } from './types'
 
 
 const componentID = `-ui-tabs`
