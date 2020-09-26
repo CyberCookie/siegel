@@ -14,7 +14,15 @@ const docsList = [
     { path: 'src/ui_build/README.md', title: 'Webpack build' },
     { path: 'src/server/README.md', title: 'Server' },
     { path: 'src/scripts/README.md', title: 'Some usefull scripts' }
-].map(({ path, title }) => <li key={siegelDocsPathPrefix + path}><Link {...{ path, title }}/></li>)
+].map(({ path, title }) => (
+    <li key={path}>
+        <Link {...{
+            path: siegelDocsPathPrefix + path,
+            title
+        }} />
+    </li>
+))
+
 
 const Home = () => (
     <div className={styles.page}>
