@@ -4,7 +4,6 @@ const rootPath = join(__dirname, '..')
 
 const APP = join(rootPath, 'client')
 const server = join(rootPath, 'server', 'app_server.js')
-const output = join(rootPath, 'dist')
 
 const main = join(APP, 'main')
 
@@ -27,17 +26,11 @@ function getAliasesFromTSconfig() {
 
 const siegelConfig = {
     server: {
-        extenderLoc: server,
+        appServerLoc: server,
         watch: true,
         
         host: process.env.NODE_HOST,
         port: process.env.NODE_PORT,
-
-        // http2: true,
-        // ssl: {
-        //     keyPath: join(server, 'cert', 'localhost.key'),
-        //     certPath: join(server, 'cert', 'localhost.crt')
-        // }
     },
 
 
@@ -51,22 +44,7 @@ const siegelConfig = {
             sassResources: join(main, 'styles', 'sass_resources.sass')
         },
         
-        output,
-        
         aliases: getAliasesFromTSconfig(),
-
-        // plugins: {
-        //     compression: {
-        //         instances: {
-        //             br: {
-        //                 options: { deleteOriginalAssets: false }
-        //             },
-        //             gzip: {
-        //                 options: { deleteOriginalAssets: false }
-        //             }
-        //         }
-        //     }
-        // },
 
         // postProcessWebpackConfig(config) {
         //     config.module.rules.push({

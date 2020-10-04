@@ -90,7 +90,8 @@ const Input = withDefaults(_Input, { theme: inputTheme })
 
 const numberPickerTheme = {
     ..._numberPickerTheme,
-    field: `${inputTheme.field} ${_numberPickerTheme.field}`
+    field: `${inputTheme.field} ${_numberPickerTheme.field}`,
+    label: inputTheme.label_text
 }
 
 const NumberPicker = withDefaults(_NumberPicker, {
@@ -118,7 +119,8 @@ const Radio = withDefaults(_Radio, {
 
 const selectTheme = {
     ..._selectTheme,
-    title: `${inputTheme.field} ${_selectTheme.title}`
+    title: `${inputTheme.field} ${_selectTheme.title}`,
+    label: inputTheme.label_text
 }
 const Select = withDefaults(_Select, {
     theme: selectTheme,

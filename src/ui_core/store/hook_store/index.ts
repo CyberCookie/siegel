@@ -4,25 +4,24 @@ import { useState, useLayoutEffect } from 'react'
 import deepClone from '../../utils/deep/clone'
 
 
-type SetState<State = Indexable> = (newState: State) => void
+type SetState<State extends Indexable = Indexable> = (newState: State) => void
 
-type HookSetState<State = Indexable> = React.Dispatch<React.SetStateAction<State>>
+type HookSetState<State extends Indexable = Indexable> = React.Dispatch<React.SetStateAction<State>>
 
-type InnerStore<State = Indexable, A = ActionsUnbinded> = {
+type InnerStore<State extends Indexable = Indexable, A extends ActionsUnbinded<State> = ActionsUnbinded<State>> = {
     state: State
     listeners: HookSetState<State>[]
     setState?: SetState<State>
     actions?: ActionsBinded<A>
 }
 
+
 type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never
-
-type ActionsUnbinded<State = Indexable> = {
-    [actions: string]: (store: Required<InnerStore<State>>, ...args: any[]) => void
+type ActionsBinded<A extends ActionsUnbinded<any>> = {
+    [action in keyof A]: (...args: Tail<Parameters<A[action]>>) => ReturnType<A[action]>
 }
-
-type ActionsBinded<A extends Indexable> = {
-    [action in keyof A]: (...args: Tail<Parameters<A[action]>>) => void
+type ActionsUnbinded<State extends Indexable = Indexable> = {
+    [actions: string]: (store: Required<InnerStore<State>>, ...args: any[]) => void
 }
 
 
@@ -35,16 +34,7 @@ const setState: SetState = function(this: Required<InnerStore>, newState) {
     }
 }
 
-function bindActions<State extends Indexable, A extends Indexable>
-(store: InnerStore<State, A>, actions: A & ActionsBinded<A>): ActionsBinded<A> {
-    for (const ACTION_ID in actions) {
-        actions[ACTION_ID] = actions[ACTION_ID].bind(actions, store)
-    }
-
-    return actions
-}
-
-function useCustom(this: InnerStore<any>) {
+function useCustom(this: InnerStore<any, any>) {
     const newListener = useState()[1]
     
     useLayoutEffect(() => {
@@ -54,12 +44,22 @@ function useCustom(this: InnerStore<any>) {
             this.listeners = this.listeners.filter((l: HookSetState) => l !== newListener)
         }
     }, [])
-
+    
     return [ this.state, this.actions ]
 }
 
+function bindActions
+(store: Required<InnerStore<any, any>>, actions: ActionsUnbinded<any>) {
+    for (const ACTION_ID in actions) {
+        actions[ACTION_ID] = actions[ACTION_ID].bind(actions, store)
+    }
+
+    return actions as ActionsBinded<typeof actions>
+}
+
+
 function createHookStore
-<S extends Indexable, A extends Indexable>
+<S extends Indexable, A extends ActionsUnbinded<S>>
 (initialState: S, actions: A, reset?: boolean) {
     type StoreUnbinded = InnerStore<S, A>
     type StoreInitialized = Required<StoreUnbinded>
@@ -72,7 +72,7 @@ function createHookStore
         actions: undefined
     }
     store.setState = setState.bind(store)
-    store.actions = bindActions(store, actions)
+    store.actions = (bindActions(store as StoreInitialized, actions) as ActionsBinded<typeof actions>)
 
     
     let resetStore;
@@ -91,4 +91,4 @@ function createHookStore
 
 
 export default createHookStore
-export type { InnerStore }
+export type { InnerStore, ActionsUnbinded }

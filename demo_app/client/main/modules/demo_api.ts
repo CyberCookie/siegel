@@ -11,7 +11,7 @@ type State = {
 
 type StoreInitialized = Required<InnerStore<State>>
 type Actions = {
-    makeSomeFetch(store: StoreInitialized, userData: string, x?: number): void
+    makeSomeFetch(store: StoreInitialized, userData: string): void
     updateCounter(store: StoreInitialized): void
 }
 
@@ -46,5 +46,5 @@ const actions: Actions = {
 const { useStore, store } = createHookStore(initState, actions)
 
 
-export { initState, store }
+export { store }
 export default useStore

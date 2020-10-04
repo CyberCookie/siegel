@@ -84,7 +84,7 @@ function mergePlugins(defaultPlugins, userPlugins = {}) {
 
 function getPlugins(CONFIG, RUN_PARAMS) {
     const { input, output, plugins: userPlugins } = CONFIG.build;
-    const { isProd, isServer } = RUN_PARAMS;
+    const { isProd, isServer, isDev } = RUN_PARAMS;
     
 
     const defaults = {
@@ -146,8 +146,8 @@ function getPlugins(CONFIG, RUN_PARAMS) {
             plugin: miniCssExtract,
             enabled: isProd || !isServer,
             options: {
-                filename: 'styles.[contenthash].css',
-                chunkFilename: '[id].[contenthash].css'
+                filename: /*isDev ? 'styles.css' : */'styles.[contenthash].css',
+                chunkFilename: /*isDev ? '[id].css' : */'[id].[contenthash].css'
             }
         },
 

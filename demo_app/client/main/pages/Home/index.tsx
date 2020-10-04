@@ -9,7 +9,7 @@ const siegelDocsPathPrefix = 'https://github.com/cybercookie/siegel/blob/master/
 
 const docsList = [
     { path: 'README.md', title: 'Siegel' },
-    { path: 'src/demo_app/README.md', title: 'Demo app' },
+    { path: 'demo_app/README.md', title: 'Demo app' },
     { path: 'src/ui_core/README.md', title: 'UI core' },
     { path: 'src/ui_build/README.md', title: 'Webpack build' },
     { path: 'src/server/README.md', title: 'Server' },

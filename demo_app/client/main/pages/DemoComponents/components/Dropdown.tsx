@@ -4,7 +4,7 @@ import { Props } from 'siegel-ui/Dropdown/types'
 import { Dropdown } from 'app/components'
 
 
-const demoList: Props['list'] = [
+const list: Props['list'] = [
     { title: 'item 1' },
     { title: 'item 2' },
     { title: 'item 3' },
@@ -31,19 +31,15 @@ const demoList: Props['list'] = [
     }
 ]
 
-const Demo = () => {
-    const props: Props = {
-        list: demoList
-    }
+const Demo = () => <>
+    <h1>{Dropdown.ID}</h1>
 
+    <h2>simple</h2>
+    <Dropdown {...{ list }} />
 
-    return <>
-        <h1>{Dropdown.ID}</h1>
-
-        <h2>simple</h2>
-        <Dropdown {...props} />
-    </>
-}
+    <h2>expanded by default</h2>
+    <Dropdown {...{ list: [list[list.length - 1]] }} autoExpand />
+</>
 Demo.id = Dropdown.ID;
 
 

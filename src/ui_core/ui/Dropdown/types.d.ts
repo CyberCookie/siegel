@@ -18,6 +18,7 @@ type Props = {
         parentClassName: string
     })
     attributes?: ComponentAttributes
+    autoExpand?: boolean
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

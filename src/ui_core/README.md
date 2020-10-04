@@ -506,6 +506,10 @@ updateURLQuery(window.history, 'somekey', 'someValue')
 
 </details>
 
+<details>
+<summary><b>float_math</b></summary>
+TODO
+</details>
 
 <hr />
 

@@ -44,35 +44,44 @@ function getBody(props: MergedProps, state: State) {
     for (const configurationIndex in searchByField) {
         const config = columnsConfig[configurationIndex]
         const { onFilter, entityFieldPath, type, putSetValue } = config;
-        const searchString = searchByField[configurationIndex]
+        let searchString = searchByField[configurationIndex]
         
-        processedList = isE(onFilter)
-            ?   config.onFilter!(processedList, byID, searchString) // must not deattach onSort to keep `this`
 
-            :   processedList.filter(itemID => {
-                    const entity = byID[itemID]
+        if (isE(onFilter)) {
+            processedList = config.onFilter!(processedList, byID, searchString) // must not deattach onSort to keep `this`
+        } else {
+            const isArrayEntityFieldPath = Array.isArray(entityFieldPath)
+            const isSet = type == 'set'
+            
+            let isText: boolean;
+            if (isText = type == 'text') { searchString = (searchString as string).toLowerCase() }
+            
 
-                    let valueToFilter = Array.isArray(entityFieldPath)
-                        ?   deepGet(entity, entityFieldPath)
-                        :   entity[entityFieldPath as NonNullable<typeof entityFieldPath>]
+            processedList = processedList.filter(itemID => {
+                const entity = byID[itemID]
+
+                let valueToFilter = isArrayEntityFieldPath
+                    ?   deepGet(entity, entityFieldPath as string[])
+                    :   entity[entityFieldPath as string]
+                
+                if (isSet) {
+                    putSetValue && (valueToFilter = config.putSetValue!(entity))
                     
-                    if (type == 'set') {
-                        putSetValue && (valueToFilter = config.putSetValue!(entity))
-                        
-                        return !(searchString as SearchByFieldSet).has(valueToFilter)
-                    } else if (type == 'date') {
+                    return !(searchString as SearchByFieldSet).has(valueToFilter)
+                } else if (isText) {
+                    return valueToFilter === null || valueToFilter === undefined
+                        ?   false
+                        :   valueToFilter.toString().toLowerCase().includes(searchString)
+                    } else {
                         const { dateStart, dateEnd } = searchString as SearchByFieldDate;
                         const timestamp = valueToFilter
                             ?   (new Date(valueToFilter)).getTime()
                             :   Date.now()
-
+    
                         return dateStart <= timestamp && timestamp < dateEnd
-                    } else {
-                        return valueToFilter === null || valueToFilter === undefined
-                            ?   false
-                            :   valueToFilter.toString().toLowerCase().includes(searchString)
                     }
-                })
+            })
+        }
     }
 
 
@@ -83,19 +92,20 @@ function getBody(props: MergedProps, state: State) {
         const config = columnsConfig[index]
         const { onSort, entityFieldPath } = config;
 
-        type EntityField = typeof entityFieldPath;
-        type EntityFieldString = NonNullable<Exclude<EntityField, string[]>>;
 
-        processedList = isE(onSort)
-            ?   config.onSort!(processedList, byID, value) // must not deattach onSort to keep `this`
-            
-            :   processedList.sort((IDa: ID, IDb: ID) => {
-                    const isNextBigger = Array.isArray(entityFieldPath)
-                        ?   deepGet(byID[IDa], entityFieldPath) < deepGet(byID[IDb], entityFieldPath)
-                        :   byID[IDa][entityFieldPath as EntityFieldString] < byID[IDb][entityFieldPath as EntityFieldString]
-                    
-                    return isNextBigger ? value : -value
-                })
+        if (isE(onSort)) {
+            processedList = config.onSort!(processedList, byID, value) // must not deattach onSort to keep `this`
+        } else {
+            const isArrayEntityFieldPath = Array.isArray(entityFieldPath)
+
+            processedList = processedList.sort((IDa: ID, IDb: ID) => {
+                const isNextBigger = isArrayEntityFieldPath
+                    ?   deepGet(byID[IDa], entityFieldPath as string[]) < deepGet(byID[IDb], entityFieldPath as string[])
+                    :   byID[IDa][entityFieldPath as string] < byID[IDb][entityFieldPath as string]
+                
+                return isNextBigger ? value : -value
+            })
+        }
     }
 
 

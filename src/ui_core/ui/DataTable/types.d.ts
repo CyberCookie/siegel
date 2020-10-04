@@ -1,4 +1,4 @@
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults } from '../ui_utils'
 import type { Entities } from '../../utils/entities_struct'
 import type { TableTH, TableBodyRow, TableHeadRow, Props as TableProps } from '../Table/types'
 import type { Props as SelectProps, _Select } from '../_form/Select/types'
@@ -69,11 +69,11 @@ type Props<T extends Entities = Entities> = {
         displayQuantity?: (quantity: number) => React.ReactNode
         select: {
             props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps>
-            component: Partial<_Select>
+            component: CoreIUComponentWithDefaults<_Select> | _Select
         }
         pagination: {
             props?: Partial<PaginationProps>
-            component: Partial<_Pagination>
+            component: CoreIUComponentWithDefaults<_Pagination> | _Pagination
         }
     }
     tableAttributes?: TableProps['attributes']

@@ -18,7 +18,7 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
         ?   extractProps(Dropdown.defaults, props)
         :   (props as _Dropdown['defaults'] & typeof props)
     
-    const { className, theme, list, builder, dropdownIcon, soloOpen, attributes } = mergedProps;
+    const { className, theme, list, builder, dropdownIcon, soloOpen, attributes, autoExpand } = mergedProps;
 
 
     function childrenMapper({ title, children }: ListElement, i: number) {
@@ -31,7 +31,7 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
         }
 
         return children
-            ?   <details key={i} className={theme.item}
+            ?   <details key={i} className={theme.item} open={autoExpand}
                     onClick={onClickHandler}
                     onMouseDown={onDropdownToggle}>
 

@@ -7,6 +7,7 @@ type State = {
     errRes: any
 }
 
+// TODO
 type StoreInitialized = Required<InnerStore<State>>
 type Actions = {
     addToReqQueue(store: StoreInitialized, url: string): void
@@ -60,7 +61,6 @@ const actions: Actions = {
             Array.isArray(url)
                 ?   url.forEach(_url => { delete state.errRes[_url] })
                 :   (delete state.errRes[url])
-
         } else state.errRes = {}
 
         setState(state)

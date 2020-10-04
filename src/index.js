@@ -23,23 +23,23 @@ const main = async function(_CONFIG, _RUN_PARAMS) {
     
     
     if (isServer) {
-        const { extenderLoc, watch } = CONFIG.server;
+        const { appServerLoc, watch } = CONFIG.server;
         const devServerLoc = CONSTANTS.PATHS.staticServer;
 
         const devServer = require(devServerLoc)
 
         function createDevServer() {
-            let extender;
-            if (extenderLoc) {
+            let appServer;
+            if (appServerLoc) {
                 try {
-                    const _extender = require(extenderLoc)
+                    const _appServer = require(appServerLoc)
 
-                    if (typeof _extender == 'function') extender = _extender;
-                    else throw '[extenderLoc] export type is not a function'
+                    if (typeof _appServer == 'function') appServer = _appServer;
+                    else throw '[appServerLoc] export type is not a function'
                 } catch(err) { console.error(err) }
             }
 
-            return devServer.run(CONFIG, devMiddlewares, extender)
+            return devServer.run(CONFIG, devMiddlewares, appServer)
         }
 
         
@@ -47,7 +47,7 @@ const main = async function(_CONFIG, _RUN_PARAMS) {
         if (watch) {
             let lock = false;
             function reInitDevServer() {
-                delete require.cache[extenderLoc]
+                delete require.cache[appServerLoc]
                 // delete require.cache[devServerLoc]
 
                 devServerInstance.close()
@@ -58,7 +58,7 @@ const main = async function(_CONFIG, _RUN_PARAMS) {
 
 
             require('fs')
-                .watch(extenderLoc)
+                .watch(appServerLoc)
                 // .watch(devServerLoc)
                 .on('change', () => {
                     lock || (lock = setTimeout(reInitDevServer, 100))

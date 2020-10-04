@@ -3,7 +3,7 @@ import { Props } from 'siegel-ui/_form/Button/types'
 
 import { Button, icons } from 'app/components'
 
-console.log(Button)
+
 const Demo = () => {
     const [ counter, setCounter ] = useState(0)
 

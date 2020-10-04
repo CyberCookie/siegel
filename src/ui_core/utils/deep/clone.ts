@@ -1,9 +1,9 @@
 //TODO: implement clone of Set, RegExp, Date...
 
 /**
- * Recursively makes clone of a given object
- * @param obj - object to copy
- * @returns copied object
+ * Clones an object iterating recursively over its keys
+ * @param object to clone
+ * @returns Clonned object
  */
 function deepClone<T>(obj: T): T {
     if (typeof obj !== 'object') return obj;

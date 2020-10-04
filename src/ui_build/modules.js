@@ -47,6 +47,13 @@ function getModules(CONFIG, RUN_PARAMS) {
             use: [
                 isProd || !isServer ? miniCssExtract.loader : resolve('style-loader'),
                 
+                // {
+                //     loader: miniCssExtract.loader,
+                //     options: {
+                //         hmr: true
+                //     }
+                // },
+
                 {
                     loader: resolve('css-loader'),
                     options: {

@@ -20,6 +20,11 @@ type CoreIUComponent<P extends PropsComponentThemed, D extends PropsComponentThe
     ID: string
 }
 
+type CoreIUComponentWithDefaults<C extends CoreIUComponent<any, any>> = {
+    (...args: Parameters<C>): ReturnType<C>
+    ID: C['ID']
+}
+
 
 function extractProps
 <
@@ -70,4 +75,4 @@ function withDefaults
 
 
 export { extractProps, withDefaults }
-export type { PropsComponentBase, PropsComponentThemed, ComponentAttributes, CoreIUComponent }
+export type { PropsComponentBase, PropsComponentThemed, ComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults }

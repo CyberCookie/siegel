@@ -84,13 +84,13 @@ node ./node_modules/siegel/src/scripts/init_project.js --run --peers
 
 You may read about script params in [scripts section](https://github.com/CyberCookie/siegel/tree/master/src/scripts).
 
-<h5>Config<h5>
-Defaults are commented.
+<h4>Config<h4>
+All the config properties are optional and some have its default values (commented).
 
 ```js
 {
     server: {
-        extenderLoc: String,
+        appServerLoc: String,
         watch: Boolean,
         host: String,       // 'localhost'
         port: Number,       // 3000
@@ -109,9 +109,9 @@ Defaults are commented.
             assetsDir: String,
             sassResources: String,
             include: String[], // [ ui_core, path.dirname(build.input.js) ]
-            exclude: String[] // [ siegel's node_modules, parent node_modules ]
+            exclude: String[] // [ siegel's node_modules ]
         },
-        output: String, // path.join(process.cwd(), 'dist')
+        output: String,
         aliases: Object,
 
         plugins: Object,
@@ -122,7 +122,7 @@ Defaults are commented.
 ```
 
 ##### server
-- __extenderLoc__ - path to a user defined server to extend the one created by siegel. Server extender should be a function. Function receives an instance of the server as a first paramenter and dependencies used to create this server as a second.
+- __appServerLoc__ - path to a user defined server to extend the one created by siegel. Server extender should be a function. Function receives an instance of the server as a first paramenter and dependencies used to create this server as a second.
 - __watch__ - reload when some changes in user server occur.
 - __host__ - host used in static server.
 - __port__ - port used in static server.
@@ -153,13 +153,37 @@ plugins: {
     sw: false, // to disable the plugin
     html: {
         options: { /* plugin options */ }
+    },
+
+    [your_plugin_key]: {
+        plugin: require('your_plugin'),
+        enabled: true,
+        options: { /* plugin options */ }
     }
 }
 ```
 
 __postProcessWebpackConfig__ - function that receives full webpack config that you can postprocess giving you full controll over the build.
+```js
+const config = {
+    build: {
+        postProcessWebpackConfig(config) {
+            config.module.rules.push({
+                test: /\.(svg|woff2)$/,
+                loader: 'url-loader'
+            })
 
-##### runParams
+            config.resolve.extensions.push('.mjs')
+
+            // any webpack config mutatioins...
+
+            return config
+        }
+    }
+}
+```
+
+<h4>runParams</h4>
 
 ```js
 {
