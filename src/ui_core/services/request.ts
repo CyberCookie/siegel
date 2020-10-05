@@ -50,7 +50,15 @@ const extractRequestData = (request: RequestParams) => {
     }
 
     options.method = method || 'GET'
-    query && (url += `?${(new URLSearchParams(query)).toString()}`)
+
+    if (query) {
+        const queryToAdd = typeof query == 'string'
+            ?   query
+            :   `?${(new URLSearchParams(query)).toString()}`
+
+        url += queryToAdd
+    }
+    
     credentials && (options.credentials = credentials)
     headers && (options.headers = headers)
     

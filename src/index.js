@@ -32,10 +32,11 @@ const main = async function(_CONFIG, _RUN_PARAMS) {
             let appServer;
             if (appServerLoc) {
                 try {
-                    const _appServer = require(appServerLoc)
+                    appServer = require(appServerLoc)
 
-                    if (typeof _appServer == 'function') appServer = _appServer;
-                    else throw '[appServerLoc] export type is not a function'
+                    if (typeof appServer != 'function') {
+                        throw '[appServerLoc] export type is not a function'
+                    }
                 } catch(err) { console.error(err) }
             }
 
@@ -44,7 +45,7 @@ const main = async function(_CONFIG, _RUN_PARAMS) {
 
         
         let devServerInstance = createDevServer()
-        if (watch) {
+        if (appServerLoc && watch) {
             let lock = false;
             function reInitDevServer() {
                 delete require.cache[appServerLoc]

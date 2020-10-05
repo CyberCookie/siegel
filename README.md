@@ -86,6 +86,7 @@ You may read about script params in [scripts section](https://github.com/CyberCo
 
 <h4>Config<h4>
 All the config properties are optional and some have its default values (commented).
+<br/>
 
 ```js
 {
