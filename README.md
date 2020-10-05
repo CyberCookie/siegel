@@ -84,9 +84,8 @@ node ./node_modules/siegel/src/scripts/init_project.js --run --peers
 
 You may read about script params in [scripts section](https://github.com/CyberCookie/siegel/tree/master/src/scripts).
 
-<h4>Config<h4>
+<h4>Config</h4>
 All the config properties are optional and some have its default values (commented).
-<br/>
 
 ```js
 {
@@ -122,7 +121,7 @@ All the config properties are optional and some have its default values (comment
 }
 ```
 
-##### server
+<h4>server</h4>
 - __appServerLoc__ - path to a user defined server to extend the one created by siegel. Server extender should be a function. Function receives an instance of the server as a first paramenter and dependencies used to create this server as a second.
 - __watch__ - reload when some changes in user server occur.
 - __host__ - host used in static server.
@@ -131,7 +130,7 @@ All the config properties are optional and some have its default values (comment
 - __ssl.keyPath__ - path to ssl private key.
 - __ssl.certPath__ - path to signed certificate.
 
-##### build
+<h4>build</h4>
 __input.js__ - path to react application entrypoint.\
 __input.sw__ - path to service worker.\
 __input.html__ - path to site entrypoint.\
