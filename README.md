@@ -111,7 +111,7 @@ All the config properties are optional and some have its default values (comment
             include: String[], // [ ui_core, path.dirname(build.input.js) ]
             exclude: String[] // [ siegel's node_modules ]
         },
-        output: String,
+        output: String, // path.join(process.cwd(), 'dist')
         aliases: Object,
 
         plugins: Object,
@@ -138,7 +138,7 @@ __input.assetsDir__ - path to application static assets folder.\
 __input.sassResources__ - path to styles files which will be included in every other styles file. (Usefull for variables / mixins).\
 __output__ - path to folder when output code will be stored.\
 __aliases__ - webpack compatible aliases.\
-__plugins__ - used to extend siegel webpack plugins or to add your own. There are 8 plugins that are used during the build: `compression`, `copy`, `sw`, `cssExtract`, `html`, `hot`, `clean` and `reactRefresh`. Each of them you may disable or extend with your own options that will be merged with existing ones. Some plugins like `compression` may have several instances (one for brotli and another one for gzip). This example describes how plugins can be configured:
+__plugins__ - used to extend siegel webpack plugins or to add your own. There are 8 plugins that are used during the build: `compression`, `copy`, `sw`, `cssExtract`, `cssOptimize`, `html`, `hot`, `clean` and `reactRefresh`. Each of them you may disable or extend with your own options that will be merged with existing ones. Some plugins like `compression` may have several instances (one for brotli and another one for gzip). This example describes how plugins can be configured:
 
 ```js
 plugins: {

@@ -30,7 +30,8 @@ There is a special approach to configure plugins described in [config section](h
 - compression-webpack-plugin (`compression`) - (brotli and gzip). Enabled if __runParams.isProd == true__
 - copy-webpack-plugin (`copy`) - enabled if __config.build.input.assetsDir__ is specified
 - serviceworker-webpack-plugin (`sw`) - enabled if __config.build.input.sw__ is specified
-- mini-css-extract-plugin (`cssExtract`) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__ 
+- mini-css-extract-plugin (`cssExtract`) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__
+- optimize-css-assets-webpack-plugin (`cssOptimize`) - enabled if __runParams.isProd == true__ 
 - html-webpack-plugin (`html`) - enabled if __config.build.input.html__ is specified
 - clean-webpack-plugin (`clean`)
 - @pmmmwh/react-refresh-webpack-plugin (`reactRefresh`) - enabled if __runParams.isProd == true__

@@ -65,9 +65,9 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postP
     
             const { value: curValue, index: curIndex } = dataGridHookState.sortByField;
             const intIndex = +sortindex!;
-            const intValue = (+sortvalue! as SortReturnValue);
+            const intValue = +sortvalue!;
     
-            let index, value: SortReturnValue;
+            let index, value: number;
             curIndex == intIndex && curValue == intValue
                 ?   (index = value = 0)
                 :   (index = intIndex, value = intValue)

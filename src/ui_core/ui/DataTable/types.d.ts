@@ -27,7 +27,7 @@ type DisplayedEntityIDs<T extends Entities = Entities> = {
 type State = {
     sortByField: {
         index: number
-        value: SortReturnValue,
+        value: number,
     }
     searchByField: Indexable<SearchByFieldValue>
     showPerPage: number
@@ -45,7 +45,7 @@ type ColumnsConfigWithDefaults<
     Sorted = ReturnType<T['raw']>['sorted']
 > = {
     showValue: (entity: Entity, index: number) => React.ReactNode
-    onSort: (IDs: Sorted, byID: ByID, value: SortReturnValue) => Sorted
+    onSort: (IDs: Sorted, byID: ByID, value: number) => Sorted
     onFilter: (IDs: Sorted, byID: ByID, search: SearchByFieldValue) => Sorted
 }
 type ColumnsConfig<T extends Entities = Entities> = {

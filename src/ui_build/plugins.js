@@ -2,6 +2,7 @@ const path                  = require('path')
 
 const webpack               = require('webpack')
 const HTMLPlugin            = require('html-webpack-plugin')
+const optimizeCSS           = require('optimize-css-assets-webpack-plugin')
 const fileCopyPlugin        = require('copy-webpack-plugin')
 const compressionPlugin     = require('compression-webpack-plugin')
 const cleanPlugin           = require('clean-webpack-plugin').CleanWebpackPlugin;
@@ -151,6 +152,11 @@ function getPlugins(CONFIG, RUN_PARAMS) {
             }
         },
 
+        cssOptimize: {
+            plugin: optimizeCSS,
+            enabled: isProd,
+        },
+
         html: {
             plugin: HTMLPlugin,
             enabled: input.html,
@@ -162,7 +168,7 @@ function getPlugins(CONFIG, RUN_PARAMS) {
                 }
             }
         },
-
+        
         hot: {
             plugin: webpack.HotModuleReplacementPlugin,
             enabled: !isProd

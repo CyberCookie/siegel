@@ -1,6 +1,4 @@
 // const cssSVG                = require('iconfont-webpack-plugin')
-const autoprefixer          = require('autoprefixer')
-const cssMinifier           = require('cssnano')
 const miniCssExtract        = require('mini-css-extract-plugin')
 
 const resolve = require.resolve;
@@ -70,18 +68,16 @@ function getModules(CONFIG, RUN_PARAMS) {
                     loader: resolve('postcss-loader'),
                     options: {
                         sourceMap: !isProd,
-                        // postcssOptions: {
-                        //     plugins: [
-                        //         [ require.resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ],
-                        //         [ require.resolve('cssnano'), { preset: 'default' } ]
-                        //     ]
-                        // }
-                        plugins: (/*loader*/) => [
-                            autoprefixer({ overrideBrowserList: 'last 1 version' }),
-                            cssMinifier({ preset: 'default' })
-                            // TODO:
-                            // new cssSVG(loader)
-                        ]
+                        postcssOptions: {
+                            plugins: [
+                                [ resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ],
+                            ]
+                        }
+                        // plugins: (/*loader*/) => [
+                        //     autoprefixer({ overrideBrowserList: 'last 1 version' }),
+                        //     // TODO:
+                        //     // new cssSVG(loader)
+                        // ]
                     }
                 },
 

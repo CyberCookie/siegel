@@ -1,5 +1,3 @@
-//TODO: abort
-
 type FetchParams = {
     url: RequestInfo
     options: RequestInit
@@ -26,6 +24,7 @@ type RequestParams = {
     headers?: Indexable
     credentials?: RequestInit['credentials']
     method?: RequestInit['method']
+    signal?: RequestInit['signal']
     body?: any
 }
 
@@ -38,7 +37,7 @@ const defaultSetup: SetupFnParams = {}
 
 
 const extractRequestData = (request: RequestParams) => {
-    const { query, headers, body, credentials } = request;
+    const { query, headers, body, credentials, signal } = request;
     let { url, method } = request;
 
     const options: RequestInit = {}
@@ -61,6 +60,7 @@ const extractRequestData = (request: RequestParams) => {
     
     credentials && (options.credentials = credentials)
     headers && (options.headers = headers)
+    signal && (options.signal = signal)
     
     
     const fetchParams = { url, options }
@@ -139,5 +139,3 @@ const request = async (req: RequestParams) => {
 export { setup }
 export default request
 export type { FetchParams, ReqError, SetupFnParams, RequestParams }
-
-module.hot && module.hot.decline()

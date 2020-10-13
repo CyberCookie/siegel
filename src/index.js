@@ -45,7 +45,7 @@ const main = async function(_CONFIG, _RUN_PARAMS) {
 
         
         let devServerInstance = createDevServer()
-        if (appServerLoc && watch) {
+        if (watch && appServerLoc) {
             let lock = false;
             function reInitDevServer() {
                 delete require.cache[appServerLoc]

@@ -5,7 +5,7 @@ function entities<K extends ID = ''>(uniq: K) {
     type Entity = {
         [key in K]: ID
     } & Indexable
-    type SortCB = (entity_a: Entity, entity_b: Entity) => SortReturnValue
+    type SortCB = (entity_a: Entity, entity_b: Entity) => number
     type EachCB = (entity: Entity, index: number) => boolean | void
 
     let byID: Indexable<Entity> = {}

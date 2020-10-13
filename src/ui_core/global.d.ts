@@ -1,13 +1,11 @@
 declare module '*.sass'
 
 
-type SortReturnValue = -1 | 0 | 1
-
-
 type ID = string | number
 
 
 type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<T>
+
 
 type Indexable<V = any> = {
     [key: string]: V
@@ -16,7 +14,6 @@ type Indexable<V = any> = {
 type IndexObjectKeys<K extends string, V = any> = {
     [key in K]: V
 }
-
 
 type IndexObject<T, V = any> = {
     [key in keyof T]: V
