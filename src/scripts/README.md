@@ -13,7 +13,7 @@
     Must be ran at project root level where package.json is.<br/>
     This script creates production ready project with predefined folder structure including already configured siegel to provide the best expirience.<br />
     Also it creates npm script commands in your package.json that cover mostly all the cases you will need during development.<br />
-    More about these scripts read in [demo project section](https://github.com/CyberCookie/siegel/tree/master/demo_app).
+    More about these scripts read in <a href='https://github.com/CyberCookie/siegel/tree/master/demo_app'>demo project section</a>.
 </p>
 
 <ul>
@@ -22,15 +22,15 @@
         <b>--peers</b> - to install peer dependencies
     </li>
     <li>
-        <b>--run</b> - to run a project in development mode right after project was created and peer dependencies was installed (if __--peers__ parameter had been passed)
+        <b>--run</b> - to run a project in development mode right after project was created and peer dependencies was installed<br />
+        (if __--peers__ parameter had been passed)
     </li>
 </ul>
 
 
 <br />
 <h3>createSSL.js</h3>
-Creates localhost ssl certificate to be used in siegel's static server.\
-
+Creates localhost ssl certificate to be used in siegel's static server.<br />
 Also it ceates authority certificate for testing purposes to be imported in chrome browser or another.
 
 

@@ -241,7 +241,7 @@ console.log(date)
 
 <details>
 <summary><b>parse</b></summary>
-Parse date into parts. accepts zeroPrefix as second argument to prefix values less than 10 with *0* symbol. Returns an object that includes year, month, date, hours, minutes, seconds, day.
+Parse date into parts. accepts zeroPrefix as second argument to prefix values less than 10 with `0` symbol. Returns an object that includes year, month, date, hours, minutes, seconds, day.
 
 ```js
 import dateParse from 'siegel-utils/date/parse'

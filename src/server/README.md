@@ -10,9 +10,9 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
     <li><b>middlewares</b> - ExpressJS middlewares. Thus affects only http(s) server. By default siegel passes webpack hot and dev middlewares.</li>
     <li><b>serverExtend</b> - resolved server extender</li>
 </ul>
-<br /><br />
+<br />
 
-<h4>config</h4>
+<h3>config</h3>
 
 ```js
 {   

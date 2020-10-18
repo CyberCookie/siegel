@@ -1,21 +1,21 @@
 <div>
     <a href='https://github.com/webpack/webpack'>
-        <img height='100' src='https://webpack.js.org/assets/icon-square-big.svg'>
+        <img height='100' src='https://webpack.js.org/assets/icon-square-big.svg' alt='webpack'>
     </a>
     <a href='https://github.com/eslint/eslint'>
-        <img src='https://cdn.worldvectorlogo.com/logos/eslint.svg' height='100'>
+        <img src='https://cdn.worldvectorlogo.com/logos/eslint.svg' height='100' alt='eslint'>
     </a>
     <a href='https://github.com/babel/babel'>
-        <img src='https://rawgit.com/babel/logo/master/babel.svg' height='100'>
+        <img src='https://rawgit.com/babel/logo/master/babel.svg' height='100' alt='babel'>
     </a>
     <a href='https://sass-lang.com/'>
-        <img height='100' src='https://worldvectorlogo.com/logos/sass-1.svg'>
+        <img height='100' src='https://worldvectorlogo.com/logos/sass-1.svg' alt='sass'>
     </a>
     <a href='https://www.typescriptlang.org/'>
-        <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/512px-Typescript_logo_2020.svg.png' height='100'>
+        <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/512px-Typescript_logo_2020.svg.png' height='100' alt='typescript'>
     </a>
     <a href='https://reactjs.org'>
-        <img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K' height='100px' />
+        <img src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg' height='100' alt='react' />
     </a>
 </div>
 <br /><br />
@@ -32,7 +32,7 @@
 </a>
 
 
-<br /><br />
+<br />
 <h1>siegel</h1>
 
 <h3>Description</h3>
@@ -59,7 +59,7 @@ You should install some peer dependencies in order to make inner eslint and type
 
 There is an <b>install_peers.js</b> script located in scripts part that can make it easier for you.
 
-<br /><br />
+<br />
 <h3>Usage</h3>
 <hr />
 Siegel exports function that accepts <b>config</b> as a first argument and <b>runParams</b> as a second.
@@ -70,7 +70,7 @@ You may read about these parameters below.
 require('siegel')(config, runParams)
 ```
 
-<br /><br />
+<br />
 Siegel supports zero configuration mode to make it super easy for you to try it.
 
 Create app.ts file somewhere in your project:
@@ -102,7 +102,7 @@ node index.js
 
 
 
-<br /><br />
+<br />
 
 If you don't want to bother yourself with project creating and siegel configuring - you can just run from root level script that will create it all for you:
 
@@ -114,7 +114,7 @@ Ready to work with project will be created with preconfigured siegel config.
 You may read about script params in [scripts section](https://github.com/CyberCookie/siegel/tree/master/src/scripts).
 
 
-<br /><br /><hr />
+<br /><hr />
 <h4>Config</h4>
 
 ```js
