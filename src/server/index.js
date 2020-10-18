@@ -16,7 +16,8 @@ const extractSSL = ssl => ({
 
 
 function createHTTPServer(CONFIG, middlewares, serverExtend) {
-    const { host, port, ssl } = CONFIG.server;
+    const { staticDir, server: serverConfig } = CONFIG;
+    const { host, port, ssl } = serverConfig;
 
     const express = require('express')
     const expressApp = express()
@@ -34,7 +35,7 @@ function createHTTPServer(CONFIG, middlewares, serverExtend) {
     
     middlewares.forEach(m => expressApp.use(m))
     
-    expressApp.use('/', expressStatic(CONFIG.build.output, {
+    expressApp.use('/', expressStatic(staticDir, {
         enableBrotli: true,
         orderPreference: ['br', 'gzip']
     }))
@@ -52,8 +53,8 @@ function createHTTPServer(CONFIG, middlewares, serverExtend) {
 
 
 function createHTTP2Server(CONFIG, serverExtend) {
-    const { host, port, ssl } = CONFIG.server;
-    const staticFolder = CONFIG.build.output;
+    const { staticDir, server: serverConfig } = CONFIG;
+    const { host, port, ssl } = serverConfig;
 
     const http2 = require('http2')
     const mime = require('mime-types')
@@ -82,7 +83,7 @@ function createHTTP2Server(CONFIG, serverExtend) {
     function onStream(stream, headers) {
         const reqFilePath = headers[HTTP2_HEADER_PATH]
         const ext = path.extname(reqFilePath)
-        let filePath = path.join(staticFolder, ext ? reqFilePath : 'index.html')
+        let filePath = path.join(staticDir, ext ? reqFilePath : 'index.html')
 
         const reponseHeaders = {
             [HTTP2_HEADER_CONTENT_TYPE]: mime.contentType(path.extname(filePath))

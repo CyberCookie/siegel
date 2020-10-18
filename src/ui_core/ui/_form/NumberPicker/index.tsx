@@ -1,6 +1,7 @@
 //TODO: masks
 //TODO: add precision to onBlur and input value
 //TODO: truncate zeroes left
+//TODO: replace comma with dot
 import React from 'react'
 
 import isExists from '../../../utils/is_exists'
@@ -104,22 +105,22 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         tabIndex: -1
     }
     const inputFieldProps: InputFieldProps = {
+        value,
         className: theme.field,
         disabled: disabled || disabledInput,
     }
     if (disabled) {
         numberpickerRootProps.className += ` ${theme._disabled_all}`
     } else {
-        inputFieldProps.onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-            e.persist()
-            onNumberPickerChange(numberValue, e)
-        }
         inputFieldProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
             numberMask.test(value) && onChange(value, e, payload)
         }
     }
-    const isFocused = addInputFieldAttributes(inputFieldProps, numberpickerRootProps, mergedProps).isFocused;
+    const isFocused = addInputFieldAttributes(
+        inputFieldProps, numberpickerRootProps, mergedProps,
+        (_, e) => { onNumberPickerChange(numberValue, e) }
+    ).isFocused;
 
     const onNumberPickerChange: OnNumberPickerChange = (value, e, isButtonClick) => {
         value < min && (value = min)

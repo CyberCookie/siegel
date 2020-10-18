@@ -1,24 +1,23 @@
-//TODO: option builder default?
-import React from 'react'
+import React, { useState } from 'react'
 
 import { extractProps, ComponentAttributes } from '../../ui_utils'
+import isE from '../../../utils/is_exists'
 import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
-import type { _DropdownSearch, MergedProps } from './types'
+import type { _DropdownSearch, MergedProps, Store, State } from './types'
 
 
 const componentID = '-ui-dropdown_search'
 
-function getSearchOptions({ onSelect, searchOptions, theme, value }: MergedProps) {
+function getSearchOptions({ onChange, searchOptions, theme }: MergedProps, store: Store) {
+    const [{ searchString }, setState ] = store;
+    const searchLower = searchString && searchString.toLowerCase()
+
     const options: JSX.Element[] = []
-    for (let i = 0, l = searchOptions.length; i < l; i++) {
-        const { id, title, className, filter } = searchOptions[i]
+    for (const id in searchOptions) {
+        const { title, value, className } = searchOptions[id]
         
-        const canPush = filter
-            ?   typeof filter == 'string'
-                ?   filter.toLocaleLowerCase().includes(value!)
-                :   filter(value, id, i)
-            :   true;
+        const canPush = !searchLower || value.toLowerCase().includes(searchLower)
         
 
         if (canPush) {
@@ -27,7 +26,10 @@ function getSearchOptions({ onSelect, searchOptions, theme, value }: MergedProps
 
             options.push(
                 <div key={id} className={optionClassMame} children={title}
-                    onMouseDown={e => { onSelect(id, e) }} />
+                    onMouseDown={e => {
+                        setState({ searchString: undefined })
+                        onChange(id, e)
+                    }} />
             )
         }
     }
@@ -41,31 +43,56 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         ?   extractProps(DropdownSearch.defaults, props)
         :   (props as _DropdownSearch['defaults'] & typeof props)
 
-    const { theme, searchOptions, minInputLength, onChange, disabled, value, label, payload, className } = mergedProps;
+    const { theme, searchOptions, minInputLength, onSearch, disabled, label, payload,
+        className, showOnFocus, selected, onChange } = mergedProps;
+    
+    const store = useState({ searchString: undefined } as State)
+    const [ state, setState ] = store;
+    const { searchString } = state;
 
     
-    const searchLength = value ? value.length : 0;
-
     const dropdownSearchRootProps: ComponentAttributes = { className }
     const inputProps: NonNullable<typeof props.inputAttributes> = {
         disabled,
         className: theme.field,
+        value: isE(searchString)
+            ?   searchString
+            :   selected
+                ?   searchOptions[selected].value
+                :   ''
     }
 
-    let options: JSX.Element | undefined
 
+    const { isFocused } = addInputFieldAttributes(
+        inputProps, dropdownSearchRootProps, mergedProps,
+        (_, e) => {
+            if (state.searchString == '') {
+                onChange('', e)
+            } else state.searchString = undefined
+        }
+    )[0]
+
+    let options: JSX.Element | undefined
     if (!disabled) {
         inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const searchValue = e.target.value;
-            onChange(searchValue, e, payload)
+            state.searchString = searchValue;
+            setState({ ...state })
+            
+            onSearch && onSearch(searchValue, e, payload)
         }
+        
+        const searchLength = searchString ? searchString.length : 0;
+        const isShowOptions = showOnFocus
+            ?   isFocused
+            :   searchLength >= minInputLength;
 
-        if  (!!searchOptions.length && searchLength >= minInputLength) {
-            options = getSearchOptions(mergedProps)
+        if  (isShowOptions) {
+            options = getSearchOptions(mergedProps, store)
             dropdownSearchRootProps.className +=  ` ${theme._with_suggestions}`
         }
     }
-    addInputFieldAttributes(inputProps, dropdownSearchRootProps, mergedProps)
+
 
 
     let inputElement = <input {...inputProps} />

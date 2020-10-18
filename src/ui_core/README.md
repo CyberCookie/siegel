@@ -536,3 +536,14 @@ the same as
 
 You can look at how to use them in [demo project demo components folder](https://github.com/CyberCookie/siegel/tree/demo_app/main/pages/DemoComponents/components).
 </details>
+
+
+<details>
+    <summary><h5>TODO</h5></summary>
+    <ul>
+        <li>PWA</li>
+        <li>SEO by updating meta tags on page render</li>
+        <li>Resolve TODOs</li>
+        <li>Add typization to redux and signalR</li>
+    </ul>
+</details>

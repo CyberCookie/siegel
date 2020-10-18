@@ -1,3 +1,5 @@
+//TODO: value through inputProps
+//TODO: extend external store
 import { useEffect, useRef, useState } from 'react'
 
 import { ComponentAttributes } from '../ui_utils'
@@ -17,23 +19,27 @@ type InputTagProps = {
     inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 }
 
-type AddInputFieldAttributes = (
-    inputProps: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>,
-    rootProps: ComponentAttributes,
-    props: InputTagProps
-) => {
-    isTouched: boolean,
+type InputState = {
+    isTouched: boolean
     isFocused: boolean
 }
 
+type AddInputFieldAttributes = (
+    inputProps: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>,
+    rootProps: ComponentAttributes,
+    props: InputTagProps,
+    onBlur?: (state: InputState, e: React.FocusEvent<HTMLInputElement>) => void
+) => [ InputState, React.Dispatch<React.SetStateAction<InputState>> ]
 
-const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps, props) => {
-    const { disabled, autofocus, theme, placeholder, value, attributes, inputAttributes } = props;
 
-    const [ state, setState ] = useState({
+const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps, props, onBlur) => {
+    const { disabled, autofocus, theme, placeholder, attributes, inputAttributes } = props;
+
+    const store = useState({
         isTouched: false,
         isFocused: false
     })
+    const [ state, setState ] = store;
     const { isFocused, isTouched } = state;
 
     inputProps.ref = useRef<HTMLInputElement>(null)
@@ -47,20 +53,22 @@ const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps,
     disabled || (rootProps.onFocus = () => {
         if (!isFocused) {
             state.isFocused = true;
+
             setState({ ...state })
         }
     })
 
 
-    rootProps.onBlur = () => {
+    rootProps.onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         if (!isTouched || isFocused) {
             isTouched || (state.isTouched = true)
             isFocused && (state.isFocused = false)
-    
+            
+            onBlur && onBlur(state, e)
             setState({ ...state })
         }
     }
-    inputProps.value = value;
+
     placeholder && (inputProps.placeholder = placeholder)
 
 
@@ -74,9 +82,9 @@ const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps,
     inputAttributes && Object.assign(inputProps, inputAttributes)
 
 
-    return state
+    return store
 }
 
 
-export { InputTagProps }
+export type { InputTagProps }
 export default addInputFieldAttributes

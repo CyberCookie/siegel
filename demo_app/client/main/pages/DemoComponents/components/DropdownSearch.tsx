@@ -4,27 +4,23 @@ import { Props } from 'siegel-ui/_form/DropdownSearch/types'
 import { DropdownSearch } from 'app/components'
 
 
-const options: Props['searchOptions'] = ([1, 2, 3, 4, 5]).map(i => {
+const options: Props['searchOptions'] = {}
+;([1, 2, 3, 4, 5]).forEach((i: number) => {
     const name = 'option ' + i;
 
-    return {
-        id: i,
+    options[i] = {
         title: name,
-        filter: name 
+        value: name 
     }
 })
 
 const Demo = () => {
-    const [ value, setSearchValue ] = useState('')
-
+    const [ selected, setSelected ] = useState(0)
+    
     const props: Props = {
-        value,
-        onChange(value) {
-            setSearchValue(value)
-        },
-        onSelect(id) {
-            setSearchValue('')
-            console.log(id)
+        selected,
+        onChange(id) {
+            setSelected(id as number)
         },
         searchOptions: options
     }
@@ -34,7 +30,10 @@ const Demo = () => {
         <h1>{DropdownSearch.ID}</h1>
 
         <h2>simple</h2>
-        <DropdownSearch {...props} placeholder={'type "option..."'}/>
+        <DropdownSearch {...props} placeholder={'type "option..."'} />
+
+        <h2>show options on focus</h2>
+        <DropdownSearch {...props} placeholder={'type "option..."'} showOnFocus />
 
         <h2>disabled</h2>
         <DropdownSearch {...props} disabled />

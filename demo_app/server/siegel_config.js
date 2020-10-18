@@ -44,16 +44,14 @@ const siegelConfig = {
             sassResources: join(main, 'styles', 'sass_resources.sass')
         },
         
-        aliases: getAliasesFromTSconfig(),
+        aliases: getAliasesFromTSconfig()
 
-        // postProcessWebpackConfig(config) {
-        //     config.module.rules.push({
-        //         test: /\.(svg|eot|ttf|woff|woff2)?$/,
-        //         loader: "url-loader"
-        //     })
-
-
-        //     return config
+        // modules: {
+        //     's[ac]ss': {
+        //         loaders: {
+        //             url: 'url-loader'
+        //         }
+        //     }
         // }
     }
 }

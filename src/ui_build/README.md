@@ -1,39 +1,272 @@
-# ui_build
-Provides NodeJS API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares that are used as express middlewares. The build exports object with two methods:
-- __run(config, runParams)__ - creates webpack compiller and runs it to produce a bundle. Returns a promise which resolves with webpack compiller.
-- __getDevMiddlewares(config, webpackCompiller)__ - creates an object with dev and hot middlewares using webpack compiller. These middlewares are passing into express dev server.
+<h1>ui_build</h1>
 
-#### Default webpack config description:
-Config optimized to produce the smallest bundle and to build it as fast as possible. If you know how to make it faster - let me know :)
-Also this config includes:
-- code splitting
-- js minimization
-- sourcemaps
-##### Modules section
-- js transformation with babel using presets and plugins:
+<p>Provides NodeJS API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares that are used as express middlewares.</p>
+
+<ul>
+    <b>The build exports object with two methods:</b>
+    <li>
+        <b>run(config, runParams)</b> - creates webpack compiller and runs it to produce a bundle. Returns a promise which resolves with webpack compiller.
+    </li>
+    <li>
+        <b>getDevMiddlewares(config, webpackCompiller)</b> - creates an object with dev and hot middlewares using webpack compiller. These middlewares are passing into express dev server.
+    </li>
+</ul>
+ 
+
+<br />
+<h3>What it does out of the box?</h3>
+
+<p>Config optimized to produce the smallest bundle and to build it as fast as possible. If you know how to make it faster - let me know :)</p>
+
+<ul>
+    <b>Default features:</b>
+    <li>Code splitting</li>
+    <li>All output files are minified and compressed;</li>
+    <li>Sourcemaps</li>
+    <li>JS lint; transform from React TS via babel into js;</li>
+    <li>SASS/SCSS processing; style autoprefixing; css modules;</li>
+    <li>Autoreload on file change</li>
+    <li>Best service worker expirience</li>
+</ul>
+
+
+<br />
+<h3>Config</h3>
+
+```js
+{
+    /* Output path */
+    staticDir: String,
+
+    build: {
+        input: {
+            /*
+                Path to react application entrypoint.
+                Default is: path.join(process.cwd(), 'app.ts')
+            */
+            js: String,
+
+            /* Path to service worker. */
+            sw: String,
+
+            /*
+                Path to site entrypoint.
+                Default is: demo_app/client/index.html ( App container div's id = root )
+            */
+            html: String,
+
+            /* Path to application static assets folder. */
+            assetsDir: String,
+
+            /*
+                Path to styles files which will be included in every other styles file.
+                (Usefull for variables / mixins).
+            */
+            sassResources: String,
+
+            /*
+                List of directories and/or files to be processed by webpack's loaders.
+                Default is: [ ui_core, path.dirname(build.input.js) ]
+            */
+            include: String[],
+            
+            /*
+                List of directories and/or files to exclude from being processed by webpack's loaders.
+                Default is: [ siegel's node_modules ]
+            */
+            exclude: String[]
+        },
+
+        /* Webpack aliases */
+        aliases: Object,
+
+        /*
+            Webpack plugins passed in extendable form.
+            Read below the way to use it.
+        */
+        plugins: Object,
+
+        /*
+            Webpack modules passed in extendable form.
+            Read below the way to use it.
+        */
+        modules: Object,
+
+        /* Function that receives final webpack config before being passed to webpack */
+        postProcessWebpackConfig: Function
+    }
+}
+```
+
+<br />
+<h3>Plugins</h3>
+
+Every plugin, that's already included has its own `plugin key`.
+- compression-webpack-plugin ( `compression` ) - Enabled if __runParams.isProd == true__.<br />
+  May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`).
+- copy-webpack-plugin ( `copy` ) - enabled if __config.build.input.assetsDir__ is specified
+- serviceworker-webpack-plugin ( `sw` ) - enabled if __config.build.input.sw__ is specified
+- mini-css-extract-plugin ( `cssExtract` ) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__
+- optimize-css-assets-webpack-plugin ( `cssOptimize` ) - enabled if __runParams.isProd == true__ 
+- html-webpack-plugin ( `html` ) - enabled if __config.build.input.html__ is specified
+- clean-webpack-plugin ( `clean` )
+- @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if __runParams.isProd == true__
+
+
+<br />
+
+To extend default plugins or instances you should use `plugin keys` or `instance keys`
+
+```js
+const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/src/ui_build/constants')
+
+{
+    plugins: {
+        [pluginsKeysMap.compression]: {
+            instances: {
+                [pluginInstancesKeyMap.compression_br]: {
+                    options: { /* plugin instance options */ }
+                },
+
+                [pluginInstancesKeyMap.compression_gzip]: false // to disable the plugin instance
+            }
+        },
+
+        [pluginsKeysMap.sw]: false, // to disable the plugin
+
+        [pluginsKeysMap.html]: {
+            options: { /* plugin options */ }
+        },
+
+        /*
+            If you want to add additional plugin then no special key is required.
+            At least it shouldn't overlap with existing one.
+        */
+        [your_plugin_key]: {
+            plugin: require('your_plugin'),
+            enabled: true,
+            options: { /* plugin options */ }
+        }
+    }
+}
+```
+
+
+<br />
+<h3>Modules</h3>
+
+Loaders that this build is use by default. Each loader has its own `loader key` to make it possible to extend it.
+
+- Babel: ( `babel` )
     - @babel/preset-react
     - @babel/preset-typescript
     - @babel/plugin-proposal-export-default-from
     - @babel/plugin-proposal-export-namespace-from
     - @babel/plugin-syntax-dynamic-import
     - react-refresh/babel
-- ESLint
-- SASS styles
-- postCSS
-    - autoprefixer
-    - css minifier
-- CSS modules
-- sass-resources-loader (to include mixins and variables imports in every css file. Normally CSS modules breaks this functionality)
+- ESLint ( `eslint` )
+- SASS styles ( `cssFinal` )<br />
+    It is <b>style-loader</b> in dev mode<br />
+    or <b>mini-css-extract-plugin's loader</b> if mode is production.
+- PostCSS autoprefixer ( `postCssLoader` )
+- CSS modules ( `css-loader` )
+- sass-resources-loader ( `sassResources` )<br />
+    (to include mixins and variables imports in every css file. Normally CSS modules breaks this functionality)
 
-##### Plugins section
-There is a special approach to configure plugins described in [config section](https://github.com/CyberCookie/siegel). For this puproses you will need to specify `plugin key`.
-- compression-webpack-plugin (`compression`) - (brotli and gzip). Enabled if __runParams.isProd == true__
-- copy-webpack-plugin (`copy`) - enabled if __config.build.input.assetsDir__ is specified
-- serviceworker-webpack-plugin (`sw`) - enabled if __config.build.input.sw__ is specified
-- mini-css-extract-plugin (`cssExtract`) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__
-- optimize-css-assets-webpack-plugin (`cssOptimize`) - enabled if __runParams.isProd == true__ 
-- html-webpack-plugin (`html`) - enabled if __config.build.input.html__ is specified
-- clean-webpack-plugin (`clean`)
-- @pmmmwh/react-refresh-webpack-plugin (`reactRefresh`) - enabled if __runParams.isProd == true__
 
-If you want to add additional plugin then no special key is required. At least it shouldn't overlap with existing one.
+To extend default modules you should operate with `loader keys` and with `regExp parts` to math the file extensions:
+
+```js
+const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/ui_build/constants')
+
+{
+    modules: {
+        [webpackModulesRegExp.styles]: {
+            /*
+                This field can be a function in the case you extend one of the default rules.
+                The Function receives default laodersOrder and returns new one. 
+            */
+            loadersOrder(defaultLoadersOrder) {
+                /* Remember that webpack' loaders executes starting from the end */
+
+                /* To add to the begining. */
+                defaultLoadersOrder.push('your_loader')
+
+                /* To add to the end. */
+                defaultLoadersOrder.unshift('your_loader')
+
+                /* One of the wats to remove the loader. */
+                defaultLoadersOrder.splice(
+                    defaultLoadersOrder.indexOf(loadersKeyMap.sassResources),
+                    1
+                )
+
+                return defaultLoadersOrder
+            },
+
+            loaders: {
+                /* Annother way to disable loader */
+                [loadersKeyMap.sassResources]: false,
+
+                [loadersKeyMap.cssLoader]: {
+                    /*
+                        This field can be a function in case you extend one of the default loaders. 
+                    */
+                    options(defaultLoaderOptions) {
+                        delete defaultLoaderOptions.modules;
+                        return defaultLoaderOptions
+                    }
+                },
+
+                your_loader: {
+                    loader: String,
+                    options: Object
+                }
+            }
+        },
+
+        /* Custom extension handler */
+        'png|ico': {
+            /* You may ommit this field if only one loader is using. */
+            loadersOrder: [ 'loader_key_1', 'loader_key_2' ],
+
+            /*
+                Loaders hash with keys you specified in loadersOrder.
+                Loader can have any key if the loader is single.
+            */
+            loaders: {
+                /* can be an object when you specify loader and its options separately */
+                loader_key_1: {
+                    loader: String, // Resoved loader path
+                    
+                    /* Loader options */ 
+                    options: {},
+
+                    /* Any llegal field you can pass into webpack's loader but `laoder` and `options`. */
+                    additionalLoaderOptions: {}
+                },
+
+                /* Can be a string with resolved module path  */
+                loader_key_2: String
+            },
+
+            /* Any llegal field you can pass into webpack's Rule but `test` and `use`. */
+            ruleOptions: {
+                include: [' path_to_png_ico_files ']
+            }
+        }
+    }
+}
+```
+
+
+<br /><hr />
+<details>
+    <summary><h5>TODO</h5></summary>
+    <ul>
+        <li>ES modules</li>
+        <li>Separate styles for different media query</li>
+        <li>Icons -> font</li>
+        <li>Generate code documentation from TS</li>
+    </ul>
+</details>

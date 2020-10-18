@@ -13,8 +13,9 @@ const DEFAULT_PUBLICK_PATH = '/'
 
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
-    const { input, output, aliases = {}, publicPath = DEFAULT_PUBLICK_PATH, postProcessWebpackConfig } = CONFIG.build;
     const { isProd, isDevServer } = RUN_PARAMS;
+    const { staticDir, build } = CONFIG;
+    const { input, aliases = {}, publicPath = DEFAULT_PUBLICK_PATH, postProcessWebpackConfig } = build;
 
 
     let webpackConfig = {
@@ -32,7 +33,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         ],
         output: {
             publicPath,
-            path: output,
+            path: staticDir,
             chunkFilename: 'chunk.[contenthash].js',
             filename: isProd ? 'app.[contenthash].js' : 'app.[hash].js',
         },

@@ -27,6 +27,8 @@ const PATHS = {
 
 
 const DEFAULT_CONFIG = {
+    staticDir: join(cwd, 'dist'),
+
     server: {
         host: 'localhost',
         port: 3000
@@ -38,9 +40,7 @@ const DEFAULT_CONFIG = {
             js: join(cwd, 'app.ts'),
             include: [ PATHS.uiCore ],
             exclude: [ PATHS.nodeModules/*, PATHS.parentNodeModules*/ ]
-        },
-
-        output: join(cwd, 'dist')
+        }
     }
 }
 

@@ -10,6 +10,7 @@ const serviceWorkerPlugin   = require('serviceworker-webpack-plugin')
 const miniCssExtract        = require('mini-css-extract-plugin')
 const reactRefresh          = require('@pmmmwh/react-refresh-webpack-plugin')
 
+const { pluginInstancesKeyMap, pluginsKeysMap } = require('./constants')
 
 
 const mergeOptions = (defaultOptions, userOptions, rewrite) => (
@@ -84,15 +85,16 @@ function mergePlugins(defaultPlugins, userPlugins = {}) {
 
 
 function getPlugins(CONFIG, RUN_PARAMS) {
-    const { input, output, plugins: userPlugins } = CONFIG.build;
-    const { isProd, isServer, isDev } = RUN_PARAMS;
+    const { staticDir, build } = CONFIG;
+    const { input, plugins: userPlugins } = build;
+    const { isProd, isServer } = RUN_PARAMS;
     
 
     const defaults = {
-        compression: {
+        [pluginsKeysMap.compression]: {
             plugin: compressionPlugin,
             instances: {
-                br: {
+                [pluginInstancesKeyMap.compression_br]: {
                     enabled: isProd,
                     options: {
                         test: /\.*$/,
@@ -105,7 +107,7 @@ function getPlugins(CONFIG, RUN_PARAMS) {
                         deleteOriginalAssets: false
                     }
                 },
-                gzip: {
+                [pluginInstancesKeyMap.compression_gzip]: {
                     enabled: isProd,
                     options: {
                         test: /\.*$/,
@@ -117,14 +119,14 @@ function getPlugins(CONFIG, RUN_PARAMS) {
             }
         },
 
-        copy: {
+        [pluginsKeysMap.copy]: {
             plugin: fileCopyPlugin,
             enabled: input.assetsDir,
             options: {
                 patterns: [{
                     from: input.assetsDir,
                     to: input.assetsDir && path.join(
-                            output,
+                            staticDir,
                             path.relative(
                                 path.dirname(input.html),
                                 input.assetsDir
@@ -134,16 +136,15 @@ function getPlugins(CONFIG, RUN_PARAMS) {
             }
         },
 
-        sw: {
+        [pluginsKeysMap.sw]: {
             plugin: serviceWorkerPlugin,
             enabled: input.sw,
             options: {
-                entry: input.sw,
-                minify: true
+                entry: input.sw
             }
         },
 
-        cssExtract: {
+        [pluginsKeysMap.cssExtract]: {
             plugin: miniCssExtract,
             enabled: isProd || !isServer,
             options: {
@@ -152,12 +153,12 @@ function getPlugins(CONFIG, RUN_PARAMS) {
             }
         },
 
-        cssOptimize: {
+        [pluginsKeysMap.cssOptimize]: {
             plugin: optimizeCSS,
             enabled: isProd,
         },
 
-        html: {
+        [pluginsKeysMap.html]: {
             plugin: HTMLPlugin,
             enabled: input.html,
             options: {
@@ -169,17 +170,17 @@ function getPlugins(CONFIG, RUN_PARAMS) {
             }
         },
         
-        hot: {
+        [pluginsKeysMap.hot]: {
             plugin: webpack.HotModuleReplacementPlugin,
             enabled: !isProd
         },
 
-        clean: {
+        [pluginsKeysMap.clean]: {
             plugin: cleanPlugin,
             enabled: true
         },
 
-        reactRefresh: {
+        [pluginsKeysMap.reactRefresh]: {
             plugin: reactRefresh,
             enabled: !isProd
         }

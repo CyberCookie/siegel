@@ -3,7 +3,7 @@ import React from 'react'
 
 import { extractProps } from '../../ui_utils'
 import addInputFieldAttributes from '../input_field_attributes'
-import getLabel from '../label'
+import getInputLabeled from '../label'
 import componentID from './id'
 import type { _Input } from './types'
 
@@ -14,7 +14,7 @@ const Input: _Input = (props, noDefaults) => {
         ?   extractProps(Input.defaults, props)
         :   (props as _Input['defaults'] & typeof props)
     
-    const { theme, label,  value, errorMsg, type, disabled, onBlur,
+    const { theme, label, value, errorMsg, type, disabled, onBlur,
         onChange, onFocus, payload } = mergedProps;
     
 
@@ -24,7 +24,7 @@ const Input: _Input = (props, noDefaults) => {
     
     const inputRootProps: typeof props.inputAttributes = { className }
     const inputProps: NonNullable<typeof props.inputAttributes> = {
-        disabled,
+        disabled, value,
         className: theme.field
     }
     if (!disabled) {
@@ -51,7 +51,7 @@ const Input: _Input = (props, noDefaults) => {
     addInputFieldAttributes(inputProps, inputRootProps, mergedProps)
 
     let inputElement = <InputTag {...inputProps} />
-    label && (inputElement = getLabel(
+    label && (inputElement = getInputLabeled(
         inputElement,
         { className: theme.label },
         { className: theme.label_text, children: label }
