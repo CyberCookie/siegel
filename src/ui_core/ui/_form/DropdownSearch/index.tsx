@@ -1,3 +1,5 @@
+//TODO? merge with Input
+
 import React, { useState } from 'react'
 
 import { extractProps, ComponentAttributes } from '../../ui_utils'
@@ -9,7 +11,7 @@ import type { _DropdownSearch, MergedProps, Store, State } from './types'
 
 const componentID = '-ui-dropdown_search'
 
-function getSearchOptions({ onChange, searchOptions, theme }: MergedProps, store: Store) {
+function getSearchOptions({ onChange, searchOptions, theme, selected }: MergedProps, store: Store) {
     const [{ searchString }, setState ] = store;
     const searchLower = searchString && searchString.toLowerCase()
 
@@ -27,8 +29,10 @@ function getSearchOptions({ onChange, searchOptions, theme }: MergedProps, store
             options.push(
                 <div key={id} className={optionClassMame} children={title}
                     onMouseDown={e => {
-                        setState({ searchString: undefined })
-                        onChange(id, e)
+                        if (id !== selected) {
+                            setState({ searchString: undefined })
+                            onChange(id, e)
+                        }
                     }} />
             )
         }
@@ -75,11 +79,11 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     let options: JSX.Element | undefined
     if (!disabled) {
         inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            const searchValue = e.target.value;
-            state.searchString = searchValue;
+            const { value } = e.target;
+            state.searchString = value;
             setState({ ...state })
             
-            onSearch && onSearch(searchValue, e, payload)
+            onSearch && onSearch(value, e, payload)
         }
         
         const searchLength = searchString ? searchString.length : 0;
@@ -87,7 +91,7 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
             ?   isFocused
             :   searchLength >= minInputLength;
 
-        if  (isShowOptions) {
+        if (isShowOptions) {
             options = getSearchOptions(mergedProps, store)
             dropdownSearchRootProps.className +=  ` ${theme._with_suggestions}`
         }

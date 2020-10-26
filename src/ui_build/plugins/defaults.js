@@ -6,89 +6,17 @@ const optimizeCSS           = require('optimize-css-assets-webpack-plugin')
 const fileCopyPlugin        = require('copy-webpack-plugin')
 const compressionPlugin     = require('compression-webpack-plugin')
 const cleanPlugin           = require('clean-webpack-plugin').CleanWebpackPlugin;
-const serviceWorkerPlugin   = require('serviceworker-webpack-plugin')
 const miniCssExtract        = require('mini-css-extract-plugin')
 const reactRefresh          = require('@pmmmwh/react-refresh-webpack-plugin')
+const serviceWorkerPlugin   = require('./plugin_sw')
 
-const { pluginInstancesKeyMap, pluginsKeysMap } = require('./constants')
-
-
-const mergeOptions = (defaultOptions, userOptions, rewrite) => (
-    !rewrite && typeof defaultOptions == 'object'
-        ?   Array.isArray(defaultOptions)
-            ?   defaultOptions.concat(userOptions)
-            :   Object.assign({}, defaultOptions, userOptions)
-        :   userOptions
-)
-
-function mergePlugins(defaultPlugins, userPlugins = {}) {
-    const result = []
-
-    function addWithoutMerge(pluginConfig) {
-        const { instances, enabled, plugin, options } = pluginConfig;
-
-        if (instances) {
-            for (const instanceKey in instances) {
-                const { enabled, options } = instances[instanceKey]
-                enabled && result.push( new plugin(options) )
-            }
-        } else if (enabled) {
-            result.push( new plugin(options) )
-        }
-    }
-
-    for (const pluginKey in defaultPlugins) {
-        const pluginConfig = defaultPlugins[pluginKey]
-        const { plugin, options, instances } = pluginConfig;
-
-        if (userPlugins[pluginKey]) {
-            const {
-                rewrite,
-                plugin: userPlugin = plugin,
-                options: userOptions,
-                instances: userInstances
-            } = userPlugins[pluginKey]
-
-            if (userInstances) {
-                for (const userPluginInstanceKey in userInstances) {
-                    const userInstance = userInstances[userPluginInstanceKey]
-
-                    if (userInstance) {
-                        const { rewrite, options: userInstanceOptions } = userInstance
-    
-                        let finalPluginInstanceOptions = userInstanceOptions;
-                        const defaultInstance = instances[userPluginInstanceKey]
-
-                        if (defaultInstance) {
-                            finalPluginInstanceOptions = mergeOptions(defaultInstance.options, userInstanceOptions, rewrite)
-                        }
-
-                        result.push( new userPlugin(finalPluginInstanceOptions) )
-                    }
-                }
-            } else {
-                const finalPluginOptions = mergeOptions(options, userOptions, rewrite)
-                result.push( new userPlugin(finalPluginOptions) )
-            }
-        } else if (userPlugins[pluginKey] !== false) {
-            addWithoutMerge(pluginConfig)
-        }
-    }
-
-    for (const userPluginKey in userPlugins) {
-        defaultPlugins[userPluginKey] || addWithoutMerge(userPlugins[userPluginKey])
-    }
+const { pluginInstancesKeyMap, pluginsKeysMap } = require('../constants')
 
 
-    return result
-}
-
-
-function getPlugins(CONFIG, RUN_PARAMS) {
-    const { staticDir, build } = CONFIG;
-    const { input, plugins: userPlugins } = build;
+module.exports = (CONFIG, RUN_PARAMS) => {
+    const { staticDir, build: { input } } = CONFIG;
     const { isProd, isServer } = RUN_PARAMS;
-    
+
 
     const defaults = {
         [pluginsKeysMap.compression]: {
@@ -139,9 +67,7 @@ function getPlugins(CONFIG, RUN_PARAMS) {
         [pluginsKeysMap.sw]: {
             plugin: serviceWorkerPlugin,
             enabled: input.sw,
-            options: {
-                entry: input.sw
-            }
+            options: input.sw,
         },
 
         [pluginsKeysMap.cssExtract]: {
@@ -187,8 +113,5 @@ function getPlugins(CONFIG, RUN_PARAMS) {
     }
 
 
-    return mergePlugins(defaults, userPlugins)
+    return defaults
 }
-
-
-module.exports = getPlugins

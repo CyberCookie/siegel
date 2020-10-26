@@ -22,6 +22,10 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         mode: process.env.NODE_ENV || 'development',
         cache: isDevServer,
         devtool: isProd ? '' : 'cheap-module-eval-source-map',
+        // webpack 5
+        // ...( isProd ? {} : {
+        //     devtool: 'eval-cheap-module-source-map'
+        // }),
         resolve: {
             alias: aliases,
             extensions: ['.js', '.jsx', '.ts', '.tsx', '.sass'],
@@ -35,7 +39,9 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             publicPath,
             path: staticDir,
             chunkFilename: 'chunk.[contenthash].js',
-            filename: isProd ? 'app.[contenthash].js' : 'app.[hash].js',
+            filename: isProd ? 'app.[contenthash].js' : 'app.[name].js',
+            //webpack 5
+            // filename: 'app.[contenthash].js',
         },
 
 

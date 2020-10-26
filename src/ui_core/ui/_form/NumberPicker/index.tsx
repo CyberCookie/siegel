@@ -1,7 +1,6 @@
 //TODO: masks
 //TODO: add precision to onBlur and input value
 //TODO: truncate zeroes left
-//TODO: replace comma with dot
 import React from 'react'
 
 import isExists from '../../../utils/is_exists'
@@ -113,7 +112,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         numberpickerRootProps.className += ` ${theme._disabled_all}`
     } else {
         inputFieldProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
+            const value = e.target.value.replace(',', '.')
             numberMask.test(value) && onChange(value, e, payload)
         }
     }

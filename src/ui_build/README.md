@@ -105,12 +105,13 @@ Every plugin, that's already included has its own `plugin key`.
 - compression-webpack-plugin ( `compression` ) - Enabled if __runParams.isProd == true__.<br />
   May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`).
 - copy-webpack-plugin ( `copy` ) - enabled if __config.build.input.assetsDir__ is specified
-- serviceworker-webpack-plugin ( `sw` ) - enabled if __config.build.input.sw__ is specified
 - mini-css-extract-plugin ( `cssExtract` ) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__
 - optimize-css-assets-webpack-plugin ( `cssOptimize` ) - enabled if __runParams.isProd == true__ 
 - html-webpack-plugin ( `html` ) - enabled if __config.build.input.html__ is specified
 - clean-webpack-plugin ( `clean` )
 - @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if __runParams.isProd == true__
+- (custom) service worker plugin ( `sw` ) - enabled if __config.build.input.sw__ is specified
+    - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces. 
 
 
 <br />

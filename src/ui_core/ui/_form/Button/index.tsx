@@ -30,7 +30,7 @@ const Button: _Button = (props, noDefaults) => {
         :   (props as _Button['defaults'] & typeof props)
     
     
-    return <button {...getRootProps(mergedProps)} />
+    return <button { ...getRootProps(mergedProps) } />
 }
 Button.defaults = {
     className: componentID,
