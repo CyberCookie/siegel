@@ -15,7 +15,7 @@ import styles from './styles.sass'
 
 const componentID = '-ui-number_picker'
 
-const keyDown = 40, keyUp = 38, deleteCode = 46;
+const keyDown = 'ArrowDown', keyUp = 'ArrowUp', deleteCode = 'Delete';
 
 function getRegExp(min: MergedProps['min'], max: MergedProps['max'], precision: MergedProps['precision']): RegExp {
     const minLimit = Math.min(min, max)
@@ -69,7 +69,7 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
         minusProps.disabled = true
     } else {
         minusProps.onMouseDown = (e: BtnClickEv) => {
-            onNumberPickerChange(numberValue - step!, e, true)
+            onNumberPickerChange(numberValue - step!, e, false)
         }
     }
 
@@ -121,13 +121,13 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         (_, e) => { onNumberPickerChange(numberValue, e) }
     ).isFocused;
 
-    const onNumberPickerChange: OnNumberPickerChange = (value, e, isButtonClick) => {
+    const onNumberPickerChange: OnNumberPickerChange = (value, e, arrowValue) => {
         value < min && (value = min)
         value > max && (value = max)
 
         let result = value;
 
-        if (isButtonClick && (step! % 1 > 0)) {
+        if (isExists(arrowValue) && (step! % 1 > 0)) {
             let _precision = precision;
             if (!_precision) {
                 const stringStep = ''+step;
@@ -137,14 +137,14 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
             result = parseFloat(value.toFixed(_precision))
         }
 
-        onChange(''+result, e, payload)
+        onChange(''+result, e, arrowValue, payload)
     }
     
     let stepper;
     if (isExists(step)) {
         if (keyboardArrows && isFocused) {
             numberpickerRootProps.onKeyDown = e => {
-                const keyCode = e.nativeEvent.keyCode;
+                const keyCode = e.nativeEvent.key;
 
                 if (keyCode == deleteCode) {
                     let newValue: string | number = isFinite(min) ? min : 0
@@ -152,14 +152,14 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
                     
                     onChange(''+newValue, e, payload)
                 } else {
-                    const isKeyDown = keyCode == keyDown;
-            
-                    if (keyCode == keyUp || isKeyDown) {
+                    const isKeyUp = keyCode == keyUp;
+
+                    if (isKeyUp || keyCode == keyDown) {
                         e.preventDefault()
                         let _step = step;
-                        isKeyDown && (_step *= -1)
+                        isKeyUp || (_step *= -1)
             
-                        onNumberPickerChange(numberValue + _step, e, true)
+                        onNumberPickerChange(numberValue + _step, e, isKeyUp)
                     }
                 }
             }

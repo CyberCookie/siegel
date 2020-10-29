@@ -27,7 +27,7 @@ const docsList = [
 const Home = () => (
     <div className={styles.page}>
         <div className={styles.text_block}>
-            <h1>Welcome to Siegel demo application</h1>
+            <h1>Welcome to Siegel demo application!</h1>
 
             <div>
                 <h2>The purpose of this demo app is to demonstrate key features of Siegel</h2>

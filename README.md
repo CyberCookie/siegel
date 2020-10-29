@@ -1,47 +1,47 @@
 <div>
-    <a href='https://expressjs.com'>
+    <a href='https://expressjs.com' target='_blank'>
         <img height='30' src='https://intuz-site.imgix.net/uploads/express.svg' alt='expressJS' />
     </a>
-    <a href='https://pm2.io'>
-        <img height='40' src='https://pm2.keymetrics.io/assets/pm2-logo-1.png' alt='pm2' />
+    <a href='https://pm2.io' target='_blank'>
+        <img height='40' src='https://raw.githubusercontent.com/Unitech/pm2/development/pres/pm2-v4.png' alt='pm2' />
     </a>
     <br />
-    <a href='https://github.com/webpack/webpack'>
+    <a href='https://github.com/webpack/webpack' target='_blank'>
         <img height='50' src='https://webpack.js.org/assets/icon-square-big.svg' alt='webpack'>
     </a>
-    <a href='https://github.com/eslint/eslint'>
+    <a href='https://github.com/eslint/eslint' target='_blank'>
         <img height='50' src='https://cdn.worldvectorlogo.com/logos/eslint.svg' alt='eslint'>
     </a>
-    <a href='https://github.com/babel/babel'>
+    <a href='https://github.com/babel/babel' target='_blank'>
         <img height='50' src='https://rawgit.com/babel/logo/master/babel.svg' alt='babel'>
     </a>
-    <a href='https://www.typescriptlang.org/'>
+    <a href='https://www.typescriptlang.org' target='_blank'>
         <img height='50' src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/512px-Typescript_logo_2020.svg.png' alt='typescript'>
     </a>
-    <a href='https://sass-lang.com/'>
+    <a href='https://sass-lang.com' target='_blank'>
         <img height='50' src='https://worldvectorlogo.com/logos/sass-1.svg' alt='sass'>
     </a>
     <br />
-    <a href='https://reactjs.org'>
+    <a href='https://reactjs.org' target='_blank'>
         <img height='50' src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg' alt='react' />
     </a>
-    <a href='https://redux.js.org'>
+    <a href='https://redux.js.org' target='_blank'>
         <img height='50' src='https://redux.js.org/img/redux.svg' alt='redux' />
     </a>
-    <a href='https://reactrouter.com' />
+    <a href='https://reactrouter.com' target='_blank'>
         <img height='40' src='https://seeklogo.com/images/R/react-router-logo-AB5BFB638F-seeklogo.com.png' alt='react-router' />
     </a>
 </div>
 <br />
-<a href='https://badge.fury.io/js/siegel'>
+<a href='https://badge.fury.io/js/siegel' target='_blank'>
     <img src='https://badge.fury.io/js/siegel.svg' alt='npm version' />
 </a>
 
-<a href='https://david-dm.org/cybercookie/siegel'>
+<a href='https://david-dm.org/cybercookie/siegel' target='_blank'>
     <img src='https://david-dm.org/cybercookie/siegel.svg' alt='Dependency Status' />
 </a>
 
-<a>
+<a href="">
     <img src='https://github.com/cybercookie/siegel/workflows/build/badge.svg' alt='build' />
 </a>
 
@@ -51,9 +51,9 @@
 
 <h3>Description</h3>
 <p>
-    Finally*! The package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project. Now nothing can stop you from diving into a business logic right after installation.
+    Finally*! Package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project. Now nothing can stop you from diving into a business logic right after installation.
 </p>
-<br /><h6>
+<h6>
     * the project is workable but still in alpha phase. Some configurations may change in future. Docs are not well written so far.
 </h6><br />
 
@@ -75,7 +75,7 @@ npm i siegel
 ```
 
 <p>
-    You should install some peer dependencies in order to make inner eslint and typescript proper validate your code.<br />
+    You should install some <b>peer dependencies</b> in order to make inner eslint and typescript proper validate your code.<br />
     There is an <b>install_peers.js</b> script located in scripts part that can make it easier for you.
 </p>
 
@@ -83,7 +83,7 @@ npm i siegel
 <br />
 <h3>Usage</h3><hr />
 <p>
-    Siegel exports function that accepts <b>config</b> as a first argument and <b>runParams</b> as a second.<br />
+    Siegel exports function that accepts <b><a href='#config'>config</a></b> as a first argument and <b><a href='#runParams'>runParams</a></b> as a second.<br />
     You may read about these parameters below.
 </p>
 
@@ -94,7 +94,7 @@ require('siegel')(config, runParams)
 <br />
 <p>
     Siegel supports zero configuration mode to make it super easy for you to try it.<br />
-    Create app.ts file somewhere in your project:
+    In your project create <b>app.ts</b> file:
 </p>
 <h5>app.ts</h5>
 
@@ -108,7 +108,7 @@ render(
 ```
 
 <p>
-    Create simple index.js node file:
+    In the same directory create <b>index.js</b> node file:
 </p>
 <h5>index.js</h5>
 
@@ -126,7 +126,7 @@ node index.js
 
 <p>
     <b>app.ts</b> file will be proccessed through inner webpack and hosted with inner express static server,<br />
-    so you can open localhost:3000 in your browser and observe the result!
+    so you can open <b>localhost:3000</b> in your browser and observe the result!
 </p>
 
 
@@ -142,11 +142,13 @@ node ./node_modules/siegel/src/scripts/init_project.js --run --peers
 
 Client and server folders with its scripts will be created along with configurable typescript and eslint config.
 
-(You may read about script params in)[scripts section](https://github.com/CyberCookie/siegel/tree/master/src/scripts).
+You may read about script params in [scripts section](https://github.com/CyberCookie/siegel/tree/master/src/scripts).
 
 
 <br />
-<h4>Config</h4>
+<h4>
+    <a href='#config'>Config</a>
+</h4>
 
 ```js
 {   
@@ -172,12 +174,19 @@ Client and server folders with its scripts will be created along with configurab
 ```
 
 
-<h4>runParams</h4>
+<h4>
+    <a href='#runParams'>runParams</a>
+</h4>
 
 ```js
-{
-    isServer: Boolean, // run static server. Default true
-    isBuild: Boolean,  // process your source code and put result into output folder. Default true
-    isProd: Boolean    // run static server and / or build in production mode. Default false
+{   
+    /* Run static server. Default is true */
+    isServer: Boolean,
+
+    /* Build a project. Default is true */
+    isBuild: Boolean,
+
+    /* Run siegel in production mode. Default is false */
+    isProd: Boolean
 }
 ```

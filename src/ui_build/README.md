@@ -243,7 +243,7 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/ui_build/con
                     /* Loader options */ 
                     options: {},
 
-                    /* Any llegal field you can pass into webpack's loader but `laoder` and `options`. */
+                    /* Any valid field you can pass into webpack's loader but `laoder` and `options`. */
                     additionalLoaderOptions: {}
                 },
 
@@ -251,7 +251,7 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/ui_build/con
                 loader_key_2: String
             },
 
-            /* Any llegal field you can pass into webpack's Rule but `test` and `use`. */
+            /* Any valid field you can pass into webpack's Rule but `test` and `use`. */
             ruleOptions: {
                 include: [' path_to_png_ico_files ']
             }
@@ -266,8 +266,9 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/ui_build/con
     <summary><h5>TODO</h5></summary>
     <ul>
         <li>ES modules</li>
-        <li>Separate styles for different media query</li>
+        <li>Separate styles for different media queries</li>
         <li>Icons -> font</li>
         <li>Generate code documentation from TS</li>
+        <li>Update babel with the latest chrome features</li>
     </ul>
 </details>

@@ -19,6 +19,7 @@ type Props = {
     onChange: (
         value: string,
         e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLDivElement>,
+        arrowValue?: boolean,
         payload?: any
     ) => void
     step?: number
