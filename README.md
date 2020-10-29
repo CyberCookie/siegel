@@ -147,7 +147,7 @@ You may read about script params in [scripts section](https://github.com/CyberCo
 
 <br />
 <h4>
-    <a href='#config'>Config</a>
+    <a id='config'>Config</a>
 </h4>
 
 ```js
@@ -175,7 +175,7 @@ You may read about script params in [scripts section](https://github.com/CyberCo
 
 
 <h4>
-    <a href='#runParams'>runParams</a>
+    <a id='runParams'>runParams</a>
 </h4>
 
 ```js
