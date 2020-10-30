@@ -38,17 +38,16 @@ const defaultSetup: SetupFnParams = {}
 
 const extractRequestData = (request: RequestParams) => {
     const { query, headers, body, credentials, signal } = request;
-    let { url, method } = request;
+    let { url } = request;
 
-    const options: RequestInit = {}
+    const options: RequestInit = { method: request.method }
 
 
     if (body) {
         options.body = JSON.stringify(body)
-        method || (method = 'POST')
+        options.method ||= 'POST'
     }
-
-    options.method = method || 'GET'
+    options.method ||= 'GET'
 
     if (query) {
         const queryToAdd = typeof query == 'string'

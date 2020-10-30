@@ -63,15 +63,15 @@ const createSignalRConnection = (options: SignalROptions) => {
         isAlive: () => nativeSocket.state === HubConnectionState.Connected,
         async runSocket(cb: () => void) {
             if (this.isAlive()) {
-                cb && cb.call(this)
+                cb?.call(this)
             } else if (nativeSocket.state === HubConnectionState.Connecting || nativeSocket.state === HubConnectionState.Reconnecting) {
                 setTimeout(() => { this.runSocket(cb) }, 800)
             } else {
                 try {
                     await nativeSocket.start()
                     
-                    cb && cb.call(this)
-                    handlers.onopen && handlers.onopen.call(this)
+                    cb?.call(this)
+                    handlers.onopen?.call(this)
                 } catch(err) {
                     handlers.onerror
                         ?   handlers.onerror.call(this, err)

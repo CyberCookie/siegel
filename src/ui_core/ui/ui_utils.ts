@@ -1,6 +1,3 @@
-import isE from '../utils/is_exists'
-
-
 type ComponentAttributes<E = HTMLDivElement, A = React.HTMLAttributes<E>> = A & React.RefAttributes<E>
 
 type PropsComponentBase = {
@@ -40,7 +37,7 @@ function extractProps
     if (className && defaultClassName) {
         result.className += ` ${defaultClassName}`
     }
-    isE(result.className) || (result.className = '')
+    result.className ||= ''
 
     if (defaultTheme) {
         //TODO: merge values instead keys. or not to do

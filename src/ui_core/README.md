@@ -6,7 +6,7 @@
     <li>
         <ul>React related parts:
         <li>Widely used UI components that are lightweight, perfomant and flexible.</li>
-        <li>State managers created with react hooks or redux abstractions for those dinosaurs who still uses it :).</li>
+        <li>State managers created with react hooks or redux(for those dinosaurs who still uses it :)) abstractions.</li>
         <li>Custom hooks.</li>
         <li>React-router-dom wrapper to provide more declarative interface to build routers of any complexity.</li>
         </ul>

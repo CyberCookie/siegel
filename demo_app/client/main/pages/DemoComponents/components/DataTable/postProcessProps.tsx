@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { initDataGridStore } from 'siegel-ui/DataTable'
+import { getDefaultState } from 'siegel-ui/DataTable'
 import { Props, SearchByFieldText, SearchByFieldDate, SearchByFieldSet } from 'siegel-ui/DataTable/types'
 
 import { icons, Pagination, Select, Checkbox, Input, Calendar,
@@ -254,8 +254,10 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<Props['post
     return row
 }
 
+const gridDefaultState = getDefaultState()
+
 export default (props: Props) => {
-    const dataGridHookStore = initDataGridStore();
+    const dataGridHookStore = useState(gridDefaultState)
     const postProcessStore: PostProcessStore = useState({
         selected: new Set(),
         activeCol: -1

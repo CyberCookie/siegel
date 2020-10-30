@@ -61,8 +61,8 @@ const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps,
 
     rootProps.onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         if (!isTouched || isFocused) {
-            isTouched || (state.isTouched = true)
-            isFocused && (state.isFocused = false)
+            state.isTouched ||= true;
+            state.isFocused &&= false;
             
             onBlur && onBlur(state, e)
             setState({ ...state })

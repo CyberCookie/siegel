@@ -27,7 +27,7 @@ function dispatchResponse(store, action, resData, error) {
 
 export default store => next => action => {
     if (action.type != FETCH_ACTION_TYPE) {
-        action.type || (action.type = 'REDUX_ACTION')
+        action.type ||= 'REDUX_ACTION';
         return next(action)
     }
 

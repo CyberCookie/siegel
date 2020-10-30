@@ -10,8 +10,7 @@ import './styles'
 
 const rootComponent = document.getElementById('root')
 if (rootComponent) {
-    const SW = window.navigator.serviceWorker;
-    SW && SW.register('/sw.js').catch(console.error)
+    window.navigator.serviceWorker?.register('/sw.js').catch(console.error)
 
 
     const extraHeades = {

@@ -269,6 +269,5 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/ui_build/con
         <li>Separate styles for different media queries</li>
         <li>Icons -> font</li>
         <li>Generate code documentation from TS</li>
-        <li>Update babel with the latest chrome features</li>
     </ul>
 </details>

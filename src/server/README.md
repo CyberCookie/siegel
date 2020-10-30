@@ -16,7 +16,7 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
 
 ```js
 {   
-    /* Public dirrectory */
+    /* Public directory */
     staticDir: String,
 
     server: {

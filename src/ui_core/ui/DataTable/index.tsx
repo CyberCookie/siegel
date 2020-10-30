@@ -11,7 +11,7 @@ import styles from './styles.sass'
 
 const componentID = '-ui-data_grid'
 
-const initDataGridStore = () => useState({
+const getDefaultState = () => ({
     sortByField: {
         index: 0,
         value: 0
@@ -62,13 +62,15 @@ function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBod
     )
 }
 
+const defaultState = getDefaultState()
+
 const DataTable: _DataTable = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DataTable.defaults, props)
         :   (props as _DataTable['defaults'] & typeof props)
 
     const { theme, className, attributes, withPagination, tableAttributes } = mergedProps;
-    mergedProps.hookStore || (mergedProps.hookStore = initDataGridStore())
+    mergedProps.hookStore ||= useState(defaultState)
 
     const hookState = mergedProps.hookStore[0]
     
@@ -76,7 +78,7 @@ const DataTable: _DataTable = (props, noDefaults) => {
     attributes && (Object.assign(rootAttributes, attributes))
     
     if (withPagination) {
-        hookState.showPerPage || (hookState.showPerPage = withPagination.select.props.options[0].value)
+        hookState.showPerPage ||= withPagination.select.props.options[0].value;
         rootAttributes.className += ` ${theme._with_pagination}`
     }
 
@@ -110,5 +112,5 @@ DataTable.defaults = {
 DataTable.ID = componentID;
 
 
-export { initDataGridStore, componentID }
+export { getDefaultState, componentID }
 export default DataTable

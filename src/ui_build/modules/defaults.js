@@ -19,15 +19,21 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     options: {
                         cacheDirectory: true,
                         presets: [
+                            [ resolve('@babel/preset-env'), {
+                                targets: "last 1 chrome version",
+                                shippedProposals: true
+                            }],
                             resolve('@babel/preset-react'),
                             resolve('@babel/preset-typescript')
                         ],
                         plugins: [
+                            ...( isProd ? [] : [ resolve('react-refresh/babel') ]),
                             resolve('@babel/plugin-proposal-export-default-from'),
                             resolve('@babel/plugin-proposal-export-namespace-from'),
                             resolve('@babel/plugin-syntax-dynamic-import'),
-                            ...( isProd ? [] : [ resolve('react-refresh/babel') ]),
-                            resolve('@babel/plugin-transform-runtime')
+                            resolve('@babel/plugin-transform-runtime'),
+                            resolve('@babel/plugin-proposal-logical-assignment-operators'),
+                            resolve('@babel/plugin-proposal-optional-chaining')
                         ]
                     }
                 },
