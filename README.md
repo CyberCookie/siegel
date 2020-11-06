@@ -6,13 +6,13 @@
         <img height='40' src='https://raw.githubusercontent.com/Unitech/pm2/development/pres/pm2-v4.png' alt='pm2' />
     </a>
     <br />
-    <a href='https://github.com/webpack/webpack' target='_blank'>
+    <a href='https://webpack.js.org' target='_blank'>
         <img height='50' src='https://webpack.js.org/assets/icon-square-big.svg' alt='webpack'>
     </a>
-    <a href='https://github.com/eslint/eslint' target='_blank'>
+    <a href='https://eslint.org' target='_blank'>
         <img height='50' src='https://cdn.worldvectorlogo.com/logos/eslint.svg' alt='eslint'>
     </a>
-    <a href='https://github.com/babel/babel' target='_blank'>
+    <a href='https://babeljs.io' target='_blank'>
         <img height='50' src='https://rawgit.com/babel/logo/master/babel.svg' alt='babel'>
     </a>
     <a href='https://www.typescriptlang.org' target='_blank'>
@@ -51,52 +51,41 @@
 
 <h3>Description</h3>
 <p>
-    Finally*! Package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project. Now nothing can stop you from diving into a business logic right after installation.
+    Finally*! Package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project.<br />
+    Now nothing can stop you from diving into a business logic right after installation.
 </p>
 <h6>
-    * the project is workable but still in alpha phase. Some configurations may change in future. Docs are not well written so far.
+    *The project is workable but still in alpha stage.<br />
+    Some configurations may change in the future. Docs are not well written so far.
 </h6><br />
 
-In general this package is a site development platform that consists of three main parts (UI, build, server) that you can use individually or in conjuction with other parts:
-- [ui_core](https://github.com/CyberCookie/siegel/tree/master/src/ui_core) - Front-end related code. It's the only part you will be using directrly.
-- [ui_build](https://github.com/CyberCookie/siegel/tree/master/src/ui_build) - webpack build lives here.
-- [server](https://github.com/CyberCookie/siegel/tree/master/src/server) - static server is here.
+Siegel is a website development platform that provides an easy way to build and host your project<br />
+using big set of predefined components and other usefull client side utils like request service, routing, state managers etc.
 
-And two helper parts (scripts, demo project):
-- [scripts](https://github.com/CyberCookie/siegel/tree/master/src/scripts) - siegel helper scripts.
-- [demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) - for inner tests and project installation.
+Read more about each part (build, server. ui) following the links below:
+- [UI](https://github.com/CyberCookie/siegel/tree/master/src/ui_core)
+- [Build](https://github.com/CyberCookie/siegel/tree/master/src/ui_build)
+- [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
+
+There are also two additional parts worth of mentioning (scripts, demo project):
+- [CLI commands](https://github.com/CyberCookie/siegel/tree/master/src/scripts) - siegel helper scripts.
+- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) - for inner tests and project installation.
+
+
+The platform is highly flexible thus allows you to use it in various ways depending on your needs.
+All the approaches are described further.
 
 
 <br />
-<h3>Installation</h3><hr />
+<h3>Using globally</h3><hr /><br />
+
+First install siegel globally:
 
 ```sh
-npm i siegel
+npm i siegel -g
 ```
 
-<p>
-    You should install some <b>peer dependencies</b> in order to make inner eslint and typescript proper validate your code.<br />
-    There is an <b>install_peers.js</b> script located in scripts part that can make it easier for you.
-</p>
-
-
-<br />
-<h3>Usage</h3><hr />
-<p>
-    Siegel exports function that accepts <b><a href='#config'>config</a></b> as a first argument and <b><a href='#runParams'>runParams</a></b> as a second.<br />
-    You may read about these parameters below.
-</p>
-
-```js
-require('siegel')(config, runParams)
-```
-
-<br />
-<p>
-    Siegel supports zero configuration mode to make it super easy for you to try it.<br />
-    In your project create <b>app.ts</b> file:
-</p>
-<h5>app.ts</h5>
+Create simple <b>app.ts</b> file somewhere in your filesystem:
 
 ```ts
 import { render } from 'react-dom'
@@ -107,48 +96,91 @@ render(
 )
 ```
 
-<p>
-    In the same directory create <b>index.js</b> node file:
-</p>
-<h5>index.js</h5>
-
-```js
-require('siegel')(/*relative path to js entrypoint. Default is ./app.ts*/)
-```
-
-<p>
-    And execute it via CLI:
-</p>
+Exec the next command to build the file (<b>-b</b>) and to host it (<b>-s</b>) using inner static server:
 
 ```sh
-node index.js
+siegel run -b -s -js ./app.ts
 ```
 
-<p>
-    <b>app.ts</b> file will be proccessed through inner webpack and hosted with inner express static server,<br />
-    so you can open <b>localhost:3000</b> in your browser and observe the result!
-</p>
+And that's it! Now you can open <b>localhost:3000</b> to observe the result.<br />
 
+
+Sure it's just a simple case for testing purposes. Lets make something more serious!<br />
+To initialize a real like project use the next commands:
+
+```sh
+siegel init && siegel install-peers
+```
+
+Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists) and
+install siegel's peer dependencies (for TS and ESLint)<br />
+Now you have project skeleton with preconfigured siegel in it!<br />
+Use various <b>npm commands</b> from updated <b>package.json</b> to perform build, code validation and static serving in development or production mode.<br />
+
+For example:
+
+```sh
+npm run dev
+```
+
+More about demo project and its npm scripts read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app).<br />
+To print help information call siegel without arguments.
 
 
 <br />
-<p>
-    If you don't want to bother yourself with a project creating and siegel configuring - just run from a project root level script that will create it all for you:
-</p>
+<h3>Using locally</h3><hr /><br />
+
+Lets perform the same actions from above but having this package installed locally:<br />
 
 ```sh
-node ./node_modules/siegel/src/scripts/init_project.js --run --peers
+npm i siegel
 ```
 
-Client and server folders with its scripts will be created along with configurable typescript and eslint config.
+Again, for testing purposes we can create the <b>app.ts</b> file we used above and build it using local siegel installation:
 
-You may read about script params in [scripts section](https://github.com/CyberCookie/siegel/tree/master/src/scripts).
+```sh
+node ./node_modules/.bin/siegel run -b -s -js ./app.ts
+```
+
+<br />
+To initialize project template locally use these commands:<br />
+
+```sh
+node ./node_modules/.bin/siegel init && node ./node_modules/.bin/siegel install-peers
+```
+
+
+<br />
+<h3>Use as a module</h3><hr />
+
+<p>
+    Appart from calling siegel from CLI you may also use it in the most straightforward and flexible way - as a NodeJS module!<br />
+    Siegel itself is a function that accepts <b><a href='#config'>config</a></b> as a first argument and <b><a href='#runParams'>runParams</a></b> as a second.<br />
+    You may read about these parameters below.
+</p>
+
+
+```js
+require('siegel')(config, runParams)
+```
+
+
+<br />
+There is another signature when you only specify absolute path to js entry file:<br />
+
+```js
+require('siegel')('/path/to/js_entry.js')
+```
 
 
 <br />
 <h4>
     <a id='config'>Config</a>
 </h4>
+<br />
+
+[->> Build configuration](https://github.com/CyberCookie/siegel/tree/master/src/ui_build)<br />
+[->> Server configuration](https://github.com/CyberCookie/siegel/tree/master/src/server)
 
 ```js
 {   
@@ -159,16 +191,10 @@ You may read about script params in [scripts section](https://github.com/CyberCo
     */
     staticDir: String,
 
-    /*
-        Static server configuration.
-        Read more in 'server' section
-    */
+    /* Static server configuration. */
     server: Object,
 
-    /*
-        Build configuration.
-        Read more in 'ui_build' section
-    */
+    /* Build configuration. */
     build: Object
 }
 ```

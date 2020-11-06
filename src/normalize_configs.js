@@ -1,7 +1,7 @@
-const { dirname, join, isAbsolute } = require('path')
-const existsSync                    = require('fs').existsSync;
+const { dirname }   = require('path')
+const existsSync    = require('fs').existsSync;
 
-const CONSTANTS                     = require('./constants')
+const CONSTANTS     = require('./constants')
 
 
 function mergeConfigWithDefaults(CONFIG, DEFAULT_CONFIG) {
@@ -41,15 +41,10 @@ module.exports = (CONFIG = {}, RUN_PARAMS = {}) => {
         const { input } = CONFIG.build;
         
 
-        if (stringConfig) {
-            input.js = isAbsolute(stringConfig)
-                ?   stringConfig
-                :   join(dirname(process.argv[1]), stringConfig)
-        }
+        stringConfig && (input.js = stringConfig)
         if (!existsSync(input.js)) {
             throw `build.input.js ->> [${input.js}] file doesn't exists.`
         }
-        
 
         input.include.push( dirname(input.js) )
     }

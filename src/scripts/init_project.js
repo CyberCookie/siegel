@@ -1,39 +1,35 @@
-const { join, relative, basename }                  = require('path')
+const { join, relative, posix }                     = require('path')
 const { existsSync, writeFileSync, readFileSync }   = require('fs')
 
 const { PATHS }                                     = require('../constants')
 
 
-const cwd = process.cwd()
-const targetPackageFilename = basename(PATHS.package)
-const targetPackageJSONPath = join(cwd, targetPackageFilename)
-
-
-if (existsSync(targetPackageJSONPath)) {
+function main() {
     const shell = require('child_process').execSync;
+    const cwd = process.cwd()
     const {
         name: devCorePackageName,
         scripts: devCorePackageScripts,
         config: devCorePackageConfig
     } = require(PATHS.package)
-
-    // const devCorePackageName = '../siegel'
-
+    
+    
     const toJSON = data => JSON.stringify(data, null, 4)
+
     const replaceDevPathWithModule = path => path.replace(
         '..',
-        './' + join('node_modules', devCorePackageName)
+        './' + posix.join('node_modules', devCorePackageName)
     )
+    
 
     
     //Copy test project
     shell(`cp -r ${PATHS.demoProject}/. .`)
-
-
-
-
-    const targetPackageJSON = require(targetPackageJSONPath)
-
+    
+    
+    existsSync(PATHS.cwdPackageJSON) || shell('npm init -y')
+    const targetPackageJSON = require(PATHS.cwdPackageJSON)
+        
     const TSPath = join(cwd, 'tsconfig.json')
     const TSConfig = require(TSPath)
 
@@ -42,7 +38,7 @@ if (existsSync(targetPackageJSONPath)) {
 
 
 
- 
+    
     //Update project JSONs
     const exampleDirPathFromRoot = relative(PATHS.root, PATHS.demoProject)
     let pathToIndex = devCorePackageConfig.index.replace(exampleDirPathFromRoot, '')
@@ -54,7 +50,7 @@ if (existsSync(targetPackageJSONPath)) {
             .replace('$npm_package_config_index', pathToIndex)
     }
     targetPackageJSON.scripts = devCorePackageScripts;
-    writeFileSync(targetPackageJSONPath, toJSON(targetPackageJSON))
+    writeFileSync(PATHS.cwdPackageJSON, toJSON(targetPackageJSON))
     
     
     
@@ -72,15 +68,9 @@ if (existsSync(targetPackageJSONPath)) {
     
     ESLintConfig.extends = replaceDevPathWithModule(ESLintConfig.extends[0])
     writeFileSync(ESLintPath, toJSON(ESLintConfig))
-    
-    
-    
-    //install peers
-    process.argv.includes('--peers') && require('./install_peers')
-
-    //Run
-    process.argv.includes('--run') && shell('npm run dev', { stdio: 'inherit' })
-} else {
-    console.error('%s wasn`t found in current dir', targetPackageFilename)
-    process.exitCode = 1
 }
+
+
+module.parent
+    ?   (module.exports = main)
+    :   main()

@@ -1,13 +1,27 @@
-const join              = require('path').join;
-const { existsSync }    = require('fs')
+const { join, basename }    = require('path')
+const { existsSync }        = require('fs')
 
 
 function getParentNodemodules() {
+    let result;
+
     const paths = require.main.paths;
     for (let i = 0, l = paths.length; i < l; i++) {
         const nodePath = paths[i]
-        if (existsSync(nodePath)) return nodePath
+        if (existsSync(nodePath)) {
+            result = nodePath;
+            break
+        }
     }
+
+    if (!result) {
+        result = require('child_process')
+            .execSync('npm root -g')
+            .toString()
+    }
+
+
+    return result
 }
 
 
@@ -24,6 +38,7 @@ const PATHS = {
     staticServer: join(__dirname, 'server', 'index'),
     uiCore: join(__dirname, 'ui_core')
 }
+PATHS.cwdPackageJSON = join(cwd, basename(PATHS.package))
 
 
 const DEFAULT_CONFIG = {

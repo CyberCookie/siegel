@@ -70,7 +70,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                         sourceMap: !isProd,
                         postcssOptions: {
                             plugins: [
-                                [ resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ],
+                                [ resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ]
                             ]
                         }
                     }

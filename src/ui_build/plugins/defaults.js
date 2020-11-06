@@ -1,5 +1,4 @@
 const path                  = require('path')
-
 const webpack               = require('webpack')
 const HTMLPlugin            = require('html-webpack-plugin')
 const optimizeCSS           = require('optimize-css-assets-webpack-plugin')
@@ -67,7 +66,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         [pluginsKeysMap.sw]: {
             plugin: serviceWorkerPlugin,
             enabled: input.sw,
-            options: input.sw,
+            options: input.sw
         },
 
         [pluginsKeysMap.cssExtract]: {

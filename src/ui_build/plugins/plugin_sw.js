@@ -11,9 +11,14 @@ module.exports = function(entry) {
     this.filename = path.basename(entry)
 
     this.apply = function(compiler) {
+        compiler.hooks.emit.tapAsync(NAME, (compilation, cb) => {
+            compilation.fileDependencies.add(entry)
+            cb()
+        })
+
         compiler.hooks.compilation.tap(NAME, ({ assets }) => {
             const SW_ASSETS = JSON.stringify(Object.keys(assets))
-            
+            // console.log('readFile')
             fs.readFile(entry, (err, buffer) => {
                 const SW_SOURCE = `const buildOutput=${SW_ASSETS};${buffer.toString()}`
                 assets[this.filename] = {
@@ -21,6 +26,8 @@ module.exports = function(entry) {
                     size: () => buffer.length
                 }
             })
+
+
             //webpack 5
             // compilation.hooks.processAssets.tap({
             //     name: NAME,

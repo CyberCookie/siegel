@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.7.3",
+    "version": "0.7.4",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -38,6 +38,7 @@
         "index": "demo_app/server/index.js"
     },
     "main": "./src/index.js",
+    "bin": "./src/scripts/bin.js",
     "scripts": {
         "dev": "npm run build_serv",
         "build_serv": "node $npm_package_config_index -b -s",
@@ -84,7 +85,6 @@
         "express": "^4.17.1",
         "express-static-gzip": "^2.1.0",
         "html-webpack-plugin": "^4.5.0",
-        "iconfont-webpack-plugin": "^5.0.0",
         "mime-types": "^2.1.27",
         "mini-css-extract-plugin": "^1.1.1",
         "optimize-css-assets-webpack-plugin": "^5.0.4",

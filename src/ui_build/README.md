@@ -164,6 +164,8 @@ Loaders that this build is use by default. Each loader has its own `loader key` 
     - @babel/plugin-proposal-export-default-from
     - @babel/plugin-proposal-export-namespace-from
     - @babel/plugin-syntax-dynamic-import
+    - @babel/plugin-proposal-logical-assignment-operators
+    - @babel/plugin-proposal-optional-chaining
     - react-refresh/babel
 - ESLint ( `eslint` )
 - SASS styles ( `cssFinal` )<br />
