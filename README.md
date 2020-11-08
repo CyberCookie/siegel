@@ -106,10 +106,10 @@ And that's it! Now you can open <b>localhost:3000</b> to observe the result.<br 
 
 
 Sure it's just a simple case for testing purposes. Lets make something more serious!<br />
-To initialize a real like project use the next commands:
+To initialize a real like project with global siegel dependency (<b>-g</b>) use the next commands:
 
 ```sh
-siegel init && siegel install-peers
+siegel init -g && siegel install-peers
 ```
 
 Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists) and
@@ -199,10 +199,11 @@ require('siegel')('/path/to/js_entry.js')
 }
 ```
 
-
+<br />
 <h4>
     <a id='runParams'>runParams</a>
 </h4>
+<br />
 
 ```js
 {   

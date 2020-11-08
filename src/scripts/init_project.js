@@ -4,7 +4,7 @@ const { existsSync, writeFileSync, readFileSync }   = require('fs')
 const { PATHS }                                     = require('../constants')
 
 
-function main() {
+function main(isGlobal) {
     const shell = require('child_process').execSync;
     const cwd = process.cwd()
     const {
@@ -16,10 +16,16 @@ function main() {
     
     const toJSON = data => JSON.stringify(data, null, 4)
 
-    const replaceDevPathWithModule = path => path.replace(
-        '..',
-        './' + posix.join('node_modules', devCorePackageName)
-    )
+    const replaceDevPathWithModule = path => {
+        const { join, normalize, relative } = posix;
+
+        const replaceWith = isGlobal
+            ?   join(relative(__dirname, PATHS.globalNodeModules), devCorePackageName)
+            :   './' + join('node_modules', devCorePackageName)
+
+        
+        return path.replace('..', normalize(replaceWith))
+    }
     
 
     

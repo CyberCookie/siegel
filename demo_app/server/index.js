@@ -4,16 +4,23 @@ const isProd = RUN_ARGUMENTS.has('-p')
 isProd && (process.env.NODE_ENV = 'production')
 
 
+/*
+    require siegel from within siegel itself, locally or globally.
+    Choose the one you use.
+*/
+
 let devCore;
-try { devCore = require('siegel') }
+try { devCore = require('../../src/index') }
 catch(e) {
-    try {
+    try { devCore = require('siegel') }
+    catch(e) {
         const globalNodeModulesPath = require('child_process')
             .execSync('npm root -g')
             .toString()
-
+            .trim()
+        
         devCore = require(globalNodeModulesPath + '/siegel')
-    } catch(e) { devCore = require('../../src/index') }
+    }
 }
 
 

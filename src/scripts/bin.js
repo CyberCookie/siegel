@@ -57,7 +57,8 @@ switch(command) {
 
 
     case 'init':
-        return require('./init_project')()
+        var isGlobal = scriptArgs[0] == '-g'
+        return require('./init_project')(isGlobal)
     
     case 'create-ssl':
         return require('./create_SSL')()
@@ -83,6 +84,7 @@ switch(command) {
         example: ... run -b -s -js ./app.ts -port 4000
 
     init - creates project template and creates or updates cwd package.json
+        -g - if siegel is installed globally
     
     create-ssl - creates SSL files.  
     

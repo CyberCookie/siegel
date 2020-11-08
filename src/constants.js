@@ -4,20 +4,15 @@ const { existsSync }        = require('fs')
 
 function getParentNodemodules() {
     let result;
-
-    const paths = require.main.paths;
-    for (let i = 0, l = paths.length; i < l; i++) {
-        const nodePath = paths[i]
-        if (existsSync(nodePath)) {
-            result = nodePath;
-            break
+    if (require.main) {
+        const paths = require.main.paths;
+        for (let i = 0, l = paths.length; i < l; i++) {
+            const nodePath = paths[i]
+            if (existsSync(nodePath)) {
+                result = nodePath;
+                break
+            }
         }
-    }
-
-    if (!result) {
-        result = require('child_process')
-            .execSync('npm root -g')
-            .toString()
     }
 
 
@@ -28,11 +23,17 @@ function getParentNodemodules() {
 const cwd = process.cwd()
 const root = join(__dirname, '..')
 
+const globalNodeModules = require('child_process')
+    .execSync('npm root -g')
+    .toString()
+    .trim()
+
+    
 const PATHS = {
-    root,
+    root, globalNodeModules,
     demoProject: join(root, 'demo_app'),
     nodeModules: join(root, 'node_modules'),
-    parentNodeModules: getParentNodemodules(),
+    parentNodeModules: getParentNodemodules() || globalNodeModules,
     package: join(root, 'package.json'),
     build: join(__dirname, 'ui_build', 'index'),
     staticServer: join(__dirname, 'server', 'index'),
