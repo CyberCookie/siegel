@@ -3,12 +3,12 @@
     "compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"app": ["./client/main"],
-			"siegel-services": ["../src/ui_core/services"],
-			"siegel-store": ["../src/ui_core/store"],
-			"siegel-hooks": ["../src/ui_core/hooks"],
-			"siegel-ui": ["../src/ui_core/ui"],
-			"siegel-utils": ["../src/ui_core/utils"],
+			"app/*": ["./client/main/*"],
+			"siegel-services/*": ["../src/ui_core/services/*"],
+			"siegel-store/*": ["../src/ui_core/store/*"],
+			"siegel-hooks/*": ["../src/ui_core/hooks/*"],
+			"siegel-ui/*": ["../src/ui_core/ui/*"],
+			"siegel-utils/*": ["../src/ui_core/utils/*"],
 			"siegel-router": ["../src/ui_core/router.tsx"],
 			"siegel-tsglobals": ["../src/ui_core/global.d.ts"]
 		}

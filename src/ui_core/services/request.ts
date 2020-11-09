@@ -11,7 +11,7 @@ type ReqError = {
 }
 
 type SetupFnParams = {
-    beforeRequest?: (opts: RequestParams) => void
+    beforeRequest?: (opts: RequestParams) => void | Promise<RequestParams>
     afterRequest?: (fetchParams: FetchParams, parseRes: any) => void
     errorHandler?: (error: ReqError) => void
 } & Indexable
@@ -36,7 +36,7 @@ function setup(newDefaults: SetupFnParams): void {
 const defaultSetup: SetupFnParams = {}
 
 
-const extractRequestData = (request: RequestParams) => {
+function extractRequestData(request: RequestParams) {
     const { query, headers, body, credentials, signal } = request;
     let { url } = request;
 
@@ -68,7 +68,7 @@ const extractRequestData = (request: RequestParams) => {
 }
 
 
-const extractResponseData = async (req: RequestParams, res: Response & Indexable): Promise<any> => {
+async function extractResponseData(req: RequestParams, res: Response & Indexable): Promise<any> {
     let parseMethod = req.parseMethod;
     let contentType;
 
@@ -94,9 +94,8 @@ const extractResponseData = async (req: RequestParams, res: Response & Indexable
 }
 
 
-const request = async (req: RequestParams) => {
-    const { beforeRequest, afterRequest, errorHandler } = defaultSetup;
-    beforeRequest && beforeRequest(req)
+async function makeRequest(req: RequestParams) {
+    const { afterRequest, errorHandler } = defaultSetup;
 
     const reqData = extractRequestData(req)
 
@@ -132,6 +131,17 @@ const request = async (req: RequestParams) => {
         errorHandler && errorHandler(finalErr)
         throw err
     }
+}
+
+
+function request(req: RequestParams) {
+    const { beforeRequest } = defaultSetup;
+
+    const asyncInterceptor = beforeRequest && beforeRequest(req)
+
+    return asyncInterceptor
+        ?   asyncInterceptor.then(makeRequest)
+        :   makeRequest(req)
 }
 
 

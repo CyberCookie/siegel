@@ -123,6 +123,9 @@ For example:
 npm run dev
 ```
 
+> Initializing a project with global siegel installation is tricky since we need to define path to global node modules in tsconfig.json and .eslintrc.<br />
+> This path may vary on different machines.
+
 More about demo project and its npm scripts read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app).<br />
 To print help information call siegel without arguments.
 

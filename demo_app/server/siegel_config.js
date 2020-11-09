@@ -11,10 +11,13 @@ const main = join(APP, 'main')
 
 function getAliasesFromTSconfig() {
     const TSAliases = require('../tsconfig').compilerOptions.paths;
-    
     const aliases = {}
+
     for (const alias in TSAliases) {
-        aliases[alias] = join(rootPath, TSAliases[alias][0])
+        const WPAlias = alias.replace('/*', '')
+        const WPPath = TSAliases[alias][0].replace('/*', '')
+
+        aliases[WPAlias] = join(rootPath, WPPath)
     }
 
     return aliases

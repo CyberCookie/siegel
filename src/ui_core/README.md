@@ -50,6 +50,11 @@ import { setup } from 'siegel-services/request'
 setup({
     beforeRequest(request) {
         request.url = 'api/' + request.url;
+
+        //return a promise to make the inerceptor asynchronous
+        return (new Promise(resolve => {
+            setTimeout(() => { resolve(request) }, 1000)
+        })).catch(console.error)
     },
     afterRequest(request, parsedResponse) {
         /* do some logic */
@@ -515,10 +520,11 @@ TODO
 
 <details>
 <summary><h2>Components</h2></summary>
-`siegel` provides big set of widely used components.
-Components support theming. Any component can receive className prop. Those one that consists of more than one DOM element receive theme property. theme is a key - value object where key is tied to component DOM element and value is a className string.
-Every component receives attributes prop which is valid set of attributes for a component root DOM element.
-`siegel` provides HOC to theme components and set default props:
+Siegel provides a big set of widely used components that can be themed.<br />
+Any component can receive <b>className</b> prop. Those one that consists of more than one DOM element receives <b>theme</b> property.<br />
+<b>theme</b> is a <b>key - value</b> object where key is tied to component DOM element and value is a className string.<br />
+Every component receives attributes prop which is valid set of attributes for a component root DOM element.<br />
+Siegel provides a HOC to theme components and set default props:
 
 ```jsx
 import Button from 'siegel-ui/_form/Button'
@@ -529,8 +535,9 @@ const ThemedButton = withDefaults(Button, {
     value: 42
 })
 
-<ThemeButton />
-the same as
+<ThemedButton />
+
+//the same as:
 <Button className='some-class' value={42} />
 ```
 
