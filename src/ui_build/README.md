@@ -1,6 +1,6 @@
 <h1>ui_build</h1>
 
-<p>Provides NodeJS API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares that are used as express middlewares.</p>
+<p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares that are used in express static server.</p>
 
 <ul>
     <b>The build exports object with two methods:</b>
@@ -8,7 +8,7 @@
         <b>run(config, runParams)</b> - creates webpack compiller and runs it to produce a bundle. Returns a promise which resolves with webpack compiller.
     </li>
     <li>
-        <b>getDevMiddlewares(config, webpackCompiller)</b> - creates an object with dev and hot middlewares using webpack compiller. These middlewares are passing into express dev server.
+        <b>getDevMiddlewares(config, webpackCompiller)</b> - returns an object with dev and hot middlewares using webpack compiller.
     </li>
 </ul>
  
@@ -21,10 +21,11 @@
 <ul>
     <b>Default features:</b>
     <li>Code splitting</li>
-    <li>All output files are minified and compressed;</li>
+    <li>All output files are minified and compressed</li>
     <li>Sourcemaps</li>
-    <li>JS lint; transform from React TS via babel into js;</li>
-    <li>SASS/SCSS processing; style autoprefixing; css modules;</li>
+    <li>JS lint</li>
+    <li>Transform react jsx and typescript files via babel along with new syntax (included plugins / presets are listed below)</li>
+    <li>SASS/SCSS processing; style autoprefixing; css modules</li>
     <li>Autoreload on file change</li>
     <li>Best service worker expirience</li>
 </ul>
@@ -92,7 +93,11 @@
         */
         modules: Object,
 
-        /* Function that receives final webpack config before being passed to webpack */
+        /*
+            Use it to post process a final webpack config before being passed to webpack.
+            Receives siegel config as a first parameter, webpack config as a second and
+            webpack module itself as a third one.
+        */
         postProcessWebpackConfig: Function
     }
 }
@@ -101,7 +106,7 @@
 <br />
 <h3>Plugins</h3>
 
-Every plugin, that's already included has its own `plugin key`.
+Every plugin, that's already included, has its own `plugin key`.
 - compression-webpack-plugin ( `compression` ) - Enabled if __runParams.isProd == true__.<br />
   May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`).
 - copy-webpack-plugin ( `copy` ) - enabled if __config.build.input.assetsDir__ is specified
@@ -198,7 +203,7 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/ui_build/con
                 /* To add to the end. */
                 defaultLoadersOrder.unshift('your_loader')
 
-                /* One of the wats to remove the loader. */
+                /* One of the ways to remove the loader. */
                 defaultLoadersOrder.splice(
                     defaultLoadersOrder.indexOf(loadersKeyMap.sassResources),
                     1

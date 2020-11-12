@@ -59,8 +59,7 @@
     Some configurations may change in the future. Docs are not well written so far.
 </h6><br />
 
-Siegel is a website development platform that provides an easy way to build and host your project<br />
-using big set of predefined components and other usefull client side utils like request service, routing, state managers etc.
+Siegel is a website development platform that provides an easy way to build and host your project using big set of predefined components and other usefull client side utils like request service, routing, state managers etc.
 
 Read more about each part (build, server. ui) following the links below:
 - [UI](https://github.com/CyberCookie/siegel/tree/master/src/ui_core)

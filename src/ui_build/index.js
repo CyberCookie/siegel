@@ -68,7 +68,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
     }
     
     if (typeof postProcessWebpackConfig == 'function') {
-        webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig)
+        webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig, webpack)
     }
 
 
