@@ -1,5 +1,7 @@
-// const cssSVG         = require('iconfont-webpack-plugin')
 const miniCssExtract                            = require('mini-css-extract-plugin')
+// const autoprefixer                              = require('autoprefixer')
+
+// const svg2Font                                  = require('./postcss_icons_plugin')
 const { loadersKeyMap, webpackModulesRegExp }   = require('../constants')
 
 const resolve = require.resolve;
@@ -56,8 +58,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     loader: resolve('css-loader'),
                     options: {
                         sourceMap: !isProd,
+                        url: url => url.endsWith('.svg'),//false,
                         importLoaders: 3,
-                        url: url => url.endsWith('.svg'),
                         modules: {
                             localIdentName: isProd ? '[hash:base64:4]' : '[local]--[hash:base64:4]'
                         }
@@ -70,7 +72,11 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                         sourceMap: !isProd,
                         postcssOptions: {
                             plugins: [
-                                [ resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ]
+                                [ resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ],
+                                [ resolve('./postcss_svg2icon_plugin'), {
+                                    woff2: isProd,
+                                    fontNamePrefix: ''
+                                }]
                             ]
                         }
                     }
