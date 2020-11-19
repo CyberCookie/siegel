@@ -1,20 +1,11 @@
-const { dirname, posix, join }  = require('path')
-const crypto                    = require('crypto')
-const postcss                   = require('postcss')
+const { dirname, posix }    = require('path')
+const crypto                = require('crypto')
+const postcss               = require('postcss')
 
-const iconToFont = require('./icons_to_font.js')
-
-
-const urlRegexp = /url\s*\((\s*"([^"]+)"|'([^']+)'|([^'")]+))\)/
-function getUnresolvedIconPath(value) {
-    const relativePathResult = urlRegexp.exec(value)
-    if (!relativePathResult) {
-        throw new Error(`Could not parse url "${value}".`)
-    }
-    return relativePathResult[2] || relativePathResult[3] || relativePathResult[4]
-}
+const iconToFont            = require('./icons_to_font.js')
 
 
+const getUnresolvedIconPath = value => value.substr(1, value.length - 2)
 
 const cssPropValueMap = {
     'text-rendering': 'optimizeSpeed',
@@ -23,86 +14,65 @@ const cssPropValueMap = {
     'font-weight': 'normal',
     'font-style': 'normal'
 }
-
-
-function getSvgPaths(postCssRoot, context) {
+function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
     let absolutePathsIndex = {}
     let cssValueToAbsolutePath = {}
 
     let isResolved = false;
+    let fontName;
+
     const absolute = []
     const unresolved = []
 
-
-    let rootDecl;
+    let rootValue, rootDecl;
     let i = 0
     postCssRoot.walkDecls(decl => {
         const { prop, value } = decl;
 
         if (prop == 'font-icon-dest') {
+            console.log(value, typeof value, value.toString())
             rootDecl = decl;
+            rootValue = getUnresolvedIconPath(value)
         } else if (prop == 'font-icon') {
-            const unresolvedIconPath = getUnresolvedIconPath(value)
-            isResolved || (isResolved = true);
+            const unresolvedValue = getUnresolvedIconPath(value)
+            isResolved || (isResolved = true)
 
-            const absolutePath = posix.join(context, unresolvedIconPath)
+            const absolutePath = posix.join(context, unresolvedValue)
             cssValueToAbsolutePath[value] = absolutePath;
 
 
             if (!absolutePathsIndex[absolutePath]) {
                 absolutePathsIndex[absolutePath] = ++i;
                 
-                unresolved.push(unresolvedIconPath)
+                unresolved.push(unresolvedValue)
                 absolute.push(absolutePath)
             }
             
-            // decl.prop = 'content'
-            // decl.value = absolutePathsIndex[absolutePath]
-        }
-    })
-
-    // const checkSum = crypto
-    //     .createHash('md5')
-    //     .update(JSON.stringify(unresolved))
-    //     .digest('hex')
-    // const fontName = `Iconfont_${checkSum}`
-
-    // cssPropValueMap['font-family'] = fontName;
-    // for (let prop in cssPropValueMap) {
-    //     const value = cssPropValueMap[prop]
-    //     rootDecl.cloneBefore({ prop, value })
-    // }
-    // rootDecl.remove()
-
-
-
-    return { absolutePathsIndex, cssValueToAbsolutePath, unresolved, isResolved, absolute/*, fontName*/ }
-}
-
-
-function replaceIconFontDeclarations({ fontName, postCssRoot, svgPaths }) {
-    let fontPath; 
-    postCssRoot.walkDecls(decl => {
-        if (decl.prop == 'font-icon-dest') {
-            cssPropValueMap['font-family'] = fontName;
-            for (let prop in cssPropValueMap) {
-                const value = cssPropValueMap[prop]
-                decl.cloneBefore({ prop, value })
-            }
-
-            fontPath = getUnresolvedIconPath(decl.value)
-            decl.remove()
-        } else if (decl.prop == 'font-icon') {
-            const iconCharCodeHex = svgPaths.unresolved
-                .indexOf(getUnresolvedIconPath(decl.value))
-                .toString(16)
-
-            decl.value = '\'\\e' + '0'.repeat(Math.max(0, 3 - iconCharCodeHex.length)) + iconCharCodeHex + '\''
+            const iconIndex = (absolutePathsIndex[absolutePath] - 1).toString(16)
             decl.prop = 'content'
+            decl.value = '\'\\e' + '0'.repeat(Math.max(0, 3 - iconIndex.length)) + iconIndex + '\''
         }
     })
 
-    return fontPath
+    
+    if (rootDecl) {
+        const checkSum = crypto
+            .createHash('md5')
+            .update(JSON.stringify(unresolved))
+            .digest('hex')
+
+        fontName = `${fontNamePrefix}Iconfont_${checkSum}`
+    
+        cssPropValueMap['font-family'] = fontName;
+        for (let prop in cssPropValueMap) {
+            const value = cssPropValueMap[prop]
+            rootDecl.cloneBefore({ prop, value })
+        }
+        rootDecl.remove()
+    }
+
+
+    return { isResolved, absolute, fontName, rootValue }
 }
 
 
@@ -126,43 +96,28 @@ function replaceIconFontDeclarations({ fontName, postCssRoot, svgPaths }) {
 //         '}'
 //     ))
 //   }
-const addFontDeclaration = ({ fontName, postCssRoot, svgPaths, options }) => iconToFont({
+const addFontDeclaration = ({ postCssRoot, svgPaths }, isWoff2) => iconToFont({
     svgs: svgPaths.absolute,
-    name: fontName
+    name: svgPaths.fontName
 }).then(font => {
     const base64Font = Buffer.from(font).toString('base64')
     const fontURL = `src:url('data:application/x-font-woff;charset=utf-8;base64,${base64Font}')`
-    const fontFormat = `format('woff${options.isWoff2 ? 2 : ''}')`
+    const fontFormat = `format('woff${isWoff2 ? 2 : ''}')`
 
     postCssRoot.prepend(
         postcss.parse(
-            `@font-face{font-family:${fontName};${fontURL}${fontFormat}}`
+            `@font-face{font-family:${svgPaths.fontName};${fontURL}${fontFormat}}`
         )
     )
 })
 
 
 
-module.exports = (options, x) => postcss.plugin('postcss-svg2icon', config => (postCssRoot, result) => {
+module.exports = options => postcss.plugin('postcss-svg2icon', ({ isWoff2, fontNamePrefix }) => (postCssRoot, result) => {
     if (!result || !result.opts || !result.opts.from) return;
 
-    const svgPaths = getSvgPaths(postCssRoot, dirname(result.opts.from))
-    console.log(svgPaths)
+    const svgPaths = processFontIconCSSProps(postCssRoot, dirname(result.opts.from), fontNamePrefix)
     if (svgPaths.isResolved) {
-        const checkSum = crypto
-            .createHash('md5')
-            .update(JSON.stringify(svgPaths.unresolved))
-            .digest('hex')
-
-        const declarationParams = {
-            postCssRoot, svgPaths, options,
-            fontName: `${config.fontNamePrefix || 'Iconfont'}_${checkSum}`
-        }
-        
-        
-        const fontPath = replaceIconFontDeclarations(declarationParams)
-
-
-        return addFontDeclaration(declarationParams)
+        return addFontDeclaration({ postCssRoot, svgPaths }, isWoff2)
     }
 })(options)
