@@ -36,7 +36,7 @@ const siegelConfig = {
 
     build: {
         input: {
-            js: join(APP, 'index.ts'),
+            js: join(APP, 'index.tsx'),
             sw: join(APP, 'sw.js'),
             html: join(APP, 'index.html'),
             assetsDir: join(APP, 'assets'),

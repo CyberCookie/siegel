@@ -1,3 +1,4 @@
+import React from 'react'
 import { render } from 'react-dom'
 // import createRouter from 'siegel-router'
 // import { setup as requestServiceSetup, RequestParams } from 'siegel-services/request'
@@ -25,9 +26,9 @@ if (rootComponent) {
     //     }
     // })
 
-    
+
     render(
-        icons.users,
+        <div>{icons.users} {icons.eye_enable}</div>,
         // createRouter({ routes, Layout }),
         rootComponent
     )

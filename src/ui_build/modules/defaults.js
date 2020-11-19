@@ -1,7 +1,6 @@
+const { join }                                  = require('path').posix;
 const miniCssExtract                            = require('mini-css-extract-plugin')
-// const autoprefixer                              = require('autoprefixer')
 
-// const svg2Font                                  = require('./postcss_icons_plugin')
 const { loadersKeyMap, webpackModulesRegExp }   = require('../constants')
 
 const resolve = require.resolve;
@@ -58,7 +57,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     loader: resolve('css-loader'),
                     options: {
                         sourceMap: !isProd,
-                        url: url => url.endsWith('.svg'),//false,
+                        url: false,
                         importLoaders: 3,
                         modules: {
                             localIdentName: isProd ? '[hash:base64:4]' : '[local]--[hash:base64:4]'
@@ -75,7 +74,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                                 [ resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ],
                                 [ resolve('./postcss_svg2icon_plugin'), {
                                     woff2: isProd,
-                                    fontNamePrefix: ''
+                                    fontNamePrefix: '',
+                                    dest: CONFIG.staticDir
                                 }]
                             ]
                         }

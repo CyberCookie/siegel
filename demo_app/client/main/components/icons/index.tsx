@@ -6,13 +6,14 @@
 // export { default as search } from './Search'
 
 import React from 'react'
+
 import styles from './styles.sass'
 
 
 const icons: Indexable = {}
 const iconNames = ['eye_enable', 'users']
 iconNames.forEach(name => {
-    icons[name] = <i className={styles[name]} />
+    icons[name] = <i className={`${styles._icon} ${styles[name]}`} />
 })
 
 
