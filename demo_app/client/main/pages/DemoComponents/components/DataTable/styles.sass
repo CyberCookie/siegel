@@ -39,12 +39,7 @@
     +flex(space-between, center)
     position: relative
     cursor: pointer
-    
-    svg
-        flex-shrink: 0
 
-        path, polygon
-            transition: fill $transition
 
 .grid_col_menu_toggle:hover > svg path
     fill: $primary
@@ -56,6 +51,7 @@
     margin: 0 -#{$gutter}
     padding: $gutter
     box-shadow: $shadow_2
+    line-height: normal
     
 .grid_col_menu_sort
     +flex('', center)
@@ -68,11 +64,8 @@
     &:hover
         color: $primary
 
-        svg
-            polygon, path
-                fill: $primary
-
-    svg
+    i
+        font-size: 26px
         margin-right: $gutter
 
 .search_wrapper

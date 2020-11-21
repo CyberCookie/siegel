@@ -13,8 +13,8 @@ $width: 200px
             border-color: $primary
             border-radius: $radius $radius 0 0
 
-            svg
-                transform: rotate(0)
+            i
+                transform: rotate(90deg)
     
     &:not(._disabled) .title
         cursor: pointer
@@ -23,9 +23,9 @@ $width: 200px
     +flex(space-between, center)
     padding-right: $gutter
 
-    svg
+    i
+        font-size: 22px
         transition: transform $transition
-        transform: rotate(180deg)
 
 .options
     display: none
@@ -50,9 +50,6 @@ $width: 200px
 ._disabled .title
     color: $border_color_light
     border-color: $border_color_light
-
-    svg polygon
-        fill: $border_color_light
 
 ._option_active
     color: $primary

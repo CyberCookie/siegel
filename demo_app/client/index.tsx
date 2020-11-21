@@ -25,7 +25,7 @@ if (rootComponent) {
         }
     })
 
-    
+
     render(
         createRouter({ routes, Layout }),
         rootComponent

@@ -89,7 +89,7 @@ async function extractResponseData(req: RequestParams, res: Response & Indexable
 
     try { return await res[parseMethod]() }
     catch (err) { throw new Error(
-        `${err}. Failed to parse contentType: ${contentType}, with: ${parseMethod}() method.`
+        `${err}. Failed to parse contentType: ${contentType} using ${parseMethod}() method.`
     )}
 }
 
@@ -112,12 +112,10 @@ async function makeRequest(req: RequestParams) {
         if (res.ok) {
             afterRequest && afterRequest(reqData, parsedRes)
             return parsedRes
-        } else {
-            throw {
-                status: res.status,
-                message: res.statusText,
-                res: parsedRes
-            }
+        } else throw {
+            status: res.status,
+            message: res.statusText,
+            res: parsedRes
         }
     } catch (err) {
         const finalErr = {

@@ -1,38 +1,50 @@
+function mergeLoaders(userLoader, defaultLoader) {
+    if (!userLoader) return defaultLoader;
+    if (typeof userLoader == 'string' || !defaultLoader) return userLoader;
+
+    let result;
+
+    const {
+        enabled: deafultEnabled = true,
+        options: defaultOptions,
+        loader: _defaultLoader,
+        additionalLoaderOptions: deafultAdditionalLoaderOptions = {}
+    } = defaultLoader;
+    const {
+        enabled = deafultEnabled,
+        options = defaultOptions,
+        loader = _defaultLoader,
+        additionalLoaderOptions = deafultAdditionalLoaderOptions
+    } = userLoader;
+
+    enabled && (result = {
+        loader,
+        options: typeof options == 'function' && defaultOptions && typeof defaultOptions != 'function'
+            ?   options(defaultOptions)
+            :   options,
+        ...additionalLoaderOptions
+    })
+
+
+    return result
+}
+
+
+
 module.exports = (defaultModules, userModules = {}) => {
     const result = {
         rules: []
     }
 
 
-    function addRule(regExpPart, loaders, loaderOrder, ruleOptions = {}, defaultLoaders) {
+    function addRule(regExpPart, loaders = {}, loaderOrder, ruleOptions = {}, defaultLoaders = {}) {
         const use = []
-
-        const order = loaderOrder || Object.keys(loaders)
-        order.forEach(loaderKey => {
-            const loaderParams = loaders
-                ?   loaders[loaderKey]
-                :   defaultLoaders[loaderKey]
-
-            if (loaderParams !== false) {
-
-                let loaderToPush;
-                if (typeof loaderParams == 'string') {
-                    loaderToPush = loaderParams
-                } else {
-                    const { enabled = true, options, loader, additionalLoaderOptions = {} } = loaderParams; 
-                    enabled && (loaderToPush = {
-                        loader,
-                        options: typeof options == 'function' && defaultLoaders
-                            ?   options(defaultLoaders[loaderKey].options)
-                            :   options,
-                        ...additionalLoaderOptions
-                    })
-                }
-    
-                use.push(loaderToPush)
-            }
+        loaderOrder.forEach(loaderKey => {
+            const mergedLoaders = mergeLoaders(loaders[loaderKey], defaultLoaders[loaderKey])
+            mergedLoaders && use.push(mergedLoaders)
         })
 
+        
         result.rules.push({
             test: new RegExp(`\\.${regExpPart}$`),
             use,
@@ -68,9 +80,11 @@ module.exports = (defaultModules, userModules = {}) => {
                         ?   ruleOptions(defaultRuleOptions)
                         :   Object.assign({}, defaultRuleOptions, ruleOptions)
                     
-                    const finalLoadersOrder = typeof loaderOrder == 'function'
-                        ?   loaderOrder(defaultLoaderOrder)
-                        :   loaderOrder;
+                    const finalLoadersOrder = loaderOrder
+                        ?   typeof loaderOrder == 'function'
+                            ?   loaderOrder(defaultLoaderOrder)
+                            :   loaderOrder
+                        :   defaultLoaderOrder
                     
                     
                     addRule(regExpPart, loaders, finalLoadersOrder, finalRuleOptions, defaultLoaders)

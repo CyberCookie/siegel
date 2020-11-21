@@ -11,8 +11,8 @@ $error_color: #f00
     display: flex
     flex-direction: column
 
-.field, .label_text, .error_text, .extra svg path
-    transition: fill $transition
+.field, .label_text, .error_text, .extra i
+    transition: color $transition
 
 .field
     +font(18px, $height)
@@ -42,8 +42,8 @@ $error_color: #f00
     display: flex
     transform: translateY(50%)
 
-    svg path
-        fill: $border_color
+    i
+        +font(24px, '', $border_color)
 
 
 ._error
@@ -57,8 +57,8 @@ $error_color: #f00
         .field
             border-color: $error_color
         
-        .extra svg path
-            fill: $error_color
+        .extra i
+            color: $error_color
 
     .error_text
         visibility: hidden
@@ -72,8 +72,8 @@ $error_color: #f00
     .field
         border-color: $primary
     
-    .extra svg path
-        fill: $primary
+    .extra i
+        color: $primary
 
 
 .textarea .field

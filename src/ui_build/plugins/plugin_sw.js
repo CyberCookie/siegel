@@ -17,10 +17,10 @@ module.exports = function(entry) {
         })
 
         compiler.hooks.compilation.tap(NAME, ({ assets }) => {
-            const SW_ASSETS = JSON.stringify(Object.keys(assets))
-            // console.log('readFile')
             fs.readFile(entry, (err, buffer) => {
+                const SW_ASSETS = JSON.stringify(Object.keys(assets))
                 const SW_SOURCE = `const buildOutput=${SW_ASSETS};${buffer.toString()}`
+
                 assets[this.filename] = {
                     source: () => SW_SOURCE,
                     size: () => buffer.length

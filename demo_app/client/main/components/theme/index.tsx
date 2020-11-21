@@ -20,7 +20,7 @@ import _Toggle from 'siegel-ui/_form/Toggle'
 import Swipe from 'siegel-ui/Swipe'
 
 
-import * as icons from '../icons'
+import icons from '../icons'
 
 import buttonTheme from './styles/button.sass'
 import calendarTheme from './styles/calendar.sass'

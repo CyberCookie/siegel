@@ -12,23 +12,23 @@ $controls_width: 20px
     display: flex
     flex-direction: column-reverse
 
-    svg polygon
-        transition: fill $transition
-
     button
         background: none
         cursor: pointer
         height: 20px
 
-        &:hover svg polygon
-            fill: $primary
+        &:hover i
+            color: $primary
     
-    svg
-        width: 20px
-        height: 20px
+    i
+        transition: color $transition
+        font-size: 20px
 
-.button_minus svg
-    transform: rotate(180deg)
+.button_plus i
+    transform: rotate(-90deg)
+
+.button_minus i
+    transform: rotate(90deg)
 
 
 .field
@@ -48,5 +48,5 @@ $controls_width: 20px
 .controls button:disabled
     cursor: default
     
-    svg polygon
-        fill: $border_color_light
+    i
+        color: $border_color_light

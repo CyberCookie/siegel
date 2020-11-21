@@ -23,7 +23,7 @@ function getAliasesFromTSconfig() {
     return aliases
 }
 
-
+// const { loadersKeyMap, webpackModulesRegExp } = require('../../src/ui_build/constants')
 const siegelConfig = {
     server: {
         appServerLoc: server,
@@ -36,7 +36,7 @@ const siegelConfig = {
 
     build: {
         input: {
-            js: join(APP, 'index.ts'),
+            js: join(APP, 'index.tsx'),
             sw: join(APP, 'sw.js'),
             html: join(APP, 'index.html'),
             assetsDir: join(APP, 'assets'),
@@ -46,10 +46,15 @@ const siegelConfig = {
         
         aliases: getAliasesFromTSconfig()
 
-        // modules: {
-        //     's[ac]ss': {
+        // ,modules: {
+        //     [webpackModulesRegExp.styles]: {
         //         loaders: {
-        //             url: 'url-loader'
+        //             [loadersKeyMap.postCssLoader]: {
+        //                 options(defaultOptions) {
+        //                     defaultOptions.postcssOptions.plugins[1][1].fontNamePrefix = 'ololo'
+        //                     return defaultOptions
+        //                 }
+        //             }
         //         }
         //     }
         // }
