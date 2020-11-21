@@ -1,16 +1,19 @@
-._icon::before
-    font-icon-dest: './assets/fonts/font_icon.'
+._icon
+    display: inline-flex
 
+    &::before
+        font-icon-dest: './assets/fonts/font_icon.'
 
-=add_icon($icon)
-    font-icon: './svg_sources/#{$icon}.svg'
-    @content
 
 =icon($icon)
-    .#{to-lower-case($icon)}:before
-        +add_icon($icon)
-            @content
+    .#{$icon}::before
+        font-icon: './svg_sources/#{$icon}.svg'
+        @content
 
 
-+icon(eye_enable)
-+icon(users)
++icon(check)
++icon(chevron)
++icon(close)
++icon(edit)
++icon(more_vert)
++icon(search)

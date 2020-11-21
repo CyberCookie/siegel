@@ -21,19 +21,16 @@ $right_radius: 0 50% 50% 0
 .icon
     cursor: pointer
 
-    &:first-of-type svg
-        transform: rotate(-90deg)
+    &:first-of-type i
+        transform: rotate(-180deg)
 
-    &:last-of-type svg
+    &:last-of-type i
         margin-right: auto
-        transform: rotate(90deg)
 
-    svg
-        height: 40px
-        width: 40px
+    i
+        +font(34px, '', $primary)
+        vertical-align: text-bottom
 
-        polygon
-            fill: $primary
 
 .month_title_wrapper
     +flex(space-between, center)

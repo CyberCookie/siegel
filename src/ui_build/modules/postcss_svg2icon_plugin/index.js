@@ -15,37 +15,37 @@ const cssPropValueMap = {
     'font-style': 'normal'
 }
 function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
-    let absolutePathsIndex = {}
-    let cssValueToAbsolutePath = {}
+    const result = {
+        fontName: '',
+        rootValue: '',
+        absolute: []
+    }
 
-    let isResolved = false;
-    let fontName;
-
-    const absolute = []
+    const absolutePathsIndex = {}
+    const cssValueToAbsolutePath = {}
     const unresolved = []
 
-    let rootValue, rootDecl;
+
+    let rootDecl;
     let i = 0
     postCssRoot.walkDecls(decl => {
         const { prop, value } = decl;
 
         if (prop == 'font-icon-dest') {
-            console.log(value, typeof value, value.toString())
             rootDecl = decl;
-            rootValue = getUnresolvedIconPath(value)
+            result.rootValue = getUnresolvedIconPath(value)
         } else if (prop == 'font-icon') {
             const unresolvedValue = getUnresolvedIconPath(value)
-            isResolved || (isResolved = true)
-
             const absolutePath = posix.join(context, unresolvedValue)
-            cssValueToAbsolutePath[value] = absolutePath;
 
+
+            cssValueToAbsolutePath[value] = absolutePath;
 
             if (!absolutePathsIndex[absolutePath]) {
                 absolutePathsIndex[absolutePath] = ++i;
                 
                 unresolved.push(unresolvedValue)
-                absolute.push(absolutePath)
+                result.absolute.push(absolutePath)
             }
             
             const iconIndex = (absolutePathsIndex[absolutePath] - 1).toString(16)
@@ -61,9 +61,9 @@ function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
             .update(JSON.stringify(unresolved))
             .digest('hex')
 
-        fontName = `${fontNamePrefix}Iconfont_${checkSum}`
+        result.fontName = `${fontNamePrefix}Iconfont_${checkSum}`
     
-        cssPropValueMap['font-family'] = fontName;
+        cssPropValueMap['font-family'] = result.fontName;
         for (let prop in cssPropValueMap) {
             const value = cssPropValueMap[prop]
             rootDecl.cloneBefore({ prop, value })
@@ -72,9 +72,8 @@ function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
     }
 
 
-    return { isResolved, absolute, fontName, rootValue }
+    return result.absolute.length ? result : false
 }
-
 
 // function addFontDeclaration({ fontName, postCssRoot, svgPaths }) {
 //     const options = {
@@ -96,9 +95,10 @@ function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
 //         '}'
 //     ))
 //   }
-const addFontDeclaration = ({ postCssRoot, svgPaths }, isWoff2) => iconToFont({
-    svgs: svgPaths.absolute,
-    name: svgPaths.fontName
+const addFontDeclaration = ({ postCssRoot, extractedData, isWoff2 }) => iconToFont({
+    svgs: extractedData.absolute,
+    name: extractedData.fontName,
+    woff2: isWoff2
 }).then(font => {
     const base64Font = Buffer.from(font).toString('base64')
     const fontURL = `src:url('data:application/x-font-woff;charset=utf-8;base64,${base64Font}')`
@@ -106,18 +106,18 @@ const addFontDeclaration = ({ postCssRoot, svgPaths }, isWoff2) => iconToFont({
 
     postCssRoot.prepend(
         postcss.parse(
-            `@font-face{font-family:${svgPaths.fontName};${fontURL}${fontFormat}}`
+            `@font-face{font-family:${extractedData.fontName};${fontURL}${fontFormat}}`
         )
     )
 })
 
-
-
-module.exports = options => postcss.plugin('postcss-svg2icon', ({ isWoff2, fontNamePrefix }) => (postCssRoot, result) => {
+const plugin = ({ fontNamePrefix, isWoff2 }) => (postCssRoot, result) => {
     if (!result || !result.opts || !result.opts.from) return;
 
-    const svgPaths = processFontIconCSSProps(postCssRoot, dirname(result.opts.from), fontNamePrefix)
-    if (svgPaths.isResolved) {
-        return addFontDeclaration({ postCssRoot, svgPaths }, isWoff2)
-    }
-})(options)
+    const extractedData = processFontIconCSSProps(postCssRoot, dirname(result.opts.from), fontNamePrefix)
+    return extractedData && addFontDeclaration({ postCssRoot, extractedData, isWoff2 })
+}
+
+
+
+module.exports = postcss.plugin('postcss-svg2icon', plugin)

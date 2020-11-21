@@ -1,4 +1,4 @@
-const { join }                                  = require('path').posix;
+// const { join }                                  = require('path').posix;
 const miniCssExtract                            = require('mini-css-extract-plugin')
 
 const { loadersKeyMap, webpackModulesRegExp }   = require('../constants')
@@ -74,8 +74,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                                 [ resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ],
                                 [ resolve('./postcss_svg2icon_plugin'), {
                                     woff2: isProd,
-                                    fontNamePrefix: '',
-                                    dest: CONFIG.staticDir
+                                    fontNamePrefix: ''
                                 }]
                             ]
                         }

@@ -23,9 +23,10 @@
     <li>Code splitting</li>
     <li>All output files are minified and compressed</li>
     <li>Sourcemaps</li>
-    <li>JS lint</li>
-    <li>Transform react jsx and typescript files via babel along with new syntax (included plugins / presets are listed below)</li>
+    <li>JS Lint</li>
+    <li>Transform React JSX and TypeScript files via Babel along with new syntax (included plugins / presets are listed below)</li>
     <li>SASS/SCSS processing; style autoprefixing; css modules</li>
+    <li>Transform SVG icons into woff(2) font</li>
     <li>Autoreload on file change</li>
     <li>Best service worker expirience</li>
 </ul>
@@ -115,7 +116,7 @@ Every plugin, that's already included, has its own `plugin key`.
 - html-webpack-plugin ( `html` ) - enabled if __config.build.input.html__ is specified
 - clean-webpack-plugin ( `clean` )
 - @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if __runParams.isProd == true__
-- (custom) service worker plugin ( `sw` ) - enabled if __config.build.input.sw__ is specified
+- <a href='#postcss_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if __config.build.input.sw__ is specified
     - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces. 
 
 
@@ -142,8 +143,15 @@ const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/src/ui_build/c
 
         [pluginsKeysMap.html]: {
             options: { /* plugin options */ }
+
+            /* could be a function with default options as a first parameter */
+            options(defaultOptions) {
+                defaultOptions.scriptLoading = 'defer'
+                return defaultOptions
+            }
         },
 
+        
         /*
             If you want to add additional plugin then no special key is required.
             At least it shouldn't overlap with existing one.
@@ -176,7 +184,9 @@ Loaders that this build is use by default. Each loader has its own `loader key` 
 - SASS styles ( `cssFinal` )<br />
     It is <b>style-loader</b> in dev mode<br />
     or <b>mini-css-extract-plugin's loader</b> if mode is production.
-- PostCSS autoprefixer ( `postCssLoader` )
+- PostCSS ( `postCssLoader` )
+    - autoprefixer
+    - <a href='#sw_plugin'>(custom) svg to font</a>
 - CSS modules ( `css-loader` )
 - sass-resources-loader ( `sassResources` )<br />
     (to include mixins and variables imports in every css file. Normally CSS modules breaks this functionality)
@@ -267,14 +277,123 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/ui_build/con
 }
 ```
 
+<br />
+<h3>
+    <a id='sw_plugin'>Service worker plugin</a>
+</h3><br />
+
+The only purpose of this plugin is to place an array of build output assets into a service worker thus enabling some tricks to use in caching strategies.<br />
+<b>Plugin emits an output service worker file to the destination root.</b><br />
+
+
+
+<b>siegel config</b>
+
+```js
+const { pluginsKeysMap } = require('siegel/src/ui_build/constants')
+
+{
+    // ...ui_build config,
+
+    plugins: {
+        [pluginsKeysMap.sw]: {
+            options: 'path/to/source/sw.js'
+        }
+    }
+}
+```
+
+<b>service worker file</b>
+
+```js
+// Variable is put during the build phase.
+console.log(buildOutput) // [ 'index.js', 'assets/fonts/some_font.woff2' ]
+```
+
+Require service worker file as you'd usually do:
+
+```js
+window.navigator.serviceWorker?.register('/sw.js')
+    .catch(console.error)
+```
+
+
+<br />
+<h3>
+    <a id='postcss_plugin'>SVG icons to font PostCSS plugin</a>
+</h3><br />
+
+Plugin that transforms svg icons paths in your css into font.
+
+```css
+.all_icons {
+    font-icon-root: ''; // empy string so far
+}
+
+.some_icon::before {
+    font-icon: './relative/path/to/svg_icon.svg';
+}
+```
+
+Output:
+
+```css
+@font-face {
+    font-family: Iconfont_e4e66c75c348e94b357d5545459817c3; src:url('data:application/x-font-woff;charset=utf-8;base64, _BASE64_FONT_ ') format('woff');
+}
+
+.all_icons {
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: normal;
+    font-style: normal;
+    font-family: Iconfont_e4e66c75c348e94b357d5545459817c3;
+}
+
+.some_icon::before {
+    content: '\e003';
+}
+```
+
+There are twho options you can pass to the plugin:
+```js
+const { loadersKeyMap, webpackModulesRegExp } = require('../../src/ui_build/constants')
+
+const config = {
+    // ...siegel config
+
+    build.modules: {
+        [webpackModulesRegExp.styles]: {
+            loaders: {
+                [loadersKeyMap.postCssLoader]: {
+                    options(defaultOptions) {
+                        // our plugin is a second in a postcss plugins row
+                        const svg2FontPlugin = defaultOptions.postcssOptions.plugins[1]
+
+                        // access options
+                        svg2FontPlugin[1] = {
+                            fontNamePrefix: 'font_prefix',
+                            woff2: true
+                        }
+
+                        return defaultOptions
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
 
 <br /><hr />
 <details>
     <summary><h5>TODO</h5></summary>
     <ul>
         <li>ES modules</li>
+        <li>Save font icon to a separate file</li>
         <li>Separate styles for different media queries</li>
-        <li>Icons -> font</li>
         <li>Generate code documentation from TS</li>
     </ul>
 </details>

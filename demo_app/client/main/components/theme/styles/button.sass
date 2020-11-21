@@ -5,13 +5,9 @@
     border-radius: $radius
     transition: background $transition
 
-    svg
-        width: 20px
-        height: 20px
+    i
+        +font(24px, '', $font_color)
         margin-right: $gutter_sm
-
-        path
-            fill: $font_color
     
     &:not(:disabled)
         background: $primary

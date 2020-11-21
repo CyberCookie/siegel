@@ -12,17 +12,13 @@
     margin: 0 $gutter_sm
     cursor: pointer
 
-    &:first-of-type svg
-        transform: rotate(-90deg)
+    &:first-of-type i
+        transform: rotate(-180deg)
 
-    &:last-of-type svg
-        transform: rotate(90deg)
-
-    svg
+    i
+        +font(26px, '', $secondary)
         pointer-events: none
 
-        polygon
-            fill: $secondary
 
 .control__active
     color: $white
@@ -33,8 +29,8 @@
     border-color: $border_color_light
     cursor: default
 
-    svg polygon
-        fill: $border_color_light
+    i
+        color: $border_color_light
 
 .separator
     align-self: flex-end

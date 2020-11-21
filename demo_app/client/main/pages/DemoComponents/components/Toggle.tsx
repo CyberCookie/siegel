@@ -21,7 +21,7 @@ const Demo = () => {
         <Toggle {...props} />
 
         <h2>with icon and labels</h2>
-        <Toggle {...props} toggleIcon={icons.icon}
+        <Toggle {...props} toggleIcon={icons.edit}
             labelLeft='Left label'
             labelRight='Left label' />
         

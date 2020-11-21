@@ -8,7 +8,7 @@ const Demo = () => {
     const [ counter, setCounter ] = useState(0)
 
     const props: Props = {
-        value: <>{icons.icon} click me</>,
+        value: <>{icons.edit} click me</>,
         onClick() {
             setCounter(counter + 1)
         }

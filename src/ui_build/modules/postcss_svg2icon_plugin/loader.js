@@ -1,5 +1,4 @@
 const loaderUtils = require('loader-utils')
-const path = require('path')
 
 const createIconFont = require('./icons_to_font.js')
 

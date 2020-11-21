@@ -1,9 +1,14 @@
 const mergeOptions = (defaultOptions, userOptions, rewrite) => (
-    !rewrite && typeof defaultOptions == 'object'
-        ?   Array.isArray(defaultOptions)
-            ?   defaultOptions.concat(userOptions)
-            :   Object.assign({}, defaultOptions, userOptions)
-        :   userOptions
+    typeof userOptions == 'function'
+        ?   userOptions(defaultOptions)
+
+        :   !rewrite && typeof defaultOptions == 'object'
+            ?   Array.isArray(defaultOptions)
+                ?   defaultOptions.concat(userOptions)
+                
+                :   Object.assign({}, defaultOptions, userOptions)
+
+            :   userOptions
 )
 
 module.exports = (defaultPlugins, userPlugins = {}) => {

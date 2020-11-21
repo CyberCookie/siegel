@@ -40,20 +40,17 @@ $checker_size: $size * 0.6
     .checkbox::before
         content: none
 
-    svg
+    i
+        +font($checker_size * 1.6, '', $primary)
         +absolute_center
         opacity: 0
-        width: $checker_size * 1.5
-        height: $checker_size * 1.5
         pointer-events: none
         transition: opacity $transition
 
-        polygon
-            fill: $primary
 
 ._checked .with_icon_wrapper,
 ._checked.with_icon_wrapper
-    svg
+    i
         opacity: 1
 
 
@@ -75,5 +72,5 @@ $checker_size: $size * 0.6
         border-color: $border_color
         cursor: default
     
-    svg polygon
-        fill: $border_color
+    i
+        color: $border_color
