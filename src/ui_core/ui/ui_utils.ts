@@ -40,7 +40,7 @@ function extractProps
     result.className ||= ''
 
     if (defaultTheme) {
-        //TODO: merge values instead keys. or not to do
+        //TODO? merge values instead keys
         result.theme = theme
             ?   Object.assign({}, defaultTheme, theme)
             :   defaultTheme;

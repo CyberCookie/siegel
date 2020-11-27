@@ -6,12 +6,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import isE from '../../utils/is_exists'
 import { extractProps } from '../ui_utils'
 import Swipe from '../Swipe'
-import type { _Slider, Props, DefaultProps } from './types'
+import type { _Slider, MergedProps } from './types'
 
 import './styles'
 
 
-type MergedProps = Props & DefaultProps
 type SwitchSlide = (nextPage: number) => void
 
 
@@ -113,7 +112,7 @@ const Slider: _Slider = (props, noDefaults) => {
         const offset = (nextPage * -firstSlidePage.offsetWidth) + 'px'
 
         slideArea.style.setProperty('--offset_left', offset)
-        slideArea.style.marginLeft = offset
+        slideArea.style.marginLeft = offset;
 
         setSlide(nextPage)
     }

@@ -167,18 +167,16 @@ This abstraction around react-router-dom module is to provide better declarative
 <h3>createRouter = (options: RouterOptions) => Router</h3>
 
 <h4>RouterOptions</h4>
-- routes - router config
+
+- routes - router config. key - value object where key is a page url and value is a page route config. Config could have the next properties:
+    - component - can be rendered component or lazy loaded component.
+    - exact - react-router-dom's exact.
+    - redirectTo - path to redirect to if current page url was matched.
+    - beforeEnter - function that executes when page is rendered. Data returned from the function is stored in props.beforeEnter property.
+    - children - nested routes. The same object as routes.
 - Layout - react component to wrap all the pages you put into routes.
 - notFound - page to render if no url was matched
 - history - browser history cteated with history module
-
-<h6>routes</h6>
-key - value object where key is a page url and value is a page route config. Config could have the next properties:
-- component - can be rendered component or lazy loaded component.
-- exact - react-router-dom's exact.
-- redirectTo - path to redirect to if current page url was matched.
-- beforeEnter - function that executes when page is rendered. Data returned from the function is stored in props.beforeEnter property.
-- children - nested routes. The same object as routes.
 
 ```js
 import { lazy } from 'react'
@@ -223,6 +221,7 @@ render(document.getElementById('app'), router)
 </details>
 
 <hr />
+
 
 <h2>Utils</h2>
 
@@ -550,6 +549,7 @@ You can look at how to use them in [demo project demo components folder](https:/
     <ul>
         <li>PWA</li>
         <li>SEO by updating meta tags on page render</li>
+        <li>Components low level configurations</li>
         <li>Resolve TODOs</li>
         <li>Add typization to redux and signalR</li>
     </ul>

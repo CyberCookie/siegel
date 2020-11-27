@@ -56,7 +56,10 @@ const DEFAULT_CONFIG = {
             js: join(cwd, 'app.ts'),
             include: [ PATHS.uiCore ],
             exclude: [ PATHS.nodeModules/*, PATHS.parentNodeModules*/ ]
-        }
+        },
+
+        publicPath: '/',
+        aliases: {}
     }
 }
 

@@ -1,21 +1,16 @@
-const webpack                   = require('webpack')
-const webpackDevMiddleware      = require('webpack-dev-middleware')
-const webpackHotMiddleware      = require('webpack-hot-middleware')
-const terserPlugin              = require('terser-webpack-plugin')
-
-const defaultPluginsResolve     = require('./plugins')
-const defaultModulesResolve     = require('./modules')
-
-const { PATHS }                 = require('../constants')
+const { PATHS }                     = require('../constants')
+const { DEPENDENCIES }              = require('./constants')
+const defaultModulesResolve         = require('./modules')
+const defaultPluginsResolve         = require('./plugins')
 
 
-const DEFAULT_PUBLICK_PATH = '/'
+const { webpack, devMiddleware, hotMiddleware, terserPlugin } = DEPENDENCIES;
 
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
     const { isProd, isDevServer } = RUN_PARAMS;
     const { staticDir, build } = CONFIG;
-    const { input, aliases = {}, publicPath = DEFAULT_PUBLICK_PATH, postProcessWebpackConfig } = build;
+    const { input, aliases, publicPath, postProcessWebpackConfig } = build;
 
 
     let webpackConfig = {
@@ -68,7 +63,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
     }
     
     if (typeof postProcessWebpackConfig == 'function') {
-        webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig, webpack)
+        webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig, DEPENDENCIES)
     }
 
 
@@ -103,12 +98,12 @@ module.exports = {
     }),
 
     getDevMiddlewares: (CONFIG, webpackCompiller) => ({
-        dev: webpackDevMiddleware(webpackCompiller, {
-            publicPath: CONFIG.build.publicPath || DEFAULT_PUBLICK_PATH,
+        dev: devMiddleware(webpackCompiller, {
+            publicPath: CONFIG.build.publicPath,
             hot: true,
             stats: statsOptions
         }),
 
-        hot: webpackHotMiddleware(webpackCompiller)
+        hot: hotMiddleware(webpackCompiller)
     })
 }

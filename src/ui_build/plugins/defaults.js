@@ -1,15 +1,12 @@
-const path                  = require('path')
-const webpack               = require('webpack')
-const HTMLPlugin            = require('html-webpack-plugin')
-const optimizeCSS           = require('optimize-css-assets-webpack-plugin')
-const fileCopyPlugin        = require('copy-webpack-plugin')
-const compressionPlugin     = require('compression-webpack-plugin')
-const cleanPlugin           = require('clean-webpack-plugin').CleanWebpackPlugin;
-const miniCssExtract        = require('mini-css-extract-plugin')
-const reactRefresh          = require('@pmmmwh/react-refresh-webpack-plugin')
-const serviceWorkerPlugin   = require('./plugin_sw')
+const { join, relative, dirname } = require('path')
 
-const { pluginInstancesKeyMap, pluginsKeysMap } = require('../constants')
+const { pluginInstancesKeyMap, pluginsKeysMap, DEPENDENCIES } = require('../constants')
+
+
+const {
+    webpack,
+    plugins: { HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, cleanPlugin, miniCssExtract, reactRefresh, serviceWorkerPlugin }
+} = DEPENDENCIES;
 
 
 module.exports = (CONFIG, RUN_PARAMS) => {
@@ -52,10 +49,10 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             options: {
                 patterns: [{
                     from: input.assetsDir,
-                    to: input.assetsDir && path.join(
+                    to: input.assetsDir && join(
                             staticDir,
-                            path.relative(
-                                path.dirname(input.html),
+                            relative(
+                                dirname(input.html),
                                 input.assetsDir
                             )
                         )
@@ -101,8 +98,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         },
 
         [pluginsKeysMap.clean]: {
-            plugin: cleanPlugin,
-            enabled: true
+            plugin: cleanPlugin.CleanWebpackPlugin
         },
 
         [pluginsKeysMap.reactRefresh]: {

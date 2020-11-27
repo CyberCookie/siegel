@@ -97,7 +97,7 @@
         /*
             Use it to post process a final webpack config before being passed to webpack.
             Receives siegel config as a first parameter, webpack config as a second and
-            webpack module itself as a third one.
+            all the dependencies used in webpack config including webpack itself as a third parameter.
         */
         postProcessWebpackConfig: Function
     }
@@ -303,7 +303,7 @@ const { pluginsKeysMap } = require('siegel/src/ui_build/constants')
 }
 ```
 
-<b>service worker file</b>
+<b>sw.js</b>
 
 ```js
 // Variable is put during the build phase.

@@ -7,7 +7,7 @@ type State = {
     errRes: any
 }
 
-// TODO
+//TODO
 type StoreInitialized = Required<InnerStore<State>>
 type Actions = {
     addToReqQueue(store: StoreInitialized, url: string): void

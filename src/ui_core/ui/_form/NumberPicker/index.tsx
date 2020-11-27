@@ -141,7 +141,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     }
     
     let stepper;
-    if (isExists(step)) {
+    if (step) {
         if (keyboardArrows && isFocused) {
             numberpickerRootProps.onKeyDown = e => {
                 const keyCode = e.nativeEvent.key;

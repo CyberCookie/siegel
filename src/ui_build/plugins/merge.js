@@ -15,7 +15,7 @@ module.exports = (defaultPlugins, userPlugins = {}) => {
     const result = []
 
     function addWithoutMerge(pluginConfig) {
-        const { instances, enabled, plugin, options } = pluginConfig;
+        const { instances, enabled = true, plugin, options } = pluginConfig;
 
         if (instances) {
             for (const instanceKey in instances) {

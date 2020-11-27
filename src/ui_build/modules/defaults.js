@@ -1,9 +1,17 @@
-// const { join }                                  = require('path').posix;
-const miniCssExtract                            = require('mini-css-extract-plugin')
+const { loadersKeyMap, webpackModulesRegExp, DEPENDENCIES }   = require('../constants')
 
-const { loadersKeyMap, webpackModulesRegExp }   = require('../constants')
 
 const resolve = require.resolve;
+
+const {
+    plugins: { miniCssExtract: { loader: miniCssExtractLoader }},
+    resolvedLoaders: {
+        babelPresetEnv, babelPresetReact, babelPresetTS,
+        babelPluginReactRefresh, babelPluginExportDefault, babelPluginExportNamespace, babelPluginDynamicImport, babelPluginTransformRuntime,
+        babelPluginLogicalAssignment, babelPluginOptionalChaining,
+        postCssAutoprefix, postCssSVG2Font
+    }
+} = DEPENDENCIES;
 
 
 module.exports = (CONFIG, RUN_PARAMS) => {
@@ -20,21 +28,21 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     options: {
                         cacheDirectory: true,
                         presets: [
-                            [ resolve('@babel/preset-env'), {
-                                targets: "last 1 chrome version",
+                            [ babelPresetEnv, {
+                                targets: 'last 1 chrome version',
                                 shippedProposals: true
                             }],
-                            resolve('@babel/preset-react'),
-                            resolve('@babel/preset-typescript')
+                            babelPresetReact,
+                            babelPresetTS
                         ],
                         plugins: [
-                            ...( isProd ? [] : [ resolve('react-refresh/babel') ]),
-                            resolve('@babel/plugin-proposal-export-default-from'),
-                            resolve('@babel/plugin-proposal-export-namespace-from'),
-                            resolve('@babel/plugin-syntax-dynamic-import'),
-                            resolve('@babel/plugin-transform-runtime'),
-                            resolve('@babel/plugin-proposal-logical-assignment-operators'),
-                            resolve('@babel/plugin-proposal-optional-chaining')
+                            ...( isProd ? [] : [ babelPluginReactRefresh ]),
+                            babelPluginExportDefault,
+                            babelPluginExportNamespace,
+                            babelPluginDynamicImport,
+                            babelPluginTransformRuntime,
+                            babelPluginLogicalAssignment,
+                            babelPluginOptionalChaining
                         ]
                     }
                 },
@@ -51,7 +59,9 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         [webpackModulesRegExp.styles]: {
             loaderOrder: [loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources],
             loaders: {
-                [loadersKeyMap.cssFinal]: isProd || !isServer ? miniCssExtract.loader : resolve('style-loader'),
+                [loadersKeyMap.cssFinal]: isProd || !isServer
+                    ?   miniCssExtractLoader
+                    :   resolve('style-loader'),
 
                 [loadersKeyMap.cssLoader]: {
                     loader: resolve('css-loader'),
@@ -71,8 +81,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                         sourceMap: !isProd,
                         postcssOptions: {
                             plugins: [
-                                [ resolve('autoprefixer'), { overrideBrowserList: 'last 1 version' } ],
-                                [ resolve('./postcss_svg2icon_plugin'), {
+                                [ postCssAutoprefix, { overrideBrowserList: 'last 1 version' } ],
+                                [ postCssSVG2Font, {
                                     woff2: isProd,
                                     fontNamePrefix: ''
                                 }]

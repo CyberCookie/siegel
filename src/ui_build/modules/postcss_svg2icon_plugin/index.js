@@ -55,7 +55,7 @@ function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
     })
 
     
-    if (rootDecl) {
+    if (result.absolute.length && rootDecl) {
         const checkSum = crypto
             .createHash('md5')
             .update(JSON.stringify(unresolved))
@@ -69,10 +69,10 @@ function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
             rootDecl.cloneBefore({ prop, value })
         }
         rootDecl.remove()
+
+
+        return result
     }
-
-
-    return result.absolute.length ? result : false
 }
 
 // function addFontDeclaration({ fontName, postCssRoot, svgPaths }) {
@@ -115,7 +115,7 @@ const plugin = ({ fontNamePrefix, isWoff2 }) => (postCssRoot, result) => {
     if (!result || !result.opts || !result.opts.from) return;
 
     const extractedData = processFontIconCSSProps(postCssRoot, dirname(result.opts.from), fontNamePrefix)
-    return extractedData && addFontDeclaration({ postCssRoot, extractedData, isWoff2 })
+    return extractedData ? addFontDeclaration({ postCssRoot, extractedData, isWoff2 }) : false
 }
 
 
