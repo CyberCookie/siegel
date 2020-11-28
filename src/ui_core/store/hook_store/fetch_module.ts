@@ -1,5 +1,5 @@
 import createHookStore from './index'
-import type { InnerStore } from './index'
+import type { HookStore } from './index'
 
 
 type State = {
@@ -7,8 +7,6 @@ type State = {
     errRes: any
 }
 
-//TODO
-type StoreInitialized = Required<InnerStore<State>>
 type Actions = {
     addToReqQueue(store: StoreInitialized, url: string): void
     removeFromReqQueue(store: StoreInitialized, url: string): void
@@ -16,6 +14,9 @@ type Actions = {
     clearErrRes(store: StoreInitialized, url: string): void
     getLastErrorMsg(store: StoreInitialized, url: string): void
 }
+
+type StoreInitialized = HookStore<State, Actions>
+
 
 const initState: State = {
     requests: {},

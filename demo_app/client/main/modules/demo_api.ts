@@ -1,26 +1,23 @@
 import request from 'siegel-services/request'
-import createHookStore, { InnerStore } from 'siegel-store/hook_store'
+import createHookStore, { HookStore } from 'siegel-store/hook_store'
 
 
 type State = {
     received: string,
-
-    counter: number,
-    _lastUpdate: number
+    counter: number
 }
 
-type StoreInitialized = Required<InnerStore<State>>
 type Actions = {
     makeSomeFetch(store: StoreInitialized, userData: string): void
     updateCounter(store: StoreInitialized): void
 }
 
+type StoreInitialized = HookStore<State, Actions>
+
 
 const initState: State = {
     received: '',
-    counter: 0,
-
-    _lastUpdate: 0
+    counter: 0
 }
 
 const actions: Actions = {
@@ -30,7 +27,6 @@ const actions: Actions = {
             body: { dataToSend }
         }).then(data => {
             state.received = data.dataToSend;
-            state._lastUpdate = Date.now()
             setState(state)
         })
     },

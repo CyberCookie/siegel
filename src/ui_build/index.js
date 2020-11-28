@@ -34,7 +34,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             publicPath,
             path: staticDir,
             chunkFilename: 'chunk.[contenthash].js',
-            filename: isProd ? 'app.[contenthash].js' : 'app.[name].js',
+            filename: isProd ? 'app.[contenthash].js' : 'app.[hash].js',
             //webpack 5
             // filename: 'app.[contenthash].js',
         },
