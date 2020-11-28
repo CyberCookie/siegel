@@ -39,11 +39,9 @@ const Table: _Table = (props, noDefaults) => {
     
     return (
         <table {...tableRootProps}>
-            { head ? getTableSection(head, 'thead') : null }
-    
-            { body ? getTableSection(body, 'tbody') : null }
-    
-            { foot ? getTableSection(foot, 'tfoot') : null }
+            { head && getTableSection(head, 'thead') }
+            { body && getTableSection(body, 'tbody') }
+            { foot && getTableSection(foot, 'tfoot') }
         </table>
     )
 }

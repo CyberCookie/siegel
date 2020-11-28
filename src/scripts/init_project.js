@@ -17,14 +17,14 @@ function main(isGlobal) {
     const toJSON = data => JSON.stringify(data, null, 4)
 
     const replaceDevPathWithModule = path => {
-        const { join, normalize, relative } = posix;
+        const { join, relative } = posix;
 
         const replaceWith = isGlobal
             ?   join(relative(__dirname, PATHS.globalNodeModules), devCorePackageName)
             :   './' + join('node_modules', devCorePackageName)
 
         
-        return path.replace('..', normalize(replaceWith))
+        return path.replace('..', replaceWith)
     }
     
 

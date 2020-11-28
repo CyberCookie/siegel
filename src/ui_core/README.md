@@ -69,6 +69,34 @@ setup({
 </details>
 <h4>signalr...</h4>
 
+
+<hr />
+
+<h2>Hooks</h2>
+<details>
+<summary><b>useDidUpdate</b></summary>
+Hook to check whether some props have been changed. Works like <b>componenDidUpdate</b>.
+
+``` js
+import React from 'react'
+import useDidUpdate from 'siegel-hooks/did_update'
+
+
+const Component = props => {
+    useDidUpdate(
+        () => { console.log('props have been updated') },
+        [ props.propToWatch1, props.propToWatch2 ],
+        () => { console.log('component will unmount') }
+    )
+    
+    ...
+}
+```
+
+</details>
+
+
+
 <hr />
 
 <h2>State managers</h2>
@@ -126,35 +154,44 @@ const Component = () => {
 }
 ```
 
+Also your state is populating with `__updated` property which increments every time state has changed.<br />
+The counter resets to zero when no subscibed components left.<br />
+It's extremely usefull where you have useMemo or useDidUpdate hooks since it can help to avoid unnecessary rerenders!
+
+```js
+import React, { useMemo } from 'react'
+import createHookStore from 'siegel-store/hook_store'
+import useDidUpdate from 'siegel-store/fetch_module'
+
+import someHookStore from './module_a'
+import anotherHookStore from './module_b'
+
+
+const Component = () => {
+    const [ someState ] = someHookStore()
+    const [ anotherState ] = anotherHookStore()
+
+    useDidUpdate(() => {
+        console.log('Some state has updated!')
+    }, [ someState.__updated ])
+
+
+    return useMemo(
+        () => <div>Awesome</div>,
+        [ anotherState.__updated ]
+    )
+}
+
+
+```
+
+
+
 Hook store provides ready to use `fetch module` which is usefull for requests tracking in order to spin some loaders. Docs will be soon...
 </details>
 <h4>redux</h4>
 ...
 
-<hr />
-
-<h2>Hooks</h2>
-<details>
-<summary><b>did_update</b></summary>
-Hook to check whether some props have been changed. Works like <b>componenDidUpdate</b>.
-
-``` js
-import React from 'react'
-import useDidUpdate from 'siegel-hooks/did_update'
-
-
-const Component = props => {
-    useDidUpdate(
-        () => { console.log('props have been updated') },
-        [ props.propToWatch1, props.propToWatch2 ],
-        () => { console.log('component will unmount') }
-    )
-    
-    ...
-}
-```
-
-</details>
 
 
 <hr />

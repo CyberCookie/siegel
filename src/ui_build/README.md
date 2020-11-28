@@ -79,6 +79,9 @@
             exclude: String[]
         },
 
+        /* Webpack publicPath */
+        publicPath: String,
+
         /* Webpack aliases */
         aliases: Object,
 

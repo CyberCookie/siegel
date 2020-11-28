@@ -13,7 +13,7 @@ const DemoApi = (/*props: RouteComponentProps*/) => {
         { makeSomeFetch, updateCounter }
     ] = testModule()
 
-    const [ requestString, setRequestString ] = useState(received)
+    const [ requestString, setRequestString ] = useState('')
 
 
     function sendData() {
