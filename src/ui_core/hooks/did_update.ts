@@ -4,12 +4,11 @@ import { useLayoutEffect, useRef } from 'react'
 function useDidUpdate(
     fn: () => void,
     dependencies: React.DependencyList,
-    retFn: () => void
+    retFn: () => void,
+    ref: React.MutableRefObject<boolean> = useRef(true)
 ) {
-    const didMountRef = useRef(true)
-  
     useLayoutEffect(() => {
-        didMountRef.current ? fn() : (didMountRef.current = true)
+        ref.current ? fn() : (ref.current = true)
         if (retFn) return () => retFn()
     }, dependencies)
 }

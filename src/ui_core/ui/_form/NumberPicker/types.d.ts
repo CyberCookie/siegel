@@ -6,9 +6,9 @@ type BtnClickEv = React.MouseEvent<HTMLButtonElement>
 type BtnProps = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
 type InputFieldProps = ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 type OnNumberPickerChange = (
-    value: number,
     e: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>,
-    isButtonClick?: boolean
+    isButtonClick?: boolean,
+    step?: number
 ) => void
 
 
@@ -32,7 +32,7 @@ type Props = {
     disabledInput?: boolean
     regexp?: RegExp
     precision?: number
-    keyboardArrows?: boolean
+    keyboardControls?: boolean
 } & PropsComponentThemed<ThemeKeys> & Omit<InputTagProps, 'theme'>
 
 type DefaultProps = {
@@ -41,7 +41,7 @@ type DefaultProps = {
     plusIcon: NonNullable<Props['plusIcon']>
     min: NonNullable<Props['min']>
     max: NonNullable<Props['max']>
-    keyboardArrows: NonNullable<Props['keyboardArrows']>
+    keyboardControls: NonNullable<Props['keyboardControls']>
 }
 
 type MergedProps = Props & DefaultProps

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Props } from 'siegel-ui/Dropdown/types'
+import { Props } from 'siegel-ui/Accordion/types'
 
-import { Dropdown } from 'app/components'
+import { Accordion } from 'app/components'
 
 
 const list: Props['list'] = [
@@ -32,15 +32,15 @@ const list: Props['list'] = [
 ]
 
 const Demo = () => <>
-    <h1>{Dropdown.ID}</h1>
+    <h1>{Accordion.ID}</h1>
 
     <h2>simple</h2>
-    <Dropdown {...{ list }} />
+    <Accordion {...{ list }} />
 
     <h2>expanded by default</h2>
-    <Dropdown {...{ list: [list[list.length - 1]] }} autoExpand />
+    <Accordion {...{ list: [list[list.length - 1]] }} autoExpand />
 </>
-Demo.id = Dropdown.ID;
+Demo.id = Accordion.ID;
 
 
 export default Demo

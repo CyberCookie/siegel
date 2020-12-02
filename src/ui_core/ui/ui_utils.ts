@@ -28,10 +28,10 @@ function extractProps
     T extends PropsComponentThemed,
     U extends PropsComponentThemed
 >
-(defaultProps: T, props: U) {
+(defaultProps: T, props: U, withMergedDefaults?: boolean) {
 
-    const { className, theme } = props;
     const { className: defaultClassName, theme: defaultTheme } = defaultProps;
+    const { className, theme } = props;
     const result = Object.assign({}, defaultProps, props)
     
     if (className && defaultClassName) {
@@ -45,7 +45,9 @@ function extractProps
             ?   Object.assign({}, defaultTheme, theme)
             :   defaultTheme;
         
-        result.className += ` ${result.theme.root}`
+        if(withMergedDefaults) {
+            theme?.root && result.className.replace(defaultTheme.root!, theme.root)
+        } else result.className += ` ${result.theme.root}`
     }
 
 
@@ -63,7 +65,7 @@ function withDefaults
 
     type Props = PartialKeys<Parameters<C>[0], keyof NewDefaults>
 
-    const componentWithDefaults = (props: Props) => Component(extractProps(mergedDefaults, props))
+    const componentWithDefaults = (props: Props) => Component(extractProps(mergedDefaults, props, true))
     componentWithDefaults.ID = Component.ID;
 
 

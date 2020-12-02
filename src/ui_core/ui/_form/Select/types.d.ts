@@ -16,6 +16,7 @@ type Props<V = any> = {
     options: {
         disabled?: boolean
         payload?: any
+        className?: string
         value: V
         title: React.ReactNode
     }[],

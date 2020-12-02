@@ -5,7 +5,7 @@ import _Calendar from 'siegel-ui/_form/Calendar'
 import _Checkbox from 'siegel-ui/_form/Checkbox'
 import Clocks from 'siegel-ui/Clocks'
 import _DataTable from 'siegel-ui/DataTable'
-import _Dropdown from 'siegel-ui/Dropdown'
+import _Accordion from 'siegel-ui/Accordion'
 import _DropdownSearch from 'siegel-ui/_form/DropdownSearch'
 import _Input from 'siegel-ui/_form/Input'
 import _NumberPicker from 'siegel-ui/_form/NumberPicker'
@@ -26,7 +26,7 @@ import buttonTheme from './styles/button.sass'
 import calendarTheme from './styles/calendar.sass'
 import checkboxTheme from './styles/checkbox.sass'
 import _dataTableTheme from './styles/data_table.sass'
-import dropdownTheme from './styles/dropdown.sass'
+import accordionTheme from './styles/accordion.sass'
 import _dropdownSearchTheme from './styles/dropdown_search.sass'
 import inputTheme from './styles/input.sass'
 import _numberPickerTheme from './styles/number_picker.sass'
@@ -64,9 +64,9 @@ const DataTable = withDefaults(_DataTable, {
 })
 
 
-const Dropdown = withDefaults(_Dropdown, {
-    theme: dropdownTheme,
-    dropdownIcon: icons.chevron
+const Accordion = withDefaults(_Accordion, {
+    theme: accordionTheme,
+    accordionIcon: icons.chevron
 })
 
 
@@ -144,7 +144,7 @@ export {
     dataTableTheme, DataTable,
     Clocks,
     Swipe,
-    dropdownTheme, Dropdown,
+    accordionTheme, Accordion,
     dropdownSearchTheme, DropdownSearch,
     inputTheme, Input,
     numberPickerTheme, NumberPicker,

@@ -11,7 +11,7 @@ type ThemeKeys = 'item' | 'item_title' | 'item__empty'
 
 type Props = {
     list: ListElement[]
-    dropdownIcon?: React.ReactNode
+    accordionIcon?: React.ReactNode
     soloOpen?: boolean
     builder?: (title: React.ReactNode, children?: ListElement[]) => ({
         elem: React.ReactNode,
@@ -27,7 +27,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Dropdown = CoreIUComponent<Props, DefaultProps>
+type _Accordion = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, ListElement, _Dropdown }
+export type { Props, DefaultProps, MergedProps, ListElement, _Accordion }
