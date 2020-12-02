@@ -1,24 +1,22 @@
-//TODO: rename
-
 import React from 'react'
 
 import { extractProps } from '../ui_utils'
-import type { ListElement, _Dropdown } from './types'
+import type { ListElement, _Accordion } from './types'
 
 
-const componentID = '-ui-dropdown'
+const componentID = '-ui-accordion'
 
 const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
 }
 
-const Dropdown: _Dropdown = (props, noDefaults) => {
+const Accordion: _Accordion = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Dropdown.defaults, props)
-        :   (props as _Dropdown['defaults'] & typeof props)
+        ?   extractProps(Accordion.defaults, props)
+        :   (props as _Accordion['defaults'] & typeof props)
     
-    const { className, theme, list, builder, dropdownIcon, soloOpen, attributes, autoExpand } = mergedProps;
+    const { className, theme, list, builder, accordionIcon, soloOpen, attributes, autoExpand } = mergedProps;
 
 
     function childrenMapper({ title, children }: ListElement, i: number) {
@@ -33,11 +31,11 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
         return children
             ?   <details key={i} className={theme.item} open={autoExpand}
                     onClick={onClickHandler}
-                    onMouseDown={onDropdownToggle}>
+                    onMouseDown={onAccordionToggle}>
 
                     <summary className={`${theme.item_title} ${wrapperClass || ''}`}>
                         { title }
-                        { dropdownIcon }
+                        { accordionIcon }
                     </summary>
 
                     { children.map(childrenMapper) }
@@ -47,13 +45,13 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
                     children={title} />
     }
 
-    function onDropdownToggle(e: React.MouseEvent<HTMLDetailsElement>) {
+    function onAccordionToggle(e: React.MouseEvent<HTMLDetailsElement>) {
         e.stopPropagation()
-        const dropdownTitle = e.currentTarget;
-        const curState = dropdownTitle.open;
+        const accordionTitle = e.currentTarget;
+        const curState = accordionTitle.open;
 
         if (soloOpen) {
-            let sibling = dropdownTitle.parentElement!.firstChild;
+            let sibling = accordionTitle.parentElement!.firstChild;
 
             while (sibling) {
                 (sibling as HTMLDetailsElement).open = false;
@@ -61,20 +59,20 @@ const Dropdown: _Dropdown = (props, noDefaults) => {
             }
         }
         
-        dropdownTitle.open = !curState
+        accordionTitle.open = !curState
     }
     
 
-    const dropdownRootProps = {
+    const accordionRootProps = {
         className,
         children: list.map(childrenMapper)
     }
-    attributes && (Object.assign(dropdownRootProps, attributes))
+    attributes && (Object.assign(accordionRootProps, attributes))
 
 
-    return <div {...dropdownRootProps} />
+    return <div {...accordionRootProps} />
 }
-Dropdown.defaults = {
+Accordion.defaults = {
     theme: {
         root: componentID,
         item: componentID + '_item',
@@ -82,8 +80,8 @@ Dropdown.defaults = {
         item_title: componentID + '_item_title'
     }
 }
-Dropdown.ID = componentID;
+Accordion.ID = componentID;
 
 
 export { componentID }
-export default Dropdown
+export default Accordion

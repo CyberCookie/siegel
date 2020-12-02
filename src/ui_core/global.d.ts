@@ -24,6 +24,10 @@ type IndexObject<T, V = any> = {
 interface Array<T = any> {
     [key: string]: T
 }
+//TODO
+// interface Math {
+//     max: (...args: any[]) => number
+// }
 declare function isNaN(value: any): boolean
 declare function isFinite(value: any): boolean
 declare function parseInt(value: any, radix?: string): number

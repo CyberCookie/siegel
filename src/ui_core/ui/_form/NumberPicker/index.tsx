@@ -1,9 +1,7 @@
-//TODO: masks
-//TODO: add precision to onBlur and input value
-//TODO: truncate zeroes left
 import React from 'react'
 
 import isExists from '../../../utils/is_exists'
+import floatMath from '../../../utils/math_float'
 import { extractProps } from '../../ui_utils'
 import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
@@ -46,6 +44,36 @@ function getNumberValue(value: MergedProps['value'], min: MergedProps['min'], ma
         :   numberFloat
 }
 
+const zero = '0'
+function getNormalizedStringValue(value?: string, precision?: number) {
+    if (!isExists(value)) return value;
+
+
+    let indexOfDot = value.indexOf('.') || value.length;
+    indexOfDot < 0 && (indexOfDot = value.length)
+
+    let zeroesCount = 0;
+    for (let i = 0, l = indexOfDot - 1; i < l; i++) {
+        if (value[i] == zero) zeroesCount++
+        else if (zeroesCount) break
+    }
+    zeroesCount && (value = value.replace(zero.repeat(zeroesCount), ''))
+
+    if (precision) {
+        const maxLength = indexOfDot + precision + 1;
+        value.length > maxLength && (value = value.substr(0, maxLength))
+    }
+
+    return value
+}
+
+const getPrecision = (_num: number) => {
+    const stringNum = _num+''
+    const indexOfDot = stringNum.indexOf('.')
+
+    return indexOfDot >= 0 ? stringNum.length - indexOfDot - 1 : 0
+}
+
 function getStepper(props: MergedProps, numberValue: number, onNumberPickerChange: OnNumberPickerChange) {
     const { theme, disabled, step, plusIcon, minusIcon, min, max } = props;
 
@@ -57,7 +85,7 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
         plusProps.disabled = true
     } else {
         plusProps.onMouseDown = (e: BtnClickEv) => {
-            onNumberPickerChange(numberValue + step!, e, true)
+            onNumberPickerChange(e, true, step)
         }
     }
     
@@ -69,7 +97,7 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
         minusProps.disabled = true
     } else {
         minusProps.onMouseDown = (e: BtnClickEv) => {
-            onNumberPickerChange(numberValue - step!, e, false)
+            onNumberPickerChange(e, false, -step!)
         }
     }
 
@@ -84,7 +112,6 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
     )
 }
 
-
 const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(NumberPicker.defaults, props)
@@ -92,7 +119,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     
     const {
         theme, value, disabled, onChange, step, label, payload, disabledInput,
-        precision, regexp, min, max, keyboardArrows, className
+        precision, regexp, min, max, keyboardControls, className
     } = mergedProps;
 
 
@@ -100,66 +127,69 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const numberValue = getNumberValue(value, min, max)
 
     const numberpickerRootProps: ComponentAttributes = {
-        className: `${className} ${styles.root}`,
-        tabIndex: -1
+        className: `${className} ${styles.root}`
     }
     const inputFieldProps: InputFieldProps = {
-        value,
+        value: getNormalizedStringValue(value),
         className: theme.field,
-        disabled: disabled || disabledInput,
+        disabled: disabled || disabledInput
     }
     if (disabled) {
         numberpickerRootProps.className += ` ${theme._disabled_all}`
     } else {
         inputFieldProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value.replace(',', '.')
-            numberMask.test(value) && onChange(value, e, payload)
+            numberMask.test(value) && onChange(value, e, undefined, payload)
         }
     }
     const isFocused = addInputFieldAttributes(
         inputFieldProps, numberpickerRootProps, mergedProps,
-        (_, e) => { onNumberPickerChange(numberValue, e) }
+        (_, e) => { onNumberPickerChange(e) }
     ).isFocused;
 
-    const onNumberPickerChange: OnNumberPickerChange = (value, e, arrowValue) => {
-        value < min && (value = min)
-        value > max && (value = max)
+    const onNumberPickerChange: OnNumberPickerChange = (e, arrowValue, step) => {
+        let result: string | number = numberValue < min
+            ?   min
+            :   numberValue > max ? max : numberValue;
 
-        let result = value;
 
-        if (isExists(arrowValue) && (step! % 1 > 0)) {
-            let _precision = precision;
-            if (!_precision) {
-                const stringStep = ''+step;
-                _precision = stringStep.length - stringStep.lastIndexOf('.') - 1
-            }
+        if (step) {
+            const stepPrecision = getPrecision(step)
+            const indexOfNumberValuePrecision = getPrecision(numberValue)
+            if (stepPrecision || indexOfNumberValuePrecision) {
+                const presision = Math.max(stepPrecision, indexOfNumberValuePrecision)
 
-            result = parseFloat(value.toFixed(_precision))
+                result = floatMath(presision, numberValue, step)
+            } else result = numberValue + step
+        } if (e.type == 'blur' && precision) {
+            result = result.toFixed(precision)
         }
 
-        onChange(''+result, e, arrowValue, payload)
+        onChange(result+'', e, arrowValue, payload)
     }
     
     let stepper;
     if (step) {
-        if (keyboardArrows && isFocused) {
+        if (keyboardControls && isFocused) {
             numberpickerRootProps.onKeyDown = e => {
                 const keyCode = e.nativeEvent.key;
 
                 if (keyCode == deleteCode) {
-                    let newValue: string | number = isFinite(min) ? min : 0
-                    inputFieldProps.disabled || (newValue = '')
+                    const newValue = inputFieldProps.disabled
+                        ?   (isFinite(min) ? min : 0)+''
+                        :   ''
                     
-                    onChange(''+newValue, e, payload)
+                    onChange(newValue, e, payload)
                 } else {
                     const isKeyUp = keyCode == keyUp;
 
                     if (isKeyUp || keyCode == keyDown) {
                         e.preventDefault()
+
                         let _step = step;
                         isKeyUp || (_step *= -1)
             
-                        onNumberPickerChange(numberValue + _step, e, isKeyUp)
+                        onNumberPickerChange(e, isKeyUp, _step)
                     }
                 }
             }
@@ -203,7 +233,7 @@ NumberPicker.defaults = {
     plusIcon: '+',
     min: -Infinity,
     max: Infinity,
-    keyboardArrows: true
+    keyboardControls: true
 }
 NumberPicker.ID = componentID;
 

@@ -75,7 +75,10 @@ setup({
 <h2>Hooks</h2>
 <details>
 <summary><b>useDidUpdate</b></summary>
-Hook to check whether some props have been changed. Works like <b>componenDidUpdate</b>.
+Hook to check whether some props have been changed. Works like <b>componenDidUpdate</b>.<br />
+Signature is next: <b>componenDidUpdate( didUpdateCallback, dependencies, willUnmountCallback, ref = useRef(true) )</b>
+
+Example:<br />
 
 ``` js
 import React from 'react'

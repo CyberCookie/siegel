@@ -18,9 +18,10 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
 
 
     return options.map(option => {
-        const { disabled, title, value, payload } = option;
+        const { disabled, title, value, payload, className } = option;
     
         let optionClassName = theme.option;
+        className && (optionClassName += ` ${className}`)
         value === selected && (optionClassName += ` ${theme._option_active}`)
         
         const optionProps: ComponentAttributes = {

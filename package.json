@@ -50,8 +50,8 @@
         "deploy": "npm ci && node ./node_modules/siegel/src/scripts/install_peers && npm run build_serv:prod",
         "pm2": "./node_modules/.bin/pm2 start $npm_package_config_index -- -s -p",
         "validate": "./node_modules/.bin/tsc || ./node_modules/.bin/eslint ./",
-        "with_args": "node $npm_package_config_index",
-        "node_debug": "node --inspect $npm_package_config_index -- -b -s"
+        "debug": "node --inspect $npm_package_config_index -- -b -s",
+        "with_args": "node $npm_package_config_index"
     },
     "dependencies": {
         "@babel/core": "^7.12.8",

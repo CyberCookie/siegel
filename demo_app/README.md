@@ -6,6 +6,7 @@
 - To build in prod mode and to host using `pm2` daemon - run `npm run build_serv:prod`.
 - To validate the project code with eslint and typescript run `npm run validate`
 - To deploy the project from scratch run `npm run deploy`. This script installs dependencies, siegel's peer dependencies and executes `npm run build_serv:prod` command from above.
+- To debug your NodeJS application run `npm run debug`. Site will be ran in dev mode with NodeJS inspector atttached to your browser dev tool.
 
 <br />
 <h2>Project structure</h2>
