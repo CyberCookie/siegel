@@ -5,7 +5,9 @@ const { pluginInstancesKeyMap, pluginsKeysMap, DEPENDENCIES } = require('../cons
 
 const {
     webpack,
-    plugins: { HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, cleanPlugin, miniCssExtract, reactRefresh, serviceWorkerPlugin }
+    plugins: {
+        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, cleanPlugin, miniCssExtract, reactRefresh, serviceWorkerPlugin, eslint
+    }
 } = DEPENDENCIES;
 
 
@@ -15,6 +17,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
 
     const defaults = {
+        // debug: { plugin: webpack.debug.ProfilingPlugin },
+
         [pluginsKeysMap.compression]: {
             plugin: compressionPlugin,
             instances: {
@@ -104,6 +108,15 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         [pluginsKeysMap.reactRefresh]: {
             plugin: reactRefresh,
             enabled: !isProd
+        },
+
+        [pluginsKeysMap.eslint]: {
+            plugin: eslint,
+            enabled: true,
+            options: {
+                emitWarning: true,
+                extensions: ['js', 'jsx', 'ts', 'tsx']
+            }
         }
     }
 

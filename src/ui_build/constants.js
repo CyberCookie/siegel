@@ -14,6 +14,7 @@ const DEPENDENCIES = {
         cleanPlugin:            require('clean-webpack-plugin'),
         miniCssExtract:         require('mini-css-extract-plugin'),
         reactRefresh:           require('@pmmmwh/react-refresh-webpack-plugin'),
+        eslint:                 require('eslint-webpack-plugin'),
         serviceWorkerPlugin:    require('./plugins/plugin_sw')
     },
 
@@ -36,7 +37,6 @@ const DEPENDENCIES = {
 
 const loadersKeyMap = {
     babel: 'babel',
-    eslint: 'eslint',
     cssFinal: 'cssFinal',
     cssLoader: 'cssLoader',
     postCssLoader: 'postCssLoader',
@@ -59,7 +59,8 @@ const pluginsKeysMap = {
     hot: 'hot',
     html: 'html',
     clean: 'clean',
-    reactRefresh: 'reactRefresh'
+    reactRefresh: 'reactRefresh',
+    eslint: 'eslint'
 }
 
 const pluginInstancesKeyMap = {

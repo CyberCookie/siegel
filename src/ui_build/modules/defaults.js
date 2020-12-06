@@ -45,13 +45,6 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                             babelPluginOptionalChaining
                         ]
                     }
-                },
-
-                [loadersKeyMap.eslint]: {
-                    loader: resolve('eslint-loader'),
-                    options: {
-                        emitWarning: true
-                    }
                 }
             }
         },

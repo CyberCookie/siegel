@@ -1,36 +1,26 @@
 import React from 'react'
 
 import { extractProps } from '../../ui_utils'
-import type { _Button, MergedProps } from './types'
+import type { _Button } from './types'
 
 
 const componentID = '-ui-button'
 
-function getRootProps(mergedProps: MergedProps) {
-    const { className, onClick, type, value, disabled, attributes } = mergedProps;
-
-    let buttonRootProps: typeof attributes = {
-        type, className,
-        children: value
-    }
-    if (disabled) {
-        buttonRootProps.disabled = disabled
-    } else if (onClick) {
-        buttonRootProps.onMouseDown = onClick
-    }
-    attributes && (buttonRootProps = Object.assign(buttonRootProps, attributes))
-
-
-    return buttonRootProps
-}
-
 const Button: _Button = (props, noDefaults) => {
-    const mergedProps = noDefaults
+    const {
+        value: children,
+        onClick: onMouseDown,
+        className, type, disabled, attributes
+    } = noDefaults
         ?   extractProps(Button.defaults, props)
         :   (props as _Button['defaults'] & typeof props)
     
-    
-    return <button { ...getRootProps(mergedProps) } />
+
+    const buttonProps = { className, onMouseDown, type, disabled, children }
+    attributes && Object.assign(buttonProps, attributes)
+
+
+    return <button { ...buttonProps } />
 }
 Button.defaults = {
     className: componentID,

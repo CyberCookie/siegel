@@ -1,4 +1,3 @@
-//TODO? option builder default
 import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../../utils/is_touchscreen'

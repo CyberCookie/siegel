@@ -1,3 +1,5 @@
+//TODO replace input with Input
+
 import React from 'react'
 
 import isExists from '../../../utils/is_exists'
@@ -161,11 +163,10 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
 
                 result = floatMath(presision, numberValue, step)
             } else result = numberValue + step
-        } if (e.type == 'blur' && precision) {
-            result = result.toFixed(precision)
         }
-
-        onChange(result+'', e, arrowValue, payload)
+        precision && (result = result.toFixed(precision))
+        
+        result == value || onChange(result+'', e, arrowValue, payload)
     }
     
     let stepper;

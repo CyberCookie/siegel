@@ -141,14 +141,14 @@ npm i siegel
 Again, for testing purposes we can create the <b>app.ts</b> file we used above and build it using local siegel installation:
 
 ```sh
-node ./node_modules/.bin/siegel run -b -s -js ./app.ts
+npx siegel run -b -s -js ./app.ts
 ```
 
 <br />
 To initialize project template locally use these commands:<br />
 
 ```sh
-node ./node_modules/.bin/siegel init && node ./node_modules/.bin/siegel install-peers
+npx siegel init && npx siegel install-peers
 ```
 
 

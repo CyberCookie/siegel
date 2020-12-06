@@ -1,4 +1,4 @@
-//TODO? merge with Input
+//TODO replace input with Input
 
 import React, { useState } from 'react'
 
