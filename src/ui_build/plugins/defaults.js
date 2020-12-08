@@ -1,14 +1,19 @@
 const { join, relative, dirname } = require('path')
 
-const { pluginInstancesKeyMap, pluginsKeysMap, DEPENDENCIES } = require('../constants')
-
 
 const {
-    webpack,
-    plugins: {
-        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, cleanPlugin, miniCssExtract, reactRefresh, serviceWorkerPlugin, eslint
+    pluginInstancesKeyMap, pluginsKeysMap,
+
+    COMMONS: { ESLintExtensions },
+
+    DEPENDENCIES: {
+        webpack,
+        plugins: {
+            HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, cleanPlugin, miniCssExtract, reactRefresh,
+            serviceWorkerPlugin, eslint
+        }
     }
-} = DEPENDENCIES;
+} = require('../constants')
 
 
 module.exports = (CONFIG, RUN_PARAMS) => {
@@ -75,7 +80,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             enabled: isProd || !isServer,
             options: {
                 filename: /*isDev ? 'styles.css' : */'styles.[contenthash].css',
-                chunkFilename: /*isDev ? '[id].css' : */'[id].[contenthash].css'
+                chunkFilename: /*isDev ? '[id].css' : */'chunk.[contenthash].css'
             }
         },
 
@@ -114,8 +119,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             plugin: eslint,
             enabled: true,
             options: {
-                emitWarning: true,
-                extensions: ['js', 'jsx', 'ts', 'tsx']
+                extensions: ESLintExtensions,
+                emitWarning: true
             }
         }
     }

@@ -1,17 +1,18 @@
-const { loadersKeyMap, webpackModulesRegExp, DEPENDENCIES }   = require('../constants')
-
-
 const resolve = require.resolve;
 
 const {
-    plugins: { miniCssExtract: { loader: miniCssExtractLoader }},
-    resolvedLoaders: {
-        babelPresetEnv, babelPresetReact, babelPresetTS,
-        babelPluginReactRefresh, babelPluginExportDefault, babelPluginExportNamespace, babelPluginDynamicImport, babelPluginTransformRuntime,
-        babelPluginLogicalAssignment, babelPluginOptionalChaining,
-        postCssAutoprefix, postCssSVG2Font
+    loadersKeyMap, webpackModulesRegExp,
+
+    DEPENDENCIES: {
+        plugins: { miniCssExtract: { loader: miniCssExtractLoader }},
+        resolvedLoaders: {
+            babelPresetEnv, babelPresetReact, babelPresetTS,
+            babelPluginReactRefresh, babelPluginExportDefault, babelPluginExportNamespace, babelPluginDynamicImport, babelPluginTransformRuntime,
+            babelPluginLogicalAssignment, babelPluginOptionalChaining,
+            postCssAutoprefix, postCssSVG2Font
+        }
     }
-} = DEPENDENCIES;
+} = require('../constants')
 
 
 module.exports = (CONFIG, RUN_PARAMS) => {

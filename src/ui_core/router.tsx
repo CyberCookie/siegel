@@ -14,13 +14,14 @@ type BeforeEnterProp = {
 type Component = React.ComponentType<BeforeEnterProp>
 type LazyComponent = React.LazyExoticComponent<Component>
 
+type RouteConfig = {
+    component: Component | LazyComponent
+    exact?: boolean
+    redirectTo?: string
+    children?: RouterConfig
+}
 type RouterConfig = {
-    [path: string]: {
-        component: Component | LazyComponent
-        exact?: boolean
-        redirectTo?: string
-        children?: RouterConfig
-    } & BeforeEnterProp
+    [path: string]: RouteConfig & BeforeEnterProp
 }
 
 type CreateRouter = (options: {
@@ -36,12 +37,13 @@ type CreateRoutes = (routerConfig: RouterConfig, urlPref?: string) => {
 }
 
 
-const createRoutes: CreateRoutes = (routeConfig, urlPref = '') => {
+const createRoutes: CreateRoutes = (routeConfigs, urlPref = '') => {
     let routes: JSX.Element[] = []
     let isLazy = false;
 
-    for (const path in routeConfig) {
-        const { exact = true, component, children, redirectTo, beforeEnter } = routeConfig[path]
+    for (const path in routeConfigs) {
+        const routeConfig = routeConfigs[path]
+        const { exact = true, component, children, redirectTo, beforeEnter } = routeConfig;
         isExists((component as LazyComponent)._result) && (isLazy ||= true)
         
         if (isExists(redirectTo)) {
@@ -94,3 +96,4 @@ const createRouter: CreateRouter = ({ routes, Layout, notFound, history: _histor
 
 export { createBrowserHistory }
 export default createRouter
+export type { RouterConfig, RouteConfig, CreateRouter }

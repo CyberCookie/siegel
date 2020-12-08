@@ -212,8 +212,9 @@ This abstraction around react-router-dom module is to provide better declarative
     - component - can be rendered component or lazy loaded component.
     - exact - react-router-dom's exact.
     - redirectTo - path to redirect to if current page url was matched.
-    - beforeEnter - function that executes when page is rendered. Data returned from the function is stored in props.beforeEnter property.
-    - children - nested routes. The same object as routes.
+    - beforeEnter - function that executes before first page render.
+        Data returned from the function is passing to the page props.
+        First argument is a page props.
 - Layout - react component to wrap all the pages you put into routes.
 - notFound - page to render if no url was matched
 - history - browser history cteated with history module
@@ -233,6 +234,9 @@ const routesConfig = {
         component: lazy(() => import('path/to/lazy_component')),
         children: {
             nested_page_1: {
+                beforeEnter(props) {
+                    // do some logic before page render, like updating seo tags.
+                },
                 component: props => <div> nested page 1 </div>
             },
             nested_page_2: {
@@ -543,7 +547,7 @@ Updates URL string with new query param.
 Accepts browser history (or those one created with <b>history</b> module) object as first parameter.
 
 ```js
-import updateURLQuery from 'siegel-utils/'
+import updateURLQuery from 'siegel-utils/query_update'
 
 updateURLQuery(window.history, 'somekey', 'someValue') 
 ```
@@ -552,8 +556,38 @@ updateURLQuery(window.history, 'somekey', 'someValue')
 
 <details>
 <summary><b>float_math</b></summary>
-TODO
+In JS like in many other languages 0.2 + 0.1 != 0.3.<br />
+You may use this float math function to perform such operations with float numbers,<br />
+always receiving correct result.<br />
+The first argument is a maximum number precision of all the other arguments that you need to sum.
+
+```js
+import floatMath from 'siegel-utils/float_math'
+
+floatMath(2, 0.09, -0.03) // ->> 0.06
+
+floatMath(1, 0.1, 0.2) // ->> 0.3
+```
 </details>
+
+
+<details>
+<summary><b>SEO</b></summary>
+Some crawlers may execute your client side JS code.<br />
+Using this SEO function it is easy to update SEO tags providing valuable SEO information to a crawler.<br />
+The best way to use it is in a router configuration inside of <b>beforeEnter</b> func.
+
+```js
+import seo from 'siegel-utils/seo'
+
+seo({
+    title: 'new title',
+    keywords: 'some, new, keywords',
+    description: 'updated description'
+})
+```
+</details>
+
 
 <hr />
 
@@ -588,7 +622,6 @@ You can look at how to use them in [demo project demo components folder](https:/
     <summary><h5>TODO</h5></summary>
     <ul>
         <li>PWA</li>
-        <li>SEO by updating meta tags on page render</li>
         <li>Components low level configurations</li>
         <li>Resolve TODOs</li>
         <li>Add typization to redux and signalR</li>

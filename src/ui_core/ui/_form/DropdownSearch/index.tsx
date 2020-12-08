@@ -6,6 +6,7 @@ import { extractProps, ComponentAttributes } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
 import addInputFieldAttributes from '../input_field_attributes'
 import getLabel from '../label'
+// import Input from '../Input'
 import type { _DropdownSearch, MergedProps, Store, State } from './types'
 
 
@@ -99,6 +100,7 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
 
 
 
+    // let inputElement = <Input {...inputProps} />
     let inputElement = <input {...inputProps} />
     label && (inputElement = getLabel(
         inputElement,

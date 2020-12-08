@@ -144,10 +144,10 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
             numberMask.test(value) && onChange(value, e, undefined, payload)
         }
     }
-    const isFocused = addInputFieldAttributes(
+    const { isFocused } = addInputFieldAttributes(
         inputFieldProps, numberpickerRootProps, mergedProps,
         (_, e) => { onNumberPickerChange(e) }
-    ).isFocused;
+    )[0]
 
     const onNumberPickerChange: OnNumberPickerChange = (e, arrowValue, step) => {
         let result: string | number = numberValue < min

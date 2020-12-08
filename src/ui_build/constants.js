@@ -34,6 +34,10 @@ const DEPENDENCIES = {
     }
 }
 
+const COMMONS = {
+    ESLintExtensions: ['.js', '.jsx', '.ts', '.tsx']
+}
+
 
 const loadersKeyMap = {
     babel: 'babel',
@@ -70,4 +74,4 @@ const pluginInstancesKeyMap = {
 
 
 
-module.exports = { loadersKeyMap, pluginsKeysMap, pluginInstancesKeyMap, webpackModulesRegExp, DEPENDENCIES }
+module.exports = { loadersKeyMap, pluginsKeysMap, pluginInstancesKeyMap, webpackModulesRegExp, DEPENDENCIES, COMMONS }

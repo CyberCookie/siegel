@@ -4,7 +4,10 @@ const defaultModulesResolve         = require('./modules')
 const defaultPluginsResolve         = require('./plugins')
 
 
-const { webpack, devMiddleware, hotMiddleware, terserPlugin } = DEPENDENCIES;
+const {
+    DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, terserPlugin },
+    COMMONS: { ESLintExtensions }
+} = require('./constants')
 
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
@@ -23,7 +26,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         // }),
         resolve: {
             alias: aliases,
-            extensions: ['.js', '.jsx', '.ts', '.tsx', '.sass'],
+            extensions: ESLintExtensions.concat('.sass'),
             modules: [ PATHS.nodeModules, PATHS.parentNodeModules ]
         },
         entry: [
