@@ -9,9 +9,9 @@ type TableCell = {
     value: React.ReactNode
 }
 
-//TODO: React.ThHTMLAttributes
+
 type TableTH = {
-    attributes?: ComponentAttributes<HTMLTableHeaderCellElement, React.TdHTMLAttributes<HTMLTableHeaderCellElement>>
+    attributes?: ComponentAttributes<HTMLTableHeaderCellElement, React.ThHTMLAttributes<HTMLTableHeaderCellElement>>
 } & TableCell
 type TableHeadRow = {
     children: TableTH[]

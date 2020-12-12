@@ -12,8 +12,7 @@ type OnNumberPickerChange = (
 ) => void
 
 
-type ThemeKeys = '_disabled_all' | 'controls' | 'button_minus' | 'button_plus' | 'label_wrapper'
-    | 'label' | 'field' | keyof InputTagProps['theme']
+type ThemeKeys = '_disabled_all' | 'controls' | 'button_minus' | 'button_plus' | keyof InputTagProps['theme']
 
 type Props = {
     onChange: (
@@ -36,6 +35,7 @@ type Props = {
 } & PropsComponentThemed<ThemeKeys> & Omit<InputTagProps, 'theme'>
 
 type DefaultProps = {
+    className: NonNullable<Required<Props['className']>>,
     theme: NonNullable<Required<Props['theme']>>
     minusIcon: NonNullable<Props['minusIcon']>
     plusIcon: NonNullable<Props['plusIcon']>

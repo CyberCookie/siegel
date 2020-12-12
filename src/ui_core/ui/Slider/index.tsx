@@ -8,8 +8,6 @@ import { extractProps } from '../ui_utils'
 import Swipe from '../Swipe'
 import type { _Slider, MergedProps } from './types'
 
-import './styles'
-
 
 type SwitchSlide = (nextPage: number) => void
 

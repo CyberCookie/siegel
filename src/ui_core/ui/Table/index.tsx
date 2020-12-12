@@ -12,7 +12,7 @@ function getTableRow(row: TableHeadRow | TableBodyRow, rowIndex: number) {
     const { children, attributes = {} } = row;
     attributes.key = attributes.key || rowIndex;
 
-    return <tr {...attributes} children={children.map(getTableCell)} />
+    return <tr {...attributes} children={(children as (TableTH | TableTD)[]).map(getTableCell)} />
 }
 
 function getTableCell(cell: TableTH | TableTD, cellIndex: number) {
@@ -22,7 +22,7 @@ function getTableCell(cell: TableTH | TableTD, cellIndex: number) {
     return <CellHTMLTag {...attributes} children={value} />
 }
 
-function getTableSection(data: TableHeadRow[] | TableBodyRow[], SectionHTMLTag: React.ElementType) {
+function getTableSection(data: (TableHeadRow | TableBodyRow)[], SectionHTMLTag: React.ElementType) {
     CellHTMLTag = SectionHTMLTag == 'thead' ? 'th' : 'td'
 
     return <SectionHTMLTag children={data.map(getTableRow)} />

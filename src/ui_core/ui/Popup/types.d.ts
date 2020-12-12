@@ -11,6 +11,7 @@ type Props = {
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
+    className: NonNullable<Required<Props['className']>>
     theme: NonNullable<Required<Props['theme']>>
     closeIcon: NonNullable<Props['closeIcon']>
 }

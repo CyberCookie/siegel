@@ -49,7 +49,11 @@ const Input: _Input = (props, noDefaults) => {
         }
     }
     
-    addInputFieldAttributes(inputProps, inputRootProps, mergedProps)
+    addInputFieldAttributes({
+        inputProps,
+        rootAttr: inputRootProps,
+        componentProps: mergedProps
+    })
 
     let inputElement = <InputTag {...inputProps} />
     label && (inputElement = getInputLabeled(

@@ -8,13 +8,14 @@ import styles from './styles.sass'
 
 const componentID = '-ui-popup'
 
+const innerCloseClassName = componentID + '_close__inner'
+
 const Popup: _Popup = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Popup.defaults, props)
         :   (props as _Popup['defaults'] & typeof props)
 
-    const { theme, closeIcon, content, onClose, attributes } = mergedProps;
-    const className = `${mergedProps.className} ${styles.popup}`
+    const { theme, closeIcon, content, onClose, attributes, className } = mergedProps;
 
     let popupRootAttributes = {
         className,
@@ -28,7 +29,7 @@ const Popup: _Popup = (props, noDefaults) => {
     return (
         <div {...popupRootAttributes}>
             <div className={theme.content}>
-                <div onMouseDown={onClose} className={`${styles.close} ${theme.close}`}
+                <div onMouseDown={onClose} className={`${styles[innerCloseClassName]} ${theme.close}`}
                     children={closeIcon} />
 
                 { content }
@@ -37,6 +38,7 @@ const Popup: _Popup = (props, noDefaults) => {
     )
 }
 Popup.defaults = {
+    className: styles[componentID + '__inner'],
     theme: {
         root: componentID,
         content: componentID + '_content',

@@ -1,5 +1,4 @@
 //TODO? value through inputProps
-//TODO: extend external store
 import { useEffect, useRef, useState } from 'react'
 
 import { ComponentAttributes } from '../ui_utils'
@@ -7,6 +6,9 @@ import { ComponentAttributes } from '../ui_utils'
 
 type InputTagProps = {
     theme: {
+        field: string
+        label: string
+        label_text: string
         _disabled: string
         _focused: string
         _touched: string
@@ -16,6 +18,7 @@ type InputTagProps = {
     autofocus?: boolean
     placeholder?: string
     attributes?: ComponentAttributes
+    inputStore?: InputStore
     inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 }
 
@@ -23,62 +26,69 @@ type InputState = {
     isTouched: boolean
     isFocused: boolean
 }
+type InputStore = [ InputState, React.Dispatch<React.SetStateAction<InputState>> ]
 
 type AddInputFieldAttributes = (
-    inputProps: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>,
-    rootProps: ComponentAttributes,
-    props: InputTagProps,
-    onBlur?: (state: InputState, e: React.FocusEvent<HTMLInputElement>) => void
-) => [ InputState, React.Dispatch<React.SetStateAction<InputState>> ]
+    params: {
+        inputProps: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+        rootAttr: ComponentAttributes
+        componentProps: InputTagProps
+    }
+) => InputStore
 
 
-const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps, props, onBlur) => {
-    const { disabled, autofocus, theme, placeholder, attributes, inputAttributes } = props;
+const getDefaultInputStoreState = () => ({
+    isTouched: false,
+    isFocused: false
+})
 
-    const store = useState({
-        isTouched: false,
-        isFocused: false
-    })
+const addInputFieldAttributes: AddInputFieldAttributes = params => {
+    const { inputProps, rootAttr, componentProps } = params;
+    const { disabled, autofocus, theme, placeholder, attributes, inputAttributes, inputStore } = componentProps;
+
+    const store = inputStore || useState(getDefaultInputStoreState())
     const [ state, setState ] = store;
     const { isFocused, isTouched } = state;
 
-    inputProps.ref = useRef<HTMLInputElement>(null)
-
-
-    isFocused && (rootProps.className += ` ${theme._focused}`)
-    isTouched && (rootProps.className += ` ${theme._touched}`)
+    
+    isFocused && (rootAttr.className += ` ${theme._focused}`)
+    isTouched && (rootAttr.className += ` ${theme._touched}`)
+    
+    disabled && (inputProps.disabled = disabled)
     if (inputProps.disabled) {
-        rootProps.className += ` ${theme._disabled}`
-    }
-    disabled || (rootProps.onFocus = () => {
-        if (!isFocused) {
-            state.isFocused = true;
-
-            setState({ ...state })
+        rootAttr.className += ` ${theme._disabled}`
+    } else {
+        rootAttr.onFocus = () => {
+            if (!isFocused) {
+                state.isFocused = true;
+                setState({ ...state })
+            }
         }
-    })
-
-
-    rootProps.onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    }
+    
+    
+    rootAttr.onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         if (!isTouched || isFocused) {
             state.isTouched ||= true;
             state.isFocused &&= false;
-            
-            onBlur && onBlur(state, e)
+
+            inputProps.onBlur && inputProps.onBlur(e)
             setState({ ...state })
         }
     }
-
+    
     placeholder && (inputProps.placeholder = placeholder)
-
-
+    
+    
     if (autofocus) {
+        inputProps.ref = useRef<HTMLInputElement>(null)
+
         useEffect(() => {
             disabled || ((inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus())
         }, [ disabled ])
     }
 
-    attributes && Object.assign(rootProps, attributes)
+    attributes && Object.assign(rootAttr, attributes)
     inputAttributes && Object.assign(inputProps, inputAttributes)
 
 
@@ -86,5 +96,6 @@ const addInputFieldAttributes: AddInputFieldAttributes = (inputProps, rootProps,
 }
 
 
-export type { InputTagProps }
+export { getDefaultInputStoreState }
 export default addInputFieldAttributes
+export type { InputTagProps }

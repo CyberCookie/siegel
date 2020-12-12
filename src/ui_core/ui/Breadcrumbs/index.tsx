@@ -92,7 +92,7 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
     return <div {...breadcrumbsRootProps} />
 }
 Breadcrumbs.defaults = {
-    className: styles.breadcrumbs,
+    className: styles[componentID + '__inner'],
     separator: '',
     theme: {
         root: componentID,

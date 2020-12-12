@@ -8,8 +8,7 @@ type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
 }
 
 
-type ThemeKeys = 'field' | 'textarea' | 'extra' | 'error_text' | 'label' | 'label_text'
-    | '_filled' | '_error' | keyof InputTagProps['theme']
+type ThemeKeys = 'textarea' | 'extra' | 'error_text' | '_filled' | '_error' | keyof InputTagProps['theme']
 
 type Props = {
     label?: React.ReactNode
