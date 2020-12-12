@@ -1,14 +1,12 @@
-//TODO replace input with Input
-
 import React, { useState } from 'react'
 
 import isExists from '../../../utils/is_exists'
 import floatMath from '../../../utils/math_float'
 import { extractProps } from '../../ui_utils'
-import addInputFieldAttributes, { getDefaultInputStoreState } from '../input_field_attributes'
-import getLabel from '../label'
-import type { _NumberPicker, MergedProps, BtnClickEv, BtnProps, InputFieldProps, OnNumberPickerChange } from './types'
+import Input, { getDefaultInputStoreState } from '../Input'
+import type { _NumberPicker, MergedProps, BtnClickEv, BtnProps, OnNumberPickerChange } from './types'
 import type { ComponentAttributes } from '../../ui_utils'
+import type { Props as InputProps } from '../Input/types' 
 
 import styles from './styles.sass'
 
@@ -22,7 +20,7 @@ function getRegExp(min: MergedProps['min'], max: MergedProps['max'], precision: 
     let regexpTemplate = '^'
 
     minLimit < 0 && (regexpTemplate += '-?')
-    regexpTemplate += '\\d*\\.?\\d'
+    regexpTemplate += '\\d*[.,]?\\d'
 
     if (precision === undefined) {
         regexpTemplate += '*'
@@ -121,13 +119,13 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         :   (props as _NumberPicker['defaults'] & typeof props)
     
     const {
-        theme, value, disabled, onChange, step, label, payload, disabledInput,
-        precision, regexp, min, max, keyboardControls, className, inputStore
+        theme, disabled, onChange, step, precision, min, max, disabledInput, keyboardControls, className, 
+        value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes
     } = mergedProps;
 
 
-    // const _inputStore = inputStore || useState(getDefaultInputStoreState())
-    // const { isFocused } = _inputStore[0]
+    const _inputStore = inputStore || useState(getDefaultInputStoreState())
+    const { isFocused } = _inputStore[0]
 
     const numberMask = regexp || getRegExp(min, max, precision)
     const numberValue = getNumberValue(value, min, max)
@@ -135,28 +133,35 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     
     const numberpickerRootProps: ComponentAttributes = { className }
     if (disabledInput && !disabled) {
-        numberpickerRootProps.tabIndex = 0
-    }
+        const [ inputState, setInputState ] = _inputStore;
 
-    const inputFieldProps: InputFieldProps = {
-        value: getNormalizedStringValue(value),
-        className: theme.field,
-        disabled: disabled || disabledInput,
-        onBlur(e) { onNumberPickerChange(e) }
-    }
-    if (disabled) {
-        numberpickerRootProps.className += ` ${theme._disabled_all}`
-    } else {
-        inputFieldProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value.replace(',', '.')
-            numberMask.test(value) && onChange(value, e, undefined, payload)
+        numberpickerRootProps.tabIndex = 0
+        numberpickerRootProps.onFocus = () => {
+            setInputState({
+                isFocused: true,
+                isTouched: true
+            })
+        }
+        numberpickerRootProps.onBlur = () => {
+            inputState.isFocused = false;
+            setInputState({ ...inputState })
         }
     }
-    const { isFocused } = addInputFieldAttributes({
-        inputProps: inputFieldProps,
-        rootAttr: numberpickerRootProps,
-        componentProps: mergedProps
-    })[0]
+
+    const inputFieldProps: InputProps = {
+        theme, label, errorMsg, placeholder, inputAttributes,
+        regexp: numberMask,
+        value: getNormalizedStringValue(value),
+        inputStore: _inputStore,
+        disabled: disabled || disabledInput,
+        onBlur(e) { onNumberPickerChange(e) },
+        onChange(_value, e) {
+            const value = _value.replace(',', '.')
+            onChange(value, e, undefined, payload)
+        }
+    }
+    disabled && (numberpickerRootProps.className += ` ${theme._disabled_all}`)
+
 
     const onNumberPickerChange: OnNumberPickerChange = (e, arrowValue, step) => {
         let result: string | number | undefined;
@@ -208,19 +213,11 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
 
         stepper = getStepper(mergedProps, numberValue, onNumberPickerChange)
     } 
-
-
-    let inputElement = <input {...inputFieldProps} />
-    label && (inputElement = getLabel(
-        inputElement,
-        { className: theme.label },
-        { className: theme.label_text, children: label }
-    ))
     
 
     return (
-        <div {...numberpickerRootProps}>
-            { inputElement }
+        <div { ...numberpickerRootProps }>
+            <Input { ...inputFieldProps } />
             { stepper }
         </div>
     )
@@ -234,11 +231,14 @@ NumberPicker.defaults = {
         button_plus: componentID + '_plus',
         label: componentID + '_label',
         label_text: componentID + '_label_text',
+        error_text: componentID + '_error_text',
         field: componentID + '_field',
         _disabled_all: componentID + '__disabled_all',
         _disabled: componentID + '__disabled',
         _focused: componentID + '__focused',
-        _touched: componentID + '__touched'
+        _touched: componentID + '__touched',
+        _filled: componentID + '__filled',
+        _error: componentID + '__error',
     },
 
     minusIcon: '-',

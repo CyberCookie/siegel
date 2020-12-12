@@ -4,12 +4,13 @@ import Table from '../Table'
 import { extractProps } from '../ui_utils'
 import tableHeadRows from './head'
 import tableBodyRows from './body'
+import componentID from './id'
 import type { _DataTable, DataTableTableProps, State, MergedProps } from './types'
 
 import styles from './styles.sass'
 
 
-const componentID = '-ui-data_grid'
+const innerTableClassName = componentID + '_table__inner'
 
 const getDefaultState = () => ({
     sortByField: {
@@ -87,7 +88,7 @@ const DataTable: _DataTable = (props, noDefaults) => {
     
     const dataTableTableProps: DataTableTableProps = {
         head, body,
-        className: `${styles.table} ${theme.table}`
+        className: `${styles[innerTableClassName]} ${theme.table}`
     }
     withPagination && (dataTableTableProps.foot = [{
         children: [{

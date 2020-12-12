@@ -1,13 +1,17 @@
 //TODO: masks
 
-import React from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 
 import { extractProps } from '../../ui_utils'
-import addInputFieldAttributes from '../input_field_attributes'
 import getInputLabeled from '../label'
 import componentID from './id'
 import type { _Input } from './types'
 
+
+const getDefaultInputStoreState = () => ({
+    isTouched: false,
+    isFocused: false
+})
 
 //[email, password, search, tel, text, url, (textarea)]
 const Input: _Input = (props, noDefaults) => {
@@ -15,27 +19,69 @@ const Input: _Input = (props, noDefaults) => {
         ?   extractProps(Input.defaults, props)
         :   (props as _Input['defaults'] & typeof props)
     
-    const { theme, label, value, errorMsg, type, disabled, onBlur,
-        onChange, onFocus, payload } = mergedProps;
+    const { theme, label, value, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
+        onChange, onFocus, payload, inputStore, autofocus, placeholder, regexp } = mergedProps;
+    
+    const store = inputStore || useState(getDefaultInputStoreState())
+    const [ state, setState ] = store;
+    const { isFocused, isTouched } = state;
     
 
+    const inputProps: NonNullable<typeof props.inputAttributes> = {
+        disabled, value, placeholder,
+        className: theme.field
+    }
+    if (autofocus) {
+        inputProps.ref = useRef<HTMLInputElement>(null)
+        
+        useEffect(() => {
+            disabled || ((inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus())
+        }, [ disabled ])
+    }
+    
+    
+    
     let className = mergedProps.className;
     errorMsg && (className += ` ${theme._error}`)
     value && (className += ` ${theme._filled}`)
+    isFocused && (className += ` ${theme._focused}`)
+    isTouched && (className += ` ${theme._touched}`)
     
-    const inputRootProps: typeof props.inputAttributes = { className }
-    const inputProps: NonNullable<typeof props.inputAttributes> = {
-        disabled, value,
-        className: theme.field
-    }
-    if (!disabled) {
-        onFocus && (inputProps.onFocus = onFocus)
-        onBlur && (inputProps.onBlur = onBlur)
-        if (onChange) {
-            inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value, e, payload)
-        } else {
-            inputProps.readOnly = true
+    const inputRootProps: typeof props.attributes = {
+        className,
+        onBlur(e) {
+            if (!isTouched || isFocused) {
+                state.isTouched ||= true;
+                state.isFocused &&= false;
+    
+                onBlur && onBlur(e)
+                setState({ ...state })
+            }
         }
+    }
+
+    
+
+    if (disabled) {
+        inputRootProps.className += ` ${theme._disabled}`
+    } else {
+        inputRootProps.onFocus = e => {
+            if (!isFocused) {
+                state.isFocused = true;
+
+                onFocus && onFocus(e)
+                setState({ ...state })
+            }
+        }
+
+        if (onChange) {
+            inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                const value = e.target.value;
+                if (!regexp || regexp.test(value)) {
+                    onChange(e.target.value, e, payload)
+                }
+            }
+        } else inputProps.readOnly = true
     }
     
     
@@ -49,11 +95,10 @@ const Input: _Input = (props, noDefaults) => {
         }
     }
     
-    addInputFieldAttributes({
-        inputProps,
-        rootAttr: inputRootProps,
-        componentProps: mergedProps
-    })
+
+    attributes && Object.assign(inputRootProps, attributes)
+    inputAttributes && Object.assign(inputProps, inputAttributes)
+
 
     let inputElement = <InputTag {...inputProps} />
     label && (inputElement = getInputLabeled(
@@ -94,5 +139,5 @@ Input.defaults = {
 Input.ID = componentID;
 
 
-export { componentID }
+export { componentID, getDefaultInputStoreState }
 export default Input

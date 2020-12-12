@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 
 import { extractProps, ComponentAttributes } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
-import Input from '../Input'
-import { getDefaultInputStoreState } from '../input_field_attributes'
+import Input, { getDefaultInputStoreState } from '../Input'
 import type { _DropdownSearch, MergedProps, Store, State } from './types'
 import type { Props as InputProps } from '../Input/types'
 
@@ -48,8 +47,8 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         ?   extractProps(DropdownSearch.defaults, props)
         :   (props as _DropdownSearch['defaults'] & typeof props)
 
-    const { theme, searchOptions, minInputLength, onSearch, disabled, label, payload,
-        className, showOnFocus, selected, onChange, inputStore, errorMsg } = mergedProps;
+    const { theme, searchOptions, minInputLength, onSearch, payload, className, showOnFocus, selected, onChange, 
+        disabled, label, inputStore, errorMsg, placeholder, inputAttributes, autofocus, regexp } = mergedProps;
     
     const store = useState({ searchString: undefined } as State)
     const [ state, setState ] = store;
@@ -71,7 +70,7 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         }
     }
     const inputProps: InputProps = {
-        disabled, label, errorMsg, theme,
+        disabled, label, errorMsg, theme, placeholder, inputAttributes, autofocus, regexp,
         inputStore: _inputStore,
         onChange(value, e) {
             state.searchString = value;
@@ -112,10 +111,13 @@ DropdownSearch.defaults = {
         root: componentID,
         options: componentID + '_options',
         option: componentID + '_option',
+        error_text: componentID + '_error_text',
         field: componentID + '_search_field',
         label: componentID + '_label',
         label_text: componentID + '_label_text',
         _with_suggestions: componentID + '__with_suggestions',
+        _filled: componentID + '__filled',
+        _error: componentID + '__error',
         _disabled: componentID + '_disabled',
         _focused: componentID + '__focused',
         _touched: componentID + '__touched'

@@ -1,5 +1,4 @@
-import type { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
-import type { InputTagProps } from '../input_field_attributes'
+import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../../ui_utils'
 
 
 type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
@@ -8,17 +7,33 @@ type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
 }
 
 
-type ThemeKeys = 'textarea' | 'extra' | 'error_text' | '_filled' | '_error' | keyof InputTagProps['theme']
+type ThemeKeys = 'textarea' | 'extra' | 'error_text' | 'field' | 'label' | 'label_text'
+    | '_filled' | '_error' | '_disabled' | '_focused' | '_touched'
+
+type InputState = {
+    isTouched: boolean
+    isFocused: boolean
+}
+type InputStore = [ InputState, React.Dispatch<React.SetStateAction<InputState>> ]
+
 
 type Props = {
+    value?: string
+    inputStore?: InputStore
+    disabled?: boolean
+    autofocus?: boolean
+    placeholder?: string
+    attributes?: ComponentAttributes
+    inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
     label?: React.ReactNode
     errorMsg?: React.ReactNode
     type?: 'input' | 'textarea' | 'password'
     payload?: any
-    onBlur?: (e: React.FocusEvent) => any
-    onChange?: (value: string, e: React.FormEvent, payload?: any) => any
-    onFocus?: (e: React.FocusEvent) => void
-} & PropsComponentThemed<ThemeKeys> & Omit<InputTagProps, 'theme'>
+    regexp?: RegExp
+    onBlur?: (e: React.FocusEvent<HTMLDivElement>) => any
+    onChange?: (value: string, e: React.ChangeEvent<HTMLInputElement>, payload?: any) => any
+    onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
