@@ -1,3 +1,5 @@
+//TODO: arrow controlls when focues
+
 import React, { useState } from 'react'
 
 import { extractProps, ComponentAttributes } from '../../ui_utils'
@@ -60,7 +62,6 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
 
     const dropdownSearchRootProps: ComponentAttributes = {
         className,
-        tabIndex: 0,
         onBlur(e) {
             if (e.relatedTarget !== e.currentTarget) {
                 if (state.searchString == '') {
@@ -72,6 +73,10 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     const inputProps: InputProps = {
         disabled, label, errorMsg, theme, placeholder, inputAttributes, autofocus, regexp,
         inputStore: _inputStore,
+        attributes: {
+            tabIndex: 0
+        },
+        className: styles[componentID + '__input_inner'],
         onChange(value, e) {
             state.searchString = value;
             setState({ ...state })
@@ -106,7 +111,6 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     )
 }
 DropdownSearch.defaults = {
-    className: styles[componentID + '__inner'],
     theme: {
         root: componentID,
         options: componentID + '_options',

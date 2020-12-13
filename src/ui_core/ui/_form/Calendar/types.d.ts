@@ -1,5 +1,4 @@
-//TODO: fix strings defaultProps type
-
+import type { DateResolver } from '../../../utils/date/consts'
 import type { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
 
 
@@ -27,8 +26,8 @@ type Props = {
     payload?: any
     rangePick?: boolean
     strings?: {
-        weekDays: string[]
-        months: string[]
+        months: ReturnType<DateResolver>['months']
+        weekDaysShort: ReturnType<DateResolver>['weekDaysShort']
     }
 } & PropsComponentThemed<ThemeKeys>
 

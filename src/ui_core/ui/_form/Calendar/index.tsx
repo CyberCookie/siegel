@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-import { calendarNames } from '../../../utils/date/consts'
+import { dateLocales } from '../../../utils/date/consts'
 import { extractProps } from '../../ui_utils'
 import Days from './days_of_month'
 import type { Props, DefaultProps, MergedProps, _Calendar, Store } from './types'
@@ -9,6 +9,12 @@ import styles from './styles.sass'
 
 
 const componentID = '-ui-calendar'
+
+
+function getDefaultStrings() {
+    const { months, weekDaysShort } = dateLocales.get.en()
+    return { months, weekDaysShort }
+}
 
 const getBeginOfMonth = (rangeDateStart: Props['initDate']['rangeDateStart'], monthsBefore: Props['monthsBefore']) => {
     const curDate = new Date(rangeDateStart)
@@ -22,7 +28,7 @@ const getBeginOfMonth = (rangeDateStart: Props['initDate']['rangeDateStart'], mo
 
 
 function getWeekDaysShifted(weekStartsFrom: MergedProps['weekStartsFrom'], weekDays: string[]) {
-    const localeWeek = [...weekDays]
+    const localeWeek = [ ...weekDays ]
     return localeWeek.concat(localeWeek.splice(0, weekStartsFrom))
 }
 
@@ -49,7 +55,9 @@ function getCalendarVisuals(
     const state = store[0]
 
 
-    const weekDayNames = weekStartsFrom ? getWeekDaysShifted(weekStartsFrom, strings.weekDays) : strings.weekDays;
+    const weekDayNames = weekStartsFrom
+        ?   getWeekDaysShifted(weekStartsFrom, strings.weekDaysShort)
+        :   strings.weekDaysShort;
     const weekdaysRow = getWeekDayRow(weekDayNames, theme)
     const iconPrev = noControls || (
         <div className={theme.icon} onMouseDown={e => switchMonth(-1, store, e)}
@@ -210,11 +218,7 @@ Calendar.defaults = {
         to: componentID + '_to',
         _in_progress: componentID + '__in_progress'
     },
-    strings: {
-        //TODO:
-        months: [...calendarNames.months],
-        weekDays: [...calendarNames.daysShort]
-    },
+    strings: getDefaultStrings(),
 
     triggerOnlyWhenFinished: true,
     prevIcon: '<',

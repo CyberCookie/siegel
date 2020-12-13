@@ -30,7 +30,6 @@ type Props = {
 } & PropsComponentThemed<ThemeKeys> & Omit<InputProps, 'theme' | 'type' | 'value' | 'attributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange'>
 
 type DefaultProps = {
-    className: NonNullable<Required<Props['className']>>
     theme: NonNullable<Required<Props['theme']>>
     minInputLength: NonNullable<Props['minInputLength']>
 }

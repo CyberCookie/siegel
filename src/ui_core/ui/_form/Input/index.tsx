@@ -68,7 +68,7 @@ const Input: _Input = (props, noDefaults) => {
         inputRootProps.onFocus = e => {
             if (!isFocused) {
                 state.isFocused = true;
-
+                
                 onFocus && onFocus(e)
                 setState({ ...state })
             }
