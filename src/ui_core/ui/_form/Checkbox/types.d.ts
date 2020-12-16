@@ -9,12 +9,13 @@ type WrapperProps = {
 
 type ThemeKeys = 'label' | 'checkbox' | '_checked' | '_disabled' | 'with_icon_wrapper'
 
-//TODO: attributes type depends on label <> icon
+
+//#TS_sucks. attributes type should depend on label <> icon presence
 type Props = {
     value: boolean
     onChange?: (checked: Props['value'], e: React.MouseEvent, payload?: any) => void
     checkboxAttributes?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes | ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
     disabled?: boolean
     label?: React.ReactNode
     payload?: any

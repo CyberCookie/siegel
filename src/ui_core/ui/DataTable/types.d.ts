@@ -48,10 +48,20 @@ type ColumnsConfigWithDefaults<
     onSort: (IDs: Sorted, byID: ByID, value: number) => Sorted
     onFilter: (IDs: Sorted, byID: ByID, search: SearchByFieldValue) => Sorted
 }
-type ColumnsConfig<T extends Entities = Entities> = {
+type ColumnsConfig<
+    T extends Entities = Entities,
+    // Entity = ReturnType<T['get']>,
+    // ByID = ReturnType<T['raw']>['byID'],
+    // Sorted = ReturnType<T['raw']>['sorted']
+> = {
     label: React.ReactNode
     type: 'text' | 'set' | 'date'
     putSetValue?: (value: any) => any
+
+    // showValue?: (entity: Entity, index: number) => React.ReactNode
+    // onSort?: (IDs: Sorted, byID: ByID, value: number) => Sorted
+    // onFilter?: (IDs: Sorted, byID: ByID, search: SearchByFieldValue) => Sorted
+    // entityFieldPath?: string | string[]
 } & (
     (Partial<ColumnsConfigEntityField> & ColumnsConfigWithDefaults<T>)
     |   (ColumnsConfigEntityField & Partial<ColumnsConfigWithDefaults<T>>)
@@ -60,7 +70,7 @@ type ColumnsConfig<T extends Entities = Entities> = {
 
 type ThemeKeys = 'table' | 'table_resizer' | 'pagination_wrapper' | '_with_pagination'
 
-type Props<T extends Entities = Entities> = {
+type Props<T extends Entities> = {
     entities: T
     columnsConfig: ColumnsConfig<T>[]
     hookStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
@@ -78,19 +88,19 @@ type Props<T extends Entities = Entities> = {
     }
     tableAttributes?: TableProps['attributes']
     resizable?: boolean
-    postProcessHeadCell?: (cell: TableTH, columnsConfig: ColumnsConfig, index: number, displayedEntityIDs: DisplayedEntityIDs) => TableTH
+    postProcessHeadCell?: (cell: TableTH, columnsConfig: ColumnsConfig<T>, index: number, displayedEntityIDs: DisplayedEntityIDs) => TableTH
     postProcessHeadRow?: (rows: TableHeadRow[], displayedEntityIDs: DisplayedEntityIDs) => TableHeadRow[]
     postProcessBodyRow?: (row: TableBodyRow, entity: ReturnType<T['get']>, index: number) => TableBodyRow
 } & PropsComponentThemed<ThemeKeys>
 
 
 type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
+    theme: NonNullable<Required<Props<any>['theme']>>
 }
 
-type MergedProps = Props & DefaultProps
+type MergedProps = Props<any> & DefaultProps
 
-type _DataTable = CoreIUComponent<Props, DefaultProps>
+type _DataTable = CoreIUComponent<Props<any>, DefaultProps>
 
 
 export type { Props, State, DefaultProps, MergedProps, _DataTable, DataTableTableProps, ColumnsConfig,

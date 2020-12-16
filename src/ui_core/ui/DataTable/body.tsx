@@ -57,7 +57,7 @@ function getBody(props: MergedProps, state: State) {
             if (isText = type == 'text') { searchString = (searchString as string).toLowerCase() }
             
 
-            processedList = processedList.filter(itemID => {
+            processedList = processedList.filter((itemID: ID) => {
                 const entity = byID[itemID]
 
                 let valueToFilter = isArrayEntityFieldPath

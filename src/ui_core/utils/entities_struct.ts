@@ -1,10 +1,28 @@
+//TODO
+
 type Entities = ReturnType<typeof entities>
 
 
-function entities<K extends ID = ''>(uniq: K) {
-    type Entity = {
-        [key in K]: ID
-    } & Indexable
+// type _Entities<Entity extends Indexable> = (uniq: keyof Entity) => {
+//     clear: () => void
+//     get: (id: ID) => Entity[ID]
+//     addOrUpdate: (entity: Entity) => void
+//     addAll: (entities: Entity[]) => void
+//     remove: (entityID: ID) => void
+//     sort: (cb: (entity_a: Entity, entity_b: Entity) => number) => void
+//     each: (cb: (entity: Entity, index: number) => boolean | void) => void
+//     len: () => number
+//     raw: () => ({
+//         byID: Indexable<Entity>,
+//         sorted: ID[]
+//     })
+// }
+
+// type EntityCreator<Entity> = (uniq: keyof Entity) => _Entities<Entity>
+
+
+function entities<E extends Indexable>(uniq: keyof E) {
+    type Entity = E & Indexable
     type SortCB = (entity_a: Entity, entity_b: Entity) => number
     type EachCB = (entity: Entity, index: number) => boolean | void
 

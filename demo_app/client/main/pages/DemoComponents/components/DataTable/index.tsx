@@ -1,5 +1,3 @@
-//TODO: config Props with Entities to get autocomplete in columnsConfig and postProcess hooks
-
 import React from 'react'
 import createEntitiesStruct from 'siegel-utils/entities_struct'
 import { msIn } from 'siegel-utils/date/consts'
@@ -9,9 +7,17 @@ import { DataTable } from 'app/components'
 import getEnchancedDataTableProps from './postProcessProps'
 
 
+type Entity = {
+    id: ID
+    date: number
+    name: string
+    someNumer: number
+    bool: boolean
+}
 
+type Entities = typeof entitiesStruct
 
-const entitiesStruct = createEntitiesStruct('id')
+const entitiesStruct = createEntitiesStruct<Entity>('id')
 ;(new Array(200))
 .fill(1)
 .map((_, i) => ({
@@ -22,10 +28,9 @@ const entitiesStruct = createEntitiesStruct('id')
     bool: i % 2 == 0 ? true : false
 }))
 .forEach(el => entitiesStruct.addOrUpdate(el))
-// type Entities = typeof entitiesStruct
 
 
-const columnsConfig: Props['columnsConfig'] = [
+const columnsConfig: Props<Entities>['columnsConfig'] = [
     {
         label: 'ID',
         type: 'text',
@@ -58,7 +63,7 @@ const columnsConfig: Props['columnsConfig'] = [
 ]
 
 const Demo = () => {
-    const props: Props = {
+    const props: Props<Entities> = {
         columnsConfig,
         entities: entitiesStruct
     }
@@ -78,3 +83,4 @@ Demo.id = DataTable.ID;
 
 
 export default Demo
+export type { Entities }

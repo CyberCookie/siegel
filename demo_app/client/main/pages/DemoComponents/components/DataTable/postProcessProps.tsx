@@ -4,6 +4,7 @@ import { Props, SearchByFieldText, SearchByFieldDate, SearchByFieldSet } from 's
 
 import { icons, Pagination, Select, Checkbox, Input, Calendar,
     paginationTheme, selectTheme, checkboxTheme, inputTheme } from 'app/components'
+import type { Entities } from './'
 
 import styles from './styles.sass'
 
@@ -32,14 +33,14 @@ const paginatorSelectOptions = ([1,2,3]).map(num => {
 
 const nowTimestamp = Date.now()
 
-function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postProcessHeadCell']>>>(
+function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props<Entities>['postProcessHeadCell']>>>(
 { cell, config, index, dataGridHookStore, postProcessStore, entities }:
 {
     cell: T[0]
     config: T[1]
     index: T[2]
-    entities: Props['entities']
-    dataGridHookStore: NonNullable<Props['hookStore']>
+    entities: Props<Entities>['entities']
+    dataGridHookStore: NonNullable<Props<Entities>['hookStore']>
     postProcessStore: PostProcessStore
 }) {
     
@@ -181,7 +182,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props['postP
 
 const displayQuantity = (count: number) => <div className={styles.paginator_count} children={'Total items: ' + count} />
 
-function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<Props['postProcessHeadRow']>>>(
+function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<Props<Entities>['postProcessHeadRow']>>>(
 { row, displayedEntityIDs, postProcessStore }:
 {
     row: T[0]
@@ -224,7 +225,7 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<Props['p
     return row
 }
 
-function getSelectCheckboxTableCell<T extends Parameters<NonNullable<Props['postProcessBodyRow']>>>(
+function getSelectCheckboxTableCell<T extends Parameters<NonNullable<Props<Entities>['postProcessBodyRow']>>>(
 { row, entity, postProcessStore }:
 {
     row: T[0]
@@ -256,14 +257,14 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<Props['post
 
 const gridDefaultState = getDefaultState()
 
-export default (props: Props) => {
+export default (props: Props<Entities>) => {
     const dataGridHookStore = useState(gridDefaultState)
     const postProcessStore: PostProcessStore = useState({
         selected: new Set(),
         activeCol: -1
     })
 
-    const result: Props = {
+    const result: Props<Entities> = {
         ...props,
         hookStore: dataGridHookStore,
         resizable: true,
