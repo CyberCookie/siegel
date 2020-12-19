@@ -51,7 +51,7 @@
 
 <h3>Description</h3>
 <p>
-    Finally*! Package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project.<br />
+    Finally*! The package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project.<br />
     Now nothing can stop you from diving into a business logic right after installation.
 </p>
 <h6>
@@ -59,9 +59,9 @@
     Some configurations may change in the future. Docs are not well written so far.
 </h6><br />
 
-Siegel is a website development platform that provides an easy way to build and host your project using big set of predefined components and other usefull client side utils like request service, routing, state managers etc.
+Siegel is a website development platform that provides an easy way to build and host your projects using big set of predefined components and other usefull client side utils like request service, routing, state managers etc.
 
-Read more about each part (build, server. ui) following the links below:
+Read more about each part (build, server, ui) following the links below:
 - [UI](https://github.com/CyberCookie/siegel/tree/master/src/ui_core)
 - [Build](https://github.com/CyberCookie/siegel/tree/master/src/ui_build)
 - [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
@@ -101,7 +101,7 @@ Exec the next command to build the file (<b>-b</b>) and to host it (<b>-s</b>) u
 siegel run -b -s -js ./app.ts
 ```
 
-And that's it! Now you can open <b>localhost:3000</b> to observe the result.<br />
+And that's it! Now you can open <b>localhost:3000</b> to observe the result!<br />
 
 
 Sure it's just a simple case for testing purposes. Lets make something more serious!<br />
@@ -114,7 +114,7 @@ siegel init -g && siegel install-peers
 Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists) and
 install siegel's peer dependencies (for TS and ESLint)<br />
 Now you have project skeleton with preconfigured siegel in it!<br />
-Use various <b>npm commands</b> from updated <b>package.json</b> to perform build, code validation and static serving in development or production mode.<br />
+Use various <b>npm commands</b> from new <b>package.json</b> to perform build, code validation and static serving in development or production mode.<br />
 
 For example:
 
@@ -122,7 +122,7 @@ For example:
 npm run dev
 ```
 
-> Initializing a project with global siegel installation is tricky since we need to define path to global node modules in tsconfig.json and .eslintrc.<br />
+> It's tricky to initialize a project with global siegel installation since we need to define path to global node modules in tsconfig.json and .eslintrc.<br />
 > This path may vary on different machines.
 
 More about demo project and its npm scripts read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app).<br />
@@ -145,7 +145,7 @@ npx siegel run -b -s -js ./app.ts
 ```
 
 <br />
-To initialize project template locally use these commands:<br />
+To initialize a project template locally use these commands:<br />
 
 ```sh
 npx siegel init && npx siegel install-peers

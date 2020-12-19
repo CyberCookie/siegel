@@ -1,9 +1,5 @@
-//TODO
-
-type Entities = ReturnType<typeof entities>
-
-
-// type _Entities<Entity extends Indexable> = (uniq: keyof Entity) => {
+//TODO?
+// type _Entities<Entity extends Indexable> = {
 //     clear: () => void
 //     get: (id: ID) => Entity[ID]
 //     addOrUpdate: (entity: Entity) => void
@@ -17,9 +13,9 @@ type Entities = ReturnType<typeof entities>
 //         sorted: ID[]
 //     })
 // }
-
 // type EntityCreator<Entity> = (uniq: keyof Entity) => _Entities<Entity>
 
+type Entities = ReturnType<typeof entities>
 
 function entities<E extends Indexable>(uniq: keyof E) {
     type Entity = E & Indexable

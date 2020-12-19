@@ -1,14 +1,17 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useState } from 'react'
 
 
 function useDidUpdate(
     fn: () => void,
     dependencies: React.DependencyList,
-    retFn: () => void,
-    ref: React.MutableRefObject<boolean> = useRef(true)
+    retFn: () => void
 ) {
+    const state = useState({ rendered: false })[0]
     useLayoutEffect(() => {
-        ref.current ? fn() : (ref.current = true)
+        state.rendered
+            ?   fn()
+            :   (state.rendered = true)
+ 
         if (retFn) return () => retFn()
     }, dependencies)
 }

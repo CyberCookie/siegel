@@ -624,6 +624,5 @@ You can look at how to use them in [demo project demo components folder](https:/
         <li>PWA</li>
         <li>Components low level configurations</li>
         <li>Resolve TODOs</li>
-        <li>Add typization to redux and signalR</li>
     </ul>
 </details>

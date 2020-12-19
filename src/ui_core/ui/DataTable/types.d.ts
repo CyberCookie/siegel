@@ -48,20 +48,10 @@ type ColumnsConfigWithDefaults<
     onSort: (IDs: Sorted, byID: ByID, value: number) => Sorted
     onFilter: (IDs: Sorted, byID: ByID, search: SearchByFieldValue) => Sorted
 }
-type ColumnsConfig<
-    T extends Entities = Entities,
-    // Entity = ReturnType<T['get']>,
-    // ByID = ReturnType<T['raw']>['byID'],
-    // Sorted = ReturnType<T['raw']>['sorted']
-> = {
+type ColumnsConfig<T extends Entities> = {
     label: React.ReactNode
     type: 'text' | 'set' | 'date'
     putSetValue?: (value: any) => any
-
-    // showValue?: (entity: Entity, index: number) => React.ReactNode
-    // onSort?: (IDs: Sorted, byID: ByID, value: number) => Sorted
-    // onFilter?: (IDs: Sorted, byID: ByID, search: SearchByFieldValue) => Sorted
-    // entityFieldPath?: string | string[]
 } & (
     (Partial<ColumnsConfigEntityField> & ColumnsConfigWithDefaults<T>)
     |   (ColumnsConfigEntityField & Partial<ColumnsConfigWithDefaults<T>>)

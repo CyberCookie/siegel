@@ -14,8 +14,8 @@ type Entity = {
     someNumer: number
     bool: boolean
 }
-
 type Entities = typeof entitiesStruct
+
 
 const entitiesStruct = createEntitiesStruct<Entity>('id')
 ;(new Array(200))
