@@ -1,8 +1,5 @@
 {
     "compilerOptions": {
-		"target": "esnext",
-		"moduleResolution": "node",
-		"module": "esnext",
 		"allowJs": true,
 		"noEmit": true,
 		"noEmitHelpers": true,

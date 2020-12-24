@@ -47,11 +47,10 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             splitChunks: {
                 chunks: 'all'
             },
-
+            
             ...( isProd ? {
                 minimizer: [
                     new terserPlugin({
-                        test: /\.(js|jsx|ts|tsx)$/,
                         terserOptions: {
                             output: { comments: false }
                         },

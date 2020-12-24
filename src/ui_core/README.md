@@ -622,7 +622,8 @@ You can look at how to use them in [demo project demo components folder](https:/
     <summary><h5>TODO</h5></summary>
     <ul>
         <li>PWA</li>
-        <li>Components low level configurations</li>
+        <li>Components low level configuration</li>
+        <li>Unit tests</li>
         <li>Resolve TODOs</li>
     </ul>
 </details>

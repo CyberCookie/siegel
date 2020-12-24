@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { isAbsolute, join } = require('path')
 
-const [ ,, ...scriptArgs ] = process.argv;
+const scriptArgs = process.argv.slice(2)
 const command = scriptArgs.shift()
 
 

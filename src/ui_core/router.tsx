@@ -47,21 +47,22 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref = '') => {
         isExists((component as LazyComponent)._result) && (isLazy ||= true)
         
         if (isExists(redirectTo)) {
-            routes.push( <Redirect exact={exact} from={path} to={redirectTo} /> )
+            routes.push( <Redirect exact={exact} from={path} to={redirectTo || '/'} /> )
         } else {
             const pathResult = `${urlPref}/${path}`
             const Page = component;
 
-            const routeProps: RouteProps = {
+            const routeProps: RouteProps & { key?: string } = {
                 exact,
-                path: pathResult
+                path: pathResult,
+                key: pathResult
             }
 
             beforeEnter
                 ?   routeProps.render = (props: RouteProps) => <Page {...props} beforeEnter={beforeEnter(props)} />
                 :   routeProps.component = Page;
                 
-            routes.push( <Route key={pathResult} {...routeProps} /> )
+            routes.push( <Route {...routeProps} /> )
 
 
             if (children) {
