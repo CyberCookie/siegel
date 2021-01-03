@@ -4,14 +4,12 @@ const isProd = RUN_ARGUMENTS.has('-p')
 isProd && (process.env.NODE_ENV = 'production')
 
 
-// require('ts-node').register({ transpileOnly: true })
-
 /*
-    require siegel from within siegel itself, locally or globally.
+    requiring siegel: from within siegel itself or locally or globally.
     Choose the one you use.
 */
 let devCore;
-try { devCore = require('../../src/index') }
+try { devCore = require('../../src/ts_node') }
 catch(e) {
     try { devCore = require('siegel') }
     catch(e) {

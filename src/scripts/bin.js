@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 const { isAbsolute, join } = require('path')
 
+const { PATHS } = require('../ts_node/constants')
+
+
 const scriptArgs = process.argv.slice(2)
 const command = scriptArgs.shift()
 
@@ -53,7 +56,7 @@ switch(command) {
             }
         }
 
-        return require('../index')(config, runParams)
+        return require(PATHS.cjs)(config, runParams)
 
 
     case 'init':

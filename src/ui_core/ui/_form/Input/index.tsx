@@ -5,13 +5,25 @@ import React, { useRef, useEffect, useState } from 'react'
 import { extractProps } from '../../ui_utils'
 import getInputLabeled from '../label'
 import componentID from './id'
-import type { _Input } from './types'
+import type { _Input/*, InputFieldThemeKeys*/ } from './types'
 
 
 const getDefaultInputStoreState = () => ({
     isTouched: false,
     isFocused: false
 })
+
+
+//TODO
+// const inputFieldThemeKeys: InputFieldThemeKeys[] = [
+//     'field', 'label', 'label_text', 'error_text',
+//     '_error', '_filled', '_focused', '_touched', '_disabled'
+// ]
+// const updateThemeWithInputFieldTheme = (theme: Indexable<string>, componentID: ID) => {
+//     inputFieldThemeKeys.forEach(key => {
+//         theme[key] = componentID + '_' + key
+//     })
+// }
 
 //[email, password, search, tel, text, url, (textarea)]
 const Input: _Input = (props, noDefaults) => {

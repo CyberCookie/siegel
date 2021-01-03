@@ -7,8 +7,10 @@ type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
 }
 
 
-type ThemeKeys = 'textarea' | 'extra' | 'error_text' | 'field' | 'label' | 'label_text'
+type InputFieldThemeKeys = | 'label' | 'label_text' | 'field' | 'error_text'
     | '_filled' | '_error' | '_disabled' | '_focused' | '_touched'
+
+type ThemeKeys = 'textarea' | 'extra' | InputFieldThemeKeys
 
 type InputState = {
     isTouched: boolean
@@ -44,4 +46,4 @@ type MergedProps = Props & DefaultProps
 type _Input = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, ComponentRootAttributes, _Input }
+export type { Props, DefaultProps, MergedProps, ComponentRootAttributes, _Input, InputFieldThemeKeys }

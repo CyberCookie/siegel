@@ -1,3 +1,5 @@
+import type { RunParams } from './types'
+
 const { join, basename }    = require('path')
 const { existsSync }        = require('fs')
 
@@ -21,25 +23,27 @@ function getParentNodemodules() {
 
 
 const cwd = process.cwd()
-const root = join(__dirname, '..')
+const root = join(__dirname, '..', '..')
 
 const globalNodeModules = require('child_process')
     .execSync('npm root -g')
     .toString()
     .trim()
 
+const packageJSONFile = join(root, 'package')
     
 const PATHS = {
     root, globalNodeModules,
     demoProject: join(root, 'demo_app'),
     nodeModules: join(root, 'node_modules'),
     parentNodeModules: getParentNodemodules() || globalNodeModules,
-    package: join(root, 'package.json'),
+    package: packageJSONFile,
+    cwdPackageJSON: join(cwd, basename(packageJSONFile)),
     build: join(__dirname, 'ui_build', 'index'),
+    cjs: join(__dirname, 'cjs'),
     staticServer: join(__dirname, 'server', 'index'),
-    uiCore: join(__dirname, 'ui_core')
+    uiCore: join(__dirname, '..', 'ui_core')
 }
-PATHS.cwdPackageJSON = join(cwd, basename(PATHS.package))
 
 
 const DEFAULT_CONFIG = {
@@ -64,7 +68,7 @@ const DEFAULT_CONFIG = {
 }
 
 
-const DEFAULT_RUN_PARAMS = {
+const DEFAULT_RUN_PARAMS: RunParams = {
     isServer: true,
     isBuild: true,
     isProd: false
@@ -72,3 +76,4 @@ const DEFAULT_RUN_PARAMS = {
 
 
 module.exports = { PATHS, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG }
+export {}

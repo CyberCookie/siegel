@@ -1,5 +1,5 @@
 import type { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
-import type { Props as InputProps } from '../Input/types'
+import type { Props as InputProps, InputFieldThemeKeys } from '../Input/types'
 
 
 type State = {
@@ -8,7 +8,7 @@ type State = {
 }
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-type ThemeKeys = 'options'| 'option' | '_with_suggestions' | Exclude<keyof NonNullable<InputProps['theme']>, 'extra' | 'textarea'>
+type ThemeKeys = 'options'| 'option' | '_with_suggestions' | InputFieldThemeKeys
 
 type Props = {
     onChange: (id: ID, e: React.MouseEvent | React.FocusEvent, payload?: any) => void

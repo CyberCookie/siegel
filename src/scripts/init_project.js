@@ -9,7 +9,7 @@ function main(isGlobal) {
     const cwd = process.cwd()
     const {
         name: devCorePackageName,
-        scripts: devCorePackageScripts,
+        scripts: siegelPackageJSONScripts,
         config: devCorePackageConfig
     } = require(PATHS.package)
     
@@ -36,8 +36,12 @@ function main(isGlobal) {
     existsSync(PATHS.cwdPackageJSON) || shell('npm init -y')
     const targetPackageJSON = require(PATHS.cwdPackageJSON)
         
-    const TSPath = join(cwd, 'tsconfig.json')
+    const TSPath = join(cwd, 'tsconfig')
     const TSConfig = require(TSPath)
+
+    // const TSNodePath = join(cwd, 'src', 'ts_node', 'tsconfig.json')
+    // const TSNodeConfig = require(TSNodePath)
+    // TSNodeConfig.compilerOptions.outDir = TSNodeConfig.compilerOptions.outDir.replace('../', '')
 
     const ESLintPath = join(cwd, '.eslintrc')
     const ESLintConfig = JSON.parse(readFileSync(ESLintPath), 'utf8')
@@ -51,11 +55,17 @@ function main(isGlobal) {
     pathToIndex = pathToIndex.substr(pathToIndex.search(/\w/))
     
 
-    for (const command in devCorePackageScripts) {
-        devCorePackageScripts[command] = devCorePackageScripts[command]
+    for (const command in siegelPackageJSONScripts) {
+        const siegelPackageJSONCommand = siegelPackageJSONScripts[command]
+        // if (siegelPackageJSONCommand == 'build_node') {
+        //     const commandParsed = siegelPackageJSONCommand.split(' ')
+        //     commandParsed[commandParsed.length - 1] = 
+        // }
+
+        siegelPackageJSONScripts[command] = siegelPackageJSONCommand
             .replace('$npm_package_config_index', pathToIndex)
     }
-    targetPackageJSON.scripts = devCorePackageScripts;
+    targetPackageJSON.scripts = siegelPackageJSONScripts;
     writeFileSync(PATHS.cwdPackageJSON, toJSON(targetPackageJSON))
     
     

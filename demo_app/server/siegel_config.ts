@@ -2,16 +2,12 @@ const join = require('path').join;
 const rootPath = join(__dirname, '..')
 
 
+
 const APP = join(rootPath, 'client')
-const server = join(rootPath, 'server', 'app_server.js')
-
-const main = join(APP, 'main')
-
-
 
 function getAliasesFromTSconfig() {
     const TSAliases = require('../tsconfig').compilerOptions.paths;
-    const aliases = {}
+    const aliases: any = {}
 
     for (const alias in TSAliases) {
         const WPAlias = alias.replace('/*', '')
@@ -26,7 +22,7 @@ function getAliasesFromTSconfig() {
 
 const siegelConfig = {
     server: {
-        appServerLoc: server,
+        appServerLoc: join(rootPath, 'server', 'app_server.ts'),
         watch: true,
         
         host: process.env.NODE_HOST,
@@ -41,7 +37,7 @@ const siegelConfig = {
             html: join(APP, 'index.html'),
             assetsDir: join(APP, 'assets'),
 
-            sassResources: join(main, 'styles', 'sass_resources.sass')
+            sassResources: join(APP, 'main', 'styles', 'sass_resources.sass')
         },
         
         aliases: getAliasesFromTSconfig()

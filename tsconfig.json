@@ -2,9 +2,6 @@
     "compilerOptions": {
 		"allowJs": true,
 		"noEmit": true,
-		"noEmitHelpers": true,
-		"strict": true,
-		"esModuleInterop": true,
 		"jsx": "react",
 		"baseUrl": "."
 	},

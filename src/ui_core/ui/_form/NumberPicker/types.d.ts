@@ -1,5 +1,5 @@
 import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../../ui_utils'
-import type { Props as InputProps } from '../Input/types'
+import type { Props as InputProps, InputFieldThemeKeys } from '../Input/types'
 
 
 type BtnClickEv = React.MouseEvent<HTMLButtonElement>
@@ -11,7 +11,7 @@ type OnNumberPickerChange = (
 ) => void
 
 
-type ThemeKeys = '_disabled_all' | 'controls' | 'button_minus' | 'button_plus' | Exclude<keyof NonNullable<InputProps['theme']>, 'extra' | 'textarea'>
+type ThemeKeys = '_disabled_all' | 'controls' | 'button_minus' | 'button_plus' | InputFieldThemeKeys
 
 type Props = {
     onChange: (

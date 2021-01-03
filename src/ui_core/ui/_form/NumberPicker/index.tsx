@@ -144,10 +144,10 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
                 isTouched: true
             })
         }
-        numberpickerRootProps.onBlur = () => {
+        isFocused && (numberpickerRootProps.onBlur = () => {
             inputState.isFocused = false;
             setInputState({ ...inputState })
-        }
+        })
     }
 
     const inputFieldProps: InputProps = {
