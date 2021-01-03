@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
 		"allowJs": true,
+		"esModuleInterop": true,
 		"noEmit": true,
 		"jsx": "react",
 		"baseUrl": "."
 	},
-	"exclude": [ "node_modules" ]
+	"include": [ "client_core", "demo_app/client" ]
 }

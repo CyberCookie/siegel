@@ -58,6 +58,6 @@ Import ${filenames.rootCACrt} into the chrome browser SSL settings -> Authoritie
 }
 
 
-module.parent
-    ?   (module.exports = main)
-    :   main()
+require.main == module
+    ?   main()
+    :   (module.exports = main)

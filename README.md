@@ -62,13 +62,13 @@
 Siegel is a website development platform that provides an easy way to build and host your projects using big set of predefined components and other usefull client side utils like request service, routing, state managers etc.
 
 Read more about each part (build, server, ui) following the links below:
-- [UI](https://github.com/CyberCookie/siegel/tree/master/src/ui_core)
+- [UI](https://github.com/CyberCookie/siegel/tree/master/client_core)
 - [Build](https://github.com/CyberCookie/siegel/tree/master/src/ui_build)
 - [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
 
-There are also two additional parts worth of mentioning (scripts, demo project):
-- [CLI commands](https://github.com/CyberCookie/siegel/tree/master/src/scripts) - siegel helper scripts.
-- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) - for inner tests and project installation.
+There are also two additional parts worth of mentioning (CLI, demo project):
+- [CLI commands](https://github.com/CyberCookie/siegel/tree/master/src/scripts).
+- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) - for inner tests and demo project installation.
 
 
 The platform is highly flexible thus allows you to use it in various ways depending on your needs.

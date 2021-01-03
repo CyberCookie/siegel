@@ -9,7 +9,7 @@ isProd && (process.env.NODE_ENV = 'production')
     Choose the one you use.
 */
 let devCore;
-try { devCore = require('../../src/ts_node') }
+try { devCore = require('../../src') }
 catch(e) {
     try { devCore = require('siegel') }
     catch(e) {

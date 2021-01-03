@@ -1,14 +1,10 @@
 {
-    "ts-node": {
-        "transpileOnly": true
-    },
     "compilerOptions": {
-        "outDir": "./cjs",
+        "outDir": "../cjs",
         "resolveJsonModule": true,
         "allowJs": true,
         "moduleResolution": "node",
         "target": "esnext",
         "module": "commonjs"
-    },
-    "exclude": [ "./cjs" ]
+    }
 }

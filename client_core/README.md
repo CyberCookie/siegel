@@ -1,4 +1,4 @@
-<h1>ui_core</h1>
+<h1>client_core</h1>
 <ul>Front-end related part compatible with all modern browsers that includes:
     <li>Services to work with api (wrappers around SignalR client and browser's FetchAPI).</li>
     <li>Utils and helpers to compute some common operations.</li>

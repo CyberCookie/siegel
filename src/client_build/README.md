@@ -68,7 +68,7 @@
 
             /*
                 List of directories and/or files to be processed by webpack's loaders.
-                Default is: [ ui_core, path.dirname(build.input.js) ]
+                Default is: [ client_core, path.dirname(build.input.js) ]
             */
             include: String[],
             

@@ -10,10 +10,10 @@ const siegelDocsPathPrefix = 'https://github.com/cybercookie/siegel/blob/master/
 const docsList = [
     { path: 'README.md', title: 'Siegel' },
     { path: 'demo_app/README.md', title: 'Demo app' },
-    { path: 'src/ui_core/README.md', title: 'UI core' },
+    { path: 'client_core/README.md', title: 'UI core' },
     { path: 'src/ui_build/README.md', title: 'Webpack build' },
     { path: 'src/server/README.md', title: 'Server' },
-    { path: 'src/scripts/README.md', title: 'Some usefull scripts' }
+    { path: 'bin/README.md', title: 'Some usefull scripts' }
 ].map(({ path, title }) => (
     <li key={path}>
         <Link {...{

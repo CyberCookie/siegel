@@ -1,4 +1,4 @@
-<h1>Scripts</h1>
+<h1>Bin</h1>
 
 <b>All the next commands should be ran via bash terminal since scripts exec shell commands under the hood.</b>
 

@@ -25,6 +25,6 @@ function main() {
 }
 
 
-module.parent
-    ?   (module.exports = main)
-    :   main()
+require.main == module
+    ?   main()
+    :   (module.exports = main)
