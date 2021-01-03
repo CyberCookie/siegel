@@ -31,21 +31,22 @@
         "node": ">= 10.13.0"
     },
     "config": {
-        "index": "demo_app/server/index.js"
+        "index": "demo_app/server/ts_entry.js"
     },
-    "main": "./src/index.js",
-    "bin": "./src/scripts/bin.js",
+    "main": "./cjs/index.js",
+    "bin": "./bin/index.js",
     "scripts": {
         "dev": "npm run build_serv",
         "build_serv": "node $npm_package_config_index -b -s",
         "build_serv:prod": "npm run build:prod && npm run pm2",
         "build": "node $npm_package_config_index -b",
         "build:prod": "npm run build -- -p",
+        "build_node": "npx tsc -p ./src",
         "serv": "node $npm_package_config_index -s",
         "serv:prod": "npm run serv -- -p",
         "deploy": "npm ci && npx siegel install-peers && npm run build_serv:prod",
         "pm2": "npx pm2 start $npm_package_config_index -- -s -p",
-        "validate": "npx tsc || npx eslint ./",
+        "validate": "npx tsc -p || npx eslint ./",
         "debug": "node --inspect $npm_package_config_index -- -b -s",
         "with_args": "node $npm_package_config_index"
     },
@@ -62,6 +63,8 @@
         "@babel/preset-typescript": "^7.12.7",
         "@babel/runtime": "^7.12.1",
         "@pmmmwh/react-refresh-webpack-plugin": "^0.4.2",
+        "@types/express": "^4.17.9",
+        "@types/node": "^14.14.16",
         "@types/react": "^16.14.2",
         "@types/react-dom": "^16.9.10",
         "@types/react-router-dom": "^5.1.6",
@@ -97,6 +100,7 @@
         "style-loader": "^2.0.0",
         "svg2ttf": "^5.0.0",
         "svgicons2svgfont": "^9.1.1",
+        "ts-node": "^9.1.1",
         "ttf2woff": "^2.0.2",
         "ttf2woff2": "^3.0.0",
         "typescript": "^4.1.2",
@@ -105,14 +109,16 @@
         "webpack-hot-middleware": "^2.25.0"
     },
     "peerDependencies": {
-        "@types/react": "^16.9.41",
-        "@types/react-dom": "^16.9.8",
-        "@types/react-router-dom": "^5.1.5",
-        "@types/webpack-env": "^1.15.2",
-        "@typescript-eslint/eslint-plugin": "^2.34.0",
-        "@typescript-eslint/parser": "^2.34.0",
-        "eslint-plugin-react": "^7.20.0",
-        "eslint": "^7.6.0",
-        "typescript": "^3.9.5"
+        "@types/express": "^4.17.9",
+        "@types/node": "^14.14.16",
+        "@types/react": "^16.14.2",
+        "@types/react-dom": "^16.9.10",
+        "@types/react-router-dom": "^5.1.6",
+        "@types/webpack-env": "^1.16.0",
+        "@typescript-eslint/eslint-plugin": "^4.9.0",
+        "@typescript-eslint/parser": "^4.9.0",
+        "eslint-plugin-react": "^7.21.5",
+        "eslint": "^7.15.0",
+        "typescript": "^4.1.2"
     }
 }

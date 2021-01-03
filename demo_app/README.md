@@ -2,6 +2,7 @@
 
 - To run the project in development mode: `npm run dev` (alias `npm run build_serv`).
 - To build the project in dev/prod mode run `npm run build` / `npm run build:prod` accordingly.
+- To transpile server app from TS run `npm run build_node`.
 - To host the project locally using NodeJS server (make sure you had built it first running one of the commands above) run `npm run serv` / `npm run serv:prod`.
 - To build in prod mode and to host using `pm2` daemon - run `npm run build_serv:prod`.
 - To validate the project code with eslint and typescript run `npm run validate`

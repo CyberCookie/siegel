@@ -47,7 +47,7 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
 
         /*
             You may pass SSL params to establish secure connection (HTTPS HTTP2S).
-            Use 'create_ssl' script from 'scripts' to create localhost certificate.
+            Use siegel's 'create_ssl' script to create localhost certificate.
         */
         ssl: {
             /* Path to ssl private key. */
@@ -65,8 +65,8 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
     <summary><h5>TODO</h5></summary>
     <ul>
         <li>Compatible HTTP1 and HTTP2 static server</li>
-        <li>Implement webSocket abstraction</li>
         <li>SEO for crawlers (pages prebuild or build on the fly)</li>
         <li>Isomorphic API</li>
+        <li>Implement webSocket abstraction?</li>
     </ul>
 </details>

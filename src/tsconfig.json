@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "outDir": "../cjs",
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "moduleResolution": "node",
+        "target": "esnext",
+        "module": "commonjs"
+    }
+}
