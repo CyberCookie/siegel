@@ -1,6 +1,6 @@
 const { existsSync }        = require('fs')
 
-const { PATHS }             = require('../src/constants')
+const { PATHS }             = require('../cjs/constants')
 
 
 function main() {

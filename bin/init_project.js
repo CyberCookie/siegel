@@ -1,7 +1,7 @@
 const { join, relative, posix }                     = require('path')
 const { existsSync, writeFileSync, readFileSync }   = require('fs')
 
-const { PATHS }                                     = require('../src/constants')
+const { PATHS }                                     = require('../cjs/constants')
 
 
 function main(isGlobal) {

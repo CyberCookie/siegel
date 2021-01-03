@@ -37,7 +37,6 @@ const PATHS = {
     demoProject: join(root, 'demo_app'),
     clientCore: join(root, 'client_core'),
     nodeModules: join(root, 'node_modules'),
-    cjs: join(root, 'cjs'),
     parentNodeModules: getParentNodemodules() || globalNodeModules,
     package: packageJSONFile,
     cwdPackageJSON: join(cwd, basename(packageJSONFile)),
