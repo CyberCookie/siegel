@@ -32,7 +32,7 @@ function main(isGlobal) {
     //Copy test project
     shell(`cp -r ${PATHS.demoProject}/. .`)
 
-    const TSNodePath = join(cwd, 'src', 'tsconfig.json')
+    const TSNodePath = join(PATHS.root, 'src', 'tsconfig.json')
     shell(`cp ${TSNodePath} ./server`)
     
     
