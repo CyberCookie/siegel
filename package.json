@@ -33,8 +33,8 @@
     "config": {
         "index": "demo_app/server/ts_entry.js"
     },
-    "main": "./cjs",
-    "bin": "./bin",
+    "main": "./cjs/index.js",
+    "bin": "./bin/index.js",
     "scripts": {
         "dev": "npm run build_serv",
         "build_serv": "node $npm_package_config_index -b -s",

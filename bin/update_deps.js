@@ -1,4 +1,4 @@
-const { PATHS }         = require('../constants')
+const { PATHS }         = require('../src/constants')
 const { existsSync }    = require('fs')
 
 

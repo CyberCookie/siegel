@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 const { isAbsolute, join } = require('path')
 
-const { PATHS } = require('../ts_node/constants')
-
 
 const scriptArgs = process.argv.slice(2)
 const command = scriptArgs.shift()
@@ -10,6 +8,8 @@ const command = scriptArgs.shift()
 
 switch(command) {
     case 'run':
+        var { PATHS } = require('../src/constants')
+
         var config = {
             server: {},
             build: {}
