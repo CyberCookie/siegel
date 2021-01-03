@@ -395,6 +395,7 @@ const config = {
     <summary><h5>TODO</h5></summary>
     <ul>
         <li>ES modules</li>
+        <li>Typization</li>
         <li>Prebuild</li>
         <li>Save font icon to a separate file</li>
         <li>Separate styles for different media queries</li>
