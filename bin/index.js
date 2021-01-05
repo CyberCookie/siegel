@@ -8,8 +8,6 @@ const command = scriptArgs.shift()
 
 switch(command) {
     case 'run':
-        var { PATHS } = require('../cjs/constants')
-
         var config = {
             server: {},
             build: {}

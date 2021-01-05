@@ -119,7 +119,7 @@ Use various <b>npm commands</b> from new <b>package.json</b> to perform build, c
 For example:
 
 ```sh
-npm run dev
+npm start
 ```
 
 > It's tricky to initialize a project with global siegel installation since we need to define path to global node modules in tsconfig.json and .eslintrc.<br />

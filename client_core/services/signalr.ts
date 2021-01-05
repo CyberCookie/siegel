@@ -29,6 +29,9 @@ const setDefaults = (params: Partial<SignalROptions>) => {
     }
 }
 
+const isBusyStates = new Set([ HubConnectionState.Connecting, HubConnectionState.Reconnecting, HubConnectionState.Disconnecting ])
+
+
 const createSignalRConnection = (options: SignalROptions) => {
     const connectionParams = Object.assign(options, defaults)
     const { url, reconnectInterval, endpoint, transport, protocol, serverTimeout,
@@ -64,7 +67,7 @@ const createSignalRConnection = (options: SignalROptions) => {
         async runSocket(cb: () => void) {
             if (this.isAlive()) {
                 cb?.call(this)
-            } else if (nativeSocket.state === HubConnectionState.Connecting || nativeSocket.state === HubConnectionState.Reconnecting) {
+            } else if (isBusyStates.has(nativeSocket.state)) {
                 setTimeout(() => { this.runSocket(cb) }, 800)
             } else {
                 try {

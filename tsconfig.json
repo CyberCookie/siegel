@@ -6,5 +6,5 @@
 		"jsx": "react",
 		"baseUrl": "."
 	},
-	"include": [ "client_core", "demo_app/client" ]
+	"include": [ "client_core" ]
 }

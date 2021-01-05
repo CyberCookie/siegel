@@ -4,7 +4,7 @@
 
 
 <br />
-<h3>bin.js</h3>
+<h3>index.js</h3>
 <p>
     Bin file that normally executes when you call siegel globally. All the scripts bellow could be called via bin.<br />
     Run this script without parameters to get information about commands and arguments it accepts.
