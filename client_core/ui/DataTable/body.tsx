@@ -109,7 +109,7 @@ function getBody(props: MergedProps, state: State) {
     }
 
 
-    let from, to;
+    let from: number, to: number;
     if (withPagination) {
         const maxPages = Math.ceil(processedList.length / showPerPage) || 1
         currentPage > maxPages && (state.currentPage = maxPages)
@@ -127,8 +127,15 @@ function getBody(props: MergedProps, state: State) {
         const entityID = processedList[i]
         if (!isE(entityID)) break;
 
-        let itemToPush = getEntityRow(entityID, i)
-        postProcessBodyRow && (itemToPush = postProcessBodyRow(itemToPush, byID[entityID], i))
+        let itemToPush: ReturnType<typeof postProcessBodyRow> = getEntityRow(entityID, i)
+        if (postProcessBodyRow) {
+            itemToPush = postProcessBodyRow(itemToPush, byID[entityID], i)
+
+            if (Array.isArray(itemToPush)) {
+                itemToPush.forEach(item => { resultList.push(item) })
+                continue
+            }
+        }
 
         resultList.push(itemToPush)
     }

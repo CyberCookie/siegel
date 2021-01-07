@@ -80,7 +80,7 @@ type Props<T extends Entities> = {
     resizable?: boolean
     postProcessHeadCell?: (cell: TableTH, columnsConfig: ColumnsConfig<T>, index: number, displayedEntityIDs: DisplayedEntityIDs) => TableTH
     postProcessHeadRow?: (rows: TableHeadRow[], displayedEntityIDs: DisplayedEntityIDs) => TableHeadRow[]
-    postProcessBodyRow?: (row: TableBodyRow, entity: ReturnType<T['get']>, index: number) => TableBodyRow
+    postProcessBodyRow?: (row: TableBodyRow, entity: ReturnType<T['get']>, index: number) => TableBodyRow | TableBodyRow[]
 } & PropsComponentThemed<ThemeKeys>
 
 
