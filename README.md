@@ -66,9 +66,8 @@ Read more about each part (build, server, ui) following the links below:
 - [Build](https://github.com/CyberCookie/siegel/tree/master/src/ui_build)
 - [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
 
-There are also two additional parts worth of mentioning (CLI, demo project):
-- [CLI commands](https://github.com/CyberCookie/siegel/tree/master/src/scripts).
-- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) - for inner tests and demo project installation.
+There is also demo_project using to initialize new project:
+- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)
 
 
 The platform is highly flexible thus allows you to use it in various ways depending on your needs.
@@ -126,7 +125,7 @@ npm start
 > This path may vary on different machines.
 
 More about demo project and its npm scripts read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app).<br />
-To print help information call siegel without arguments.
+To print help information exec siegel command without arguments.
 
 
 <br />

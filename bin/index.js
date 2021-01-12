@@ -6,6 +6,10 @@ const scriptArgs = process.argv.slice(2)
 const command = scriptArgs.shift()
 
 
+const getColoredCommandStr = str => `\x1b[36m${str}\x1b[0m`
+const getColoredCommandArgumentStr = str => `\x1b[32m${str}\x1b[0m`
+
+
 switch(command) {
     case 'run':
         var config = {
@@ -74,24 +78,34 @@ switch(command) {
     default:
         console.log(
 `
-    run - main command to perform different operations with code 
-        -p - production mode
-        -b - build mode
-        -s - server mode
-        -js - path to js entrypoint
-        -port - static server port
-        -cfg - path to siegel config 
+    ${getColoredCommandStr('run')} - Main command to perform different operations with code 
+        ${getColoredCommandArgumentStr('-p')} - production mode
+        ${getColoredCommandArgumentStr('-b')} - build mode
+        ${getColoredCommandArgumentStr('-s')} - server mode
+        ${getColoredCommandArgumentStr('-js')} - path to js entrypoint
+        ${getColoredCommandArgumentStr('-port')} - static server port
+        ${getColoredCommandArgumentStr('-cfg')} - path to siegel config 
 
         example: ... run -b -s -js ./app.ts -port 4000
+    
 
-    init - creates project template and creates or updates cwd package.json
-        -g - if siegel is installed globally
+    ${getColoredCommandStr('init')} - Creates production ready project with predefined folder structure including already configured siegel.
+           Modifies existing package.json or creates new one.
+           More about demo project read here: https://github.com/CyberCookie/siegel/tree/master/demo_app
+
+        ${getColoredCommandArgumentStr('-g')} - if siegel is installed globally
     
-    create-ssl - creates SSL files.  
+
+    ${getColoredCommandStr('create-ssl')} - Creates localhost ssl certificate to be used in NodeJS server.
+                 Also it creates authority certificate for testing purposes to be imported in a web browser.
     
-    install-peers - installs siegel's peer dependencies in a cwd package.json
+
+    ${getColoredCommandStr('install-peers')} - Installs siegel's peer dependencies in a cwd package.json (For NPM version < 7)
     
-    _hard-update - updates all the dependencies and dev dependencies in a cwd package.json
+    
+    ${getColoredCommandStr('_hard-update')} - [ WARNING! Force update may break your project dependencies ]
+                   It's the fastest way to update packages, listed in 'dependencies' and 'devDependencies' fields, to the most latest versions.
+                   Must be ran at project root level where package.json is.
 `
         )
 }

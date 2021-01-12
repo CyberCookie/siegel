@@ -66,8 +66,8 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
     <ul>
         <li>Compatible HTTP1 and HTTP2 static server</li>
         <li>SEO for crawlers (pages prebuild or build on the fly)</li>
-        <li>Clear 'any' from TS files</li>
-        <li>Isomorphic API</li>
+        <li>Typization</li>
+        <li>Isomorphic API?</li>
         <li>Implement webSocket abstraction?</li>
     </ul>
 </details>
