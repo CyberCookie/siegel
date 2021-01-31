@@ -209,7 +209,7 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
                     const nextCharPlaceholderOrderIndex = placeholdersIndexesMap[nextPlaceholderCharIndex]
 
                     for (let i = shiftEndPlacehodlerCharOrder; i >= nextCharPlaceholderOrderIndex; i--) {
-                        newValueArray [ placeholderCharsOrdered[i+1] ] = newValueArray[ placeholderCharsOrdered[i] ]
+                        newValueArray[ placeholderCharsOrdered[ i+1 ]] = newValueArray[ placeholderCharsOrdered[i] ]
                     }
                 }
 
@@ -228,9 +228,9 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
                 if (valueLength) {
                     newValueArray = maskStore.lastInputValue.split('')
                     
-                    const selectionLength = selectionStart - (prevCaretPos + (inputValue.length - pattern.length - 1))
+                    const selectionLength = selectionStart - (prevCaretPos + (inputValue.length - pattern.length))
                     if (selectionLength) {
-                        //TODO
+                        // TODO
                         return console.log('YET NOT IMPLEMENTED')
                     }
 

@@ -20,7 +20,10 @@ type StoreInitialized = HookStore<State, Actions>
 
 const initState: State = {
     requests: {},
-    errRes: {}
+    errRes: {},
+
+    //TODO
+    // lastError: {}
 }
 
 
