@@ -26,6 +26,7 @@ type Props = {
     minInputLength?: number
     payload?: any
     showOnFocus?: boolean
+    showAll?: boolean
     selected?: ID
 } & PropsComponentThemed<ThemeKeys> & Omit<InputProps, 'theme' | 'type' | 'value' | 'attributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange'>
 

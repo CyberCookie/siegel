@@ -1,5 +1,3 @@
-//TODO: masks
-
 import React, { useRef, useEffect, useState } from 'react'
 
 import { extractProps } from '../../ui_utils'
@@ -32,7 +30,7 @@ const Input: _Input = (props, noDefaults) => {
         :   (props as _Input['defaults'] & typeof props)
     
     const { theme, label, value, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
-        onChange, onFocus, payload, inputStore, autofocus, placeholder, regexp } = mergedProps;
+        onChange, onFocus, payload, inputStore, autofocus, placeholder, regexp, mask } = mergedProps;
     
     const store = inputStore || useState(getDefaultInputStoreState())
     const [ state, setState ] = store;
@@ -43,10 +41,10 @@ const Input: _Input = (props, noDefaults) => {
         disabled, value, placeholder,
         className: theme.field
     }
-    if (autofocus) {
+    if (autofocus || mask) {
         inputProps.ref = useRef<HTMLInputElement>(null)
         
-        useEffect(() => {
+        autofocus && useEffect(() => {
             disabled || ((inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus())
         }, [ disabled ])
     }
@@ -74,9 +72,8 @@ const Input: _Input = (props, noDefaults) => {
 
     
 
-    if (disabled) {
-        inputRootProps.className += ` ${theme._disabled}`
-    } else {
+    if (disabled) inputRootProps.className += ` ${theme._disabled}`
+    else {
         inputRootProps.onFocus = e => {
             if (!isFocused) {
                 state.isFocused = true;
@@ -89,9 +86,7 @@ const Input: _Input = (props, noDefaults) => {
         if (onChange) {
             inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                 const value = e.target.value;
-                if (!regexp || regexp.test(value)) {
-                    onChange(e.target.value, e, payload)
-                }
+                (!regexp || regexp.test(value)) && onChange(value, e, payload)
             }
         } else inputProps.readOnly = true
     }
@@ -102,15 +97,14 @@ const Input: _Input = (props, noDefaults) => {
         if (type == 'textarea') {
             InputTag = type
             inputRootProps.className += ` ${theme.textarea}`
-        } else {
-            inputProps.type = type
-        }
+        } else inputProps.type = type
     }
     
 
     attributes && Object.assign(inputRootProps, attributes)
     inputAttributes && Object.assign(inputProps, inputAttributes)
 
+    mask && mask.processor(mask, inputProps)
 
     let inputElement = <InputTag {...inputProps} />
     label && (inputElement = getInputLabeled(

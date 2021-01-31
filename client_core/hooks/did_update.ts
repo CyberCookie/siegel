@@ -1,18 +1,20 @@
 import { useLayoutEffect, useState } from 'react'
 
 
+type EffectCB = Parameters<typeof useLayoutEffect>[0]
+
 function useDidUpdate(
-    fn: () => void,
-    dependencies: React.DependencyList,
-    retFn: () => void
+    fn: EffectCB,
+    dependencies: React.DependencyList
 ) {
     const state = useState({ rendered: false })[0]
     useLayoutEffect(() => {
-        state.rendered
-            ?   fn()
-            :   (state.rendered = true)
+        let retFn: ReturnType<EffectCB>
+        
+        if (state.rendered) retFn = fn() as ReturnType<EffectCB>
+        else state.rendered = true;
  
-        if (retFn) return () => retFn()
+        if (retFn) return retFn
     }, dependencies)
 }
 

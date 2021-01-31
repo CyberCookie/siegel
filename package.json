@@ -1,14 +1,16 @@
 {
     "name": "siegel",
-    "version": "0.8.3",
+    "version": "0.8.4",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
     "description": "Web application development ecosystem",
     "keywords": [
         "web",
-        "create app",
         "web application",
+        "create app",
+        "cra",
+        "create react app",
         "typescript",
         "react",
         "reactjs",
@@ -20,8 +22,8 @@
         "platform",
         "skeleton",
         "frame",
-        "siegel",
-        "ecosystem"
+        "ecosystem",
+        "siegel"
     ],
     "license": "MIT",
     "publishConfig": {

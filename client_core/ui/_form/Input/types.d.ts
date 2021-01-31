@@ -26,12 +26,23 @@ type Props = {
     autofocus?: boolean
     placeholder?: string
     attributes?: ComponentAttributes
-    inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+    inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>> & { value: Props['value'] }
     label?: React.ReactNode
     errorMsg?: React.ReactNode
     type?: 'input' | 'textarea' | 'password'
     payload?: any
     regexp?: RegExp
+    mask?: {
+        pattern: string
+        patternValueChar: string
+        processor: (
+            mask: Omit<NonNullable<Props['mask']>, 'processor'>,
+            inputFieldAttr: Props['inputAttributes']// & { ref: React.MutableRefObject<HTMLInputElement> }
+        ) => void
+        valuePlaceholderChar?: string
+        shiftNextValue?: boolean
+        copyMask?: boolean
+    }
     onBlur?: (e: React.FocusEvent<HTMLDivElement>) => any
     onChange?: (value: string, e: React.ChangeEvent<HTMLInputElement>, payload?: any) => any
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void

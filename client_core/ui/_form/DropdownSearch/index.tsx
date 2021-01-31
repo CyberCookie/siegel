@@ -13,7 +13,7 @@ import styles from './styles.sass'
 
 const componentID = '-ui-dropdown_search'
 
-function getSearchOptions({ onChange, searchOptions, theme, selected }: MergedProps, store: Store) {
+function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }: MergedProps, store: Store) {
     const [{ searchString }, setState ] = store;
     const searchLower = searchString && searchString.toLowerCase()
 
@@ -21,7 +21,7 @@ function getSearchOptions({ onChange, searchOptions, theme, selected }: MergedPr
     for (const id in searchOptions) {
         const { title, value, className } = searchOptions[id]
         
-        const canPush = !searchLower || value.toLowerCase().includes(searchLower)
+        const canPush = showAll || (!searchLower || value.toLowerCase().includes(searchLower))
         
 
         if (canPush) {

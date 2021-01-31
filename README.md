@@ -63,12 +63,12 @@ Siegel is a website development platform that provides an easy way to build and 
 
 Read more about each part (build, server, ui) following the links below:
 - [UI](https://github.com/CyberCookie/siegel/tree/master/client_core)
-- [Build](https://github.com/CyberCookie/siegel/tree/master/src/ui_build)
+- [Build](https://github.com/CyberCookie/siegel/tree/master/src/client_build)
 - [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
 
-There is also demo_project using to initialize new project:
-- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)
+There is also [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) using to initialize a new project.
 
+<br />
 
 The platform is highly flexible thus allows you to use it in various ways depending on your needs.
 All the approaches are described further.
@@ -180,14 +180,14 @@ require('siegel')('/path/to/js_entry.js')
 </h4>
 <br />
 
-[->> Build configuration](https://github.com/CyberCookie/siegel/tree/master/src/ui_build)<br />
+[->> Build configuration](https://github.com/CyberCookie/siegel/tree/master/src/client_build)<br />
 [->> Server configuration](https://github.com/CyberCookie/siegel/tree/master/src/server)
 
 ```js
 {   
     /*
         Affects both server(as public dir to be served),
-        and ui_build(as webpack output folder).
+        and client_build(as webpack output folder).
         Default is: path.join(process.cwd(), 'dist')
     */
     staticDir: String,

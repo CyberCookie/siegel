@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/_form/Input/types'
+import maskProcessor from 'siegel-ui/_form/Input/mask_processor'
+import type { Props } from 'siegel-ui/_form/Input/types'
 
 import { icons, Input } from 'app/components'
 
@@ -31,6 +32,15 @@ const Demo = () => {
         
         <h2>textfield</h2>
         <Input {...props} label='text field' type='textarea' />
+
+        <h2>With mask and number regexp validation</h2>
+        <Input {...props} regexp={/^\d*$/}
+            mask={{
+                processor: maskProcessor,
+                pattern: '== (****) ** - ** - ** ==',
+                patternValueChar: '*',
+                valuePlaceholderChar: '_'
+            }} />
 
         <h2>disabled</h2>
         <Input {...props} disabled />

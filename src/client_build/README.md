@@ -1,4 +1,4 @@
-<h1>ui_build</h1>
+<h1>client_build</h1>
 
 <p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares that are used in express static server.</p>
 
@@ -128,7 +128,7 @@ Every plugin, that's already included, has its own `plugin key`.
 To extend default plugins or instances you should use `plugin keys` or `instance keys`
 
 ```js
-const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/src/ui_build/constants')
+const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/src/client_build/constants')
 
 {
     plugins: {
@@ -198,7 +198,7 @@ Loaders that this build is use by default. Each loader has its own `loader key` 
 To extend default modules you should operate with `loader keys` and with `regExp parts` to math the file extensions:
 
 ```js
-const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/ui_build/constants')
+const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/client_build/constants')
 
 {
     modules: {
@@ -293,10 +293,10 @@ The only purpose of this plugin is to place an array of build output assets into
 <b>siegel config</b>
 
 ```js
-const { pluginsKeysMap } = require('siegel/src/ui_build/constants')
+const { pluginsKeysMap } = require('siegel/src/client_build/constants')
 
 {
-    // ...ui_build config,
+    // ...client_build config,
 
     plugins: {
         [pluginsKeysMap.sw]: {
@@ -361,7 +361,7 @@ Output:
 
 There are twho options you can pass to the plugin:
 ```js
-const { loadersKeyMap, webpackModulesRegExp } = require('../../src/ui_build/constants')
+const { loadersKeyMap, webpackModulesRegExp } = require('../../src/client_build/constants')
 
 const config = {
     // ...siegel config

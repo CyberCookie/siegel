@@ -11,7 +11,7 @@ const docsList = [
     { path: 'README.md', title: 'Siegel' },
     { path: 'demo_app/README.md', title: 'Demo app' },
     { path: 'client_core/README.md', title: 'UI core' },
-    { path: 'src/ui_build/README.md', title: 'Webpack build' },
+    { path: 'src/client_build/README.md', title: 'Webpack build' },
     { path: 'src/server/README.md', title: 'Server' }
 ].map(({ path, title }) => (
     <li key={path}>

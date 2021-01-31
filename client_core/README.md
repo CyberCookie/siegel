@@ -24,21 +24,53 @@ Wrapper around FetchAPI with more convinient interface to make your request easi
 import request from 'siegel-services/request'
 
 request({
-    url: 'someurl.com',
-    method: 'PUT', // GET by default. Or POST if you pass body data.
+    /*
+        request URL.
+        Can include url params: someurl.com/:param1/:param2
+    */
+    url: 'someurl.com', 
+
+    /*
+        request method.
+        GET is by default.
+        If body is using then POST is default
+    */
+    method: 'PUT',
+
+    /* Request body */
     body: {
         some: 'data'
     },
+
+    /* URL params that will be included in URL */
+    params: {
+        param1: 'paramValue1',
+        param2: 'paramValue2'
+    },
+
+    /*
+        Query params.
+        Can also be a string 
+    */
     query: {
         param1: 42,
         param2: 'some param'
     },
+
+    /* Request headers */
     headers: {
         auth: 'token',
         contentType: 'application/json'
     },
+
+    /* fetch credentials setup */
     credentials: 'same-origin',
-    parseMethod: 'json' // method to be executed on response to retrieve actual data. By default request service sets this prop regarding to response content type
+
+    /*
+        Method to be executed on response to retrieve actual data.
+        By default request service sets this prop regarding to response content type.
+    */
+    parseMethod: 'json'
 })
 ```
 
@@ -72,13 +104,12 @@ setup({
 
 <hr />
 
-<h2>Hooks</h2>
+<h2>Custom hooks</h2>
 <details>
 <summary><b>useDidUpdate</b></summary>
-Hook to check whether some props have been changed. Works like <b>componenDidUpdate</b>.<br />
-Signature is next: <b>componenDidUpdate( didUpdateCallback, dependencies, willUnmountCallback, ref = useRef(true) )</b>
+Hook to check whether some props have been changed.<br />
+It has the same signature as useEffect / useLayoutEffect hooks.
 
-Example:<br />
 
 ``` js
 import React from 'react'
@@ -86,12 +117,10 @@ import useDidUpdate from 'siegel-hooks/did_update'
 
 
 const Component = props => {
-    useDidUpdate(
-        () => { console.log('props have been updated') },
-        [ props.propToWatch1, props.propToWatch2 ],
-        () => { console.log('component will unmount') }
-    )
-    
+    useDidUpdate(() => {
+        console.log('props have been updated')
+        return () => { console.log('component will unmount') }
+    }, [ props.propToWatch1, props.propToWatch2 ])
     ...
 }
 ```
@@ -405,10 +434,10 @@ Iterates through array in range. Execs callback on each iteration step. Breaks a
     Accepts 4 parameters:
     <li>array - aray to iterate throug.</li>
     <li>
-        callback - function to xecute on each step. Has 2 arguments: array element and index. Return true if you want to break a loop
+        callback - function to xecute on each step. Has 2 arguments: array element and index. Return true if you want to break a loop.
     </li>
-    <li>from - index to start from.</li>
-    <li>to  - index to iterate to.</li>
+    <li>from - index to start from. By default iterates from the beginning.</li>
+    <li>to  - index to iterate to. By default iterates to the end.</li>
 </ul>
 
 ```js

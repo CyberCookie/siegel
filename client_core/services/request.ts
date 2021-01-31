@@ -1,5 +1,5 @@
 type FetchParams = {
-    url: RequestInfo
+    url: string
     options: RequestInit
 }
 
@@ -17,9 +17,10 @@ type SetupFnParams = {
 } & Indexable
 
 type RequestParams = {
-    url: RequestInfo
+    url: string
     isFullRes?: boolean
     parseMethod?: string
+    params?: Indexable<string>
     query?: string | string[][] | Record<string, string> | URLSearchParams
     headers?: Indexable
     credentials?: RequestInit['credentials']
@@ -37,8 +38,8 @@ const defaultSetup: SetupFnParams = {}
 
 
 function extractRequestData(request: RequestParams) {
-    const { query, headers, body, credentials, signal } = request;
-    let { url } = request;
+    const { url, query, params, headers, body, credentials, signal } = request;
+    let fetchURL = url as string;
 
     const options: RequestInit = { method: request.method }
 
@@ -49,12 +50,15 @@ function extractRequestData(request: RequestParams) {
     }
     options.method ||= 'GET'
 
+    if (params) {
+        for (const param in params) fetchURL = fetchURL.replace(':' + param, params[param])
+    }
     if (query) {
         const queryToAdd = typeof query == 'string'
             ?   query
             :   `?${(new URLSearchParams(query)).toString()}`
 
-        url += queryToAdd
+        fetchURL += queryToAdd
     }
     
     credentials && (options.credentials = credentials)
@@ -62,9 +66,11 @@ function extractRequestData(request: RequestParams) {
     signal && (options.signal = signal)
     
     
-    const fetchParams = { url, options }
-
-    return fetchParams
+    return {
+        initialURL: url,
+        url: fetchURL,
+        options
+    }
 }
 
 
@@ -98,6 +104,7 @@ async function makeRequest(req: RequestParams) {
     const { afterRequest, errorHandler } = defaultSetup;
 
     const reqData = extractRequestData(req)
+
 
     try {
         const res = await fetch(reqData.url, reqData.options)
