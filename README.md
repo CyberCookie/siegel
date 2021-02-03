@@ -100,7 +100,7 @@ Exec the next command to build the file (<b>-b</b>) and to host it (<b>-s</b>) u
 siegel run -b -s -js ./app.ts
 ```
 
-And that's it! Building a React app from scratch with all the necessary development infrastructure has never been easier!<br />
+And that's it! <b>Building a React app from scratch with all the necessary development infrastructure has never been easier!</b><br />
 Now you can open <b>localhost:3000</b> to observe the result!<br />
 
 

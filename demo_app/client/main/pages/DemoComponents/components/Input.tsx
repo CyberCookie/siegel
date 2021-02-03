@@ -20,7 +20,7 @@ const Demo = () => {
     return <>
         <h1>{Input.ID}</h1>
 
-        {/* <h2>simple</h2>
+        <h2>simple</h2>
         <Input {...props} />
 
         <h2>with error, label and extra content as icon, autofocus</h2>
@@ -31,7 +31,7 @@ const Demo = () => {
             label='some_label' />
         
         <h2>textfield</h2>
-        <Input {...props} label='text field' type='textarea' /> */}
+        <Input {...props} label='text field' type='textarea' />
 
         <h2>With mask and number regexp validation</h2>
         <Input {...props} regexp={/^\d*$/}
@@ -42,16 +42,8 @@ const Demo = () => {
                 valuePlaceholderChar: '_'
             }} />
         
-        {/* <Input {...props} regexp={/^\d*$/}
-            mask={{
-                processor: maskProcessor,
-                pattern: '****) ** - ** - **',
-                patternValueChar: '*',
-                valuePlaceholderChar: '_'
-            }} /> */}
-
-        {/* <h2>disabled</h2>
-        <Input {...props} disabled /> */}
+        <h2>disabled</h2>
+        <Input {...props} disabled />
     </>
 }
 Demo.id = Input.ID;
