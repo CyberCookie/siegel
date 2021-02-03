@@ -40,7 +40,7 @@ type Props = {
             inputFieldAttr: Props['inputAttributes']// & { ref: React.MutableRefObject<HTMLInputElement> }
         ) => void
         valuePlaceholderChar?: string
-        shiftNextValue?: boolean
+        shiftNextChar?: boolean
         copyMask?: boolean
     }
     onBlur?: (e: React.FocusEvent<HTMLDivElement>) => any

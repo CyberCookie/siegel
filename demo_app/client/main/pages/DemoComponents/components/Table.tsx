@@ -6,6 +6,7 @@ import { Table } from 'app/components'
 
 const Demo = () => {
     const props: Props = {
+        caption: 'Some table',
         head: [{
             children: [
                 { value: 'head cell 1' },

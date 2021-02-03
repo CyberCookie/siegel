@@ -30,6 +30,7 @@ type Props = {
     head?: TableHeadRow[]
     body?: TableBodyRow[]
     foot?: TableBodyRow[]
+    caption?: React.ReactNode
     attributes?: ComponentAttributes<HTMLTableElement, React.TableHTMLAttributes<HTMLTableElement>>
 } & PropsComponentBase
 

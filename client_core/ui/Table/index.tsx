@@ -29,7 +29,7 @@ function getTableSection(data: (TableHeadRow | TableBodyRow)[], SectionHTMLTag: 
 }
 
 const Table: _Table = (props, noDefaults) => {
-    const { className, head, body, foot, attributes } = noDefaults
+    const { className, head, body, foot, attributes, caption } = noDefaults
         ?   extractProps(Table.defaults, props)
         :   (props as _Table['defaults'] & typeof props)
     
@@ -39,6 +39,8 @@ const Table: _Table = (props, noDefaults) => {
     
     return (
         <table {...tableRootProps}>
+            { caption && <caption children={caption} /> }
+
             { head && getTableSection(head, 'thead') }
             { body && getTableSection(body, 'tbody') }
             { foot && getTableSection(foot, 'tfoot') }
