@@ -1,7 +1,10 @@
 import { lazy } from 'react'
+import { createBrowserHistory } from 'history'
 import seo from 'siegel-utils/seo'
 import type { RouterConfig } from 'siegel-router'
 
+
+const history = createBrowserHistory()
 
 const pagePathMap = {
     home: '',
@@ -45,5 +48,5 @@ const routerConfig: RouterConfig = {
 }
 
 
-export { pagePathMap }
+export { pagePathMap, history }
 export default routerConfig

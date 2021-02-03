@@ -1,3 +1,7 @@
+//TODO add year switcher
+//TODO add day postprocess hook
+//TODO don't finish range selection when switch month / year
+
 import React, { useRef, useState } from 'react'
 
 import { dateLocales } from '../../../utils/date/consts'

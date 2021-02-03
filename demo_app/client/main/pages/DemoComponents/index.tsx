@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
+import updateURLQuery from 'siegel-utils/query_update'
 
+import { history } from 'app/routes'
 import * as demoComponents from './components'
 
 import styles from './styles.sass'
@@ -14,15 +16,22 @@ type SidebarItemProps = {
 
 const _demoComponents: Indexable = demoComponents;
 
+const hashParam = 'active'
+
 const DemoPage = () => {
-    const [ active, setActive ] = useState('')
+    const [ active, setActive ] = useState(
+        useMemo(() => (new URLSearchParams(window.location.search)).get(hashParam), [])
+    )
 
     const componentsList = []
     for (const component in demoComponents) {
         const props: SidebarItemProps = {
             key: component,
             children: _demoComponents[component].id,
-            onMouseDown() { setActive(component) }
+            onMouseDown() {
+                updateURLQuery(history, hashParam, component) 
+                setActive(component)
+            }
         }
         component == active && (props.className = styles.active)
         

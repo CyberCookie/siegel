@@ -2,7 +2,7 @@ import { render } from 'react-dom'
 import createRouter from 'siegel-router'
 import { setup as requestServiceSetup, RequestParams } from 'siegel-services/request'
 
-import routes from 'app/routes'
+import routes, { history } from 'app/routes'
 import Layout from 'app/Layout'
 
 import './styles'
@@ -27,7 +27,7 @@ if (rootComponent) {
 
 
     render(
-        createRouter({ routes, Layout }),
+        createRouter({ routes, Layout, history }),
         rootComponent
     )
 

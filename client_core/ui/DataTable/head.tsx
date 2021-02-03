@@ -1,5 +1,3 @@
-//TODO: resizable handler for user added head colls
-
 import React from 'react'
 
 import componentID from './id'
