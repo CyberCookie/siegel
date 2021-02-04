@@ -85,11 +85,8 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
 
         let newValue = ''
         for (let i = 0, l = placeholderCharsOrdered.length; i < l; i++) {
-            const index = placeholderCharsOrdered[i]
-            const finalCharToAdd = newValueArray[index]
-
-            if (finalCharToAdd != valuePlaceholderChar) newValue += finalCharToAdd;
-            else break
+            const finalCharToAdd = newValueArray[ placeholderCharsOrdered[i] ]
+            finalCharToAdd != valuePlaceholderChar && (newValue += finalCharToAdd)
         }
 
         (e.target as HTMLInputElement).value = newValue;
@@ -139,6 +136,7 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
         }
 
 
+
         if (isE(LAST_FILLED_INDEX)) {
             if (LAST_FILLED_INDEX < prevCaretPos && prevCaretPos <= LAST_PLACEHOLDER_INDEX) pasteAll()
             else {
@@ -158,7 +156,7 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
                         newValueArray[ placeholderCharsOrdered[ i + pasteLength ]] = newValue[ placeholderCharsOrdered[i] ]
                     }
                 }
-                
+
                 pasteAll(pasteLength, beforeCaretCharCount)
             }
         } else pasteAll()
@@ -235,7 +233,7 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
                         else {
                             const { prevFilled, isFilled } = placeholdersIndexesMap[selectionStart]
                             let newPrevFilled, indexToReplace;
-
+                            
                             if (isFilled) {
                                 newPrevFilled = prevFilled;
                                 indexToReplace = selectionStart
