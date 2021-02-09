@@ -9,23 +9,31 @@ type ClipboardEvent = React.ClipboardEvent<HTMLInputElement>
 type ChangeEvent = React.ChangeEvent<HTMLInputElement>
 type MaskCharData = {
     index?: number
-    prev?: number
+    // prev?: number
     prevFilled?: number
     next?: number
     nextFilled?: number
     isFilled?: boolean
 }
 
+type MaskProcessor = Props['mask']['processor']
+
+
+const INSERT_TEXT = 'insertText'
+const INSERT_PASTE = 'insertFromPaste'
+const DELETE_BACKWARD = 'deleteContentBackward'
+const DELETE_FORWARD = 'deleteContentForward'
+
 
 const setCaretPos = (input: HTMLInputElement, caretPos: number) => setTimeout(() => { input.setSelectionRange(caretPos, caretPos) })
 
-const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
-    const { patternValueChar, valuePlaceholderChar = ' ', shiftNextChar = true, copyMask, pattern } = mask;
-    const { value, ref, onChange, onFocus, onCopy, onPaste } = _inputAttr;
-    const valueLength = value.length;
-
+function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Props['value']) {
+    const { pattern, patternValueChar, valuePlaceholderChar } = mask;
+    
     const placeholdersIndexesMap: Indexable<MaskCharData> = {}
     const placeholderCharsOrdered: number[] = []
+
+    let maxLength = 0
 
     let FIRST_EMPTY_PLACEHOLDER_INDEX: number;
     // let FIRST_FILLED_INDEX: number;
@@ -34,15 +42,15 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
     let newValue = ''
     for (let i = 0, k = 0, l = pattern.length; i < l; i++) {
         const maskChar = pattern[i]
-        const placeholdersLength = placeholderCharsOrdered.length;
-
         const charData: MaskCharData = {}
+        // const placeholdersLength = maxLength;
+
         isE(LAST_FILLED_INDEX) && (charData.prevFilled = LAST_FILLED_INDEX)
         
         if (maskChar === patternValueChar) {
-            charData.index = placeholdersLength;
-            placeholderCharsOrdered.push(i)
-            
+            charData.index = maxLength;
+            maxLength = placeholderCharsOrdered.push(i)
+
             if (isE(value[k])) {
                 charData.isFilled = true;
                 newValue += value[k]
@@ -56,12 +64,12 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
             }
         } else newValue += maskChar;
         
-        placeholdersLength && (charData.prev = placeholderCharsOrdered[ placeholdersLength - 1 ])
+        // maxLength && (charData.prev = placeholderCharsOrdered[ maxLength - 1 ])
         placeholdersIndexesMap[i] = charData
     }
     
     const FIRST_PLACEHOLDER_INDEX = placeholderCharsOrdered[0]
-    const LAST_PLACEHOLDER_INDEX = placeholderCharsOrdered[ placeholderCharsOrdered.length - 1 ]
+    const LAST_PLACEHOLDER_INDEX = placeholderCharsOrdered[ maxLength - 1 ]
     // const LAST_EMPTY_PLACEHOLDER_INDEX = placeholderCharsOrdered[ valueLength ]
     
     let nextFilled, next;
@@ -77,176 +85,201 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
         }
     }
 
+    return {
+        newValue, placeholdersIndexesMap, placeholderCharsOrdered, maxLength,
+        FIRST_PLACEHOLDER_INDEX, LAST_PLACEHOLDER_INDEX, FIRST_EMPTY_PLACEHOLDER_INDEX, LAST_FILLED_INDEX
+    }
+}
+
+
+const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
+    const { valuePlaceholderChar = ' ', shiftNextChar = true, copyMask, pattern } = mask;
+    const { value, ref, onChange, onFocus, onCopy, onPaste } = _inputAttr;
+    const valueLength = value.length;
+
+    const {
+        newValue, placeholdersIndexesMap, placeholderCharsOrdered, maxLength,
+        FIRST_PLACEHOLDER_INDEX, LAST_PLACEHOLDER_INDEX, FIRST_EMPTY_PLACEHOLDER_INDEX, LAST_FILLED_INDEX
+    } = extractMaskData(mask, value)
+
     _inputAttr.value = newValue;
 
 
-    function updateInputData(e: ClipboardEvent | ChangeEvent, newValueArray: string[], newCaretPos?: number) {
+    function updateInputData(e: ClipboardEvent | ChangeEvent, newValueArray: string[], newCaretPos: number) {
         maskStore.caretPos = newCaretPos;
 
         let newValue = ''
-        for (let i = 0, l = placeholderCharsOrdered.length; i < l; i++) {
-            const finalCharToAdd = newValueArray[ placeholderCharsOrdered[i] ]
-            finalCharToAdd != valuePlaceholderChar && (newValue += finalCharToAdd)
+        if (newValueArray.length) {
+            for (let i = 0; i < maxLength; i++) {
+                const charToAdd = newValueArray[ placeholderCharsOrdered[i] ]
+                charToAdd != valuePlaceholderChar && (newValue += charToAdd)
+            }
         }
 
         (e.target as HTMLInputElement).value = newValue;
         onChange(e as ChangeEvent)
     }
     
+    function shiftRight(valueArray: string[], startingFromIndex: number, count = 1) {
+        const decrementFromIndex = LAST_FILLED_INDEX == LAST_PLACEHOLDER_INDEX
+            ?   maxLength - 2
+            :   placeholdersIndexesMap[ LAST_FILLED_INDEX ].index;
 
-    copyMask || (_inputAttr.onCopy = (e: ClipboardEvent) => {
+        for (let i = decrementFromIndex + count - 1; i >= startingFromIndex; i--) {
+            valueArray[ placeholderCharsOrdered[ i + count ]] = valueArray[ placeholderCharsOrdered[i] ]
+        }
+    }
+
+    function insert(e: ClipboardEvent | ChangeEvent, startingFrom: number, data: string, updatedValueArray?: string[]) {
+        const hasNextChars = isE(LAST_FILLED_INDEX) && startingFrom <= LAST_FILLED_INDEX;
+        const hasEmpty = isE(FIRST_EMPTY_PLACEHOLDER_INDEX)
+
+        if (hasNextChars || hasEmpty) {
+            const valueArray = updatedValueArray || maskStore.lastInputValue.split('')
+            const dataLength = data.length;
+
+            let startingFromIndex = valueLength;
+            if (hasNextChars) {
+                const { index, next } = placeholdersIndexesMap[ startingFrom ]
+                startingFromIndex = isE(index) ? index : placeholdersIndexesMap[ next ].index;
+
+                if (shiftNextChar && (startingFromIndex + dataLength < maxLength)) {
+                    shiftRight(valueArray, startingFromIndex, dataLength)
+                }
+            }
+            
+            const freeSpace = maxLength - startingFromIndex;
+            const insertLength = dataLength > freeSpace ? freeSpace : dataLength;
+    
+            for (let k = 0, i = startingFromIndex; k < insertLength; k++, i++) {
+                valueArray[ placeholderCharsOrdered[ i ]] = data[k]
+            }
+            
+    
+            const newLastFilledIndex = placeholderCharsOrdered[ insertLength + startingFromIndex - 1 ]
+            const { next } = placeholdersIndexesMap[ newLastFilledIndex ]
+            const newCaretPos = isE(next) ? next : newLastFilledIndex + 1
+    
+
+            updateInputData(e, valueArray, newCaretPos)
+        } else setCaretPos((ref as Ref).current, LAST_FILLED_INDEX + 1)
+    }
+
+    function replace(e: ChangeEvent | ClipboardEvent, startingFrom: number, count: number, data = '') {
+        let startingFromIndex;
+        const { isFilled, index, next } = placeholdersIndexesMap[startingFrom]
+
+        if (isFilled) startingFromIndex = index;
+        else if (isE(next)) startingFromIndex = placeholdersIndexesMap[next].index;
+
+
+        if (isE(startingFromIndex)) {
+            const valueArray = maskStore.lastInputValue.split('')
+            const selectRangeEnd = startingFrom + count;
+            const insertDataLength = data.length;
+                        
+            let nextCaretPos = startingFrom < FIRST_PLACEHOLDER_INDEX ? FIRST_PLACEHOLDER_INDEX : startingFrom;
+            let insertedCharsCount = 0
+
+
+            for (let i = startingFromIndex; i < maxLength; i++) {
+                const valueIndex = placeholderCharsOrdered[i]
+
+                if (valueIndex < selectRangeEnd) {
+                    const dataChar = data[insertedCharsCount]
+                    valueArray[valueIndex] = dataChar || valuePlaceholderChar;
+                    
+                    if (dataChar) {
+                        insertedCharsCount++
+                        nextCaretPos = placeholdersIndexesMap[valueIndex].next || (valueIndex + 1)
+                    }
+                } else break
+            }
+
+            shiftNextChar && insertedCharsCount < insertDataLength && !placeholdersIndexesMap[ LAST_PLACEHOLDER_INDEX ].isFilled
+                ?   insert(e, nextCaretPos, data.substr(insertedCharsCount), valueArray)
+                :   updateInputData(e, valueArray, nextCaretPos)
+        } else setCaretPos((ref as Ref).current, FIRST_PLACEHOLDER_INDEX)
+    }
+
+
+    copyMask || (_inputAttr.onCopy = e => {
         const { selectionStart, selectionEnd } = (e.target as HTMLInputElement)
+        const { isFilled, nextFilled } = placeholdersIndexesMap[selectionStart]
+
         const valueArray = maskStore.lastInputValue.split('')
 
-        let valueToCopy = ''
-        for (let i = selectionStart; i < selectionEnd; i++) {
-            placeholdersIndexesMap[i].isFilled && (valueToCopy += valueArray[i])
+        let valueToCopy = isFilled ? valueArray[selectionStart] : ''
+        for (let i = nextFilled; i < selectionEnd && isE(i); i = placeholdersIndexesMap[i].nextFilled) {
+            valueToCopy += valueArray[i]
         }
-
-        window.navigator.clipboard.writeText(valueToCopy)
-
+        valueToCopy && window.navigator.clipboard.writeText(valueToCopy)
+        
         onCopy && onCopy(e)
     })
 
-    _inputAttr.onPaste = (e: ClipboardEvent) => {
-        const { selectionStart: prevCaretPos, selectionEnd } = (e.target as HTMLInputElement)
+    _inputAttr.onPaste = e => {
+        const { selectionStart, selectionEnd } = (e.target as HTMLInputElement)
+        const dataToPaste = e.clipboardData.getData('text')
+        const selectionRange = selectionStart - selectionEnd
         
-        if (selectionEnd - prevCaretPos > 0) {
-            //TODO
-            return console.log('YET NOT IMPLEMENTED')
-        }
+        selectionRange
+            ?   replace(e, selectionStart, Math.abs(selectionRange), dataToPaste)
+            :   insert(e, selectionStart, dataToPaste)
         
-        const maxLength = placeholderCharsOrdered.length;
-        const newValueArray = maskStore.lastInputValue.split('')
-
-        const pasteData = e.clipboardData.getData('text').split('')
-        let pasteLength = pasteData.length;
-
-
-        function pasteAll(freeSpace = maxLength - valueLength, from = valueLength) {
-            pasteLength > freeSpace && (pasteLength = freeSpace)
-            
-            for (let i = 0; i < pasteLength; i++) {
-                newValueArray[ placeholderCharsOrdered[ i + from ]] = pasteData[i]
-            }
-            
-            const newCaretPos = placeholderCharsOrdered[ pasteLength + from ]
-
-            updateInputData(e, newValueArray, newCaretPos)
-        }
-
-
-
-        if (isE(LAST_FILLED_INDEX)) {
-            if (LAST_FILLED_INDEX < prevCaretPos && prevCaretPos <= LAST_PLACEHOLDER_INDEX) pasteAll()
-            else {
-                const prevPlaceholder = placeholdersIndexesMap[ placeholdersIndexesMap[prevCaretPos].prev ]
-                const beforeCaretCharCount = isE(prevPlaceholder) ? prevPlaceholder.index + 1 : 0
-                const afterCaretPlaceholdersCount = maxLength - beforeCaretCharCount;
-                
-                if (shiftNextChar && afterCaretPlaceholdersCount > pasteLength) {
-                    let decrementFrom = placeholdersIndexesMap[ LAST_FILLED_INDEX ].index;
-
-                    const lastFilledPos = placeholdersIndexesMap[ LAST_FILLED_INDEX ].index + 1
-                    const overflow = (lastFilledPos + pasteLength) - maxLength;
-
-                    overflow > 1 && (decrementFrom -= overflow)
-                    
-                    for (let i = decrementFrom, l = beforeCaretCharCount; i >= l; i--) {
-                        newValueArray[ placeholderCharsOrdered[ i + pasteLength ]] = newValue[ placeholderCharsOrdered[i] ]
-                    }
-                }
-
-                pasteAll(pasteLength, beforeCaretCharCount)
-            }
-        } else pasteAll()
-
         onPaste && onPaste(e)
     }
 
-    _inputAttr.onChange = (e: ChangeEvent) => {
+    //TODO history
+    // _inputAttr.onKeyDown = e => {
+    //     console.log(e.nativeEvent)
+    // }
+
+    _inputAttr.onChange = e => {
         const inputType = (e.nativeEvent as InputEvent).inputType;
-        if (inputType == 'insertFromPaste') return;
-        
+        if (inputType == INSERT_PASTE) return;
+
         const { selectionStart, value: inputValue } = e.target;
+        const inputLength = inputValue.length;
+        if (!inputLength) return updateInputData(e, [], FIRST_PLACEHOLDER_INDEX)
+
+        let removedChars = pattern.length - inputLength;
         let nextCaretPos;
-        let newValueArray: string[];
 
-        if (inputType == 'insertText') {
-            newValueArray = maskStore.lastInputValue.split('')
-
+        
+        if (inputType == INSERT_TEXT) {
             const prevCaretPos = selectionStart - 1
-            let indexToReplace;
+            const data = (e.nativeEvent as InputEvent).data;
 
-            const selectionLength = selectionStart - (prevCaretPos + (inputValue.length - pattern.length))
-            if (selectionLength) {
-                //TODO
-                return console.log('YET NOT IMPLEMENTED')
-            }
-
-
-            if (isE(LAST_FILLED_INDEX) && prevCaretPos <= LAST_FILLED_INDEX) {
-                const { next, index } = placeholdersIndexesMap[prevCaretPos]
-                const nextPlaceholderCharIndex = isE(index) ? prevCaretPos : next;
-
-
-                if (shiftNextChar) {
-                    const shiftEndCharIndex = isE(FIRST_EMPTY_PLACEHOLDER_INDEX) ? FIRST_EMPTY_PLACEHOLDER_INDEX : LAST_FILLED_INDEX;
-                    const shiftEndPlacehodlerCharOrder = placeholdersIndexesMap[ shiftEndCharIndex ].index - 1
-                    const nextCharPlaceholderOrderIndex = placeholdersIndexesMap[nextPlaceholderCharIndex].index;
-
-                    for (let i = shiftEndPlacehodlerCharOrder; i >= nextCharPlaceholderOrderIndex; i--) {
-                        newValueArray[ placeholderCharsOrdered[ i + 1 ]] = newValueArray[ placeholderCharsOrdered[i] ]
-                    }
-                }
-
-                indexToReplace = nextPlaceholderCharIndex;
-
-                const { next: nextChar } = placeholdersIndexesMap[nextPlaceholderCharIndex]
-                nextCaretPos = isE(nextChar) ? nextChar : LAST_PLACEHOLDER_INDEX + 1
-            } else if (isE(FIRST_EMPTY_PLACEHOLDER_INDEX)) {
-                indexToReplace = FIRST_EMPTY_PLACEHOLDER_INDEX;
-
-                const { next } = placeholdersIndexesMap[ FIRST_EMPTY_PLACEHOLDER_INDEX ]
-                nextCaretPos = isE(next) ? next : FIRST_EMPTY_PLACEHOLDER_INDEX + 1
-                
-            } else return setCaretPos((ref as Ref).current, LAST_FILLED_INDEX + 1)
-
-            newValueArray[indexToReplace] = (e.nativeEvent as InputEvent).data
+            ++removedChars
+                ?   replace(e, prevCaretPos, removedChars, data)
+                :   insert(e, prevCaretPos, data)
         } else {
-            const isBackspace = inputType == 'deleteContentBackward'
-            if (isBackspace || inputType == 'deleteContentForward') {
-                if (!inputValue.length) return updateInputData(e, [], FIRST_PLACEHOLDER_INDEX)
-
-                if (valueLength) {
-                    const prevCaretPos = selectionStart + 1
-                    newValueArray = maskStore.lastInputValue.split('')
-                    
-                    const selectionLength = selectionStart - (prevCaretPos + (inputValue.length - pattern.length))
-                    if (selectionLength) {
-                        // TODO
-                        return console.log('YET NOT IMPLEMENTED')
-                    }
+            const isBackspace = inputType == DELETE_BACKWARD;
+            if ((isBackspace || inputType == DELETE_FORWARD) && valueLength) {
+                if (removedChars > 1) replace(e, selectionStart, removedChars)
+                else {
+                    const newValueArray = maskStore.lastInputValue.split('')
 
                     if (isBackspace) {
-                        if (prevCaretPos <= FIRST_PLACEHOLDER_INDEX) return setCaretPos((ref as Ref).current, LAST_FILLED_INDEX + 1)
+                        if (selectionStart < FIRST_PLACEHOLDER_INDEX) return setCaretPos((ref as Ref).current, FIRST_PLACEHOLDER_INDEX)
                         else {
                             const { prevFilled, isFilled } = placeholdersIndexesMap[selectionStart]
-                            let newPrevFilled, indexToReplace;
                             
+                            let indexToReplace, newPrevFilled;
                             if (isFilled) {
-                                newPrevFilled = prevFilled;
-                                indexToReplace = selectionStart
+                                indexToReplace = selectionStart;
+                                newPrevFilled = prevFilled
                             } else {
-                                newPrevFilled = placeholdersIndexesMap[prevFilled].prevFilled;
-                                indexToReplace = prevFilled
+                                indexToReplace = prevFilled;
+                                newPrevFilled = placeholdersIndexesMap[prevFilled].prevFilled
                             }
 
                             newValueArray[indexToReplace] = valuePlaceholderChar;
                             nextCaretPos = isE(newPrevFilled) ? newPrevFilled + 1 : FIRST_PLACEHOLDER_INDEX
                         }
                     } else {
-                        if (selectionStart > LAST_FILLED_INDEX) return setCaretPos((ref as Ref).current, LAST_FILLED_INDEX + 1)
+                        if (selectionStart > LAST_FILLED_INDEX) return setCaretPos((ref as Ref).current, LAST_PLACEHOLDER_INDEX + 1)
                         else {
                             const { nextFilled, isFilled } = placeholdersIndexesMap[selectionStart]
                         
@@ -256,15 +289,14 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
                             nextCaretPos = selectionStart < FIRST_PLACEHOLDER_INDEX ? FIRST_PLACEHOLDER_INDEX : selectionStart
                         }
                     }
-                } else return setCaretPos((ref as Ref).current, FIRST_PLACEHOLDER_INDEX)
-            } else return
-        }
-        
 
-        updateInputData(e, newValueArray, nextCaretPos)
+                    updateInputData(e, newValueArray, nextCaretPos)
+                }
+            } else setCaretPos((ref as Ref).current, FIRST_PLACEHOLDER_INDEX)
+        }
     }
 
-    _inputAttr.onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    _inputAttr.onFocus = e => {
         const nextCaretPos = isE(FIRST_EMPTY_PLACEHOLDER_INDEX)
             ?   FIRST_EMPTY_PLACEHOLDER_INDEX
             :   LAST_FILLED_INDEX + 1
@@ -272,7 +304,6 @@ const maskProcessor: Props['mask']['processor'] = (mask, _inputAttr) => {
         maskStore.caretPos = nextCaretPos;
 
         setCaretPos((ref as Ref).current, nextCaretPos)
-
         onFocus && onFocus(e)
     }
     
