@@ -26,7 +26,9 @@ type Props = {
     autofocus?: boolean
     placeholder?: string
     attributes?: ComponentAttributes
-    inputAttributes?: ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>> & { value: Props['value'] }
+    inputAttributes?: Omit<ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>, 'onChange'> & {
+        onChange?: (e: Parameters<Props['onChange']>[1]) => void
+    }
     label?: React.ReactNode
     errorMsg?: React.ReactNode
     type?: 'input' | 'textarea' | 'password'
@@ -37,14 +39,14 @@ type Props = {
         patternValueChar: string
         processor: (
             mask: Omit<NonNullable<Props['mask']>, 'processor'>,
-            inputFieldAttr: Props['inputAttributes']// & { ref: React.MutableRefObject<HTMLInputElement> }
+            inputFieldAttr: Props['inputAttributes']
         ) => void
         valuePlaceholderChar?: string
         shiftNextChar?: boolean
         copyMask?: boolean
     }
     onBlur?: (e: React.FocusEvent<HTMLDivElement>) => any
-    onChange?: (value: string, e: React.ChangeEvent<HTMLInputElement>, payload?: any) => any
+    onChange?: (value: string, e: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>, payload?: any) => any
     onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void
 } & PropsComponentThemed<ThemeKeys>
 

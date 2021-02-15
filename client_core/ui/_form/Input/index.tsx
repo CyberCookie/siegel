@@ -85,7 +85,7 @@ const Input: _Input = (props, noDefaults) => {
 
         if (onChange) {
             inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-                const value = e.target.value;
+                const value = (e.target as HTMLInputElement).value;
                 (!regexp || regexp.test(value)) && onChange(value, e, payload)
             }
         } else inputProps.readOnly = true

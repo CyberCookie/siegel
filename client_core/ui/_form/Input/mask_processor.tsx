@@ -9,7 +9,6 @@ type ClipboardEvent = React.ClipboardEvent<HTMLInputElement>
 type ChangeEvent = React.ChangeEvent<HTMLInputElement>
 type MaskCharData = {
     index?: number
-    // prev?: number
     prevFilled?: number
     next?: number
     nextFilled?: number
@@ -24,6 +23,9 @@ const INSERT_PASTE = 'insertFromPaste'
 const DELETE_BACKWARD = 'deleteContentBackward'
 const DELETE_FORWARD = 'deleteContentForward'
 
+const CODE_UNDO = 'KeyZ'
+const CODE_REDO = 'KeyY'
+
 
 const setCaretPos = (input: HTMLInputElement, caretPos: number) => setTimeout(() => { input.setSelectionRange(caretPos, caretPos) })
 
@@ -36,14 +38,12 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Props['value
     let maxLength = 0
 
     let FIRST_EMPTY_PLACEHOLDER_INDEX: number;
-    // let FIRST_FILLED_INDEX: number;
     let LAST_FILLED_INDEX: number;
     
     let newValue = ''
     for (let i = 0, k = 0, l = pattern.length; i < l; i++) {
         const maskChar = pattern[i]
         const charData: MaskCharData = {}
-        // const placeholdersLength = maxLength;
 
         isE(LAST_FILLED_INDEX) && (charData.prevFilled = LAST_FILLED_INDEX)
         
@@ -55,8 +55,6 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Props['value
                 charData.isFilled = true;
                 newValue += value[k]
                 k++
-
-                // isE(FIRST_FILLED_INDEX) || (FIRST_FILLED_INDEX = i)
                 LAST_FILLED_INDEX = i
             } else {
                 newValue += valuePlaceholderChar;
@@ -64,13 +62,11 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Props['value
             }
         } else newValue += maskChar;
         
-        // maxLength && (charData.prev = placeholderCharsOrdered[ maxLength - 1 ])
         placeholdersIndexesMap[i] = charData
     }
     
     const FIRST_PLACEHOLDER_INDEX = placeholderCharsOrdered[0]
     const LAST_PLACEHOLDER_INDEX = placeholderCharsOrdered[ maxLength - 1 ]
-    // const LAST_EMPTY_PLACEHOLDER_INDEX = placeholderCharsOrdered[ valueLength ]
     
     let nextFilled, next;
     for (let i = LAST_PLACEHOLDER_INDEX; i >= 0; i--) {
@@ -94,19 +90,43 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Props['value
 
 const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
     const { valuePlaceholderChar = ' ', shiftNextChar = true, copyMask, pattern } = mask;
-    const { value, ref, onChange, onFocus, onCopy, onPaste } = _inputAttr;
-    const valueLength = value.length;
+    const { value, ref, onChange, onFocus, onCopy, onPaste, onKeyDown } = _inputAttr;
+    const valueLength = (value as string).length;
 
     const {
         newValue, placeholdersIndexesMap, placeholderCharsOrdered, maxLength,
         FIRST_PLACEHOLDER_INDEX, LAST_PLACEHOLDER_INDEX, FIRST_EMPTY_PLACEHOLDER_INDEX, LAST_FILLED_INDEX
-    } = extractMaskData(mask, value)
+    } = extractMaskData(mask, value as string)
 
-    _inputAttr.value = newValue;
+    const maskState = useState({
+        caretPos: FIRST_PLACEHOLDER_INDEX,
+        lastInputValue: newValue,
+        history: [],
+        historyPos: -1
+    })[0]
+    
+    useEffect(() => {
+        const timeoutID = setCaretPos((ref as Ref).current, maskState.caretPos)
+        
+        return () => {
+            if (maskState.historyPos == maskState.history.length - 1) {
+                maskState.history.push(value)
+                maskState.historyPos++
+            }
+            
+            clearTimeout(timeoutID)
+        }
+    }, [ value ])
+    
+    _inputAttr.value = maskState.lastInputValue = newValue;
 
 
     function updateInputData(e: ClipboardEvent | ChangeEvent, newValueArray: string[], newCaretPos: number) {
-        maskStore.caretPos = newCaretPos;
+        if (maskState.historyPos < (maskState.history.length - 1)) {
+            maskState.history.length = maskState.historyPos + 1
+        }
+
+        maskState.caretPos = newCaretPos;
 
         let newValue = ''
         if (newValueArray.length) {
@@ -135,7 +155,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         const hasEmpty = isE(FIRST_EMPTY_PLACEHOLDER_INDEX)
 
         if (hasNextChars || hasEmpty) {
-            const valueArray = updatedValueArray || maskStore.lastInputValue.split('')
+            const valueArray = updatedValueArray || maskState.lastInputValue.split('')
             const dataLength = data.length;
 
             let startingFromIndex = valueLength;
@@ -174,7 +194,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
 
 
         if (isE(startingFromIndex)) {
-            const valueArray = maskStore.lastInputValue.split('')
+            const valueArray = maskState.lastInputValue.split('')
             const selectRangeEnd = startingFrom + count;
             const insertDataLength = data.length;
                         
@@ -207,7 +227,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         const { selectionStart, selectionEnd } = (e.target as HTMLInputElement)
         const { isFilled, nextFilled } = placeholdersIndexesMap[selectionStart]
 
-        const valueArray = maskStore.lastInputValue.split('')
+        const valueArray = maskState.lastInputValue.split('')
 
         let valueToCopy = isFilled ? valueArray[selectionStart] : ''
         for (let i = nextFilled; i < selectionEnd && isE(i); i = placeholdersIndexesMap[i].nextFilled) {
@@ -230,12 +250,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         onPaste && onPaste(e)
     }
 
-    //TODO history
-    // _inputAttr.onKeyDown = e => {
-    //     console.log(e.nativeEvent)
-    // }
-
-    _inputAttr.onChange = e => {
+    _inputAttr.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputType = (e.nativeEvent as InputEvent).inputType;
         if (inputType == INSERT_PASTE) return;
 
@@ -259,7 +274,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             if ((isBackspace || inputType == DELETE_FORWARD) && valueLength) {
                 if (removedChars > 1) replace(e, selectionStart, removedChars)
                 else {
-                    const newValueArray = maskStore.lastInputValue.split('')
+                    const newValueArray = maskState.lastInputValue.split('')
 
                     if (isBackspace) {
                         if (selectionStart < FIRST_PLACEHOLDER_INDEX) return setCaretPos((ref as Ref).current, FIRST_PLACEHOLDER_INDEX)
@@ -301,22 +316,44 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             ?   FIRST_EMPTY_PLACEHOLDER_INDEX
             :   LAST_FILLED_INDEX + 1
 
-        maskStore.caretPos = nextCaretPos;
+        maskState.caretPos = nextCaretPos;
 
         setCaretPos((ref as Ref).current, nextCaretPos)
         onFocus && onFocus(e)
     }
     
-    const maskStore = useState({
-        caretPos: FIRST_PLACEHOLDER_INDEX,
-        lastInputValue: newValue
-    })[0]
-    maskStore.lastInputValue = newValue;
+    _inputAttr.onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const { code } = e.nativeEvent;
+        const { history, historyPos } = maskState;
 
-    useEffect(() => {
-        const timeoutID = setCaretPos((ref as Ref).current, maskStore.caretPos)
-        return () => { clearTimeout(timeoutID) }
-    }, [ value ])
+        let newValue;
+        if (code == CODE_UNDO) {
+            if (historyPos > -1) {
+                ((historyPos + 1) == history.length) && history.push(value)
+
+                newValue = history[ historyPos ]
+                maskState.historyPos--
+            }
+        } else if (code == CODE_REDO && historyPos < history.length - 2) {
+            newValue = history[ historyPos + 2 ]
+            maskState.historyPos++
+        }
+
+        if (isE(newValue)) {
+            (e.target as HTMLInputElement).value = newValue;
+
+            const newValLength = newValue.length;
+            maskState.caretPos = newValLength
+                ?   newValLength == maxLength
+                    ?   LAST_PLACEHOLDER_INDEX + 1
+                    :   placeholderCharsOrdered[ newValLength - 1 ] + 1
+                :   FIRST_PLACEHOLDER_INDEX;
+
+            onChange(e)
+        }
+
+        onKeyDown && onKeyDown(e)
+    }
 }
 
 

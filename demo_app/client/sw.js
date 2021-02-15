@@ -1,3 +1,5 @@
+//TODO: replace caches.match with catch open -> match
+
 const assetsSet = new Set()
 const origin = self.origin;
 

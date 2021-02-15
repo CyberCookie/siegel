@@ -16,6 +16,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         //     devtool: 'eval-cheap-module-source-map'
         // }),
         resolve: {
+            // unsafeCache: true,
             alias: aliases,
             extensions: ESLintExtensions.concat('.sass'),
             modules: [PATHS.nodeModules, PATHS.parentNodeModules]

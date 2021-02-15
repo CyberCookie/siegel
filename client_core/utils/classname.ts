@@ -4,7 +4,7 @@
  * @returns raw object when key is class name and value is condition whether to apply this class name 
  */
 function cx(initialClassName: string, rules: Record<string, string | number | boolean>): string {
-    let result = initialClassName || '';
+    let result = initialClassName || ''
     for (const key in rules) {
         rules[key] && (result += ` ${key}`)
     }

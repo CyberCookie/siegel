@@ -1,4 +1,4 @@
-//TODO: arrow controlls when focues
+//TODO: apply arrow controls when focused
 
 import React, { useState } from 'react'
 
@@ -64,9 +64,8 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         className,
         onBlur(e) {
             if (e.relatedTarget !== e.currentTarget) {
-                if (state.searchString == '') {
-                    onChange('', e)
-                } else state.searchString = undefined
+                if (state.searchString == '') onChange('', e)
+                else state.searchString = undefined
             }
         }
     }
