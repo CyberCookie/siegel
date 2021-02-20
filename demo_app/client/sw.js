@@ -1,5 +1,3 @@
-//TODO: replace caches.match with catch open -> match
-
 const assetsSet = new Set()
 const origin = self.origin;
 
@@ -10,33 +8,33 @@ buildOutput.forEach(asset => {
 })
 
 
-const cacheURLRegExp = /\.(woff2|png|jpg|ico|css|js|json)/;
+const cacheURLRegExp = /\.(woff2|png|jpg|ico|css|js|json)/
 const cacheMethod = 'GET'
 const isCachable = req => {
     const { url, method } = req;
     return method == cacheMethod && cacheURLRegExp.test(url)   
 }
 
+async function processRequest(req) {
+    const cachedResp = await caches.match(req)
+    if (cachedResp) return cachedResp
+    else try {
+        const res = await fetch(req)
+        if (res.ok) {
+            const clonedRes = res.clone()
+            caches.open(req.url)
+                .then(cache => cache.put(req, clonedRes))
+
+            return res
+        }
+    } catch(e) { console.error(e) }
+}
+
+
 self.addEventListener('fetch', e => {
     const req = e.request;
-    isCachable(req) && e.respondWith(
-        caches.match(req)
-            .then(cachedResp => (
-                cachedResp || fetch(req)
-                    .then(res => {
-                        if (res.ok) {
-                            const clonedRes = res.clone()
-                            caches.open(req.url)
-                                .then(cache => cache.put(req, clonedRes))
-            
-                            return res
-                        }
-                    })
-                    .catch(console.error)
-            ))
-    )
+    isCachable(req) && e.respondWith( processRequest(req) )
 })
-
 
 self.addEventListener('activate', async () => {
     await self.clients.claim()
@@ -54,6 +52,5 @@ self.addEventListener('activate', async () => {
         }
     })
 })
-
 
 self.addEventListener('install', () => { self.skipWaiting() })

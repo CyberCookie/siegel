@@ -3,16 +3,17 @@ import type { HookStore } from './index'
 
 
 type State = {
-    requests: any,
-    errRes: any
+    requests: Indexable<number>
+    errRes: Indexable
+    lastError: Indexable
 }
 
 type Actions = {
     addToReqQueue(store: StoreInitialized, url: string): void
     removeFromReqQueue(store: StoreInitialized, url: string): void
-    addToErrRes(store: StoreInitialized, res: Indexable, url: string): void
+    addToErrRes(store: StoreInitialized, res: any, url: string): void
     clearErrRes(store: StoreInitialized, url: string): void
-    getLastErrorMsg(store: StoreInitialized, url: string): void
+    getLastErrorMsgByURL(store: StoreInitialized, url: string): string
 }
 
 type StoreInitialized = HookStore<State, Actions>
@@ -22,8 +23,7 @@ const initState: State = {
     requests: {},
     errRes: {},
 
-    //TODO
-    // lastError: {}
+    lastError: {}
 }
 
 
@@ -53,6 +53,8 @@ const actions: Actions = {
         res.date = Date.now()
         decrementRequests(state, url)
 
+        state.lastError = res;
+
         state.errRes[url]
             ?   state.errRes[url].push(res)
             :   state.errRes[url] = [ res ]
@@ -70,7 +72,7 @@ const actions: Actions = {
         setState(state)
     },
 
-    getLastErrorMsg(store, url) {
+    getLastErrorMsgByURL(store, url) {
         const errorsById = store.state.errRes[url]
         
         return errorsById && errorsById.length

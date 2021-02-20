@@ -1,5 +1,3 @@
-//TODO: layout for nested
-
 import React, { Suspense } from 'react'
 import { Switch, Router, Route, Redirect, withRouter } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
@@ -18,6 +16,7 @@ type LazyComponent = React.LazyExoticComponent<Component>
 
 type RouteConfig = {
     component: Component | LazyComponent
+    layout?: React.ComponentType<any>
     exact?: boolean
     redirectTo?: string
     children?: RouterConfig
@@ -34,22 +33,27 @@ type CreateRouter = (options: {
 }) => JSX.Element
 
 type CreateRoutes = (routerConfig: RouterConfig, urlPref?: string) => {
-    routes: JSX.Element[]
+    routes: JSX.Element[] | JSX.Element
     isLazy: boolean
 }
 
 
+const wrapRoutesIntoLayout = (routes: ReturnType<CreateRoutes>['routes'], layout: RouteConfig['layout']) => {
+    const LayoutWithRouter = withRouter(layout)
+    return <LayoutWithRouter children={routes} />
+}
+
 const createRoutes: CreateRoutes = (routeConfigs, urlPref = '') => {
-    let routes: JSX.Element[] = []
+    let routes: JSX.Element[] | JSX.Element = []
     let isLazy = false;
 
     for (const path in routeConfigs) {
         const routeConfig = routeConfigs[path]
-        const { exact = true, component, children, redirectTo, beforeEnter } = routeConfig;
+        const { exact = true, component, children, redirectTo, beforeEnter, layout } = routeConfig;
         isExists((component as LazyComponent)._result) && (isLazy ||= true)
         
         if (isExists(redirectTo)) {
-            routes.push( <Redirect exact={exact} from={path} to={redirectTo || '/'} /> )
+            (routes as JSX.Element[]).push( <Redirect exact={exact} from={path} to={redirectTo || '/'} /> )
         } else {
             const pathResult = `${urlPref}/${path}`
             const Page = component;
@@ -64,15 +68,17 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref = '') => {
                 ?   routeProps.render = (props: RouteProps) => <Page {...props} beforeEnter={beforeEnter(props)} />
                 :   routeProps.component = Page;
                 
-            routes.push( <Route {...routeProps} /> )
+            (routes as JSX.Element[]).push( <Route {...routeProps} /> )
 
 
             if (children) {
                 const { routes: childrenRoutes, isLazy: childrenIsLazy } = createRoutes(children, pathResult)
                 
                 childrenIsLazy && (isLazy = true)
-                routes = routes.concat(childrenRoutes)
+                routes = (routes as JSX.Element[]).concat(childrenRoutes)
             }
+
+            layout && (routes = wrapRoutesIntoLayout(routes, layout))
         }
     }
 
@@ -82,15 +88,11 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref = '') => {
 
 const createRouter: CreateRouter = ({ routes, Layout, notFound, history: _history }) => {
     const { routes: createdRoutes, isLazy } = createRoutes(routes)
-    notFound && createdRoutes.push( <Route key={404} component={notFound} /> )
+    notFound && (createdRoutes as JSX.Element[]).push( <Route key={404} component={notFound} /> )
 
     let routerContent = <Switch children={createdRoutes} />
-
     isLazy && (routerContent = <Suspense fallback='' children={routerContent} />)
-    if (Layout) {
-        const LayoutWithRouter = withRouter(Layout)
-        routerContent = <LayoutWithRouter children={routerContent} />
-    }
+    Layout && (routerContent = wrapRoutesIntoLayout(routerContent, Layout))
 
     
     return <Router history={_history || createBrowserHistory()} children={routerContent} />
