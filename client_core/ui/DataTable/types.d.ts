@@ -44,14 +44,14 @@ type ColumnsConfigWithDefaults<
     ByID = ReturnType<T['raw']>['byID'],
     Sorted = ReturnType<T['raw']>['sorted']
 > = {
-    showValue: (entity: Entity, index: number) => React.ReactNode
-    onSort: (IDs: Sorted, byID: ByID, value: number) => Sorted
-    onFilter: (IDs: Sorted, byID: ByID, search: SearchByFieldValue) => Sorted
+    showValue(entity: Entity, index: number): React.ReactNode
+    onSort(IDs: Sorted, byID: ByID, value: number): Sorted
+    onFilter(IDs: Sorted, byID: ByID, search: SearchByFieldValue): Sorted
 }
 type ColumnsConfig<T extends Entities> = {
     label: React.ReactNode
     type: 'text' | 'set' | 'date'
-    putSetValue?: (value: any) => any
+    putSetValue?(value: any): any
 } & (
     (Partial<ColumnsConfigEntityField> & ColumnsConfigWithDefaults<T>)
     |   (ColumnsConfigEntityField & Partial<ColumnsConfigWithDefaults<T>>)
@@ -66,7 +66,7 @@ type Props<T extends Entities> = {
     hookStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
     attributes?: ComponentAttributes
     withPagination?: {
-        displayQuantity?: (quantity: number) => React.ReactNode
+        displayQuantity?(quantity: number): React.ReactNode
         select: {
             props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps>
             component: CoreIUComponentWithDefaults<_Select> | _Select
@@ -78,9 +78,9 @@ type Props<T extends Entities> = {
     }
     tableAttributes?: TableProps['attributes']
     resizable?: boolean
-    postProcessHeadCell?: (cell: TableTH, columnsConfig: ColumnsConfig<T>, index: number, displayedEntityIDs: DisplayedEntityIDs) => TableTH
-    postProcessHeadRow?: (rows: TableHeadRow[], displayedEntityIDs: DisplayedEntityIDs) => TableHeadRow[]
-    postProcessBodyRow?: (row: TableBodyRow, entity: ReturnType<T['get']>, index: number) => TableBodyRow | TableBodyRow[]
+    postProcessHeadCell?(cell: TableTH, columnsConfig: ColumnsConfig<T>, index: number, displayedEntityIDs: DisplayedEntityIDs): TableTH
+    postProcessHeadRow?(rows: TableHeadRow[], displayedEntityIDs: DisplayedEntityIDs): TableHeadRow[]
+    postProcessBodyRow?(row: TableBodyRow, entity: ReturnType<T['get']>, index: number): TableBodyRow | TableBodyRow[]
 } & PropsComponentThemed<ThemeKeys>
 
 

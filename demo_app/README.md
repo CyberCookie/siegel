@@ -1,5 +1,6 @@
 <h1>Siegel demo project</h1>
 
+- To setup the project (make sure you have installed NodeJS) exec `npm i`.
 - To run the project in development mode: `npm start` (alias `npm run build_serv`).
 - To build the project in dev/prod mode run `npm run build` / `npm run build:prod` accordingly.
 - To transpile server app from TS run `npm run build_node`.
@@ -12,7 +13,7 @@
 <br />
 <h2>Project structure</h2>
 
-- <b>./client</b> - place for all the clientside related code and assets.
+- <b>client</b> - place for all the clientside related code and assets.
     - <b>assets</b> - place to keep all the static files which doesn't requires any transformations.
     - <b>main</b> - UI and business logic.
         - <b>Layout</b> - pages wrapper. Here you can add common components like header or footer to be displayed on every page.
@@ -30,6 +31,6 @@
     - <b>global.d.ts</b> - imports siegel's globals. Here you can add your own global declarations.
     - <b>styles.sass</b> - general styles that are not plugged in react components directly.
     - <b>sw.js</b> - service worker with uniq and the best caching strategy.
-- <b>./server</b> - application entrypoint, siegel config and server with demo endpoint are located here.
+- <b>server</b> - application entrypoint, siegel config and server with demo endpoint are located here.
 - <b>.eslintrc</b> - eslint config that extends siegel config.
 - <b>tsconfig.json</b> - typescript config with predefined aliases. Extends siegel typescript config.

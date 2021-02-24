@@ -14,12 +14,12 @@ type OnNumberPickerChange = (
 type ThemeKeys = '_disabled_all' | 'controls' | 'button_minus' | 'button_plus' | InputFieldThemeKeys
 
 type Props = {
-    onChange: (
+    onChange(
         value: string,
         e: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>,
         arrowValue?: boolean,
         payload?: any
-    ) => void
+    ): void
     step?: number
     min?: number
     max?: number

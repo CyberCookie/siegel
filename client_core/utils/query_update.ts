@@ -3,7 +3,7 @@ type QueryValue = string | number | boolean
 type UpdateURLQuery = {
     (
         history: {
-            replace: (path: string, state?: any) => void
+            replace(path: string, state?: any): void
         },
         key: string | Indexable,
         value: QueryValue

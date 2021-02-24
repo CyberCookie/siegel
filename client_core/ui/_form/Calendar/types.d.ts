@@ -12,7 +12,7 @@ type Props = {
         rangeDateStart: number
         rangeDateEnd?: number
     }
-    onChange?: (range: Props['initDate'], isFinished: boolean, payload?: any) => void
+    onChange?(range: Props['initDate'], isFinished: boolean, payload?: any): void
     hideSiblingMonthsDays?: boolean
     prevIcon?: React.ReactNode
     nextIcon?: React.ReactNode
@@ -57,7 +57,7 @@ type ChildProps = {
     calendarProps: MergedProps
     parentState: State
     beginOfMonth: Date
-    pickRangeStart: (e: React.MouseEvent) => void
+    pickRangeStart(e: React.MouseEvent): void
 }
 
 type AllDaysData = {

@@ -11,9 +11,9 @@ type ReqError = {
 }
 
 type SetupFnParams = {
-    beforeRequest?: (opts: RequestParams) => void | Promise<RequestParams>
-    afterRequest?: (fetchParams: FetchParams, parseRes: any) => void
-    errorHandler?: (error: ReqError) => void
+    beforeRequest?(opts: RequestParams): void | Promise<RequestParams>
+    afterRequest?(fetchParams: FetchParams, parseRes: any): void
+    errorHandler?(error: ReqError): void
 } & Indexable
 
 type RequestParams = {

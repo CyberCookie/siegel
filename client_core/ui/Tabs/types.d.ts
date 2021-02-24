@@ -10,7 +10,7 @@ type Props = {
         label: React.ReactNode
         payload?: any
     }[],
-    onChange: (id: ID, e: React.MouseEvent, payload?: any) => void
+    onChange(id: ID, e: React.MouseEvent, payload?: any): void
     activeTab?: ID
     attributes?: ComponentAttributes
 } & PropsComponentThemed<ThemeKeys>

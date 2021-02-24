@@ -20,7 +20,7 @@ type BreadcrumbsConfigByPath = {
 type ThemeKeys = 'link'
 
 type Props = {
-    onChange: (path: string, e: React.MouseEvent) => void
+    onChange(path: string, e: React.MouseEvent): void
     config: {
         [path: string]: BreadcrumbsConfigByPath
     }

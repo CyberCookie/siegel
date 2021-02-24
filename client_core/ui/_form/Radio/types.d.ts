@@ -10,7 +10,7 @@ type Option = {
 type ThemeKeys = 'option' | 'option__selected' | '_disabled'
 
 type Props = {
-    onChange: (id: ID, e: React.MouseEvent) => void
+    onChange(id: ID, e: React.MouseEvent): void
     options: Option[]
     disabled?: boolean
     attributes?: ComponentAttributes

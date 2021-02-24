@@ -13,7 +13,7 @@ type Props = {
     list: ListElement[]
     accordionIcon?: React.ReactNode
     soloOpen?: boolean
-    builder?: (title: React.ReactNode, children?: ListElement[]) => ({
+    builder?(title: React.ReactNode, children?: ListElement[]): ({
         elem: React.ReactNode,
         parentClassName: string
     })

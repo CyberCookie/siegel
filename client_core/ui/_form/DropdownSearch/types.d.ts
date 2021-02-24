@@ -11,18 +11,18 @@ type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 type ThemeKeys = 'options'| 'option' | '_with_suggestions' | InputFieldThemeKeys
 
 type Props = {
-    onChange: (id: ID, e: React.MouseEvent | React.FocusEvent, payload?: any) => void
+    onChange(id: ID, e: React.MouseEvent | React.FocusEvent, payload?: any): void
     searchOptions: Indexable<{
         title: React.ReactNode
         value: string
         className?: string
         payload?: any
     }>
-    onSearch?: (
+    onSearch?(
         searchValue: string,
         e: Parameters<NonNullable<InputProps['onChange']>>[1],
         payload?: any
-    ) => void
+    ): void
     minInputLength?: number
     payload?: any
     showOnFocus?: boolean

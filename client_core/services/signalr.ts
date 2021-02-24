@@ -9,12 +9,12 @@ type SignalROptions = {
     transport?: any
     protocol?: any
     skipNegotiation?: boolean
-    token?: () => string
+    token?(): string
     handlers?: {
-        onopen?: () => void
-        onclose?: () => void
-        onreconnect?: () => void
-        onerror?: (err: any) => void
+        onopen?(): void
+        onclose?(): void
+        onreconnect?(): void
+        onerror?(err: any): void
     }
 }
 

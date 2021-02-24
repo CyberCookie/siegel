@@ -9,7 +9,7 @@ type DateResolver = () => {
 }
 type DateLocales = {
     get: Indexable<DateResolver>
-    set: (key: string, resolver: DateResolver ) => void
+    set(key: string, resolver: DateResolver): void
 }
 
 

@@ -4,7 +4,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 type ThemeKeys = 'content' | 'close'
 
 type Props = {
-    onClose: (e: React.MouseEvent) => void
+    onClose(e: React.MouseEvent): void
     closeIcon?: React.ReactNode
     content?: React.ReactNode
     attributes?: ComponentAttributes

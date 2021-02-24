@@ -8,7 +8,7 @@ import isExists from './utils/is_exists'
 
 
 type BeforeEnterProp = {
-    beforeEnter?: (props: RouteProps) => any
+    beforeEnter?(props: RouteProps): any
 }
 
 type Component = React.ComponentType<BeforeEnterProp>

@@ -3,7 +3,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type WrapperProps = {
     className: MergedProps['className']
-    onMouseDown?: (e: React.MouseEvent) => void
+    onMouseDown?(e: React.MouseEvent): void
 }
 
 
@@ -13,7 +13,7 @@ type ThemeKeys = 'label' | 'checkbox' | '_checked' | '_disabled' | 'with_icon_wr
 //#TS_sucks. attributes type should depend on label <> icon presence
 type Props = {
     value: boolean
-    onChange?: (checked: Props['value'], e: React.MouseEvent, payload?: any) => void
+    onChange?(checked: Props['value'], e: React.MouseEvent, payload?: any): void
     checkboxAttributes?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
     attributes?: ComponentAttributes | ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
     disabled?: boolean

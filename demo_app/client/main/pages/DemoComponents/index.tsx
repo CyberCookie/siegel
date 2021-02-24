@@ -10,7 +10,7 @@ import styles from './styles.sass'
 type SidebarItemProps = {
     key: string
     children: string
-    onMouseDown: () => void
+    onMouseDown(): void
     className?: string
 }
 

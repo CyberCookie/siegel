@@ -7,7 +7,7 @@ type Props = {
     zeroing?: boolean
     incrementEveryMinute?: boolean
     speedCoef?: number
-    builder?: (dateParsed: ReturnType<DateParse>) => React.ReactNode
+    builder?(dateParsed: ReturnType<DateParse>): React.ReactNode
 } & PropsComponentBase
 
 type DefaultProps = {

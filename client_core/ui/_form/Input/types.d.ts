@@ -27,7 +27,7 @@ type Props = {
     placeholder?: string
     attributes?: ComponentAttributes
     inputAttributes?: Omit<ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>, 'onChange'> & {
-        onChange?: (e: Parameters<Props['onChange']>[1]) => void
+        onChange?(e: Parameters<Props['onChange']>[1]): void
     }
     label?: React.ReactNode
     errorMsg?: React.ReactNode
@@ -37,17 +37,17 @@ type Props = {
     mask?: {
         pattern: string
         patternValueChar: string
-        processor: (
+        processor(
             mask: Omit<NonNullable<Props['mask']>, 'processor'>,
             inputFieldAttr: Props['inputAttributes']
-        ) => void
+        ): void
         valuePlaceholderChar?: string
         shiftNextChar?: boolean
         copyMask?: boolean
     }
-    onBlur?: (e: React.FocusEvent<HTMLDivElement>) => any
-    onChange?: (value: string, e: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>, payload?: any) => any
-    onFocus?: (e: React.FocusEvent<HTMLDivElement>) => void
+    onBlur?(e: React.FocusEvent<HTMLDivElement>): any
+    onChange?(value: string, e: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>, payload?: any): any
+    onFocus?(e: React.FocusEvent<HTMLDivElement>): void
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

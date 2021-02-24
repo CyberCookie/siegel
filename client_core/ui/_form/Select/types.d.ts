@@ -4,7 +4,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 type SelectRootProps = {
     ref: React.MutableRefObject<HTMLDivElement>
     className: MergedProps['className']
-    onMouseDown?: (e: React.MouseEvent) => void
+    onMouseDown?(e: React.MouseEvent): void
 }
 
 
@@ -20,7 +20,7 @@ type Props<V = any> = {
         value: V
         title: React.ReactNode
     }[],
-    onChange: (value: V, e: React.MouseEvent, payload?: any) => void
+    onChange(value: V, e: React.MouseEvent, payload?: any): void
     dropdownIcon?: React.ReactNode
     closeOnSelect?: boolean
     label?: React.ReactNode

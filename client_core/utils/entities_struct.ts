@@ -1,14 +1,14 @@
 //TODO?
 // type _Entities<Entity extends Indexable> = {
-//     clear: () => void
-//     get: (id: ID) => Entity[ID]
-//     addOrUpdate: (entity: Entity) => void
-//     addAll: (entities: Entity[]) => void
-//     remove: (entityID: ID) => void
-//     sort: (cb: (entity_a: Entity, entity_b: Entity) => number) => void
-//     each: (cb: (entity: Entity, index: number) => boolean | void) => void
-//     len: () => number
-//     raw: () => ({
+//     clear(): void
+//     get(id: ID): Entity[ID]
+//     addOrUpdate(entity: Entity): void
+//     addAll(entities: Entity[]): void
+//     remove(entityID: ID): void
+//     sort(cb: (entity_a: Entity, entity_b: Entity) => number): void
+//     each(cb: (entity: Entity, index: number) => boolean | void): void
+//     len(): number
+//     raw(): ({
 //         byID: Indexable<Entity>,
 //         sorted: ID[]
 //     })

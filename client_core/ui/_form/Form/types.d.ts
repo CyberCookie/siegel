@@ -21,7 +21,7 @@ type CheckboxData = {
     props: CheckboxProps
 }
 type Validator = {
-    validate: (value: ValueStateValue) => boolean,
+    validate(value: ValueStateValue): boolean,
     msg: string
 }
 type FormInput = {
@@ -31,7 +31,7 @@ type FormInput = {
 
 
 type Props = {
-    onSubmit: (values: ValuesState, e: React.FormEvent<HTMLFormElement>) => void
+    onSubmit(values: ValuesState, e: React.FormEvent<HTMLFormElement>): void
     inputs: Indexable<FormInput>
     attributes?: ComponentAttributes<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>
 } & PropsComponentBase
