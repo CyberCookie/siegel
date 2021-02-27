@@ -4,6 +4,8 @@ const { existsSync, writeFileSync } = require('fs')
 const { PATHS }                     = require('../cjs/constants')
 
 
+const toJSON = data => JSON.stringify(data, null, 4)
+
 function main(isGlobal) {
     const shell = require('child_process').execSync;
     const cwd = process.cwd()
@@ -14,8 +16,6 @@ function main(isGlobal) {
     } = require(PATHS.package)
     
     
-    const toJSON = data => JSON.stringify(data, null, 4)
-
     const replaceDevPathWithModule = path => {
         const { join, relative } = posix;
 
@@ -59,6 +59,11 @@ function main(isGlobal) {
 
 
     
+    //Copy .gitignore
+    shell(`cp ${PATHS.root}/.gitignore .`)
+
+
+
     //Update package.json
     existsSync(PATHS.cwdPackageJSON) || shell('npm init -y')
     const targetPackageJSON = require(PATHS.cwdPackageJSON)

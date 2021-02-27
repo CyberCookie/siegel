@@ -1,3 +1,7 @@
+//TODO: createdRoutes tree insted of array
+//TODO: nested routes layout
+//TODO: rerender routes on layout rerender (optional)
+
 import React, { Suspense } from 'react'
 import { Switch, Router, Route, Redirect, withRouter } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
@@ -16,7 +20,6 @@ type LazyComponent = React.LazyExoticComponent<Component>
 
 type RouteConfig = {
     component: Component | LazyComponent
-    layout?: React.ComponentType<any>
     exact?: boolean
     redirectTo?: string
     children?: RouterConfig
@@ -38,18 +41,13 @@ type CreateRoutes = (routerConfig: RouterConfig, urlPref?: string) => {
 }
 
 
-const wrapRoutesIntoLayout = (routes: ReturnType<CreateRoutes>['routes'], layout: RouteConfig['layout']) => {
-    const LayoutWithRouter = withRouter(layout)
-    return <LayoutWithRouter children={routes} />
-}
-
 const createRoutes: CreateRoutes = (routeConfigs, urlPref = '') => {
     let routes: JSX.Element[] | JSX.Element = []
     let isLazy = false;
 
     for (const path in routeConfigs) {
         const routeConfig = routeConfigs[path]
-        const { exact = true, component, children, redirectTo, beforeEnter, layout } = routeConfig;
+        const { exact = true, component, children, redirectTo, beforeEnter } = routeConfig;
         isExists((component as LazyComponent)._result) && (isLazy ||= true)
         
         if (isExists(redirectTo)) {
@@ -77,8 +75,6 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref = '') => {
                 childrenIsLazy && (isLazy = true)
                 routes = (routes as JSX.Element[]).concat(childrenRoutes)
             }
-
-            layout && (routes = wrapRoutesIntoLayout(routes, layout))
         }
     }
 
@@ -92,7 +88,11 @@ const createRouter: CreateRouter = ({ routes, Layout, notFound, history: _histor
 
     let routerContent = <Switch children={createdRoutes} />
     isLazy && (routerContent = <Suspense fallback='' children={routerContent} />)
-    Layout && (routerContent = wrapRoutesIntoLayout(routerContent, Layout))
+    
+    if (Layout) {
+        const LayoutWithRouter = withRouter(Layout)
+        routerContent = <LayoutWithRouter children={routerContent} />
+    }
 
     
     return <Router history={_history || createBrowserHistory()} children={routerContent} />

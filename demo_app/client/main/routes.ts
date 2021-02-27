@@ -38,7 +38,7 @@ const routerConfig: RouterConfig = {
     [pagePathMap.demo_api]: {
         beforeEnter() {
             seo({
-                title: 'Siegel | Demo API',
+                title: 'Siegel | Demo API', 
                 keywords: 'api',
                 description: 'siegel demo API'
             })
