@@ -8,8 +8,8 @@ type SelectRootProps = {
 }
 
 
-type ThemeKeys = 'label' | 'title' | 'input_wrapper' | '_active' | '_disabled' | 'options'
-    | 'option' | '_option_active' | '_option_disabled'
+type ThemeKeys = 'label' | 'title' | 'title_text' | 'input_wrapper' | 'options' | 'option'
+    | '_option_active' | '_option_disabled' | '_active' | '_disabled' | '_filled'
 
 type Props<V = any> = {
     displayValue: React.ReactNode

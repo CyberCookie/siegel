@@ -52,6 +52,7 @@ const Select: _Select = (props, noDefaults) => {
     
     let className = mergedProps.className;
     isActive && (className += ` ${theme._active}`)
+    displayValue && (className += ` ${theme._filled}`)
     
     let selectRootProps: SelectRootProps = {
         className,
@@ -87,7 +88,7 @@ const Select: _Select = (props, noDefaults) => {
 
     const selectInput = <>
         <div className={theme.title}>
-            { displayValue || placeholder }
+            <div className={theme.title_text} children={displayValue || placeholder} />
             { dropdownIcon }
         </div>
 
@@ -115,9 +116,11 @@ Select.defaults = {
         root: componentID,
         label: componentID + '_label',
         title: componentID + '_title',
+        title_text: componentID + '_title_text',
         input_wrapper: componentID + '_input_wrapper',
         options: componentID + '_options',
         option: componentID + '_option',
+        _filled: componentID + '__filled',
         _active: componentID + '__active',
         _disabled: componentID + '__disabled',
         _option_active: componentID + '_option__active',

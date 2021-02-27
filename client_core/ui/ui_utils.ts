@@ -2,6 +2,9 @@ type ComponentAttributes<E = HTMLDivElement, A = React.HTMLAttributes<E>> = A & 
 
 type PropsComponentBase = {
     className?: string
+    renderHooks?: {
+        onRender?(ref: HTMLElement): void
+    }
 }
 
 type PropsComponentThemed<K extends string = string> = {
@@ -48,6 +51,8 @@ function extractProps
             theme?.root && result.className.replace(defaultTheme.root!, theme.root)
         } else result.className += ` ${result.theme.root}`
     }
+
+    result.renderHooks ||= {}
 
 
     return result
