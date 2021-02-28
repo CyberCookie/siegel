@@ -4,7 +4,7 @@
 import React, { useState } from 'react'
 
 import Table from '../Table'
-import { extractProps } from '../ui_utils'
+import { extractProps, applyRefApi } from '../ui_utils'
 import tableHeadRows from './head'
 import tableBodyRows from './body'
 import componentID from './id'
@@ -73,12 +73,13 @@ const DataTable: _DataTable = (props, noDefaults) => {
         ?   extractProps(DataTable.defaults, props)
         :   (props as _DataTable['defaults'] & typeof props)
 
-    const { theme, className, attributes, withPagination, tableAttributes } = mergedProps;
+    const { theme, className, attributes, withPagination, tableAttributes, refApi } = mergedProps;
     mergedProps.hookStore ||= useState(defaultState)
 
     const hookState = mergedProps.hookStore[0]
     
     const rootAttributes = { className }
+    refApi && (applyRefApi(rootAttributes, mergedProps))
     attributes && (Object.assign(rootAttributes, attributes))
     
     if (withPagination) {

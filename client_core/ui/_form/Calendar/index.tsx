@@ -5,7 +5,7 @@
 import React, { useRef, useState } from 'react'
 
 import { dateLocales } from '../../../utils/date/consts'
-import { extractProps } from '../../ui_utils'
+import { extractProps, applyRefApi } from '../../ui_utils'
 import Days from './days_of_month'
 import type { Props, DefaultProps, MergedProps, _Calendar, Store } from './types'
 
@@ -111,8 +111,10 @@ const Calendar: _Calendar = (props, noDefaults) => {
         ?   extractProps(Calendar.defaults, props)
         :   (props as _Calendar['defaults'] & typeof props)
 
-    const { initDate, monthsBefore, payload, onChange, triggerOnlyWhenFinished, rangePick } = mergedProps;
-    const className = `${mergedProps.className} ${styles.calendar}`
+    const {
+        initDate, monthsBefore, payload, onChange, triggerOnlyWhenFinished, rangePick, refApi,
+        attributes
+    } = mergedProps;
     
     const { rangeDateStart, rangeDateEnd } = initDate;
 
@@ -192,12 +194,17 @@ const Calendar: _Calendar = (props, noDefaults) => {
         }, true, payload)
     }
 
+    
+    const rootAttributes = {
+        className: `${mergedProps.className} ${styles.calendar}`,
+        children: getCalendarVisuals(mergedProps, store, pickRangeStart),
+        ref
+    }
+    refApi && (applyRefApi(rootAttributes, mergedProps))
+    attributes && Object.assign(rootAttributes, attributes)
 
-    return (
-        <div className={className} ref={ref}>
-            { getCalendarVisuals(mergedProps, store, pickRangeStart) }
-        </div>
-    )
+
+    return <div {...rootAttributes} />
 }
 Calendar.defaults = {
     theme: {

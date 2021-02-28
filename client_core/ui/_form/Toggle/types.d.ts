@@ -17,7 +17,7 @@ type Props = {
     payload?: any
     disabled?: boolean
     onChange?(isToggled: boolean, e: React.MouseEvent, payload?: any): void
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

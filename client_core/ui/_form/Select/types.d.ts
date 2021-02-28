@@ -27,7 +27,7 @@ type Props<V = any> = {
     placeholder?: React.ReactNode
     selected?: V
     disabled?: boolean
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

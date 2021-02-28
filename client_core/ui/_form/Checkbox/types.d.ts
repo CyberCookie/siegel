@@ -15,7 +15,7 @@ type Props = {
     value: boolean
     onChange?(checked: Props['value'], e: React.MouseEvent, payload?: any): void
     checkboxAttributes?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
-    attributes?: ComponentAttributes | ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+    attributes?: ComponentAttributes<HTMLDivElement> | ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
     disabled?: boolean
     label?: React.ReactNode
     payload?: any

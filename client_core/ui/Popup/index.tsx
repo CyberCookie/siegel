@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps, applyRefApi } from '../ui_utils'
 import type { _Popup } from './types'
 
 import styles from './styles.sass'
@@ -15,7 +15,7 @@ const Popup: _Popup = (props, noDefaults) => {
         ?   extractProps(Popup.defaults, props)
         :   (props as _Popup['defaults'] & typeof props)
 
-    const { theme, closeIcon, content, onClose, attributes, className } = mergedProps;
+    const { theme, closeIcon, content, onClose, attributes, className, refApi } = mergedProps;
 
     let popupRootAttributes = {
         className,
@@ -23,6 +23,7 @@ const Popup: _Popup = (props, noDefaults) => {
             e.target === e.currentTarget && onClose(e)
         }
     }
+    refApi && (applyRefApi(popupRootAttributes, mergedProps))
     attributes && (popupRootAttributes = Object.assign(popupRootAttributes, attributes))
 
 

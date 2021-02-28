@@ -12,7 +12,7 @@ const tabsData = ([1,2,3]).map(id => ({
 
 const Demo = () => {
     const [ activeTab, setActiveTab ] = useState(tabsData[0].id)
-    
+
     const props: Props = {
         activeTab,
         tabs: tabsData,

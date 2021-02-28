@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { extractProps } from '../../ui_utils'
+import { extractProps, applyRefApi } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
 import getLabel from '../label'
 import componentID from './id'
@@ -15,10 +15,14 @@ const _onChange = (e: React.ChangeEvent) => {
 }
 
 const Checkbox: _Checkbox = (props, noDefaults) => {
-    const { theme, className, onChange, checkboxAttributes, attributes, label, value, disabled,
-        payload, icon } = noDefaults
+    const mergedProps = noDefaults
         ?   extractProps(Checkbox.defaults, props)
         :   (props as _Checkbox['defaults'] & typeof props)
+
+    const {
+        theme, className, onChange, checkboxAttributes, attributes, label, value, disabled,
+        payload, icon, refApi
+    } = mergedProps;
 
     function onCheckboxClick(e: React.MouseEvent) { onChange!(!value, e, payload) }
 
@@ -54,6 +58,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
         if (!withLabel) {
             iconWrapperProps.className += ` ${modClass}`
             onChange && (iconWrapperProps.onMouseDown = onCheckboxClick)
+            refApi && applyRefApi(iconWrapperProps, mergedProps)
             attributes && Object.assign(iconWrapperProps, attributes)
         }
          
@@ -71,6 +76,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
             className: `${className} ${modClass}`
         }
         onChange && (labelProps.onMouseDown = onCheckboxClick)
+        refApi && applyRefApi(attributes, mergedProps)
         attributes && Object.assign(labelProps, attributes)
 
         return getLabel(CheckboxElement, labelProps, {

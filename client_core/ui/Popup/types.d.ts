@@ -7,7 +7,7 @@ type Props = {
     onClose(e: React.MouseEvent): void
     closeIcon?: React.ReactNode
     content?: React.ReactNode
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

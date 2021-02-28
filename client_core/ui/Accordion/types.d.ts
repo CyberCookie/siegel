@@ -17,7 +17,7 @@ type Props = {
         elem: React.ReactNode,
         parentClassName: string
     })
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
     autoExpand?: boolean
 } & PropsComponentThemed<ThemeKeys>
 

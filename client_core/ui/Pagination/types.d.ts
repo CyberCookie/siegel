@@ -13,7 +13,7 @@ type Props = {
     controlIcon?: React.ReactNode
     separator?: React.ReactNode
     payload?: any
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

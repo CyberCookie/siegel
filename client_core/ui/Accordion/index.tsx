@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps, applyRefApi } from '../ui_utils'
 import type { ListElement, _Accordion } from './types'
 
 
@@ -16,7 +16,9 @@ const Accordion: _Accordion = (props, noDefaults) => {
         ?   extractProps(Accordion.defaults, props)
         :   (props as _Accordion['defaults'] & typeof props)
     
-    const { className, theme, list, builder, accordionIcon, soloOpen, attributes, autoExpand } = mergedProps;
+    const {
+        className, theme, list, builder, accordionIcon, soloOpen, attributes, autoExpand, refApi
+    } = mergedProps;
 
 
     function childrenMapper({ title, children }: ListElement, i: number) {
@@ -67,6 +69,7 @@ const Accordion: _Accordion = (props, noDefaults) => {
         className,
         children: list.map(childrenMapper)
     }
+    refApi && (applyRefApi(accordionRootProps, mergedProps))
     attributes && (Object.assign(accordionRootProps, attributes))
 
 

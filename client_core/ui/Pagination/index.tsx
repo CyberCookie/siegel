@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps, applyRefApi } from '../ui_utils'
 import type { _Pagination, MergedProps } from './types'
 
 
@@ -10,7 +10,7 @@ const tokenNextPage = 'n'
 const tokenPrevPage = 'p'
 
 function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number, isSinglePage: boolean) {
-    const { attributes, curPage, onChange, payload, theme } = mergedProps;
+    const { attributes, curPage, onChange, payload, theme, refApi } = mergedProps;
     
     let className = mergedProps.className;
     isSinglePage && (className += ` ${theme._single}`)
@@ -34,6 +34,7 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number, 
             }
         }
     }
+    refApi && (applyRefApi(result, mergedProps))
     attributes && (result = Object.assign(result, attributes))
 
 

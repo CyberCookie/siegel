@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect } from 'react'
 
 import isE from '../../utils/is_exists'
-import { extractProps } from '../ui_utils'
+import { extractProps, applyRefApi } from '../ui_utils'
 import type { _Breadcrumbs } from './types'
 
 import styles from './styles.sass'
@@ -34,9 +34,13 @@ const useLayoutEffectFunc = () => () => {
 const linkClickPreventDefault = (e: React.MouseEvent) => { e.preventDefault() }
 
 const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
-    const { className, theme, attributes, location, separator, config, onChange } = noDefaults
+    const mergedProps = noDefaults
         ?   extractProps(Breadcrumbs.defaults, props)
         :   (props as _Breadcrumbs['defaults'] & typeof props)
+
+    const {
+        className, theme, attributes, location, separator, config, onChange, refApi
+    } = mergedProps;
 
 
     forceUpdate = useState({})[1]
@@ -48,7 +52,8 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
         className,
         children: getBreadcrumbs()
     }
-    isE(attributes) && (breadcrumbsRootProps = Object.assign(breadcrumbsRootProps, attributes))
+    refApi && (applyRefApi(breadcrumbsRootProps, mergedProps))
+    attributes && (breadcrumbsRootProps = Object.assign(breadcrumbsRootProps, attributes))
 
 
     function getBreadcrumbs() {

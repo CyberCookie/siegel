@@ -1,4 +1,4 @@
-import type { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
+import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../../ui_utils'
 import type { Props as InputProps, InputFieldThemeKeys } from '../Input/types'
 
 
@@ -23,6 +23,7 @@ type Props = {
         e: Parameters<NonNullable<InputProps['onChange']>>[1],
         payload?: any
     ): void
+    attributes?: ComponentAttributes<HTMLDivElement>
     minInputLength?: number
     payload?: any
     showOnFocus?: boolean

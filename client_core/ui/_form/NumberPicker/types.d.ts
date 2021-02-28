@@ -20,6 +20,7 @@ type Props = {
         arrowValue?: boolean,
         payload?: any
     ): void
+    attributes?: ComponentAttributes<HTMLDivElement>
     step?: number
     min?: number
     max?: number

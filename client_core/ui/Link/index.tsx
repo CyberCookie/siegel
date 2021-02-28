@@ -1,16 +1,18 @@
 import React from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps, applyRefApi } from '../ui_utils'
 import type { _Link } from './types'
 
 
 const componentID = '-ui-external_link'
 
 const Link: _Link = (props, noDefaults) => {
-    const { className, path, title, attributes } = noDefaults
+    const mergedProps = noDefaults
         ?   extractProps(Link.defaults, props)
         :   (props as _Link['defaults'] & typeof props)
     
+    const { className, path, title, attributes, refApi } = mergedProps;
+
     let linkRootAttributes: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
         className,
         target: '_blank',
@@ -19,6 +21,7 @@ const Link: _Link = (props, noDefaults) => {
     }
     title && (linkRootAttributes.children = title)
 
+    refApi && (applyRefApi(linkRootAttributes, mergedProps))
     attributes && (linkRootAttributes = Object.assign(linkRootAttributes, attributes))
 
 

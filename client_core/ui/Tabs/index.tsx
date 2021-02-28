@@ -1,15 +1,10 @@
 //TODO: renderAll
 
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps, applyRefApi } from '../ui_utils'
 import type { MergedProps, _Tabs } from './types'
 
-
-type TabsRootProps = {
-    className: string
-    ref?: React.MutableRefObject<HTMLDivElement>
-}
 
 const componentID = `-ui-tabs`
 
@@ -45,15 +40,9 @@ function getTabRootProps(mergedProps: MergedProps, activeTabContent: React.React
 
     activeTabContent || (className += ` ${theme.content__empty}`)
 
-    let tabsRootProps: TabsRootProps = { className }
+    let tabsRootProps = { className }
     attributes && (tabsRootProps = Object.assign(tabsRootProps, attributes))
-
-
-    const afterRender = mergedProps.renderHooks.onRender;
-    if (afterRender) {
-        tabsRootProps.ref = useRef(null)
-        useEffect(() => { afterRender(tabsRootProps.ref.current) })
-    }
+    mergedProps.refApi && applyRefApi(tabsRootProps, mergedProps)
 
 
     return tabsRootProps

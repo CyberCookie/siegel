@@ -13,7 +13,7 @@ type Props = {
     onChange(id: ID, e: React.MouseEvent): void
     options: Option[]
     disabled?: boolean
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
     & ({ multiple: true, selected: Set<ID> } | { multiple?: false, selected: ID })
 

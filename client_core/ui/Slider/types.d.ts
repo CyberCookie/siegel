@@ -16,7 +16,7 @@ type Props = {
     withControlls?: boolean
     swipeDelta?: number
     loop?: boolean
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

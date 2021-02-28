@@ -8,7 +8,7 @@ type Props = {
     incrementEveryMinute?: boolean
     speedCoef?: number
     builder?(dateParsed: ReturnType<DateParse>): React.ReactNode
-} & PropsComponentBase
+} & Omit<PropsComponentBase, 'refApi'>
 
 type DefaultProps = {
     speedCoef: NonNullable<Props['speedCoef']>

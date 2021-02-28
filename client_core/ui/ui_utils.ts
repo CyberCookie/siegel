@@ -1,21 +1,27 @@
-type ComponentAttributes<E = HTMLDivElement, A = React.HTMLAttributes<E>> = A & React.RefAttributes<E>
+//TODO?: refApi fn arguments infer proper types
 
-type PropsComponentBase = {
-    className?: string
-    renderHooks?: {
-        onRender?(ref: HTMLElement): void
-    }
+import { useEffect, useRef } from 'react'
+
+
+type ComponentAttributes<E = HTMLElement, A = React.HTMLAttributes<E>> = A & React.RefAttributes<E>
+
+type ComponentRefApi<Props> = {
+    getRef(ref: HTMLElement): void
+    getOnPropsUpdate?(props: Props): any[]
 }
 
-type PropsComponentThemed<K extends string = string> = {
+type PropsComponentBase<Props extends Indexable = Indexable> = {
+    className?: string
+    refApi?: ComponentRefApi<Props>
+}
+
+type PropsComponentThemed<K extends string = string, Props extends Indexable = Indexable> = {
     theme?: Partial<IndexObjectKeys<K | 'root', string>>
-} & PropsComponentBase
+} & PropsComponentBase<Props>
 
 
 type CoreIUComponent<P extends PropsComponentThemed, D extends PropsComponentThemed> = {
-    (props: P, withDefaults?: boolean): JSX.Element;
-    //#TS_sucks when overload;
-    // (props: P & D, withDefaults: false): JSX.Element;
+    (props: P, withDefaults?: boolean): JSX.Element
     defaults: D
     ID: string
 }
@@ -23,6 +29,21 @@ type CoreIUComponent<P extends PropsComponentThemed, D extends PropsComponentThe
 type CoreIUComponentWithDefaults<C extends CoreIUComponent<any, any>> = {
     (...args: Parameters<C>): ReturnType<C>
     ID: C['ID']
+}
+
+
+
+function applyRefApi(rootProps: ComponentAttributes, mergedProps: PropsComponentBase) {
+    const { getRef, getOnPropsUpdate } = mergedProps.refApi;
+    rootProps.ref = useRef(null)
+
+    const trackDependencies = getOnPropsUpdate
+        ?   getOnPropsUpdate(mergedProps)
+        :   undefined
+
+    useEffect(() => {
+        getRef((rootProps.ref as React.MutableRefObject<HTMLElement>).current)
+    }, trackDependencies)
 }
 
 
@@ -52,8 +73,6 @@ function extractProps
         } else result.className += ` ${result.theme.root}`
     }
 
-    result.renderHooks ||= {}
-
 
     return result
 }
@@ -77,5 +96,5 @@ function withDefaults
 }
 
 
-export { extractProps, withDefaults }
-export type { PropsComponentBase, PropsComponentThemed, ComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults }
+export { extractProps, withDefaults, applyRefApi }
+export type { PropsComponentBase, PropsComponentThemed, ComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults, ComponentRefApi }

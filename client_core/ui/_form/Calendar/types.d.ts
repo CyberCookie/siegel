@@ -1,5 +1,5 @@
 import type { DateResolver } from '../../../utils/date/consts'
-import type { PropsComponentThemed, CoreIUComponent } from '../../ui_utils'
+import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../../ui_utils'
 
 
 type ThemeKeys = 'month_wrapper' | 'month_title_wrapper' | 'icon' | 'month_title'
@@ -25,6 +25,7 @@ type Props = {
     locale?: string
     payload?: any
     rangePick?: boolean
+    attributes?: ComponentAttributes<HTMLDivElement>
     strings?: {
         months: ReturnType<DateResolver>['months']
         weekDaysShort: ReturnType<DateResolver>['weekDaysShort']

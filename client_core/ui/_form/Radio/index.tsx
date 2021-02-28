@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { extractProps } from '../../ui_utils'
+import { extractProps, applyRefApi } from '../../ui_utils'
 import type { _Radio, Option, MergedProps } from './types'
 
 
@@ -33,7 +33,7 @@ const Radio: _Radio = (props, noDefaults) => {
         ?   extractProps(Radio.defaults, props)
         :   (props as _Radio['defaults'] & typeof props)
 
-    const { disabled, theme, attributes } = mergedProps;
+    const { disabled, theme, attributes, refApi } = mergedProps;
 
     
     const rootProps = {
@@ -41,6 +41,7 @@ const Radio: _Radio = (props, noDefaults) => {
         children: getOptions(mergedProps)
     }
     disabled && (rootProps.className += ` ${theme._disabled}`)
+    refApi && (applyRefApi(rootProps, mergedProps))
     attributes && Object.assign(rootProps, attributes)
 
 

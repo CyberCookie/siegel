@@ -12,7 +12,7 @@ type Props = {
     }[],
     onChange(id: ID, e: React.MouseEvent, payload?: any): void
     activeTab?: ID
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

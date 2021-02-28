@@ -26,7 +26,7 @@ type Props = {
     }
     location: string
     separator?: React.ReactNode
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

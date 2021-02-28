@@ -8,7 +8,7 @@ type Props = {
     children?: React.ReactNode
     xAxis?: boolean
     deltaPos?: number
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentBase
 
 type DefaultProps = {

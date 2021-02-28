@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../../utils/is_touchscreen'
-import { extractProps } from '../../ui_utils'
+import { extractProps, applyRefApi } from '../../ui_utils'
 import type { ComponentAttributes } from '../../ui_utils'
 import type{ MergedProps, _Select, SelectRootProps } from './types'
 
@@ -23,7 +23,7 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
         className && (optionClassName += ` ${className}`)
         value === selected && (optionClassName += ` ${theme._option_active}`)
         
-        const optionProps: ComponentAttributes = {
+        const optionProps: ComponentAttributes<HTMLDivElement> = {
             children: title,
             className: optionClassName
         }
@@ -48,7 +48,9 @@ const Select: _Select = (props, noDefaults) => {
         ?   extractProps(Select.defaults, props)
         :   (props as _Select['defaults'] & typeof props)
 
-    const { theme, attributes, displayValue, dropdownIcon, label, disabled, placeholder } = mergedProps;
+    const {
+        theme, attributes, displayValue, dropdownIcon, label, disabled, placeholder, refApi
+    } = mergedProps;
     
     let className = mergedProps.className;
     isActive && (className += ` ${theme._active}`)
@@ -66,6 +68,7 @@ const Select: _Select = (props, noDefaults) => {
             
                 setActive(!isActive)
             })
+    refApi && (applyRefApi(selectRootProps, mergedProps))
     attributes && (selectRootProps = Object.assign(selectRootProps, attributes))
 
     useEffect(() => {

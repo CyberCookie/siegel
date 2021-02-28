@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import isE from '../../utils/is_exists'
-import { extractProps } from '../ui_utils'
+import { extractProps, applyRefApi } from '../ui_utils'
 import Swipe from '../Swipe'
 import type { _Slider, MergedProps } from './types'
 
@@ -15,11 +15,12 @@ type SwitchSlide = (nextPage: number) => void
 const componentID = '-ui-slider'
 
 function getSliderRootProps(mergedProps: MergedProps) {
-    const { className, attributes } = mergedProps;
+    const { className, attributes, refApi } = mergedProps;
     let result = {
         className,
         ref: (useRef() as React.MutableRefObject<HTMLDivElement>)
     }
+    refApi && (applyRefApi(result, mergedProps))
     attributes && (result = Object.assign(result, attributes))
 
 

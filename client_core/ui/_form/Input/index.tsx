@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-import { extractProps } from '../../ui_utils'
+import { extractProps, applyRefApi } from '../../ui_utils'
 import getInputLabeled from '../label'
 import componentID from './id'
 import type { _Input/*, InputFieldThemeKeys*/ } from './types'
@@ -29,8 +29,10 @@ const Input: _Input = (props, noDefaults) => {
         ?   extractProps(Input.defaults, props)
         :   (props as _Input['defaults'] & typeof props)
     
-    const { theme, label, value, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
-        onChange, onFocus, payload, inputStore, autofocus, placeholder, regexp, mask } = mergedProps;
+    const {
+        theme, label, value, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
+        onChange, onFocus, payload, inputStore, autofocus, placeholder, regexp, mask, refApi
+    } = mergedProps;
     
     const store = inputStore || useState(getDefaultInputStoreState())
     const [ state, setState ] = store;
@@ -48,7 +50,6 @@ const Input: _Input = (props, noDefaults) => {
             disabled || ((inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus())
         }, [ disabled ])
     }
-    
     
     
     let className = mergedProps.className;
@@ -100,7 +101,7 @@ const Input: _Input = (props, noDefaults) => {
         } else inputProps.type = type
     }
     
-
+    refApi && (applyRefApi(inputRootProps, mergedProps))
     attributes && Object.assign(inputRootProps, attributes)
     inputAttributes && Object.assign(inputProps, inputAttributes)
 

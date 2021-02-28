@@ -1,22 +1,25 @@
 import React from 'react'
 
-import { extractProps } from '../../ui_utils'
+import { extractProps, applyRefApi } from '../../ui_utils'
 import type { _Button } from './types'
 
 
 const componentID = '-ui-button'
 
 const Button: _Button = (props, noDefaults) => {
-    const {
-        value: children,
-        onClick: onMouseDown,
-        className, type, disabled, attributes
-    } = noDefaults
+    const mergedProps = noDefaults
         ?   extractProps(Button.defaults, props)
         :   (props as _Button['defaults'] & typeof props)
     
+    const {
+        value: children,
+        onClick: onMouseDown,
+        className, type, disabled, attributes, refApi
+    } = mergedProps;
+
 
     const buttonProps = { className, onMouseDown, type, disabled, children }
+    refApi && applyRefApi(buttonProps, mergedProps)
     attributes && Object.assign(buttonProps, attributes)
 
 

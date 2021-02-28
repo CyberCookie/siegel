@@ -25,7 +25,7 @@ type Props = {
     disabled?: boolean
     autofocus?: boolean
     placeholder?: string
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
     inputAttributes?: Omit<ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>, 'onChange'> & {
         onChange?(e: Parameters<Props['onChange']>[1]): void
     }

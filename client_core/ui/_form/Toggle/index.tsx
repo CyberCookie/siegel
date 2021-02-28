@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { extractProps } from '../../ui_utils'
+import { extractProps, applyRefApi } from '../../ui_utils'
 import type { _Toggle, ToggleRootProps } from './types'
 
 
@@ -11,8 +11,10 @@ const Toggle: _Toggle = (props, noDefaults) => {
         ?   extractProps(Toggle.defaults, props)
         :   (props as _Toggle['defaults'] & typeof props)
 
-    const { theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes,
-        payload, disabled, className } = mergedProps;
+    const {
+        theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes,
+        payload, disabled, className, refApi
+    } = mergedProps;
     
         
     let toggleRootProps: ToggleRootProps = { className }
@@ -24,6 +26,7 @@ const Toggle: _Toggle = (props, noDefaults) => {
     } else if (onChange) {
         toggleRootProps.onMouseDown = (e: React.MouseEvent) => { onChange(!isToggled, e, payload) }
     }
+    refApi && (applyRefApi(toggleRootProps, mergedProps))
     attributes && (toggleRootProps = Object.assign(toggleRootProps, attributes))
 
 

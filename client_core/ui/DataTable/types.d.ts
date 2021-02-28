@@ -64,7 +64,7 @@ type Props<T extends Entities> = {
     entities: T
     columnsConfig: ColumnsConfig<T>[]
     hookStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
-    attributes?: ComponentAttributes
+    attributes?: ComponentAttributes<HTMLDivElement>
     withPagination?: {
         displayQuantity?(quantity: number): React.ReactNode
         select: {

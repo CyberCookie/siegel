@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 
 import isExists from '../../../utils/is_exists'
 import floatMath from '../../../utils/math_float'
-import { extractProps } from '../../ui_utils'
+import { extractProps, applyRefApi } from '../../ui_utils'
 import Input, { getDefaultInputStoreState } from '../Input'
 import type { _NumberPicker, MergedProps, BtnClickEv, BtnProps, OnNumberPickerChange } from './types'
 import type { ComponentAttributes } from '../../ui_utils'
@@ -122,7 +122,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     
     const {
         theme, disabled, onChange, step, precision, min, max, disabledInput, keyboardControls, className, 
-        value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes
+        value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes, refApi, attributes
     } = mergedProps;
 
 
@@ -133,7 +133,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const numberValue = getNumberValue(value, min, max)
 
     
-    const numberpickerRootProps: ComponentAttributes = { className }
+    const numberpickerRootProps: ComponentAttributes<HTMLDivElement> = { className }
     if (disabledInput && !disabled) {
         const [ inputState, setInputState ] = _inputStore;
 
@@ -149,7 +149,10 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
             setInputState({ ...inputState })
         })
     }
+    refApi && (applyRefApi(numberpickerRootProps, mergedProps))
+    attributes && Object.assign(numberpickerRootProps, attributes)
 
+    
     const inputFieldProps: InputProps = {
         theme, label, errorMsg, placeholder, inputAttributes,
         regexp: numberMask,

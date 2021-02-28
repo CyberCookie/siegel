@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 
-import { extractProps, ComponentAttributes } from '../../ui_utils'
+import { extractProps, applyRefApi, ComponentAttributes } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
 import Input, { getDefaultInputStoreState } from '../Input'
 import type { _DropdownSearch, MergedProps, Store, State } from './types'
@@ -49,8 +49,10 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         ?   extractProps(DropdownSearch.defaults, props)
         :   (props as _DropdownSearch['defaults'] & typeof props)
 
-    const { theme, searchOptions, minInputLength, onSearch, payload, className, showOnFocus, selected, onChange, 
-        disabled, label, inputStore, errorMsg, placeholder, inputAttributes, autofocus, regexp } = mergedProps;
+    const {
+        theme, searchOptions, minInputLength, onSearch, payload, className, showOnFocus, selected, onChange, 
+        disabled, label, inputStore, errorMsg, placeholder, inputAttributes, autofocus, regexp, refApi, attributes
+    } = mergedProps;
     
     const store = useState({ searchString: undefined } as State)
     const [ state, setState ] = store;
@@ -60,7 +62,7 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     const _inputStore = inputStore || useState(getDefaultInputStoreState())
     const { isFocused } = _inputStore[0]
 
-    const dropdownSearchRootProps: ComponentAttributes = {
+    const dropdownSearchRootProps: ComponentAttributes<HTMLDivElement> = {
         className,
         onBlur(e) {
             if (e.relatedTarget !== e.currentTarget) {
@@ -69,6 +71,8 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
             }
         }
     }
+    refApi && applyRefApi(dropdownSearchRootProps, mergedProps)
+
     const inputProps: InputProps = {
         disabled, label, errorMsg, theme, placeholder, inputAttributes, autofocus, regexp,
         inputStore: _inputStore,
@@ -100,6 +104,7 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         options = getSearchOptions(mergedProps, store)
         dropdownSearchRootProps.className +=  ` ${theme._with_suggestions}`
     }
+    attributes && Object.assign(dropdownSearchRootProps, attributes)
 
     
     return (

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { extractProps } from '../ui_utils'
+import { extractProps, applyRefApi } from '../ui_utils'
 import type { TableBodyRow, TableHeadRow, TableTH, TableTD, _Table } from './types'
 
 
@@ -29,11 +29,14 @@ function getTableSection(data: (TableHeadRow | TableBodyRow)[], SectionHTMLTag: 
 }
 
 const Table: _Table = (props, noDefaults) => {
-    const { className, head, body, foot, attributes, caption } = noDefaults
+    const mergedProps = noDefaults
         ?   extractProps(Table.defaults, props)
         :   (props as _Table['defaults'] & typeof props)
     
+    const { className, head, body, foot, attributes, caption, refApi } = mergedProps;
+
     let tableRootProps = { className }
+    refApi && (applyRefApi(tableRootProps, mergedProps))
     attributes && (tableRootProps = Object.assign(tableRootProps, attributes))
 
     
