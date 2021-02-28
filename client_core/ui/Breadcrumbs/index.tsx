@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect } from 'react'
 
 import isE from '../../utils/is_exists'
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { _Breadcrumbs } from './types'
+import type { _Breadcrumbs, Props } from './types'
 
 import styles from './styles.sass'
 
@@ -48,7 +48,7 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
     useLayoutEffect(useLayoutEffectFunc, [])
 
 
-    let breadcrumbsRootProps: typeof attributes = {
+    let breadcrumbsRootProps: Props['attributes'] = {
         className,
         children: getBreadcrumbs()
     }

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../../ui_utils'
-import type { _Toggle, ToggleRootProps } from './types'
+import type { _Toggle, Props } from './types'
 
 
 const componentID = '-ui-toggle'
@@ -17,7 +17,7 @@ const Toggle: _Toggle = (props, noDefaults) => {
     } = mergedProps;
     
         
-    let toggleRootProps: ToggleRootProps = { className }
+    let toggleRootProps: Props['attributes'] = { className }
 
     isToggled && (toggleRootProps.className += ` ${theme._toggled}`)
     

@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react'
 
-import { extractProps, applyRefApi, ComponentAttributes } from '../../ui_utils'
+import { extractProps, applyRefApi } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
 import Input, { getDefaultInputStoreState } from '../Input'
-import type { _DropdownSearch, MergedProps, Store, State } from './types'
+import type { _DropdownSearch, MergedProps, Store, State, Props } from './types'
 import type { Props as InputProps } from '../Input/types'
 
 import styles from './styles.sass'
@@ -62,7 +62,7 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     const _inputStore = inputStore || useState(getDefaultInputStoreState())
     const { isFocused } = _inputStore[0]
 
-    const dropdownSearchRootProps: ComponentAttributes<HTMLDivElement> = {
+    const dropdownSearchRootProps: Props['attributes'] = {
         className,
         onBlur(e) {
             if (e.relatedTarget !== e.currentTarget) {

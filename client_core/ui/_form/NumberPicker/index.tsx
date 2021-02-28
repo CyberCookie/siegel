@@ -6,8 +6,7 @@ import isExists from '../../../utils/is_exists'
 import floatMath from '../../../utils/math_float'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import Input, { getDefaultInputStoreState } from '../Input'
-import type { _NumberPicker, MergedProps, BtnClickEv, BtnProps, OnNumberPickerChange } from './types'
-import type { ComponentAttributes } from '../../ui_utils'
+import type { _NumberPicker, Props, MergedProps, BtnClickEv, BtnProps, OnNumberPickerChange } from './types'
 import type { Props as InputProps } from '../Input/types' 
 
 import styles from './styles.sass'
@@ -133,7 +132,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const numberValue = getNumberValue(value, min, max)
 
     
-    const numberpickerRootProps: ComponentAttributes<HTMLDivElement> = { className }
+    const numberpickerRootProps: Props['attributes'] = { className }
     if (disabledInput && !disabled) {
         const [ inputState, setInputState ] = _inputStore;
 

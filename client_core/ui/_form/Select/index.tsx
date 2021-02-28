@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import isTouchScreen from '../../../utils/is_touchscreen'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import type { ComponentAttributes } from '../../ui_utils'
-import type{ MergedProps, _Select, SelectRootProps } from './types'
+import type{ MergedProps, _Select, Props } from './types'
 
 
 const componentID = '-ui-select'
@@ -56,9 +56,9 @@ const Select: _Select = (props, noDefaults) => {
     isActive && (className += ` ${theme._active}`)
     displayValue && (className += ` ${theme._filled}`)
     
-    let selectRootProps: SelectRootProps = {
+    let selectRootProps: Props['attributes'] = {
         className,
-        ref: (useRef() as React.MutableRefObject<HTMLDivElement>)
+        ref: useRef(null)
     }
     disabled
         ?   (selectRootProps.className += ` ${theme._disabled}`)
@@ -73,7 +73,8 @@ const Select: _Select = (props, noDefaults) => {
 
     useEffect(() => {
         const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
-            selectRootProps.ref.current.contains(e.target as Node) || setActive(false)
+            (selectRootProps.ref as React.MutableRefObject<HTMLDivElement>)
+                .current.contains(e.target as Node) || setActive(false)
         }
         const eventOptions = { passive: true }
 

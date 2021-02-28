@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { HTMLSwipeMouseEvent, _Swipe } from './types'
+import type { HTMLSwipeMouseEvent, _Swipe, Props } from './types'
 
 
 const componentID = '-ui-swipe'
@@ -17,7 +17,7 @@ const Swipe: _Swipe = (props, noDefaults) => {
 
     const { className, children, xAxis, deltaPos, onSwipe, attributes, refApi } = mergedProps;
 
-    let swipeRootAttributes: React.HTMLAttributes<HTMLDivElement> = { className, children }
+    let swipeRootAttributes: Props['attributes'] = { className, children }
     _isTouchScreen
         ?   (swipeRootAttributes.onTouchStart = onMouseDown)
         :   (swipeRootAttributes.onMouseDown = onMouseDown)

@@ -1,12 +1,6 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
-type ToggleRootProps = {
-    className: MergedProps['className']
-    onMouseDown?(e: React.MouseEvent): void
-}
-
-
 type ThemeKeys = '_toggled' | '_disabled' | 'label' | 'toggle_area' | 'toggler'
 
 type Props = {
@@ -29,4 +23,4 @@ type MergedProps = Props & DefaultProps
 type _Toggle = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _Toggle, ToggleRootProps }
+export type { Props, DefaultProps, MergedProps, _Toggle }

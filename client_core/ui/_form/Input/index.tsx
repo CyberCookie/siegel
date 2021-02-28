@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import getInputLabeled from '../label'
 import componentID from './id'
-import type { _Input/*, InputFieldThemeKeys*/ } from './types'
+import type { _Input, Props/*, InputFieldThemeKeys*/ } from './types'
 
 
 const getDefaultInputStoreState = () => ({
@@ -27,7 +27,7 @@ const getDefaultInputStoreState = () => ({
 const Input: _Input = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Input.defaults, props)
-        :   (props as _Input['defaults'] & typeof props)
+        :   (props as _Input['defaults'] & Props)
     
     const {
         theme, label, value, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
@@ -39,7 +39,7 @@ const Input: _Input = (props, noDefaults) => {
     const { isFocused, isTouched } = state;
     
 
-    const inputProps: NonNullable<typeof props.inputAttributes> = {
+    const inputProps: NonNullable<Props['inputAttributes']> = {
         disabled, value, placeholder,
         className: theme.field
     }
@@ -58,7 +58,7 @@ const Input: _Input = (props, noDefaults) => {
     isFocused && (className += ` ${theme._focused}`)
     isTouched && (className += ` ${theme._touched}`)
     
-    const inputRootProps: typeof props.attributes = {
+    const inputRootProps: Props['attributes'] = {
         className,
         onBlur(e) {
             if (!isTouched || isFocused) {
