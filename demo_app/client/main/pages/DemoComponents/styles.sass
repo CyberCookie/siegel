@@ -1,10 +1,7 @@
-$border_color: grey
+$border: 1px solid grey
 
 
 .page
-    --border_color: #{$border_color}
-    --border: 1px solid var(--border_color)
-
     +absolute(0, '','', 0)
     display: flex
     width: 100%
@@ -14,7 +11,7 @@ $border_color: grey
 .sidebar
     +font(20px, 30px)
     padding: $gutter_lg
-    border-right: var(--border)
+    border-right: $border
     flex-shrink: 0
 
     & > div
@@ -27,23 +24,23 @@ $border_color: grey
     font-weight: 600
 
 .demo_component
-    padding: 0 $gutter_lg $gutter
-    flex-grow: 1
+    padding: $gutter_lg
+    width: 100%
     height: 100%
     overflow: auto
 
     h1
         +font(34px, '','', 600)
-        border-bottom: var(--border)
+        border-bottom: $border
         margin: 0 -#{$gutter_lg}
-        padding: $gutter $gutter_lg
+        padding: $gutter $gutter_lg $gutter_lg
     
     h2
         +font(22px, '','', 500)
         padding: $gutter 0
 
         &:not(:first-of-type)
-            border-top: var(--border)
+            border-top: $border
             padding-top: $gutter_lg
             margin-top: $gutter_lg
     

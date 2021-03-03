@@ -14,6 +14,7 @@ type Props = {
     separator?: React.ReactNode
     payload?: any
     attributes?: ComponentAttributes<HTMLDivElement>
+    fixedWidth?: boolean
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
@@ -21,6 +22,7 @@ type DefaultProps = {
     elementsBySide: NonNullable<Props['elementsBySide']>
     elementsByMiddle: NonNullable<Props['elementsByMiddle']>
     separator: NonNullable<Props['separator']>
+    fixedWidth: NonNullable<Props['fixedWidth']>
 }
 
 type MergedProps = Props & DefaultProps

@@ -1,15 +1,18 @@
 .root
     +flex('', center)
 
+
+.control, .separator
+    width: 40px
+    margin: 0 $gutter_sm
+
 .control
     +flex(center, center)
     +font(20px, 40px, $secondary)
-    width: 40px
     height: 40px
     border: $border
     border-width: 2px
     border-radius: 50%
-    margin: 0 $gutter_sm
     cursor: pointer
 
     &:first-of-type i
@@ -36,4 +39,4 @@
     align-self: flex-end
     font-size: 20px
     letter-spacing: 2px
-    margin: 0 $gutter
+    text-align: center

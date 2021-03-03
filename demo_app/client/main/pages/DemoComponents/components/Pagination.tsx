@@ -21,9 +21,11 @@ const Demo = () => {
         <h2>simple</h2>
         <Pagination {...props} />
 
-
         <h2>2 by center; 3 by sides</h2>
         <Pagination {...props} elementsByMiddle={2} elementsBySide={3} />
+
+        <h2>2 by center; 3 by sides; fixed width = false</h2>
+        <Pagination {...props} elementsByMiddle={2} elementsBySide={3} fixedWidth={false} />
     </>
 }
 Demo.id = Pagination.ID;

@@ -39,7 +39,7 @@ function applyRefApi(rootProps: ComponentAttributes, mergedProps: PropsComponent
 
     const trackDependencies = getOnPropsUpdate
         ?   getOnPropsUpdate(mergedProps)
-        :   undefined
+        :   undefined;
 
     useEffect(() => {
         getRef((rootProps.ref as React.MutableRefObject<HTMLElement>).current)
