@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { pagePathMap } from 'app/routes'
+import { pagePathMap } from 'app/_hardcode'
 
 import styles from './styles.sass'
 
@@ -23,7 +23,7 @@ const navigationConfig = [
 
 const Header = () => {
     const navs = navigationConfig.map(({ path, label }) => (
-        <NavLink key={path} to={path} children={label}
+        <NavLink key={path} to={'/' + path} children={label}
             activeClassName={styles.active_nav} />
     ))
     

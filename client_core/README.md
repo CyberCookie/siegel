@@ -230,22 +230,29 @@ Hook store provides ready to use `fetch module` which is usefull for requests tr
 
 <details>
 <summary><h2>Router</h2></summary>
-This abstraction around react-router-dom module is to provide better declarative interface that allows to build recursive routing with dynamic pages.
+This abstraction around react-router-dom module is to provide better declarative interface that allows to build recursive routing with dynamic pages, redirects and even apply global NotFound page!
 `siegel-router` exports default routerCreator and history module.
 
 <h3>createRouter = (options: RouterOptions) => Router</h3>
 
 <h4>RouterOptions</h4>
 
-- routes - router config. key - value object where key is a page url and value is a page route config. Config could have the next properties:
-    - component - can be rendered component or lazy loaded component.
-    - exact - react-router-dom's exact.
+- children - router config. key - value object where key is a page url and value is a page route config. Config can have the next properties:
+    - Page - normal page to render.
+    - LazyPage - lazy loaded `Page` to render.
+    - LazyFallback - fallback component to display while lazy loading `Page` is fetching.
+    - Layout - like a root `Layout`, this one provides common view for nested `children` routes.
+    - children - nested routes.
+    - exact - `react-router-dom`'s exact.
     - redirectTo - path to redirect to if current page url was matched.
+    - redirectUseParentBase - whether to use parent's path url as a base.
     - beforeEnter - function that executes before first page render.
         Data returned from the function is passing to the page props.
         First argument is a page props.
 - Layout - react component to wrap all the pages you put into routes.
 - notFound - page to render if no url was matched
+    - Page - page to render
+    - path - url path for 404 `Page`
 - history - browser history cteated with history module
 
 ```js
@@ -256,20 +263,39 @@ import createRouter, { history } from 'siegel-router'
 
 const routesConfig = {
     '': {
-        component: props => <div>home page</div>,
+        Page: props => <div>home page</div>,
         redirectTo: 'url_to_redirect'
     },
     some_page: {
-        component: lazy(() => import('path/to/lazy_component')),
+        Layout: props => (
+            <>
+                some_page's sub header
+                some_page's sidebar
+                { props.children }
+            </>
+        ),
         children: {
             nested_page_1: {
                 beforeEnter(props) {
                     // do some logic before page render, like updating seo tags.
                 },
-                component: props => <div> nested page 1 </div>
+                Page: props => <div> nested page 1 </div>
             },
             nested_page_2: {
-                component: props => <div> nested page 2 </div>
+                Page: props => <div> nested page 2 </div>
+            },
+            nested_page_3: {
+                LazyPage: lazy(() => import('path/to/lazy_component')),
+                LazyFallback: <div>Loading...</div>
+            },
+
+            redirect: {
+                redirectTo: 'some_page'
+            },
+
+            redirect_scope: {
+                redirectTo: 'nested_page_2',
+                redirectUseParentBase: true
             }
         }
     }
@@ -285,7 +311,11 @@ const Layout = props => {
 
 const router = createRouter({
     Layout,
-    routes: routesConfig
+    notFound: {
+        path: '404',
+        Page: () => <div>404</div>
+    }
+    children: routesConfig
 })
 
 render(document.getElementById('app'), router)

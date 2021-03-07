@@ -44,7 +44,6 @@ $checker_size: $size * 0.6
         +font($checker_size * 1.6, '', $primary)
         +absolute_center
         opacity: 0
-        pointer-events: none
         transition: opacity $transition
 
 
@@ -65,12 +64,14 @@ $checker_size: $size * 0.6
 
 
 ._disabled
+    &, .checkbox, .with_icon_wrapper
+        cursor: default
+        
     &._checked::before
         background: $border_color
     
     .checkbox
         border-color: $border_color
-        cursor: default
     
     i
         color: $border_color

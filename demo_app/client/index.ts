@@ -1,11 +1,9 @@
 //TODO: router demo page 
 
 import { render } from 'react-dom'
-import createRouter from 'siegel-router'
 import { setup as requestServiceSetup, RequestParams } from 'siegel-services/request'
 
-import routes, { history } from 'app/routes'
-import Layout from 'app/Layout'
+import Router from 'app/routes'
 
 import './styles'
 
@@ -28,16 +26,5 @@ if (rootComponent) {
     })
 
 
-    render(
-        createRouter({ routes, Layout, history }),
-        rootComponent
-    )
-
-
-    Object.defineProperty(Event.prototype, '__stop', {
-        value() {
-            this.stopPropagation()
-            this.preventDefault()
-        }
-    })
+    render(Router, rootComponent)
 }

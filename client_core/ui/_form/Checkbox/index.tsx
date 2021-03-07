@@ -1,3 +1,6 @@
+//TODO: refactor
+//TODO: apply root className
+
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../../ui_utils'
@@ -47,7 +50,10 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     } else {
         checkboxInputProps.readOnly = true
     }
-    hasWrapperTags || (checkboxInputProps.className += ` ${modClass}`)
+    if (!hasWrapperTags) {
+        checkboxInputProps.className += ` ${modClass}`
+        refApi && applyRefApi(checkboxInputProps, mergedProps)
+    }
     checkboxAttributes && (checkboxInputProps = Object.assign(checkboxInputProps, checkboxAttributes))
 
     let CheckboxElement = <input {...checkboxInputProps} />
@@ -57,7 +63,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
         const iconWrapperProps: WrapperProps = { className: theme.with_icon_wrapper }
         if (!withLabel) {
             iconWrapperProps.className += ` ${modClass}`
-            onChange && (iconWrapperProps.onMouseDown = onCheckboxClick)
+            !disabled && onChange && (iconWrapperProps.onMouseDown = onCheckboxClick)
             refApi && applyRefApi(iconWrapperProps, mergedProps)
             attributes && Object.assign(iconWrapperProps, attributes)
         }
@@ -75,8 +81,8 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
         const labelProps: WrapperProps = {
             className: `${className} ${modClass}`
         }
-        onChange && (labelProps.onMouseDown = onCheckboxClick)
-        refApi && applyRefApi(attributes, mergedProps)
+        !disabled && onChange && (labelProps.onMouseDown = onCheckboxClick)
+        refApi && applyRefApi(labelProps, mergedProps)
         attributes && Object.assign(labelProps, attributes)
 
         return getLabel(CheckboxElement, labelProps, {

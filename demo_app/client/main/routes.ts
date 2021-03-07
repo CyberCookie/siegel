@@ -1,18 +1,16 @@
 import { lazy } from 'react'
 import { createBrowserHistory } from 'history'
 import seo from 'siegel-utils/seo'
+import createRouter from 'siegel-router'
 import type { RouterConfig } from 'siegel-router'
+
+import Layout from 'app/Layout'
+import { pagePathMap } from 'app/_hardcode'
 
 
 const history = createBrowserHistory()
 
-const pagePathMap = {
-    home: '',
-    demo_components: 'demo_components',
-    demo_api: 'demo_api'
-}
-
-const routerConfig: RouterConfig = {
+const routes: RouterConfig = {
     [pagePathMap.home]: {
         beforeEnter() {
             seo({
@@ -21,7 +19,7 @@ const routerConfig: RouterConfig = {
                 description: 'siegel demo app'
             })
         },
-        component: lazy(() => import('app/pages/Home'))
+        LazyPage: lazy(() => import('app/pages/Home'))
     },
     
     [pagePathMap.demo_components]: {
@@ -32,7 +30,7 @@ const routerConfig: RouterConfig = {
                 description: 'siegel demo components'
             })
         },
-        component: lazy(() => import('app/pages/DemoComponents'))
+        LazyPage: lazy(() => import('app/pages/DemoComponents'))
     },
     
     [pagePathMap.demo_api]: {
@@ -43,10 +41,16 @@ const routerConfig: RouterConfig = {
                 description: 'siegel demo API'
             })
         },
-        component: lazy(() => import('app/pages/DemoApi'))
+        LazyPage: lazy(() => import('app/pages/DemoApi'))
     }
 }
 
 
+const Router = createRouter({
+    Layout, history,
+    children: routes
+})
+
+
 export { pagePathMap, history }
-export default routerConfig
+export default Router
