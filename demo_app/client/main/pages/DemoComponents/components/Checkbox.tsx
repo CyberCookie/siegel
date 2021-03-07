@@ -21,6 +21,9 @@ const Demo = () => {
         <Checkbox {...{ ...props, icon: false }} />
 
         <h2>with label</h2>
+        <Checkbox {...{ ...props, icon: false }} disabled label='Some label' />
+
+        <h2>with label and icon</h2>
         <Checkbox {...props} label='Some label' />
 
         <h2>disabled</h2>

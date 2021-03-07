@@ -1,10 +1,15 @@
+$size: 26px
+$checker_size: $size * 0.6
+
 =absolute_center
     +absolute(50%, 50%)
     transform: translateX(50%) translateY(-50%)
 
-$size: 26px
-$checker_size: $size * 0.6
-    
+
+.root
+    cursor: pointer
+    +flex('', center)
+
 .checkbox
     width: $size
     height: $size
@@ -24,8 +29,9 @@ $checker_size: $size * 0.6
         transition: background $transition
 
     
-._checked.checkbox
-    position: relative
+._checked:not(._disabled)
+    &, .checkbox
+        position: relative
 
     &::before
         content: ''
@@ -47,30 +53,31 @@ $checker_size: $size * 0.6
         transition: opacity $transition
 
 
-._checked .with_icon_wrapper,
-._checked.with_icon_wrapper
-    i
-        opacity: 1
+._checked
+    &, .with_icon_wrapper,
+        i
+            opacity: 1
 
-
-.root
-    cursor: pointer
-    +flex('', center)
 
 .label
     +font(20px, '', $primary)
     order: 1
     padding-left: $gutter_sm
 
+    ._disabled &
+        color: $border_color
+
 
 ._disabled
     &, .checkbox, .with_icon_wrapper
         cursor: default
         
-    &._checked::before
-        background: $border_color
+    &._checked
+        &, .checkbox
+            &::before
+                background: $border_color
     
-    .checkbox
+    &, .checkbox
         border-color: $border_color
     
     i

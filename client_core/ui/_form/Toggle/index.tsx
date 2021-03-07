@@ -8,7 +8,7 @@ const componentID = '-ui-toggle'
 
 const Toggle: _Toggle = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Toggle.defaults, props)
+        ?   extractProps(Toggle.defaults, props, false)
         :   (props as _Toggle['defaults'] & typeof props)
 
     const {

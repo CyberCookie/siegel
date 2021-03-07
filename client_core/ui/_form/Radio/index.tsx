@@ -30,7 +30,7 @@ function getOptions(mergedProps: MergedProps) {
 
 const Radio: _Radio = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Radio.defaults, props)
+        ?   extractProps(Radio.defaults, props, false)
         :   (props as _Radio['defaults'] & typeof props)
 
     const { disabled, theme, attributes, refApi } = mergedProps;

@@ -1,5 +1,5 @@
 import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../../ui_utils'
-import type { Props as InputProps, InputFieldThemeKeys } from '../Input/types'
+import type { Props as InputProps } from '../Input/types'
 
 
 type State = {
@@ -8,7 +8,7 @@ type State = {
 }
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-type ThemeKeys = 'options'| 'option' | '_with_suggestions' | InputFieldThemeKeys
+type ThemeKeys = 'options'| 'option' | '_with_suggestions' | '_disabled' | '_focused'
 
 type Props = {
     onChange(id: ID, e: React.MouseEvent | React.FocusEvent, payload?: any): void
@@ -27,9 +27,12 @@ type Props = {
     minInputLength?: number
     payload?: any
     showOnFocus?: boolean
+    showAlways?: boolean
     showAll?: boolean
-    selected?: ID
-} & PropsComponentThemed<ThemeKeys> & Omit<InputProps, 'theme' | 'type' | 'value' | 'attributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange'>
+    selected?: ID,
+    disabled?: boolean
+    inputProps?: Omit<InputProps, 'className' | 'onChange' | 'value' | 'attributes'>
+} & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

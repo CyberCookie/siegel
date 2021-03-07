@@ -108,7 +108,7 @@ function getCalendarVisuals(
 
 const Calendar: _Calendar = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Calendar.defaults, props)
+        ?   extractProps(Calendar.defaults, props, false)
         :   (props as _Calendar['defaults'] & typeof props)
 
     const {

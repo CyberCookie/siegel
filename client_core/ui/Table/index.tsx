@@ -30,7 +30,7 @@ function getTableSection(data: (TableHeadRow | TableBodyRow)[], SectionHTMLTag: 
 
 const Table: _Table = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Table.defaults, props)
+        ?   extractProps(Table.defaults, props, false)
         :   (props as _Table['defaults'] & typeof props)
     
     const { className, head, body, foot, attributes, caption, refApi } = mergedProps;

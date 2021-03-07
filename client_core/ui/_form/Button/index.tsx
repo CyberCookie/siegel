@@ -8,7 +8,7 @@ const componentID = '-ui-button'
 
 const Button: _Button = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Button.defaults, props)
+        ?   extractProps(Button.defaults, props, false)
         :   (props as _Button['defaults'] & typeof props)
     
     const {

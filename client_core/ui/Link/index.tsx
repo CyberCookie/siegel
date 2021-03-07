@@ -8,7 +8,7 @@ const componentID = '-ui-external_link'
 
 const Link: _Link = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Link.defaults, props)
+        ?   extractProps(Link.defaults, props, false)
         :   (props as _Link['defaults'] & typeof props)
     
     const { className, path, title, attributes, refApi } = mergedProps;

@@ -90,7 +90,7 @@ function getSlideElements(rootChilds: NodeListOf<ChildNode>, withControlls: Merg
 
 const Slider: _Slider = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Slider.defaults, props)
+        ?   extractProps(Slider.defaults, props, false)
         :   (props as _Slider['defaults'] & typeof props)
     
     const { withControlls, store } = mergedProps;

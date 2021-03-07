@@ -72,16 +72,20 @@ const Accordion = withDefaults(_Accordion, {
 
 const dropdownSearchTheme = {
     root: _dropdownSearchTheme.dropdown_search,
-    field: `${inputTheme.field} ${_dropdownSearchTheme.field}`,
-    label_text: inputTheme.label_text,
     options: `${_selectTheme.options} ${_dropdownSearchTheme.options}`,
     option: _selectTheme.option,
-    _focused: inputTheme._focused,
     _disabled: _dropdownSearchTheme._disabled,
     _with_suggestions: _dropdownSearchTheme._with_suggestions
 }
 const DropdownSearch = withDefaults(_DropdownSearch, {
-    theme: dropdownSearchTheme
+    theme: dropdownSearchTheme,
+    inputProps: {
+        theme: {
+            field: `${inputTheme.field} ${_dropdownSearchTheme.field}`,
+            label_text: inputTheme.label_text,
+            _focused: inputTheme._focused
+        }
+    }
 })
 
 

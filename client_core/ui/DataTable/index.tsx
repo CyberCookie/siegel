@@ -1,5 +1,6 @@
 //TODO: virtualization
 //TODO: resize with %
+//TODO: recursive merge select and pagination props
 
 import React, { useState } from 'react'
 
@@ -70,7 +71,7 @@ const defaultState = getDefaultState()
 
 const DataTable: _DataTable = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(DataTable.defaults, props)
+        ?   extractProps(DataTable.defaults, props, false)
         :   (props as _DataTable['defaults'] & typeof props)
 
     const { theme, className, attributes, withPagination, tableAttributes, refApi } = mergedProps;

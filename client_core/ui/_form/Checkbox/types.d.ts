@@ -7,7 +7,7 @@ type WrapperProps = {
 }
 
 
-type ThemeKeys = 'label' | 'checkbox' | '_checked' | '_disabled' | 'with_icon_wrapper'
+type ThemeKeys = 'label' | 'checkbox' | 'with_icon_wrapper' | 'label_wrapper' | '_checked' | '_disabled'
 
 
 //#TS_sucks. attributes type should depend on label <> icon presence

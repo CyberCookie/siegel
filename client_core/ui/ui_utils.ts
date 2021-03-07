@@ -24,6 +24,7 @@ type CoreIUComponent<P extends PropsComponentThemed, D extends PropsComponentThe
     (props: P, withDefaults?: boolean): JSX.Element
     defaults: D
     ID: string
+    recursiveMergeProps?: (Extract<keyof P, string>)[]
 }
 
 type CoreIUComponentWithDefaults<C extends CoreIUComponent<any, any>> = {
@@ -47,15 +48,23 @@ function applyRefApi(rootProps: ComponentAttributes, mergedProps: PropsComponent
 }
 
 
-function extractProps
-<
+function extractProps<
     T extends PropsComponentThemed,
     U extends PropsComponentThemed
 >
-(defaultProps: T, props: U, withMergedDefaults?: boolean) {
+(defaultProps: T & Indexable, props: U & Indexable, withMergedDefaults: boolean, recursiveMergeProps?: string[]) {
 
     const { className: defaultClassName, theme: defaultTheme } = defaultProps;
     const { className, theme } = props;
+    
+    recursiveMergeProps?.forEach(prop => {
+        const _prop = props[prop]
+        const defaultProp = defaultProps[prop]
+        
+        _prop && defaultProp
+            && Object.assign(_prop, extractProps(defaultProp, _prop, withMergedDefaults))
+    })
+
     const result = Object.assign({}, defaultProps, props)
     
     if (className && defaultClassName) {
@@ -83,13 +92,14 @@ function withDefaults
     C extends CoreIUComponent<any, any>,
     NewDefaults extends Partial<Parameters<C>[0]>,
 >
-(Component: C, newDefaults: NewDefaults) {        
-    const mergedDefaults = extractProps(Component.defaults, newDefaults)
+(Component: C, newDefaults: NewDefaults) {
+    const { ID, defaults, recursiveMergeProps } = Component;
+    const mergedDefaults = extractProps(defaults, newDefaults, false, recursiveMergeProps)
 
     type Props = PartialKeys<Parameters<C>[0], keyof NewDefaults>
 
-    const componentWithDefaults = (props: Props) => Component(extractProps(mergedDefaults, props, true))
-    componentWithDefaults.ID = Component.ID;
+    const componentWithDefaults = (props: Props) => Component(extractProps(mergedDefaults, props, true, recursiveMergeProps))
+    componentWithDefaults.ID = ID;
 
 
     return componentWithDefaults

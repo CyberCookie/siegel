@@ -26,7 +26,7 @@ const getDefaultInputStoreState = () => ({
 //[email, password, search, tel, text, url, (textarea)]
 const Input: _Input = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Input.defaults, props)
+        ?   extractProps(Input.defaults, props, false)
         :   (props as _Input['defaults'] & Props)
     
     const {

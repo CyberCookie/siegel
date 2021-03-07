@@ -45,7 +45,7 @@ const Select: _Select = (props, noDefaults) => {
     const [ isActive, setActive ] = useState(false)
 
     const mergedProps = noDefaults
-        ?   extractProps(Select.defaults, props)
+        ?   extractProps(Select.defaults, props, false)
         :   (props as _Select['defaults'] & typeof props)
 
     const {

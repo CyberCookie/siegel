@@ -116,7 +116,7 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
 
 const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(NumberPicker.defaults, props)
+        ?   extractProps(NumberPicker.defaults, props, false)
         :   (props as _NumberPicker['defaults'] & typeof props)
     
     const {

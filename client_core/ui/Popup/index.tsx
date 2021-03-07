@@ -12,7 +12,7 @@ const innerCloseClassName = componentID + '_close__inner'
 
 const Popup: _Popup = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Popup.defaults, props)
+        ?   extractProps(Popup.defaults, props, false)
         :   (props as _Popup['defaults'] & typeof props)
 
     const { theme, closeIcon, content, onClose, attributes, className, refApi } = mergedProps;

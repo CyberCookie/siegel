@@ -121,7 +121,7 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
 
 const Pagination: _Pagination = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Pagination.defaults, props)
+        ?   extractProps(Pagination.defaults, props, false)
         :   (props as _Pagination['defaults'] & Props)
     
     const { listLength, showPerPage } = mergedProps;

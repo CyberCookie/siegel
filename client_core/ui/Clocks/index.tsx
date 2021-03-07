@@ -10,7 +10,7 @@ const componentID = '-ui-clocks'
 
 const Clocks: _Clocks = (props, noDefaults) => {
     const { builder, initDate, zeroing, incrementEveryMinute, speedCoef } = noDefaults
-        ?   extractProps(Clocks.defaults, props)
+        ?   extractProps(Clocks.defaults, props, false)
         :   (props as _Clocks['defaults'] & typeof props)
 
 

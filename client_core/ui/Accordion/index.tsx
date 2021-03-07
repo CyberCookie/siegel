@@ -13,7 +13,7 @@ const onClickHandler = (e: React.MouseEvent) => {
 
 const Accordion: _Accordion = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Accordion.defaults, props)
+        ?   extractProps(Accordion.defaults, props, false)
         :   (props as _Accordion['defaults'] & typeof props)
     
     const {

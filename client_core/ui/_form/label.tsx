@@ -6,13 +6,12 @@ import { ComponentAttributes } from '../ui_utils'
 type WithLabel = (
     input: JSX.Element,
     labelProps: ComponentAttributes<HTMLLabelElement>,
-    labelTextProps: ComponentAttributes
+    labelTextProps: ComponentAttributes<HTMLDivElement>
 ) => JSX.Element
 
 const withLabel: WithLabel = (input, labelProps, labelTextProps) => (
     <label { ...labelProps }>
         <div { ...labelTextProps } />
-        
         { input }
     </label>
 )

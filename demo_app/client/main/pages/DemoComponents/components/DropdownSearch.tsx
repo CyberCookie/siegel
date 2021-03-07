@@ -30,10 +30,16 @@ const Demo = () => {
         <h1>{DropdownSearch.ID}</h1>
 
         <h2>simple</h2>
-        <DropdownSearch {...props} placeholder={'type "option..."'} />
+        <DropdownSearch {...props}
+            inputProps={{
+                placeholder: 'type "option..."'
+            }} />
 
         <h2>show options on focus</h2>
-        <DropdownSearch {...props} placeholder={'type "option..."'} showOnFocus />
+        <DropdownSearch {...props} showOnFocus
+            inputProps={{
+                placeholder: 'type "option..."'
+            }} />
 
         <h2>disabled</h2>
         <DropdownSearch {...props} disabled />

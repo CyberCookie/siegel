@@ -50,7 +50,7 @@ function getTabRootProps(mergedProps: MergedProps, activeTabContent: React.React
 
 const Tabs: _Tabs = (props, noDefaults) => {
     const mergedProps = noDefaults
-        ?   extractProps(Tabs.defaults, props)
+        ?   extractProps(Tabs.defaults, props, false)
         :   (props as _Tabs['defaults'] & typeof props)
 
     
