@@ -5,7 +5,7 @@ import inputID from '../Input/id'
 import checkboxID from '../Checkbox/id'
 import type { _Input, Props as InputProps } from '../Input/types'
 import type { _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
-import type { _Form, ValuesState, ValueStateValue, Validator } from './types'
+import type { _Form, ValuesState, ValueStateValue, Validator, Props } from './types'
 
 
 const componentID = '-ui-form'
@@ -13,7 +13,7 @@ const componentID = '-ui-form'
 const Form: _Form = (props, noDefaults) => {
     const { onSubmit, className, attributes, inputs } = noDefaults
         ?   extractProps(Form.defaults, props, false)
-        :   (props as _Form['defaults'] & typeof props)
+        :   (props as _Form['defaults'] & Props)
     
 
     const [ values, setValues ] = useState({} as ValuesState)

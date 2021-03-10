@@ -1,4 +1,4 @@
-//TODO?
+//TODO:?
 // type _Entities<Entity extends Indexable> = {
 //     clear(): void
 //     get(id: ID): Entity[ID]

@@ -47,7 +47,7 @@ function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }:
 const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DropdownSearch.defaults, props, false)
-        :   (props as _DropdownSearch['defaults'] & typeof props)
+        :   (props as _DropdownSearch['defaults'] & Props)
 
     const {
         theme, searchOptions, minInputLength, onSearch, payload, className, showOnFocus, showAlways,

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { ListElement, _Accordion } from './types'
+import type { ListElement, _Accordion, Props } from './types'
 
 
 const componentID = '-ui-accordion'
@@ -14,7 +14,7 @@ const onClickHandler = (e: React.MouseEvent) => {
 const Accordion: _Accordion = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Accordion.defaults, props, false)
-        :   (props as _Accordion['defaults'] & typeof props)
+        :   (props as _Accordion['defaults'] & Props)
     
     const {
         className, theme, list, builder, accordionIcon, soloOpen, attributes, autoExpand, refApi
@@ -32,28 +32,27 @@ const Accordion: _Accordion = (props, noDefaults) => {
 
         return children
             ?   <details key={i} className={theme.item} open={autoExpand}
-                    onClick={onClickHandler}
-                    onMouseDown={onAccordionToggle}>
+                    onClick={onClickHandler}>
 
-                    <summary className={`${theme.item_title} ${wrapperClass || ''}`}>
-                        { title }
+                    <summary className={`${theme.item_title_wrapper} ${wrapperClass || ''}`}
+                        onMouseDown={onAccordionToggle}>
+
+                        <div className={theme.item_title} children={title} />
                         { accordionIcon }
                     </summary>
 
-                    { children.map(childrenMapper) }
+                    <div className={theme.children_wrapper} children={children.map(childrenMapper)} />
                 </details>
 
-            :   <div key={i} className={theme.item__empty}
-                    children={title} />
+            :   <div key={i} className={theme.item__empty} children={title} />
     }
 
-    function onAccordionToggle(e: React.MouseEvent<HTMLDetailsElement>) {
+    function onAccordionToggle(e: React.MouseEvent<HTMLDivElement>) {
         e.stopPropagation()
-        const accordionTitle = e.currentTarget;
-        const curState = accordionTitle.open;
+        const parentDtailsEl = e.currentTarget.parentElement as HTMLDetailsElement;
 
         if (soloOpen) {
-            let sibling = accordionTitle.parentElement!.firstChild;
+            let sibling = parentDtailsEl.parentElement!.firstChild;
 
             while (sibling) {
                 (sibling as HTMLDetailsElement).open = false;
@@ -61,12 +60,15 @@ const Accordion: _Accordion = (props, noDefaults) => {
             }
         }
         
-        accordionTitle.open = !curState
+        parentDtailsEl.open = !parentDtailsEl.open
     }
     
 
+    let _className = theme.children_wrapper;
+    className && (_className += ` ${className}`)
+
     const accordionRootProps = {
-        className,
+        className: _className,
         children: list.map(childrenMapper)
     }
     refApi && (applyRefApi(accordionRootProps, mergedProps))
@@ -79,8 +81,10 @@ Accordion.defaults = {
     theme: {
         root: componentID,
         item: componentID + '_item',
-        item__empty: componentID + '_item__empty',
-        item_title: componentID + '_item_title'
+        item_title_wrapper: componentID + '_item_title_wrapper',
+        item_title: componentID + '_item_title',
+        children_wrapper: componentID + '_children_wrapper',
+        item__empty: componentID + '_item__empty'
     }
 }
 Accordion.ID = componentID;

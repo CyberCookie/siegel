@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../../ui_utils'
-import type { _Button } from './types'
+import type { _Button, Props } from './types'
 
 
 const componentID = '-ui-button'
@@ -9,7 +9,7 @@ const componentID = '-ui-button'
 const Button: _Button = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Button.defaults, props, false)
-        :   (props as _Button['defaults'] & typeof props)
+        :   (props as _Button['defaults'] & Props)
     
     const {
         value: children,

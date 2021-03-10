@@ -1,4 +1,4 @@
-//TODO?: onchange isValid flag
+//TODO:? onchange isValid flag
 
 import React, { useState } from 'react'
 
@@ -117,7 +117,7 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
 const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(NumberPicker.defaults, props, false)
-        :   (props as _NumberPicker['defaults'] & typeof props)
+        :   (props as _NumberPicker['defaults'] & Props)
     
     const {
         theme, disabled, onChange, step, precision, min, max, disabledInput, keyboardControls, className, 

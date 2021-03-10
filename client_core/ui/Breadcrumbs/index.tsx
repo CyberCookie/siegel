@@ -36,7 +36,7 @@ const linkClickPreventDefault = (e: React.MouseEvent) => { e.preventDefault() }
 const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Breadcrumbs.defaults, props, false)
-        :   (props as _Breadcrumbs['defaults'] & typeof props)
+        :   (props as _Breadcrumbs['defaults'] & Props)
 
     const {
         className, theme, attributes, location, separator, config, onChange, refApi

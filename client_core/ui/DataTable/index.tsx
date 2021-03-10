@@ -9,7 +9,7 @@ import { extractProps, applyRefApi } from '../ui_utils'
 import tableHeadRows from './head'
 import tableBodyRows from './body'
 import componentID from './id'
-import type { _DataTable, DataTableTableProps, State, MergedProps } from './types'
+import type { _DataTable, DataTableTableProps, State, MergedProps, Props } from './types'
 
 import styles from './styles.sass'
 
@@ -72,7 +72,7 @@ const defaultState = getDefaultState()
 const DataTable: _DataTable = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DataTable.defaults, props, false)
-        :   (props as _DataTable['defaults'] & typeof props)
+        :   (props as _DataTable['defaults'] & Props<any>)
 
     const { theme, className, attributes, withPagination, tableAttributes, refApi } = mergedProps;
     mergedProps.hookStore ||= useState(defaultState)

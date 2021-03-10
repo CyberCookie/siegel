@@ -1,22 +1,51 @@
-.item, .item__empty
-    +font(22px, 36px)
-    width: 150px
-    padding: 0 $gutter_sm
-    
-.item
-    &[open] > .item_title
-        color: $primary
+$item_height: 36px
 
-        i
-            transform: rotate(90deg)
-        
     
-    .item_title i
+@keyframes slide_down
+    0%
+        height: 0
+    
+    100%
+        height: $item_height
+
+
+.root
+    display: inline-block
+
+    & > .item
+        .item, .item .item_title_wrapper, .item__empty
+            height: 0
+            padding: 0 $gutter_sm
+    
+    i
         font-size: 30px
         transition: transform $transition
+
+
+.item, .item__empty, .item_title
+    +font(22px, $item_height)
+
+
+.item
+    &[open]
+        & > .item_title_wrapper
+            color: $primary
+
+            i
+                transform: rotate(90deg)
+
+        .item, .item .item_title_wrapper, .item__empty
+            animation: $transition forwards slide_down
     
     & > .item
         padding-left: $gutter
 
+
+.item_title_wrapper, .item_title, .item__empty
+    overflow: hidden
+
+.item_title_wrapper
+    +flex('', center)
+
 .item_title
-    +flex(space-between, center)
+    padding-right: $gutter

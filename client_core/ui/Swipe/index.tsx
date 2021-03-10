@@ -13,7 +13,7 @@ const passiveEv = { passive: true }
 const Swipe: _Swipe = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Swipe.defaults, props, false)
-        :   (props  as _Swipe['defaults'] & typeof props)
+        :   (props  as _Swipe['defaults'] & Props)
 
     const { className, children, xAxis, deltaPos, onSwipe, attributes, refApi } = mergedProps;
 

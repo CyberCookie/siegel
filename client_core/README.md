@@ -318,7 +318,7 @@ const router = createRouter({
     children: routesConfig
 })
 
-render(document.getElementById('app'), router)
+render(router, document.getElementById('app'))
 ```
 
 </details>

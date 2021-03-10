@@ -7,7 +7,7 @@ type ListElement = {
 }
 
 
-type ThemeKeys = 'item' | 'item_title' | 'item__empty'
+type ThemeKeys = 'item' | 'item_title' | 'item__empty' |  'item_title_wrapper' | 'children_wrapper'
 
 type Props = {
     list: ListElement[]

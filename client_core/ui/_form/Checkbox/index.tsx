@@ -4,7 +4,7 @@ import { extractProps, applyRefApi } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
 import getLabel from '../label'
 import componentID from './id'
-import type { _Checkbox, WrapperProps, MergedProps } from './types'
+import type { _Checkbox, Props, MergedProps } from './types'
 
 import styles from './styles.sass'
 
@@ -17,8 +17,8 @@ const _onChange = (e: React.ChangeEvent) => {
     e.preventDefault()
 }
 
-function modifyRootProps(rootProps: WrapperProps | CheckboxInputProps, mergedProps: MergedProps, isCheckboxElement?: boolean) {
-    const { disabled, onChange, value, payload, className, attributes, refApi, theme } = mergedProps;
+function modifyRootProps(rootProps: CheckboxInputProps, mergedProps: MergedProps, isCheckboxElement?: boolean) {
+    const { disabled, onChange, value, payload, className, attributes, checkboxAttributes, refApi, theme } = mergedProps;
 
     let modClass = value ? theme._checked : ''
 
@@ -29,20 +29,22 @@ function modifyRootProps(rootProps: WrapperProps | CheckboxInputProps, mergedPro
 
     rootProps.className += ` ${className} ${modClass}`
     refApi && applyRefApi(rootProps, mergedProps)
-    !isCheckboxElement && attributes && Object.assign(rootProps, attributes)
+
+    const attributesToMerge = isCheckboxElement ? checkboxAttributes : attributes;
+    attributesToMerge && Object.assign(rootProps, attributes)
 }
 
 const Checkbox: _Checkbox = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Checkbox.defaults, props, false)
-        :   (props as _Checkbox['defaults'] & typeof props)
+        :   (props as _Checkbox['defaults'] & Props)
 
-    const { theme, onChange, checkboxAttributes, label, value, disabled, icon } = mergedProps;
+    const { theme, onChange, label, value, disabled, icon } = mergedProps;
 
     const withLabel = isE(label)
 
-    
-    let checkboxInputProps: CheckboxInputProps = {
+
+    const checkboxInputProps: CheckboxInputProps = {
         disabled,
         checked: value,
         type: 'checkbox',
@@ -51,13 +53,12 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     }
     withLabel || icon || modifyRootProps(checkboxInputProps, mergedProps, true)
     onChange || (checkboxInputProps.readOnly = true)
-    checkboxAttributes && (checkboxInputProps = Object.assign(checkboxInputProps, checkboxAttributes))
 
     let CheckboxElement = <input {...checkboxInputProps} />
     
 
     if (icon) {
-        const iconWrapperProps: WrapperProps = { className: theme.with_icon_wrapper }
+        const iconWrapperProps = { className: theme.with_icon_wrapper }
         withLabel || modifyRootProps(iconWrapperProps, mergedProps)
          
         CheckboxElement = (
@@ -69,7 +70,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     }
 
     if (withLabel) {
-        const labelProps: WrapperProps = { className: theme.label_wrapper }
+        const labelProps = { className: theme.label_wrapper }
         modifyRootProps(labelProps, mergedProps)
 
         return getLabel(CheckboxElement, labelProps, {

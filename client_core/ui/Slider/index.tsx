@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import isE from '../../utils/is_exists'
 import { extractProps, applyRefApi } from '../ui_utils'
 import Swipe from '../Swipe'
-import type { _Slider, MergedProps } from './types'
+import type { _Slider, MergedProps, Props } from './types'
 
 
 type SwitchSlide = (nextPage: number) => void
@@ -91,7 +91,7 @@ function getSlideElements(rootChilds: NodeListOf<ChildNode>, withControlls: Merg
 const Slider: _Slider = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Slider.defaults, props, false)
-        :   (props as _Slider['defaults'] & typeof props)
+        :   (props as _Slider['defaults'] & Props)
     
     const { withControlls, store } = mergedProps;
 

@@ -1,6 +1,6 @@
-//TODO add year switcher
-//TODO add day postprocess hook
-//TODO don't finish range selection when switch month / year
+//TODO: add year switcher
+//TODO: add day postprocess hook
+//TODO: don't finish range selection when switch month / year
 
 import React, { useRef, useState } from 'react'
 
@@ -109,7 +109,7 @@ function getCalendarVisuals(
 const Calendar: _Calendar = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Calendar.defaults, props, false)
-        :   (props as _Calendar['defaults'] & typeof props)
+        :   (props as _Calendar['defaults'] & Props)
 
     const {
         initDate, monthsBefore, payload, onChange, triggerOnlyWhenFinished, rangePick, refApi,

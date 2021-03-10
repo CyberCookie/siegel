@@ -46,7 +46,7 @@ const Select: _Select = (props, noDefaults) => {
 
     const mergedProps = noDefaults
         ?   extractProps(Select.defaults, props, false)
-        :   (props as _Select['defaults'] & typeof props)
+        :   (props as _Select['defaults'] & Props)
 
     const {
         theme, attributes, displayValue, dropdownIcon, label, disabled, placeholder, refApi
