@@ -22,7 +22,7 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
         let optionClassName = theme.option;
 
         if (value === selected) {
-            if (filterSelected) continue
+            if (filterSelected) continue;
             else optionClassName += ` ${theme._option_active}`
         }
         className && (optionClassName += ` ${className}`)
