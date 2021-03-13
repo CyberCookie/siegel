@@ -13,21 +13,25 @@ const stopPropagationHandler = (e: React.MouseEvent) => { e.stopPropagation() }
 
 
 function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
-    const { options, selected, theme, onChange, closeOnSelect } = props;
-
-
-    return options.map(option => {
-        const { disabled, title, value, payload, className } = option;
+    const { options, selected, theme, onChange, closeOnSelect, filterSelected } = props;
     
+    const result = []
+    for (let i = 0; i < options.length; i++) {
+        const { disabled, title, value, payload, className } = options[i]
+
         let optionClassName = theme.option;
+
+        if (value === selected) {
+            if (filterSelected) continue
+            else optionClassName += ` ${theme._option_active}`
+        }
         className && (optionClassName += ` ${className}`)
-        value === selected && (optionClassName += ` ${theme._option_active}`)
         
         const optionProps: ComponentAttributes<HTMLDivElement> = {
             children: title,
             className: optionClassName
         }
-
+    
         disabled
             ?   optionProps.className += ` ${theme._option_disabled}`
             :   optionProps.onMouseDown = (e: React.MouseEvent) => {
@@ -36,9 +40,12 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
                     closeOnSelect && setActive(false)
                 }
             
+    
+        result.push( <div {...optionProps} key={value} /> )
+    }
 
-        return <div {...optionProps} key={value} />
-    })
+
+    return result
 }
 
 const Select: _Select = (props, noDefaults) => {
@@ -132,7 +139,8 @@ Select.defaults = {
     },
 
     closeOnSelect: true,
-    dropdownIcon: ''
+    dropdownIcon: '',
+    filterSelected: true
 }
 Select.ID = componentID;
 

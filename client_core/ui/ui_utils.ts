@@ -78,7 +78,7 @@ function extractProps<
             :   defaultTheme;
         
         if(withMergedDefaults) {
-            theme?.root && result.className.replace(defaultTheme.root!, theme.root)
+            theme?.root && (result.className = result.className.replace(defaultTheme.root!, theme.root))
         } else result.className += ` ${result.theme.root}`
     }
 

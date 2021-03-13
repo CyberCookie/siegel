@@ -19,6 +19,7 @@ type Props<V = any> = {
     label?: React.ReactNode
     placeholder?: React.ReactNode
     selected?: V
+    filterSelected?: boolean
     disabled?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
@@ -27,6 +28,7 @@ type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
     closeOnSelect: NonNullable<Props['closeOnSelect']>
     dropdownIcon: NonNullable<Props['dropdownIcon']>
+    filterSelected: NonNullable<Props['filterSelected']>
 }
 
 type MergedProps = Props & DefaultProps

@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Props } from 'siegel-ui/_form/Select/types'
 
-import { Select } from 'app/components'
+import { Select, selectTheme } from 'app/components'
 
+
+import s from './styles.sass'
 
 const Demo = () => {
     const [ selectedOption, setOption ] = useState(0)
@@ -38,6 +40,9 @@ const Demo = () => {
 
         <h2>with label</h2>
         <Select {...props} label='some label' />
+
+        <h2>filter selected: false</h2>
+        <Select {...props} filterSelected={false} />
 
         <h2>disabled</h2>
         <Select {...props} disabled />
