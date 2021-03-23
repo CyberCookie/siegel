@@ -9,7 +9,6 @@ const Demo = () => {
 
     const props: Props = {
         placeholder: 'placeholder',
-        displayValue: selectedOption && `selected - ${selectedOption}`,
         selected: selectedOption,
         options: [
             {
@@ -36,8 +35,9 @@ const Demo = () => {
         <h2>simple</h2>
         <Select {...props} />
 
-        <h2>with label</h2>
-        <Select {...props} label='some label' />
+        <h2>with label and displayTitle processing</h2>
+        <Select {...props} label='some label'
+            getDisplayValue={({ title }) => 'selected - ' + title} />
 
         <h2>filter selected: false</h2>
         <Select {...props} filterSelected={false} />

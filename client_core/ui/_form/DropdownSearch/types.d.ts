@@ -12,22 +12,20 @@ type ThemeKeys = 'options'| 'option' | '_with_suggestions' | '_disabled' | '_foc
 
 type Props = {
     onChange(id: ID, e: React.MouseEvent | React.FocusEvent, payload?: any): void
-    searchOptions: Indexable<{
-        title: React.ReactNode
-        value: string
+    searchOptions: {
+        inputValue: string
+        value: ID
+        title?: React.ReactNode
         className?: string
         payload?: any
-    }>
+    }[]
     onSearch?(
         searchValue: string,
-        e: Parameters<NonNullable<InputProps['onChange']>>[1],
-        payload?: any
+        e: Parameters<NonNullable<InputProps['onChange']>>[1]
     ): void
     attributes?: ComponentAttributes<HTMLDivElement>
     minInputLength?: number
-    payload?: any
     showOnFocus?: boolean
-    showAlways?: boolean
     showAll?: boolean
     selected?: ID,
     disabled?: boolean

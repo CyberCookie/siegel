@@ -15,13 +15,17 @@ const stopPropagationHandler = (e: React.MouseEvent) => { e.stopPropagation() }
 function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
     const { options, selected, theme, onChange, closeOnSelect, filterSelected } = props;
     
-    const result = []
+    const optionElements = []
+    let selectedOption; 
     for (let i = 0; i < options.length; i++) {
-        const { disabled, title, value, payload, className } = options[i]
+        const option = options[i]
+        const { disabled, title, value, payload, className } = option;
 
         let optionClassName = theme.option;
 
         if (value === selected) {
+            selectedOption = option;
+
             if (filterSelected) continue;
             else optionClassName += ` ${theme._option_active}`
         }
@@ -41,11 +45,17 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
                 }
             
     
-        result.push( <div {...optionProps} key={value} /> )
+        optionElements.push( <div {...optionProps} key={value} /> )
     }
 
 
-    return result
+    return {
+        selectedOption,
+        optionsElement: (
+            <div className={theme.options} onMouseDown={stopPropagationHandler}
+                children={optionElements} />
+        )
+    }
 }
 
 const Select: _Select = (props, noDefaults) => {
@@ -56,25 +66,38 @@ const Select: _Select = (props, noDefaults) => {
         :   (props as _Select['defaults'] & Props)
 
     const {
-        theme, attributes, displayValue, dropdownIcon, label, disabled, placeholder, refApi
+        theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi
     } = mergedProps;
     
     let className = mergedProps.className;
     isActive && (className += ` ${theme._active}`)
-    displayValue && (className += ` ${theme._filled}`)
+    selected && (className += ` ${theme._filled}`)
     
     let selectRootProps: Props['attributes'] = {
         className,
         ref: useRef(null)
     }
-    disabled
-        ?   (selectRootProps.className += ` ${theme._disabled}`)
-        :   (selectRootProps.onMouseDown = (e: React.MouseEvent) => {
-                e.stopPropagation()
-                e.preventDefault()
-            
-                setActive(!isActive)
-            })
+
+    let optionsElement, selectedOption;
+    if (disabled) {
+        selectRootProps.className += ` ${theme._disabled}`
+        
+        if (selected) {
+            selectedOption = options.find(option => option.value == selected)
+        }
+    } else {
+        const optionsData = getOptions(mergedProps, setActive)
+        optionsElement = optionsData.optionsElement;
+        selectedOption = optionsData.selectedOption;
+
+        selectRootProps.onMouseDown = (e: React.MouseEvent) => {
+            e.stopPropagation()
+            e.preventDefault()
+
+            setActive(!isActive)
+        }
+    }
+
     refApi && (applyRefApi(selectRootProps, mergedProps))
     attributes && (selectRootProps = Object.assign(selectRootProps, attributes))
 
@@ -88,7 +111,7 @@ const Select: _Select = (props, noDefaults) => {
         _isTouchScreen
             ?   document.addEventListener('touchstart', handleOutsideClick, eventOptions)
             :   document.addEventListener('mousedown', handleOutsideClick, eventOptions)
-        
+
         return () => {
             _isTouchScreen
                 ?   document.removeEventListener('touchstart', handleOutsideClick)
@@ -97,18 +120,23 @@ const Select: _Select = (props, noDefaults) => {
     }, [])
     
 
+    const displayValue = selectedOption
+        ?   getDisplayValue
+            ?   getDisplayValue(selectedOption)
+            :   selectedOption.title
+        :   placeholder;
+
+
     const selectInput = <>
         <div className={theme.title}>
-            <div className={theme.title_text} children={displayValue || placeholder} />
+            <div className={theme.title_text} children={displayValue} />
             { dropdownIcon }
         </div>
 
-        { disabled || (
-            <div className={theme.options} onMouseDown={stopPropagationHandler}
-                children={getOptions(mergedProps, setActive)} />
-        )}
+        { optionsElement }
     </>
     
+
     return (
         <div {...selectRootProps}>
             { label

@@ -18,30 +18,35 @@ function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }:
     const searchLower = searchString && searchString.toLowerCase()
 
     const options: JSX.Element[] = []
-    for (const id in searchOptions) {
-        const { title, value, className } = searchOptions[id]
+    let selectedOption;
+    searchOptions.forEach(option => {
+        const { title, inputValue, value, className, payload } = option;
         
-        const canPush = showAll || (!searchLower || value.toLowerCase().includes(searchLower))
-        
+        const isSelected = value == selected;
+        isSelected && (selectedOption = option)
 
+        const canPush = showAll || (!searchLower || inputValue.toLowerCase().includes(searchLower))
         if (canPush) {
             let optionClassMame = theme.option;
             className && (optionClassMame += ` ${className}`)
 
             options.push(
-                <div key={id} className={optionClassMame} children={title}
+                <div key={value} className={optionClassMame} children={title || inputValue}
                     onMouseDown={e => {
-                        if (id !== selected) {
+                        if (!isSelected) {
                             setState({ searchString: undefined })
-                            onChange(id, e)
+                            onChange(value, e, payload)
                         }
                     }} />
             )
         }
+    })
+
+
+    return {
+        selectedOption,
+        optionsElement: <div children={options} className={theme.options} />
     }
-
-
-    return <div children={options} className={theme.options} />
 }
 
 const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
@@ -50,8 +55,8 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         :   (props as _DropdownSearch['defaults'] & Props)
 
     const {
-        theme, searchOptions, minInputLength, onSearch, payload, className, showOnFocus, showAlways,
-        selected, onChange, inputProps, refApi, attributes, disabled
+        theme, minInputLength, onSearch, className, showOnFocus, onChange, inputProps, refApi,
+        selected, searchOptions, attributes, disabled
     } = mergedProps;
 
     const store = useState({ searchString: undefined } as State)
@@ -82,29 +87,35 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         onChange(value, e) {
             state.searchString = value;
             setState({ ...state })
-            
-            onSearch && onSearch(value, e, payload)
-        },
-        value: isE(searchString)
-            ?   searchString
-            :   selected
-                ?   searchOptions[selected].value
-                :   ''
+
+            onSearch && onSearch(value, e)
+        }
     }
+
+    const isShowOptions = showOnFocus
+        ?   isFocused
+        :   (searchString ? searchString.length : 0) >= minInputLength;
+
+    let options: JSX.Element | undefined;
+    let optionSelected: Props['searchOptions'][number]
+    if (isShowOptions) {
+        const { selectedOption, optionsElement } = getSearchOptions(mergedProps, store)
+        options = optionsElement;
+        optionSelected = selectedOption;
+
+        dropdownSearchRootProps.className += ` ${theme._with_suggestions}`
+    } else {
+        optionSelected = searchOptions.find(({ value }) => value == selected)
+    }
+
+    inputInnerProps.value = isE(searchString)
+        ?   searchString
+        :   optionSelected
+            ?   optionSelected.inputValue
+            :   ''
     inputProps && Object.assign(inputInnerProps, inputProps)
 
 
-    const isShowOptions = showAlways || (
-        showOnFocus
-            ?   isFocused
-            :   (searchString ? searchString.length : 0) >= minInputLength
-    )
-    
-    let options: JSX.Element | undefined;
-    if (isShowOptions) {
-        options = getSearchOptions(mergedProps, store)
-        dropdownSearchRootProps.className += ` ${theme._with_suggestions}`
-    }
     disabled && (dropdownSearchRootProps.className += ` ${theme._disabled}`)
     attributes && Object.assign(dropdownSearchRootProps, attributes)
 

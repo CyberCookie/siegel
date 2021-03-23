@@ -4,15 +4,10 @@ import { Props } from 'siegel-ui/_form/DropdownSearch/types'
 import { DropdownSearch } from 'app/components'
 
 
-const options: Props['searchOptions'] = {}
-;([1, 2, 3, 4, 5]).forEach((i: number) => {
-    const name = 'option ' + i;
-
-    options[i] = {
-        title: name,
-        value: name 
-    }
-})
+const options: Props['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: number) => ({
+    inputValue: 'option ' + i,
+    value: i
+}))
 
 const Demo = () => {
     const [ selected, setSelected ] = useState(0)

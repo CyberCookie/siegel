@@ -5,15 +5,15 @@ type ThemeKeys = 'label' | 'title' | 'title_text' | 'input_wrapper' | 'options' 
     | '_option_active' | '_option_disabled' | '_active' | '_disabled' | '_filled'
 
 type Props<V = any> = {
-    displayValue: React.ReactNode
     options: {
+        value: V
+        title: React.ReactNode
         disabled?: boolean
         payload?: any
         className?: string
-        value: V
-        title: React.ReactNode
     }[],
     onChange(value: V, e: React.MouseEvent, payload?: any): void
+    getDisplayValue?(selectedOption: Props['options'][string]): React.ReactNode
     dropdownIcon?: React.ReactNode
     closeOnSelect?: boolean
     label?: React.ReactNode
