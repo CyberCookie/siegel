@@ -20,14 +20,15 @@ type InputStore = [ InputState, React.Dispatch<React.SetStateAction<InputState>>
 
 
 type Props = {
-    value?: string
+    value: string
     inputStore?: InputStore
     disabled?: boolean
     autofocus?: boolean
     placeholder?: string
     attributes?: ComponentAttributes<HTMLDivElement>
-    inputAttributes?: Omit<ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>, 'onChange'> & {
-        onChange?(e: Parameters<Props['onChange']>[1]): void
+    inputAttributes?: Omit<ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>, 'onChange' | 'value'> & {
+        onChange?(e: Parameters<NonNullable<Props['onChange']>>[1]): void
+        value: Props['value']
     }
     label?: React.ReactNode
     errorMsg?: React.ReactNode
@@ -39,7 +40,7 @@ type Props = {
         patternValueChar: string
         processor(
             mask: Omit<NonNullable<Props['mask']>, 'processor'>,
-            inputFieldAttr: Props['inputAttributes']
+            inputFieldAttr: NonNullable<Props['inputAttributes']>
         ): void
         valuePlaceholderChar?: string
         shiftNextChar?: boolean

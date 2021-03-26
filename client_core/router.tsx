@@ -36,7 +36,8 @@ type CreateRouter = (
             path: string
             Page: RouteConfig['Page']
         }
-    } & Pick<RouteConfig, 'Layout' | 'LazyFallback' | 'children'>
+        children: NonNullable<RouteConfig['children']>
+    } & Pick<RouteConfig, 'Layout' | 'LazyFallback'>
 ) => JSX.Element
 
 type CreateRoutes = (
@@ -99,7 +100,7 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
 
             (routes as JSX.Element[]).push(
                 <Route exact={exact} path={pathResult}>
-                    <Redirect to={_redirectTo} />
+                    <Redirect to={_redirectTo!} />
                 </Route>
             )
         } else {
@@ -118,7 +119,7 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
             } else {
                 routeProps.exact = exact;
                 
-                const RouterPage = Page || LazyPage;
+                const RouterPage = (Page || LazyPage)!;
                 beforeEnter
                     ?   routeProps.render = (props: RouteProps) => <RouterPage {...props} beforeEnter={beforeEnter(props)} />
                     :   routeProps.component = RouterPage

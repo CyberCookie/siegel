@@ -13,7 +13,7 @@ type Props<V = any> = {
         className?: string
     }[],
     onChange(value: V, e: React.MouseEvent, payload?: any): void
-    getDisplayValue?(selectedOption: Props['options'][string]): React.ReactNode
+    getDisplayValue?(selectedOption: Props['options'][number]): React.ReactNode
     dropdownIcon?: React.ReactNode
     closeOnSelect?: boolean
     label?: React.ReactNode

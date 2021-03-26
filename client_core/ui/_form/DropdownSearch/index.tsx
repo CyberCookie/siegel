@@ -49,6 +49,7 @@ function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }:
     }
 }
 
+
 const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DropdownSearch.defaults, props, false)
@@ -71,12 +72,30 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         className,
         onBlur(e) {
             if (e.relatedTarget !== e.currentTarget) {
-                if (state.searchString == '') onChange('', e)
+                if (searchString == '') onChange('', e)
                 else state.searchString = undefined
             }
         }
     }
     refApi && applyRefApi(dropdownSearchRootProps, mergedProps)
+
+    
+    const isShowOptions = showOnFocus
+        ?   isFocused
+        :   (searchString ? searchString.length : 0) >= minInputLength;
+    
+    let options: JSX.Element | undefined;
+    let optionSelected: Props['searchOptions'][number] | undefined;
+    if (isShowOptions) {
+        const { selectedOption, optionsElement } = getSearchOptions(mergedProps, store)
+        options = optionsElement;
+        optionSelected = selectedOption;
+        
+        dropdownSearchRootProps.className += ` ${theme._with_suggestions}`
+    } else  if (selected) {
+        optionSelected = searchOptions.find(({ value }) => value == selected)
+    }
+    
 
     const inputInnerProps: InputProps = {
         inputStore, disabled,
@@ -89,30 +108,13 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
             setState({ ...state })
 
             onSearch && onSearch(value, e)
-        }
+        },
+        value: isE(searchString)
+            ?   searchString
+            :   optionSelected
+                ?   optionSelected.inputValue
+                :   ''
     }
-
-    const isShowOptions = showOnFocus
-        ?   isFocused
-        :   (searchString ? searchString.length : 0) >= minInputLength;
-
-    let options: JSX.Element | undefined;
-    let optionSelected: Props['searchOptions'][number]
-    if (isShowOptions) {
-        const { selectedOption, optionsElement } = getSearchOptions(mergedProps, store)
-        options = optionsElement;
-        optionSelected = selectedOption;
-
-        dropdownSearchRootProps.className += ` ${theme._with_suggestions}`
-    } else {
-        optionSelected = searchOptions.find(({ value }) => value == selected)
-    }
-
-    inputInnerProps.value = isE(searchString)
-        ?   searchString
-        :   optionSelected
-            ?   optionSelected.inputValue
-            :   ''
     inputProps && Object.assign(inputInnerProps, inputProps)
 
 

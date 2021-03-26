@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 export default _modules => {
     const isSingleModule = !Array.isArray(_modules) || _modules.length == 1;
     let stateBinding, actionsBinding, areStatePropsEqual;

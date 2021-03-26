@@ -20,13 +20,6 @@ type IndexObject<T, V = any> = {
 }
 
 
-//#TS_sucks.
-// interface Math {
-//     max: (...args: any[]) => number
-// }
-interface Array<T = any> {
-    [key: string]: T
-}
 declare function isNaN(value: any): boolean
 declare function isFinite(value: any): boolean
 declare function parseInt(value: any, radix?: string): number

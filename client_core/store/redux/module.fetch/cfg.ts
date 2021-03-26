@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 const FETCH_ACTION_TYPE = 'FETCH'
 
 const initialState = {

@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import request from '../../../services/request'
 
 import { ACTION_IDS, FETCH_ACTION_TYPE } from './cfg'

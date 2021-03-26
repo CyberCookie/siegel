@@ -127,7 +127,7 @@ function getBody(props: MergedProps, state: State) {
         const entityID = processedList[i]
         if (!isE(entityID)) break;
 
-        let itemToPush: ReturnType<typeof postProcessBodyRow> = getEntityRow(entityID, i)
+        let itemToPush: ReturnType<NonNullable<typeof postProcessBodyRow>> = getEntityRow(entityID, i)
         if (postProcessBodyRow) {
             itemToPush = postProcessBodyRow(itemToPush, byID[entityID], i)
 

@@ -46,7 +46,7 @@ function getNumberValue(value: MergedProps['value'], min: MergedProps['min'], ma
 }
 
 const zero = '0'
-function getNormalizedStringValue(value?: string, precision?: number) {
+function getNormalizedStringValue(value: string, precision?: number) {
     if (!isExists(value)) return value;
 
 

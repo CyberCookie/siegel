@@ -73,7 +73,7 @@ const Select: _Select = (props, noDefaults) => {
     isActive && (className += ` ${theme._active}`)
     selected && (className += ` ${theme._filled}`)
     
-    let selectRootProps: Props['attributes'] = {
+    let selectRootProps: NonNullable<Props['attributes']> = {
         className,
         ref: useRef(null)
     }

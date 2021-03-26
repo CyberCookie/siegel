@@ -11,8 +11,8 @@ type ComponentRefApi<Props> = {
 }
 
 type PropsComponentBase<Props extends Indexable = Indexable> = {
-    className?: string
     refApi?: ComponentRefApi<Props>
+    className?: string
 }
 
 type PropsComponentThemed<K extends string = string, Props extends Indexable = Indexable> = {
@@ -35,7 +35,7 @@ type CoreIUComponentWithDefaults<C extends CoreIUComponent<any, any>> = {
 
 
 function applyRefApi(rootProps: ComponentAttributes, mergedProps: PropsComponentBase) {
-    const { getRef, getOnPropsUpdate } = mergedProps.refApi;
+    const { getRef, getOnPropsUpdate } = mergedProps.refApi!;
     rootProps.ref = useRef(null)
 
     const trackDependencies = getOnPropsUpdate

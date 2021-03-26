@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { HubConnectionBuilder, HubConnectionState, HttpTransportType, JsonHubProtocol } from '@microsoft/signalr/dist/browser/signalr'
 
 
