@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 
-import isExists from '../../../utils/is_exists'
 import floatMath from '../../../utils/math_float'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import Input, { getDefaultInputStoreState } from '../Input'
@@ -47,9 +46,6 @@ function getNumberValue(value: MergedProps['value'], min: MergedProps['min'], ma
 
 const zero = '0'
 function getNormalizedStringValue(value: string, precision?: number) {
-    if (!isExists(value)) return value;
-
-
     let indexOfDot = value.indexOf('.') || value.length;
     indexOfDot < 0 && (indexOfDot = value.length)
 
