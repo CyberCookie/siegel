@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { _Pagination, MergedProps, Props } from './types'
+import type { _Pagination, MergedProps } from './types'
 
 
 type GetPageElement = (page: number, props: MergedProps) => JSX.Element;
@@ -122,7 +122,7 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
 const Pagination: _Pagination = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Pagination.defaults, props, false)
-        :   (props as _Pagination['defaults'] & Props)
+        :   (props as MergedProps)
     
     const { listLength, showPerPage } = mergedProps;
 
@@ -130,9 +130,8 @@ const Pagination: _Pagination = (props, noDefaults) => {
     
 
     return (
-        <div {...getPaginatorRootProps(mergedProps, numberOfPages)}>
-            { getPaginationVisuals(mergedProps, numberOfPages) }
-        </div>
+        <div {...getPaginatorRootProps(mergedProps, numberOfPages)}
+            children={getPaginationVisuals(mergedProps, numberOfPages)} />
     )
 }
 Pagination.defaults = {

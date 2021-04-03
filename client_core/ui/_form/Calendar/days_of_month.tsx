@@ -1,9 +1,12 @@
 import React from 'react'
 
+import componentID from './id'
 import type{ ChildProps, AllDaysData, PrevNextDaysParams, GetDayClass } from './types'
 
 import styles from './styles.sass'
 
+
+const innerRowClassName = styles[componentID + '_inner_row']
 
 const missedRowType = {
     PLACEHOLDER: 'placeholder',
@@ -186,7 +189,7 @@ const Days = (props: ChildProps) => {
             dayRow.push(HTMLDay)
         }
 
-        rows.push(<div key={i} className={`${theme.row} ${styles.row}`} children={dayRow} />)
+        rows.push(<div key={i} className={`${theme.row} ${innerRowClassName}`} children={dayRow} />)
     }
 
     if (missedRow == missedRowType.PLACEHOLDER && rows.length < 6) {

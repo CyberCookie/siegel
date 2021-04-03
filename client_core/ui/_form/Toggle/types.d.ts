@@ -1,7 +1,7 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
-type ThemeKeys = '_toggled' | '_disabled' | 'label' | 'toggle_area' | 'toggler'
+type ThemeKeys = 'children' | 'label' | 'toggle_area' | 'toggler' | '_toggled' | '_disabled'
 
 type Props = {
     labelLeft?: React.ReactNode

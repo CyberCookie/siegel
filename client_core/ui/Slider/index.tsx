@@ -5,8 +5,9 @@ import React, { useState, useEffect, useRef } from 'react'
 
 import isE from '../../utils/is_exists'
 import { extractProps, applyRefApi } from '../ui_utils'
+import addChildren from '../children'
 import Swipe from '../Swipe'
-import type { _Slider, MergedProps, Props } from './types'
+import type { _Slider, MergedProps } from './types'
 
 
 type SwitchSlide = (nextPage: number) => void
@@ -91,7 +92,7 @@ function getSlideElements(rootChilds: NodeListOf<ChildNode>, withControlls: Merg
 const Slider: _Slider = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Slider.defaults, props, false)
-        :   (props as _Slider['defaults'] & Props)
+        :   (props as MergedProps)
     
     const { withControlls, store } = mergedProps;
 
@@ -124,12 +125,15 @@ const Slider: _Slider = (props, noDefaults) => {
         <div {...sliderRootProps}>
             { pageControlls }
             { slidePages }
+
+            { addChildren(sliderRootProps, mergedProps.theme) }
         </div>
     )
 }
 Slider.defaults = {
     theme: {
         root: componentID,
+        children: componentID + '_children',
         slides_wrapper: componentID + '_slides_wrapper',
         slide: componentID + '_slide',
         slide__active: componentID + '_slide__active',

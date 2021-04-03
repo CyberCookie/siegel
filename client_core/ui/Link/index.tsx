@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { _Link, Props } from './types'
+import type { _Link, Props, MergedProps } from './types'
 
 
 const componentID = '-ui-external_link'
@@ -9,7 +9,7 @@ const componentID = '-ui-external_link'
 const Link: _Link = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Link.defaults, props, false)
-        :   (props as _Link['defaults'] & Props)
+        :   (props as MergedProps)
     
     const { className, path, title, attributes, refApi } = mergedProps;
 

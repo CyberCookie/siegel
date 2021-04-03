@@ -8,7 +8,7 @@ type State = {
 }
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-type ThemeKeys = 'options'| 'option' | '_with_suggestions' | '_disabled' | '_focused'
+type ThemeKeys = 'children' | 'options' | 'option' | '_with_suggestions' | '_disabled' | '_focused'
 
 type Props = {
     onChange(id: ID, e: React.MouseEvent | React.FocusEvent, payload?: any): void

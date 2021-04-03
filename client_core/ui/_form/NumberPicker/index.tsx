@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 
 import floatMath from '../../../utils/math_float'
 import { extractProps, applyRefApi } from '../../ui_utils'
+import addChildren from '../../children'
 import Input, { getDefaultInputStoreState } from '../Input'
 import type { _NumberPicker, Props, MergedProps, BtnClickEv, BtnProps, OnNumberPickerChange } from './types'
 import type { Props as InputProps } from '../Input/types' 
@@ -113,7 +114,7 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
 const NumberPicker: _NumberPicker = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(NumberPicker.defaults, props, false)
-        :   (props as _NumberPicker['defaults'] & Props)
+        :   (props as MergedProps)
     
     const {
         theme, disabled, onChange, step, precision, min, max, disabledInput, keyboardControls, className, 
@@ -219,13 +220,16 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         <div { ...numberpickerRootProps }>
             <Input { ...inputFieldProps } />
             { stepper }
+
+            { addChildren(numberpickerRootProps, theme) }
         </div>
     )
 }
 NumberPicker.defaults = {
-    className: styles[componentID + '__inner'],
+    className: styles[componentID + '_inner'],
     theme: {
         root: componentID,
+        children: componentID + '_children',
         controls: componentID + '_controls',
         button_minus: componentID + '_minus',
         button_plus: componentID + '_plus',

@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 
 import { extractProps, applyRefApi } from '../../ui_utils'
+import addChildren from '../../children'
 import isE from '../../../utils/is_exists'
 import Input, { getDefaultInputStoreState } from '../Input'
 import type { _DropdownSearch, MergedProps, Store, State, Props } from './types'
@@ -12,6 +13,8 @@ import styles from './styles.sass'
 
 
 const componentID = '-ui-dropdown_search'
+
+const innerInputRootClassName = styles[componentID + '_inner_input']
 
 function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }: MergedProps, store: Store) {
     const [{ searchString }, setState ] = store;
@@ -53,7 +56,7 @@ function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }:
 const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DropdownSearch.defaults, props, false)
-        :   (props as _DropdownSearch['defaults'] & Props)
+        :   (props as MergedProps)
 
     const {
         theme, minInputLength, onSearch, className, showOnFocus, onChange, inputProps, refApi,
@@ -102,7 +105,7 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         attributes: {
             tabIndex: 0
         },
-        className: styles[componentID + '__input_inner'],
+        className: innerInputRootClassName,
         onChange(value, e) {
             state.searchString = value;
             setState({ ...state })
@@ -123,15 +126,18 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
 
     
     return (
-        <div {...dropdownSearchRootProps}>
+        <div { ...dropdownSearchRootProps }>
             <Input { ...inputInnerProps } />
             { options }
+            
+            { addChildren(dropdownSearchRootProps, theme) }
         </div>
     )
 }
 DropdownSearch.defaults = {
     theme: {
         root: componentID,
+        children: componentID + '_children',
         options: componentID + '_options',
         option: componentID + '_option',
         _with_suggestions: componentID + '__with_suggestions',

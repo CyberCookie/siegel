@@ -4,13 +4,15 @@ import { extractProps, applyRefApi } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
 import getLabel from '../label'
 import componentID from './id'
-import type { _Checkbox, Props, MergedProps } from './types'
+import type { _Checkbox, MergedProps } from './types'
 
 import styles from './styles.sass'
 
 
 type CheckboxInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
+
+const innerRootClassName = styles[componentID + '_inner']
 
 const _onChange = (e: React.ChangeEvent) => {
     e.stopPropagation()
@@ -37,7 +39,7 @@ function modifyRootProps(rootProps: CheckboxInputProps, mergedProps: MergedProps
 const Checkbox: _Checkbox = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Checkbox.defaults, props, false)
-        :   (props as _Checkbox['defaults'] & Props)
+        :   (props as MergedProps)
 
     const { theme, onChange, label, value, disabled, icon } = mergedProps;
 
@@ -48,7 +50,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
         disabled,
         checked: value,
         type: 'checkbox',
-        className: `${styles[componentID]} ${theme.checkbox}`,
+        className: `${innerRootClassName} ${theme.checkbox}`,
         onChange: _onChange
     }
     withLabel || icon || modifyRootProps(checkboxInputProps, mergedProps, true)

@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react'
 
 import { extractProps, applyRefApi } from '../../ui_utils'
+import addChildren from '../../children'
 import getInputLabeled from '../label'
 import componentID from './id'
-import type { _Input, Props/*, InputFieldThemeKeys*/ } from './types'
+import type { _Input, Props, MergedProps/*, InputFieldThemeKeys*/ } from './types'
 
 
 const getDefaultInputStoreState = () => ({
@@ -27,7 +28,7 @@ const getDefaultInputStoreState = () => ({
 const Input: _Input = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Input.defaults, props, false)
-        :   (props as _Input['defaults'] & Props)
+        :   (props as MergedProps)
     
     const {
         theme, label, value, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
@@ -119,9 +120,7 @@ const Input: _Input = (props, noDefaults) => {
         <div {...inputRootProps}>
             { inputElement }
 
-            { inputRootProps.children && (
-                <div className={theme.extra} children={inputRootProps.children} />
-            )}
+            { addChildren(inputRootProps, theme) }
             
             { errorMsg && <div className={theme.error_text} children={errorMsg} /> }
         </div>
@@ -130,9 +129,9 @@ const Input: _Input = (props, noDefaults) => {
 Input.defaults = {
     theme: {
         root: componentID,
+        children: componentID + '_children',
         field: componentID + '_field',
         textarea: componentID + '_textarea',
-        extra: componentID + '_extra',
         error_text: componentID + '_error_text',
         label: componentID + '_label',
         label_text: componentID + '_label_text',

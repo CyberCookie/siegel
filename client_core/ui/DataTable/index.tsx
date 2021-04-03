@@ -9,12 +9,12 @@ import { extractProps, applyRefApi } from '../ui_utils'
 import tableHeadRows from './head'
 import tableBodyRows from './body'
 import componentID from './id'
-import type { _DataTable, DataTableTableProps, State, MergedProps, Props } from './types'
+import type { _DataTable, DataTableTableProps, State, MergedProps } from './types'
 
 import styles from './styles.sass'
 
 
-const innerTableClassName = componentID + '_table__inner'
+const innerTableClassName = styles[componentID + '_inner_table']
 
 const getDefaultState = () => ({
     sortByField: {
@@ -72,7 +72,7 @@ const defaultState = getDefaultState()
 const DataTable: _DataTable = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DataTable.defaults, props, false)
-        :   (props as _DataTable['defaults'] & Props<any>)
+        :   (props as MergedProps)
 
     const { theme, className, attributes, withPagination, tableAttributes, refApi } = mergedProps;
     mergedProps.hookStore ||= useState(defaultState)
@@ -93,7 +93,7 @@ const DataTable: _DataTable = (props, noDefaults) => {
     
     const dataTableTableProps: DataTableTableProps = {
         head, body,
-        className: `${styles[innerTableClassName]} ${theme.table}`
+        className: `${innerTableClassName} ${theme.table}`
     }
     withPagination && (dataTableTableProps.foot = [{
         children: [{

@@ -16,7 +16,9 @@ type DefaultProps = {
     zeroing: NonNullable<Props['zeroing']>
 } & PropsComponentBase
 
+type MergedProps = Props & DefaultProps
+
 type _Clocks = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, _Clocks }
+export type { Props, DefaultProps, MergedProps, _Clocks }

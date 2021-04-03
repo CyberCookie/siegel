@@ -4,7 +4,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 type SwitchSlide = (nextPage: number) => void
 
 
-type ThemeKeys = 'slides_wrapper' | 'slide' | 'slide__active' | 'controls_wrapper' | 'control' | 'control__active'
+type ThemeKeys = 'children' | 'slides_wrapper' | 'slide' | 'slide__active' | 'controls_wrapper' | 'control' | 'control__active'
 
 type Props = {
     slides: React.ReactNode[]

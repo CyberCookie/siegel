@@ -3,7 +3,7 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { MergedProps, _Tabs, Props } from './types'
+import type { MergedProps, _Tabs } from './types'
 
 
 const componentID = `-ui-tabs`
@@ -51,7 +51,7 @@ function getTabRootProps(mergedProps: MergedProps, activeTabContent: React.React
 const Tabs: _Tabs = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Tabs.defaults, props, false)
-        :   (props as _Tabs['defaults'] & Props)
+        :   (props as MergedProps)
 
     
     const { activeTabContent, labels } = getTabsVisual(mergedProps)

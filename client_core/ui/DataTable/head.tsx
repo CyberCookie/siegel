@@ -8,7 +8,7 @@ import type { TableTH } from '../Table/types'
 import styles from './styles.sass'
 
 
-const innerResizerClassName = componentID + 'resizer__inner'
+const innerResizerClassName = styles[componentID + '_inner_table_resizer']
 
 const passiveEv = { passive: true }
 
@@ -78,8 +78,8 @@ function getResizeHandler() {
 function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) {
     const { columnsConfig, resizable, theme, postProcessHeadRow, postProcessHeadCell } = props;
 
-    let resizerClassName = styles[innerResizerClassName]
-    resizerClassName && (resizerClassName += ` ${theme.table_resizer}`)
+    const resizerClassName = `${innerResizerClassName} ${theme.table_resizer}`
+
 
     let displayedEntityIDs: DisplayedEntityIDs;
     (postProcessHeadCell || postProcessHeadRow) && (displayedEntityIDs = {

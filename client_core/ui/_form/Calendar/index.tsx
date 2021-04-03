@@ -6,14 +6,16 @@ import React, { useRef, useState } from 'react'
 
 import { dateLocales } from '../../../utils/date/consts'
 import { extractProps, applyRefApi } from '../../ui_utils'
+import componentID from './id'
 import Days from './days_of_month'
 import type { Props, DefaultProps, MergedProps, _Calendar, Store } from './types'
 
 import styles from './styles.sass'
 
 
-const componentID = '-ui-calendar'
-
+const innerRootClassName = styles[componentID + '_inner']
+const innerWeekClassName = styles[componentID + '_inner_week']
+const innerMonthTitleWrapperClassName = styles[componentID + '_inner_month_title_wrapper']
 
 function getDefaultStrings() {
     const { months, weekDaysShort } = dateLocales.get.en()
@@ -47,7 +49,7 @@ function switchMonth(value: number, store: Store, e: React.MouseEvent) {
 function getWeekDayRow(localeWeek: string[], theme: DefaultProps['theme']) {
     const getWeekDay = (day: string) => <div className={theme.week_day} key={day} children={day} /> 
 
-    return <div className={`${theme.week} ${styles.week}`} children={localeWeek.map(getWeekDay)} />
+    return <div className={`${theme.week} ${innerWeekClassName}`} children={localeWeek.map(getWeekDay)} />
 }
 
 function getCalendarVisuals(
@@ -63,6 +65,7 @@ function getCalendarVisuals(
         ?   getWeekDaysShifted(weekStartsFrom, strings.weekDaysShort)
         :   strings.weekDaysShort;
     const weekdaysRow = getWeekDayRow(weekDayNames, theme)
+    
     const iconPrev = noControls || (
         <div className={theme.icon} onMouseDown={e => switchMonth(-1, store, e)}
             children={prevIcon} />
@@ -80,7 +83,7 @@ function getCalendarVisuals(
         
         months.push(
             <div key={i} className={theme.month_wrapper}>
-                <div className={`${theme.month_title_wrapper} ${styles.month_title_wrapper}`}>
+                <div className={`${theme.month_title_wrapper} ${innerMonthTitleWrapperClassName}`}>
                     { iconPrev }
 
                     <div className={theme.month_title}>
@@ -109,7 +112,7 @@ function getCalendarVisuals(
 const Calendar: _Calendar = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Calendar.defaults, props, false)
-        :   (props as _Calendar['defaults'] & Props)
+        :   (props as MergedProps)
 
     const {
         initDate, monthsBefore, payload, onChange, triggerOnlyWhenFinished, rangePick, refApi,
@@ -132,7 +135,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
 
     function pickRangeStart(e: React.MouseEvent) {
         e.stopPropagation()
-        
+        styles
         const rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp!;
         if (rangeDateStart) {
             if (rangePick) {
@@ -196,7 +199,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
 
     
     const rootAttributes = {
-        className: `${mergedProps.className} ${styles.calendar}`,
+        className: `${mergedProps.className} ${innerRootClassName}`,
         children: getCalendarVisuals(mergedProps, store, pickRangeStart),
         ref
     }

@@ -18,6 +18,7 @@ import _Table from 'siegel-ui/Table'
 import _Tabs from 'siegel-ui/Tabs'
 import _Toggle from 'siegel-ui/_form/Toggle'
 import Swipe from 'siegel-ui/Swipe'
+import _Ranger from 'siegel-ui/_form/Ranger'
 
 
 import icons from '../icons'
@@ -38,6 +39,7 @@ import sliderTheme from './styles/slider.sass'
 import tableTheme from './styles/table.sass'
 import tabsTheme from './styles/tabs.sass'
 import toggleTheme from './styles/toggle.sass'
+import rangerTheme from './styles/ranger.sass'
 
 
 const Button = withDefaults(_Button, { className: buttonTheme.button })
@@ -140,6 +142,12 @@ const Toggle = withDefaults(_Toggle, { theme: toggleTheme })
 
 const Tabs = withDefaults(_Tabs, { theme: tabsTheme })
 
+const Ranger = withDefaults(_Ranger, {
+    theme: rangerTheme,
+    rangePickIcon: ''
+})
+
+
 
 export {
     buttonTheme, Button,
@@ -159,5 +167,6 @@ export {
     sliderTheme, Slider,
     tableTheme, Table,
     toggleTheme, Toggle,
-    tabsTheme, Tabs
+    tabsTheme, Tabs,
+    rangerTheme, Ranger
 }

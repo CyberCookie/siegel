@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect } from 'react'
 
 import isE from '../../utils/is_exists'
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { _Breadcrumbs, Props } from './types'
+import type { _Breadcrumbs, Props, MergedProps } from './types'
 
 import styles from './styles.sass'
 
@@ -36,7 +36,7 @@ const linkClickPreventDefault = (e: React.MouseEvent) => { e.preventDefault() }
 const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Breadcrumbs.defaults, props, false)
-        :   (props as _Breadcrumbs['defaults'] & Props)
+        :   (props as MergedProps)
 
     const {
         className, theme, attributes, location, separator, config, onChange, refApi
@@ -57,7 +57,7 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
 
 
     function getBreadcrumbs() {
-        const breadcrumbData = []
+        const breadcrumbsElements = []
         const locationArray = location == '/' ? [''] : location.split('/')
         let loocupScope = config;
         let path = ''
@@ -67,7 +67,7 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
             const data = loocupScope[loc] || Object.values(loocupScope)[0]
     
             if (isE(data)) {
-                const { crumb, dynamicCrumb, nested } = data;
+                const { crumb, dynamicCrumb, children } = data;
     
                 const name = dynamicCrumb
                     ?   dynamicCrumbs[dynamicCrumb]
@@ -76,28 +76,26 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
                             :   crumb;
     
                 path += ((loc ? '/' : '') + loc)
+                isE(children) && (loocupScope = children)
     
-                breadcrumbData[breadcrumbData.length] = { path, name }
-                isE(nested) && (loocupScope = nested)
-            } else {
-                break
-            }
+                breadcrumbsElements.push(
+                    <a key={path} className={theme.link}
+                        children={`${i ? separator : ''} ${name}`}
+                        onClick={linkClickPreventDefault}
+                        onMouseDown={e => { onChange(path, e) }} />
+                )
+            } else break
         }
         
 
-        return breadcrumbData.map(({ path, name }, i) => (
-            <a key={path} className={theme.link}
-                children={`${i ? separator : ''} ${name}`}
-                onClick={linkClickPreventDefault}
-                onMouseDown={e => { onChange(path, e) }} />
-        ))
+        return breadcrumbsElements
     }
 
     
     return <div {...breadcrumbsRootProps} />
 }
 Breadcrumbs.defaults = {
-    className: styles[componentID + '__inner'],
+    className: styles[componentID + '_inner'],
     separator: '',
     theme: {
         root: componentID,

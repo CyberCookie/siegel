@@ -1,0 +1,68 @@
+$height: 16px
+$slider_size: $height * 2
+$slider_size_scaled: $slider_size * 1.1
+$range_area_radius: $height / 2
+
+    
+.root
+    width: 300px
+
+.label
+    +font(22px, 34px)
+    padding: 16px 0
+
+.range_area
+    position: relative
+    align-items: center
+    height: $height
+    width: 100%
+    cursor: pointer
+
+    & > div
+        &:first-child
+            border-radius: $range_area_radius 0 0 $range_area_radius
+        
+        &:last-child
+            border-radius: 0 $range_area_radius $range_area_radius 0
+
+.range_slider
+    width: $slider_size
+    height: $slider_size
+    border-radius: 50%
+    border: 4px solid $secondary
+    background: $white
+    transition: $transition
+    transition-property: background, width, height
+    z-index: 1
+
+    &:hover
+        background: $secondary
+
+
+.range__selected, .range__unselected
+    height: 100%
+
+.range__selected
+    background: $primary
+
+.range__unselected
+    background: $border_color
+    
+
+.range_slider__active
+    background: $secondary
+    width: $slider_size_scaled
+    height: $slider_size_scaled
+    z-index: 2
+
+
+._disabled
+    .range_area
+        cursor: default
+
+    .range__selected
+        background: $grey_five
+    
+    .range_slider
+        background: $grey_12
+        border-color: $grey_12

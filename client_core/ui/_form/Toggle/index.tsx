@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../../ui_utils'
-import type { _Toggle, Props } from './types'
+import addChildren from '../../children'
+import type { _Toggle, Props, MergedProps } from './types'
 
 
 const componentID = '-ui-toggle'
@@ -9,7 +10,7 @@ const componentID = '-ui-toggle'
 const Toggle: _Toggle = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Toggle.defaults, props, false)
-        :   (props as _Toggle['defaults'] & Props)
+        :   (props as MergedProps)
 
     const {
         theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes,
@@ -39,12 +40,15 @@ const Toggle: _Toggle = (props, noDefaults) => {
             </div>
 
             { labelRight && <div className={theme.label} children={labelRight} /> }
+
+            { addChildren(toggleRootProps, theme) }
         </div>
     )
 }
 Toggle.defaults = {
     theme: {
         root: componentID,
+        children: componentID + '_children',
         _disabled: componentID + '__disabled',
         _toggled: componentID + '__toggled',
         label: componentID + '_label',

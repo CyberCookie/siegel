@@ -37,7 +37,7 @@ $error_color: #f00
     padding-top: $gutter_sm / 2
     transform: translateY(100%)
 
-.extra
+.children
     +absolute('', $gutter, $height / 2)
     display: flex
     transform: translateY(50%)
@@ -57,7 +57,7 @@ $error_color: #f00
         .field
             border-color: $error_color
         
-        .extra i
+        .children i
             color: $error_color
 
     .error_text
@@ -72,7 +72,7 @@ $error_color: #f00
     .field
         border-color: $primary
     
-    .extra i
+    .children i
         color: $primary
 
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { ListElement, _Accordion, Props } from './types'
+import type { ListElement, _Accordion, MergedProps } from './types'
 
 
 const componentID = '-ui-accordion'
@@ -14,7 +14,7 @@ const onClickHandler = (e: React.MouseEvent) => {
 const Accordion: _Accordion = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Accordion.defaults, props, false)
-        :   (props as _Accordion['defaults'] & Props)
+        :   (props as MergedProps)
     
     const {
         className, theme, list, builder, accordionIcon, soloOpen, attributes, autoExpand, refApi

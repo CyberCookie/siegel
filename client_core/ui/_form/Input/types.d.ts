@@ -10,7 +10,7 @@ type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
 type InputFieldThemeKeys = | 'label' | 'label_text' | 'field' | 'error_text'
     | '_filled' | '_error' | '_disabled' | '_focused' | '_touched'
 
-type ThemeKeys = 'textarea' | 'extra' | InputFieldThemeKeys
+type ThemeKeys = 'textarea' | 'children' | InputFieldThemeKeys
 
 type InputState = {
     isTouched: boolean

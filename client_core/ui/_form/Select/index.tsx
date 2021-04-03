@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 
 import isTouchScreen from '../../../utils/is_touchscreen'
 import { extractProps, applyRefApi } from '../../ui_utils'
+import addChildren from '../../children'
 import type { ComponentAttributes } from '../../ui_utils'
 import type{ MergedProps, _Select, Props } from './types'
 
@@ -63,7 +64,7 @@ const Select: _Select = (props, noDefaults) => {
 
     const mergedProps = noDefaults
         ?   extractProps(Select.defaults, props, false)
-        :   (props as _Select['defaults'] & Props)
+        :   (props as MergedProps)
 
     const {
         theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi
@@ -147,12 +148,15 @@ const Select: _Select = (props, noDefaults) => {
                 
                 :   selectInput
             }
+
+            { addChildren(selectRootProps, theme) }
         </div>
     )
 }
 Select.defaults = {
     theme: {
         root: componentID,
+        children: componentID + '_children',
         label: componentID + '_label',
         title: componentID + '_title',
         title_text: componentID + '_title_text',

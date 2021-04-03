@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { HTMLSwipeMouseEvent, _Swipe, Props } from './types'
+import type { HTMLSwipeMouseEvent, _Swipe, Props, MergedProps } from './types'
 
 
 const componentID = '-ui-swipe'
@@ -13,7 +13,7 @@ const passiveEv = { passive: true }
 const Swipe: _Swipe = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Swipe.defaults, props, false)
-        :   (props  as _Swipe['defaults'] & Props)
+        :   (props  as MergedProps)
 
     const { className, children, xAxis, deltaPos, onSwipe, attributes, refApi } = mergedProps;
 

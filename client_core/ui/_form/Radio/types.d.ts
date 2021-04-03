@@ -7,6 +7,15 @@ type Option = {
     className?: string
 }
 
+type MultiSelectProps = {
+    multiple: true
+    selected: Set<ID>
+}
+type SingleSelectProps = {
+    multiple?: false
+    selected: ID
+}
+
 type ThemeKeys = 'option' | 'option__selected' | '_disabled'
 
 type Props = {
@@ -15,7 +24,7 @@ type Props = {
     disabled?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
-    & ({ multiple: true, selected: Set<ID> } | { multiple?: false, selected: ID })
+    & (MultiSelectProps | SingleSelectProps)
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
