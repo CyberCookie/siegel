@@ -135,7 +135,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
 
     function pickRangeStart(e: React.MouseEvent) {
         e.stopPropagation()
-        styles
+
         const rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp!;
         if (rangeDateStart) {
             if (rangePick) {
