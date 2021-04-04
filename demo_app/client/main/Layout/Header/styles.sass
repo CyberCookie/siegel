@@ -3,29 +3,31 @@
     padding: $gutter $gutter 0 0
     z-index: 2
 
-    a
-        +font(30px, 44px)
-        position: relative
-        padding: 0 $gutter $gutter * 1.5
-        margin: 0 $gutter
+.nav_link
+    +font(30px, 44px)
+    position: relative
+    padding: 0 $gutter $gutter * 1.5
+    margin: 0 $gutter
 
+    &::before, &::after
+        +absolute('','', 0)
+        content: ''
+        width: 0
+        transition: width $transition
+    
+    &::before
+        left: 50%
+    
+    &::after
+        right: 50%
+
+    &:hover
         &::before, &::after
-            +absolute('','', 0)
-            content: ''
-            width: 0
-            transition: width $transition
-        
-        &::before
-            left: 50%
-        
-        &::after
-            right: 50%
+            width: 50%
+            border-bottom: 2px solid lighten($primary, 30%)
 
-        &:hover
-            &::before, &::after
-                width: 50%
-                border-bottom: 2px solid lighten($primary, 30%)
 
-.active_nav
-    color: red
-    border-bottom: 10px solid $primary
+.breadcrumbs
+    position: relative
+    padding: 28px 32px 0
+    float: right

@@ -2,34 +2,15 @@ import React, { useState, useLayoutEffect } from 'react'
 
 import isE from '../../utils/is_exists'
 import { extractProps, applyRefApi } from '../ui_utils'
+import componentID from './id'
 import type { _Breadcrumbs, Props, MergedProps } from './types'
 
 import styles from './styles.sass'
 
 
-const componentID = '-ui-breadcrumbs'
+type State = Indexable<string>
+type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-let forceUpdate: React.Dispatch<React.SetStateAction<Indexable>> | undefined;
-const dynamicCrumbs: Indexable<React.ReactNode> = {}
-const setDynamicCrumb = (crumpId: string, value: React.ReactNode, isForceUpdate = true) => {
-    if (dynamicCrumbs[crumpId] != value) {
-        dynamicCrumbs[crumpId] = value;
-        isForceUpdate && forceUpdate!({})
-    }
-}
-
-const setDynamicCrumbsBatch = (crumbIDValueMap: Indexable, isForceUpdate = true) => {
-    for (const crumbID in crumbIDValueMap) {
-        const value = crumbIDValueMap[crumbID]
-        dynamicCrumbs[crumbID] = value
-    }
-
-    isForceUpdate && forceUpdate!({})
-}
-
-const useLayoutEffectFunc = () => () => {
-    forceUpdate = undefined
-}
 
 const linkClickPreventDefault = (e: React.MouseEvent) => { e.preventDefault() }
 
@@ -39,13 +20,30 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
         :   (props as MergedProps)
 
     const {
-        className, theme, attributes, location, separator, config, onChange, refApi
+        className, theme, attributes, history, separator, config, onChange, refApi, hasDynamicCrumbs
     } = mergedProps;
 
 
-    forceUpdate = useState({})[1]
+    let dynamicCrumbsStore: Store;
+    if (hasDynamicCrumbs) {
+        dynamicCrumbsStore = useState({})
+        const [ state, setState ] = dynamicCrumbsStore;
 
-    useLayoutEffect(useLayoutEffectFunc, [])
+        useLayoutEffect(() => {
+            const setDynamicCrumbsHandler = (function({ detail }: CustomEvent) {
+                setState(
+                    Object.assign({}, state, detail)
+                )
+            } as EventListener)
+
+
+            window.addEventListener(componentID, setDynamicCrumbsHandler)
+            return () => {
+                window.removeEventListener(componentID, setDynamicCrumbsHandler)
+            }
+        })
+    }
+
 
 
     let breadcrumbsRootProps: Props['attributes'] = {
@@ -55,35 +53,44 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
     refApi && (applyRefApi(breadcrumbsRootProps, mergedProps))
     attributes && (breadcrumbsRootProps = Object.assign(breadcrumbsRootProps, attributes))
 
-
+    
     function getBreadcrumbs() {
-        const breadcrumbsElements = []
+        const location = history.location.pathname;
         const locationArray = location == '/' ? [''] : location.split('/')
+
+        const breadcrumbsElements = []
         let loocupScope = config;
         let path = ''
-    
         for (let i = 0, l = locationArray.length; i < l; i++) {
             const loc = locationArray[i]
             const data = loocupScope[loc] || Object.values(loocupScope)[0]
-    
+
             if (isE(data)) {
                 const { crumb, dynamicCrumb, children } = data;
-    
-                const name = dynamicCrumb
-                    ?   dynamicCrumbs[dynamicCrumb]
-                    :   typeof crumb == 'function'
-                            ?   crumb(path, loc)
-                            :   crumb;
-    
-                path += ((loc ? '/' : '') + loc)
+                
+                const newPath = path + ((loc ? '/' : '') + loc)
                 isE(children) && (loocupScope = children)
-    
+
+
+                const name = hasDynamicCrumbs && dynamicCrumb
+                    ?   dynamicCrumbsStore[0][dynamicCrumb] || dynamicCrumb
+                    :   typeof crumb == 'function'
+                            ?   crumb(newPath, loc)
+                            :   crumb;
+
                 breadcrumbsElements.push(
-                    <a key={path} className={theme.link}
-                        children={`${i ? separator : ''} ${name}`}
-                        onClick={linkClickPreventDefault}
-                        onMouseDown={e => { onChange(path, e) }} />
+                    <a key={newPath} className={theme.link} onClick={linkClickPreventDefault}
+                        onMouseDown={e => {
+                            onChange
+                                ?   onChange(newPath, e)
+                                :   history.push(newPath)
+                        }}>
+                        
+                        { i ? <>{separator} {name}</> : name as React.ReactNode }
+                    </a>
                 )
+
+                path = newPath
             } else break
         }
         
@@ -92,7 +99,7 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
     }
 
     
-    return <div {...breadcrumbsRootProps} />
+    return <div {...breadcrumbsRootProps } />
 }
 Breadcrumbs.defaults = {
     className: styles[componentID + '_inner'],
@@ -105,5 +112,5 @@ Breadcrumbs.defaults = {
 Breadcrumbs.ID = componentID;
 
 
-export { setDynamicCrumb, setDynamicCrumbsBatch, componentID }
+export { componentID }
 export default Breadcrumbs

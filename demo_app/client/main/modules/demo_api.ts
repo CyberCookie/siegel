@@ -1,5 +1,8 @@
 import request from 'siegel-services/request'
 import createHookStore, { HookStore } from 'siegel-store/hook_store'
+import breadcrumbID from 'siegel-ui/Breadcrumbs/id'
+
+import { dynamicCrumbsMap } from 'app/Router/config'
 
 
 type State = {
@@ -25,8 +28,14 @@ const actions: Actions = {
         request({
             url: '/api/send_data',
             body: { dataToSend }
-        }).then(data => {
-            state.received = data.dataToSend;
+        }).then(({ dataToSend }) => {
+            window.dispatchEvent(new CustomEvent(breadcrumbID, {
+                detail: {
+                    [dynamicCrumbsMap.demo_api]: dataToSend
+                }
+            }))
+
+            state.received = dataToSend;
             setState(state)
         })
     },

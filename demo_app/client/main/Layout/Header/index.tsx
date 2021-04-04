@@ -1,7 +1,8 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { pagePathMap } from 'app/_hardcode'
+import { pagePathMap } from 'app/Router/config'
+import { Breadcrumbs } from 'app/components'
 
 import styles from './styles.sass'
 
@@ -21,13 +22,20 @@ const navigationConfig = [
     }
 ]
 
+
 const Header = () => {
-    const navs = navigationConfig.map(({ path, label }) => (
-        <NavLink key={path} to={'/' + path} children={label}
-            activeClassName={styles.active_nav} />
+    const nav = navigationConfig.map(({ path, label }) => (
+        <Link key={path} to={'/' + path} children={label} className={styles.nav_link} />
     ))
-    
-    return <header className={styles.header} children={navs} />
+
+
+    return (
+        <header className={styles.header}>
+            <nav children={nav} />
+
+            <Breadcrumbs className={styles.breadcrumbs} />
+        </header>
+    )
 }
 
 

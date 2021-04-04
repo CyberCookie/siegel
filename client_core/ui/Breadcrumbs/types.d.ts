@@ -1,3 +1,4 @@
+import type { History } from 'history'
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
@@ -23,9 +24,10 @@ type BreadcrumbConfig = {
 type ThemeKeys = 'link'
 
 type Props = {
-    onChange(path: string, e: React.MouseEvent): void
     config: BreadcrumbConfig
-    location: string
+    history: History
+    hasDynamicCrumbs?: boolean
+    onChange?(path: string, e: React.MouseEvent): void
     separator?: React.ReactNode
     attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>

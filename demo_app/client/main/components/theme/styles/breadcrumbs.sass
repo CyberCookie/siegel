@@ -1,0 +1,26 @@
+$font_size: 16px
+
+    
+.root, .link
+    +flex('', center)
+    
+.link
+    +font($font_size)
+
+    &:first-child:last-child
+        display: none
+
+    &:last-child
+        color: $primary
+    
+    &:not(:last-child)
+        cursor: pointer
+
+    i
+        display: inline-block
+        height: $font_size
+        color: $grey_two
+        padding: 0 4px
+
+        &::before
+            vertical-align: middle

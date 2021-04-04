@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import updateURLQuery from 'siegel-utils/query_update'
 
-import { history } from 'app/routes'
+import { history } from 'app/Router/config'
 import * as demoComponents from './components'
 
 import styles from './styles.sass'
@@ -39,7 +39,7 @@ const DemoPage = () => {
     }
 
     function getActiveComponent() {
-        const Component = _demoComponents[active]
+        const Component = _demoComponents[active!]
         return <Component />
     }
 

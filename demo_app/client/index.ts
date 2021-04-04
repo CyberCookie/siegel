@@ -3,7 +3,7 @@
 import { render } from 'react-dom'
 import { setup as requestServiceSetup, RequestParams } from 'siegel-services/request'
 
-import Router from 'app/routes'
+import Router from 'app/Router'
 
 import './styles'
 

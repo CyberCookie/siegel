@@ -1,16 +1,24 @@
 import { lazy } from 'react'
 import { createBrowserHistory } from 'history'
 import seo from 'siegel-utils/seo'
-import createRouter from 'siegel-router'
 import type { RouterConfig } from 'siegel-router'
-
-import Layout from 'app/Layout'
-import { pagePathMap } from 'app/_hardcode'
+import type { BreadcrumbConfig } from 'siegel-ui/Breadcrumbs/types'
 
 
 const history = createBrowserHistory()
 
-const routes: RouterConfig = {
+const pagePathMap = {
+    home: '',
+    demo_components: 'demo_components',
+    demo_api: 'demo_api'
+} as const
+
+const dynamicCrumbsMap = {
+    demo_api: 'Demo api dynamic crumb'
+} as const
+
+
+const routesConfig: RouterConfig & BreadcrumbConfig = {
     [pagePathMap.home]: {
         beforeEnter() {
             seo({
@@ -19,6 +27,7 @@ const routes: RouterConfig = {
                 description: 'siegel demo app'
             })
         },
+        crumb: 'Home',
         LazyPage: lazy(() => import('app/pages/Home'))
     },
     
@@ -30,6 +39,7 @@ const routes: RouterConfig = {
                 description: 'siegel demo components'
             })
         },
+        crumb: 'Demo coponents',
         LazyPage: lazy(() => import('app/pages/DemoComponents'))
     },
     
@@ -41,16 +51,10 @@ const routes: RouterConfig = {
                 description: 'siegel demo API'
             })
         },
+        dynamicCrumb: dynamicCrumbsMap.demo_api,
         LazyPage: lazy(() => import('app/pages/DemoApi'))
     }
 }
 
 
-const Router = createRouter({
-    Layout, history,
-    children: routes
-})
-
-
-export { pagePathMap, history }
-export default Router
+export { history, routesConfig, pagePathMap, dynamicCrumbsMap }

@@ -1,6 +1,7 @@
 import { withDefaults } from 'siegel-ui/ui_utils'
 
 import _Button from 'siegel-ui/_form/Button'
+import _Breadcrumbs from 'siegel-ui/Breadcrumbs'
 import _Calendar from 'siegel-ui/_form/Calendar'
 import _Checkbox from 'siegel-ui/_form/Checkbox'
 import Clocks from 'siegel-ui/Clocks'
@@ -21,9 +22,11 @@ import Swipe from 'siegel-ui/Swipe'
 import _Ranger from 'siegel-ui/_form/Ranger'
 
 
+import { routesConfig, history } from 'app/Router/config'
 import icons from '../icons'
 
 import buttonTheme from './styles/button.sass'
+import breadcrumbsTheme from './styles/breadcrumbs.sass'
 import calendarTheme from './styles/calendar.sass'
 import checkboxTheme from './styles/checkbox.sass'
 import _dataTableTheme from './styles/data_table.sass'
@@ -44,6 +47,14 @@ import rangerTheme from './styles/ranger.sass'
 
 const Button = withDefaults(_Button, { className: buttonTheme.button })
 
+const Breadcrumbs = withDefaults(_Breadcrumbs, {
+    history,
+    hasDynamicCrumbs: true,
+    theme: breadcrumbsTheme,
+    separator: icons.chevron,
+    config: routesConfig
+})
+
 const Calendar = withDefaults(_Calendar, {
     theme: calendarTheme,
     prevIcon: icons.chevron,
@@ -60,7 +71,6 @@ const dataTableTheme = {
     ..._dataTableTheme,
     table: `${tableTheme.table} ${_dataTableTheme.table}`
 }
-
 const DataTable = withDefaults(_DataTable, {
     theme: dataTableTheme
 })
@@ -99,7 +109,6 @@ const numberPickerTheme = {
     field: `${inputTheme.field} ${_numberPickerTheme.field}`,
     label: inputTheme.label_text
 }
-
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
     minusIcon: icons.chevron,
@@ -148,9 +157,9 @@ const Ranger = withDefaults(_Ranger, {
 })
 
 
-
 export {
     buttonTheme, Button,
+    breadcrumbsTheme, Breadcrumbs,
     calendarTheme, Calendar,
     checkboxTheme, Checkbox,
     dataTableTheme, DataTable,
