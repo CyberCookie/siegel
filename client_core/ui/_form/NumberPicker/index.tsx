@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import floatMath from '../../../utils/math_float'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import addChildren from '../../children'
-import Input, { getDefaultInputStoreState } from '../Input'
+import Input, { getDefaultInputStoreState, updateThemeWithInputFieldTheme } from '../Input'
 import type { _NumberPicker, Props, MergedProps, BtnClickEv, BtnProps, OnNumberPickerChange } from './types'
 import type { Props as InputProps } from '../Input/types' 
 
@@ -147,23 +147,8 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
     }
     refApi && (applyRefApi(numberpickerRootProps, mergedProps))
     attributes && Object.assign(numberpickerRootProps, attributes)
-
     
-    const inputFieldProps: InputProps = {
-        theme, label, errorMsg, placeholder, inputAttributes,
-        regexp: numberMask,
-        value: getNormalizedStringValue(value),
-        inputStore: _inputStore,
-        disabled: disabled || disabledInput,
-        onBlur(e) { onNumberPickerChange(e) },
-        onChange(_value, e) {
-            const value = _value.replace(',', '.')
-            onChange(value, e, undefined, payload)
-        }
-    }
-    disabled && (numberpickerRootProps.className += ` ${theme._disabled_all}`)
-
-
+    
     const onNumberPickerChange: OnNumberPickerChange = (e, arrowValue, step) => {
         let result: string | number | undefined;
         if (step) {
@@ -184,6 +169,22 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         
         result == value || onChange(result+'', e, arrowValue, payload)
     }
+
+
+    const inputFieldProps: InputProps = {
+        theme, label, errorMsg, placeholder, inputAttributes,
+        regexp: numberMask,
+        value: getNormalizedStringValue(value),
+        inputStore: _inputStore,
+        disabled: disabled || disabledInput,
+        onBlur: onNumberPickerChange,
+        onChange(_value, e) {
+            const value = _value.replace(',', '.')
+            onChange(value, e, undefined, payload)
+        }
+    }
+    disabled && (numberpickerRootProps.className += ` ${theme._disabled_all}`)
+
     
     let stepper;
     if (step) {
@@ -227,23 +228,14 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
 }
 NumberPicker.defaults = {
     className: styles[componentID + '_inner'],
-    theme: {
+    theme: updateThemeWithInputFieldTheme({
         root: componentID,
         children: componentID + '_children',
         controls: componentID + '_controls',
         button_minus: componentID + '_minus',
         button_plus: componentID + '_plus',
-        label: componentID + '_label',
-        label_text: componentID + '_label_text',
-        error_text: componentID + '_error_text',
-        field: componentID + '_field',
-        _disabled_all: componentID + '__disabled_all',
-        _disabled: componentID + '__disabled',
-        _focused: componentID + '__focused',
-        _touched: componentID + '__touched',
-        _filled: componentID + '__filled',
-        _error: componentID + '__error',
-    },
+        _disabled_all: componentID + '__disabled_all'
+    }, componentID),
 
     minusIcon: '-',
     plusIcon: '+',

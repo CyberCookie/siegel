@@ -170,7 +170,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props<Entiti
                 { cell.value }
 
                 <div className={styles.grid_col_menu_toggle}>
-                    { icons.moreVert }
+                    { icons.more_vert }
 
                     { isActiveLabelMenu && getActiveLabelMenu() }
                 </div>

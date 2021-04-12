@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
+import isE from '../../../utils/is_exists'
 import isTouchScreen from '../../../utils/is_touchscreen'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import addChildren from '../../children'
@@ -45,7 +46,7 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
                     closeOnSelect && setActive(false)
                 }
             
-    
+
         optionElements.push( <div {...optionProps} key={value} /> )
     }
 
@@ -70,9 +71,11 @@ const Select: _Select = (props, noDefaults) => {
         theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi
     } = mergedProps;
     
+    const isSelected = isE(selected)
+
     let className = mergedProps.className;
     isActive && (className += ` ${theme._active}`)
-    selected && (className += ` ${theme._filled}`)
+    isSelected && (className += ` ${theme._filled}`)
     
     let selectRootProps: NonNullable<Props['attributes']> = {
         className,
@@ -83,7 +86,7 @@ const Select: _Select = (props, noDefaults) => {
     if (disabled) {
         selectRootProps.className += ` ${theme._disabled}`
         
-        if (selected) {
+        if (isSelected) {
             selectedOption = options.find(option => option.value == selected)
         }
     } else {

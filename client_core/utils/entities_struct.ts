@@ -17,58 +17,73 @@
 
 type Entities = ReturnType<typeof entities>
 
-function entities<E extends Indexable>(uniq: keyof E) {
-    type Entity = E & Indexable
-    type SortCB = (entity_a: Entity, entity_b: Entity) => number
-    type EachCB = (entity: Entity, index: number) => boolean | void
+function entities<E extends Indexable>(uniq: keyof E = 'id') {
+    type SortCB = (entity_a: E, entity_b: E) => number
+    type EachCB = (entity: E, index: number) => boolean | void
 
-    let byID: Indexable<Entity> = {}
+    let byID: Indexable<E> = {}
     let sorted: ID[] = []
 
 
-    return {
+    const entityStruct = {
         clear() {
             byID = {}
             sorted = []
-        },
 
-        get: (entityID: ID) => byID[entityID],
-
-        addOrUpdate(entity: Entity) {
-            const entityID = entity[uniq]
-    
-            byID[entityID] || sorted.push(entityID)
-            byID[entityID] = entity
+            return entityStruct
         },
         
-        addAll(entities: Entity[]) {
-            for (let i = 0, l = entities.length; i < l; i++)
-                this.addOrUpdate(entities[i])
-        },
+        addOrUpdate(entity: E) {
+            const entityID = entity[uniq]
+            
+            byID[entityID] || sorted.push(entityID)
+            byID[entityID] = entity
 
+            return entityStruct
+        },
+        
+        addAll(entities: E[]) {
+            for (let i = 0, l = entities.length; i < l; i++) {
+                this.addOrUpdate(entities[i])
+            }
+
+            return entityStruct
+        },
+        
         remove(entityID: ID) {
             if (byID[entityID]) {
                 const indexOfEntity = sorted.findIndex(ID => entityID === ID)
-    
+                
                 sorted.splice(indexOfEntity, 1)
                 delete byID[entityID]
             }
+
+            return entityStruct
         },
 
         sort(cb: SortCB) {
             sorted.sort((ID_a, ID_b) => cb(byID[ID_a], byID[ID_b]))
-        },
 
+            return entityStruct
+        },
+        
         each(cb: EachCB, from = 0, to = sorted.length) {
             for (let i = from; i < to; i++) {
-                if (cb(byID[sorted[i]], i)) break;
+                if (cb(byID[sorted[i]], i)) break
             }
+
+            return entityStruct
         },
+
+        get: (entityID: ID) => byID[entityID],
 
         len: () => sorted.length,
 
         raw: () => ({ byID, sorted })
     }
+
+
+    return entityStruct
 }
 
 

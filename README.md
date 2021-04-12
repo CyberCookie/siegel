@@ -63,14 +63,39 @@
     Some configurations may change in the future. Docs are not well written so far.
 </h6><br />
 
-Siegel is a website development platform that provides an easy way to build and host your projects using big set of predefined components and other usefull client side utils like request service, routing, state managers etc.
 
-Read more about each part (build, server, ui) following the links below:
+Siegel is a higly opiniated website development platform that helps you to build and host your projects of any scale in a simple way.<br />
+
+<ul>
+    Right from the box you get:
+    <li>Preconfiguread and easily extendable <b>fast Webpack v4</b> builder.</li>
+    <li><b>Live reload</b> of client and server code</li>
+    <li><b>Typescript</b> for client and server sides.</li>
+    <li><b>New JS features</b> supported with <b>Babel</b> like optional chainig and dynamic imports...</li>
+    <li>ESLint.</li>
+    <li>ExpressJS server.</li>
+    <li>HTTP(S) 1 / HTTP(S) 2. +Script for creating dev certificates to use on localhost in Chrome.</li>
+    <li>PM2 deamon to wrap your application in production.</li>
+    <li>Brotli compression.</li>
+    <li>Big set of React components.</li>
+    <li>SASS with CSS modules approach.</li>
+    <li>SVG icons to icon font converter.</li>
+    <li>React state managers built with <b>hooks</b> or <b>Redux</b> with fetch module to track requests with.</li>
+    <li>Recursive cosilly configurable <b>react router</b>.</li>
+    <li>Request service.</li>
+    <li>Utils.</li>
+    <li>
+        Demo project with themed components, predefined folder structure and scalable architecture built on top of Siegel.<br />
+        It gives you a quick start right after initialization!
+    </li>
+</ul>
+
+
+Read more about each part following the links below:
 - [UI](https://github.com/CyberCookie/siegel/tree/master/client_core)
 - [Build](https://github.com/CyberCookie/siegel/tree/master/src/client_build)
 - [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
-
-There is also [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) using to initialize a new project.
+- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)
 
 <br />
 

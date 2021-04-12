@@ -4,7 +4,7 @@ import { extractProps, applyRefApi } from '../../ui_utils'
 import addChildren from '../../children'
 import getInputLabeled from '../label'
 import componentID from './id'
-import type { _Input, Props, MergedProps/*, InputFieldThemeKeys*/ } from './types'
+import type { _Input, Props, MergedProps, InputFieldThemeKeysArray } from './types'
 
 
 const getDefaultInputStoreState = () => ({
@@ -12,17 +12,20 @@ const getDefaultInputStoreState = () => ({
     isFocused: false
 })
 
+const inputFieldThemeKeys: InputFieldThemeKeysArray = [
+    'label', 'label_text', 'field', 'error_text',
+    '_filled', '_error', '_disabled', '_focused', '_touched', '_readonly'
+]
+const updateThemeWithInputFieldTheme =
+<T extends Partial<Props['theme']>>
+(theme: T, componentID: ID) => {
+    
+    inputFieldThemeKeys.forEach(key => {
+        theme![key] = componentID + '_' + key
+    })
 
-//TODO:
-// const inputFieldThemeKeys: InputFieldThemeKeys[] = [
-//     'field', 'label', 'label_text', 'error_text',
-//     '_error', '_filled', '_focused', '_touched', '_disabled'
-// ]
-// const updateThemeWithInputFieldTheme = (theme: Indexable<string>, componentID: ID) => {
-//     inputFieldThemeKeys.forEach(key => {
-//         theme[key] = componentID + '_' + key
-//     })
-// }
+    return theme as T & IndexObjectKeys<InputFieldThemeKeysArray[number], string>
+}
 
 //[email, password, search, tel, text, url, (textarea)]
 const Input: _Input = (props, noDefaults) => {
@@ -48,14 +51,16 @@ const Input: _Input = (props, noDefaults) => {
         inputProps.ref = useRef<HTMLInputElement>(null)
         
         autofocus && useEffect(() => {
-            disabled || ((inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus())
-        }, [ disabled ])
+            if (!disabled && onChange) {
+                (inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
+            }
+        }, [ disabled, onChange ])
     }
     
     
     let className = mergedProps.className;
     errorMsg && (className += ` ${theme._error}`)
-    value && (className += ` ${theme._filled}`)
+    ;(value || mask) && (className += ` ${theme._filled}`)
     isFocused && (className += ` ${theme._focused}`)
     isTouched && (className += ` ${theme._touched}`)
     
@@ -71,11 +76,10 @@ const Input: _Input = (props, noDefaults) => {
             }
         }
     }
-
     
 
     if (disabled) inputRootProps.className += ` ${theme._disabled}`
-    else {
+    else if (onChange) {
         inputRootProps.onFocus = e => {
             if (!isFocused) {
                 state.isFocused = true;
@@ -85,12 +89,13 @@ const Input: _Input = (props, noDefaults) => {
             }
         }
 
-        if (onChange) {
-            inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-                const value = (e.target as HTMLInputElement).value;
-                (!regexp || regexp.test(value)) && onChange(value, e, payload)
-            }
-        } else inputProps.readOnly = true
+        inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const value = (e.target as HTMLInputElement).value;
+            (!regexp || regexp.test(value)) && onChange(value, e, payload)
+        }
+    } else {
+        inputRootProps.className += ` ${theme._readonly}`
+        inputProps.readOnly = true
     }
     
     
@@ -108,7 +113,7 @@ const Input: _Input = (props, noDefaults) => {
 
     mask && mask.processor(mask, inputProps)
 
-    let inputElement = <InputTag {...inputProps} />
+    let inputElement = <InputTag { ...inputProps } />
     label && (inputElement = getInputLabeled(
         inputElement,
         { className: theme.label },
@@ -117,7 +122,7 @@ const Input: _Input = (props, noDefaults) => {
 
 
     return (
-        <div {...inputRootProps}>
+        <div { ...inputRootProps }>
             { inputElement }
 
             { addChildren(inputRootProps, theme) }
@@ -127,23 +132,14 @@ const Input: _Input = (props, noDefaults) => {
     )
 }
 Input.defaults = {
-    theme: {
+    theme: updateThemeWithInputFieldTheme({
         root: componentID,
         children: componentID + '_children',
-        field: componentID + '_field',
-        textarea: componentID + '_textarea',
-        error_text: componentID + '_error_text',
-        label: componentID + '_label',
-        label_text: componentID + '_label_text',
-        _error: componentID + '__error',
-        _filled: componentID + '__filled',
-        _focused: componentID + '__focused',
-        _touched: componentID + '__touched',
-        _disabled: componentID + '__disabled'
-    }
+        textarea: componentID + '_textarea'
+    }, componentID)
 }
 Input.ID = componentID;
 
 
-export { componentID, getDefaultInputStoreState }
+export { componentID, getDefaultInputStoreState, updateThemeWithInputFieldTheme }
 export default Input

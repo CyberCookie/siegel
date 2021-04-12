@@ -521,13 +521,15 @@ import entitiesStruct from 'siegel-utils/entities_struct'
 
 const entities = entitiesStruct('id')
 
-entities.addOrUpdate({ id: 1, someData: '' })
-entities.addOrUpdate({ id: 2, someData: 'value' })
-entities.get(1)
+entities
+    .addOrUpdate({ id: 1, someData: '' })
+    .addOrUpdate({ id: 2, someData: 'value' })
+    .get(1)
 // { id: 1, someData: '' }
 
-entities.addOrUpdate({ id: 1, someData: 'new data' })
-entities.get(1)
+entities
+    .addOrUpdate({ id: 1, someData: 'new data' })
+    .get(1)
 // { id: 1, someData: 'new data' }
 
 entities.len()
@@ -538,9 +540,11 @@ entities.each((elem, index) => {
     // perform some operations
 })
 
-entities.remove(2)
-entities.get(2)
-// undefined 
+entities
+    .remove(2)
+    .get(2)
+// undefined
+
 entities.len()
 // 1
 

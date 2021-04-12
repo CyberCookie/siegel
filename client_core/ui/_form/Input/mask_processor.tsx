@@ -26,11 +26,12 @@ const DELETE_FORWARD = 'deleteContentForward'
 const CODE_UNDO = 'KeyZ'
 const CODE_REDO = 'KeyY'
 
+const valuePlaceholderCharDefault = ' '
 
 const setCaretPos = (input: HTMLInputElement, caretPos: number) => setTimeout(() => { input.setSelectionRange(caretPos, caretPos) })
 
 function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Props['value']) {
-    const { pattern, patternValueChar, valuePlaceholderChar } = mask;
+    const { pattern, patternValueChar, valuePlaceholderChar = valuePlaceholderCharDefault } = mask;
     
     const placeholdersIndexesMap: Indexable<MaskCharData> = {}
     const placeholderCharsOrdered: number[] = []
@@ -89,7 +90,7 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Props['value
 
 
 const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
-    const { valuePlaceholderChar = ' ', shiftNextChar = true, copyMask, pattern } = mask;
+    const { valuePlaceholderChar = valuePlaceholderCharDefault, shiftNextChar = true, copyMask, pattern } = mask;
     const { value, ref, onChange, onFocus, onCopy, onPaste, onKeyDown } = _inputAttr;
     const valueLength = (value as string).length;
 
