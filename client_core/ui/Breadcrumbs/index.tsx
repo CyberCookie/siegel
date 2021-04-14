@@ -114,3 +114,4 @@ Breadcrumbs.ID = componentID;
 
 export { componentID }
 export default Breadcrumbs
+export * from './types'

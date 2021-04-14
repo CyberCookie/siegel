@@ -96,3 +96,4 @@ Swipe.ID = componentID;
 
 export { componentID }
 export default Swipe
+export * from './types'

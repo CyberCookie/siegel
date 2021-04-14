@@ -99,3 +99,4 @@ Checkbox.ID = componentID;
 
 export { componentID }
 export default Checkbox
+export * from './types'

@@ -1,10 +1,9 @@
 import React from 'react'
-import { Props } from 'siegel-ui/Accordion/types'
 
-import { Accordion } from 'app/components'
+import { Accordion, AccordionProps } from 'app/components'
 
 
-const list: Props['list'] = [
+const list: AccordionProps['list'] = [
     { title: 'item 1' },
     { title: 'item 2' },
     { title: 'item 3' },

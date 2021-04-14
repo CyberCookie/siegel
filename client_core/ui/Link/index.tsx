@@ -35,3 +35,4 @@ Link.ID = componentID
 
 export { componentID }
 export default Link
+export * from './types'

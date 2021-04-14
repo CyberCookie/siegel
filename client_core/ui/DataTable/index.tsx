@@ -120,3 +120,4 @@ DataTable.ID = componentID;
 
 export { getDefaultState, componentID }
 export default DataTable
+export * from './types'

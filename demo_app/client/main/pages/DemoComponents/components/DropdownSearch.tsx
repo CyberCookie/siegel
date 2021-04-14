@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/_form/DropdownSearch/types'
 
-import { DropdownSearch } from 'app/components'
+import { DropdownSearch, DropdownSearchProps } from 'app/components'
 
 
-const options: Props['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: number) => ({
+const options: DropdownSearchProps['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: number) => ({
     inputValue: 'option ' + i,
     value: i
 }))
@@ -12,7 +11,7 @@ const options: Props['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: number) => ({
 const Demo = () => {
     const [ selected, setSelected ] = useState(0)
     
-    const props: Props = {
+    const props: DropdownSearchProps = {
         selected,
         onChange(id) {
             setSelected(id as number)

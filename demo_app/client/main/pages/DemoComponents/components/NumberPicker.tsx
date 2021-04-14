@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/_form/NumberPicker/types'
 
-import { NumberPicker } from 'app/components'
+import { NumberPicker, NumberPickerProps } from 'app/components'
 
 
 const Demo = () => {
     const [ value, setValue ] = useState('')
-    const props: Props = {
+    const props: NumberPickerProps = {
         value,
         placeholder: 'placeholder',
         onChange(value) {

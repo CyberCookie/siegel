@@ -66,3 +66,4 @@ Clocks.ID = componentID;
 
 export { componentID }
 export default Clocks
+export * from './types'

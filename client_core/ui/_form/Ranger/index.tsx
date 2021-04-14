@@ -268,3 +268,4 @@ Ranger.ID = componentID;
 
 export { componentID }
 export default Ranger
+export * from './types'

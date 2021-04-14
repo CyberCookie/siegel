@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/_form/Select/types'
 
-import { Select } from 'app/components'
+import { Select, SelectProps } from 'app/components'
 
 
 const Demo = () => {
     const [ selectedOption, setOption ] = useState(0)
 
-    const props: Props = {
+    const props: SelectProps = {
         placeholder: 'placeholder',
         selected: selectedOption,
         options: [

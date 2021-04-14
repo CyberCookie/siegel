@@ -149,3 +149,4 @@ Slider.ID = componentID;
 
 export { componentID }
 export default Slider
+export * from './types'

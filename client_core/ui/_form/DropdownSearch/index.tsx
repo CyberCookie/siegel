@@ -153,3 +153,4 @@ DropdownSearch.ID = componentID;
 
 export { componentID }
 export default DropdownSearch
+export * from './types'

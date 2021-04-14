@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/Pagination/types'
 
-import { Pagination } from 'app/components'
+import { Pagination, PaginationProps } from 'app/components'
 
 
 const Demo = () => {
     const [ curPage, setCur ] = useState(1)
 
-    const props: Props = {
+    const props: PaginationProps = {
         listLength: 100,
         showPerPage: 6,
         curPage: curPage,

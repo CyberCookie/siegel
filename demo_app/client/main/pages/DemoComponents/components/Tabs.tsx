@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/Tabs/types'
 
-import { Tabs } from 'app/components'
+import { Tabs, TabsProps } from 'app/components'
 
 
 const tabsData = ([1,2,3]).map(id => ({
@@ -13,7 +12,7 @@ const tabsData = ([1,2,3]).map(id => ({
 const Demo = () => {
     const [ activeTab, setActiveTab ] = useState(tabsData[0].id)
 
-    const props: Props = {
+    const props: TabsProps = {
         activeTab,
         tabs: tabsData,
         onChange(id) {

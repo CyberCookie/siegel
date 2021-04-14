@@ -248,3 +248,4 @@ NumberPicker.ID = componentID;
 
 export { componentID }
 export default NumberPicker
+export * from './types'

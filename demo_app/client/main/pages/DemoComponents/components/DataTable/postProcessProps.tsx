@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { getDefaultState } from 'siegel-ui/DataTable'
-import { Props, SearchByFieldText, SearchByFieldDate, SearchByFieldSet } from 'siegel-ui/DataTable/types'
+import { SearchByFieldText, SearchByFieldDate, SearchByFieldSet } from 'siegel-ui/DataTable/types'
 
-import { icons, Pagination, Select, Checkbox, Input, Calendar,
-    paginationTheme, selectTheme, checkboxTheme, inputTheme } from 'app/components'
+import {
+    icons, Pagination, Select, Checkbox, Input, Calendar,
+    DataTableProps,
+    paginationTheme, selectTheme, checkboxTheme, inputTheme
+} from 'app/components'
 import type { Entities } from './'
 
 import styles from './styles.sass'
@@ -18,12 +21,12 @@ type PostProcessStore = [ PostProcessState, React.Dispatch<React.SetStateAction<
 
 const dataTableSelectTheme = {
     ...selectTheme,
-    root: `${selectTheme.root} ${styles.paginator_select}`,
-    title: `${selectTheme.title} ${styles.paginator_select_title}`,
-    label: `${selectTheme.label} ${styles.paginator_select_label}`,
+    root: `${selectTheme!.root} ${styles.paginator_select}`,
+    title: `${selectTheme!.title} ${styles.paginator_select_title}`,
+    label: `${selectTheme!.label} ${styles.paginator_select_label}`,
     input_wrapper: styles.paginator_select_input_wrapper,
-    options: `${selectTheme.options} ${styles.paginator_select_options}`,
-    _active: `${selectTheme._active} ${styles.paginator_select__active}`
+    options: `${selectTheme!.options} ${styles.paginator_select_options}`,
+    _active: `${selectTheme!._active} ${styles.paginator_select__active}`
 }
 
 const paginatorSelectOptions = ([1,2,3]).map(num => {
@@ -33,14 +36,14 @@ const paginatorSelectOptions = ([1,2,3]).map(num => {
 
 const nowTimestamp = Date.now()
 
-function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props<Entities>['postProcessHeadCell']>>>(
+function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTableProps<Entities>['postProcessHeadCell']>>>(
 { cell, config, index, dataGridHookStore, postProcessStore, entities }:
 {
     cell: T[0]
     config: T[1]
     index: T[2]
-    entities: Props<Entities>['entities']
-    dataGridHookStore: NonNullable<Props<Entities>['hookStore']>
+    entities: DataTableProps<Entities>['entities']
+    dataGridHookStore: NonNullable<DataTableProps<Entities>['hookStore']>
     postProcessStore: PostProcessStore
 }) {
     
@@ -182,7 +185,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<Props<Entiti
 
 const displayQuantity = (count: number) => <div className={styles.paginator_count} children={'Total items: ' + count} />
 
-function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<Props<Entities>['postProcessHeadRow']>>>(
+function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DataTableProps<Entities>['postProcessHeadRow']>>>(
 { row, displayedEntityIDs, postProcessStore }:
 {
     row: T[0]
@@ -225,7 +228,7 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<Props<En
     return row
 }
 
-function getSelectCheckboxTableCell<T extends Parameters<NonNullable<Props<Entities>['postProcessBodyRow']>>>(
+function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DataTableProps<Entities>['postProcessBodyRow']>>>(
 { row, entity, postProcessStore }:
 {
     row: T[0]
@@ -257,14 +260,14 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<Props<Entit
 
 const gridDefaultState = getDefaultState()
 
-export default (props: Props<Entities>) => {
+export default (props: DataTableProps<Entities>) => {
     const dataGridHookStore = useState(gridDefaultState)
     const postProcessStore: PostProcessStore = useState({
         selected: new Set(),
         activeCol: -1
     })
 
-    const result: Props<Entities> = {
+    const result: DataTableProps<Entities> = {
         ...props,
         hookStore: dataGridHookStore,
         resizable: true,

@@ -1,13 +1,12 @@
 import React from 'react'
-import { Props } from 'siegel-ui/_form/Calendar/types'
 
-import { Calendar } from 'app/components'
+import { Calendar, CalendarProps } from 'app/components'
 
 
 const timestamp = Date.now()
 
 const Demo = () => {
-    const props: Props = {
+    const props: CalendarProps = {
         initDate: {
             rangeDateStart: timestamp,
             rangeDateEnd: timestamp

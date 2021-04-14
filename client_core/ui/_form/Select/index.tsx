@@ -182,3 +182,4 @@ Select.ID = componentID;
 
 export { componentID }
 export default Select
+export * from './types'

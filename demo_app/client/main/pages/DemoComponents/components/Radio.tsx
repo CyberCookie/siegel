@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/_form/Radio/types'
 
-import { Radio } from 'app/components'
+import { Radio, RadioProps } from 'app/components'
 
 
 const options = ([1,2,3]).map(i => ({
@@ -15,13 +14,13 @@ const Demo = () => {
         selected: new Set()
     })
 
-    const props: Props = {
+    const props: RadioProps = {
         selected, options,
         onChange(value) { setSelected(value as string) },
 
     }
 
-    const propsForMultiple: Props = {
+    const propsForMultiple: RadioProps = {
         options,
         multiple: true,
         selected: selectedMultiple.selected as Set<ID>,

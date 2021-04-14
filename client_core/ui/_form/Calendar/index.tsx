@@ -245,3 +245,4 @@ Calendar.ID = componentID;
 
 export { componentID }
 export default Calendar
+export * from './types'

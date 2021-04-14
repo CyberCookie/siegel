@@ -1,25 +1,25 @@
 import { withDefaults } from 'siegel-ui/ui_utils'
 
-import _Button from 'siegel-ui/_form/Button'
-import _Breadcrumbs from 'siegel-ui/Breadcrumbs'
-import _Calendar from 'siegel-ui/_form/Calendar'
-import _Checkbox from 'siegel-ui/_form/Checkbox'
-import Clocks from 'siegel-ui/Clocks'
-import _DataTable from 'siegel-ui/DataTable'
-import _Accordion from 'siegel-ui/Accordion'
-import _DropdownSearch from 'siegel-ui/_form/DropdownSearch'
-import _Input from 'siegel-ui/_form/Input'
-import _NumberPicker from 'siegel-ui/_form/NumberPicker'
-import _Pagination from 'siegel-ui/Pagination'
-import _Popup from 'siegel-ui/Popup'
-import _Radio from 'siegel-ui/_form/Radio'
-import _Select from 'siegel-ui/_form/Select'
-import _Slider from 'siegel-ui/Slider'
-import _Table from 'siegel-ui/Table'
-import _Tabs from 'siegel-ui/Tabs'
-import _Toggle from 'siegel-ui/_form/Toggle'
-import Swipe from 'siegel-ui/Swipe'
-import _Ranger from 'siegel-ui/_form/Ranger'
+import _Button, { Props as ButtonProps } from 'siegel-ui/_form/Button'
+import _Breadcrumbs, { Props as BreadcrumbsProps } from 'siegel-ui/Breadcrumbs'
+import _Calendar, { Props as CalendarProps } from 'siegel-ui/_form/Calendar'
+import _Checkbox, { Props as CheckboxProps } from 'siegel-ui/_form/Checkbox'
+import Clocks, { Props as ClocksProps } from 'siegel-ui/Clocks'
+import _DataTable, { Props as DataTableProps } from 'siegel-ui/DataTable'
+import _Accordion, { Props as AccordionProps } from 'siegel-ui/Accordion'
+import _DropdownSearch, { Props as DropdownSearchProps } from 'siegel-ui/_form/DropdownSearch'
+import _Input, { Props as InputProps } from 'siegel-ui/_form/Input'
+import _NumberPicker, { Props as NumberPickerProps } from 'siegel-ui/_form/NumberPicker'
+import _Pagination, { Props as PaginationProps } from 'siegel-ui/Pagination'
+import _Popup, { Props as PopupProps } from 'siegel-ui/Popup'
+import _Radio, { Props as RadioProps } from 'siegel-ui/_form/Radio'
+import _Select, { Props as SelectProps } from 'siegel-ui/_form/Select'
+import _Slider, { Props as SliderProps } from 'siegel-ui/Slider'
+import _Table, { Props as TableProps } from 'siegel-ui/Table'
+import _Tabs, { Props as TabsProps } from 'siegel-ui/Tabs'
+import _Toggle, { Props as ToggleProps } from 'siegel-ui/_form/Toggle'
+import Swipe, { Props as SwipeProps } from 'siegel-ui/Swipe'
+import _Ranger, { Props as RangerProps } from 'siegel-ui/_form/Ranger'
 
 
 import { routesConfig, history } from 'app/Router/config'
@@ -45,6 +45,7 @@ import toggleTheme from './styles/toggle.sass'
 import rangerTheme from './styles/ranger.sass'
 
 
+
 const Button = withDefaults(_Button, { className: buttonTheme.button })
 
 const Breadcrumbs = withDefaults(_Breadcrumbs, {
@@ -67,7 +68,7 @@ const Checkbox = withDefaults(_Checkbox, {
 })
 
 
-const dataTableTheme = {
+const dataTableTheme: DataTableProps<any>['theme'] = {
     ..._dataTableTheme,
     table: `${tableTheme.table} ${_dataTableTheme.table}`
 }
@@ -82,7 +83,7 @@ const Accordion = withDefaults(_Accordion, {
 })
 
 
-const dropdownSearchTheme = {
+const dropdownSearchTheme: DropdownSearchProps['theme'] = {
     root: _dropdownSearchTheme.dropdown_search,
     options: `${_selectTheme.options} ${_dropdownSearchTheme.options}`,
     option: _selectTheme.option,
@@ -104,7 +105,7 @@ const DropdownSearch = withDefaults(_DropdownSearch, {
 const Input = withDefaults(_Input, { theme: inputTheme })
 
 
-const numberPickerTheme = {
+const numberPickerTheme: NumberPickerProps['theme'] = {
     ..._numberPickerTheme,
     field: `${inputTheme.field} ${_numberPickerTheme.field}`,
     label: inputTheme.label_text
@@ -132,7 +133,7 @@ const Radio = withDefaults(_Radio, {
 })
 
 
-const selectTheme = {
+const selectTheme: SelectProps['theme'] = {
     ..._selectTheme,
     title: `${inputTheme.field} ${_selectTheme.title}`,
     label: inputTheme.label_text
@@ -157,25 +158,26 @@ const Ranger = withDefaults(_Ranger, {
 })
 
 
+
 export {
-    buttonTheme, Button,
-    breadcrumbsTheme, Breadcrumbs,
-    calendarTheme, Calendar,
-    checkboxTheme, Checkbox,
-    dataTableTheme, DataTable,
-    Clocks,
-    Swipe,
-    accordionTheme, Accordion,
-    dropdownSearchTheme, DropdownSearch,
-    inputTheme, Input,
-    numberPickerTheme, NumberPicker,
-    paginationTheme, Pagination,
-    popupTheme, Popup,
-    radioTheme, Radio,
-    selectTheme, Select,
-    sliderTheme, Slider,
-    tableTheme, Table,
-    toggleTheme, Toggle,
-    tabsTheme, Tabs,
-    rangerTheme, Ranger
+    buttonTheme, ButtonProps, Button,
+    breadcrumbsTheme, BreadcrumbsProps, Breadcrumbs,
+    calendarTheme, CalendarProps, Calendar,
+    checkboxTheme, CheckboxProps, Checkbox,
+    dataTableTheme, DataTableProps, DataTable,
+    ClocksProps, Clocks,
+    SwipeProps, Swipe,
+    accordionTheme, AccordionProps, Accordion,
+    dropdownSearchTheme, DropdownSearchProps, DropdownSearch,
+    inputTheme, InputProps, Input,
+    numberPickerTheme, NumberPickerProps, NumberPicker,
+    paginationTheme, PaginationProps, Pagination,
+    popupTheme, PopupProps, Popup,
+    radioTheme, RadioProps, Radio,
+    selectTheme, SelectProps, Select,
+    sliderTheme, SliderProps, Slider,
+    tableTheme, TableProps, Table,
+    toggleTheme, ToggleProps, Toggle,
+    tabsTheme, TabsProps, Tabs,
+    rangerTheme, RangerProps, Ranger
 }

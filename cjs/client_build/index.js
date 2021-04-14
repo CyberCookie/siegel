@@ -18,7 +18,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         resolve: {
             // unsafeCache: true,
             alias: aliases,
-            extensions: ESLintExtensions.concat('.sass'),
+            extensions: ESLintExtensions.concat(['.sass', '.d.ts']),
             modules: [PATHS.nodeModules, PATHS.parentNodeModules]
         },
         entry: [
@@ -30,6 +30,8 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             path: staticDir,
             chunkFilename: 'chunk.[contenthash].js',
             filename: isProd ? 'app.[contenthash].js' : 'app.[hash].js',
+            //webpack 5
+            // filename: 'app.[contenthash].js',
         },
         optimization: {
             splitChunks: {

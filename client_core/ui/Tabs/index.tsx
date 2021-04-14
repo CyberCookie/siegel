@@ -79,3 +79,4 @@ Tabs.ID = componentID;
 
 export { componentID }
 export default Tabs
+export * from './types'

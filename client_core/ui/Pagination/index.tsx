@@ -154,3 +154,4 @@ Pagination.ID = componentID;
 
 export { componentID }
 export default Pagination
+export * from './types'

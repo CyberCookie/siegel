@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-import { extractProps, applyRefApi } from '../../ui_utils'
+import { extractProps, applyRefApi, PropsComponentThemed } from '../../ui_utils'
 import addChildren from '../../children'
 import getInputLabeled from '../label'
 import componentID from './id'
@@ -17,11 +17,12 @@ const inputFieldThemeKeys: InputFieldThemeKeysArray = [
     '_filled', '_error', '_disabled', '_focused', '_touched', '_readonly'
 ]
 const updateThemeWithInputFieldTheme =
-<T extends Partial<Props['theme']>>
+// <T extends Partial<Props['theme']>>
+<T extends PropsComponentThemed['theme']>
 (theme: T, componentID: ID) => {
     
     inputFieldThemeKeys.forEach(key => {
-        theme![key] = componentID + '_' + key
+        (theme as Indexable)[key] = componentID + '_' + key
     })
 
     return theme as T & IndexObjectKeys<InputFieldThemeKeysArray[number], string>
@@ -143,3 +144,4 @@ Input.ID = componentID;
 
 export { componentID, getDefaultInputStoreState, updateThemeWithInputFieldTheme }
 export default Input
+export * from './types'

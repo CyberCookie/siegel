@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/_form/Button/types'
 
-import { Button, icons } from 'app/components'
+import { Button, ButtonProps, icons } from 'app/components'
 
 
 const Demo = () => {
     const [ counter, setCounter ] = useState(0)
 
-    const props: Props = {
+    const props: ButtonProps = {
         value: <>{icons.edit} click me</>,
         onClick() {
             setCounter(counter + 1)

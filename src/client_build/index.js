@@ -27,7 +27,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         resolve: {
             // unsafeCache: true,
             alias: aliases,
-            extensions: ESLintExtensions.concat('.sass'),
+            extensions: ESLintExtensions.concat(['.sass', '.d.ts']),
             modules: [ PATHS.nodeModules, PATHS.parentNodeModules ]
         },
         entry: [

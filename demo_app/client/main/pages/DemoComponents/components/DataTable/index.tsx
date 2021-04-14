@@ -1,9 +1,8 @@
 import React from 'react'
 import createEntitiesStruct from 'siegel-utils/entities_struct'
 import { msIn } from 'siegel-utils/date/consts'
-import { Props } from 'siegel-ui/DataTable/types'
 
-import { DataTable } from 'app/components'
+import { DataTable, DataTableProps } from 'app/components'
 import getEnchancedDataTableProps from './postProcessProps'
 
 
@@ -13,7 +12,7 @@ type Entity = {
     name: string
     someNumer: number
     bool: boolean
-}
+} & Indexable
 type Entities = typeof entitiesStruct
 
 
@@ -30,7 +29,7 @@ const entitiesStruct = createEntitiesStruct<Entity>('id')
 .forEach(el => entitiesStruct.addOrUpdate(el))
 
 
-const columnsConfig: Props<Entities>['columnsConfig'] = [
+const columnsConfig: DataTableProps<Entities>['columnsConfig'] = [
     {
         label: 'ID',
         type: 'text',
@@ -63,7 +62,7 @@ const columnsConfig: Props<Entities>['columnsConfig'] = [
 ]
 
 const Demo = () => {
-    const props: Props<Entities> = {
+    const props: DataTableProps<Entities> = {
         columnsConfig,
         entities: entitiesStruct
     }

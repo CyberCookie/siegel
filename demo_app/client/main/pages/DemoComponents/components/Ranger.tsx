@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Props, DoubleValue } from 'siegel-ui/_form/Ranger/types'
+import type { DoubleValue } from 'siegel-ui/_form/Ranger/types'
 
-import { Ranger } from 'app/components'
+import { Ranger, RangerProps } from 'app/components'
 
 
 const Demo = () => {
@@ -11,7 +11,7 @@ const Demo = () => {
     })
     const { valueSingle, valueDouble } = state;
 
-    const propsSingle: Props = {
+    const propsSingle: RangerProps = {
         value: valueSingle,
         onChange(value: number) {
             state.valueSingle = value;
@@ -19,7 +19,7 @@ const Demo = () => {
         }
     }
 
-    const propsDouble: Props = {
+    const propsDouble: RangerProps = {
         value: valueDouble,
         label: 'some label',
         onChange(value: DoubleValue) {

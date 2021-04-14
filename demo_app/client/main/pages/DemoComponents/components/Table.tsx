@@ -1,11 +1,10 @@
 import React from 'react'
-import { Props } from 'siegel-ui/Table/types'
 
-import { Table } from 'app/components'
+import { Table, TableProps } from 'app/components'
 
 
 const Demo = () => {
-    const props: Props = {
+    const props: TableProps = {
         caption: 'Some table',
         head: [{
             children: [

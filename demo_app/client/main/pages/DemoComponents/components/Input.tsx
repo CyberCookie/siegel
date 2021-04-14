@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import maskProcessor from 'siegel-ui/_form/Input/mask_processor'
-import type { Props } from 'siegel-ui/_form/Input/types'
 
-import { icons, Input } from 'app/components'
+import { icons, Input, InputProps } from 'app/components'
 
 
 const Demo = () => {
     const [ inputValue, setInputValue ] = useState('')
 
-    const props: Props = {
+    const props: InputProps = {
         value: inputValue,
         placeholder: 'placeholder',
         onChange(value) {

@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/_form/Checkbox/types'
 
-import { Checkbox } from 'app/components'
+import { Checkbox, CheckboxProps } from 'app/components'
 
 
 const Demo = () => {
     const [ isChecked, setChecked ] = useState(false)
 
-    const props: Props = {
+    const props: CheckboxProps = {
         value: isChecked,
         onChange(value) { setChecked(value) }
     }

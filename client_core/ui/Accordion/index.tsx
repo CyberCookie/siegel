@@ -92,3 +92,4 @@ Accordion.ID = componentID;
 
 export { componentID }
 export default Accordion
+export * from './types'

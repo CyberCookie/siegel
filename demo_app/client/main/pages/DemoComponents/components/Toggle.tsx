@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/_form/Toggle/types'
 
-import { Toggle, icons } from 'app/components'
+import { Toggle, ToggleProps, icons } from 'app/components'
 
 
 const Demo = () => {
     const [ isToggled, setToggle ] = useState(false)
 
-    const props: Props = {
+    const props: ToggleProps = {
         isToggled,
         onChange: value => setToggle(value)
     }

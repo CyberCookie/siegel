@@ -1,10 +1,8 @@
 //TODO: rerender routes on layout rerender (optional)
 
 import React, { Suspense, SuspenseProps } from 'react'
-import { Switch, Router, Route, Redirect, withRouter } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
-import type { RouteProps } from 'react-router-dom'
-import type { History } from 'history'
+import { Switch, Router, Route, Redirect, withRouter, RouteProps } from 'react-router-dom'
+import { createBrowserHistory, History } from 'history'
 
 import isExists from './utils/is_exists'
 

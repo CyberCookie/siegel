@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/Popup/types'
 
-import { Popup } from 'app/components'
+import { Popup, PopupProps } from 'app/components'
 
 
 const Demo = () => {
     const [ isActivePopup, setActivePopup ] = useState(false)
 
-    const props: Props = {
+    const props: PopupProps = {
         content: 'this is popup content',
         onClose() {
             setActivePopup(false)

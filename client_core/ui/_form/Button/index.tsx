@@ -34,3 +34,4 @@ Button.ID = componentID;
 
 export { componentID }
 export default Button
+export * from './types'

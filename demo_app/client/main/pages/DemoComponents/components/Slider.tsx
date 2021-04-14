@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Props } from 'siegel-ui/Slider/types'
 
-import { Slider } from 'app/components'
+import { Slider, SliderProps } from 'app/components'
 
 
 const slides = (new Array(4))
@@ -11,7 +10,7 @@ const slides = (new Array(4))
 const Demo = () => {
     const store = useState(1)
     
-    const props: Props = { slides }
+    const props: SliderProps = { slides }
 
 
     return <>

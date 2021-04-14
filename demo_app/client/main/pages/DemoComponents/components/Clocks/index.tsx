@@ -1,7 +1,6 @@
 import React from 'react'
-import { _Clocks as ClocksComponent } from 'siegel-ui/Clocks/types'
 
-import { Clocks } from 'app/components'
+import { Clocks, ClocksProps } from 'app/components'
 
 import styles from './styles.sass'
 
@@ -16,7 +15,7 @@ const Demo = () => {
     )
 
 
-    const secondsClocksChildParams: Parameters<ClocksComponent>[0] = {
+    const secondsClocksChildParams: ClocksProps = {
         initDate,
         builder: ({ date, month, year, hours, minutes, seconds }) => (
             `${date} . ${month} . ${year} | ${hours} : ${minutes} : ${seconds}`
