@@ -61,7 +61,7 @@ const Input: _Input = (props, noDefaults) => {
     
     let className = mergedProps.className;
     errorMsg && (className += ` ${theme._error}`)
-    ;(value || mask) && (className += ` ${theme._filled}`)
+    ;(value || mask?.pattern) && (className += ` ${theme._filled}`)
     isFocused && (className += ` ${theme._focused}`)
     isTouched && (className += ` ${theme._touched}`)
     

@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 
 import floatMath from '../../../utils/math_float'
+import isE from '../../../utils/is_exists'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import addChildren from '../../children'
 import Input, { getDefaultInputStoreState, updateThemeWithInputFieldTheme } from '../Input'
@@ -17,16 +18,23 @@ const componentID = '-ui-number_picker'
 const keyDown = 'ArrowDown', keyUp = 'ArrowUp', deleteCode = 'Delete';
 
 function getRegExp(min: MergedProps['min'], max: MergedProps['max'], precision: MergedProps['precision']): RegExp {
-    const minLimit = Math.min(min, max)
     let regexpTemplate = '^'
 
-    minLimit < 0 && (regexpTemplate += '-?')
-    regexpTemplate += '\\d*[.,]?\\d'
+    if (min < 0) {
+        regexpTemplate += '-'
+        max >= 0 && (regexpTemplate += '?')
+    }
+    
+    regexpTemplate += '(?!00)\\d'
 
-    if (precision === undefined) {
-        regexpTemplate += '*'
-    } else if (precision !== 0) {
-        regexpTemplate += `{0,${precision}}`
+    if (isE(min) || isE(max)) {
+        regexpTemplate += `{0,${ parseInt(Math.max( Math.abs(min), Math.abs(max) )).toString().length }}`
+    } else regexpTemplate += '*'
+
+    if (precision != 0) {
+        regexpTemplate += '([.,]\\d'
+            +   ( isE(precision) ? `{0,${precision}}` : '*' )
+            +   ')?'
     }
 
     regexpTemplate += '$'

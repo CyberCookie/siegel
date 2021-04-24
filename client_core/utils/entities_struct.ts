@@ -1,21 +1,18 @@
-//TODO:?
-// type _Entities<Entity extends Indexable> = {
-//     clear(): void
-//     get(id: ID): Entity[ID]
-//     addOrUpdate(entity: Entity): void
-//     addAll(entities: Entity[]): void
-//     remove(entityID: ID): void
-//     sort(cb: (entity_a: Entity, entity_b: Entity) => number): void
-//     each(cb: (entity: Entity, index: number) => boolean | void): void
-//     len(): number
-//     raw(): ({
-//         byID: Indexable<Entity>,
-//         sorted: ID[]
-//     })
-// }
-// type EntityCreator<Entity> = (uniq: keyof Entity) => _Entities<Entity>
+type Entities<Entity extends Indexable = Indexable> = {
+    clear(): Entities<Entity>
+    addOrUpdate(entity: Entity): Entities<Entity>
+    addAll(entities: Entity[]): Entities<Entity>
+    remove(entityID: ID): Entities<Entity>
+    sort(cb: (entity_a: Entity, entity_b: Entity) => number): void
+    each(cb: (entity: Entity, index: number) => boolean | void): void
+    get(id: ID): Entity
+    len(): number
+    raw(): ({
+        byID: Indexable<Entity>,
+        sorted: ID[]
+    })
+}
 
-type Entities = ReturnType<typeof entities>
 
 function entities<E extends Indexable>(uniq: keyof E = 'id') {
     type SortCB = (entity_a: E, entity_b: E) => number
@@ -83,7 +80,7 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
     }
 
 
-    return entityStruct
+    return entityStruct as Entities<E>
 }
 
 

@@ -7,7 +7,7 @@ import {
     DataTableProps,
     paginationTheme, selectTheme, checkboxTheme, inputTheme
 } from 'app/components'
-import type { Entities } from './'
+import type { MockEntities } from './'
 
 import styles from './styles.sass'
 
@@ -36,14 +36,14 @@ const paginatorSelectOptions = ([1,2,3]).map(num => {
 
 const nowTimestamp = Date.now()
 
-function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTableProps<Entities>['postProcessHeadCell']>>>(
+function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTableProps<MockEntities>['postProcessHeadCell']>>>(
 { cell, config, index, dataGridHookStore, postProcessStore, entities }:
 {
     cell: T[0]
     config: T[1]
     index: T[2]
-    entities: DataTableProps<Entities>['entities']
-    dataGridHookStore: NonNullable<DataTableProps<Entities>['hookStore']>
+    entities: DataTableProps<MockEntities>['entities']
+    dataGridHookStore: NonNullable<DataTableProps<MockEntities>['hookStore']>
     postProcessStore: PostProcessStore
 }) {
     
@@ -185,7 +185,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
 
 const displayQuantity = (count: number) => <div className={styles.paginator_count} children={'Total items: ' + count} />
 
-function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DataTableProps<Entities>['postProcessHeadRow']>>>(
+function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DataTableProps<MockEntities>['postProcessHeadRow']>>>(
 { row, displayedEntityIDs, postProcessStore }:
 {
     row: T[0]
@@ -228,7 +228,7 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DataTabl
     return row
 }
 
-function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DataTableProps<Entities>['postProcessBodyRow']>>>(
+function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DataTableProps<MockEntities>['postProcessBodyRow']>>>(
 { row, entity, postProcessStore }:
 {
     row: T[0]
@@ -260,14 +260,14 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DataTablePr
 
 const gridDefaultState = getDefaultState()
 
-export default (props: DataTableProps<Entities>) => {
+export default (props: DataTableProps<MockEntities>) => {
     const dataGridHookStore = useState(gridDefaultState)
     const postProcessStore: PostProcessStore = useState({
         selected: new Set(),
         activeCol: -1
     })
 
-    const result: DataTableProps<Entities> = {
+    const result: DataTableProps<MockEntities> = {
         ...props,
         hookStore: dataGridHookStore,
         resizable: true,

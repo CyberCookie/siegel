@@ -1,5 +1,5 @@
 import React from 'react'
-import createEntitiesStruct from 'siegel-utils/entities_struct'
+import createEntitiesStruct, { Entities } from 'siegel-utils/entities_struct'
 import { msIn } from 'siegel-utils/date/consts'
 
 import { DataTable, DataTableProps } from 'app/components'
@@ -13,7 +13,8 @@ type Entity = {
     someNumer: number
     bool: boolean
 } & Indexable
-type Entities = typeof entitiesStruct
+
+type MockEntities = Entities<Entity>
 
 
 const entitiesStruct = createEntitiesStruct<Entity>('id')
@@ -29,7 +30,7 @@ const entitiesStruct = createEntitiesStruct<Entity>('id')
 .forEach(el => entitiesStruct.addOrUpdate(el))
 
 
-const columnsConfig: DataTableProps<Entities>['columnsConfig'] = [
+const columnsConfig: DataTableProps<MockEntities>['columnsConfig'] = [
     {
         label: 'ID',
         type: 'text',
@@ -62,7 +63,7 @@ const columnsConfig: DataTableProps<Entities>['columnsConfig'] = [
 ]
 
 const Demo = () => {
-    const props: DataTableProps<Entities> = {
+    const props: DataTableProps<MockEntities> = {
         columnsConfig,
         entities: entitiesStruct
     }
@@ -82,4 +83,4 @@ Demo.id = DataTable.ID;
 
 
 export default Demo
-export type { Entities }
+export type { MockEntities }

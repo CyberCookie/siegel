@@ -9,6 +9,7 @@ const Demo = () => {
         value,
         placeholder: 'placeholder',
         onChange(value) {
+            console.log(value)
             setValue(value)
         }
     }
