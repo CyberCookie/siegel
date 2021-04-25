@@ -79,7 +79,7 @@ const Demo = () => {
         <DataTable {...getEnchancedDataTableProps(props)} />
     </>
 }
-Demo.id = DataTable.ID;
+Demo.id = DataTable.ID
 
 
 export default Demo

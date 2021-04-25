@@ -23,13 +23,13 @@ function updateQuery(query: URLSearchParams, key: string, value: QueryValue) {
 }
 
 const updateURLQuery: UpdateURLQuery = function(history, key, value) {
-    const { pathname, search } = window.location;
+    const { pathname, search } = window.location
     const query = new URLSearchParams(search)
 
     if (typeof key == 'string') updateQuery(query, key, value)
     else for (const searchKey in key) updateQuery(query, searchKey, key[searchKey])
 
-    
+
     history.replace(pathname + '?' + query.toString())
 }
 

@@ -15,18 +15,18 @@ const Accordion: _Accordion = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Accordion.defaults, props, false)
         :   (props as MergedProps)
-    
+
     const {
         className, theme, list, builder, accordionIcon, soloOpen, attributes, autoExpand, refApi
-    } = mergedProps;
+    } = mergedProps
 
 
     function childrenMapper({ title, children }: ListElement, i: number) {
-        let wrapperClass;
+        let wrapperClass
 
         if (builder) {
             const { elem, parentClassName } = builder(title, children)
-            title = elem;
+            title = elem
             wrapperClass = parentClassName
         }
 
@@ -49,22 +49,22 @@ const Accordion: _Accordion = (props, noDefaults) => {
 
     function onAccordionToggle(e: React.MouseEvent<HTMLDivElement>) {
         e.stopPropagation()
-        const parentDtailsEl = e.currentTarget.parentElement as HTMLDetailsElement;
+        const parentDtailsEl = e.currentTarget.parentElement as HTMLDetailsElement
 
         if (soloOpen) {
-            let sibling = parentDtailsEl.parentElement!.firstChild;
+            let sibling = parentDtailsEl.parentElement!.firstChild
 
             while (sibling) {
-                (sibling as HTMLDetailsElement).open = false;
+                (sibling as HTMLDetailsElement).open = false
                 sibling = sibling.nextSibling
             }
         }
-        
+
         parentDtailsEl.open = !parentDtailsEl.open
     }
-    
 
-    let _className = theme.children_wrapper;
+
+    let _className = theme.children_wrapper
     className && (_className += ` ${className}`)
 
     const accordionRootProps = {
@@ -87,7 +87,7 @@ Accordion.defaults = {
         item__empty: componentID + '_item__empty'
     }
 }
-Accordion.ID = componentID;
+Accordion.ID = componentID
 
 
 export { componentID }

@@ -10,7 +10,7 @@ const options: DropdownSearchProps['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: 
 
 const Demo = () => {
     const [ selected, setSelected ] = useState(0)
-    
+
     const props: DropdownSearchProps = {
         selected,
         onChange(id) {
@@ -39,7 +39,7 @@ const Demo = () => {
         <DropdownSearch {...props} disabled />
     </>
 }
-Demo.id = DropdownSearch.ID;
+Demo.id = DropdownSearch.ID
 
 
 export default Demo

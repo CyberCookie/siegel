@@ -30,7 +30,7 @@ const Demo = () => {
         <NumberPicker {...props} step={1} disabled />
     </>
 }
-Demo.id = NumberPicker.ID;
+Demo.id = NumberPicker.ID
 
 
 export default Demo

@@ -5,10 +5,10 @@ import type { TableTD, TableBodyRow } from '../Table/types'
 
 
 function getBody(props: MergedProps, state: State) {
-    const { entities, columnsConfig, postProcessBodyRow, withPagination } = props;
-    const { byID, sorted } = entities.raw();
+    const { entities, columnsConfig, postProcessBodyRow, withPagination } = props
+    const { byID, sorted } = entities.raw()
 
-    const { searchByField, sortByField, showPerPage, currentPage } = state;
+    const { searchByField, sortByField, showPerPage, currentPage } = state
 
 
     function getEntityRow(entityID: ID, i: number): TableBodyRow {
@@ -17,8 +17,8 @@ function getBody(props: MergedProps, state: State) {
 
 
         columnsConfig.forEach(configurationModel => {
-            const { showValue, entityFieldPath } = configurationModel;
-            
+            const { showValue, entityFieldPath } = configurationModel
+
             const value = isE(showValue)
                 ?   configurationModel.showValue!(entity, i) //must not deattach showValue to keep `this`
                 :   Array.isArray(entityFieldPath)
@@ -34,28 +34,28 @@ function getBody(props: MergedProps, state: State) {
             children,
             attributes: { key: entityID }
         }
-        
+
 
         return result
     }
-    
-    
-    let processedList = sorted;
+
+
+    let processedList = sorted
     for (const configurationIndex in searchByField) {
         const config = columnsConfig[configurationIndex]
-        const { onFilter, entityFieldPath, type, putSetValue } = config;
+        const { onFilter, entityFieldPath, type, putSetValue } = config
         let searchString = searchByField[configurationIndex]
-        
+
 
         if (isE(onFilter)) {
             processedList = config.onFilter!(processedList, byID, searchString) // must not deattach onSort to keep `this`
         } else {
             const isArrayEntityFieldPath = Array.isArray(entityFieldPath)
             const isSet = type == 'set'
-            
-            let isText: boolean;
+
+            let isText: boolean
             if (isText = type == 'text') { searchString = (searchString as string).toLowerCase() }
-            
+
 
             processedList = processedList.filter((itemID: ID) => {
                 const entity = byID[itemID]
@@ -63,21 +63,21 @@ function getBody(props: MergedProps, state: State) {
                 let valueToFilter = isArrayEntityFieldPath
                     ?   deepGet(entity, entityFieldPath as string[])
                     :   entity[entityFieldPath as string]
-                
+
                 if (isSet) {
                     putSetValue && (valueToFilter = config.putSetValue!(entity))
-                    
+
                     return !(searchString as SearchByFieldSet).has(valueToFilter)
                 } else if (isText) {
                     return valueToFilter === null || valueToFilter === undefined
                         ?   false
                         :   valueToFilter.toString().toLowerCase().includes(searchString)
                     } else {
-                        const { dateStart, dateEnd } = searchString as SearchByFieldDate;
+                        const { dateStart, dateEnd } = searchString as SearchByFieldDate
                         const timestamp = valueToFilter
                             ?   (new Date(valueToFilter)).getTime()
                             :   Date.now()
-    
+
                         return dateStart <= timestamp && timestamp < dateEnd
                     }
             })
@@ -87,10 +87,10 @@ function getBody(props: MergedProps, state: State) {
 
     if (sortByField.value) {
         processedList = [ ...processedList ]
-        
-        const { value, index } = sortByField;
+
+        const { value, index } = sortByField
         const config = columnsConfig[index]
-        const { onSort, entityFieldPath } = config;
+        const { onSort, entityFieldPath } = config
 
 
         if (isE(onSort)) {
@@ -102,30 +102,30 @@ function getBody(props: MergedProps, state: State) {
                 const isNextBigger = isArrayEntityFieldPath
                     ?   deepGet(byID[IDa], entityFieldPath as string[]) < deepGet(byID[IDb], entityFieldPath as string[])
                     :   byID[IDa][entityFieldPath as string] < byID[IDb][entityFieldPath as string]
-                
+
                 return isNextBigger ? value : -value
             })
         }
     }
 
 
-    let from: number, to: number;
+    let from: number, to: number
     if (withPagination) {
         const maxPages = Math.ceil(processedList.length / showPerPage) || 1
         currentPage > maxPages && (state.currentPage = maxPages)
 
-        from = (state.currentPage - 1) * showPerPage;
+        from = (state.currentPage - 1) * showPerPage
         to = from + showPerPage
     } else {
-        from = 0;
+        from = 0
         to = processedList.length
     }
 
-    
+
     const resultList = []
     for (let i = from; i < to; i++) {
         const entityID = processedList[i]
-        if (!isE(entityID)) break;
+        if (!isE(entityID)) break
 
         let itemToPush: ReturnType<NonNullable<typeof postProcessBodyRow>> = getEntityRow(entityID, i)
         if (postProcessBodyRow) {
@@ -139,7 +139,7 @@ function getBody(props: MergedProps, state: State) {
 
         resultList.push(itemToPush)
     }
-    
+
 
     return {
         from, to,

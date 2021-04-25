@@ -7,7 +7,7 @@ module.exports = function() {
     this.cacheable && this.cacheable()
 
     const callback = this.async()
-    
+
     // WTF?
     const query = loaderUtils.parseQuery(this.query)
     // Add svgs to webpack file watching:

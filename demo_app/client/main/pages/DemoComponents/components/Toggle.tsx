@@ -23,12 +23,12 @@ const Demo = () => {
         <Toggle {...props} toggleIcon={icons.edit}
             labelLeft='Left label'
             labelRight='Left label' />
-        
+
         <h2>disabled</h2>
         <Toggle {...props} disabled />
     </>
 }
-Demo.id = Toggle.ID;
+Demo.id = Toggle.ID
 
 
 export default Demo

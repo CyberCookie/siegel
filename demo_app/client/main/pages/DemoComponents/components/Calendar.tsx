@@ -12,11 +12,11 @@ const Demo = () => {
             rangeDateEnd: timestamp
         }
     }
-    
-    
+
+
     return <>
         <h1>{Calendar.ID}</h1>
-    
+
         <h2>simple</h2>
         <Calendar {...props} />
 
@@ -24,7 +24,7 @@ const Demo = () => {
         <Calendar {...props} monthsBefore={1} monthsAfter={1} rangePick />
     </>
 }
-Demo.id = Calendar.ID;
+Demo.id = Calendar.ID
 
 
 export default Demo

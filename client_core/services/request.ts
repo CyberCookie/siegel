@@ -21,7 +21,7 @@ type RequestParams = {
     isFullRes?: boolean
     parseMethod?: string
     params?: Indexable<string>
-    query?: string | string[][] | Record<string, string> | URLSearchParams
+    query?: string | string[][] | Indexable<string> | URLSearchParams
     headers?: Indexable
     credentials?: RequestInit['credentials']
     method?: RequestInit['method']
@@ -32,14 +32,14 @@ type RequestParams = {
 
 function setup(newDefaults: SetupFnParams): void {
     for (const key in newDefaults) defaultSetup[key] = newDefaults[key]
-} 
+}
 
 const defaultSetup: SetupFnParams = {}
 
 
 function extractRequestData(request: RequestParams) {
-    const { url, query, params, headers, body, credentials, signal } = request;
-    let fetchURL = url as string;
+    const { url, query, params, headers, body, credentials, signal } = request
+    let fetchURL = url as string
 
     const options: RequestInit = { method: request.method }
 
@@ -60,12 +60,12 @@ function extractRequestData(request: RequestParams) {
 
         fetchURL += queryToAdd
     }
-    
+
     credentials && (options.credentials = credentials)
     headers && (options.headers = headers)
     signal && (options.signal = signal)
-    
-    
+
+
     return {
         initialURL: url,
         url: fetchURL,
@@ -75,8 +75,8 @@ function extractRequestData(request: RequestParams) {
 
 
 async function extractResponseData(req: RequestParams, res: Response & Indexable): Promise<any> {
-    let parseMethod = req.parseMethod;
-    let contentType;
+    let parseMethod = req.parseMethod
+    let contentType
 
     if (!parseMethod) {
         parseMethod = 'text'
@@ -87,7 +87,7 @@ async function extractResponseData(req: RequestParams, res: Response & Indexable
                 parseMethod = 'json'
             } else if (contentType.startsWith('multipart/form-data')
                 || contentType.startsWith('application/x-www-form-urlencoded')) {
-    
+
                 parseMethod = 'formData'
             }
         }
@@ -101,14 +101,14 @@ async function extractResponseData(req: RequestParams, res: Response & Indexable
 
 
 async function makeRequest(req: RequestParams) {
-    const { afterRequest, errorHandler } = defaultSetup;
+    const { afterRequest, errorHandler } = defaultSetup
 
     const reqData = extractRequestData(req)
 
 
     try {
         const res = await fetch(reqData.url, reqData.options)
-        const { headers, status, statusText } = res;
+        const { headers, status, statusText } = res
 
         let parsedRes = await extractResponseData(req, res)
         req.isFullRes && (parsedRes = {
@@ -140,7 +140,7 @@ async function makeRequest(req: RequestParams) {
 
 
 function request(req: RequestParams) {
-    const { beforeRequest } = defaultSetup;
+    const { beforeRequest } = defaultSetup
 
     const asyncInterceptor = beforeRequest && beforeRequest(req)
 

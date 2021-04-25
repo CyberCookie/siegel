@@ -8,7 +8,7 @@ isProd && (process.env.NODE_ENV = 'production')
     requiring siegel: from within siegel itself or locally or globally.
     Choose the one you use.
 */
-let devCore;
+let devCore
 try { devCore = require('../../src') }
 catch(e) {
     try { devCore = require('siegel') }
@@ -17,7 +17,7 @@ catch(e) {
             .execSync('npm root -g')
             .toString()
             .trim()
-        
+
         devCore = require(globalNodeModulesPath + '/siegel')
     }
 }

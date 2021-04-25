@@ -25,7 +25,7 @@ const Demo = () => {
         <Button {...props} disabled />
     </>
 }
-Demo.id = Button.ID;
+Demo.id = Button.ID
 
 
 export default Demo

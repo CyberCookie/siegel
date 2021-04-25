@@ -15,29 +15,29 @@ const stopPropagationHandler = (e: React.MouseEvent) => { e.stopPropagation() }
 
 
 function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
-    const { options, selected, theme, onChange, closeOnSelect, filterSelected } = props;
-    
+    const { options, selected, theme, onChange, closeOnSelect, filterSelected } = props
+
     const optionElements = []
-    let selectedOption; 
+    let selectedOption
     for (let i = 0; i < options.length; i++) {
         const option = options[i]
-        const { disabled, title, value, payload, className } = option;
+        const { disabled, title, value, payload, className } = option
 
-        let optionClassName = theme.option;
+        let optionClassName = theme.option
 
         if (value === selected) {
-            selectedOption = option;
+            selectedOption = option
 
-            if (filterSelected) continue;
+            if (filterSelected) continue
             else optionClassName += ` ${theme._option_active}`
         }
         className && (optionClassName += ` ${className}`)
-        
+
         const optionProps: ComponentAttributes<HTMLDivElement> = {
             children: title,
             className: optionClassName
         }
-    
+
         disabled
             ?   optionProps.className += ` ${theme._option_disabled}`
             :   optionProps.onMouseDown = (e: React.MouseEvent) => {
@@ -45,7 +45,7 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
                     onChange(value, e, payload)
                     closeOnSelect && setActive(false)
                 }
-            
+
 
         optionElements.push( <div {...optionProps} key={value} /> )
     }
@@ -69,30 +69,30 @@ const Select: _Select = (props, noDefaults) => {
 
     const {
         theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi
-    } = mergedProps;
-    
+    } = mergedProps
+
     const isSelected = isE(selected)
 
-    let className = mergedProps.className;
+    let className = mergedProps.className
     isActive && (className += ` ${theme._active}`)
     isSelected && (className += ` ${theme._filled}`)
-    
+
     let selectRootProps: NonNullable<Props['attributes']> = {
         className,
         ref: useRef(null)
     }
 
-    let optionsElement, selectedOption;
+    let optionsElement, selectedOption
     if (disabled) {
         selectRootProps.className += ` ${theme._disabled}`
-        
+
         if (isSelected) {
             selectedOption = options.find(option => option.value == selected)
         }
     } else {
         const optionsData = getOptions(mergedProps, setActive)
-        optionsElement = optionsData.optionsElement;
-        selectedOption = optionsData.selectedOption;
+        optionsElement = optionsData.optionsElement
+        selectedOption = optionsData.selectedOption
 
         selectRootProps.onMouseDown = (e: React.MouseEvent) => {
             e.stopPropagation()
@@ -122,13 +122,13 @@ const Select: _Select = (props, noDefaults) => {
                 :   document.removeEventListener('mousedown', handleOutsideClick)
         }
     }, [])
-    
+
 
     const displayValue = selectedOption
         ?   getDisplayValue
             ?   getDisplayValue(selectedOption)
             :   selectedOption.title
-        :   placeholder;
+        :   placeholder
 
 
     const selectInput = <>
@@ -139,7 +139,7 @@ const Select: _Select = (props, noDefaults) => {
 
         { optionsElement }
     </>
-    
+
 
     return (
         <div {...selectRootProps}>
@@ -148,7 +148,7 @@ const Select: _Select = (props, noDefaults) => {
                         <div className={theme.label} children={label} />
                         <div className={theme.input_wrapper} children={selectInput} />
                     </>
-                
+
                 :   selectInput
             }
 
@@ -177,7 +177,7 @@ Select.defaults = {
     dropdownIcon: '',
     filterSelected: true
 }
-Select.ID = componentID;
+Select.ID = componentID
 
 
 export { componentID }

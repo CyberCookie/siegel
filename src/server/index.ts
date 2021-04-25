@@ -16,15 +16,15 @@ const extractSSL = (ssl: any) => ({
 
 
 function createHTTPServer(CONFIG: any, middlewares: any, serverExtend: any) {
-    const { staticDir, server: serverConfig } = CONFIG;
-    const { host, port, ssl } = serverConfig;
+    const { staticDir, server: serverConfig } = CONFIG
+    const { host, port, ssl } = serverConfig
 
     const express = require('express')
     const expressApp = express()
 
     const expressStatic = require('express-static-gzip')
     const historyApiFallback = require('connect-history-api-fallback')
-    
+
 
     serverExtend && serverExtend(expressApp, { express })
 
@@ -32,16 +32,16 @@ function createHTTPServer(CONFIG: any, middlewares: any, serverExtend: any) {
     expressApp.disable('x-powered-by')
 
     expressApp.use(historyApiFallback())
-    
+
     middlewares.forEach((m: any) => expressApp.use(m))
-    
+
     expressApp.use('/', expressStatic(staticDir, {
         enableBrotli: true,
         orderPreference: ['br', 'gzip']
     }))
-    
 
-    let server = expressApp;
+
+    let server = expressApp
     if (ssl) {
         const { createServer } = require('https')
         server = createServer(extractSSL(ssl), expressApp)
@@ -53,8 +53,8 @@ function createHTTPServer(CONFIG: any, middlewares: any, serverExtend: any) {
 
 
 function createHTTP2Server(CONFIG: any, serverExtend: any) {
-    const { staticDir, server: serverConfig } = CONFIG;
-    const { host, port, ssl } = serverConfig;
+    const { staticDir, server: serverConfig } = CONFIG
+    const { host, port, ssl } = serverConfig
 
     const http2 = require('http2')
     const mime = require('mime-types')
@@ -65,7 +65,7 @@ function createHTTP2Server(CONFIG: any, serverExtend: any) {
         HTTP2_HEADER_CONTENT_TYPE,
         HTTP2_HEADER_PATH,
         HTTP2_HEADER_STATUS
-    } = http2.constants;
+    } = http2.constants
 
 
     const server = ssl
@@ -96,7 +96,7 @@ function createHTTP2Server(CONFIG: any, serverExtend: any) {
 
             if (fs.existsSync(`${filePath},${encoding}`)) {
                 filePath += `.${encoding}`
-                reponseHeaders[HTTP2_HEADER_CONTENT_ENCODING] = encoding;
+                reponseHeaders[HTTP2_HEADER_CONTENT_ENCODING] = encoding
                 break
             }
         }

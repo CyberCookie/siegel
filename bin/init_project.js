@@ -7,28 +7,28 @@ const { PATHS }                     = require('../cjs/constants')
 const toJSON = data => JSON.stringify(data, null, 4)
 
 function main(isGlobal) {
-    const shell = require('child_process').execSync;
+    const shell = require('child_process').execSync
     const cwd = process.cwd()
     const {
         name: devCorePackageName,
         scripts: siegelPackageJSONScripts,
         config: devCorePackageConfig
     } = require(PATHS.package)
-    
-    
+
+
     const replaceDevPathWithModule = path => {
-        const { join, relative } = posix;
+        const { join, relative } = posix
 
         const replaceWith = isGlobal
             ?   join(relative(__dirname, PATHS.globalNodeModules), devCorePackageName)
             :   './' + join('node_modules', devCorePackageName)
 
-        
+
         return path.replace('..', replaceWith)
     }
-    
 
-    
+
+
     //Copy test project
     shell(`cp -r ${PATHS.demoProject}/. .`)
 
@@ -37,7 +37,7 @@ function main(isGlobal) {
     //Copy ts-node tsconfig.json
     const TSNodePath = join(PATHS.root, 'src', 'tsconfig.json')
     shell(`cp ${TSNodePath} ./server`)
-    
+
 
 
     //Update TSConfig
@@ -45,8 +45,8 @@ function main(isGlobal) {
     const TSConfig = require(TSPath)
 
     TSConfig.extends = replaceDevPathWithModule(TSConfig.extends)
-    
-    const paths = TSConfig.compilerOptions.paths;
+
+    const paths = TSConfig.compilerOptions.paths
     for (const alias in paths) {
         paths[alias][0] = replaceDevPathWithModule(paths[alias][0])
     }
@@ -58,7 +58,7 @@ function main(isGlobal) {
     shell(`cp ${PATHS.root}/{.eslintrc,tsconfig.eslint.json} .`)
 
 
-    
+
     //Copy .gitignore
     shell(`cp ${PATHS.root}/.gitignore .`)
 
@@ -72,7 +72,7 @@ function main(isGlobal) {
     const demoDirPathFromRoot = relative(PATHS.root, PATHS.demoProject)
     let pathToIndex = devCorePackageConfig.index.replace(demoDirPathFromRoot, '')
     pathToIndex = pathToIndex.substr(pathToIndex.search(/\w/))
-    
+
 
     for (const command in siegelPackageJSONScripts) {
         let siegelPackageJSONCommand = siegelPackageJSONScripts[command]
@@ -80,11 +80,11 @@ function main(isGlobal) {
         if (command == 'build_node') {
             siegelPackageJSONScripts[command] = siegelPackageJSONCommand.replace('src', 'server')
         } else {
-            const replaceWith = command == 'pm2' ? 'cjs' : pathToIndex;
+            const replaceWith = command == 'pm2' ? 'cjs' : pathToIndex
             siegelPackageJSONScripts[command] = siegelPackageJSONCommand.replace('$npm_package_config_index', replaceWith)
         }
     }
-    targetPackageJSON.scripts = siegelPackageJSONScripts;
+    targetPackageJSON.scripts = siegelPackageJSONScripts
     writeFileSync(PATHS.cwdPackageJSON, toJSON(targetPackageJSON))
 }
 

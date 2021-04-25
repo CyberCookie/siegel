@@ -20,23 +20,23 @@ function getResizeHandler() {
         currentMinWidth: number | null,
         siblingColumn: HTMLTableCellElement | null,
         siblingWidth: number | null,
-        siblingMinWidth: number | null;
+        siblingMinWidth: number | null
 
 
     function onMouseUp() {
-        mouseXAnchor = targetColumn = currentWidth = siblingColumn = siblingWidth = isLeftSide = currentMinWidth = siblingMinWidth = null;
+        mouseXAnchor = targetColumn = currentWidth = siblingColumn = siblingWidth = isLeftSide = currentMinWidth = siblingMinWidth = null
 
         window.removeEventListener('mousemove', onMouseMove)
         window.removeEventListener('mouseup', onMouseUp)
     }
 
     function onMouseMove(e: MouseEvent) {
-        let deltaX = e.x - mouseXAnchor!;
+        let deltaX = e.x - mouseXAnchor!
         isLeftSide && (deltaX = -deltaX)
-        
-        const nextCurWidth = parseInt(currentWidth) + deltaX;
-        const nextSiblingWidth = parseInt(siblingWidth) - deltaX;
-        
+
+        const nextCurWidth = parseInt(currentWidth) + deltaX
+        const nextSiblingWidth = parseInt(siblingWidth) - deltaX
+
         if ((!siblingMinWidth || nextSiblingWidth >= siblingMinWidth) && (!currentMinWidth || nextCurWidth >= currentMinWidth)) {
             siblingColumn!.style.width = nextSiblingWidth + 'px'
             targetColumn!.style.width = nextCurWidth + 'px'
@@ -48,17 +48,17 @@ function getResizeHandler() {
         e.preventDefault()
         e.stopPropagation()
 
-        const resizerElement = e.currentTarget;
+        const resizerElement = e.currentTarget
 
-        mouseXAnchor = e.nativeEvent.x;
-        targetColumn = resizerElement.parentElement as HTMLTableCellElement;
-        isLeftSide = resizerElement.nextSibling;
+        mouseXAnchor = e.nativeEvent.x
+        targetColumn = resizerElement.parentElement as HTMLTableCellElement
+        isLeftSide = resizerElement.nextSibling
 
         siblingColumn = (resizerElement.nextSibling as HTMLTableCellElement)
             ?   (targetColumn.previousSibling as HTMLTableCellElement)
             :   (targetColumn.nextSibling as HTMLTableCellElement)
-        
-        
+
+
         if (siblingColumn) {
             const { width: _currentWidth, minWidth: _currentMinWidth } = window.getComputedStyle(targetColumn)
             currentWidth = parseInt(_currentWidth)
@@ -69,14 +69,14 @@ function getResizeHandler() {
             siblingMinWidth = parseInt(_siblingMinWidth)
 
             window.addEventListener('mousemove', onMouseMove, passiveEv)
-            window.addEventListener('mouseup', onMouseUp, passiveEv)        
+            window.addEventListener('mouseup', onMouseUp, passiveEv)
         }
     }
 }
 
 
 function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) {
-    const { columnsConfig, resizable, theme, postProcessHeadRow, postProcessHeadCell } = props;
+    const { columnsConfig, resizable, theme, postProcessHeadRow, postProcessHeadCell } = props
 
     const resizerClassName = `${innerResizerClassName} ${theme.table_resizer}`
 
@@ -93,11 +93,11 @@ function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) 
             value: columnConfig.label
         }
         postProcessHeadCell && (nameCell = postProcessHeadCell(nameCell, columnConfig, configurationIndex, displayedEntityIDs))
-        
-        
+
+
         if (resizable) {
             const resizeHandler = getResizeHandler()
-            
+
             nameCell.value = <>
                 <div className={resizerClassName} onMouseDown={resizeHandler} />
 
@@ -106,11 +106,11 @@ function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) 
                 <div className={resizerClassName} onMouseDown={resizeHandler} />
             </>
         }
-        
-        
+
+
         children.push(nameCell)
     })
-    
+
     let result = [{ children }]
     postProcessHeadRow && (result = postProcessHeadRow(result, displayedEntityIDs))
 

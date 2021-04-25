@@ -24,7 +24,7 @@ const Demo = () => {
         { isActivePopup && <Popup {...props} /> }
     </>
 }
-Demo.id = Popup.ID;
+Demo.id = Popup.ID
 
 
 export default Demo

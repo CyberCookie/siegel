@@ -15,7 +15,7 @@ const Swipe: _Swipe = (props, noDefaults) => {
         ?   extractProps(Swipe.defaults, props, false)
         :   (props  as MergedProps)
 
-    const { className, children, xAxis, deltaPos, onSwipe, attributes, refApi } = mergedProps;
+    const { className, children, xAxis, deltaPos, onSwipe, attributes, refApi } = mergedProps
 
     let swipeRootAttributes: Props['attributes'] = { className, children }
     _isTouchScreen
@@ -27,7 +27,7 @@ const Swipe: _Swipe = (props, noDefaults) => {
 
     useLayoutEffect(() => { removeTouchEvents && removeTouchEvents() }, [])
 
-    let removeTouchEvents: () => void;
+    let removeTouchEvents: () => void
 
 
     function onMouseDown(e: React.MouseEvent | React.TouchEvent) {
@@ -35,15 +35,15 @@ const Swipe: _Swipe = (props, noDefaults) => {
 
         function getMousePos(e: HTMLSwipeMouseEvent) {
             const { touches, x, y } = (e as MouseEvent & TouchEvent)
-    
+
             return _isTouchScreen
                 ?   (xAxis ? touches[0].screenX : touches[0].screenY)
                 :   (xAxis ? x : y)
         }
 
         const mouseDownPos = getMousePos(e.nativeEvent)
-        let swipeStart = true;
-        let isBlocked = false;
+        let swipeStart = true
+        let isBlocked = false
 
 
         if (_isTouchScreen) {
@@ -56,16 +56,16 @@ const Swipe: _Swipe = (props, noDefaults) => {
 
         function onMouseUp(e: HTMLSwipeMouseEvent) {
             e.stopPropagation()
-            
-            swipeStart = false;
-            isBlocked = false;
+
+            swipeStart = false
+            isBlocked = false
             removeTouchEvents()
         }
-    
+
         function onMouseMove(e: HTMLSwipeMouseEvent) {
             if (mouseDownPos && swipeStart && !isBlocked) {
-                const deltaPosition = getMousePos(e) - mouseDownPos;
-    
+                const deltaPosition = getMousePos(e) - mouseDownPos
+
                 if (Math.abs(deltaPosition) > deltaPos) {
                     onSwipe(deltaPosition < 0, e)
                     isBlocked = true
@@ -91,7 +91,7 @@ Swipe.defaults = {
     className: componentID,
     deltaPos: 60
 }
-Swipe.ID = componentID;
+Swipe.ID = componentID
 
 
 export { componentID }

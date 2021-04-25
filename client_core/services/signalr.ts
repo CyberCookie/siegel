@@ -37,11 +37,11 @@ const isBusyStates = new Set([ HubConnectionState.Connecting, HubConnectionState
 const createSignalRConnection = (options: SignalROptions) => {
     const connectionParams = Object.assign(options, defaults)
     const { url, reconnectInterval, endpoint, transport, protocol, serverTimeout,
-        skipNegotiation, handlers, token } = connectionParams;
-    
+        skipNegotiation, handlers, token } = connectionParams
+
 
     const nativeSocket = new HubConnectionBuilder()
-        .withUrl((url || window.location.origin) + endpoint, { 
+        .withUrl((url || window.location.origin) + endpoint, {
             skipNegotiation,
             accessTokenFactory: token,
             transport: HttpTransportType[transport || 'WebSockets']
@@ -74,7 +74,7 @@ const createSignalRConnection = (options: SignalROptions) => {
             } else {
                 try {
                     await nativeSocket.start()
-                    
+
                     cb?.call(this)
                     handlers.onopen?.call(this)
                 } catch(err) {

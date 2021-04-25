@@ -29,16 +29,16 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
 
             return entityStruct
         },
-        
+
         addOrUpdate(entity: E) {
             const entityID = entity[uniq]
-            
+
             byID[entityID] || sorted.push(entityID)
             byID[entityID] = entity
 
             return entityStruct
         },
-        
+
         addAll(entities: E[]) {
             for (let i = 0, l = entities.length; i < l; i++) {
                 this.addOrUpdate(entities[i])
@@ -46,11 +46,11 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
 
             return entityStruct
         },
-        
+
         remove(entityID: ID) {
             if (byID[entityID]) {
                 const indexOfEntity = sorted.findIndex(ID => entityID === ID)
-                
+
                 sorted.splice(indexOfEntity, 1)
                 delete byID[entityID]
             }
@@ -63,7 +63,7 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
 
             return entityStruct
         },
-        
+
         each(cb: EachCB, from = 0, to = sorted.length) {
             for (let i = from; i < to; i++) {
                 if (cb(byID[sorted[i]], i)) break

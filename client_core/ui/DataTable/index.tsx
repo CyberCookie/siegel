@@ -27,19 +27,19 @@ const getDefaultState = () => ({
 } as State)
 
 function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBodyRows>['resultIDs']) {
-    const { withPagination, theme, hookStore } = props;
+    const { withPagination, theme, hookStore } = props
 
-    const [ state, setState ] = hookStore!;
-    const showPerPage = state.showPerPage;
+    const [ state, setState ] = hookStore!
+    const showPerPage = state.showPerPage
 
-    const { displayQuantity, select, pagination } = withPagination!;
-    const { props: selectProps, component: Select } = select;
-    const { props: paginationProps, component: Pagination } = pagination;
+    const { displayQuantity, select, pagination } = withPagination!
+    const { props: selectProps, component: Select } = select
+    const { props: paginationProps, component: Pagination } = pagination
 
     const dataTableSelectProps = Object.assign({
         displayValue: showPerPage,
         onChange(value: number) {
-            state.showPerPage = value;
+            state.showPerPage = value
             setState({ ...state })
         }
     }, selectProps)
@@ -49,7 +49,7 @@ function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBod
         listLength: resultIDs.length,
         curPage: state.currentPage,
         onChange(value: number) {
-            state.currentPage = value;
+            state.currentPage = value
             setState({ ...state })
         }
     }
@@ -74,23 +74,23 @@ const DataTable: _DataTable = (props, noDefaults) => {
         ?   extractProps(DataTable.defaults, props, false)
         :   (props as MergedProps)
 
-    const { theme, className, attributes, withPagination, tableAttributes, refApi } = mergedProps;
+    const { theme, className, attributes, withPagination, tableAttributes, refApi } = mergedProps
     mergedProps.hookStore ||= useState(defaultState)
 
     const hookState = mergedProps.hookStore[0]
-    
+
     const rootAttributes = { className }
     refApi && (applyRefApi(rootAttributes, mergedProps))
     attributes && (Object.assign(rootAttributes, attributes))
-    
+
     if (withPagination) {
-        hookState.showPerPage ||= withPagination.select.props.options[0].value;
+        hookState.showPerPage ||= withPagination.select.props.options[0].value
         rootAttributes.className += ` ${theme._with_pagination}`
     }
 
     const { body, resultIDs, from, to } = tableBodyRows(mergedProps, hookState)
     const head = tableHeadRows(mergedProps, resultIDs, from, to)
-    
+
     const dataTableTableProps: DataTableTableProps = {
         head, body,
         className: `${innerTableClassName} ${theme.table}`
@@ -115,7 +115,7 @@ DataTable.defaults = {
         _with_pagination: componentID + '__with_pagination'
     }
 }
-DataTable.ID = componentID;
+DataTable.ID = componentID
 
 
 export { getDefaultState, componentID }

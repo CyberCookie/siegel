@@ -24,24 +24,24 @@ switch(command) {
 
             switch(argument) {
                 case '-p':
-                    runParams.isProd = true;
-                    break;
-                
+                    runParams.isProd = true
+                    break
+
                 case '-b':
-                    runParams.isBuild = true;
-                    break;
+                    runParams.isBuild = true
+                    break
 
                 case '-s':
-                    runParams.isServer = true;
-                    break;
+                    runParams.isServer = true
+                    break
 
                 case '-cfg':
                     var cfgPath = scriptArgs[i + 1]
                     var pathNormalized = isAbsolute(cfgPath) ? cfgPath : join(process.cwd(), cfgPath)
-                    
+
                     config = require(pathNormalized)
                     i++
-                    break;
+                    break
 
                 case '-js':
                     var jsPath = scriptArgs[i + 1]
@@ -51,8 +51,8 @@ switch(command) {
                         }
                     }
                     i++
-                    break;
-                
+                    break
+
                 case '-port':
                     config.server.port = +scriptArgs[i + 1]
             }
@@ -64,17 +64,17 @@ switch(command) {
     case 'init':
         var isGlobal = scriptArgs[0] == '-g'
         return require('./init_project')(isGlobal)
-    
+
     case 'create-ssl':
         return require('./create_SSL')()
 
     case 'install-peers':
         return require('./install_peers')()
-    
+
     case '_hard-update':
         return require('./update_deps')()
-    
-    
+
+
     default:
         console.log(
 `

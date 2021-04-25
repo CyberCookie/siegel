@@ -9,7 +9,7 @@ const slides = (new Array(4))
 
 const Demo = () => {
     const store = useState(1)
-    
+
     const props: SliderProps = { slides }
 
 
@@ -26,7 +26,7 @@ const Demo = () => {
         <Slider {...props} withControlls loop />
     </>
 }
-Demo.id = Slider.ID;
+Demo.id = Slider.ID
 
 
 export default Demo

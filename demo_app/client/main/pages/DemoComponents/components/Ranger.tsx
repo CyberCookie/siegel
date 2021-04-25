@@ -9,12 +9,12 @@ const Demo = () => {
         valueSingle: 0.5,
         valueDouble: [ 0.2, 0.8 ] as DoubleValue
     })
-    const { valueSingle, valueDouble } = state;
+    const { valueSingle, valueDouble } = state
 
     const propsSingle: RangerProps = {
         value: valueSingle,
         onChange(value: number) {
-            state.valueSingle = value;
+            state.valueSingle = value
             setState({ ...state })
         }
     }
@@ -23,7 +23,7 @@ const Demo = () => {
         value: valueDouble,
         label: 'some label',
         onChange(value: DoubleValue) {
-            state.valueDouble = value;
+            state.valueDouble = value
             setState({ ...state })
         }
     }
@@ -57,7 +57,7 @@ const Demo = () => {
         <Ranger {...propsSingle} disabled />
     </>
 }
-Demo.id = Ranger.ID;
+Demo.id = Ranger.ID
 
 
 export default Demo

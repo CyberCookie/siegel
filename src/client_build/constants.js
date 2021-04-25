@@ -1,4 +1,4 @@
-const resolve = require.resolve;
+const resolve = require.resolve
 
 const DEPENDENCIES = {
     webpack:        require('webpack'),

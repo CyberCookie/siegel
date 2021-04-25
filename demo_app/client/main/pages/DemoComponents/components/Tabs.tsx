@@ -28,7 +28,7 @@ const Demo = () => {
         <Tabs {...props} />
     </>
 }
-Demo.id = Tabs.ID;
+Demo.id = Tabs.ID
 
 
 export default Demo

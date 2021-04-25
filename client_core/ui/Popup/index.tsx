@@ -15,7 +15,7 @@ const Popup: _Popup = (props, noDefaults) => {
         ?   extractProps(Popup.defaults, props, false)
         :   (props as MergedProps)
 
-    const { theme, closeIcon, content, onClose, attributes, className, refApi } = mergedProps;
+    const { theme, closeIcon, content, onClose, attributes, className, refApi } = mergedProps
 
     let popupRootAttributes = {
         className,
@@ -48,7 +48,7 @@ Popup.defaults = {
 
     closeIcon: 'X'
 }
-Popup.ID = componentID;
+Popup.ID = componentID
 
 
 export { componentID }

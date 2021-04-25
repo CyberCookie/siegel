@@ -17,8 +17,8 @@ const {
 
 
 module.exports = (CONFIG, RUN_PARAMS) => {
-    const { staticDir, build: { input } } = CONFIG;
-    const { isProd, isServer } = RUN_PARAMS;
+    const { staticDir, build: { input } } = CONFIG
+    const { isProd, isServer } = RUN_PARAMS
 
 
     const defaults = {
@@ -100,7 +100,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                 }
             }
         },
-        
+
         [pluginsKeysMap.hot]: {
             plugin: webpack.HotModuleReplacementPlugin,
             enabled: !isProd

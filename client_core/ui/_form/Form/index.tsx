@@ -16,7 +16,7 @@ const Form: _Form = (props, noDefaults) => {
     const { onSubmit, className, attributes, inputs } = noDefaults
         ?   extractProps(Form.defaults, props, false)
         :   (props as _Form['defaults'] & Props)
-    
+
 
     const [ values, setValues ] = useState({} as ValuesState)
 
@@ -25,7 +25,7 @@ const Form: _Form = (props, noDefaults) => {
         onSubmit(e: React.FormEvent<HTMLFormElement>) {
             e.stopPropagation()
             e.preventDefault()
-            
+
             onSubmit(values, e)
         },
         children: getFormElements()
@@ -66,18 +66,18 @@ const Form: _Form = (props, noDefaults) => {
             const { Component, props, validators = [], disabledIf } = inputs[name]
             const { value = '', errorMsg = '' } = values[name] || {}
 
-            let ComponentToPush: JSX.Element;
+            let ComponentToPush: JSX.Element
 
             const dissabled = disabledIf
                 ?   typeof disabledIf == 'string'
                     ?   ifDisabledBy(disabledIf)
                     :   disabledIf.some(ifDisabledBy)
-                :   false;
+                :   false
 
-            
+
             if (Component.ID == inputID) {
                 const onChange = onInputChange.bind(null, validators, name)
-                
+
                 const extraProps = {
                     value, name, onChange, dissabled,
                     errorMsg: (props as InputProps).errorMsg || errorMsg,
@@ -100,7 +100,7 @@ const Form: _Form = (props, noDefaults) => {
                 ComponentToPush = React.createElement(Component as _Checkbox, Object.assign(extraProps, props))
             }
 
-            
+
             result.push(ComponentToPush!)
 
             //TODO:
@@ -117,7 +117,7 @@ const Form: _Form = (props, noDefaults) => {
 Form.defaults = {
     className: componentID
 }
-Form.ID = componentID;
+Form.ID = componentID
 
 
 export { componentID }

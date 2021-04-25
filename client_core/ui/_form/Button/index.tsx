@@ -10,12 +10,12 @@ const Button: _Button = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Button.defaults, props, false)
         :   (props as MergedProps)
-    
+
     const {
         value: children,
         onClick: onMouseDown,
         className, type, disabled, attributes, refApi
-    } = mergedProps;
+    } = mergedProps
 
 
     const buttonProps = { className, onMouseDown, type, disabled, children }
@@ -29,7 +29,7 @@ Button.defaults = {
     className: componentID,
     type: 'button',
 }
-Button.ID = componentID;
+Button.ID = componentID
 
 
 export { componentID }

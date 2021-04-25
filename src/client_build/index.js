@@ -11,9 +11,9 @@ const {
 
 
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
-    const { isProd, isDevServer } = RUN_PARAMS;
-    const { staticDir, build } = CONFIG;
-    const { input, aliases, publicPath, postProcessWebpackConfig } = build;
+    const { isProd, isDevServer } = RUN_PARAMS
+    const { staticDir, build } = CONFIG
+    const { input, aliases, publicPath, postProcessWebpackConfig } = build
 
 
     let webpackConfig = {
@@ -48,7 +48,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             splitChunks: {
                 chunks: 'all'
             },
-            
+
             ...( isProd ? {
                 minimizer: [
                     new terserPlugin({
@@ -60,11 +60,11 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
                 ]
             } : {})
         },
-        
+
         plugins: defaultPluginsResolve(CONFIG, RUN_PARAMS),
         module: defaultModulesResolve(CONFIG, RUN_PARAMS)
     }
-    
+
     if (typeof postProcessWebpackConfig == 'function') {
         webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig, DEPENDENCIES)
     }

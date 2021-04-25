@@ -23,7 +23,7 @@ const DemoApi = (/*props: RouteComponentProps*/) => {
 
     const isDisabledSend = !requestString.length
 
-    
+
     return (
         <div className={styles.page}>
             <div className={styles.api_block}>
@@ -36,7 +36,7 @@ const DemoApi = (/*props: RouteComponentProps*/) => {
                         }
                     }}
                     onChange={value => { setRequestString(value) }} />
-                
+
                 <Button disabled={isDisabledSend} value='Send!' onClick={sendData} />
 
                 <h1>Received from server: { received }</h1>

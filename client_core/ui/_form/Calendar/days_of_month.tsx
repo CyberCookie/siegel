@@ -31,14 +31,14 @@ function fillWithSiblingMonthDateRange(result: AllDaysData[], dateFrom: number, 
 
 function getPreviousMonthDays(params: PrevNextDaysParams) {
     const result: AllDaysData[] = []
-    const { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom } = params;
+    const { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom } = params
 
     const date = new Date(beginOfMonth)
     date.setDate(0)
 
     const lastDate = date.getDate()
     const lastDay = date.getDay()
-    let startDate = lastDate - lastDay;
+    let startDate = lastDate - lastDay
 
     if (weekStartsFrom) {
         if (weekStartsFrom >= lastDay) {
@@ -48,8 +48,8 @@ function getPreviousMonthDays(params: PrevNextDaysParams) {
         }
     }
 
-    const isFullRow = (lastDate - (startDate - 1)) === DAYS_IN_WEEK;
-    
+    const isFullRow = (lastDate - (startDate - 1)) === DAYS_IN_WEEK
+
     if (!(hideSiblingMonthsDays && isFullRow)) {
         date.setDate(startDate)
 
@@ -64,7 +64,7 @@ function fillWithCurrentMonthDays(result: AllDaysData[], beginOfMonth: Date) {
     const lastDayinCurrentMonth = (new Date(beginOfMonth.getFullYear(), beginOfMonth.getMonth() + 1, 0)).getDate()
     const todayTimestamp = (new Date()).setHours(0, 0, 0, 0)
     let timestamp = date.getTime()
-    
+
     for (let dateOfMonth = 1; dateOfMonth <= lastDayinCurrentMonth; dateOfMonth++) {
         const dayData: AllDaysData = {
             timestamp,
@@ -81,12 +81,12 @@ function fillWithCurrentMonthDays(result: AllDaysData[], beginOfMonth: Date) {
 }
 
 function fillWithNextMonthDays(result: AllDaysData[], params: PrevNextDaysParams) {
-    const { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom } = params;
+    const { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom } = params
 
     const date = new Date(beginOfMonth)
     const firstDay = date.getDay()
 
-    let daysToAdd = 0;
+    let daysToAdd = 0
     if (!(hideSiblingMonthsDays && firstDay == weekStartsFrom)) {
         date.setMonth(date.getMonth() + 1)
         daysToAdd = DAYS_IN_WEEK - (result.length % DAYS_IN_WEEK)
@@ -100,7 +100,7 @@ function fillWithNextMonthDays(result: AllDaysData[], params: PrevNextDaysParams
 
 function getCalendarMonthDays(prevNextDaysParams: PrevNextDaysParams) {
     let allDays = getPreviousMonthDays(prevNextDaysParams)
-    const countBefore = allDays.length;
+    const countBefore = allDays.length
 
     fillWithCurrentMonthDays(allDays, prevNextDaysParams.beginOfMonth)
 
@@ -108,11 +108,11 @@ function getCalendarMonthDays(prevNextDaysParams: PrevNextDaysParams) {
 
 
     if (prevNextDaysParams.missedRow == missedRowType.FILLED && allDays.length < 42) {
-        const isHiddenSiblings = prevNextDaysParams.hideSiblingMonthsDays;
+        const isHiddenSiblings = prevNextDaysParams.hideSiblingMonthsDays
 
         if (countBefore < countAfter) {
             const { date: toDate, timestamp } = allDays[0]
-            const fromDate = toDate - DAYS_IN_WEEK;
+            const fromDate = toDate - DAYS_IN_WEEK
             const date = new Date(timestamp)
             date.setDate(fromDate)
 
@@ -131,20 +131,20 @@ function getCalendarMonthDays(prevNextDaysParams: PrevNextDaysParams) {
 
 
 const getDayClass: GetDayClass = ({ theme, dayObj, hideSiblingMonthsDays, innerRangeStart, innerRangeEnd }) => {
-    const{ timestamp, isSiblingMonth, isLast, isFirst, isToday } = dayObj;
+    const{ timestamp, isSiblingMonth, isLast, isFirst, isToday } = dayObj
 
-    
-    let className = theme.day;
-    
+
+    let className = theme.day
+
     isToday && (className += ` ${theme.day__today}`)
     isSiblingMonth && (className += ` ${theme.month__sibling}`)
-    
-    
+
+
     if (hideSiblingMonthsDays) {
         isFirst && (className += ` ${theme.day__first}`)
         isLast && (className += ` ${theme.day__last}`)
     }
-    
+
     if (innerRangeStart != innerRangeEnd) {
         const rangeEndZero = (new Date(innerRangeEnd)).setHours(0,0,0,0)
         innerRangeStart <= timestamp && timestamp <= rangeEndZero && (className += ` ${theme.day__selected}`)
@@ -153,22 +153,22 @@ const getDayClass: GetDayClass = ({ theme, dayObj, hideSiblingMonthsDays, innerR
         timestamp == rangeEndZero && (className += ` ${theme.to}`)
     }
 
-    
+
     return className
 }
 
 const Days = (props: ChildProps) => {
-    const { calendarProps, parentState, beginOfMonth, pickRangeStart } = props;
+    const { calendarProps, parentState, beginOfMonth, pickRangeStart } = props
 
-    const { weekStartsFrom, hideSiblingMonthsDays, missedRow, theme } = calendarProps;
+    const { weekStartsFrom, hideSiblingMonthsDays, missedRow, theme } = calendarProps
     const { innerRangeStart, innerRangeEnd, inProgress } = parentState
-    
+
     const prevNextDaysParams = { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom, missedRow }
     const allDays = getCalendarMonthDays(prevNextDaysParams)
 
-    let className = theme.month_days_wrapper;
+    let className = theme.month_days_wrapper
     inProgress && (className += ` ${theme._in_progress}`)
-    
+
     const rows = []
     for (let i = 0, day = 0; i <= allDays.length / DAYS_IN_WEEK && day < allDays.length; i++) {
         const dayRow = []

@@ -17,20 +17,20 @@ const componentID = '-ui-dropdown_search'
 const innerInputRootClassName = styles[componentID + '_inner_input']
 
 function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }: MergedProps, store: Store) {
-    const [{ searchString }, setState ] = store;
+    const [{ searchString }, setState ] = store
     const searchLower = searchString && searchString.toLowerCase()
 
     const options: JSX.Element[] = []
-    let selectedOption;
+    let selectedOption
     searchOptions.forEach(option => {
-        const { title, inputValue, value, className, payload } = option;
-        
-        const isSelected = value == selected;
+        const { title, inputValue, value, className, payload } = option
+
+        const isSelected = value == selected
         isSelected && (selectedOption = option)
 
         const canPush = showAll || (!searchLower || inputValue.toLowerCase().includes(searchLower))
         if (canPush) {
-            let optionClassMame = theme.option;
+            let optionClassMame = theme.option
             className && (optionClassMame += ` ${className}`)
 
             options.push(
@@ -61,13 +61,13 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     const {
         theme, minInputLength, onSearch, className, showOnFocus, onChange, inputProps, refApi,
         selected, searchOptions, attributes, disabled
-    } = mergedProps;
+    } = mergedProps
 
     const store = useState({ searchString: undefined } as State)
-    const [ state, setState ] = store;
-    const { searchString } = state;
+    const [ state, setState ] = store
+    const { searchString } = state
 
-    
+
     const inputStore = inputProps?.inputStore || useState(getDefaultInputStoreState())
     const { isFocused } = inputStore[0]
 
@@ -82,23 +82,23 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     }
     refApi && applyRefApi(dropdownSearchRootProps, mergedProps)
 
-    
+
     const isShowOptions = showOnFocus
         ?   isFocused
-        :   (searchString ? searchString.length : 0) >= minInputLength;
-    
-    let options: JSX.Element | undefined;
-    let optionSelected: Props['searchOptions'][number] | undefined;
+        :   (searchString ? searchString.length : 0) >= minInputLength
+
+    let options: JSX.Element | undefined
+    let optionSelected: Props['searchOptions'][number] | undefined
     if (isShowOptions) {
         const { selectedOption, optionsElement } = getSearchOptions(mergedProps, store)
-        options = optionsElement;
-        optionSelected = selectedOption;
-        
+        options = optionsElement
+        optionSelected = selectedOption
+
         dropdownSearchRootProps.className += ` ${theme._with_suggestions}`
     } else  if (selected) {
         optionSelected = searchOptions.find(({ value }) => value == selected)
     }
-    
+
 
     const inputInnerProps: InputProps = {
         inputStore, disabled,
@@ -107,7 +107,7 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
         },
         className: innerInputRootClassName,
         onChange(value, e) {
-            state.searchString = value;
+            state.searchString = value
             setState({ ...state })
 
             onSearch && onSearch(value, e)
@@ -124,12 +124,12 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
     disabled && (dropdownSearchRootProps.className += ` ${theme._disabled}`)
     attributes && Object.assign(dropdownSearchRootProps, attributes)
 
-    
+
     return (
         <div { ...dropdownSearchRootProps }>
             <Input { ...inputInnerProps } />
             { options }
-            
+
             { addChildren(dropdownSearchRootProps, theme) }
         </div>
     )
@@ -148,7 +148,7 @@ DropdownSearch.defaults = {
     minInputLength: 3
 }
 DropdownSearch.recursiveMergeProps = ['inputProps']
-DropdownSearch.ID = componentID;
+DropdownSearch.ID = componentID
 
 
 export { componentID }

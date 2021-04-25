@@ -39,7 +39,7 @@ const Demo = () => <>
     <h2>expanded by default</h2>
     <Accordion {...{ list: [list[list.length - 1]] }} autoExpand />
 </>
-Demo.id = Accordion.ID;
+Demo.id = Accordion.ID
 
 
 export default Demo

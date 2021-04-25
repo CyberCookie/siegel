@@ -46,50 +46,50 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
     dataGridHookStore: NonNullable<DataTableProps<MockEntities>['hookStore']>
     postProcessStore: PostProcessStore
 }) {
-    
-    const [ dataGridHookState, setDataGridHookState ] = dataGridHookStore;
 
-    const [ postProcessData, setPostprocessData ] = postProcessStore;
-    const activeCol = postProcessData.activeCol;
+    const [ dataGridHookState, setDataGridHookState ] = dataGridHookStore
 
-    const isActiveLabelMenu = activeCol == index;
-    
+    const [ postProcessData, setPostprocessData ] = postProcessStore
+    const activeCol = postProcessData.activeCol
+
+    const isActiveLabelMenu = activeCol == index
+
     function onLabelMenuOpen() {
         if (isActiveLabelMenu) {
-            postProcessData.activeCol = -1;
-        } else postProcessData.activeCol = index;
-        
+            postProcessData.activeCol = -1
+        } else postProcessData.activeCol = index
+
         setPostprocessData({ ...postProcessData })
     }
-    
+
     const getActiveLabelMenu = () => {
         function onSort(e: React.MouseEvent) {
             e.stopPropagation()
-            const { sortvalue, sortindex } = (e.currentTarget as HTMLDivElement).dataset;
-    
-            const { value: curValue, index: curIndex } = dataGridHookState.sortByField;
-            const intIndex = +sortindex!;
-            const intValue = +sortvalue!;
-    
-            let index, value: number;
+            const { sortvalue, sortindex } = (e.currentTarget as HTMLDivElement).dataset
+
+            const { value: curValue, index: curIndex } = dataGridHookState.sortByField
+            const intIndex = +sortindex!
+            const intValue = +sortvalue!
+
+            let index, value: number
             curIndex == intIndex && curValue == intValue
                 ?   (index = value = 0)
                 :   (index = intIndex, value = intValue)
             dataGridHookState.sortByField = { index, value }
-    
+
             setDataGridHookState({ ...dataGridHookState })
         }
 
         function getSearch() {
-            const searchByField = dataGridHookState.searchByField;
-            const { type, entityFieldPath, showValue } = config;
-            let searchElement;
-            
+            const searchByField = dataGridHookState.searchByField
+            const { type, entityFieldPath, showValue } = config
+            let searchElement
+
             if (type == 'set') {
                 const resultCheckbox: JSX.Element[] = []
-                const searchSet = (searchByField[index] as SearchByFieldSet) || new Set();
+                const searchSet = (searchByField[index] as SearchByFieldSet) || new Set()
                 const uniqValues: SearchByFieldSet = new Set()
-                
+
                 entities.each((entity, i) => {
                     const setValue = entity[entityFieldPath as string]
                     if (!uniqValues.has(setValue)) {
@@ -101,10 +101,10 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
                                 icon={icons.check}
                                 onChange={(checkboxValue, e) => {
                                     e.stopPropagation()
-        
+
                                     checkboxValue ? searchSet.delete(setValue) : searchSet.add(setValue)
-                                    searchByField[index] = searchSet;
-        
+                                    searchByField[index] = searchSet
+
                                     setDataGridHookState({ ...dataGridHookState })
                                 }} />
                         )
@@ -115,7 +115,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
                 searchElement = <>{resultCheckbox}</>
             } else if (type == 'date') {
                 const { dateStart, dateEnd } = (searchByField[index] as SearchByFieldDate) || {}
-                const rangeDateStart = dateStart || nowTimestamp;
+                const rangeDateStart = dateStart || nowTimestamp
 
                 searchElement = (
                     <Calendar rangePick triggerOnlyWhenFinished={false}
@@ -136,13 +136,13 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
                     <Input theme={inputTheme} value={(searchByField[index] as SearchByFieldText) || ''} autofocus
                         className={styles.search_input}
                         onChange={value => {
-                            (searchByField[index] as SearchByFieldText) = value;
+                            (searchByField[index] as SearchByFieldText) = value
                             setDataGridHookState({ ...dataGridHookState })
                         }} />
                 )
             }
 
-            
+
             return <div className={styles.search_wrapper} children={searchElement} />
         }
 
@@ -193,15 +193,15 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DataTabl
     postProcessStore: PostProcessStore
 }
 ) {
-    
-    const [ postProcessData, setPostprocessData ] = postProcessStore;
-    const selected = postProcessData.selected;
-    const { allPagesIDs, from, to } = displayedEntityIDs as NonNullable<typeof displayedEntityIDs>;
 
-    let checkboxValue = true;
+    const [ postProcessData, setPostprocessData ] = postProcessStore
+    const selected = postProcessData.selected
+    const { allPagesIDs, from, to } = displayedEntityIDs as NonNullable<typeof displayedEntityIDs>
+
+    let checkboxValue = true
     for (let i = from; i < to; i++) {
         if (!selected.has(allPagesIDs[i])) {
-            checkboxValue = false;
+            checkboxValue = false
             break
         }
     }
@@ -219,7 +219,7 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DataTabl
                             selected.has(allPagesIDs[i]) && selected.delete(allPagesIDs[i])
                         }
                     }
-                    
+
                     setPostprocessData({ ...postProcessData })
                 }} />
         )
@@ -237,11 +237,11 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DataTablePr
 }
 ) {
 
-    const [ postProcessData, setPostprocessData ] = postProcessStore;
-    const selected = postProcessData.selected;
+    const [ postProcessData, setPostprocessData ] = postProcessStore
+    const selected = postProcessData.selected
 
     const value = selected.has(entity.id)
-    
+
     row.children.unshift({
         value: (
             <Checkbox value={value}
@@ -295,7 +295,7 @@ export default (props: DataTableProps<MockEntities>) => {
             cell, config, index, dataGridHookStore, postProcessStore,
             entities: props.entities
         }),
-        
+
         postProcessHeadRow: (row, displayedEntityIDs) =>
             getSelectAllCheckboxTableCell({ row, displayedEntityIDs, postProcessStore }),
 

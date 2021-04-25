@@ -6,7 +6,7 @@ import { ACTION_IDS, FETCH_ACTION_TYPE } from './cfg'
 
 
 function dispatchResponse(store, action, resData, error) {
-    const { id, beforeDispatch, payload } = action;
+    const { id, beforeDispatch, payload } = action
     const dispatchObject = {
         _FETCH_ID: resData ? ACTION_IDS.FETCH_END : ACTION_IDS.FETCH_ERROR,
         data: id,
@@ -29,7 +29,7 @@ function dispatchResponse(store, action, resData, error) {
 
 export default store => next => action => {
     if (action.type != FETCH_ACTION_TYPE) {
-        action.type ||= 'REDUX_ACTION';
+        action.type ||= 'REDUX_ACTION'
         return next(action)
     }
 

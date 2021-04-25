@@ -12,18 +12,18 @@ const tokenPrevPage = 'p'
 const tokenNextPage = 'n'
 
 function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) {
-    const { attributes, curPage, onChange, payload, theme, refApi } = mergedProps;
-    
-    let className = mergedProps.className;
+    const { attributes, curPage, onChange, payload, theme, refApi } = mergedProps
+
+    let className = mergedProps.className
     numberOfPages == 1 && (className += ` ${theme._single}`)
 
     let result = {
         className,
         onMouseDown(e: React.MouseEvent) {
-            const page = (e.target as HTMLDivElement).dataset.page;
-    
+            const page = (e.target as HTMLDivElement).dataset.page
+
             if (page) {
-                let newPage = curPage;
+                let newPage = curPage
                 if (page == tokenPrevPage && curPage != 1) {
                     newPage--
                 } else if (page == tokenNextPage && curPage != numberOfPages) {
@@ -31,7 +31,7 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) 
                 } else if (0 < +page && +page <= numberOfPages) {
                     newPage = +page
                 }
-    
+
                 curPage != newPage && onChange(newPage, e, payload)
             }
         }
@@ -49,7 +49,7 @@ const getPageElement: GetPageElement = (page: number, { curPage, theme }) => (
 )
 
 function fillGap(start: number, end: number, result: JSX.Element[], props: MergedProps, isLastGap?: boolean) {
-    const { theme, separator } = props;
+    const { theme, separator } = props
 
     const elementToPush = (start - end) == 1
         ?   getPageElement(isLastGap ? start : end, props)
@@ -65,22 +65,22 @@ function getElementsRange(from: number, to: number, result: JSX.Element[], props
 }
 
 function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
-    const { theme, elementsByMiddle, elementsBySide, controlIcon, curPage, fixedWidth } = mergedProps;
-    
-    const middlePluseSide = elementsByMiddle + elementsBySide;
+    const { theme, elementsByMiddle, elementsBySide, controlIcon, curPage, fixedWidth } = mergedProps
+
+    const middlePluseSide = elementsByMiddle + elementsBySide
     const maxLength = middlePluseSide * 2 + 3
     const result: JSX.Element[] = []
-    
+
 
     if (maxLength > numberOfPages) getElementsRange(1, numberOfPages, result, mergedProps)
     else {
-        let from = curPage - elementsByMiddle;
+        let from = curPage - elementsByMiddle
         const minFrom = elementsBySide + 1
-        
-        let to = curPage + elementsByMiddle;
-        const maxTo = numberOfPages - elementsBySide;
-    
-        
+
+        let to = curPage + elementsByMiddle
+        const maxTo = numberOfPages - elementsBySide
+
+
         getElementsRange(1, elementsBySide, result, mergedProps)
 
 
@@ -106,7 +106,7 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
 
         getElementsRange(maxTo + 1, numberOfPages, result, mergedProps)
     }
-    
+
 
     return <>
         <div children={controlIcon} data-page={tokenPrevPage}
@@ -123,11 +123,11 @@ const Pagination: _Pagination = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Pagination.defaults, props, false)
         :   (props as MergedProps)
-    
-    const { listLength, showPerPage } = mergedProps;
+
+    const { listLength, showPerPage } = mergedProps
 
     const numberOfPages = Math.ceil(listLength / showPerPage) || 1
-    
+
 
     return (
         <div {...getPaginatorRootProps(mergedProps, numberOfPages)}
@@ -149,7 +149,7 @@ Pagination.defaults = {
     separator: '...',
     fixedWidth: true
 }
-Pagination.ID = componentID;
+Pagination.ID = componentID
 
 
 export { componentID }

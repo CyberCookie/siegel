@@ -35,7 +35,7 @@ const actions: Actions = {
                 }
             }))
 
-            state.received = dataToSend;
+            state.received = dataToSend
             setState(state)
         })
     },

@@ -58,7 +58,7 @@ type CreateRoutesWrapper = (
 
 
 const createRoutesWrapper: CreateRoutesWrapper = (routes, params) => {
-    const { Layout, isLazy, LazyFallback } = params;
+    const { Layout, isLazy, LazyFallback } = params
 
     let wrapper = <Switch children={routes} />
     isLazy && (wrapper = <Suspense fallback={LazyFallback || ''} children={wrapper} />)
@@ -67,7 +67,7 @@ const createRoutesWrapper: CreateRoutesWrapper = (routes, params) => {
         const LayoutWithRouter = withRouter(Layout)
         wrapper = <LayoutWithRouter children={wrapper} />
     }
-    
+
 
     return wrapper
 }
@@ -76,24 +76,24 @@ const createNotFoundRedirect = (path: string) => <Route path='*' children={ <Red
 
 const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
     const routes: JSX.Element[] | JSX.Element = []
-    let isLazy = false;
+    let isLazy = false
 
     for (const path in routeConfigs) {
         const {
             exact = true,
             Layout, beforeEnter, Page, LazyPage, LazyFallback, children, redirectTo, redirectUseParentBase
-        } = routeConfigs[path];
+        } = routeConfigs[path]
 
         const pathResult = `${urlPref}/${path}`
-        
+
         isExists(LazyPage) && (isLazy ||= true)
-        
-        
-        let _redirectTo = redirectTo;
+
+
+        let _redirectTo = redirectTo
         if (isExists(redirectTo)) {
             if (redirectUseParentBase) {
-                _redirectTo = urlPref;
-                redirectTo && (_redirectTo += `/` + redirectTo)
+                _redirectTo = urlPref
+                redirectTo && (_redirectTo += '/' + redirectTo)
             }
 
             (routes as JSX.Element[]).push(
@@ -105,7 +105,7 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
             const routeProps: RouteProps & { key?: string } = {
                 path: pathResult
             }
-            
+
 
             if (children) {
                 const { routes: childrenRoutes, isLazy: childrenIsLazy } = createRoutes(children, pathResult, notFound)
@@ -115,9 +115,9 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
                     isLazy, Layout, LazyFallback
                 })
             } else {
-                routeProps.exact = exact;
-                
-                const RouterPage = (Page || LazyPage)!;
+                routeProps.exact = exact
+
+                const RouterPage = (Page || LazyPage)!
                 beforeEnter
                     ?   routeProps.render = (props: RouteProps) => <RouterPage {...props} beforeEnter={beforeEnter(props)} />
                     :   routeProps.component = RouterPage
@@ -126,7 +126,7 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
             (routes as JSX.Element[]).push( <Route {...routeProps} /> )
         }
     }
-    
+
     notFound && urlPref && (routes as JSX.Element[]).push( createNotFoundRedirect(notFound.path) )
 
 
@@ -150,7 +150,7 @@ const createRouter: CreateRouter = ({ children, Layout, LazyFallback, notFound, 
         isLazy, Layout, LazyFallback
     })
 
-    
+
     return <Router history={history || createBrowserHistory()} children={routerContent} />
 }
 

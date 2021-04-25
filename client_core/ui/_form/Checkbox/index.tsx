@@ -20,7 +20,7 @@ const _onChange = (e: React.ChangeEvent) => {
 }
 
 function modifyRootProps(rootProps: CheckboxInputProps, mergedProps: MergedProps, isCheckboxElement?: boolean) {
-    const { disabled, onChange, value, payload, className, attributes, checkboxAttributes, refApi, theme } = mergedProps;
+    const { disabled, onChange, value, payload, className, attributes, checkboxAttributes, refApi, theme } = mergedProps
 
     let modClass = value ? theme._checked : ''
 
@@ -32,7 +32,7 @@ function modifyRootProps(rootProps: CheckboxInputProps, mergedProps: MergedProps
     rootProps.className += ` ${className} ${modClass}`
     refApi && applyRefApi(rootProps, mergedProps)
 
-    const attributesToMerge = isCheckboxElement ? checkboxAttributes : attributes;
+    const attributesToMerge = isCheckboxElement ? checkboxAttributes : attributes
     attributesToMerge && Object.assign(rootProps, attributes)
 }
 
@@ -41,7 +41,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
         ?   extractProps(Checkbox.defaults, props, false)
         :   (props as MergedProps)
 
-    const { theme, onChange, label, value, disabled, icon } = mergedProps;
+    const { theme, onChange, label, value, disabled, icon } = mergedProps
 
     const withLabel = isE(label)
 
@@ -57,12 +57,12 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     onChange || (checkboxInputProps.readOnly = true)
 
     let CheckboxElement = <input {...checkboxInputProps} />
-    
+
 
     if (icon) {
         const iconWrapperProps = { className: theme.with_icon_wrapper }
         withLabel || modifyRootProps(iconWrapperProps, mergedProps)
-         
+
         CheckboxElement = (
             <div {...iconWrapperProps}>
                 { CheckboxElement }
@@ -91,10 +91,10 @@ Checkbox.defaults = {
         _checked: componentID + '__checked',
         _disabled: componentID + '__disabled'
     },
-    
+
     value: false
 }
-Checkbox.ID = componentID;
+Checkbox.ID = componentID
 
 
 export { componentID }

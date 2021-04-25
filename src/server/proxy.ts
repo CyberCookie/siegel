@@ -3,7 +3,7 @@ const querystring   = require('querystring')
 
 
 const proxy = (port: any, host: any) => (clientReq: any, clientRes: any) => {
-    const { path, method, headers, query } = clientReq;
+    const { path, method, headers, query } = clientReq
 
     const options = {
         method, headers, host, port,
@@ -18,7 +18,7 @@ const proxy = (port: any, host: any) => (clientReq: any, clientRes: any) => {
             console.error(path, proxyRes.statusCode)
             proxyRes.resume()
         }
-        
+
         clientRes.writeHead(proxyRes.statusCode, proxyRes.headers)
 
         proxyRes.pipe(clientRes, { end: true })
@@ -30,5 +30,5 @@ const proxy = (port: any, host: any) => (clientReq: any, clientRes: any) => {
 }
 
 
-module.exports = proxy;
+module.exports = proxy
 export {}

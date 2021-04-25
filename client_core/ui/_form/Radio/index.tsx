@@ -7,13 +7,13 @@ import type { _Radio, Option, MergedProps } from './types'
 const componentID = '-ui-radio'
 
 function getOptions(mergedProps: MergedProps) {
-    const { options, theme, onChange, multiple, selected, disabled } = mergedProps;
+    const { options, theme, onChange, multiple, selected, disabled } = mergedProps
 
 
     return options.map((option: Option) => {
-        const { id, content, className } = option;
+        const { id, content, className } = option
 
-        let optionClassName = theme.option;
+        let optionClassName = theme.option
         className && (optionClassName += ` ${className}`)
 
         if ((multiple && (selected as Set<ID>).has(id)) || (!multiple && selected == id)) {
@@ -33,9 +33,9 @@ const Radio: _Radio = (props, noDefaults) => {
         ?   extractProps(Radio.defaults, props, false)
         :   (props as MergedProps)
 
-    const { disabled, theme, attributes, refApi } = mergedProps;
+    const { disabled, theme, attributes, refApi } = mergedProps
 
-    
+
     const rootProps = {
         className: mergedProps.className,
         children: getOptions(mergedProps)
@@ -55,7 +55,7 @@ Radio.defaults = {
         _disabled: componentID + '__disabled'
     }
 }
-Radio.ID = componentID;
+Radio.ID = componentID
 
 
 export { componentID }

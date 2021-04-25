@@ -6,21 +6,21 @@ import { extractProps, applyRefApi } from '../ui_utils'
 import type { MergedProps, _Tabs } from './types'
 
 
-const componentID = `-ui-tabs`
+const componentID = '-ui-tabs'
 
 function getTabsVisual(mergedProps: MergedProps) {
-    const { tabs, activeTab, onChange, theme } = mergedProps;
+    const { tabs, activeTab, onChange, theme } = mergedProps
 
-    let activeTabContent: React.ReactNode; 
+    let activeTabContent: React.ReactNode
     const labels = tabs.map(tab => {
-        const { label, id, payload, content } = tab;
+        const { label, id, payload, content } = tab
 
-        let labelClassName = theme.label;
+        let labelClassName = theme.label
         if (activeTab == id) {
             labelClassName += ` ${theme.label__active}`
             activeTabContent = content
         }
-    
+
         return (
             <div key={id} className={labelClassName} children={label}
                 onMouseDown={e => { onChange(id, e, payload) }} />
@@ -35,8 +35,8 @@ function getTabsVisual(mergedProps: MergedProps) {
 }
 
 function getTabRootProps(mergedProps: MergedProps, activeTabContent: React.ReactNode) {
-    const { theme, attributes } = mergedProps;
-    let className = mergedProps.className;
+    const { theme, attributes } = mergedProps
+    let className = mergedProps.className
 
     activeTabContent || (className += ` ${theme.content__empty}`)
 
@@ -53,9 +53,9 @@ const Tabs: _Tabs = (props, noDefaults) => {
         ?   extractProps(Tabs.defaults, props, false)
         :   (props as MergedProps)
 
-    
+
     const { activeTabContent, labels } = getTabsVisual(mergedProps)
-    
+
 
     return (
         <div {...getTabRootProps(mergedProps, activeTabContent)}>
@@ -74,7 +74,7 @@ Tabs.defaults = {
         content__empty: componentID + '_content__empty'
     }
 }
-Tabs.ID = componentID;
+Tabs.ID = componentID
 
 
 export { componentID }

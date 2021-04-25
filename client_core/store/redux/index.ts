@@ -13,15 +13,15 @@ export default (appReducers, options = {}) => {
             :   []
 
     if (options.RootReducer) {
-        const appReducerTemp = allReducers;
-        const appReducerWrapper = options.RootReducer;
+        const appReducerTemp = allReducers
+        const appReducerWrapper = options.RootReducer
 
         allReducers = (state, action) => appReducerTemp(
             appReducerWrapper(state, action),
             action
         )
     }
-    
+
     const store = (initialState => createStore(
         allReducers,
         initialState,

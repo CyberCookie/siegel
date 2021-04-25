@@ -16,7 +16,7 @@ type SwitchSlide = (nextPage: number) => void
 const componentID = '-ui-slider'
 
 function getSliderRootProps(mergedProps: MergedProps) {
-    const { className, attributes, refApi } = mergedProps;
+    const { className, attributes, refApi } = mergedProps
     let result = {
         className,
         ref: (useRef() as React.MutableRefObject<HTMLDivElement>)
@@ -29,14 +29,14 @@ function getSliderRootProps(mergedProps: MergedProps) {
 }
 
 function getSliderVisuals(mergedProps: MergedProps, switchSlide: SwitchSlide, curSlide: number) {
-    const { withControlls, theme, swipeDelta, slides, loop } = mergedProps;
+    const { withControlls, theme, swipeDelta, slides, loop } = mergedProps
 
     const controlls = []
     const slidePages = []
-    const slidesLength = slides.length;
-    
+    const slidesLength = slides.length
+
     function onSlideSwipe(isNext: boolean) {
-        let nextPage, next;
+        let nextPage, next
         if (isNext) {
             next = curSlide + 1
             nextPage = next < slidesLength
@@ -58,22 +58,22 @@ function getSliderVisuals(mergedProps: MergedProps, switchSlide: SwitchSlide, cu
             <div key={i} className={`${theme.control} ${i == curSlide ? theme.control__active : ''}`}
                 data-page={i} />
         )
-        
-        let className = theme.slide;
+
+        let className = theme.slide
         i == curSlide && (className += ` ${theme.slide__active}`)
 
         slidePages.push( <div className={className} key={i} children={slides[i]} /> )
     }
-    
+
 
     return {
         pageControlls: withControlls && (
             <div className={theme.controls_wrapper} children={controlls} onMouseDown={e => {
-                const nextPage = (e.target as HTMLDivElement).dataset.page;
+                const nextPage = (e.target as HTMLDivElement).dataset.page
                 nextPage && switchSlide(+nextPage)
             }} />
         ),
-        
+
         slidePages: (
             <Swipe children={slidePages} className={theme.slides_wrapper} xAxis
                 deltaPos={swipeDelta}
@@ -93,8 +93,8 @@ const Slider: _Slider = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Slider.defaults, props, false)
         :   (props as MergedProps)
-    
-    const { withControlls, store } = mergedProps;
+
+    const { withControlls, store } = mergedProps
 
     const [ curSlide, setSlide ] = store || useState(0)
 
@@ -105,18 +105,18 @@ const Slider: _Slider = (props, noDefaults) => {
         // Hack since React triggers useEffect before childs mount
         curSlide && setTimeout(() => { switchSlide(curSlide) })
     }, [])
-    
+
 
     const switchSlide: SwitchSlide = nextPage => {
         const { slideArea, firstSlidePage } = getSlideElements(sliderRootProps.ref.current.childNodes, withControlls)
         const offset = (nextPage * -firstSlidePage.offsetWidth) + 'px'
 
         slideArea.style.setProperty('--offset_left', offset)
-        slideArea.style.marginLeft = offset;
+        slideArea.style.marginLeft = offset
 
         setSlide(nextPage)
     }
-    
+
 
     const { pageControlls, slidePages } = getSliderVisuals(mergedProps, switchSlide, curSlide)
 
@@ -144,7 +144,7 @@ Slider.defaults = {
 
     swipeDelta: 30
 }
-Slider.ID = componentID;
+Slider.ID = componentID
 
 
 export { componentID }

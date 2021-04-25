@@ -20,12 +20,12 @@ const updateThemeWithInputFieldTheme =
 // <T extends Partial<Props['theme']>>
 <T extends PropsComponentThemed['theme']>
 (theme: T, componentID: ID) => {
-    
+
     inputFieldThemeKeys.forEach(key => {
         (theme as Indexable)[key] = componentID + '_' + key
     })
 
-    return theme as T & IndexObjectKeys<InputFieldThemeKeysArray[number], string>
+    return theme as T & Record<InputFieldThemeKeysArray[number], string>
 }
 
 //[email, password, search, tel, text, url, (textarea)]
@@ -33,16 +33,16 @@ const Input: _Input = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Input.defaults, props, false)
         :   (props as MergedProps)
-    
+
     const {
         theme, label, value, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
         onChange, onFocus, payload, inputStore, autofocus, placeholder, regexp, mask, refApi
-    } = mergedProps;
-    
+    } = mergedProps
+
     const store = inputStore || useState(getDefaultInputStoreState())
-    const [ state, setState ] = store;
-    const { isFocused, isTouched } = state;
-    
+    const [ state, setState ] = store
+    const { isFocused, isTouched } = state
+
 
     const inputProps: NonNullable<Props['inputAttributes']> = {
         disabled, value, placeholder,
@@ -50,41 +50,41 @@ const Input: _Input = (props, noDefaults) => {
     }
     if (autofocus || mask) {
         inputProps.ref = useRef<HTMLInputElement>(null)
-        
+
         autofocus && useEffect(() => {
             if (!disabled && onChange) {
                 (inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
             }
         }, [ disabled, onChange ])
     }
-    
-    
-    let className = mergedProps.className;
+
+
+    let className = mergedProps.className
     errorMsg && (className += ` ${theme._error}`)
     ;(value || mask?.pattern) && (className += ` ${theme._filled}`)
     isFocused && (className += ` ${theme._focused}`)
     isTouched && (className += ` ${theme._touched}`)
-    
+
     const inputRootProps: Props['attributes'] = {
         className,
         onBlur(e) {
             if (!isTouched || isFocused) {
-                state.isTouched ||= true;
-                state.isFocused &&= false;
-    
+                state.isTouched ||= true
+                state.isFocused &&= false
+
                 onBlur && onBlur(e)
                 setState({ ...state })
             }
         }
     }
-    
+
 
     if (disabled) inputRootProps.className += ` ${theme._disabled}`
     else if (onChange) {
         inputRootProps.onFocus = e => {
             if (!isFocused) {
-                state.isFocused = true;
-                
+                state.isFocused = true
+
                 onFocus && onFocus(e)
                 setState({ ...state })
             }
@@ -98,8 +98,8 @@ const Input: _Input = (props, noDefaults) => {
         inputRootProps.className += ` ${theme._readonly}`
         inputProps.readOnly = true
     }
-    
-    
+
+
     let InputTag = 'input'
     if (type) {
         if (type == 'textarea') {
@@ -107,7 +107,7 @@ const Input: _Input = (props, noDefaults) => {
             inputRootProps.className += ` ${theme.textarea}`
         } else inputProps.type = type
     }
-    
+
     refApi && (applyRefApi(inputRootProps, mergedProps))
     attributes && Object.assign(inputRootProps, attributes)
     inputAttributes && Object.assign(inputProps, inputAttributes)
@@ -127,7 +127,7 @@ const Input: _Input = (props, noDefaults) => {
             { inputElement }
 
             { addChildren(inputRootProps, theme) }
-            
+
             { errorMsg && <div className={theme.error_text} children={errorMsg} /> }
         </div>
     )
@@ -139,7 +139,7 @@ Input.defaults = {
         textarea: componentID + '_textarea'
     }, componentID)
 }
-Input.ID = componentID;
+Input.ID = componentID
 
 
 export { componentID, getDefaultInputStoreState, updateThemeWithInputFieldTheme }

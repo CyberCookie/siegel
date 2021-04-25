@@ -61,7 +61,7 @@ const Demo = () => {
         <Table {...props} />
     </>
 }
-Demo.id = Table.ID;
+Demo.id = Table.ID
 
 
 export default Demo

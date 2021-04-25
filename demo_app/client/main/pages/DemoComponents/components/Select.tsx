@@ -45,7 +45,7 @@ const Demo = () => {
         <Select {...props} disabled />
     </>
 }
-Demo.id = Select.ID;
+Demo.id = Select.ID
 
 
 export default Demo

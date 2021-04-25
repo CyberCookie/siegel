@@ -30,7 +30,7 @@ const routesConfig: RouterConfig & BreadcrumbConfig = {
         crumb: 'Home',
         LazyPage: lazy(() => import('app/pages/Home'))
     },
-    
+
     [pagePathMap.demo_components]: {
         beforeEnter() {
             seo({
@@ -42,7 +42,7 @@ const routesConfig: RouterConfig & BreadcrumbConfig = {
         crumb: 'Demo coponents',
         LazyPage: lazy(() => import('app/pages/DemoComponents'))
     },
-    
+
     [pagePathMap.demo_api]: {
         beforeEnter() {
             seo({

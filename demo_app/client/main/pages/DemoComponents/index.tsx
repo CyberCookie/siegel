@@ -14,7 +14,7 @@ type SidebarItemProps = {
     className?: string
 }
 
-const _demoComponents: Indexable = demoComponents;
+const _demoComponents: Indexable = demoComponents
 
 const hashParam = 'active'
 
@@ -29,12 +29,12 @@ const DemoPage = () => {
             key: component,
             children: _demoComponents[component].id,
             onMouseDown() {
-                updateURLQuery(history, hashParam, component) 
+                updateURLQuery(history, hashParam, component)
                 setActive(component)
             }
         }
         component == active && (props.className = styles.active)
-        
+
         componentsList.push( <div {...props} /> )
     }
 

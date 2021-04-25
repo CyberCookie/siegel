@@ -40,14 +40,14 @@ function getWeekDaysShifted(weekStartsFrom: MergedProps['weekStartsFrom'], weekD
 
 function switchMonth(value: number, store: Store, e: React.MouseEvent) {
     e.stopPropagation()
-    
-    const [ state, setState ] = store;
+
+    const [ state, setState ] = store
     state.beginOfMonth.setMonth(state.beginOfMonth.getMonth() + value)
     setState({ ...state })
 }
 
 function getWeekDayRow(localeWeek: string[], theme: DefaultProps['theme']) {
-    const getWeekDay = (day: string) => <div className={theme.week_day} key={day} children={day} /> 
+    const getWeekDay = (day: string) => <div className={theme.week_day} key={day} children={day} />
 
     return <div className={`${theme.week} ${innerWeekClassName}`} children={localeWeek.map(getWeekDay)} />
 }
@@ -57,15 +57,15 @@ function getCalendarVisuals(
     store: Store,
     pickRangeStart: (e: React.MouseEvent) => void
 ) {
-    const { prevIcon, nextIcon, noControls, theme, monthsBefore, monthsAfter, weekStartsFrom, strings } = mergedProps;
+    const { prevIcon, nextIcon, noControls, theme, monthsBefore, monthsAfter, weekStartsFrom, strings } = mergedProps
     const state = store[0]
 
 
     const weekDayNames = weekStartsFrom
         ?   getWeekDaysShifted(weekStartsFrom, strings.weekDaysShort)
-        :   strings.weekDaysShort;
+        :   strings.weekDaysShort
     const weekdaysRow = getWeekDayRow(weekDayNames, theme)
-    
+
     const iconPrev = noControls || (
         <div className={theme.icon} onMouseDown={e => switchMonth(-1, store, e)}
             children={prevIcon} />
@@ -76,11 +76,11 @@ function getCalendarVisuals(
     )
 
     const start = new Date(state.beginOfMonth)
-    
+
     const months = []
     for (let i = 0, l = monthsBefore + monthsAfter + 1; i < l; i++) {
         const month = start.getMonth()
-        
+
         months.push(
             <div key={i} className={theme.month_wrapper}>
                 <div className={`${theme.month_title_wrapper} ${innerMonthTitleWrapperClassName}`}>
@@ -117,9 +117,9 @@ const Calendar: _Calendar = (props, noDefaults) => {
     const {
         initDate, monthsBefore, payload, onChange, triggerOnlyWhenFinished, rangePick, refApi,
         attributes
-    } = mergedProps;
-    
-    const { rangeDateStart, rangeDateEnd } = initDate;
+    } = mergedProps
+
+    const { rangeDateStart, rangeDateEnd } = initDate
 
     const store = useState({
         innerRangeStart: rangeDateStart,
@@ -128,7 +128,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
         anchor: 0,
         beginOfMonth: getBeginOfMonth(rangeDateStart, monthsBefore)
     })
-    const [ state, setState ] = store;
+    const [ state, setState ] = store
 
     const ref = useRef<HTMLDivElement>(null)
 
@@ -136,7 +136,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
     function pickRangeStart(e: React.MouseEvent) {
         e.stopPropagation()
 
-        const rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp!;
+        const rangeDateStart = +(e.target as HTMLDivElement).dataset.timestamp!
         if (rangeDateStart) {
             if (rangePick) {
                 ref.current!.addEventListener('mouseup', pickRangeFinish)
@@ -144,16 +144,16 @@ const Calendar: _Calendar = (props, noDefaults) => {
             }
 
             const date = new Date(rangeDateStart)
-            const rangeDateEnd = date.setDate(date.getDate() + 1) - 1;
-            
-            state.innerRangeEnd = rangeDateEnd;
-            state.innerRangeStart = rangeDateStart;
-            state.inProgress = rangePick as boolean;
-            state.anchor = rangeDateStart;
+            const rangeDateEnd = date.setDate(date.getDate() + 1) - 1
+
+            state.innerRangeEnd = rangeDateEnd
+            state.innerRangeStart = rangeDateStart
+            state.inProgress = rangePick as boolean
+            state.anchor = rangeDateStart
 
             setState({ ...state })
 
-            const isSinglePick = !rangePick;
+            const isSinglePick = !rangePick
             if (onChange && (isSinglePick || (rangePick && !triggerOnlyWhenFinished))) {
                 onChange({ rangeDateStart, rangeDateEnd }, isSinglePick, payload)
             }
@@ -162,11 +162,11 @@ const Calendar: _Calendar = (props, noDefaults) => {
 
     function pickRangeProgress(e: MouseEvent) {
         e.stopPropagation()
-        const timestamp = +(e.target as HTMLDivElement).dataset.timestamp!;
+        const timestamp = +(e.target as HTMLDivElement).dataset.timestamp!
 
         if (timestamp) {
-            const anchor = state.anchor;
-            let date: Date;
+            const anchor = state.anchor
+            let date: Date
             if (timestamp >= anchor) {
                 date = new Date(timestamp)
                 state.innerRangeStart = anchor
@@ -174,7 +174,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
                 date = new Date(anchor)
                 state.innerRangeStart = timestamp
             }
-            state.innerRangeEnd = date!.setDate(date!.getDate() + 1) - 1;
+            state.innerRangeEnd = date!.setDate(date!.getDate() + 1) - 1
 
             setState({ ...state })
             onChange && !triggerOnlyWhenFinished && onChange({
@@ -188,16 +188,16 @@ const Calendar: _Calendar = (props, noDefaults) => {
         e.stopPropagation()
         ref.current!.removeEventListener('mouseup', pickRangeFinish)
         ref.current!.removeEventListener('mouseover', pickRangeProgress)
-                
-        state.inProgress = false;
-        
+
+        state.inProgress = false
+
         onChange && onChange({
             rangeDateStart: state.innerRangeStart,
             rangeDateEnd: state.innerRangeEnd
         }, true, payload)
     }
 
-    
+
     const rootAttributes = {
         className: `${mergedProps.className} ${innerRootClassName}`,
         children: getCalendarVisuals(mergedProps, store, pickRangeStart),
@@ -240,7 +240,7 @@ Calendar.defaults = {
     monthsBefore: 0,
     monthsAfter: 0
 }
-Calendar.ID = componentID;
+Calendar.ID = componentID
 
 
 export { componentID }

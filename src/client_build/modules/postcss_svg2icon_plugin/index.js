@@ -26,35 +26,35 @@ function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
     const unresolved = []
 
 
-    let rootDecl;
+    let rootDecl
     let i = 0
     postCssRoot.walkDecls(decl => {
-        const { prop, value } = decl;
+        const { prop, value } = decl
 
         if (prop == 'font-icon-dest') {
-            rootDecl = decl;
+            rootDecl = decl
             result.rootValue = getUnresolvedIconPath(value)
         } else if (prop == 'font-icon') {
             const unresolvedValue = getUnresolvedIconPath(value)
             const absolutePath = posix.join(context, unresolvedValue)
 
 
-            cssValueToAbsolutePath[value] = absolutePath;
+            cssValueToAbsolutePath[value] = absolutePath
 
             if (!absolutePathsIndex[absolutePath]) {
-                absolutePathsIndex[absolutePath] = ++i;
-                
+                absolutePathsIndex[absolutePath] = ++i
+
                 unresolved.push(unresolvedValue)
                 result.absolute.push(absolutePath)
             }
-            
+
             const iconIndex = (absolutePathsIndex[absolutePath] - 1).toString(16)
             decl.prop = 'content'
             decl.value = '\'\\e' + '0'.repeat(Math.max(0, 3 - iconIndex.length)) + iconIndex + '\''
         }
     })
 
-    
+
     if (result.absolute.length && rootDecl) {
         const checkSum = crypto
             .createHash('md5')
@@ -62,8 +62,8 @@ function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
             .digest('hex')
 
         result.fontName = `${fontNamePrefix}Iconfont_${checkSum}`
-    
-        cssPropValueMap['font-family'] = result.fontName;
+
+        cssPropValueMap['font-family'] = result.fontName
         for (let prop in cssPropValueMap) {
             const value = cssPropValueMap[prop]
             rootDecl.cloneBefore({ prop, value })
@@ -80,12 +80,12 @@ function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
 //         svgs: svgPaths.absolute,
 //         name: fontName
 //     }
-    
+
 //     const iconFontLoaderPath = posix.join(__dirname, 'loader.js')
 //     const iconFontPlaceholderPath = posix.join(__dirname, 'placeholder.svg')
-    
+
 //     // Use !! to tell webpack that we don't want any other loader to kick in
-    
+
 //     const loaderResult = '!!' + iconFontLoaderPath + '?' + JSON.stringify(options) + '!~' + iconFontPlaceholderPath;
 //     postCssRoot.prepend(postcss.parse(
 //         '@font-face { ' +
@@ -112,7 +112,7 @@ const addFontDeclaration = ({ postCssRoot, extractedData, isWoff2 }) => iconToFo
 })
 
 const plugin = ({ fontNamePrefix, isWoff2 }) => (postCssRoot, result) => {
-    if (!result || !result.opts || !result.opts.from) return;
+    if (!result || !result.opts || !result.opts.from) return
 
     const extractedData = processFontIconCSSProps(postCssRoot, dirname(result.opts.from), fontNamePrefix)
     return extractedData ? addFontDeclaration({ postCssRoot, extractedData, isWoff2 }) : false

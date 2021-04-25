@@ -16,7 +16,7 @@ const Clocks: _Clocks = (props, noDefaults) => {
 
     const [ date, setDate ] = useState(initDate ? new Date(initDate) : new Date())
 
-    
+
     useLayoutEffect(() => {
         const isNotNormalSpeed = speedCoef != 1
 
@@ -27,25 +27,25 @@ const Clocks: _Clocks = (props, noDefaults) => {
 
             setDate(newDate)
         }
-        
-        const msInIncrementValue = incrementEveryMinute ? msIn.minute : msIn.second;
+
+        const msInIncrementValue = incrementEveryMinute ? msIn.minute : msIn.second
 
         let deltaToFirstTick = msInIncrementValue - date.getMilliseconds()
         incrementEveryMinute && (deltaToFirstTick -= (date.getSeconds() * msIn.second))
-        
-        let updateInterval = msInIncrementValue;
+
+        let updateInterval = msInIncrementValue
         if (isNotNormalSpeed) {
-            deltaToFirstTick /= speedCoef;
+            deltaToFirstTick /= speedCoef
             updateInterval /= speedCoef
         }
 
 
-        let intervalID: number;
+        let intervalID: number
         const deltaToFirstTickTimeoutID = setTimeout(() => {
             tick()
             intervalID = (setInterval as typeof window.setInterval)(tick, updateInterval)
         }, deltaToFirstTick)
-        
+
 
         return () => {
             clearTimeout(deltaToFirstTickTimeoutID)
@@ -61,7 +61,7 @@ Clocks.defaults = {
     incrementEveryMinute: true,
     zeroing: true
 }
-Clocks.ID = componentID;
+Clocks.ID = componentID
 
 
 export { componentID }

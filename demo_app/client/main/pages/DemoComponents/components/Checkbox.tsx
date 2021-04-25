@@ -29,7 +29,7 @@ const Demo = () => {
         <Checkbox {...props} disabled />
     </>
 }
-Demo.id = Checkbox.ID;
+Demo.id = Checkbox.ID
 
 
 export default Demo

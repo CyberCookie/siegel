@@ -25,7 +25,7 @@ function bindStateKeys(state, keys, storeName) {
 
 const bindState = (keys, propName, singleStoreName) => state => {
     let result = {}
-        
+
     if (singleStoreName) {
         result = bindStateKeys(state, keys, singleStoreName)
     } else {
@@ -38,8 +38,8 @@ const bindState = (keys, propName, singleStoreName) => state => {
 }
 
 function connector({ stateBinding, actionsBinding, areStatePropsEqual, reduxOptions, options = {} }) {
-    let _keys, _actions;
-    const mergeFunc = options.mergeFunc || null;
+    let _keys, _actions
+    const mergeFunc = options.mergeFunc || null
 
     if (areStatePropsEqual && !reduxOptions) {
         reduxOptions = {
@@ -49,7 +49,7 @@ function connector({ stateBinding, actionsBinding, areStatePropsEqual, reduxOpti
     }
 
     if (typeof stateBinding == 'object') {
-        const storePropKey = DEFAULT_STORE_PROP_KEY || options.storePropKey;
+        const storePropKey = DEFAULT_STORE_PROP_KEY || options.storePropKey
         const storesToMap = Object.keys(stateBinding)
         const singleStoreName = storesToMap.length == 1 && storesToMap[0]
 
@@ -57,7 +57,7 @@ function connector({ stateBinding, actionsBinding, areStatePropsEqual, reduxOpti
     }
 
     if (typeof actionsBinding == 'object') {
-        const actionsPropKey = DEFAULT_ACTIONS_PROP_KEY || options.actionsPropKey;
+        const actionsPropKey = DEFAULT_ACTIONS_PROP_KEY || options.actionsPropKey
         _actions = bindActions(actionsBinding, actionsPropKey)
     }
 

@@ -27,7 +27,7 @@ const Demo = () => {
         <Pagination {...props} elementsByMiddle={2} elementsBySide={3} fixedWidth={false} />
     </>
 }
-Demo.id = Pagination.ID;
+Demo.id = Pagination.ID
 
 
 export default Demo

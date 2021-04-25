@@ -19,7 +19,7 @@ const spinner = (
 const componentID = '-ui-spinner'
 
 const Spinner = (props: any) => {
-    const { className = '' } = props;
+    const { className = '' } = props
 
 
     return <div className={`${className} ${componentID}`} children={spinner} />

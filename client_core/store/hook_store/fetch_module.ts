@@ -40,7 +40,7 @@ const actions: Actions = {
 
         setState(state)
     },
-    
+
     removeFromReqQueue({ state, setState }, url) {
         if (state.requests[url]) {
             decrementRequests(state, url)
@@ -52,7 +52,7 @@ const actions: Actions = {
         res.date = Date.now()
         decrementRequests(state, url)
 
-        state.lastError = res;
+        state.lastError = res
 
         state.errRes[url]
             ?   state.errRes[url].push(res)
@@ -73,7 +73,7 @@ const actions: Actions = {
 
     getLastErrorMsgByURL(store, url) {
         const errorsById = store.state.errRes[url]
-        
+
         return errorsById && errorsById.length
             ?   errorsById[errorsById.length - 1].message
             :   ''

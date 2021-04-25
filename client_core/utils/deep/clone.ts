@@ -6,9 +6,9 @@
  * @returns Clonned object
  */
 function deepClone<T>(obj: T): T {
-    if (typeof obj !== 'object') return obj;
+    if (typeof obj !== 'object') return obj
 
-    let result: Indexable;
+    let result: Indexable
     if (Array.isArray(obj)) {
         result = []
         for (let i = 0, l = obj.length; i < l; i++) {

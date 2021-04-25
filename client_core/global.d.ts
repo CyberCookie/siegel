@@ -11,10 +11,6 @@ type Indexable<V = any> = {
     [key: string]: V
 }
 
-type IndexObjectKeys<K extends string, V = any> = {
-    [key in K]: V
-}
-
 type IndexObject<T, V = any> = {
     [key in keyof T]: V
 }

@@ -41,7 +41,7 @@ const Demo = () => {
         <div className={styles.clocks} children={secondsFastClocksChild} />
     </>
 }
-Demo.id = Clocks.ID;
+Demo.id = Clocks.ID
 
 
 export default Demo

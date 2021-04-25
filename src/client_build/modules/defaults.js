@@ -1,4 +1,4 @@
-const resolve = require.resolve;
+const resolve = require.resolve
 
 const {
     loadersKeyMap, webpackModulesRegExp,
@@ -16,8 +16,8 @@ const {
 
 
 module.exports = (CONFIG, RUN_PARAMS) => {
-    const { sassResources, include, exclude } = CONFIG.build.input;
-    const { isProd, isServer } = RUN_PARAMS;
+    const { sassResources, include, exclude } = CONFIG.build.input
+    const { isProd, isServer } = RUN_PARAMS
 
 
     const defaults = {

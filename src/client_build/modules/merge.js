@@ -1,21 +1,21 @@
 function mergeLoaders(userLoader, defaultLoader) {
-    if (!userLoader) return defaultLoader;
-    if (typeof userLoader == 'string' || !defaultLoader) return userLoader;
+    if (!userLoader) return defaultLoader
+    if (typeof userLoader == 'string' || !defaultLoader) return userLoader
 
-    let result;
+    let result
 
     const {
         enabled: deafultEnabled = true,
         options: defaultOptions,
         loader: _defaultLoader,
         additionalLoaderOptions: deafultAdditionalLoaderOptions = {}
-    } = defaultLoader;
+    } = defaultLoader
     const {
         enabled = deafultEnabled,
         options = defaultOptions,
         loader = _defaultLoader,
         additionalLoaderOptions = deafultAdditionalLoaderOptions
-    } = userLoader;
+    } = userLoader
 
     enabled && (result = {
         loader,
@@ -44,7 +44,7 @@ module.exports = (defaultModules, userModules = {}) => {
             mergedLoaders && use.push(mergedLoaders)
         })
 
-        
+
         result.rules.push({
             test: new RegExp(`\\.${regExpPart}$`),
             use,
@@ -55,7 +55,7 @@ module.exports = (defaultModules, userModules = {}) => {
     function addWithoutMerge(modules, regExpPart) {
         const moduleConfig = modules[regExpPart]
         if (moduleConfig) {
-            const { ruleOptions = {}, enabled = true, loaders, loaderOrder } = moduleConfig;
+            const { ruleOptions = {}, enabled = true, loaders, loaderOrder } = moduleConfig
             enabled && addRule(regExpPart, loaders, loaderOrder, ruleOptions)
         }
     }
@@ -67,7 +67,7 @@ module.exports = (defaultModules, userModules = {}) => {
             const userModule = userModules[regExpPart]
             if (userModule) {
 
-                const { ruleOptions, enabled = true, loaders, loaderOrder } = userModule;
+                const { ruleOptions, enabled = true, loaders, loaderOrder } = userModule
                 if (enabled) {
                     const {
                         ruleOptions: defaultRuleOptions = {},
@@ -75,18 +75,18 @@ module.exports = (defaultModules, userModules = {}) => {
                         loaderOrder: defaultLoaderOrder
                     } = defaultModules[regExpPart]
 
-                    
+
                     const finalRuleOptions = typeof ruleOptions == 'function'
                         ?   ruleOptions(defaultRuleOptions)
                         :   Object.assign({}, defaultRuleOptions, ruleOptions)
-                    
+
                     const finalLoadersOrder = loaderOrder
                         ?   typeof loaderOrder == 'function'
                             ?   loaderOrder(defaultLoaderOrder)
                             :   loaderOrder
                         :   defaultLoaderOrder
-                    
-                    
+
+
                     addRule(regExpPart, loaders, finalLoadersOrder, finalRuleOptions, defaultLoaders)
                 }
             }

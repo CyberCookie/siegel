@@ -10,10 +10,10 @@ function useDidUpdate(
     const state = useState({ rendered: false })[0]
     useLayoutEffect(() => {
         let retFn: ReturnType<EffectCB>
-        
+
         if (state.rendered) retFn = fn() as ReturnType<EffectCB>
-        else state.rendered = true;
- 
+        else state.rendered = true
+
         if (retFn) return retFn
     }, dependencies)
 }

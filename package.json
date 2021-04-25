@@ -30,7 +30,7 @@
         "access": "public"
     },
     "engines": {
-        "node": ">= 12.0.0"
+        "node": ">= 12.x"
     },
     "config": {
         "index": "demo_app/server/ts_entry.js"
@@ -48,7 +48,7 @@
         "serv:prod": "npm run serv -- -p",
         "deploy": "npm ci && npx siegel install-peers && npm run build_serv:prod",
         "pm2": "npx pm2 start $npm_package_config_index -- -s -p",
-        "validate": "npx tsc || npx eslint .eslintrc",
+        "validate": "npx tsc && npx eslint .",
         "debug": "node --inspect $npm_package_config_index -- -b -s",
         "with_args": "node $npm_package_config_index"
     },

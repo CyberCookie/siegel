@@ -11,7 +11,7 @@ type LookupFn = (elem: any) => boolean
  * @returns desired object by `fn` condition or undefined
 */
 function deepFind
-<K extends string, T extends IndexObjectKeys<K, T[]>>
+<K extends string, T extends Record<K, T[]>>
 (fn: LookupFn, obj: T, key: K): T | void {
 
     const seekIn = obj[key]
@@ -19,7 +19,7 @@ function deepFind
     for (let i = 0, l = seekIn.length; i < l; i++) {
         const elem = seekIn[i]
 
-        if (fn(elem)) return elem;
+        if (fn(elem)) return elem
 
         if (Array.isArray(elem[key])) {
             const result = deepFind(fn, elem, key)

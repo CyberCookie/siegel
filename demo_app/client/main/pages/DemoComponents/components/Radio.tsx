@@ -28,7 +28,7 @@ const Demo = () => {
             selectedMultiple.selected.has(value)
                 ?   selectedMultiple.selected.delete(value)
                 :   selectedMultiple.selected.add(value)
-            
+
             setSelectedMultiple({ ...selectedMultiple })
         }
     }
@@ -47,7 +47,7 @@ const Demo = () => {
         <Radio {...props} disabled />
     </>
 }
-Demo.id = Radio.ID;
+Demo.id = Radio.ID
 
 
 export default Demo

@@ -15,13 +15,13 @@ const Toggle: _Toggle = (props, noDefaults) => {
     const {
         theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes,
         payload, disabled, className, refApi
-    } = mergedProps;
-    
-        
+    } = mergedProps
+
+
     let toggleRootProps: Props['attributes'] = { className }
 
     isToggled && (toggleRootProps.className += ` ${theme._toggled}`)
-    
+
     if (disabled) {
         toggleRootProps.className += ` ${theme._disabled}`
     } else if (onChange) {
@@ -56,7 +56,7 @@ Toggle.defaults = {
         toggler: componentID + '_toggler'
     }
 }
-Toggle.ID = componentID;
+Toggle.ID = componentID
 
 
 export { componentID }

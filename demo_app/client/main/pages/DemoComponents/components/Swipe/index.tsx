@@ -8,7 +8,7 @@ import theme from './styles.sass'
 const Demo = () => {
     const [ swiped, setSwiped ] = useState(false)
 
-    let className = theme.swipe_block;
+    let className = theme.swipe_block
     swiped && (className += ` ${theme.swiped}`)
 
     const props: Props = {
@@ -19,7 +19,7 @@ const Demo = () => {
 
     const horizaontalSwuipeClassName = `${className} ${theme.horizontal}`
 
-    
+
     return <>
         <h1>{Swipe.ID}</h1>
 
@@ -30,7 +30,7 @@ const Demo = () => {
         <Swipe {...props} className={horizaontalSwuipeClassName} deltaPos={30} xAxis />
     </>
 }
-Demo.id = Swipe.ID;
+Demo.id = Swipe.ID
 
 
 export default Demo

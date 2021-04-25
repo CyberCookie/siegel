@@ -1,13 +1,13 @@
 //@ts-nocheck
 
 export default _modules => {
-    const isSingleModule = !Array.isArray(_modules) || _modules.length == 1;
-    let stateBinding, actionsBinding, areStatePropsEqual;
-    
-    
+    const isSingleModule = !Array.isArray(_modules) || _modules.length == 1
+    let stateBinding, actionsBinding, areStatePropsEqual
+
+
     if (isSingleModule) {
         stateBinding = { [_modules.STORE_KEY]: Object.keys(_modules.initState) }
-        actionsBinding = _modules.actions;
+        actionsBinding = _modules.actions
 
         areStatePropsEqual = ({ store: pStore }, { store: nStore }) => (
             pStore._lastUpdated == nStore._lastUpdated

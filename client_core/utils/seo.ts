@@ -10,7 +10,7 @@ const paramFlowMap: Indexable = {
         selector: 'title',
         prop: 'innerText'
     },
-    
+
     keywords: {
         selector: 'meta[name=keywords]',
         prop: 'content'

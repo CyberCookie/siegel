@@ -34,7 +34,7 @@ type ActionsUnbinded<State extends Indexable, Store = HookStore<State, any>> = {
 const setState: SetState<Indexable> = function(this: HookStore<any, any>, newState) {
     newState.__updated++
     this.state = { ...newState }
-    const listenersCount = this.listeners.length;
+    const listenersCount = this.listeners.length
 
     for (let i = 0; i < listenersCount; i++) {
         this.listeners[i](this.state)
@@ -43,16 +43,16 @@ const setState: SetState<Indexable> = function(this: HookStore<any, any>, newSta
 
 function useCustom(this: InnerStore<any, any>) {
     const newListener = useState()[1]
-    
+
     useLayoutEffect(() => {
         this.listeners.push(newListener)
-        
+
         return () => {
             this.listeners = this.listeners.filter((l: HookSetState<any>) => l !== newListener)
             this.listeners.length || (this.state.__updated = 0)
         }
     }, [])
-    
+
     return [ this.state, this.actions ]
 }
 
@@ -75,7 +75,7 @@ function createHookStore
 
     type StoreUninitialized = InnerStore<State, A>
     type Store = Required<StoreUninitialized>
-    
+
 
     const store: StoreUninitialized = {
         state: initialState as State,
@@ -84,8 +84,8 @@ function createHookStore
     store.setState = setState.bind(store)
     store.actions = (bindActions(store as Store, actions) as ActionsBinded<A>)
 
-    
-    let resetStore;
+
+    let resetStore
     if (reset) {
         const clonnedState = deepClone(initialState as State)
         resetStore = () => { store.setState!(clonnedState) }
@@ -94,7 +94,7 @@ function createHookStore
 
     return {
         resetStore,
-        store: (store as Store), 
+        store: (store as Store),
         useStore: (useCustom.bind(store) as () => [ State, Store['actions'] ])
     }
 }

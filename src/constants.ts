@@ -5,13 +5,13 @@ const { existsSync }        = require('fs')
 
 
 function getParentNodemodules() {
-    let result;
+    let result
     if (require.main) {
-        const paths = require.main.paths;
+        const paths = require.main.paths
         for (let i = 0, l = paths.length; i < l; i++) {
             const nodePath = paths[i]
             if (existsSync(nodePath)) {
-                result = nodePath;
+                result = nodePath
                 break
             }
         }
@@ -31,7 +31,7 @@ const globalNodeModules = require('child_process')
     .trim()
 
 const packageJSONFile = join(root, 'package.json')
-    
+
 const PATHS = {
     root, globalNodeModules,
     demoProject: join(root, 'demo_app'),

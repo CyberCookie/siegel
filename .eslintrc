@@ -1,4 +1,5 @@
 {
+    "ignorePatterns": ["/cjs/"],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
@@ -27,6 +28,9 @@
         "sourceType": "module"
     },
     "rules": {
+        "quotes": [ 2, "single", "avoid-escape" ],
+        "semi": [2, "never"],
+        "no-trailing-spaces": 2,
         "react/display-name": 0,
         "react/jsx-no-bind": 0,
         "react/no-children-prop": 0,

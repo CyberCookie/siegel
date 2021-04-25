@@ -1,4 +1,4 @@
-const join = require('path').join;
+const join = require('path').join
 const rootPath = join(__dirname, '..')
 
 
@@ -6,7 +6,7 @@ const rootPath = join(__dirname, '..')
 const APP = join(rootPath, 'client')
 
 function getAliasesFromTSconfig() {
-    const TSAliases = require('../tsconfig').compilerOptions.paths;
+    const TSAliases = require('../tsconfig').compilerOptions.paths
     const aliases: any = {}
 
     for (const alias in TSAliases) {
@@ -24,7 +24,7 @@ const siegelConfig = {
     server: {
         appServerLoc: join(rootPath, 'server', 'app_server.ts'),
         watch: true,
-        
+
         host: process.env.NODE_HOST,
         port: process.env.NODE_PORT,
     },
@@ -39,7 +39,7 @@ const siegelConfig = {
 
             sassResources: join(APP, 'main', 'styles', 'sass_resources.sass')
         },
-        
+
         aliases: getAliasesFromTSconfig()
     }
 }

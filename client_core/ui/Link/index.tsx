@@ -10,8 +10,8 @@ const Link: _Link = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Link.defaults, props, false)
         :   (props as MergedProps)
-    
-    const { className, path, title, attributes, refApi } = mergedProps;
+
+    const { className, path, title, attributes, refApi } = mergedProps
 
     let linkRootAttributes: Props['attributes'] = {
         className,

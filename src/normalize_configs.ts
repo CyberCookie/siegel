@@ -1,5 +1,5 @@
 const { dirname }   = require('path')
-const existsSync    = require('fs').existsSync;
+const existsSync    = require('fs').existsSync
 
 const CONSTANTS     = require('./constants')
 
@@ -23,23 +23,23 @@ function mergeConfigWithDefaults(CONFIG: any, DEFAULT_CONFIG: any) {
 
 module.exports = (CONFIG: any = {}, RUN_PARAMS: any = {}) => {
     if (RUN_PARAMS) mergeConfigWithDefaults(RUN_PARAMS, CONSTANTS.DEFAULT_RUN_PARAMS)
-    else RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PARAMS;
+    else RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PARAMS
 
     RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer
 
 
 
-    let stringConfig;
+    let stringConfig
     if (typeof CONFIG == 'string') {
-        stringConfig = CONFIG;
+        stringConfig = CONFIG
         CONFIG = {}
     }
-    
+
     mergeConfigWithDefaults(CONFIG, CONSTANTS.DEFAULT_CONFIG)
 
     if (RUN_PARAMS.isBuild) {
-        const { input } = CONFIG.build;
-        
+        const { input } = CONFIG.build
+
 
         stringConfig && (input.js = stringConfig)
         if (!existsSync(input.js)) {

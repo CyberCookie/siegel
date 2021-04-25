@@ -5,7 +5,7 @@ const mergeOptions = (defaultOptions, userOptions, rewrite) => (
         :   !rewrite && typeof defaultOptions == 'object'
             ?   Array.isArray(defaultOptions)
                 ?   defaultOptions.concat(userOptions)
-                
+
                 :   Object.assign({}, defaultOptions, userOptions)
 
             :   userOptions
@@ -15,7 +15,7 @@ module.exports = (defaultPlugins, userPlugins = {}) => {
     const result = []
 
     function addWithoutMerge(pluginConfig) {
-        const { instances, enabled = true, plugin, options } = pluginConfig;
+        const { instances, enabled = true, plugin, options } = pluginConfig
 
         if (instances) {
             for (const instanceKey in instances) {
@@ -29,7 +29,7 @@ module.exports = (defaultPlugins, userPlugins = {}) => {
 
     for (const pluginKey in defaultPlugins) {
         const pluginConfig = defaultPlugins[pluginKey]
-        const { plugin, options, instances } = pluginConfig;
+        const { plugin, options, instances } = pluginConfig
 
         if (userPlugins[pluginKey]) {
             const {
@@ -45,8 +45,8 @@ module.exports = (defaultPlugins, userPlugins = {}) => {
 
                     if (userInstance) {
                         const { rewrite, options: userInstanceOptions } = userInstance
-    
-                        let finalPluginInstanceOptions = userInstanceOptions;
+
+                        let finalPluginInstanceOptions = userInstanceOptions
                         const defaultInstance = instances[userPluginInstanceKey]
 
                         if (defaultInstance) {

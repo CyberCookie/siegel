@@ -12,11 +12,12 @@ type ComponentRefApi<Props> = {
 
 type PropsComponentBase<Props extends Indexable = Indexable> = {
     refApi?: ComponentRefApi<Props>
+    loaderApi?: boolean | Indexable<boolean>
     className?: string
 }
 
 type PropsComponentThemed<K extends string = string, Props extends Indexable = Indexable> = {
-    theme?: Partial<IndexObjectKeys<K | 'root', string>>
+    theme?: Partial<Record<K | 'root', string>>
 } & PropsComponentBase<Props>
 
 
@@ -35,12 +36,12 @@ type CoreIUComponentWithDefaults<C extends CoreIUComponent<any, any>> = {
 
 
 function applyRefApi(rootProps: ComponentAttributes, mergedProps: PropsComponentBase) {
-    const { getRef, getOnPropsUpdate } = mergedProps.refApi!;
+    const { getRef, getOnPropsUpdate } = mergedProps.refApi!
     rootProps.ref = useRef(null)
 
     const trackDependencies = getOnPropsUpdate
         ?   getOnPropsUpdate(mergedProps)
-        :   undefined;
+        :   undefined
 
     useEffect(() => {
         getRef((rootProps.ref as React.MutableRefObject<HTMLElement>).current)
@@ -54,19 +55,19 @@ function extractProps<
 >
 (defaultProps: T & Indexable, props: U & Indexable, withMergedDefaults: boolean, recursiveMergeProps?: string[]) {
 
-    const { className: defaultClassName, theme: defaultTheme } = defaultProps;
-    const { className, theme } = props;
-    
+    const { className: defaultClassName, theme: defaultTheme } = defaultProps
+    const { className, theme } = props
+
     recursiveMergeProps?.forEach(prop => {
         const _prop = props[prop]
         const defaultProp = defaultProps[prop]
-        
+
         _prop && defaultProp
             && Object.assign(_prop, extractProps(defaultProp, _prop, withMergedDefaults))
     })
 
     const result = Object.assign({}, defaultProps, props)
-    
+
     if (className && defaultClassName) {
         result.className += ` ${defaultClassName}`
     }
@@ -75,8 +76,8 @@ function extractProps<
     if (defaultTheme) {
         result.theme = theme
             ?   Object.assign({}, defaultTheme, theme)
-            :   defaultTheme;
-        
+            :   defaultTheme
+
         if(withMergedDefaults) {
             theme?.root && (result.className = result.className.replace(defaultTheme.root!, theme.root))
         } else result.className += ` ${result.theme.root}`
@@ -93,13 +94,13 @@ function withDefaults
     NewDefaults extends Partial<Parameters<C>[0]>,
 >
 (Component: C, newDefaults: NewDefaults) {
-    const { ID, defaults, recursiveMergeProps } = Component;
+    const { ID, defaults, recursiveMergeProps } = Component
     const mergedDefaults = extractProps(defaults, newDefaults, false, recursiveMergeProps)
 
     type Props = PartialKeys<Parameters<C>[0], keyof NewDefaults>
 
     const componentWithDefaults = (props: Props) => Component(extractProps(mergedDefaults, props, true, recursiveMergeProps))
-    componentWithDefaults.ID = ID;
+    componentWithDefaults.ID = ID
 
 
     return componentWithDefaults

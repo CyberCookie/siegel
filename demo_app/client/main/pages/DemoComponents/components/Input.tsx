@@ -28,7 +28,7 @@ const Demo = () => {
             errorMsg={inputValue.length < 5 ? 'too short' : ''}
             attributes={{ children: icons.search }}
             label='some_label' />
-        
+
         <h2>textfield</h2>
         <Input {...props} label='text field' type='textarea' />
 
@@ -40,12 +40,12 @@ const Demo = () => {
                 patternValueChar: '*',
                 valuePlaceholderChar: '_'
             }} />
-        
+
         <h2>disabled</h2>
         <Input {...props} disabled />
     </>
 }
-Demo.id = Input.ID;
+Demo.id = Input.ID
 
 
 export default Demo

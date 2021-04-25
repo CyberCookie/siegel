@@ -5,7 +5,7 @@
  * @param value - value to set
  */
 function deepSet(obj: Indexable, path: string[] | string, value: any): void {
-    let link = obj;
+    let link = obj
     const pathSequence = Array.isArray(path) ? path : [path]
 
     for (let i = 0, l = pathSequence.length; i < l; i++) {
