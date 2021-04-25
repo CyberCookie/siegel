@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.8.28",
+    "version": "0.8.29",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -42,7 +42,7 @@
         "build_serv": "node $npm_package_config_index -b -s",
         "build_serv:prod": "npm run build:prod && npm run pm2",
         "build": "node $npm_package_config_index -b",
-        "build:prod": "npm run build -- -p",
+        "build:prod": "npm run build -- -p && npm run build_node",
         "build_node": "npx tsc -p ./src",
         "serv": "node $npm_package_config_index -s",
         "serv:prod": "npm run serv -- -p",

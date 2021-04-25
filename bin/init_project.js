@@ -40,7 +40,7 @@ function main(isGlobal) {
 
 
 
-    //Update TSConfig
+    //Extend TSConfig
     const TSPath = join(cwd, 'tsconfig.json')
     const TSConfig = require(TSPath)
 
@@ -59,12 +59,7 @@ function main(isGlobal) {
 
 
 
-    //Copy .gitignore
-    shell(`cp ${PATHS.root}/.gitignore .`)
-
-
-
-    //Update package.json
+    //Extend package.json
     existsSync(PATHS.cwdPackageJSON) || shell('npm init -y')
     const targetPackageJSON = require(PATHS.cwdPackageJSON)
 

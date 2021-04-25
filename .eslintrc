@@ -28,7 +28,7 @@
         "sourceType": "module"
     },
     "rules": {
-        "quotes": [ 2, "single", "avoid-escape" ],
+        "quotes": [2, "single", "avoid-escape"],
         "semi": [2, "never"],
         "no-trailing-spaces": 2,
         "react/display-name": 0,
