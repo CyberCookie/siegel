@@ -137,11 +137,10 @@ Sure it's just a simple case for testing purposes. Lets make something more seri
 To initialize a real like project with global siegel dependency (<b>-g</b>) use the next commands:
 
 ```sh
-siegel init -g && siegel install-peers
+siegel init -g [ && siegel install-peers //if your npm version < 7 ]
 ```
 
-Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists) and
-install siegel's peer dependencies (for TS and ESLint)<br />
+Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists).<br />
 Now you have project skeleton with preconfigured siegel in it!<br />
 Use various <b>npm commands</b> from new <b>package.json</b> to perform build, code validation and static serving in development or production mode.<br />
 
@@ -177,7 +176,7 @@ npx siegel run -b -s -js ./app.ts
 To initialize a project template locally use these commands:<br />
 
 ```sh
-npx siegel init && npx siegel install-peers
+npx siegel init [ && siegel install-peers //if your npm version < 7 ]
 ```
 
 
