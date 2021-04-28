@@ -1,6 +1,6 @@
 import type { RunParams } from './types'
 
-const { join, basename }    = require('path')
+const { join }              = require('path')
 const { existsSync }        = require('fs')
 
 
@@ -30,19 +30,27 @@ const globalNodeModules = require('child_process')
     .toString()
     .trim()
 
-const packageJSONFile = join(root, 'package.json')
+
+//TODO?: src, server folders
+const LOC_NAMES = {
+    PACKAGE_JSON: 'package.json',
+    ESLINT_JSON: '.eslintrc',
+    TS_JSON: 'tsconfig.json',
+    TS_ESLINT_JSON: 'tsconfig.eslint.json',
+    NODE_MODULES: 'node_modules'
+} as const
 
 const PATHS = {
-    root, globalNodeModules,
+    cwd, root, globalNodeModules,
     demoProject: join(root, 'demo_app'),
     clientCore: join(root, 'client_core'),
-    nodeModules: join(root, 'node_modules'),
+    nodeModules: join(root, LOC_NAMES.NODE_MODULES),
     parentNodeModules: getParentNodemodules() || globalNodeModules,
-    package: packageJSONFile,
-    cwdPackageJSON: join(cwd, basename(packageJSONFile)),
+    package: join(root, LOC_NAMES.PACKAGE_JSON),
+    cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
     build: join(__dirname, 'client_build', 'index'),
     staticServer: join(__dirname, 'server', 'index'),
-}
+} as const
 
 
 const DEFAULT_CONFIG = {
@@ -64,15 +72,15 @@ const DEFAULT_CONFIG = {
         publicPath: '/',
         aliases: {}
     }
-}
+} as const
 
 
 const DEFAULT_RUN_PARAMS: RunParams = {
     isServer: true,
     isBuild: true,
     isProd: false
-}
+} as const
 
 
-module.exports = { PATHS, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG }
+module.exports = { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG }
 export {}

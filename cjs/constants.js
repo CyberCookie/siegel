@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const { join, basename } = require('path');
+const { join } = require('path');
 const { existsSync } = require('fs');
 function getParentNodemodules() {
     let result;
@@ -22,15 +22,22 @@ const globalNodeModules = require('child_process')
     .execSync('npm root -g')
     .toString()
     .trim();
-const packageJSONFile = join(root, 'package.json');
+//TODO?: src, server folders
+const LOC_NAMES = {
+    PACKAGE_JSON: 'package.json',
+    ESLINT_JSON: '.eslintrc',
+    TS_JSON: 'tsconfig.json',
+    TS_ESLINT_JSON: 'tsconfig.eslint.json',
+    NODE_MODULES: 'node_modules'
+};
 const PATHS = {
-    root, globalNodeModules,
+    cwd, root, globalNodeModules,
     demoProject: join(root, 'demo_app'),
     clientCore: join(root, 'client_core'),
-    nodeModules: join(root, 'node_modules'),
+    nodeModules: join(root, LOC_NAMES.NODE_MODULES),
     parentNodeModules: getParentNodemodules() || globalNodeModules,
-    package: packageJSONFile,
-    cwdPackageJSON: join(cwd, basename(packageJSONFile)),
+    package: join(root, LOC_NAMES.PACKAGE_JSON),
+    cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
     build: join(__dirname, 'client_build', 'index'),
     staticServer: join(__dirname, 'server', 'index'),
 };
@@ -56,4 +63,4 @@ const DEFAULT_RUN_PARAMS = {
     isBuild: true,
     isProd: false
 };
-module.exports = { PATHS, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG };
+module.exports = { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG };

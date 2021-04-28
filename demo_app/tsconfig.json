@@ -2,6 +2,7 @@
 	"extends": "../tsconfig.json",
     "compilerOptions": {
 		"baseUrl": ".",
+		"skipLibCheck": true,
 		"paths": {
 			"app/*": ["./client/main/*"],
 			"siegel-services/*": ["../client_core/services/*"],

@@ -2,6 +2,7 @@
     "compilerOptions": {
         "outDir": "../cjs",
         "resolveJsonModule": true,
+        "skipLibCheck": true,
         "allowJs": true,
         "moduleResolution": "node",
         "target": "esnext",
