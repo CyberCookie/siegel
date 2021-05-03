@@ -64,28 +64,29 @@
 </h6><br />
 
 
-Siegel is a higly opiniated website development platform that helps you to build and host your projects of any scale in a simple way.<br />
+Siegel is a higly opiniated website development platform that helps you to build and host your projects of any scale in a simple way.<br /><br />
+
+Right from the box you get:<br/>
 
 <ul>
-    Right from the box you get:
-    <li>Preconfiguread and easily extendable `fast Webpack v4` builder.</li>
-    <li>`Live reload` of client and server code</li>
-    <li>`Typescript` for client and server sides.</li>
-    <li>`New JS features` supported with `Babel` like optional chainig and dynamic imports...</li>
-    <li>ESLint.</li>
-    <li>ExpressJS server.</li>
-    <li>HTTP(S) 1 / HTTP(S) 2. +Script for creating dev certificates to use on localhost in Chrome.</li>
-    <li>PM2 deamon to wrap your application in production.</li>
-    <li>Brotli compression.</li>
-    <li>Big set of React components.</li>
-    <li>SASS with CSS modules approach.</li>
-    <li>SVG icons to icon font converter.</li>
-    <li>React state managers built with `hooks` or `Redux` with fetch module to track requests with.</li>
-    <li>Recursive cosilly configurable `react router`.</li>
-    <li>Request service.</li>
+    <li>Preconfiguread and easily extendable <code>fast Webpack v4</code> bundler.</li>
+    <li><code>Live reload</code> of client and server code</li>
+    <li><code>Typescript</code> for client and server sides.</li>
+    <li><code>New JS features</code> supported with <code>Babel</code> like optional chainig and dynamic imports...</li>
+    <li><code>ESLint</code>.</li>
+    <li><code>ExpressJS</code> static server.</li>
+    <li><code>HTTP(S)1 / HTTP(S)2</code>. +Script for creating dev certificates to use on localhost in Chrome.</li>
+    <li><code>PM2</code> deamon to wrap your application in production.</li>
+    <li><code>Brotli compression</code>.</li>
+    <li>Big set of <code>React components</code>.</li>
+    <li><code>SASS with CSS modules</code> approach.</li>
+    <li><code>SVG icons to font</code> converter.</li>
+    <li>React <code>global state managers</code> built with <code>hooks</code> or <code>Redux</code> with fetch module to track requests with.</li>
+    <li>Recursive cosilly configurable <code>react router</code> wrapper.</li>
+    <li><code>Request</code> service.</li>
     <li>Utils.</li>
     <li>
-        Demo project with themed components, predefined folder structure and scalable architecture built on top of Siegel.<br />
+        <code>Demo project</code> with themed components, predefined folder structure and scalable architecture built on top of Siegel.<br />
         It gives you a quick start right after initialization!
     </li>
 </ul>
