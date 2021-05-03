@@ -3,8 +3,8 @@ type Entities<Entity extends Indexable = Indexable> = {
     addOrUpdate(entity: Entity): Entities<Entity>
     addAll(entities: Entity[]): Entities<Entity>
     remove(entityID: ID): Entities<Entity>
-    sort(cb: (entity_a: Entity, entity_b: Entity) => number): void
-    each(cb: (entity: Entity, index: number) => boolean | void): void
+    sort(cb: (entity_a: Entity, entity_b: Entity) => number): Entities<Entity>
+    each(cb: (entity: Entity, index: number) => boolean | void): Entities<Entity>
     get(id: ID): Entity
     len(): number
     raw(): ({
@@ -15,14 +15,11 @@ type Entities<Entity extends Indexable = Indexable> = {
 
 
 function entities<E extends Indexable>(uniq: keyof E = 'id') {
-    type SortCB = (entity_a: E, entity_b: E) => number
-    type EachCB = (entity: E, index: number) => boolean | void
-
     let byID: Indexable<E> = {}
     let sorted: ID[] = []
 
 
-    const entityStruct = {
+    const entityStruct: Entities<E> = {
         clear() {
             byID = {}
             sorted = []
@@ -30,7 +27,7 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
             return entityStruct
         },
 
-        addOrUpdate(entity: E) {
+        addOrUpdate(entity) {
             const entityID = entity[uniq]
 
             byID[entityID] || sorted.push(entityID)
@@ -39,7 +36,7 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
             return entityStruct
         },
 
-        addAll(entities: E[]) {
+        addAll(entities) {
             for (let i = 0, l = entities.length; i < l; i++) {
                 this.addOrUpdate(entities[i])
             }
@@ -47,7 +44,7 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
             return entityStruct
         },
 
-        remove(entityID: ID) {
+        remove(entityID) {
             if (byID[entityID]) {
                 const indexOfEntity = sorted.findIndex(ID => entityID === ID)
 
@@ -58,13 +55,13 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
             return entityStruct
         },
 
-        sort(cb: SortCB) {
+        sort(cb) {
             sorted.sort((ID_a, ID_b) => cb(byID[ID_a], byID[ID_b]))
 
             return entityStruct
         },
 
-        each(cb: EachCB, from = 0, to = sorted.length) {
+        each(cb, from = 0, to = sorted.length) {
             for (let i = from; i < to; i++) {
                 if (cb(byID[sorted[i]], i)) break
             }
@@ -72,7 +69,7 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
             return entityStruct
         },
 
-        get: (entityID: ID) => byID[entityID],
+        get: entityID => byID[entityID],
 
         len: () => sorted.length,
 
@@ -80,7 +77,7 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
     }
 
 
-    return entityStruct as Entities<E>
+    return entityStruct
 }
 
 

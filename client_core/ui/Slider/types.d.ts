@@ -8,10 +8,7 @@ type ThemeKeys = 'children' | 'slides_wrapper' | 'slide' | 'slide__active' | 'co
 
 type Props = {
     slides: React.ReactNode[]
-    store?: [
-        number,
-        (nextPage: number) => void
-    ]
+    store?: [ number, React.Dispatch<React.SetStateAction<number>> ]
     startFrom?: number
     withControlls?: boolean
     swipeDelta?: number

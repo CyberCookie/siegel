@@ -13,24 +13,22 @@
 <br />
 <h2>Project structure</h2>
 
-- <b>client</b> - place for all the clientside related code and assets.
-    - <b>assets</b> - place to keep all the static files which doesn't requires any transformations.
-    - <b>main</b> - UI and business logic.
-        - <b>Layout</b> - pages wrapper. Here you can add common components like header or footer to be displayed on every page.
-        - <b>components</b> - if you have components that are used on multiple pages - here is the best place to put them. Also includes theming for siegel components and icons declarations.
-            - theme - here we add default styles and props to the raw siegel's components making them ready to use in our demo application.
-            - icons - the best place to keep your icons.
-        - <b>pages</b> - for a page components.
+- `client` - clientside related code and assets.
+    - `assets` - static files which doesn't requires any transformations.
+    - `main` - UI and business logic.
+        - `Layout` - pages wrapper. Components like header, footer....
+        - `components` - app level components, icons, raw siegel's `components theming`.
+        - `pages` - app pages.
             - Home - welcome demo page.
-            - DemoComponents - demo of all the themed siegel's components with their variations.
-            - DemoApi - example of how to use modules.
-        - <b>modules</b> - all the logic regarding application state management including api calls.
-        - <b>routes.tsx</b> - siegel router config.
-    - <b>index.html</b> - site entrypoint.
-    - <b>index.ts</b> - JS entrypoint.
-    - <b>global.d.ts</b> - imports siegel's globals. Here you can add your own global declarations.
-    - <b>styles.sass</b> - general styles that are not plugged in react components directly.
-    - <b>sw.js</b> - service worker with uniq and the best caching strategy.
-- <b>server</b> - application entrypoint, siegel config and server with demo endpoint are located here.
-- <b>.eslintrc</b> - eslint config that extends siegel config.
-- <b>tsconfig.json</b> - typescript config with predefined aliases. Extends siegel typescript config.
+            - DemoComponents - demo of all the themed components with their variations.
+            - DemoApi - test api example.
+        - `modules` - api calls and app state manager using siegel's `Request` and `Hook Store`.
+        - `Router` - demo routing with siegel's `react-router wrapper`
+    - `index.html` - site entrypoint.
+    - `index.ts` - JS entrypoint.
+    - `global.d.ts` - global typescript declarations.
+    - `styles.sass` - styles that are not plugged in react components directly.
+    - `sw.js` - service worker with uniq and the best caching strategy.
+- `server` - application entrypoint, siegel config and server with demo endpoint.
+- `.eslintrc` - eslint config.
+- `tsconfig.json` - typescript config with predefined aliases.

@@ -61,16 +61,16 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
 }
 
 const Select: _Select = (props, noDefaults) => {
-    const [ isActive, setActive ] = useState(false)
-
     const mergedProps = noDefaults
-        ?   extractProps(Select.defaults, props, false)
-        :   (props as MergedProps)
+    ?   extractProps(Select.defaults, props, false)
+    :   (props as MergedProps)
 
     const {
-        theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi
+        theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi,
+        store
     } = mergedProps
 
+    const [ isActive, setActive ] = ((store || useState(false)) as NonNullable<Props['store']>)
     const isSelected = isE(selected)
 
     let className = mergedProps.className

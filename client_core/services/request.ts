@@ -4,10 +4,10 @@ type FetchParams = {
 }
 
 type ReqError = {
-    message: string
-    status: number
     req: FetchParams
-    res: any
+    message?: string
+    status?: number
+    res?: any
 }
 
 type SetupFnParams = {
@@ -125,15 +125,9 @@ async function makeRequest(req: RequestParams) {
             res: parsedRes
         }
     } catch (err) {
-        const finalErr = {
-            req: reqData,
-            res: err.res,
-            status: err.status || 500,
-            message: err.message || err.toString()
-        }
+        err.req = reqData
 
-
-        errorHandler && errorHandler(finalErr)
+        errorHandler && errorHandler(err)
         throw err
     }
 }

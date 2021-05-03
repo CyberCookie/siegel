@@ -1,4 +1,5 @@
 //TODO:? refApi fn arguments infer proper types
+//TODO: loaderApi
 
 import { useEffect, useRef } from 'react'
 
@@ -12,7 +13,7 @@ type ComponentRefApi<Props> = {
 
 type PropsComponentBase<Props extends Indexable = Indexable> = {
     refApi?: ComponentRefApi<Props>
-    loaderApi?: boolean | Indexable<boolean>
+    // loaderApi?: boolean | Indexable<boolean>
     className?: string
 }
 

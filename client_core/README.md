@@ -17,7 +17,7 @@
 
 <h2>Services</h2>
 <details>
-<summary><b>request</b></summary>
+<summary><b>Request</b></summary>
 Wrapper around FetchAPI with more convinient interface to make your request easier.<br />
 
 ```js
@@ -133,7 +133,7 @@ const Component = props => {
 
 <h2>State managers</h2>
 <details>
-<summary><b>hook_store</b></summary>
+<summary><b>Hook Store</b></summary>
 <ul>
     Store creator accepts three arguments:
     <li>initialState - object</li>

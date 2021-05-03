@@ -68,10 +68,10 @@ Siegel is a higly opiniated website development platform that helps you to build
 
 <ul>
     Right from the box you get:
-    <li>Preconfiguread and easily extendable <b>fast Webpack v4</b> builder.</li>
-    <li><b>Live reload</b> of client and server code</li>
-    <li><b>Typescript</b> for client and server sides.</li>
-    <li><b>New JS features</b> supported with <b>Babel</b> like optional chainig and dynamic imports...</li>
+    <li>Preconfiguread and easily extendable `fast Webpack v4` builder.</li>
+    <li>`Live reload` of client and server code</li>
+    <li>`Typescript` for client and server sides.</li>
+    <li>`New JS features` supported with `Babel` like optional chainig and dynamic imports...</li>
     <li>ESLint.</li>
     <li>ExpressJS server.</li>
     <li>HTTP(S) 1 / HTTP(S) 2. +Script for creating dev certificates to use on localhost in Chrome.</li>
@@ -80,8 +80,8 @@ Siegel is a higly opiniated website development platform that helps you to build
     <li>Big set of React components.</li>
     <li>SASS with CSS modules approach.</li>
     <li>SVG icons to icon font converter.</li>
-    <li>React state managers built with <b>hooks</b> or <b>Redux</b> with fetch module to track requests with.</li>
-    <li>Recursive cosilly configurable <b>react router</b>.</li>
+    <li>React state managers built with `hooks` or `Redux` with fetch module to track requests with.</li>
+    <li>Recursive cosilly configurable `react router`.</li>
     <li>Request service.</li>
     <li>Utils.</li>
     <li>
@@ -112,7 +112,7 @@ First install siegel globally:
 npm i siegel -g
 ```
 
-Create simple <b>app.ts</b> file somewhere in your filesystem:
+Create simple `app.ts` file somewhere in your filesystem:
 
 ```ts
 import { render } from 'react-dom'
@@ -123,18 +123,22 @@ render(
 )
 ```
 
-Exec the next command to build the file (<b>-b</b>) and to host it (<b>-s</b>) using inner static server:
+Exec the next command to build the file (`-b`) and to host it (`-s`) using inner static server:
 
 ```sh
 siegel run -b -s -js ./app.ts
 ```
 
-And that's it! <b>Building a React app from scratch with all the necessary development infrastructure has never been easier!</b><br />
+<br />
+
+And that's it!<br />
+` Building a React app from scratch with all the necessary development infrastructure was never that easy!`<br /><br />
+
 Now you can open <b>localhost:3000</b> to observe the result!<br />
 
 
 Sure it's just a simple case for testing purposes. Lets make something more serious!<br />
-To initialize a real like project with global siegel dependency (<b>-g</b>) use the next commands:
+To initialize a real like project with global siegel dependency (`-g`) use the next commands:
 
 ```sh
 siegel init -g [ && siegel install-peers //if your npm version < 7 ]
@@ -142,7 +146,7 @@ siegel init -g [ && siegel install-peers //if your npm version < 7 ]
 
 Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists).<br />
 Now you have project skeleton with preconfigured siegel in it!<br />
-Use various <b>npm commands</b> from new <b>package.json</b> to perform build, code validation and static serving in development or production mode.<br />
+Use various `npm commands` from new `package.json` to perform build, code validation and static serving in development or production mode.<br />
 
 For example:
 
@@ -166,7 +170,7 @@ Lets perform the same actions from above but having this package installed local
 npm i siegel
 ```
 
-Again, for testing purposes we can create the <b>app.ts</b> file we used above and build it using local siegel installation:
+Again, for testing purposes we can create the `app.ts` file we used above and build it using local siegel installation:
 
 ```sh
 npx siegel run -b -s -js ./app.ts

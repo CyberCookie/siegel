@@ -1,13 +1,14 @@
+import type { History } from 'history'
+
+
 type QueryValue = string | number | boolean
 
 type UpdateURLQuery = {
     (
-        history: {
-            replace(path: string, state?: any): void
-        },
+        history: History,
         key: string | Indexable,
         value: QueryValue
-    ): void
+    ): URLSearchParams
 }
 
 
@@ -23,14 +24,17 @@ function updateQuery(query: URLSearchParams, key: string, value: QueryValue) {
 }
 
 const updateURLQuery: UpdateURLQuery = function(history, key, value) {
-    const { pathname, search } = window.location
-    const query = new URLSearchParams(search)
+    const query = new URLSearchParams(window.location.search)
 
     if (typeof key == 'string') updateQuery(query, key, value)
     else for (const searchKey in key) updateQuery(query, searchKey, key[searchKey])
 
+    history.replace({
+        search: query.toString()
+    })
 
-    history.replace(pathname + '?' + query.toString())
+
+    return query
 }
 
 
