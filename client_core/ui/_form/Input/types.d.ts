@@ -23,7 +23,7 @@ type InputStore = [ InputState, React.Dispatch<React.SetStateAction<InputState>>
 
 type Props = {
     value: string
-    inputStore?: InputStore
+    innerStore?: InputStore
     disabled?: boolean
     autofocus?: boolean
     placeholder?: string

@@ -63,7 +63,7 @@ type ThemeKeys = 'table' | 'table_resizer' | 'pagination_wrapper' | '_with_pagin
 type Props<T extends Entities> = {
     entities: T
     columnsConfig: ColumnsConfig<T>[] & Indexable
-    hookStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
+    innerStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
     attributes?: ComponentAttributes<HTMLDivElement>
     withPagination?: {
         displayQuantity?(quantity: number): React.ReactNode

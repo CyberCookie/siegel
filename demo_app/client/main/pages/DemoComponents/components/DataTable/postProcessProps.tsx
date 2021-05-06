@@ -43,7 +43,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
     config: T[1]
     index: T[2]
     entities: DataTableProps<MockEntities>['entities']
-    dataGridHookStore: NonNullable<DataTableProps<MockEntities>['hookStore']>
+    dataGridHookStore: NonNullable<DataTableProps<MockEntities>['innerStore']>
     postProcessStore: PostProcessStore
 }) {
 
@@ -269,7 +269,7 @@ export default (props: DataTableProps<MockEntities>) => {
 
     const result: DataTableProps<MockEntities> = {
         ...props,
-        hookStore: dataGridHookStore,
+        innerStore: dataGridHookStore,
         resizable: true,
         withPagination: {
             displayQuantity,

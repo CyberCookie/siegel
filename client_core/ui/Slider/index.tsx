@@ -94,9 +94,9 @@ const Slider: _Slider = (props, noDefaults) => {
         ?   extractProps(Slider.defaults, props, false)
         :   (props as MergedProps)
 
-    const { withControlls, store } = mergedProps
+    const { withControlls, innerStore } = mergedProps
 
-    const [ curSlide, setSlide ] = store || useState(0)
+    const [ curSlide, setSlide ] = innerStore || useState(0)
 
 
     const sliderRootProps = getSliderRootProps(mergedProps)

@@ -27,9 +27,9 @@ const getDefaultState = () => ({
 } as State)
 
 function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBodyRows>['resultIDs']) {
-    const { withPagination, theme, hookStore } = props
+    const { withPagination, theme, innerStore } = props
 
-    const [ state, setState ] = hookStore!
+    const [ state, setState ] = innerStore!
     const showPerPage = state.showPerPage
 
     const { displayQuantity, select, pagination } = withPagination!
@@ -75,9 +75,9 @@ const DataTable: _DataTable = (props, noDefaults) => {
         :   (props as MergedProps)
 
     const { theme, className, attributes, withPagination, tableAttributes, refApi } = mergedProps
-    mergedProps.hookStore ||= useState(defaultState)
+    mergedProps.innerStore ||= useState(defaultState)
 
-    const hookState = mergedProps.hookStore[0]
+    const hookState = mergedProps.innerStore[0]
 
     const rootAttributes = { className }
     refApi && (applyRefApi(rootAttributes, mergedProps))

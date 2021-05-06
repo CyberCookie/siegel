@@ -36,10 +36,10 @@ const Input: _Input = (props, noDefaults) => {
 
     const {
         theme, label, value, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
-        onChange, onFocus, payload, inputStore, autofocus, placeholder, regexp, mask, refApi
+        onChange, onFocus, payload, innerStore, autofocus, placeholder, regexp, mask, refApi
     } = mergedProps
 
-    const store = inputStore || useState(getDefaultInputStoreState())
+    const store = innerStore || useState(getDefaultInputStoreState())
     const [ state, setState ] = store
     const { isFocused, isTouched } = state
 

@@ -6,9 +6,8 @@ import floatMath from '../../../utils/math_float'
 import isE from '../../../utils/is_exists'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import addChildren from '../../children'
-import Input, { getDefaultInputStoreState, updateThemeWithInputFieldTheme } from '../Input'
+import Input, { getDefaultInputStoreState, updateThemeWithInputFieldTheme, Props as InputProps } from '../Input'
 import type { _NumberPicker, Props, MergedProps, BtnClickEv, BtnProps, OnNumberPickerChange } from './types'
-import type { Props as InputProps } from '../Input/types'
 
 import styles from './styles.sass'
 
@@ -183,7 +182,7 @@ const NumberPicker: _NumberPicker = (props, noDefaults) => {
         theme, label, errorMsg, placeholder, inputAttributes,
         regexp: numberMask,
         value: getNormalizedStringValue(value),
-        inputStore: _inputStore,
+        innerStore: _inputStore,
         disabled: disabled || disabledInput,
         onBlur: onNumberPickerChange,
         onChange(_value, e) {

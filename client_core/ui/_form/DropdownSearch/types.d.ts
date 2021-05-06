@@ -3,7 +3,6 @@ import type { Props as InputProps } from '../Input/types'
 
 
 type State = {
-    selectedOption?: ID
     searchString: string | undefined
 }
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
@@ -18,11 +17,14 @@ type Props = {
         title?: React.ReactNode
         className?: string
         payload?: any
+        disabled?: boolean
+        alwaysVisible?: boolean
     }[]
     onSearch?(
         searchValue: string,
         e: Parameters<NonNullable<InputProps['onChange']>>[1]
     ): void
+    innerStore?: Store
     attributes?: ComponentAttributes<HTMLDivElement>
     minInputLength?: number
     showOnFocus?: boolean

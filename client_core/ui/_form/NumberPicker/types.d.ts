@@ -30,7 +30,8 @@ type Props = {
     disabledInput?: boolean
     precision?: number
     keyboardControls?: boolean
-} & PropsComponentThemed<ThemeKeys> & Omit<InputProps, 'theme' | 'type' | 'attributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange'>
+    inputStore?: InputProps['innerStore']
+} & PropsComponentThemed<ThemeKeys> & Omit<InputProps, 'theme' | 'type' | 'attributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange' | 'innerStore'>
 
 type DefaultProps = {
     className: NonNullable<Required<Props['className']>>,

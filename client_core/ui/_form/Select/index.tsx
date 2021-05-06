@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 
 import isE from '../../../utils/is_exists'
 import isTouchScreen from '../../../utils/is_touchscreen'
-import { extractProps, applyRefApi } from '../../ui_utils'
+import { extractProps, applyRefApi, ComponentAttributes } from '../../ui_utils'
 import addChildren from '../../children'
-import type { ComponentAttributes } from '../../ui_utils'
 import type{ MergedProps, _Select, Props } from './types'
 
 
@@ -47,7 +46,7 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
                 }
 
 
-        optionElements.push( <div {...optionProps} key={value} /> )
+        optionElements.push( <div { ...optionProps } key={value} /> )
     }
 
 
@@ -67,10 +66,10 @@ const Select: _Select = (props, noDefaults) => {
 
     const {
         theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi,
-        store
+        innerStore
     } = mergedProps
 
-    const [ isActive, setActive ] = ((store || useState(false)) as NonNullable<Props['store']>)
+    const [ isActive, setActive ] = ((innerStore || useState(false)) as NonNullable<Props['innerStore']>)
     const isSelected = isE(selected)
 
     let className = mergedProps.className

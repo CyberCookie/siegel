@@ -2,12 +2,11 @@
 
 import React, { useState } from 'react'
 
-import { extractProps, applyRefApi } from '../../ui_utils'
-import addChildren from '../../children'
 import isE from '../../../utils/is_exists'
-import Input, { getDefaultInputStoreState } from '../Input'
-import type { _DropdownSearch, MergedProps, Store, State, Props } from './types'
-import type { Props as InputProps } from '../Input/types'
+import { extractProps, applyRefApi, ComponentAttributes } from '../../ui_utils'
+import addChildren from '../../children'
+import Input, { getDefaultInputStoreState, Props as InputProps } from '../Input'
+import type { _DropdownSearch, MergedProps, Store, Props } from './types'
 
 import styles from './styles.sass'
 
@@ -23,25 +22,27 @@ function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }:
     const options: JSX.Element[] = []
     let selectedOption
     searchOptions.forEach(option => {
-        const { title, inputValue, value, className, payload } = option
+        const { title, inputValue, value, className, payload, disabled, alwaysVisible } = option
 
         const isSelected = value == selected
         isSelected && (selectedOption = option)
 
-        const canPush = showAll || (!searchLower || inputValue.toLowerCase().includes(searchLower))
+        const canPush = alwaysVisible || showAll || (!searchLower || inputValue.toLowerCase().includes(searchLower))
         if (canPush) {
-            let optionClassMame = theme.option
-            className && (optionClassMame += ` ${className}`)
+            const optionProps: ComponentAttributes<HTMLDivElement> = {
+                className: theme.option,
+                children: title || inputValue
+            }
+            className && (optionProps.className += ` ${className}`)
+            disabled || (optionProps.onMouseDown = e => {
+                if (!isSelected) {
+                    setState({ searchString: undefined })
+                    onChange(value, e, payload)
+                }
+            })
 
-            options.push(
-                <div key={value} className={optionClassMame} children={title || inputValue}
-                    onMouseDown={e => {
-                        if (!isSelected) {
-                            setState({ searchString: undefined })
-                            onChange(value, e, payload)
-                        }
-                    }} />
-            )
+
+            options.push( <div { ...optionProps } key={value} /> )
         }
     })
 
@@ -60,15 +61,15 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
 
     const {
         theme, minInputLength, onSearch, className, showOnFocus, onChange, inputProps, refApi,
-        selected, searchOptions, attributes, disabled
+        selected, searchOptions, attributes, disabled, innerStore
     } = mergedProps
 
-    const store = useState({ searchString: undefined } as State)
+    const store = ((innerStore || useState({ searchString: undefined })) as Store)
     const [ state, setState ] = store
     const { searchString } = state
 
 
-    const inputStore = inputProps?.inputStore || useState(getDefaultInputStoreState())
+    const inputStore = inputProps?.innerStore || useState(getDefaultInputStoreState())
     const { isFocused } = inputStore[0]
 
     const dropdownSearchRootProps: Props['attributes'] = {
@@ -101,7 +102,8 @@ const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
 
 
     const inputInnerProps: InputProps = {
-        inputStore, disabled,
+        disabled,
+        innerStore: inputStore,
         attributes: {
             tabIndex: 0
         },

@@ -20,7 +20,7 @@ const Demo = () => {
         <Slider {...props} />
 
         <h2>controlled. active slide: { store[0] }</h2>
-        <Slider {...props} store={store} />
+        <Slider {...props} innerStore={store} />
 
         <h2>with controls; loop</h2>
         <Slider {...props} withControlls loop />
