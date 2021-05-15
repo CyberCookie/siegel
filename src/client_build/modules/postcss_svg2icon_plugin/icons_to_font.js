@@ -23,7 +23,7 @@ module.exports = ({ name, svgs, woff2 }) => new Promise((resolve, reject) => {
         .on('data', part => { svgFont += part })
         .on('error', reject)
 
-        svgs.forEach((filename, i) => {
+    svgs.forEach((filename, i) => {
         const glyph = Object.assign(new Readable(), {
             // eslint-disable-next-line
             _read() {},
@@ -44,6 +44,7 @@ module.exports = ({ name, svgs, woff2 }) => new Promise((resolve, reject) => {
             glyph.push(null)
         })
     })
+
     fontStream.end()
 })
     .then(svgFont => svg2ttf(svgFont, {}).buffer)

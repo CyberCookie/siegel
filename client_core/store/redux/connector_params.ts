@@ -1,5 +1,7 @@
 //@ts-nocheck
 
+const isEqualSingleModule = (prev, next) => prev.store._lastUpdated == next.store._lastUpdated
+
 export default _modules => {
     const isSingleModule = !Array.isArray(_modules) || _modules.length == 1
     let stateBinding, actionsBinding, areStatePropsEqual
@@ -9,9 +11,7 @@ export default _modules => {
         stateBinding = { [_modules.STORE_KEY]: Object.keys(_modules.initState) }
         actionsBinding = _modules.actions
 
-        areStatePropsEqual = ({ store: pStore }, { store: nStore }) => (
-            pStore._lastUpdated == nStore._lastUpdated
-        )
+        areStatePropsEqual = isEqualSingleModule
     } else {
         stateBinding = {}
         actionsBinding = {}

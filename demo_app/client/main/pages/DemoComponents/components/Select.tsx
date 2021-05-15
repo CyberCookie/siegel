@@ -3,8 +3,14 @@ import React, { useState } from 'react'
 import { Select, SelectProps } from 'app/components'
 
 
+type DemoSelectState = number | undefined
+type DempSelectStore = [ DemoSelectState, React.Dispatch<React.SetStateAction<DemoSelectState>> ]
+
+
+const getSelectDisplayValue = ({ title }: SelectProps['options'][number]) => 'selected - ' + title
+
 const Demo = () => {
-    const [ selectedOption, setOption ] = useState(0)
+    const [ selectedOption, setOption ] = useState(undefined) as DempSelectStore
 
     const props: SelectProps = {
         placeholder: 'placeholder',
@@ -35,8 +41,7 @@ const Demo = () => {
         <Select {...props} />
 
         <h2>with label and displayTitle processing</h2>
-        <Select {...props} label='some label'
-            getDisplayValue={({ title }) => 'selected - ' + title} />
+        <Select {...props} label='some label' getDisplayValue={getSelectDisplayValue} />
 
         <h2>filter selected: false</h2>
         <Select {...props} filterSelected={false} />

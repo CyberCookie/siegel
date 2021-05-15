@@ -60,7 +60,7 @@ type ColumnsConfig<T extends Entities> = {
 
 type ThemeKeys = 'table' | 'table_resizer' | 'pagination_wrapper' | '_with_pagination'
 
-type Props<T extends Entities> = {
+type Props<T extends Entities = Entities> = {
     entities: T
     columnsConfig: ColumnsConfig<T>[] & Indexable
     innerStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
@@ -88,7 +88,7 @@ type DefaultProps = {
     theme: NonNullable<Required<Props<any>['theme']>>
 }
 
-type MergedProps = Props<any> & DefaultProps
+type MergedProps = Props & DefaultProps
 
 type _DataTable = CoreIUComponent<Props<any>, DefaultProps>
 

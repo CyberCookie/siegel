@@ -139,8 +139,8 @@ const createRouter: CreateRouter = ({ children, Layout, LazyFallback, notFound, 
     const { routes: createdRoutes, isLazy } = createRoutes(children, '', notFound)
 
     if (notFound) {
-        const { Page, path } = notFound;
-        (createdRoutes as JSX.Element[]).push(
+        const { Page, path } = notFound
+        ;(createdRoutes as JSX.Element[]).push(
             <Route path={path} component={Page} />,
             createNotFoundRedirect(path)
         )

@@ -81,8 +81,8 @@ function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) 
     const resizerClassName = `${innerResizerClassName} ${theme.table_resizer}`
 
 
-    let displayedEntityIDs: DisplayedEntityIDs;
-    (postProcessHeadCell || postProcessHeadRow) && (displayedEntityIDs = {
+    let displayedEntityIDs: DisplayedEntityIDs
+    ;(postProcessHeadCell || postProcessHeadRow) && (displayedEntityIDs = {
         from, to,
         allPagesIDs: resultIDs
     })

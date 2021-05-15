@@ -11,6 +11,8 @@ type ValuesState = Indexable<{
     errorMsg?: string
 }>
 
+type FormStore = [ ValuesState, React.Dispatch<React.SetStateAction<ValuesState>> ]
+
 
 type InputData = {
     Component: _Input
@@ -45,4 +47,4 @@ type MergedProps = Props & DefaultProps
 type _Form = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _Form, ValuesState, ValueStateValue, Validator }
+export type { Props, DefaultProps, MergedProps, _Form, ValueStateValue, FormStore, Validator }

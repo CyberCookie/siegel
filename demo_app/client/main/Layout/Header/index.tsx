@@ -7,7 +7,7 @@ import { Breadcrumbs } from 'app/components'
 import styles from './styles.sass'
 
 
-const navigationConfig = [
+const nav = ([
     {
         path: pagePathMap.home,
         label: 'Home'
@@ -20,23 +20,17 @@ const navigationConfig = [
         path: pagePathMap.demo_api,
         label: 'Demo API'
     }
-]
+]).map(({ path, label }) => (
+    <Link key={path} to={'/' + path} children={label} className={styles.nav_link} />
+))
 
+const Header = () => (
+    <header className={styles.header}>
+        <nav children={nav} />
 
-const Header = () => {
-    const nav = navigationConfig.map(({ path, label }) => (
-        <Link key={path} to={'/' + path} children={label} className={styles.nav_link} />
-    ))
-
-
-    return (
-        <header className={styles.header}>
-            <nav children={nav} />
-
-            <Breadcrumbs className={styles.breadcrumbs} />
-        </header>
-    )
-}
+        <Breadcrumbs className={styles.breadcrumbs} />
+    </header>
+)
 
 
 export default Header

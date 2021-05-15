@@ -4,7 +4,7 @@ import { extractProps, applyRefApi, PropsComponentThemed } from '../../ui_utils'
 import addChildren from '../../children'
 import getInputLabeled from '../label'
 import componentID from './id'
-import type { _Input, Props, MergedProps, InputFieldThemeKeysArray } from './types'
+import type { _Input, Props, MergedProps, InputFieldThemeKeysArray, InputElementAttributesFinal } from './types'
 
 
 const getDefaultInputStoreState = () => ({
@@ -17,7 +17,6 @@ const inputFieldThemeKeys: InputFieldThemeKeysArray = [
     '_filled', '_error', '_disabled', '_focused', '_touched', '_readonly'
 ]
 const updateThemeWithInputFieldTheme =
-// <T extends Partial<Props['theme']>>
 <T extends PropsComponentThemed['theme']>
 (theme: T, componentID: ID) => {
 
@@ -35,7 +34,8 @@ const Input: _Input = (props, noDefaults) => {
         :   (props as MergedProps)
 
     const {
-        theme, label, value, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
+        value = '',
+        theme, label, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
         onChange, onFocus, payload, innerStore, autofocus, placeholder, regexp, mask, refApi
     } = mergedProps
 
@@ -44,7 +44,7 @@ const Input: _Input = (props, noDefaults) => {
     const { isFocused, isTouched } = state
 
 
-    const inputProps: NonNullable<Props['inputAttributes']> = {
+    const inputProps: InputElementAttributesFinal = {
         disabled, value, placeholder,
         className: theme.field
     }
@@ -91,8 +91,8 @@ const Input: _Input = (props, noDefaults) => {
         }
 
         inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = (e.target as HTMLInputElement).value;
-            (!regexp || regexp.test(value)) && onChange(value, e, payload)
+            const value = (e.target as HTMLInputElement).value
+            ;(!regexp || regexp.test(value)) && onChange(value, e, payload)
         }
     } else {
         inputRootProps.className += ` ${theme._readonly}`

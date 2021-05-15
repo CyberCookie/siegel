@@ -1,5 +1,3 @@
-//@ts-nocheck
-
 import React, { useState } from 'react'
 
 import { extractProps } from '../../ui_utils'
@@ -7,10 +5,36 @@ import inputID from '../Input/id'
 import checkboxID from '../Checkbox/id'
 import type { _Input, Props as InputProps } from '../Input/types'
 import type { _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
-import type { _Form, ValuesState, ValueStateValue, Validator, Props } from './types'
+import type { _Form, ValueStateValue, Validator, Props, FormStore } from './types'
+
+
+type CommonChangeProps = {
+    validators: Validator[]
+    name: string
+    formStore: FormStore
+}
 
 
 const componentID = '-ui-form'
+
+const validate = (value: ValueStateValue, validators: Validator[]) => {
+    for (let i = 0, l = validators.length; i < l; i++) {
+        const { validate, msg } = validators[i]
+        if (!validate(value)) return msg
+    }
+
+    return ''
+}
+
+const onInputChange = (commonChangeProps: CommonChangeProps, value: string) => {
+    const { validators, name, formStore } = commonChangeProps
+    const [ values, setValues ] = formStore
+
+    const errorMsg = validators.length ? validate(value, validators) : ''
+
+    values[name] = { value, errorMsg }
+    setValues({ ...values })
+}
 
 const Form: _Form = (props, noDefaults) => {
     const { onSubmit, className, attributes, inputs } = noDefaults
@@ -18,7 +42,8 @@ const Form: _Form = (props, noDefaults) => {
         :   (props as _Form['defaults'] & Props)
 
 
-    const [ values, setValues ] = useState({} as ValuesState)
+    const formStore: FormStore = useState({})
+    const [ values, setValues ] = formStore
 
     const formProps = Object.assign({
         className,
@@ -30,24 +55,6 @@ const Form: _Form = (props, noDefaults) => {
         },
         children: getFormElements()
     }, attributes)
-
-
-    const onInputChange = (validators: Validator[], name: string, value: string) => {
-        const errorMsg = validators.length ? validate(value, validators) : ''
-
-        values[name] = { value, errorMsg }
-        setValues({ ...values })
-    }
-
-
-    const validate = (value: ValueStateValue, validators: Validator[]) => {
-        for (let i = 0, l = validators.length; i < l; i++) {
-            const { validate, msg } = validators[i]
-            if (!validate(value)) return msg
-        }
-
-        return ''
-    }
 
     const ifDisabledBy = (name: string) => {
         const nameStateData = values[name] || {}
@@ -76,14 +83,18 @@ const Form: _Form = (props, noDefaults) => {
 
 
             if (Component.ID == inputID) {
-                const onChange = onInputChange.bind(null, validators, name)
+                // const onChange = onInputChange.bind(null, validators, name)
+
+                const changeCommonParams = { validators, name, formStore }
 
                 const extraProps = {
-                    value, name, onChange, dissabled,
+                    value, name, dissabled,
                     errorMsg: (props as InputProps).errorMsg || errorMsg,
+                    onChange(value) {
+                        onInputChange(changeCommonParams, value)
+                    },
                     onBlur(e) {
-                        onChange((e.target as HTMLInputElement).value)
-                        return false
+                        onInputChange(changeCommonParams, (e.target as HTMLInputElement).value)
                     }
                 } as InputProps
 
@@ -112,7 +123,7 @@ const Form: _Form = (props, noDefaults) => {
     }
 
 
-    return <form {...formProps} />
+    return <form { ...formProps } />
 }
 Form.defaults = {
     className: componentID
