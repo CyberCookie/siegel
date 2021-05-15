@@ -33,18 +33,6 @@ const setDefaults = (params: Partial<SignalROptions>) => {
 
 const isBusyStates = new Set([ HubConnectionState.Connecting, HubConnectionState.Reconnecting, HubConnectionState.Disconnecting ])
 
-
-// const someObj = {
-//     someFunc() {
-//         console.log('someFunc')
-//     },
-
-
-//     withTimeout() {
-//         setTimeout(this.someFunc)
-//     }
-// }
-
 const createSignalRConnection = (options: SignalROptions) => {
     const connectionParams = Object.assign(options, defaults)
     const { url, reconnectInterval, endpoint, transport, protocol, serverTimeout,

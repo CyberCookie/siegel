@@ -52,10 +52,8 @@ const Input: _Input = (props, noDefaults) => {
         inputProps.ref = useRef<HTMLInputElement>(null)
 
         autofocus && useEffect(() => {
-            if (!disabled && onChange) {
-                (inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
-            }
-        }, [ disabled, onChange ])
+            disabled || (inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
+        }, [ disabled ])
     }
 
 

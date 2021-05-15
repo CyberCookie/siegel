@@ -119,7 +119,7 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
 
                 const RouterPage = (Page || LazyPage)!
                 beforeEnter
-                    ?   routeProps.render = (props: RouteProps) => <RouterPage {...props} beforeEnter={beforeEnter(props)} />
+                    ?   routeProps.render = (props: RouteProps) => <RouterPage { ...props } beforeEnter={beforeEnter(props)} />
                     :   routeProps.component = RouterPage
             }
 
