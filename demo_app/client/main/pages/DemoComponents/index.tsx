@@ -16,6 +16,11 @@ type SidebarItemProps = {
 
 const _demoComponents: Indexable = demoComponents
 
+function getActiveComponent(active: string) {
+    const Component = _demoComponents[active]
+    return <Component />
+}
+
 const hashParam = 'active'
 
 const DemoPage = () => {
@@ -38,17 +43,12 @@ const DemoPage = () => {
         componentsList.push( <div {...props} /> )
     }
 
-    function getActiveComponent() {
-        const Component = _demoComponents[active!]
-        return <Component />
-    }
-
 
     return (
         <div className={styles.page}>
             <div className={styles.sidebar} children={componentsList} />
 
-            <div className={styles.demo_component} children={ active && getActiveComponent() } />
+            <div className={styles.demo_component} children={ active && getActiveComponent(active) } />
         </div>
     )
 }

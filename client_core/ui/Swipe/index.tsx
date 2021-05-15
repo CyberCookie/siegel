@@ -10,6 +10,14 @@ const componentID = '-ui-swipe'
 const _isTouchScreen = isTouchScreen()
 const passiveEv = { passive: true }
 
+function getMousePos(e: HTMLSwipeMouseEvent, xAxis: Props['xAxis']) {
+    const { touches, x, y } = (e as MouseEvent & TouchEvent)
+
+    return _isTouchScreen
+        ?   (xAxis ? touches[0].screenX : touches[0].screenY)
+        :   (xAxis ? x : y)
+}
+
 const Swipe: _Swipe = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Swipe.defaults, props, false)
@@ -33,15 +41,7 @@ const Swipe: _Swipe = (props, noDefaults) => {
     function onMouseDown(e: React.MouseEvent | React.TouchEvent) {
         e.stopPropagation()
 
-        function getMousePos(e: HTMLSwipeMouseEvent) {
-            const { touches, x, y } = (e as MouseEvent & TouchEvent)
-
-            return _isTouchScreen
-                ?   (xAxis ? touches[0].screenX : touches[0].screenY)
-                :   (xAxis ? x : y)
-        }
-
-        const mouseDownPos = getMousePos(e.nativeEvent)
+        const mouseDownPos = getMousePos(e.nativeEvent, xAxis)
         let swipeStart = true
         let isBlocked = false
 
@@ -64,7 +64,7 @@ const Swipe: _Swipe = (props, noDefaults) => {
 
         function onMouseMove(e: HTMLSwipeMouseEvent) {
             if (mouseDownPos && swipeStart && !isBlocked) {
-                const deltaPosition = getMousePos(e) - mouseDownPos
+                const deltaPosition = getMousePos(e, xAxis) - mouseDownPos
 
                 if (Math.abs(deltaPosition) > deltaPos) {
                     onSwipe(deltaPosition < 0, e)

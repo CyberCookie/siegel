@@ -7,13 +7,6 @@ type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
 }
 
 
-type InputFieldThemeKeysArray = [
-    'label', 'label_text', 'field', 'error_text',
-    '_filled', '_error', '_disabled', '_focused', '_touched', '_readonly'
-]
-
-type ThemeKeys = 'textarea' | 'children' | InputFieldThemeKeysArray[number]
-
 type InputState = {
     isTouched: boolean
     isFocused: boolean
@@ -21,8 +14,16 @@ type InputState = {
 type InputStore = [ InputState, React.Dispatch<React.SetStateAction<InputState>> ]
 
 
+type InputFieldThemeKeysArray = [
+    'label', 'label_text', 'field', 'error_text',
+    '_filled', '_error', '_disabled', '_focused', '_touched', '_readonly'
+]
+type ThemeKeys = 'textarea' | 'children' | InputFieldThemeKeysArray[number]
+
+type InputElementAttributesFinal = NonNullable<Props['inputAttributes']> & { value: NonNullable<Props['value']> }
+
 type Props = {
-    value: string
+    value?: string
     innerStore?: InputStore
     disabled?: boolean
     autofocus?: boolean
@@ -42,7 +43,7 @@ type Props = {
         patternValueChar: string
         processor(
             mask: Omit<NonNullable<Props['mask']>, 'processor'>,
-            inputFieldAttr: NonNullable<Props['inputAttributes']>
+            inputFieldAttr: InputElementAttributesFinal
         ): void
         valuePlaceholderChar?: string
         shiftNextChar?: boolean
@@ -53,6 +54,7 @@ type Props = {
     onFocus?(e: React.FocusEvent<HTMLDivElement>): void
 } & PropsComponentThemed<ThemeKeys>
 
+
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
 }
@@ -62,4 +64,4 @@ type MergedProps = Props & DefaultProps
 type _Input = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, ComponentRootAttributes, _Input, InputFieldThemeKeysArray }
+export type { Props, DefaultProps, MergedProps, ComponentRootAttributes, _Input, InputFieldThemeKeysArray, InputElementAttributesFinal }

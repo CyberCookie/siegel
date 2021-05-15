@@ -53,7 +53,9 @@ function getNumberValue(value: MergedProps['value'], min: MergedProps['min'], ma
 }
 
 const zero = '0'
-function getNormalizedStringValue(value: string, precision?: number) {
+function getNormalizedStringValue(value: string | undefined, precision?: number) {
+    if(!isE(value)) return
+
     let indexOfDot = value.indexOf('.') || value.length
     indexOfDot < 0 && (indexOfDot = value.length)
 

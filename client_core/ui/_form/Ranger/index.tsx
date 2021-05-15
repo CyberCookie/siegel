@@ -104,7 +104,8 @@ const Ranger: _Ranger = (props, noDefaults) => {
         :   (props as MergedProps)
 
     const {
-        theme, className, refApi, attributes, label, disabled, onChange, value, rangersCrossBehavior
+        theme, className, refApi, attributes, label, disabled, value, rangersCrossBehavior,
+        onChange, onRangePickStart, onRangePickFinish
     } = mergedProps
 
     const state = useState(toDefaultState())[0]
@@ -138,6 +139,8 @@ const Ranger: _Ranger = (props, noDefaults) => {
 
 
     function onSlideStart(e: React.MouseEvent) {
+        onRangePickStart && onRangePickStart(e)
+
         const rangeAreaElement = e.currentTarget as HTMLDivElement
         const {
             x: rangeAreaOffsetX,
@@ -227,7 +230,9 @@ const Ranger: _Ranger = (props, noDefaults) => {
         }
     }
 
-    function onSlideFinish() {
+    function onSlideFinish(e?: MouseEvent) {
+        onRangePickFinish && onRangePickFinish(e)
+
         state.activeSlider?.classList.remove(theme.range_slider__active)
 
         toDefaultState(state)

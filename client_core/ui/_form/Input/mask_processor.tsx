@@ -1,3 +1,6 @@
+//TODO: process with mask applied
+//TODO: add formatter mode
+
 import { useState, useEffect } from 'react'
 
 import isE from '../../../utils/is_exists'
@@ -30,7 +33,7 @@ const valuePlaceholderCharDefault = ' '
 
 const setCaretPos = (input: HTMLInputElement, caretPos: number) => setTimeout(() => { input.setSelectionRange(caretPos, caretPos) })
 
-function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Props['value']) {
+function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Parameters<MaskProcessor>[1]['value']) {
     const { pattern, patternValueChar, valuePlaceholderChar = valuePlaceholderCharDefault } = mask
 
     const placeholdersIndexesMap: Indexable<MaskCharData> = {}

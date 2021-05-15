@@ -1,43 +1,39 @@
 import deepGet from '../../utils/deep/get'
 import isE from '../../utils/is_exists'
 import type { MergedProps, State, SearchByFieldDate, SearchByFieldSet } from './types'
-import type { TableTD, TableBodyRow } from '../Table/types'
+import type { TableTD } from '../Table/types'
 
+
+function getBodyRow(columnsConfig: MergedProps['columnsConfig'], byID: Indexable<Indexable>, entityID: ID, i: number) {
+    const entity = byID[entityID]
+    const children: TableTD[] = []
+
+
+    columnsConfig.forEach(configurationModel => {
+        const { showValue, entityFieldPath } = configurationModel
+
+        const value = isE(showValue)
+            ?   configurationModel.showValue!(entity, i) //must not deattach showValue to keep `this`
+            :   Array.isArray(entityFieldPath)
+                ?   deepGet(entity, entityFieldPath)
+                :   entity[entityFieldPath as NonNullable<typeof entityFieldPath>]
+
+
+        children.push({ value })
+    })
+
+
+    return {
+        children,
+        attributes: { key: entityID }
+    }
+}
 
 function getBody(props: MergedProps, state: State) {
     const { entities, columnsConfig, postProcessBodyRow, withPagination } = props
     const { byID, sorted } = entities.raw()
 
     const { searchByField, sortByField, showPerPage, currentPage } = state
-
-
-    function getEntityRow(entityID: ID, i: number): TableBodyRow {
-        const entity = byID[entityID]
-        const children: TableTD[] = []
-
-
-        columnsConfig.forEach(configurationModel => {
-            const { showValue, entityFieldPath } = configurationModel
-
-            const value = isE(showValue)
-                ?   configurationModel.showValue!(entity, i) //must not deattach showValue to keep `this`
-                :   Array.isArray(entityFieldPath)
-                    ?   deepGet(entity, entityFieldPath)
-                    :   entity[entityFieldPath as NonNullable<typeof entityFieldPath>]
-
-
-            children.push({ value })
-        })
-
-
-        const result = {
-            children,
-            attributes: { key: entityID }
-        }
-
-
-        return result
-    }
 
 
     let processedList = sorted
@@ -127,7 +123,7 @@ function getBody(props: MergedProps, state: State) {
         const entityID = processedList[i]
         if (!isE(entityID)) break
 
-        let itemToPush: ReturnType<NonNullable<typeof postProcessBodyRow>> = getEntityRow(entityID, i)
+        let itemToPush: ReturnType<NonNullable<typeof postProcessBodyRow>> = getBodyRow(columnsConfig, byID, entityID, i)
         if (postProcessBodyRow) {
             itemToPush = postProcessBodyRow(itemToPush, byID[entityID], i)
 

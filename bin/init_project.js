@@ -6,6 +6,8 @@ const { PATHS, LOC_NAMES }                          = require('../cjs/constants'
 
 const toJSON = data => JSON.stringify(data, null, 4)
 
+const getLocalPathToSiegel = (...args) => './' + join(LOC_NAMES.NODE_MODULES, ...args)
+
 function main(isGlobal) {
     const shell = require('child_process').execSync
     const {
@@ -14,15 +16,12 @@ function main(isGlobal) {
         config: devCorePackageConfig
     } = require(PATHS.package)
 
-
-    const getLocalPathToSiegel = (...args) => './' + join(LOC_NAMES.NODE_MODULES, devCorePackageName, ...args)
-
     const replaceDevPathWithModule = path => {
         const { join, relative } = posix
 
         const replaceWith = isGlobal
             ?   join(relative(__dirname, PATHS.globalNodeModules), devCorePackageName)
-            :   getLocalPathToSiegel()
+            :   getLocalPathToSiegel(devCorePackageName)
 
 
         return path.replace('..', replaceWith)
@@ -59,7 +58,7 @@ function main(isGlobal) {
     const ESLintPath = join(PATHS.cwd, LOC_NAMES.ESLINT_JSON)
     const ESLintConfig = JSON.parse(readFileSync(ESLintPath, 'utf8'))
 
-    ESLintConfig.extends.push( getLocalPathToSiegel(LOC_NAMES.ESLINT_JSON) )
+    ESLintConfig.extends.push( getLocalPathToSiegel(devCorePackageName, LOC_NAMES.ESLINT_JSON) )
     ESLintConfig.rules = {}
 
     writeFileSync(ESLintPath, toJSON(ESLintConfig))

@@ -4,7 +4,7 @@ import { extractProps, applyRefApi } from '../ui_utils'
 import type { _Pagination, MergedProps } from './types'
 
 
-type GetPageElement = (page: number, props: MergedProps) => JSX.Element;
+type GetPageElement = (page: number, props: MergedProps) => JSX.Element
 
 const componentID = '-ui-pagination'
 

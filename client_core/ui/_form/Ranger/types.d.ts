@@ -10,6 +10,8 @@ type ThemeKeys = 'children' | 'range_slider' | 'range_area' | 'label'
 type Props = {
     value: number | DoubleValue
     onChange(value: Props['value'], e: MouseEvent | React.MouseEvent): void
+    onRangePickStart?:(e: React.MouseEvent) => void
+    onRangePickFinish?:(e?: MouseEvent) => void
     rangersCrossBehavior?: 'stop' | 'move' | 'cross'
     rangePickIcon?: React.ReactNode
     label?: React.ReactNode
@@ -18,7 +20,6 @@ type Props = {
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {
-    x?: number,
     rangersCrossBehavior: NonNullable<Props['rangersCrossBehavior']>
     rangePickIcon: NonNullable<Props['rangePickIcon']>
     theme: NonNullable<Required<Props['theme']>>

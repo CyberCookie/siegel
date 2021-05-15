@@ -69,8 +69,8 @@ function bindActions
 function createHookStore
 <S extends Indexable, A extends ActionsUnbinded<S>>
 (initialState: S, actions: A, reset?: boolean) {
-    type State = StateWithUpdater<S>;
-    (initialState as State).__updated = 0
+    type State = StateWithUpdater<S>
+    ;(initialState as State).__updated = 0
 
 
     type StoreUninitialized = InnerStore<State, A>

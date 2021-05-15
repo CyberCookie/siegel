@@ -5,33 +5,31 @@ import { Clocks, ClocksProps } from 'app/components'
 import styles from './styles.sass'
 
 
+const timeBuilder = ({ date, month, year, hours, minutes, seconds }: Parameters<NonNullable<ClocksProps['builder']>>[0]) => (
+    `${date} . ${month} . ${year} | ${hours} : ${minutes} : ${seconds}`
+)
+
 const Demo = () => {
     const initDate = new Date()
 
 
-    const simpleClocksChild = (
-        <Clocks initDate={initDate}
-            builder={({ date, month, year, hours, minutes }) => `${date} . ${month} . ${year} | ${hours} : ${minutes}` } />
-    )
-
+    const simpleClocksChild = <Clocks initDate={initDate} builder={timeBuilder} />
 
     const secondsClocksChildParams: ClocksProps = {
         initDate,
-        builder: ({ date, month, year, hours, minutes, seconds }) => (
-            `${date} . ${month} . ${year} | ${hours} : ${minutes} : ${seconds}`
-        ),
+        builder: timeBuilder,
         incrementEveryMinute: false
     }
 
-    const secondsClocksChild = <Clocks {...secondsClocksChildParams} />
+    const secondsClocksChild = <Clocks { ...secondsClocksChildParams } />
 
-    const secondsFastClocksChild = <Clocks {...secondsClocksChildParams} speedCoef={10} />
+    const secondsFastClocksChild = <Clocks { ...secondsClocksChildParams } speedCoef={10} />
 
 
     return <>
         <h1>{Clocks.ID}</h1>
 
-        <h2>simple</h2>
+        <h2>simple (by default update every minute)</h2>
         <div className={styles.clocks} children={simpleClocksChild} />
 
         <h2>update every second</h2>
