@@ -3,7 +3,7 @@ import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from 
 
 
 type ThemeKeys = 'month_wrapper' | 'month_title_wrapper' | 'icon' | 'month_title'
-    | 'month_days_wrapper' | 'month__sibling' | 'week' | 'week_day' | 'row' | 'row_placeholder' | 'day' | 'day__selected' | 'day__first'
+    | 'month_days_wrapper' | 'month__sibling' | 'week' | 'week_day' | 'row' | 'day' | 'day__selected' | 'day__first'
     | 'day__last' | 'day__today' | 'day__placeholder' | 'from' | 'to' | '_in_progress'
 
 
@@ -13,12 +13,13 @@ type Props = {
         rangeDateEnd?: number
     }
     onChange?(range: Props['initDate'], isFinished: boolean, payload?: any): void
+    onMonthSwitch?(date: Date, value: number, e: React.MouseEvent): void
     hideSiblingMonthsDays?: boolean
     prevIcon?: React.ReactNode
     nextIcon?: React.ReactNode
     monthsBefore?: number
     monthsAfter?: number
-    missedRow?: 'placeholder' | 'filled'
+    fixedHeight?: boolean
     weekStartsFrom?: 1 | 2 | 3 | 4 | 5 | 6
     noControls?: boolean
     triggerOnlyWhenFinished?: boolean
@@ -38,7 +39,8 @@ type DefaultProps = {
     prevIcon: NonNullable<Props['prevIcon']>
     nextIcon: NonNullable<Props['nextIcon']>
     monthsBefore: NonNullable<Props['monthsBefore']>
-    monthsAfter: NonNullable<Props['monthsAfter']>,
+    monthsAfter: NonNullable<Props['monthsAfter']>
+    fixedHeight: boolean
     triggerOnlyWhenFinished: NonNullable<Props['triggerOnlyWhenFinished']>
 }
 
@@ -75,7 +77,7 @@ type PrevNextDaysParams = {
     beginOfMonth: ChildProps['beginOfMonth']
     hideSiblingMonthsDays: MergedProps['hideSiblingMonthsDays']
     weekStartsFrom: MergedProps['weekStartsFrom']
-    missedRow: MergedProps['missedRow']
+    fixedHeight: MergedProps['fixedHeight']
 }
 
 type GetDayClass = (params: {

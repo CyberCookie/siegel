@@ -4,16 +4,39 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 type ThemeKeys = 'label' | 'checkbox' | 'with_icon_wrapper' | 'label_wrapper' | '_checked' | '_disabled'
 
 //#TS_sucks. attributes type should depend on label <> icon presence
+// type WithLabelProps = {
+//     label: React.ReactNode
+//     icon?: never
+//     attributes?: ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+// }
+// type WithIconProps = {
+//     icon: React.ReactNode
+//     label?: never
+//     attributes?: ComponentAttributes<HTMLDivElement>
+// }
+// type NoIconLaabelProps = {
+//     attributes?: never
+//     label?: never
+//     icon?: never
+// }
+// type WithLabelAndIconProps = {
+//     label: React.ReactNode
+//     icon: React.ReactNode
+//     attributes?: ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+// }
+
+
 type Props = {
     value: boolean
     onChange?(checked: Props['value'], e: React.MouseEvent, payload?: any): void
     checkboxAttributes?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
     attributes?: ComponentAttributes<HTMLDivElement> | ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
-    disabled?: boolean
     label?: React.ReactNode
-    payload?: any
     icon?: React.ReactNode
+    disabled?: boolean
+    payload?: any
 } & PropsComponentThemed<ThemeKeys>
+    // & ( WithLabelProps | WithIconProps | NoIconLaabelProps /*| WithLabelAndIconProps*/ )
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

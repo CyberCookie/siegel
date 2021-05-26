@@ -51,7 +51,7 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Parameters<M
 
         isE(LAST_FILLED_INDEX) && (charData.prevFilled = LAST_FILLED_INDEX)
 
-        if (maskChar === patternValueChar) {
+        if (maskChar == patternValueChar) {
             charData.index = maxLength
             maxLength = placeholderCharsOrdered.push(i)
 

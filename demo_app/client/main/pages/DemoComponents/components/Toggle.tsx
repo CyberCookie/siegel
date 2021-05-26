@@ -4,10 +4,10 @@ import { Toggle, ToggleProps, icons } from 'app/components'
 
 
 const Demo = () => {
-    const [ isToggled, setToggle ] = useState(false)
+    const [ value, setToggle ] = useState(false)
 
     const props: ToggleProps = {
-        isToggled,
+        value,
         onChange: value => setToggle(value)
     }
 
@@ -16,7 +16,7 @@ const Demo = () => {
         <h1>{Toggle.ID}</h1>
 
         <h2>simple</h2>
-        <h3>toggled: {isToggled + ''}</h3>
+        <h3>toggled: {value + ''}</h3>
         <Toggle {...props} />
 
         <h2>with icon and labels</h2>

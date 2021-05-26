@@ -4,10 +4,10 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 type ThemeKeys = 'children' | 'label' | 'toggle_area' | 'toggler' | '_toggled' | '_disabled'
 
 type Props = {
+    value?: boolean
     labelLeft?: React.ReactNode
     labelRight?: React.ReactNode
     toggleIcon?: React.ReactNode
-    isToggled?: boolean
     payload?: any
     disabled?: boolean
     onChange?(isToggled: boolean, e: React.MouseEvent, payload?: any): void

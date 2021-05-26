@@ -1,27 +1,30 @@
-//TODO: router demo page
-
 import { render } from 'react-dom'
-import { setup as requestServiceSetup, RequestParams } from 'siegel-services/request'
+import { setup as requestServiceSetup, HEADER_CONTENT_TYPE, RequestParams } from 'siegel-services/request'
 
 import Router from 'app/Router'
 
 import './styles'
 
 
+const JSON_CONTENT_TYPE = 'application/json'
+const extraHeades = {
+    [ HEADER_CONTENT_TYPE ]: JSON_CONTENT_TYPE
+}
+
 const rootComponent = document.getElementById('root')
 if (rootComponent) {
     window.navigator.serviceWorker?.register('/sw.js')
         .catch(console.error)
 
-
-    const extraHeades = {
-        'Content-Type': 'application/json'
-    }
     requestServiceSetup({
         beforeRequest(fetchParams: RequestParams) {
-            fetchParams.headers
-                ?   Object.assign(fetchParams.headers, extraHeades)
-                :   (fetchParams.headers = extraHeades)
+            if (!fetchParams.headers?.[HEADER_CONTENT_TYPE]) {
+                fetchParams.headers = Object.assign({}, fetchParams.headers, extraHeades)
+            }
+
+            if (fetchParams.headers[HEADER_CONTENT_TYPE] == JSON_CONTENT_TYPE) {
+                fetchParams.body = JSON.stringify(fetchParams.body)
+            }
         }
     })
 

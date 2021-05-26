@@ -22,7 +22,7 @@ type RequestParams = {
     parseMethod?: string
     params?: Indexable<string>
     query?: string | string[][] | Indexable<string> | URLSearchParams
-    headers?: Indexable
+    headers?: Indexable<string>
     credentials?: RequestInit['credentials']
     method?: RequestInit['method']
     signal?: RequestInit['signal']
@@ -36,6 +36,7 @@ function setup(newDefaults: SetupFnParams): void {
 
 const defaultSetup: SetupFnParams = {}
 
+const HEADER_CONTENT_TYPE = 'content-type'
 
 function extractRequestData(request: RequestParams) {
     const { url, query, params, headers, body, credentials, signal } = request
@@ -45,14 +46,17 @@ function extractRequestData(request: RequestParams) {
 
 
     if (body) {
-        options.body = JSON.stringify(body)
+        options.body = body
         options.method ||= 'POST'
     }
     options.method ||= 'GET'
 
     if (params) {
-        for (const param in params) fetchURL = fetchURL.replace(':' + param, params[param])
+        for (const param in params) {
+            fetchURL = fetchURL.replace(':' + param, params[param])
+        }
     }
+
     if (query) {
         const queryToAdd = typeof query == 'string'
             ?   query
@@ -80,7 +84,7 @@ async function extractResponseData(req: RequestParams, res: Response & Indexable
 
     if (!parseMethod) {
         parseMethod = 'text'
-        contentType = res.headers.get('content-type')
+        contentType = res.headers.get(HEADER_CONTENT_TYPE)
 
         if (contentType) {
             if (contentType.startsWith('application/json')) {
@@ -144,6 +148,6 @@ function request(req: RequestParams) {
 }
 
 
-export { setup }
+export { setup, HEADER_CONTENT_TYPE }
 export default request
 export type { FetchParams, ReqError, SetupFnParams, RequestParams }

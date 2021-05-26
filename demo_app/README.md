@@ -31,4 +31,5 @@
     - `sw.js` - service worker with uniq and the best caching strategy.
 - `server` - application entrypoint, siegel config and server with demo endpoint.
 - `.eslintrc` - eslint config.
+- `tsconfig.eslint.json` - eslint typescript config
 - `tsconfig.json` - typescript config with predefined aliases.

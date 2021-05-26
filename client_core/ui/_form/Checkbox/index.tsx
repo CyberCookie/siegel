@@ -56,7 +56,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
     withLabel || icon || modifyRootProps(checkboxInputProps, mergedProps, true)
     onChange || (checkboxInputProps.readOnly = true)
 
-    let CheckboxElement = <input {...checkboxInputProps} />
+    let CheckboxElement = <input { ...checkboxInputProps } />
 
 
     if (icon) {
@@ -64,7 +64,7 @@ const Checkbox: _Checkbox = (props, noDefaults) => {
         withLabel || modifyRootProps(iconWrapperProps, mergedProps)
 
         CheckboxElement = (
-            <div {...iconWrapperProps}>
+            <div { ...iconWrapperProps }>
                 { CheckboxElement }
                 { icon }
             </div>

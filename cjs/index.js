@@ -45,13 +45,14 @@ async function main(_CONFIG, _RUN_PARAMS) {
                 delete require.cache[filename];
                 cacheChildren.forEach(clearCachedDependencies);
             }
+            function stopDevServerInstance() {
+                clearCachedDependencies({ filename: serverIndexFile });
+                devServerInstance.close();
+                devServerInstance = createDevServer();
+                lock = false;
+            }
             function onChange() {
-                lock || (lock = setTimeout(() => {
-                    clearCachedDependencies({ filename: serverIndexFile });
-                    devServerInstance.close();
-                    devServerInstance = createDevServer();
-                    lock = false;
-                }, 100));
+                lock || (lock = setTimeout(stopDevServerInstance, 100));
             }
             function applyWatchListener(file, prefix) {
                 prefix && (file = join(prefix, file));

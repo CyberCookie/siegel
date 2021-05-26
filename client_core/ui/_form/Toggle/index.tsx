@@ -13,19 +13,19 @@ const Toggle: _Toggle = (props, noDefaults) => {
         :   (props as MergedProps)
 
     const {
-        theme, labelLeft, labelRight, isToggled, onChange, toggleIcon, attributes,
+        theme, labelLeft, labelRight, value, onChange, toggleIcon, attributes,
         payload, disabled, className, refApi
     } = mergedProps
 
 
     let toggleRootProps: Props['attributes'] = { className }
 
-    isToggled && (toggleRootProps.className += ` ${theme._toggled}`)
+    value && (toggleRootProps.className += ` ${theme._toggled}`)
 
     if (disabled) {
         toggleRootProps.className += ` ${theme._disabled}`
     } else if (onChange) {
-        toggleRootProps.onMouseDown = (e: React.MouseEvent) => { onChange(!isToggled, e, payload) }
+        toggleRootProps.onMouseDown = (e: React.MouseEvent) => { onChange(!value, e, payload) }
     }
     refApi && (applyRefApi(toggleRootProps, mergedProps))
     attributes && (toggleRootProps = Object.assign(toggleRootProps, attributes))

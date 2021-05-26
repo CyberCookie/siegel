@@ -1,6 +1,7 @@
 //TODO: add year switcher
 //TODO: add day postprocess hook
 //TODO: don't finish range selection when switch month / year
+//TODO: switch month if select previous / next month day
 
 import React, { useRef, useState } from 'react'
 
@@ -38,12 +39,14 @@ function getWeekDaysShifted(weekStartsFrom: MergedProps['weekStartsFrom'], weekD
     return localeWeek.concat(localeWeek.splice(0, weekStartsFrom))
 }
 
-function switchMonth(value: number, store: Store, e: React.MouseEvent) {
+function switchMonth(value: number, store: Store, e: React.MouseEvent, onMonthSwitch: MergedProps['onMonthSwitch']) {
     e.stopPropagation()
 
     const [ state, setState ] = store
     state.beginOfMonth.setMonth(state.beginOfMonth.getMonth() + value)
     setState({ ...state })
+
+    onMonthSwitch && onMonthSwitch(state.beginOfMonth, value, e)
 }
 
 function getWeekDayRow(localeWeek: string[], theme: DefaultProps['theme']) {
@@ -57,7 +60,7 @@ function getCalendarVisuals(
     store: Store,
     pickRangeStart: (e: React.MouseEvent) => void
 ) {
-    const { prevIcon, nextIcon, noControls, theme, monthsBefore, monthsAfter, weekStartsFrom, strings } = mergedProps
+    const { prevIcon, nextIcon, noControls, theme, monthsBefore, monthsAfter, weekStartsFrom, strings, onMonthSwitch } = mergedProps
     const state = store[0]
 
 
@@ -67,11 +70,11 @@ function getCalendarVisuals(
     const weekdaysRow = getWeekDayRow(weekDayNames, theme)
 
     const iconPrev = noControls || (
-        <div className={theme.icon} onMouseDown={e => switchMonth(-1, store, e)}
+        <div className={theme.icon} onMouseDown={e => switchMonth(-1, store, e, onMonthSwitch)}
             children={prevIcon} />
     )
     const iconNext = noControls || (
-        <div className={theme.icon} onMouseDown={e => switchMonth(1, store, e)}
+        <div className={theme.icon} onMouseDown={e => switchMonth(1, store, e, onMonthSwitch)}
             children={nextIcon} />
     )
 
@@ -207,7 +210,7 @@ const Calendar: _Calendar = (props, noDefaults) => {
     attributes && Object.assign(rootAttributes, attributes)
 
 
-    return <div {...rootAttributes} />
+    return <div { ...rootAttributes } />
 }
 Calendar.defaults = {
     theme: {
@@ -221,7 +224,6 @@ Calendar.defaults = {
         week: componentID + '_week',
         week_day: componentID + '_week_day',
         row: componentID + '_row',
-        row_placeholder: componentID + '_row_placeholder',
         day: componentID + '_day',
         day__selected: componentID + '_day__selected',
         day__first: componentID + '_day__first',
@@ -238,7 +240,8 @@ Calendar.defaults = {
     prevIcon: '<',
     nextIcon: '>',
     monthsBefore: 0,
-    monthsAfter: 0
+    monthsAfter: 0,
+    fixedHeight: true
 }
 Calendar.ID = componentID
 

@@ -46,7 +46,7 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
 
         remove(entityID) {
             if (byID[entityID]) {
-                const indexOfEntity = sorted.findIndex(ID => entityID === ID)
+                const indexOfEntity = sorted.findIndex(ID => entityID == ID)
 
                 sorted.splice(indexOfEntity, 1)
                 delete byID[entityID]

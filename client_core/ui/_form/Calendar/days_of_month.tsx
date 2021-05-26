@@ -8,11 +8,6 @@ import styles from './styles.sass'
 
 const innerRowClassName = styles[componentID + '_inner_row']
 
-const missedRowType = {
-    PLACEHOLDER: 'placeholder',
-    FILLED: 'filled'
-} as const
-
 const DAYS_IN_WEEK = 7
 
 function fillWithSiblingMonthDateRange(result: AllDaysData[], dateFrom: number, dateTo: number, date: Date, hidden?: boolean) {
@@ -48,7 +43,7 @@ function getPreviousMonthDays(params: PrevNextDaysParams) {
         }
     }
 
-    const isFullRow = (lastDate - (startDate - 1)) === DAYS_IN_WEEK
+    const isFullRow = (lastDate - (startDate - 1)) == DAYS_IN_WEEK
 
     if (!(hideSiblingMonthsDays && isFullRow)) {
         date.setDate(startDate)
@@ -107,7 +102,7 @@ function getCalendarMonthDays(prevNextDaysParams: PrevNextDaysParams) {
     const countAfter = fillWithNextMonthDays(allDays, prevNextDaysParams)
 
 
-    if (prevNextDaysParams.missedRow == missedRowType.FILLED && allDays.length < 42) {
+    if (prevNextDaysParams.fixedHeight && allDays.length < 42) {
         const isHiddenSiblings = prevNextDaysParams.hideSiblingMonthsDays
 
         if (countBefore < countAfter) {
@@ -160,10 +155,10 @@ const getDayClass: GetDayClass = ({ theme, dayObj, hideSiblingMonthsDays, innerR
 const Days = (props: ChildProps) => {
     const { calendarProps, parentState, beginOfMonth, pickRangeStart } = props
 
-    const { weekStartsFrom, hideSiblingMonthsDays, missedRow, theme } = calendarProps
+    const { weekStartsFrom, hideSiblingMonthsDays, fixedHeight, theme } = calendarProps
     const { innerRangeStart, innerRangeEnd, inProgress } = parentState
 
-    const prevNextDaysParams = { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom, missedRow }
+    const prevNextDaysParams = { beginOfMonth, hideSiblingMonthsDays, weekStartsFrom, fixedHeight }
     const allDays = getCalendarMonthDays(prevNextDaysParams)
 
     let className = theme.month_days_wrapper
@@ -190,12 +185,6 @@ const Days = (props: ChildProps) => {
         }
 
         rows.push(<div key={i} className={`${theme.row} ${innerRowClassName}`} children={dayRow} />)
-    }
-
-    if (missedRow == missedRowType.PLACEHOLDER && rows.length < 6) {
-        rows.push(
-            <div key={rows.length} className={`${theme.row} ${theme.row_placeholder}`} />
-        )
     }
 
 
