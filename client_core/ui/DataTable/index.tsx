@@ -1,6 +1,8 @@
 //TODO: virtualization
 //TODO: resize with %
+//TODO: columns toggle
 //TODO: recursive merge select and pagination props
+//TODO: column ID
 
 import React, { useState } from 'react'
 
@@ -60,9 +62,9 @@ function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBod
         <div className={theme.pagination_wrapper}>
             { displayQuantity && displayQuantity(resultIDs.length) }
 
-            <Select {...dataTableSelectProps} />
+            <Select { ...dataTableSelectProps } />
 
-            <Pagination {...dataTablePaginationProps} />
+            <Pagination { ...dataTablePaginationProps } />
         </div>
     )
 }
@@ -104,7 +106,11 @@ const DataTable: _DataTable = (props, noDefaults) => {
     tableAttributes && (dataTableTableProps.attributes = tableAttributes)
 
 
-    return <div {...rootAttributes} children={ <Table {...dataTableTableProps} /> } />
+    return (
+        <div { ...rootAttributes }>
+            <Table { ...dataTableTableProps } />
+        </div>
+     )
 }
 DataTable.defaults = {
     theme: {

@@ -54,33 +54,32 @@ function extractProps<
     T extends PropsComponentThemed,
     U extends PropsComponentThemed
 >
-(defaultProps: T & Indexable, props: U & Indexable, withMergedDefaults: boolean, recursiveMergeProps?: string[]) {
+(prevProps: T & Indexable, newProps: U & Indexable, withMergedDefaults: boolean, recursiveMergeProps?: string[]) {
 
-    const { className: defaultClassName, theme: defaultTheme } = defaultProps
-    const { className, theme } = props
+    const { className: prevClassName, theme: prevTheme } = prevProps
+    const { className: nextClassName, theme: nextTheme } = newProps
 
     recursiveMergeProps?.forEach(prop => {
-        const _prop = props[prop]
-        const defaultProp = defaultProps[prop]
+        const _prop = newProps[prop]
+        const defaultProp = prevProps[prop]
 
         _prop && defaultProp
             && Object.assign(_prop, extractProps(defaultProp, _prop, withMergedDefaults))
     })
 
-    const result = Object.assign({}, defaultProps, props)
+    const result = Object.assign({}, prevProps, newProps)
 
-    if (className && defaultClassName) {
-        result.className += ` ${defaultClassName}`
-    }
-    result.className ||= ''
+    result.className = prevClassName || ''
+    nextClassName && (result.className += ` ${nextClassName}`)
 
-    if (defaultTheme) {
-        result.theme = theme
-            ?   Object.assign({}, defaultTheme, theme)
-            :   defaultTheme
+
+    if (prevTheme) {
+        result.theme = nextTheme
+            ?   Object.assign({}, prevTheme, nextTheme)
+            :   prevTheme
 
         if(withMergedDefaults) {
-            theme?.root && (result.className = result.className.replace(defaultTheme.root!, theme.root))
+            nextTheme?.root && (result.className = result.className.replace(prevTheme.root!, nextTheme.root))
         } else result.className += ` ${result.theme.root}`
     }
 

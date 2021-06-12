@@ -14,7 +14,7 @@ type ThemeKeys = 'label' | 'checkbox' | 'with_icon_wrapper' | 'label_wrapper' | 
 //     label?: never
 //     attributes?: ComponentAttributes<HTMLDivElement>
 // }
-// type NoIconLaabelProps = {
+// type NoIconLabelProps = {
 //     attributes?: never
 //     label?: never
 //     icon?: never
@@ -36,7 +36,7 @@ type Props = {
     disabled?: boolean
     payload?: any
 } & PropsComponentThemed<ThemeKeys>
-    // & ( WithLabelProps | WithIconProps | NoIconLaabelProps /*| WithLabelAndIconProps*/ )
+    // & ( WithLabelProps | WithIconProps | NoIconLabelProps /*| WithLabelAndIconProps*/ )
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

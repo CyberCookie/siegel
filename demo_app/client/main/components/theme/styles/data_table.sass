@@ -1,7 +1,4 @@
 .root
-    +flex('', space-between)
-    flex-direction: column
-    height: 500px
     overflow: auto
     border-radius: 0 0 $radius $radius
     border-bottom: $border
@@ -17,7 +14,6 @@
                 border-top: none
 
 .table
-    width: 100% !important
     overflow: auto
     table-layout: fixed
     border-top: 0
@@ -26,8 +22,6 @@
     th
         position: sticky
         top: 0
-        min-width: 50px
-        width: 100%
         line-height: 1
         transition: none
         background: $white
@@ -36,10 +30,6 @@
 
         &:first-of-type
             border-top-left-radius: $radius
-            width: calc(26px + #{$gutter * 2} + 1px)
-
-        &:nth-child(2)
-            width: 100px
 
         &:last-of-type
             border-top-right-radius: $radius

@@ -12,7 +12,7 @@ const getSelectDisplayValue = ({ title }: SelectProps['options'][number]) => 'se
 const Demo = () => {
     const [ selectedOption, setOption ] = useState(undefined) as DempSelectStore
 
-    const props: SelectProps = {
+    const props: SelectProps<number> = {
         placeholder: 'placeholder',
         selected: selectedOption,
         options: [
@@ -30,7 +30,7 @@ const Demo = () => {
                 disabled: true
             }
         ],
-        onChange(value: number) { setOption(value) }
+        onChange(value) { setOption(value) }
     }
 
 

@@ -1,3 +1,5 @@
+//TODO?: caching via etag
+
 const assetsSet = new Set()
 const origin = self.origin
 

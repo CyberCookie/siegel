@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { getDefaultState } from 'siegel-ui/DataTable'
-import { SearchByFieldText, SearchByFieldDate, SearchByFieldSet } from 'siegel-ui/DataTable/types'
 
 import {
     icons, Pagination, Select, Checkbox, Input, Calendar,
     DataTableProps,
     paginationTheme, selectTheme, checkboxTheme, inputTheme
 } from 'app/components'
-import type { MockEntities } from './'
+import type { MockEntities, DemoDataTableProps } from './types'
 
 import styles from './styles.sass'
 
@@ -19,15 +18,18 @@ type PostProcessState = {
 type PostProcessStore = [ PostProcessState, React.Dispatch<React.SetStateAction<PostProcessState>> ]
 
 
-const dataTableSelectTheme = {
-    ...selectTheme,
+const dataTableSelectTheme = Object.assign({}, selectTheme, {
     root: `${selectTheme!.root} ${styles.paginator_select}`,
     title: `${selectTheme!.title} ${styles.paginator_select_title}`,
     label: `${selectTheme!.label} ${styles.paginator_select_label}`,
     input_wrapper: styles.paginator_select_input_wrapper,
     options: `${selectTheme!.options} ${styles.paginator_select_options}`,
     _active: `${selectTheme!._active} ${styles.paginator_select__active}`
-}
+})
+
+const dataTablePaginationTheme = Object.assign({}, paginationTheme, {
+    _single: styles.pagination_single_page
+})
 
 const paginatorSelectOptions = ([1,2,3]).map(num => {
     const value = num * 10
@@ -36,14 +38,14 @@ const paginatorSelectOptions = ([1,2,3]).map(num => {
 
 const nowTimestamp = Date.now()
 
-function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTableProps<MockEntities>['postProcessHeadCell']>>>(
-{ cell, config, index, dataGridHookStore, postProcessStore, entities }:
+function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTableProps['postProcessHeadCell']>>>(
+{ headCell, config, index, dataGridHookStore, postProcessStore, entities }:
 {
-    cell: T[0]
+    headCell: T[0]
     config: T[1]
     index: T[2]
-    entities: DataTableProps<MockEntities>['entities']
-    dataGridHookStore: NonNullable<DataTableProps<MockEntities>['innerStore']>
+    entities: DemoDataTableProps['entities']
+    dataGridHookStore: NonNullable<DemoDataTableProps['innerStore']>
     postProcessStore: PostProcessStore
 }) {
 
@@ -53,6 +55,9 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
     const activeCol = postProcessData.activeCol
 
     const isActiveLabelMenu = activeCol == index
+    const { label, customParams } = config
+    const { type, valuePath } = customParams!
+
 
     function onLabelMenuOpen() {
         if (isActiveLabelMenu) {
@@ -82,22 +87,21 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
 
         function getSearch() {
             const searchByField = dataGridHookState.searchByField
-            const { type, entityFieldPath, showValue } = config
             let searchElement
 
             if (type == 'set') {
                 const resultCheckbox: JSX.Element[] = []
-                const searchSet = (searchByField[index] as SearchByFieldSet) || new Set()
-                const uniqValues: SearchByFieldSet = new Set()
+                const searchSet = searchByField[index] || new Set()
+                const uniqValues = new Set()
 
                 entities.each((entity, i) => {
-                    const setValue = entity[entityFieldPath as string]
+                    const setValue = entity[valuePath]
                     if (!uniqValues.has(setValue)) {
                         uniqValues.add(setValue)
 
                         resultCheckbox.push(
-                            <Checkbox key={setValue} theme={checkboxTheme} value={!searchSet.has(setValue)}
-                                className={styles.set_checkbox} label={showValue ? showValue(entity, i) : setValue}
+                            <Checkbox key={setValue as string} theme={checkboxTheme} value={!searchSet.has(setValue)}
+                                className={styles.set_checkbox} label={config.showValue!(entity, i).value}
                                 icon={icons.check}
                                 onChange={(checkboxValue, e) => {
                                     e.stopPropagation()
@@ -114,7 +118,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
 
                 searchElement = <>{resultCheckbox}</>
             } else if (type == 'date') {
-                const { dateStart, dateEnd } = (searchByField[index] as SearchByFieldDate) || {}
+                const { dateStart, dateEnd } = searchByField[index] || {}
                 const rangeDateStart = dateStart || nowTimestamp
 
                 searchElement = (
@@ -133,10 +137,10 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
                 )
             } else {
                 searchElement = (
-                    <Input theme={inputTheme} value={(searchByField[index] as SearchByFieldText) || ''} autofocus
+                    <Input theme={inputTheme} value={searchByField[index] || ''} autofocus
                         className={styles.search_input}
                         onChange={value => {
-                            (searchByField[index] as SearchByFieldText) = value
+                            searchByField[index] = value
                             setDataGridHookState({ ...dataGridHookState })
                         }} />
                 )
@@ -152,13 +156,13 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
                 <div className={styles.grid_col_menu_sort} onMouseDown={onSort}
                     data-sortvalue='-1' data-sortindex={index}>
 
-                    {icons.chevron} ASC
+                    { icons.chevron } ASC
                 </div>
 
                 <div className={styles.grid_col_menu_sort} onMouseDown={onSort}
                     data-sortvalue='1' data-sortindex={index}>
 
-                    {icons.chevron} DESC
+                    { icons.chevron } DESC
                 </div>
 
                 <div className={styles.grid_col_search} children={getSearch()} />
@@ -167,25 +171,25 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DataTablePro
     }
 
 
-    return {
-        value: (
-            <div className={styles.grid_col_label}>
-                { cell.value }
+    headCell.value = (
+        <div className={styles.grid_col_label}>
+            { label }
 
-                <div className={styles.grid_col_menu_toggle}>
-                    { icons.more_vert }
+            <div className={styles.grid_col_menu_toggle}>
+                { icons.more_vert }
 
-                    { isActiveLabelMenu && getActiveLabelMenu() }
-                </div>
+                { isActiveLabelMenu && getActiveLabelMenu() }
             </div>
-        ),
-        attributes: { onMouseDown: onLabelMenuOpen }
-    }
+        </div>
+    )
+    headCell.attributes
+        ?    (headCell.attributes.onMouseDown = onLabelMenuOpen)
+        :    (headCell.attributes = { onMouseDown: onLabelMenuOpen })
 }
 
 const displayQuantity = (count: number) => <div className={styles.paginator_count} children={'Total items: ' + count} />
 
-function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DataTableProps<MockEntities>['postProcessHeadRow']>>>(
+function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DemoDataTableProps['postProcessHeadRow']>>>(
 { row, displayedEntityIDs, postProcessStore }:
 {
     row: T[0]
@@ -222,13 +226,14 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DataTabl
 
                     setPostprocessData({ ...postProcessData })
                 }} />
-        )
+        ),
+        attributes: {
+            className: styles.row_selector
+        }
     })
-
-    return row
 }
 
-function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DataTableProps<MockEntities>['postProcessBodyRow']>>>(
+function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DemoDataTableProps['postProcessBodyRow']>>>(
 { row, entity, postProcessStore }:
 {
     row: T[0]
@@ -242,7 +247,7 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DataTablePr
 
     const value = selected.has(entity.id)
 
-    row.children.unshift({
+    row[0].children.unshift({
         value: (
             <Checkbox value={value}
                 onChange={() => {
@@ -252,23 +257,23 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DataTablePr
 
                     setPostprocessData({ ...postProcessData })
                 }} />
-        )
+        ),
+        attributes: {
+            className: styles.row_selector
+        }
     })
-
-    return row
 }
 
 const gridDefaultState = getDefaultState()
 
-export default (props: DataTableProps<MockEntities>) => {
+export default (props: DemoDataTableProps) => {
     const dataGridHookStore = useState(gridDefaultState)
     const postProcessStore: PostProcessStore = useState({
         selected: new Set(),
         activeCol: -1
     })
 
-    const result: DataTableProps<MockEntities> = {
-        ...props,
+    const newProps: DemoDataTableProps = Object.assign(props, {
         innerStore: dataGridHookStore,
         resizable: true,
         withPagination: {
@@ -284,15 +289,13 @@ export default (props: DataTableProps<MockEntities>) => {
             pagination: {
                 component: Pagination,
                 props: {
-                    theme: {
-                        ...paginationTheme,
-                        _single: styles.pagination_single_page
-                    }
+                    theme: dataTablePaginationTheme
                 }
             }
         },
-        postProcessHeadCell: (cell, config, index) => getHeadLabelMenuTableCell({
-            cell, config, index, dataGridHookStore, postProcessStore,
+        postProcessHeadCell: (headCell, config, index) => getHeadLabelMenuTableCell({
+            headCell, config, index,
+            dataGridHookStore, postProcessStore,
             entities: props.entities
         }),
 
@@ -300,8 +303,8 @@ export default (props: DataTableProps<MockEntities>) => {
             getSelectAllCheckboxTableCell({ row, displayedEntityIDs, postProcessStore }),
 
         postProcessBodyRow: (row, entity) => getSelectCheckboxTableCell({ row, entity, postProcessStore })
-    }
+    } as Partial<DataTableProps<MockEntities>>)
 
 
-    return result
+    return newProps
 }

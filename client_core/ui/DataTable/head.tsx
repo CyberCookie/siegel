@@ -89,30 +89,36 @@ function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) 
 
     const children: TableTH[] = []
     columnsConfig.forEach((columnConfig, configurationIndex: number) => {
-        let nameCell = {
-            value: columnConfig.label
+        const { label, className } = columnConfig
+
+        const tableHeadCellToPush: TableTH = {
+            value: label
         }
-        postProcessHeadCell && (nameCell = postProcessHeadCell(nameCell, columnConfig, configurationIndex, displayedEntityIDs))
+        className && (tableHeadCellToPush.attributes = { className })
+
+        if (postProcessHeadCell) {
+            postProcessHeadCell(tableHeadCellToPush, columnConfig, configurationIndex, displayedEntityIDs)
+        }
 
 
         if (resizable) {
             const resizeHandler = getResizeHandler()
 
-            nameCell.value = <>
+            tableHeadCellToPush.value = <>
                 <div className={resizerClassName} onMouseDown={resizeHandler} />
 
-                { nameCell.value }
+                { tableHeadCellToPush.value }
 
                 <div className={resizerClassName} onMouseDown={resizeHandler} />
             </>
         }
 
 
-        children.push(nameCell)
+        children.push(tableHeadCellToPush)
     })
 
-    let result = [{ children }]
-    postProcessHeadRow && (result = postProcessHeadRow(result, displayedEntityIDs))
+    const result = [{ children }]
+    postProcessHeadRow && postProcessHeadRow(result, displayedEntityIDs)
 
 
     return result

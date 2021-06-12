@@ -31,7 +31,8 @@ const setDefaults = (params: Partial<SignalROptions>) => {
     }
 }
 
-const isBusyStates = new Set([ HubConnectionState.Connecting, HubConnectionState.Reconnecting, HubConnectionState.Disconnecting ])
+const { Connecting, Reconnecting, Disconnecting, Connected } = HubConnectionState
+const isBusyStates = new Set([ Connecting, Reconnecting, Disconnecting ])
 
 const createSignalRConnection = (options: SignalROptions) => {
     const connectionParams = Object.assign(options, defaults)
@@ -64,7 +65,7 @@ const createSignalRConnection = (options: SignalROptions) => {
             this.isAlive() && nativeSocket.invoke.apply(nativeSocket, args)
         },
 
-        isAlive: () => nativeSocket.state == HubConnectionState.Connected,
+        isAlive: () => nativeSocket.state = Connected,
         async runSocket(cb: () => void) {
             if (this.isAlive()) {
                 cb?.call(this)

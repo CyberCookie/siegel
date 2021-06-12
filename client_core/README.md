@@ -98,6 +98,19 @@ setup({
 })
 ```
 
+Sending JSON body
+```js
+import request, { HEADER_CONTENT_TYPE } from 'siegel-services/request'
+
+request({
+    url: 'some.url',
+    headers: {
+        [ HEADER_CONTENT_TYPE ]: 'application/json'
+    },
+    body: JSON.stringify({ some_data: 42 })
+})
+```
+
 </details>
 <h4>signalr...</h4>
 

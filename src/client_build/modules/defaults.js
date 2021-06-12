@@ -1,10 +1,13 @@
+//TODO: place 'theme = true' into a bundle if css modules enabled
+
+
 const resolve = require.resolve
 
 const {
     loadersKeyMap, webpackModulesRegExp,
 
     DEPENDENCIES: {
-        plugins: { miniCssExtract: { loader: miniCssExtractLoader }},
+        plugins: { miniCssExtract },
         resolvedLoaders: {
             babelPresetEnv, babelPresetReact, babelPresetTS,
             babelPluginReactRefresh, babelPluginExportDefault, babelPluginExportNamespace, babelPluginDynamicImport, babelPluginTransformRuntime,
@@ -22,7 +25,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
     const defaults = {
         [webpackModulesRegExp.scripts]: {
-            loaderOrder: [loadersKeyMap.babel, loadersKeyMap.eslint],
+            loaderOrder: [ loadersKeyMap.babel, loadersKeyMap.eslint ],
             loaders: {
                 [loadersKeyMap.babel]: {
                     loader: resolve('babel-loader'),
@@ -51,10 +54,10 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         },
 
         [webpackModulesRegExp.styles]: {
-            loaderOrder: [loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources],
+            loaderOrder: [ loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources ],
             loaders: {
                 [loadersKeyMap.cssFinal]: isProd || !isServer
-                    ?   miniCssExtractLoader
+                    ?   miniCssExtract.loader
                     :   resolve('style-loader'),
 
                 [loadersKeyMap.cssLoader]: {

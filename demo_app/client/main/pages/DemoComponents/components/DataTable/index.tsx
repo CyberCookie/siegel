@@ -1,20 +1,13 @@
 import React from 'react'
-import createEntitiesStruct, { Entities } from 'siegel-utils/entities_struct'
+import createEntitiesStruct from 'siegel-utils/entities_struct'
 import { msIn } from 'siegel-utils/date/consts'
 
-import { DataTable, DataTableProps } from 'app/components'
+import { DataTable } from 'app/components'
 import getEnchancedDataTableProps from './postProcessProps'
+import columnsConfig from './grid_schema'
+import type { Entity, DemoDataTableProps } from './types'
 
-
-type Entity = {
-    id: ID
-    date: number
-    name: string
-    someNumer: number
-    bool: boolean
-} & Indexable
-
-type MockEntities = Entities<Entity>
+import styles from './styles.sass'
 
 
 const entitiesStruct = createEntitiesStruct<Entity>('id')
@@ -23,49 +16,18 @@ const entitiesStruct = createEntitiesStruct<Entity>('id')
 .map((_, i) => ({
     id: i,
     date: Date.now() + msIn.day * i,
-    name: 'some text ' + i,
-    someNumer: i % 4,
+    text: 'some text ' + i,
+    num: i % 4,
     bool: i % 2 == 0 ? true : false
 }))
 .forEach(el => entitiesStruct.addOrUpdate(el))
 
 
-const columnsConfig: DataTableProps<MockEntities>['columnsConfig'] = [
-    {
-        label: 'ID',
-        type: 'text',
-        entityFieldPath: 'id'
-    },
-    {
-        label: 'Date',
-        type: 'date',
-        entityFieldPath: 'date',
-        showValue(entity) {
-            return (new Date(entity[this.entityFieldPath as string])).toDateString()
-        }
-    },
-    {
-        label: 'Name',
-        type: 'text',
-        entityFieldPath: 'name'
-    },
-    {
-        label: 'Some number',
-        type: 'set',
-        entityFieldPath: 'someNumer'
-    },
-    {
-        label: 'Some boolean',
-        type: 'set',
-        entityFieldPath: 'bool',
-        showValue: entity => entity.bool ? '+' : '-'
-    }
-]
-
 const Demo = () => {
-    const props: DataTableProps<MockEntities> = {
+    const props: DemoDataTableProps = {
         columnsConfig,
-        entities: entitiesStruct
+        entities: entitiesStruct,
+        className: styles.demo_grid
     }
 
 
@@ -73,14 +35,13 @@ const Demo = () => {
         <h1>{DataTable.ID}</h1>
 
         <h2>simple [like table]</h2>
-        <DataTable {...props} />
+        <DataTable { ...props } />
 
         <h2> with pagination, resizable, postProcess </h2>
-        <DataTable {...getEnchancedDataTableProps(props)} />
+        <DataTable { ...getEnchancedDataTableProps(props) } />
     </>
 }
 Demo.id = DataTable.ID
 
 
 export default Demo
-export type { MockEntities }
