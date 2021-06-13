@@ -66,7 +66,7 @@ const Select: _Select = (props, noDefaults) => {
 
     const {
         theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi,
-        innerStore
+        innerStore, resetIcon, onChange
     } = mergedProps
 
     const [ isActive, setActive ] = ((innerStore || useState(false)) as NonNullable<Props['innerStore']>)
@@ -133,6 +133,15 @@ const Select: _Select = (props, noDefaults) => {
     const selectInput = <>
         <div className={theme.title}>
             <div className={theme.title_text} children={displayValue} />
+
+            { resetIcon &&  (
+                <div children={resetIcon} className={theme.reset}
+                    onMouseDown={e => {
+                        e.stopPropagation()
+                        onChange(undefined, e)
+                    }} />
+            )}
+
             { dropdownIcon }
         </div>
 
@@ -141,7 +150,7 @@ const Select: _Select = (props, noDefaults) => {
 
 
     return (
-        <div {...selectRootProps}>
+        <div { ...selectRootProps }>
             { label
                 ?   <>
                         <div className={theme.label} children={label} />
@@ -161,6 +170,7 @@ Select.defaults = {
         children: componentID + '_children',
         label: componentID + '_label',
         title: componentID + '_title',
+        reset: componentID + '_reset',
         title_text: componentID + '_title_text',
         input_wrapper: componentID + '_input_wrapper',
         options: componentID + '_options',

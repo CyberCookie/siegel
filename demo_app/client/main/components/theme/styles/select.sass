@@ -13,19 +13,41 @@ $width: 200px
             border-color: $primary
             border-radius: $radius $radius 0 0
 
-            i
+            & > i
                 transform: rotate(90deg)
     
     &:not(._disabled) .title
         cursor: pointer
 
-.title
-    +flex(space-between, center)
-    padding-right: $gutter
+    &:not(._filled) .reset
+        display: none
 
-    i
+.title
+    +flex('', center)
+    flex-grow: 1
+    padding-right: $gutter
+    line-height: 38px
+
+    & > i
         font-size: 22px
         transition: transform $transition
+    
+    & > *
+        height: 100%
+
+.title_text
+    flex-grow: 1
+
+.reset
+    padding-right: $gutter_sm
+    transition: color $transition
+    
+    &:hover
+        color: $primary
+
+    & + i
+        flex-grow: 0
+        display: inline-flex
 
 .options
     display: none

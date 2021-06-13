@@ -68,10 +68,9 @@ const Checkbox = withDefaults(_Checkbox, {
 })
 
 
-const dataTableTheme: DataTableProps<any>['theme'] = {
-    ..._dataTableTheme,
+const dataTableTheme: DataTableProps<any>['theme'] = Object.assign(_dataTableTheme, {
     table: `${tableTheme.table} ${_dataTableTheme.table}`
-}
+})
 const DataTable = withDefaults(_DataTable, {
     theme: dataTableTheme
 })
@@ -105,11 +104,10 @@ const DropdownSearch = withDefaults(_DropdownSearch, {
 const Input = withDefaults(_Input, { theme: inputTheme })
 
 
-const numberPickerTheme: NumberPickerProps['theme'] = {
-    ..._numberPickerTheme,
+const numberPickerTheme: NumberPickerProps['theme'] = Object.assign(_numberPickerTheme, {
     field: `${inputTheme.field} ${_numberPickerTheme.field}`,
     label: inputTheme.label_text
-}
+})
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
     minusIcon: icons.chevron,
@@ -133,11 +131,10 @@ const Radio = withDefaults(_Radio, {
 })
 
 
-const selectTheme: SelectProps['theme'] = {
-    ..._selectTheme,
+const selectTheme: SelectProps['theme'] = Object.assign(_selectTheme, {
     title: `${inputTheme.field} ${_selectTheme.title}`,
     label: inputTheme.label_text
-}
+})
 const Select = withDefaults(_Select, {
     theme: selectTheme,
     dropdownIcon: icons.chevron
