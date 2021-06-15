@@ -7,7 +7,10 @@ import isE from '../../../utils/is_exists'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import addChildren from '../../children'
 import Input, { getDefaultInputStoreState, updateThemeWithInputFieldTheme, Props as InputProps } from '../Input'
-import type { _NumberPicker, Props, MergedProps, BtnClickEv, BtnProps, OnNumberPickerChange } from './types'
+import type {
+    Component, MergedProps, BtnClickEv, BtnProps, OnNumberPickerChange,
+    Props
+} from './types'
 
 import styles from './styles.sass'
 
@@ -120,7 +123,7 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
     )
 }
 
-const NumberPicker: _NumberPicker = (props, noDefaults) => {
+const NumberPicker: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(NumberPicker.defaults, props, false)
         :   (props as MergedProps)
@@ -257,4 +260,4 @@ NumberPicker.ID = componentID
 
 export { componentID }
 export default NumberPicker
-export * from './types'
+export type { Props }

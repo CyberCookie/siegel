@@ -27,7 +27,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Ranger = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _Ranger, DoubleValue }
+export type { Props, DefaultProps, MergedProps, Component, DoubleValue }

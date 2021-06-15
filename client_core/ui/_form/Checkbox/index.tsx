@@ -4,12 +4,12 @@ import { extractProps, applyRefApi } from '../../ui_utils'
 import isE from '../../../utils/is_exists'
 import getLabel from '../label'
 import componentID from './id'
-import type { _Checkbox, MergedProps } from './types'
+import type {
+    Component, MergedProps, CheckboxInputProps,
+    Props
+} from './types'
 
 import styles from './styles.sass'
-
-
-type CheckboxInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 
 const innerRootClassName = styles[componentID + '_inner']
@@ -36,7 +36,7 @@ function modifyRootProps(rootProps: CheckboxInputProps, mergedProps: MergedProps
     attributesToMerge && Object.assign(rootProps, attributes)
 }
 
-const Checkbox: _Checkbox = (props, noDefaults) => {
+const Checkbox: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Checkbox.defaults, props, false)
         :   (props as MergedProps)
@@ -99,4 +99,4 @@ Checkbox.ID = componentID
 
 export { componentID }
 export default Checkbox
-export * from './types'
+export type { Props }

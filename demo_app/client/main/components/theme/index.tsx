@@ -45,7 +45,6 @@ import toggleTheme from './styles/toggle.sass'
 import rangerTheme from './styles/ranger.sass'
 
 
-
 const Button = withDefaults(_Button, { className: buttonTheme.button })
 
 const Breadcrumbs = withDefaults(_Breadcrumbs, {
@@ -155,26 +154,30 @@ const Ranger = withDefaults(_Ranger, {
 })
 
 
-
 export {
-    buttonTheme, ButtonProps, Button,
-    breadcrumbsTheme, BreadcrumbsProps, Breadcrumbs,
-    calendarTheme, CalendarProps, Calendar,
-    checkboxTheme, CheckboxProps, Checkbox,
-    dataTableTheme, DataTableProps, DataTable,
-    ClocksProps, Clocks,
-    SwipeProps, Swipe,
-    accordionTheme, AccordionProps, Accordion,
-    dropdownSearchTheme, DropdownSearchProps, DropdownSearch,
-    inputTheme, InputProps, Input,
-    numberPickerTheme, NumberPickerProps, NumberPicker,
-    paginationTheme, PaginationProps, Pagination,
-    popupTheme, PopupProps, Popup,
-    radioTheme, RadioProps, Radio,
-    selectTheme, SelectProps, Select,
-    sliderTheme, SliderProps, Slider,
-    tableTheme, TableProps, Table,
-    toggleTheme, ToggleProps, Toggle,
-    tabsTheme, TabsProps, Tabs,
-    rangerTheme, RangerProps, Ranger
+    buttonTheme, Button,
+    breadcrumbsTheme, Breadcrumbs,
+    calendarTheme, Calendar,
+    checkboxTheme, Checkbox,
+    dataTableTheme, DataTable,
+    Clocks,
+    Swipe,
+    accordionTheme, Accordion,
+    dropdownSearchTheme, DropdownSearch,
+    inputTheme, Input,
+    numberPickerTheme, NumberPicker,
+    paginationTheme, Pagination,
+    popupTheme, Popup,
+    radioTheme, Radio,
+    selectTheme, Select,
+    sliderTheme, Slider,
+    tableTheme, Table,
+    toggleTheme, Toggle,
+    tabsTheme, Tabs,
+    rangerTheme, Ranger
+}
+export type {
+    ButtonProps, BreadcrumbsProps, CalendarProps, CheckboxProps, ClocksProps, DataTableProps, SwipeProps,
+    AccordionProps, DropdownSearchProps, InputProps, NumberPickerProps, PaginationProps, PopupProps, RadioProps,
+    SelectProps, SliderProps, TableProps, ToggleProps, TabsProps, RangerProps
 }

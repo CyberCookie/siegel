@@ -9,7 +9,10 @@ import { dateLocales } from '../../../utils/date/consts'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import componentID from './id'
 import Days from './days_of_month'
-import type { Props, DefaultProps, MergedProps, _Calendar, Store } from './types'
+import type {
+    DefaultProps, MergedProps, Component, Store,
+    Props
+} from './types'
 
 import styles from './styles.sass'
 
@@ -112,7 +115,7 @@ function getCalendarVisuals(
     return months
 }
 
-const Calendar: _Calendar = (props, noDefaults) => {
+const Calendar: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Calendar.defaults, props, false)
         :   (props as MergedProps)
@@ -248,4 +251,4 @@ Calendar.ID = componentID
 
 export { componentID }
 export default Calendar
-export * from './types'
+export type { Props }

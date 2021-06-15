@@ -1,7 +1,10 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { ListElement, _Accordion, MergedProps } from './types'
+import type {
+    ListElement, Component, MergedProps,
+    Props
+} from './types'
 
 
 const componentID = '-ui-accordion'
@@ -11,7 +14,7 @@ const onClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation()
 }
 
-const Accordion: _Accordion = (props, noDefaults) => {
+const Accordion: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Accordion.defaults, props, false)
         :   (props as MergedProps)
@@ -75,7 +78,7 @@ const Accordion: _Accordion = (props, noDefaults) => {
     attributes && (Object.assign(accordionRootProps, attributes))
 
 
-    return <div {...accordionRootProps} />
+    return <div { ...accordionRootProps } />
 }
 Accordion.defaults = {
     theme: {
@@ -92,4 +95,4 @@ Accordion.ID = componentID
 
 export { componentID }
 export default Accordion
-export * from './types'
+export type { Props }

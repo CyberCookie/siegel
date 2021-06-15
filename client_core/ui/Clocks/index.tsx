@@ -3,12 +3,15 @@ import { useState, useLayoutEffect } from 'react'
 import dateParse from '../../utils/date/parse'
 import { msIn } from '../../utils/date/consts'
 import { extractProps } from '../ui_utils'
-import type { _Clocks, MergedProps } from './types'
+import type {
+    Component, MergedProps,
+    Props
+} from './types'
 
 
 const componentID = '-ui-clocks'
 
-const Clocks: _Clocks = (props, noDefaults) => {
+const Clocks: Component = (props, noDefaults) => {
     const { builder, initDate, zeroing, incrementEveryMinute, speedCoef } = noDefaults
         ?   extractProps(Clocks.defaults, props, false)
         :   (props as MergedProps)
@@ -66,4 +69,4 @@ Clocks.ID = componentID
 
 export { componentID }
 export default Clocks
-export * from './types'
+export type { Props }

@@ -4,7 +4,10 @@ import { extractProps, applyRefApi, PropsComponentThemed } from '../../ui_utils'
 import addChildren from '../../children'
 import getInputLabeled from '../label'
 import componentID from './id'
-import type { _Input, Props, MergedProps, InputFieldThemeKeysArray, InputElementAttributesFinal } from './types'
+import type {
+    Component, MergedProps, InputFieldThemeKeysArray, InputElementAttributesFinal,
+    Props
+} from './types'
 
 
 const getDefaultInputStoreState = () => ({
@@ -28,7 +31,7 @@ const updateThemeWithInputFieldTheme =
 }
 
 //[email, password, search, tel, text, url, (textarea)]
-const Input: _Input = (props, noDefaults) => {
+const Input: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Input.defaults, props, false)
         :   (props as MergedProps)
@@ -142,4 +145,4 @@ Input.ID = componentID
 
 export { componentID, getDefaultInputStoreState, updateThemeWithInputFieldTheme }
 export default Input
-export * from './types'
+export type { Props }

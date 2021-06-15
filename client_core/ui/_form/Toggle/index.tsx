@@ -2,12 +2,15 @@ import React from 'react'
 
 import { extractProps, applyRefApi } from '../../ui_utils'
 import addChildren from '../../children'
-import type { _Toggle, Props, MergedProps } from './types'
+import type {
+    Component, MergedProps,
+    Props
+} from './types'
 
 
 const componentID = '-ui-toggle'
 
-const Toggle: _Toggle = (props, noDefaults) => {
+const Toggle: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Toggle.defaults, props, false)
         :   (props as MergedProps)
@@ -61,4 +64,4 @@ Toggle.ID = componentID
 
 export { componentID }
 export default Toggle
-export * from './types'
+export type { Props }

@@ -20,7 +20,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Toggle = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _Toggle }
+export type { Props, DefaultProps, MergedProps, Component }

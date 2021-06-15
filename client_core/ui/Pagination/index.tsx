@@ -1,7 +1,10 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { _Pagination, MergedProps } from './types'
+import type {
+    Component, MergedProps,
+    Props
+} from './types'
 
 
 type GetPageElement = (page: number, props: MergedProps) => JSX.Element
@@ -34,7 +37,8 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) 
 
                 curPage != newPage && onChange(newPage, e, payload)
             }
-        }
+        },
+        children: getPaginationVisuals(mergedProps, numberOfPages)
     }
     refApi && (applyRefApi(result, mergedProps))
     attributes && (result = Object.assign(result, attributes))
@@ -119,7 +123,7 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
     </>
 }
 
-const Pagination: _Pagination = (props, noDefaults) => {
+const Pagination: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Pagination.defaults, props, false)
         :   (props as MergedProps)
@@ -129,10 +133,7 @@ const Pagination: _Pagination = (props, noDefaults) => {
     const numberOfPages = Math.ceil(listLength / showPerPage) || 1
 
 
-    return (
-        <div {...getPaginatorRootProps(mergedProps, numberOfPages)}
-            children={getPaginationVisuals(mergedProps, numberOfPages)} />
-    )
+    return <div { ...getPaginatorRootProps(mergedProps, numberOfPages) } />
 }
 Pagination.defaults = {
     theme: {
@@ -154,4 +155,4 @@ Pagination.ID = componentID
 
 export { componentID }
 export default Pagination
-export * from './types'
+export type { Props }

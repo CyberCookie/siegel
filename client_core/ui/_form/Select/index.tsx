@@ -4,7 +4,10 @@ import isE from '../../../utils/is_exists'
 import isTouchScreen from '../../../utils/is_touchscreen'
 import { extractProps, applyRefApi, ComponentAttributes } from '../../ui_utils'
 import addChildren from '../../children'
-import type{ MergedProps, _Select, Props } from './types'
+import type {
+    MergedProps, Component,
+    Props
+} from './types'
 
 
 const componentID = '-ui-select'
@@ -59,7 +62,7 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
     }
 }
 
-const Select: _Select = (props, noDefaults) => {
+const Select: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
     ?   extractProps(Select.defaults, props, false)
     :   (props as MergedProps)
@@ -191,4 +194,4 @@ Select.ID = componentID
 
 export { componentID }
 export default Select
-export * from './types'
+export type { Props }

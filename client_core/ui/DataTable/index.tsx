@@ -11,7 +11,10 @@ import { extractProps, applyRefApi } from '../ui_utils'
 import tableHeadRows from './head'
 import tableBodyRows from './body'
 import componentID from './id'
-import type { _DataTable, DataTableTableProps, State, MergedProps } from './types'
+import type {
+    Component, DataTableTableProps, State, MergedProps,
+    Props
+} from './types'
 
 import styles from './styles.sass'
 
@@ -71,7 +74,7 @@ function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBod
 
 const defaultState = getDefaultState()
 
-const DataTable: _DataTable = (props, noDefaults) => {
+const DataTable: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DataTable.defaults, props, false)
         :   (props as MergedProps)
@@ -126,4 +129,4 @@ DataTable.ID = componentID
 
 export { getDefaultState, componentID }
 export default DataTable
-export * from './types'
+export type { Props }

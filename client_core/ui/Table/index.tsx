@@ -1,7 +1,10 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { TableBodyRow, TableHeadRow, TableTH, TableTD, _Table, MergedProps } from './types'
+import type {
+    Component, MergedProps,
+    TableBodyRow, TableHeadRow, TableTH, TableTD, Props
+} from './types'
 
 
 const componentID = '-ui-table'
@@ -28,7 +31,7 @@ function getTableSection(data: (TableHeadRow | TableBodyRow)[], SectionHTMLTag: 
     return <SectionHTMLTag children={data.map(getTableRow)} />
 }
 
-const Table: _Table = (props, noDefaults) => {
+const Table: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Table.defaults, props, false)
         :   (props as MergedProps)
@@ -41,7 +44,7 @@ const Table: _Table = (props, noDefaults) => {
 
 
     return (
-        <table {...tableRootProps}>
+        <table { ...tableRootProps }>
             { caption && <caption children={caption} /> }
 
             { head && getTableSection(head, 'thead') }
@@ -58,4 +61,4 @@ Table.ID = componentID
 
 export { componentID }
 export default Table
-export * from './types'
+export type { TableBodyRow, TableHeadRow, TableTH, TableTD, Props }

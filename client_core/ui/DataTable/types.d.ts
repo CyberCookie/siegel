@@ -1,8 +1,8 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults } from '../ui_utils'
 import type { Entities } from '../../utils/entities_struct'
 import type { TableTH, TableTD, TableBodyRow, TableHeadRow, Props as TableProps } from '../Table/types'
-import type { Props as SelectProps, _Select } from '../_form/Select/types'
-import type { Props as PaginationProps, _Pagination } from '../Pagination/types'
+import type { Props as SelectProps, Component as SelectComponent } from '../_form/Select/types'
+import type { Props as PaginationProps, Component as PaginationComponent } from '../Pagination/types'
 
 
 type DataTableTableProps = {
@@ -57,11 +57,11 @@ type Props<T extends Entities = Entities, K = any> = {
         displayQuantity?(quantity: number): React.ReactNode
         select: {
             props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps>
-            component: CoreIUComponentWithDefaults<_Select> | _Select
+            component: CoreIUComponentWithDefaults<SelectComponent> | SelectComponent
         }
         pagination: {
             props?: Partial<PaginationProps>
-            component: CoreIUComponentWithDefaults<_Pagination> | _Pagination
+            component: CoreIUComponentWithDefaults<PaginationComponent> | PaginationComponent
         }
     }
     tableAttributes?: TableProps['attributes']
@@ -78,10 +78,10 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _DataTable = CoreIUComponent<Props<any>, DefaultProps>
+type Component = CoreIUComponent<Props<any>, DefaultProps>
 
 
 export type {
-    State, Props, DefaultProps, MergedProps, _DataTable, DataTableTableProps, ColumnsConfig,
+    State, Props, DefaultProps, MergedProps, Component, DataTableTableProps, ColumnsConfig,
     DisplayedEntityIDs
 }

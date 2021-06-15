@@ -1,12 +1,15 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { _Link, Props, MergedProps } from './types'
+import type {
+    Component, MergedProps,
+    Props
+} from './types'
 
 
 const componentID = '-ui-external_link'
 
-const Link: _Link = (props, noDefaults) => {
+const Link: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Link.defaults, props, false)
         :   (props as MergedProps)
@@ -25,7 +28,7 @@ const Link: _Link = (props, noDefaults) => {
     attributes && (linkRootAttributes = Object.assign(linkRootAttributes, attributes))
 
 
-    return <a {...linkRootAttributes} />
+    return <a { ...linkRootAttributes } />
 }
 Link.defaults = {
     className: componentID
@@ -35,4 +38,4 @@ Link.ID = componentID
 
 export { componentID }
 export default Link
-export * from './types'
+export type { Props }

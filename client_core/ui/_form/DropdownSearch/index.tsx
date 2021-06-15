@@ -1,4 +1,5 @@
 //TODO: apply arrow controls when focused
+//TODO: add reset selection
 
 import React, { useState } from 'react'
 
@@ -6,7 +7,10 @@ import isE from '../../../utils/is_exists'
 import { extractProps, applyRefApi, ComponentAttributes } from '../../ui_utils'
 import addChildren from '../../children'
 import Input, { getDefaultInputStoreState, Props as InputProps } from '../Input'
-import type { _DropdownSearch, MergedProps, Store, Props } from './types'
+import type {
+    Component, MergedProps, Store,
+    Props
+} from './types'
 
 import styles from './styles.sass'
 
@@ -54,7 +58,7 @@ function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }:
 }
 
 
-const DropdownSearch: _DropdownSearch = (props, noDefaults) => {
+const DropdownSearch: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DropdownSearch.defaults, props, false)
         :   (props as MergedProps)
@@ -155,4 +159,4 @@ DropdownSearch.ID = componentID
 
 export { componentID }
 export default DropdownSearch
-export * from './types'
+export type { Props }

@@ -2,6 +2,9 @@ import type { History } from 'history'
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
+type State = Indexable<string>
+type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
+
 type DynamicCrumb = {
     dynamicCrumb: string
 }
@@ -40,7 +43,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Breadcrumbs = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _Breadcrumbs, BreadcrumbConfig }
+export type { Props, DefaultProps, MergedProps, Component, BreadcrumbConfig, Store }

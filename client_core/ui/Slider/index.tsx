@@ -7,10 +7,10 @@ import isE from '../../utils/is_exists'
 import { extractProps, applyRefApi } from '../ui_utils'
 import addChildren from '../children'
 import Swipe from '../Swipe'
-import type { _Slider, MergedProps } from './types'
-
-
-type SwitchSlide = (nextPage: number) => void
+import type {
+    Component, MergedProps, SwitchSlide,
+    Props
+} from './types'
 
 
 const componentID = '-ui-slider'
@@ -89,7 +89,7 @@ function getSlideElements(rootChilds: NodeListOf<ChildNode>, withControlls: Merg
     return { slideArea, firstSlidePage }
 }
 
-const Slider: _Slider = (props, noDefaults) => {
+const Slider: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Slider.defaults, props, false)
         :   (props as MergedProps)
@@ -122,7 +122,7 @@ const Slider: _Slider = (props, noDefaults) => {
 
 
     return (
-        <div {...sliderRootProps}>
+        <div { ...sliderRootProps }>
             { pageControlls }
             { slidePages }
 
@@ -149,4 +149,4 @@ Slider.ID = componentID
 
 export { componentID }
 export default Slider
-export * from './types'
+export type { Props }

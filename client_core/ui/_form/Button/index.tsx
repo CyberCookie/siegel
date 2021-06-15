@@ -1,12 +1,15 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../../ui_utils'
-import type { _Button, MergedProps } from './types'
+import type {
+    Component, MergedProps,
+    Props
+} from './types'
 
 
 const componentID = '-ui-button'
 
-const Button: _Button = (props, noDefaults) => {
+const Button: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Button.defaults, props, false)
         :   (props as MergedProps)
@@ -27,11 +30,11 @@ const Button: _Button = (props, noDefaults) => {
 }
 Button.defaults = {
     className: componentID,
-    type: 'button',
+    type: 'button'
 }
 Button.ID = componentID
 
 
 export { componentID }
 export default Button
-export * from './types'
+export type { Props }

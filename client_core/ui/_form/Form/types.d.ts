@@ -1,7 +1,13 @@
 import type { PropsComponentBase, CoreIUComponent, ComponentAttributes } from '../../ui_utils'
-import type { _Input, Props as InputProps } from '../Input/types'
-import type { _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
+import type { Component as _Input, Props as InputProps } from '../Input/types'
+import type { Component as _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
 
+
+type CommonChangeProps = {
+    validators: Validator[]
+    name: string
+    formStore: FormStore
+}
 
 type ValueStateValue = Parameters<NonNullable<InputProps['onChange']>>[0]
     | Parameters<NonNullable<CheckboxProps['onChange']>>[0]
@@ -44,7 +50,10 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Form = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _Form, ValueStateValue, FormStore, Validator }
+export type {
+    Props, DefaultProps, MergedProps, Component,
+    ValueStateValue, FormStore, Validator, CommonChangeProps
+}

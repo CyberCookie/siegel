@@ -18,7 +18,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Swipe = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, HTMLSwipeMouseEvent, _Swipe }
+export type { Props, DefaultProps, MergedProps, HTMLSwipeMouseEvent, Component }

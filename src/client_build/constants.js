@@ -35,7 +35,7 @@ const DEPENDENCIES = {
 }
 
 const COMMONS = {
-    ESLintExtensions: ['.js', '.jsx', '.ts', '.tsx']
+    ESLintExtensions: [ '.js', '.jsx', '.ts', '.tsx' ]
 }
 
 

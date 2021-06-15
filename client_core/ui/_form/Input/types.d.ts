@@ -61,7 +61,10 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Input = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, ComponentRootAttributes, _Input, InputFieldThemeKeysArray, InputElementAttributesFinal }
+export type {
+    Props, DefaultProps, MergedProps, ComponentRootAttributes, Component,
+    InputFieldThemeKeysArray, InputElementAttributesFinal
+}

@@ -1,7 +1,10 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { _Popup, MergedProps } from './types'
+import type {
+    Component, MergedProps,
+    Props
+} from './types'
 
 import styles from './styles.sass'
 
@@ -10,7 +13,7 @@ const componentID = '-ui-popup'
 
 const innerCloseClassName = styles[componentID + '_close']
 
-const Popup: _Popup = (props, noDefaults) => {
+const Popup: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Popup.defaults, props, false)
         :   (props as MergedProps)
@@ -28,7 +31,7 @@ const Popup: _Popup = (props, noDefaults) => {
 
 
     return (
-        <div {...popupRootAttributes}>
+        <div { ...popupRootAttributes }>
             <div className={theme.content}>
                 <div onMouseDown={onClose} className={`${innerCloseClassName} ${theme.close}`}
                     children={closeIcon} />
@@ -53,4 +56,4 @@ Popup.ID = componentID
 
 export { componentID }
 export default Popup
-export * from './types'
+export type { Props }

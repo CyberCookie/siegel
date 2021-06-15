@@ -2,7 +2,10 @@ import React, { useLayoutEffect } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
 import { extractProps, applyRefApi } from '../ui_utils'
-import type { HTMLSwipeMouseEvent, _Swipe, Props, MergedProps } from './types'
+import type {
+    HTMLSwipeMouseEvent, Component, MergedProps,
+    Props
+} from './types'
 
 
 const componentID = '-ui-swipe'
@@ -18,7 +21,7 @@ function getMousePos(e: HTMLSwipeMouseEvent, xAxis: Props['xAxis']) {
         :   (xAxis ? x : y)
 }
 
-const Swipe: _Swipe = (props, noDefaults) => {
+const Swipe: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Swipe.defaults, props, false)
         :   (props  as MergedProps)
@@ -85,7 +88,7 @@ const Swipe: _Swipe = (props, noDefaults) => {
     }
 
 
-    return <div {...swipeRootAttributes} />
+    return <div { ...swipeRootAttributes } />
 }
 Swipe.defaults = {
     className: componentID,
@@ -96,4 +99,4 @@ Swipe.ID = componentID
 
 export { componentID }
 export default Swipe
-export * from './types'
+export type { Props }

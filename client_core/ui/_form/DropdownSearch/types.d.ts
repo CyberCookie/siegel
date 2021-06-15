@@ -41,7 +41,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _DropdownSearch = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _DropdownSearch, Store, State }
+export type { Props, DefaultProps, MergedProps, Component, Store, State }

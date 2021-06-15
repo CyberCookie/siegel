@@ -53,7 +53,6 @@ type State = {
     anchor: number
     beginOfMonth: Date
 }
-
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
 type ChildProps = {
@@ -88,8 +87,8 @@ type GetDayClass = (params: {
     innerRangeEnd: State['innerRangeEnd']
 }) => string
 
-type _Calendar = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { _Calendar, Store, Props, DefaultProps, MergedProps, ChildProps,
+export type { Component, Store, Props, DefaultProps, MergedProps, ChildProps,
     AllDaysData, PrevNextDaysParams, GetDayClass }

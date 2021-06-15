@@ -40,7 +40,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Table = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { _Table, Props, DefaultProps, MergedProps, TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow }
+export type { Component, Props, DefaultProps, MergedProps, TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow }

@@ -27,7 +27,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         [webpackModulesRegExp.scripts]: {
             loaderOrder: [ loadersKeyMap.babel, loadersKeyMap.eslint ],
             loaders: {
-                [loadersKeyMap.babel]: {
+                [ loadersKeyMap.babel ]: {
                     loader: resolve('babel-loader'),
                     options: {
                         cacheDirectory: true,
@@ -53,7 +53,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             }
         },
 
-        [webpackModulesRegExp.styles]: {
+        [ webpackModulesRegExp.styles ]: {
             loaderOrder: [ loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources ],
             loaders: {
                 [loadersKeyMap.cssFinal]: isProd || !isServer
@@ -72,7 +72,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     }
                 },
 
-                [loadersKeyMap.postCssLoader]: {
+                [ loadersKeyMap.postCssLoader ]: {
                     loader: resolve('postcss-loader'),
                     options: {
                         sourceMap: !isProd,
@@ -88,14 +88,14 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     }
                 },
 
-                [loadersKeyMap.sassLoader]: {
+                [ loadersKeyMap.sassLoader ]: {
                     loader: resolve('sass-loader'),
                     options: {
                         sourceMap: !isProd
                     }
                 },
 
-                [loadersKeyMap.sassResources]: {
+                [ loadersKeyMap.sassResources ]: {
                     loader: resolve('sass-resources-loader'),
                     options: {
                         resources: sassResources

@@ -1,6 +1,8 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
+type CheckboxInputProps = React.InputHTMLAttributes<HTMLInputElement>
+
 type ThemeKeys = 'label' | 'checkbox' | 'with_icon_wrapper' | 'label_wrapper' | '_checked' | '_disabled'
 
 //#TS_sucks. attributes type should depend on label <> icon presence
@@ -25,7 +27,6 @@ type ThemeKeys = 'label' | 'checkbox' | 'with_icon_wrapper' | 'label_wrapper' | 
 //     attributes?: ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 // }
 
-
 type Props = {
     value: boolean
     onChange?(checked: Props['value'], e: React.MouseEvent, payload?: any): void
@@ -45,7 +46,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Checkbox = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _Checkbox }
+export type { Props, DefaultProps, MergedProps, Component, CheckboxInputProps }

@@ -1,3 +1,6 @@
+@use 'sass:math'
+
+    
 $white: #fff
 
 $black: #4d4d4d
@@ -37,7 +40,7 @@ $red_1: #ff4b4b
 // DEMO THEME
 $gutter: 16px
 $gutter_lg: $gutter * 2
-$gutter_sm: $gutter / 2
+$gutter_sm: math.div($gutter, 2)
 
 $white: #fff
 $font_color: #e0e8e7
@@ -52,7 +55,7 @@ $border: 1px solid $border_color
 
 $radius: 10px
 $radius_lg: $radius * 2
-$radius_sm: $radius / 2
+$radius_sm: math.div($radius, 2)
 
 
 $shadow_color_1: rgba(0,0,0,0.14)

@@ -45,7 +45,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _NumberPicker = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _NumberPicker, BtnClickEv, BtnProps, OnNumberPickerChange }
+export type { Props, DefaultProps, MergedProps, Component, BtnClickEv, BtnProps, OnNumberPickerChange }

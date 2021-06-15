@@ -27,7 +27,7 @@ type DefaultProps = {
 
 type MergedProps = Props & DefaultProps
 
-type _Pagination = CoreIUComponent<Props, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, _Pagination }
+export type { Props, DefaultProps, MergedProps, Component }

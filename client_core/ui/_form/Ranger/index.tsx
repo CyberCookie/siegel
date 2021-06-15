@@ -3,7 +3,10 @@ import React, { useState, useLayoutEffect } from 'react'
 import isE from '../../../utils/is_exists'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import addChildren from '../../children'
-import type { _Ranger, Props, MergedProps, DoubleValue } from './types'
+import type {
+    Component, MergedProps,
+    DoubleValue, Props
+} from './types'
 
 import styles from './styles.sass'
 
@@ -98,7 +101,7 @@ const toDefaultState = (state = {} as State) => {
     return state
 }
 
-const Ranger: _Ranger = (props, noDefaults) => {
+const Ranger: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Ranger.defaults, props, false)
         :   (props as MergedProps)
@@ -273,4 +276,4 @@ Ranger.ID = componentID
 
 export { componentID }
 export default Ranger
-export * from './types'
+export type { DoubleValue, Props }

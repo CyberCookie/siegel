@@ -3,13 +3,12 @@ import React, { useState, useLayoutEffect } from 'react'
 import isE from '../../utils/is_exists'
 import { extractProps, applyRefApi } from '../ui_utils'
 import componentID from './id'
-import type { _Breadcrumbs, Props, MergedProps } from './types'
+import {
+    Component, MergedProps, Store,
+    Props, BreadcrumbConfig
+} from './types'
 
 import styles from './styles.sass'
-
-
-type State = Indexable<string>
-type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
 
 const linkClickPreventDefault = (e: React.MouseEvent) => { e.preventDefault() }
@@ -60,7 +59,7 @@ function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store) {
     return breadcrumbsElements
 }
 
-const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
+const Breadcrumbs: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Breadcrumbs.defaults, props, false)
         :   (props as MergedProps)
@@ -97,7 +96,7 @@ const Breadcrumbs: _Breadcrumbs = (props, noDefaults) => {
     attributes && Object.assign(breadcrumbsRootProps, attributes)
 
 
-    return <div {...breadcrumbsRootProps } />
+    return <div { ...breadcrumbsRootProps } />
 }
 Breadcrumbs.defaults = {
     className: styles[componentID + '_inner'],
@@ -112,4 +111,4 @@ Breadcrumbs.ID = componentID
 
 export { componentID }
 export default Breadcrumbs
-export * from './types'
+export type { BreadcrumbConfig, Props }

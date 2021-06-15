@@ -3,16 +3,12 @@ import React, { useState } from 'react'
 import { extractProps } from '../../ui_utils'
 import inputID from '../Input/id'
 import checkboxID from '../Checkbox/id'
-import type { _Input, Props as InputProps } from '../Input/types'
-import type { _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
-import type { _Form, ValueStateValue, Validator, Props, FormStore } from './types'
-
-
-type CommonChangeProps = {
-    validators: Validator[]
-    name: string
-    formStore: FormStore
-}
+import type { Component as _Input, Props as InputProps } from '../Input/types'
+import type { Component as _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
+import type {
+    Component, ValueStateValue, Validator, FormStore, CommonChangeProps, MergedProps,
+    Props
+} from './types'
 
 
 const componentID = '-ui-form'
@@ -36,10 +32,10 @@ const onInputChange = (commonChangeProps: CommonChangeProps, value: string) => {
     setValues({ ...values })
 }
 
-const Form: _Form = (props, noDefaults) => {
+const Form: Component = (props, noDefaults) => {
     const { onSubmit, className, attributes, inputs } = noDefaults
         ?   extractProps(Form.defaults, props, false)
-        :   (props as _Form['defaults'] & Props)
+        :   (props as MergedProps)
 
 
     const formStore: FormStore = useState({})
@@ -133,4 +129,4 @@ Form.ID = componentID
 
 export { componentID }
 export default Form
-export * from './types'
+export type { Props }
