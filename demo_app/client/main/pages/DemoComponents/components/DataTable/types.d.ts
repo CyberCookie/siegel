@@ -16,6 +16,7 @@ type MockEntities = Entities<Entity>
 type ColumnCustomParams = {
     type: 'set' | 'text' | 'date'
     valuePath: keyof Entity
+    className: string
 }
 
 type DemoDataTableProps = DataTableProps<MockEntities, ColumnCustomParams>

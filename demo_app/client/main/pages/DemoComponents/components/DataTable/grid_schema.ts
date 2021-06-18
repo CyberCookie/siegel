@@ -16,8 +16,10 @@ type DateSearchFilter = {
 
 
 function getTextValue(this: GridColumnConfig, entity: Entity) {
+    const { className, valuePath } = this.customParams!
     return {
-        value: entity[this.customParams!.valuePath]
+        className,
+        value: entity[valuePath]
     }
 }
 
@@ -85,61 +87,67 @@ function sortValue(
 const columnsConfig: DemoDataTableProps['columnsConfig'] = [
     {
         label: 'ID',
-        className: styles.column_id,
         showValue: getTextValue,
         onSort: sortValue,
         onFilter: filterValue,
         customParams: {
             type: 'text',
-            valuePath: 'id'
+            valuePath: 'id',
+            className: styles.column_id
         }
     },
     {
         label: 'Date',
-        className: styles.column_date,
-        showValue: ({ date }) => ({
-            value: (new Date(date)).toDateString()
-        }),
+        showValue({ date }) {
+            return {
+                value: (new Date(date)).toDateString(),
+                className: this.customParams!.className
+            }
+        },
         onSort: sortValue,
         onFilter: filterValue,
         customParams: {
             type: 'date',
-            valuePath: 'date'
+            valuePath: 'date',
+            className: styles.column_date
         }
     },
     {
         label: 'Name',
-        className: styles.column_name,
         showValue: getTextValue,
         onSort: sortValue,
         onFilter: filterValue,
         customParams: {
             type: 'text',
-            valuePath: 'text'
+            valuePath: 'text',
+            className: styles.column_name
         }
     },
     {
         label: 'Some number',
-        className: styles.column_number,
         showValue: getTextValue,
         onSort: sortValue,
         onFilter: filterValue,
         customParams: {
             type: 'set',
-            valuePath: 'num'
+            valuePath: 'num',
+            className: styles.column_number
         }
     },
     {
         label: 'Some boolean',
-        className: styles.column_boolean,
-        showValue: ({ bool }) => ({
-            value: bool ? '+' : '-'
-        }),
+        showValue({ bool }) {
+            return {
+                value: bool ? '+' : '-',
+                className: this.customParams!.className
+            }
+        },
         onSort: sortValue,
         onFilter: filterValue,
         customParams: {
             type: 'set',
-            valuePath: 'bool'
+            valuePath: 'bool',
+            className: styles.column_boolean
         }
     }
 ]

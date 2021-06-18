@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.8.37",
+    "version": "0.8.38",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -36,6 +36,7 @@
         "index": "demo_app/server/ts_entry.js"
     },
     "main": "./cjs/index.js",
+    "types": "./global.d.ts",
     "bin": "./bin/index.js",
     "scripts": {
         "start": "npm run build_serv",
@@ -88,7 +89,7 @@
         "react-router-dom": "^5.2.0",
         "sass": "^1.32.13",
         "sass-loader": "^10.2.0",
-        "sass-resources-loader": "^2.2.1",
+        "sass-resources-loader": "^2.2.2",
         "style-loader": "^2.0.0",
         "svg2ttf": "^5.2.0",
         "svgicons2svgfont": "^9.2.0",

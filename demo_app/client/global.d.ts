@@ -1,1 +1,0 @@
-import 'siegel-tsglobals'

@@ -27,7 +27,12 @@ const Demo = () => {
     const props: DemoDataTableProps = {
         columnsConfig,
         entities: entitiesStruct,
-        className: styles.demo_grid
+        className: styles.demo_grid,
+        postProcessHeadCell(cell, config) {
+            cell.attributes = {
+                className: config.customParams!.className
+            }
+        }
     }
 
 

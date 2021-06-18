@@ -41,7 +41,6 @@ type ColumnsConfig<
     onSort?(IDs: Sorted, byID: ByID, value: number): Sorted
     onFilter?(IDs: Sorted, byID: ByID, search: any): Sorted
     label?: React.ReactNode
-    className?: string
     customParams?: K
 }
 

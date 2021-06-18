@@ -182,9 +182,10 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
             </div>
         </div>
     )
-    headCell.attributes
-        ?    (headCell.attributes.onMouseDown = onLabelMenuOpen)
-        :    (headCell.attributes = { onMouseDown: onLabelMenuOpen })
+    headCell.attributes = {
+        onMouseDown: onLabelMenuOpen,
+        className: customParams!.className
+    }
 }
 
 const displayQuantity = (count: number) => <div className={styles.paginator_count} children={'Total items: ' + count} />

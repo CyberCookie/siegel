@@ -32,6 +32,9 @@ function main(isGlobal) {
     //Copy demo_app
     shell(`cp -r ${PATHS.demoProject}/. .`)
 
+    //Create demo app global.d.ts
+    writeFileSync(join(PATHS.cwd, 'global.d.ts'), `/// <reference types='${devCorePackageName}' />`)
+
     //Copy Eslint jsons
     shell(`cp ${ PATHS.root }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
 

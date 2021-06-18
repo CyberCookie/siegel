@@ -89,12 +89,9 @@ function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) 
 
     const children: TableTH[] = []
     columnsConfig.forEach((columnConfig, configurationIndex: number) => {
-        const { label, className } = columnConfig
-
         const tableHeadCellToPush: TableTH = {
-            value: label
+            value: columnConfig.label
         }
-        className && (tableHeadCellToPush.attributes = { className })
 
         if (postProcessHeadCell) {
             postProcessHeadCell(tableHeadCellToPush, columnConfig, configurationIndex, displayedEntityIDs)
