@@ -13,5 +13,5 @@
 			"siegel-router": ["../client_core/router.tsx"]
 		}
 	},
-	"include": [ "client" ]
+	"include": [ "client", "./global.d.ts" ]
 }
