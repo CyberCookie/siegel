@@ -11,7 +11,8 @@ type OnNumberPickerChange = (
 ) => void
 
 
-type ThemeKeys = 'children' | 'controls' | 'button_minus' | 'button_plus' | '_disabled_all' | InputFieldThemeKeysArray[number]
+type ThemeKeys = 'children' | 'controls' | 'button_minus' | 'button_plus' | '_disabled_all'
+    | 'input_root' | InputFieldThemeKeysArray[number]
 
 type Props = {
     onChange(

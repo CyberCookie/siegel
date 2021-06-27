@@ -80,7 +80,7 @@ const DropdownSearch: Component = (props, noDefaults) => {
         className,
         onBlur(e) {
             if (e.relatedTarget !== e.currentTarget) {
-                if (searchString == '') onChange('', e)
+                if (searchString == '') onChange(undefined, e)
                 else state.searchString = undefined
             }
         }

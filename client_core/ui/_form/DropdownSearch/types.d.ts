@@ -9,11 +9,11 @@ type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
 type ThemeKeys = 'children' | 'options' | 'option' | '_with_suggestions' | '_disabled' | '_focused'
 
-type Props = {
-    onChange(id: ID, e: React.MouseEvent | React.FocusEvent, payload?: any): void
+type Props<Value = any> = {
+    onChange(value: Value | undefined, e: React.MouseEvent | React.FocusEvent, payload?: any): void
     searchOptions: {
         inputValue: string
-        value: ID
+        value: Value
         title?: React.ReactNode
         className?: string
         payload?: any
@@ -29,7 +29,7 @@ type Props = {
     minInputLength?: number
     showOnFocus?: boolean
     showAll?: boolean
-    selected?: ID,
+    selected?: Value | undefined,
     disabled?: boolean
     inputProps?: Omit<InputProps, 'className' | 'onChange' | 'value' | 'attributes'>
 } & PropsComponentThemed<ThemeKeys>

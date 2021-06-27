@@ -11,10 +11,10 @@ const options: DropdownSearchProps['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: 
 const Demo = () => {
     const [ selected, setSelected ] = useState(0)
 
-    const props: DropdownSearchProps = {
+    const props: DropdownSearchProps<number> = {
         selected,
         onChange(id) {
-            setSelected(id as number)
+            setSelected(id!)
         },
         searchOptions: options
     }

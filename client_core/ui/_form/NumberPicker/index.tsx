@@ -117,8 +117,8 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
 
     return (
         <div className={theme.controls}>
-            <button {...minusProps} />
-            <button {...plusProps} />
+            <button { ...minusProps } />
+            <button { ...plusProps } />
         </div>
     )
 }
@@ -162,6 +162,9 @@ const NumberPicker: Component = (props, noDefaults) => {
 
 
     const onNumberPickerChange: OnNumberPickerChange = (e, arrowValue, step) => {
+        if ((!isE(value) || value === '') && e.type == 'blur') return
+
+
         let result: string | number | undefined
         if (step) {
             const stepPrecision = getPrecision(step)
@@ -182,6 +185,8 @@ const NumberPicker: Component = (props, noDefaults) => {
         result == value || onChange(result+'', e, arrowValue, payload)
     }
 
+
+    theme.root = theme.input_root
 
     const inputFieldProps: InputProps = {
         theme, label, errorMsg, placeholder, inputAttributes,
@@ -246,6 +251,7 @@ NumberPicker.defaults = {
         controls: componentID + '_controls',
         button_minus: componentID + '_minus',
         button_plus: componentID + '_plus',
+        input_root: componentID + '_input_root',
         _disabled_all: componentID + '__disabled_all'
     }, componentID),
 
