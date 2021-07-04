@@ -79,6 +79,9 @@
             exclude: String[]
         },
 
+        /* Enable ESlint */
+        eslint: Boolean,
+
         /* Webpack publicPath */
         publicPath: String,
 

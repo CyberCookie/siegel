@@ -64,7 +64,7 @@ function processFontIconCSSProps(postCssRoot, context, fontNamePrefix) {
         result.fontName = `${fontNamePrefix}Iconfont_${checkSum}`
 
         cssPropValueMap['font-family'] = result.fontName
-        for (let prop in cssPropValueMap) {
+        for (const prop in cssPropValueMap) {
             const value = cssPropValueMap[prop]
             rootDecl.cloneBefore({ prop, value })
         }

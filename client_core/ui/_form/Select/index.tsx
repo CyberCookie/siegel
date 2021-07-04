@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+//TODO: replace useLayoutEffect with onBlur event
+
+import React, { useState, useLayoutEffect, useRef } from 'react'
 
 import isE from '../../../utils/is_exists'
 import isTouchScreen from '../../../utils/is_touchscreen'
@@ -107,7 +109,7 @@ const Select: Component = (props, noDefaults) => {
     refApi && (applyRefApi(selectRootProps, mergedProps))
     attributes && (selectRootProps = Object.assign(selectRootProps, attributes))
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
             (selectRootProps.ref as React.MutableRefObject<HTMLDivElement>)
                 .current.contains(e.target as Node) || setActive(false)

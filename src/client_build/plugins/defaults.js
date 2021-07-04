@@ -17,13 +17,15 @@ const {
 
 
 module.exports = (CONFIG, RUN_PARAMS) => {
-    const { staticDir, build: { input } } = CONFIG
+    const {
+        staticDir,
+        eslint: eslintEnabled,
+        build: { input }
+    } = CONFIG
     const { isProd, isServer } = RUN_PARAMS
 
 
     const defaults = {
-        // debug: { plugin: webpack.debug.ProfilingPlugin },
-
         [pluginsKeysMap.compression]: {
             plugin: compressionPlugin,
             instances: {
@@ -54,7 +56,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
         [pluginsKeysMap.copy]: {
             plugin: fileCopyPlugin,
-            enabled: input.assetsDir,
+            enabled: !!input.assetsDir,
             options: {
                 patterns: [{
                     from: input.assetsDir,
@@ -71,7 +73,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
         [pluginsKeysMap.sw]: {
             plugin: serviceWorkerPlugin,
-            enabled: input.sw,
+            enabled: !!input.sw,
             options: input.sw
         },
 
@@ -79,8 +81,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             plugin: miniCssExtract,
             enabled: isProd || !isServer,
             options: {
-                filename: /*isDev ? 'styles.css' : */'styles.[contenthash].css',
-                chunkFilename: /*isDev ? '[id].css' : */'chunk.[contenthash].css'
+                filename: isProd ? 'styles.[contenthash].css' : 'styles.css',
+                chunkFilename: isProd ? 'chunk.[contenthash].css' : '[id].css'
             }
         },
 
@@ -91,7 +93,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
         [pluginsKeysMap.html]: {
             plugin: HTMLPlugin,
-            enabled: input.html,
+            enabled: !!input.html,
             options: {
                 template: input.html,
                 // scriptLoading: 'defer',
@@ -117,7 +119,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
         [pluginsKeysMap.eslint]: {
             plugin: eslint,
-            enabled: true,
+            enabled: eslintEnabled,
             options: {
                 extensions: ESLintExtensions,
                 emitWarning: true

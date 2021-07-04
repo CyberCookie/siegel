@@ -1,42 +1,10 @@
 [comment]: # (TODO: Fetch module last error)
 [comment]: # (TODO: Component refApi)
 
-
-<div>
-    <a href='https://expressjs.com' target='_blank'>
-        <img height='30' src='https://intuz-site.imgix.net/uploads/express.svg' alt='expressJS' />
-    </a>
-    <a href='https://pm2.io' target='_blank'>
-        <img height='40' src='https://raw.githubusercontent.com/Unitech/pm2/development/pres/pm2-v4.png' alt='pm2' />
-    </a>
-    <br />
-    <a href='https://webpack.js.org' target='_blank'>
-        <img height='50' src='https://webpack.js.org/assets/icon-square-big.svg' alt='webpack'>
-    </a>
-    <a href='https://eslint.org' target='_blank'>
-        <img height='50' src='https://cdn.worldvectorlogo.com/logos/eslint.svg' alt='eslint'>
-    </a>
-    <a href='https://babeljs.io' target='_blank'>
-        <img height='50' src='https://rawgit.com/babel/logo/master/babel.svg' alt='babel'>
-    </a>
-    <a href='https://www.typescriptlang.org' target='_blank'>
-        <img height='50' src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/512px-Typescript_logo_2020.svg.png' alt='typescript'>
-    </a>
-    <a href='https://sass-lang.com' target='_blank'>
-        <img height='50' src='https://worldvectorlogo.com/logos/sass-1.svg' alt='sass'>
-    </a>
-    <br />
-    <a href='https://reactjs.org' target='_blank'>
-        <img height='50' src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg' alt='react' />
-    </a>
-    <a href='https://redux.js.org' target='_blank'>
-        <img height='50' src='https://redux.js.org/img/redux.svg' alt='redux' />
-    </a>
-    <a href='https://reactrouter.com' target='_blank'>
-        <img height='40' src='https://seeklogo.com/images/R/react-router-logo-AB5BFB638F-seeklogo.com.png' alt='react-router' />
-    </a>
-</div>
 <br />
+<h1>
+    siegel&nbsp;&nbsp;&nbsp;
+
 <a href='https://badge.fury.io/js/siegel' target='_blank'>
     <img src='https://badge.fury.io/js/siegel.svg' alt='npm version' />
 </a>
@@ -48,43 +16,46 @@
 <a href="">
     <img src='https://github.com/cybercookie/siegel/workflows/build/badge.svg' alt='build' />
 </a>
-
-<br /><br />
-<h1>siegel</h1>
+</h1>
 
 
-<h3>Description</h3>
-<p>
-    Finally*! The package you been waiting for long is already here to abstract all the boring routines you've been doing submissively on every project.<br />
-    Now nothing can stop you from diving into a business logic right after installation.
-</p>
-<h6>
-    *The project is workable but still in alpha stage.<br />
-    Some configurations may change in the future. Docs are not well written so far.
-</h6><br />
+<h3>
+    Siegel is a higly opiniated SPA development platform that helps you to build and host your projects of any scale in a simple way.
+    <br />
+</h3>
+<br />
 
-
-Siegel is a higly opiniated website development platform that helps you to build and host your projects of any scale in a simple way.<br /><br />
-
-Right from the box you get:<br/>
+The platform provides:<br/>
 
 <ul>
-    <li>Preconfiguread and easily extendable <code>fast Webpack v4</code> bundler.</li>
-    <li><code>Live reload</code> of client and server code</li>
-    <li><code>Typescript</code> for client and server sides.</li>
-    <li><code>New JS features</code> supported with <code>Babel</code> like optional chainig and dynamic imports...</li>
-    <li><code>ESLint</code>.</li>
-    <li><code>ExpressJS</code> static server.</li>
-    <li><code>HTTP(S)1 / HTTP(S)2</code>. +Script for creating dev certificates to use on localhost in Chrome.</li>
-    <li><code>PM2</code> deamon to wrap your application in production.</li>
-    <li><code>Brotli compression</code>.</li>
-    <li>Big set of <code>React components</code>.</li>
-    <li><code>SASS with CSS modules</code> approach.</li>
-    <li><code>SVG icons to font</code> converter.</li>
-    <li>React <code>global state managers</code> built with <code>hooks</code> or <code>Redux</code> with fetch module to track requests with.</li>
-    <li>Recursive cosilly configurable <code>react router</code> wrapper.</li>
-    <li><code>Request</code> service.</li>
-    <li>Utils.</li>
+    <li>
+        Preconfiguread and easily extendable <code>Webpack</code> bundler:
+        <ul>
+            <li><code>ESBuild</code> to transform <code>TypeScript</code> and <code>JSX</code> syntaxes.</li>
+            <li>Code linting with <code>ESLint</code>.</li>
+            <li><code>Hot Modules Replace</code> for <b>js</b>, <b>jsx</b> and <b>styles</b></li>
+            <li><code>SASS</code> with <code>CSS modules</code> approach.</li>
+            <li>Build into <code>Brotli</code> and <code>GZIP</code> formats.</li>
+            <li><code>SVG icons to font</code> converter.</li>
+        </ul>
+    </li>
+    <li>
+        <code>ExpressJS</code> static server:
+        <ul>
+            <li><code>HTTP(S)1 / HTTP(S)2</code>. +Script for creating dev certificates to use on localhost in Chrome.</li>
+            <li><code>PM2</code> deamon to wrap your application in production.</li>
+            <li><code>Live Reload</code> for <b>NodeJS</b> code.</li>
+        </ul>
+    </li>
+    <li>
+        Utils and modules to use on client side code:
+        <ul>
+            <li>Big set of <code>React components</code>.</li>
+            <li>React <code>global state managers</code> built with <code>hooks</code> or <code>Redux</code> with fetch module to track requests with.</li>
+            <li>Recursively configurable <code>react router</code> wrapper.</li>
+            <li><code>Request</code> service.</li>
+        </ul>
+    </li>
     <li>
         <code>Demo project</code> with themed components, predefined folder structure and scalable architecture built on top of Siegel.<br />
         It gives you a quick start right after initialization!
@@ -98,95 +69,43 @@ Read more about each part following the links below:
 - [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
 - [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)
 
-<br />
-
-The platform is highly flexible thus allows you to use it in various ways depending on your needs.
-All the approaches are described further.
-
-
-<br />
-<h3>Using globally</h3><hr /><br />
-
-First install siegel globally:
-
-```sh
-npm i siegel -g
-```
-
-Create simple `app.ts` file somewhere in your filesystem:
-
-```ts
-import { render } from 'react-dom'
-
-render(
-    'hello world',
-    document.getElementById('root')
-)
-```
-
-Exec the next command to build the file (`-b`) and to host it (`-s`) using inner static server:
-
-```sh
-siegel run -b -s -js ./app.ts
-```
-
-<br />
-
-And that's it!<br />
-` Building a React app from scratch with all the necessary development infrastructure was never that easy!`<br /><br />
-
-Now you can open <b>localhost:3000</b> to observe the result!<br />
-
-
-Sure it's just a simple case for testing purposes. Lets make something more serious!<br />
-To initialize a real like project with global siegel dependency (`-g`) use the next commands:
-
-```sh
-siegel init -g [ && siegel install-peers //if your npm version < 7 ]
-```
-
-Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists).<br />
-Now you have project skeleton with preconfigured siegel in it!<br />
-Use various `npm commands` from new `package.json` to perform build, code validation and static serving in development or production mode.<br />
-
-For example:
-
-```sh
-npm start
-```
-
-> It's tricky to initialize a project with global siegel installation since we need to define path to global node modules in tsconfig.json and .eslintrc.<br />
-> This path may vary on different machines.
-
-More about demo project and its npm scripts read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app).<br />
-To print help information exec siegel command without arguments.
-
-
-<br />
-<h3>Using locally</h3><hr /><br />
-
-Lets perform the same actions from above but having this package installed locally:<br />
+<br /><br />
+<h2>Simple usage</h2><hr /><br />
 
 ```sh
 npm i siegel
 ```
 
-Again, for testing purposes we can create the `app.ts` file we used above and build it using local siegel installation:
+<br />
+Create <b>app.ts</b> file:<br /><br />
+
+```ts
+import { render } from 'react-dom'
+
+render(
+    'hello siegel!',
+    document.getElementById('root')
+)
+```
+
 
 ```sh
 npx siegel run -b -s -js ./app.ts
 ```
 
+
+You've just built (`-b`) the <b>app.ts</b> file and now it is serving (`-s`) on <b>localhost:3000</b> in watch mode.<br />
+<b>Enjoy your development!</b>
+<br /><br />
+
+> You may also perform this actions with global siegel installation
+
 <br />
-To initialize a project template locally use these commands:<br />
-
-```sh
-npx siegel init [ && siegel install-peers //if your npm version < 7 ]
-```
+To print help information exec siegel command without arguments.
 
 
-<br />
-<h3>Use as a module</h3><hr />
+<br /><br />
+<h2>Usage</h2><hr /><br />
 
 <p>
     Appart from calling siegel from CLI you may also use it in the most straightforward and flexible way - as a NodeJS module!<br />
@@ -252,3 +171,32 @@ require('siegel')('/path/to/js_entry.js')
     isProd: Boolean
 }
 ```
+
+
+<br /><br />
+<h2>Demo project init</h2><hr /><br />
+
+```sh
+siegel init
+```
+
+Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists).<br />
+Now you have project skeleton with preconfigured siegel in it!<br />
+Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production mode. For example:<br />
+
+```sh
+npm start
+```
+
+<br />
+It's possible to initialize a demo project having siegel installed globally. In this case you need to pass <code>-g</code> paremeter to init script
+
+```sh
+siegel init -g
+```
+
+but it's tricky since we need to define path to global node modules in tsconfig.json and .eslintrc.<br />
+This path may vary on different machines.
+
+
+More about demo project read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app).<br />

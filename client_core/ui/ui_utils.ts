@@ -91,15 +91,18 @@ function extractProps<
 function withDefaults
 <
     C extends CoreIUComponent<any, any>,
-    NewDefaults extends Partial<Parameters<C>[0]>,
+    Props extends Parameters<C>[0],
+    NewDefaults extends Partial<Props>
 >
 (Component: C, newDefaults: NewDefaults) {
     const { ID, defaults, recursiveMergeProps } = Component
     const mergedDefaults = extractProps(defaults, newDefaults, false, recursiveMergeProps)
 
-    type Props = PartialKeys<Parameters<C>[0], keyof NewDefaults>
-
-    const componentWithDefaults = (props: Props) => Component(extractProps(mergedDefaults, props, true, recursiveMergeProps))
+    const componentWithDefaults = (props: PartialKeys<Props, keyof NewDefaults>) => (
+        Component(
+            extractProps(mergedDefaults, props, true, recursiveMergeProps)
+        )
+    )
     componentWithDefaults.ID = ID
 
 

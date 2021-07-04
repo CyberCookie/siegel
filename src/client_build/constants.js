@@ -1,10 +1,10 @@
 const resolve = require.resolve
 
 const DEPENDENCIES = {
-    webpack:        require('webpack'),
-    devMiddleware:  require('webpack-dev-middleware'),
-    hotMiddleware:  require('webpack-hot-middleware'),
-    terserPlugin:   require('terser-webpack-plugin'),
+    webpack:                require('webpack'),
+    devMiddleware:          require('webpack-dev-middleware'),
+    hotMiddleware:          require('webpack-hot-middleware'),
+    esBuildMinifyPlugin:    require('esbuild-loader').ESBuildMinifyPlugin,
 
     plugins: {
         HTMLPlugin:             require('html-webpack-plugin'),
@@ -18,19 +18,15 @@ const DEPENDENCIES = {
         serviceWorkerPlugin:    require('./plugins/plugin_sw')
     },
 
-    resolvedLoaders: {
-        babelPresetEnv:                 resolve('@babel/preset-env'),
-        babelPresetReact:               resolve('@babel/preset-react'),
-        babelPresetTS:                  resolve('@babel/preset-typescript'),
-        babelPluginReactRefresh:        resolve('react-refresh/babel'),
-        babelPluginExportDefault:       resolve('@babel/plugin-proposal-export-default-from'),
-        babelPluginExportNamespace:     resolve('@babel/plugin-proposal-export-namespace-from'),
-        babelPluginDynamicImport:       resolve('@babel/plugin-syntax-dynamic-import'),
-        babelPluginTransformRuntime:    resolve('@babel/plugin-transform-runtime'),
-        babelPluginLogicalAssignment:   resolve('@babel/plugin-proposal-logical-assignment-operators'),
-        babelPluginOptionalChaining:    resolve('@babel/plugin-proposal-optional-chaining'),
-        postCssAutoprefix:              resolve('autoprefixer'),
-        postCssSVG2Font:                resolve('./modules/postcss_svg2icon_plugin')
+    loaders: {
+        esbuild:                resolve('esbuild-loader'),
+        styleLoader:            resolve('style-loader'),
+        cssLoader:              resolve('css-loader'),
+        postCssLoader:          resolve('postcss-loader'),
+        sassLoader:             resolve('sass-loader'),
+        sassResourcesLoader:    resolve('sass-resources-loader'),
+        postCssAutoprefix:      resolve('autoprefixer'),
+        postCssSVG2Font:        resolve('./modules/postcss_svg2icon_plugin')
     }
 }
 
@@ -41,6 +37,7 @@ const COMMONS = {
 
 const loadersKeyMap = {
     babel: 'babel',
+    esbuild: 'esbuild-loader',
     cssFinal: 'cssFinal',
     cssLoader: 'cssLoader',
     postCssLoader: 'postCssLoader',

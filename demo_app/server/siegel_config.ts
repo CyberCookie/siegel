@@ -40,6 +40,8 @@ const siegelConfig = {
             sassResources: join(APP, 'main', 'styles', 'sass_resources.sass')
         },
 
+        eslint: true,
+
         aliases: getAliasesFromTSconfig()
     }
 }

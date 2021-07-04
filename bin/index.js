@@ -2,6 +2,7 @@
 const { isAbsolute, join } = require('path')
 
 
+const cwd = process.cwd()
 const scriptArgs = process.argv.slice(2)
 const command = scriptArgs.shift()
 
@@ -35,26 +36,31 @@ switch(command) {
                     runParams.isServer = true
                     break
 
+                case '-lint':
+                    config.build.eslint = true
+                    break
+
                 case '-cfg':
                     var cfgPath = scriptArgs[i + 1]
-                    var pathNormalized = isAbsolute(cfgPath) ? cfgPath : join(process.cwd(), cfgPath)
+                    var pathNormalized = isAbsolute(cfgPath) ? cfgPath : join(cwd, cfgPath)
 
                     config = require(pathNormalized)
+
                     i++
                     break
 
                 case '-js':
                     var jsPath = scriptArgs[i + 1]
-                    config.build = {
-                        input: {
-                            js: isAbsolute(jsPath) ? jsPath : join(process.cwd(), jsPath)
-                        }
+                    config.build.input = {
+                        js: isAbsolute(jsPath) ? jsPath : join(cwd, jsPath)
                     }
+
                     i++
                     break
 
                 case '-port':
                     config.server.port = +scriptArgs[i + 1]
+                    i++
             }
         }
 
@@ -79,12 +85,13 @@ switch(command) {
         console.log(
 `
     ${getColoredCommandStr('run')} - Main command to perform different operations with code 
-        ${getColoredCommandArgumentStr('-p')} - production mode
-        ${getColoredCommandArgumentStr('-b')} - build mode
-        ${getColoredCommandArgumentStr('-s')} - server mode
-        ${getColoredCommandArgumentStr('-js')} - path to js entrypoint
-        ${getColoredCommandArgumentStr('-port')} - static server port
-        ${getColoredCommandArgumentStr('-cfg')} - path to siegel config 
+        ${getColoredCommandArgumentStr('-p')}       - production mode
+        ${getColoredCommandArgumentStr('-b')}       - build mode
+        ${getColoredCommandArgumentStr('-s')}       - server mode
+        ${getColoredCommandArgumentStr('-js')}      - path to js entrypoint
+        ${getColoredCommandArgumentStr('-lint')}    - enable eslint
+        ${getColoredCommandArgumentStr('-port')}    - static server port
+        ${getColoredCommandArgumentStr('-cfg')}     - path to siegel config 
 
         example: ... run -b -s -js ./app.ts -port 4000
     

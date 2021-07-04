@@ -70,6 +70,8 @@ const DEFAULT_CONFIG = {
             exclude: [ PATHS.nodeModules/*, PATHS.parentNodeModules*/ ]
         },
 
+        eslint: false,
+
         publicPath: '/',
         aliases: {}
     }
