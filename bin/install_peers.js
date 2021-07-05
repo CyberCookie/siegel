@@ -4,6 +4,13 @@ const { PATHS }             = require('../cjs/constants')
 
 
 function main() {
+    // Skip local install
+    const { INIT_CWD, PWD } = process.env
+    if (!INIT_CWD || INIT_CWD == PWD || !INIT_CWD.indexOf(PWD)) {
+        process.exitCode = 0
+        return
+    }
+
     if (existsSync(PATHS.cwdPackageJSON)) {
         const targetPackage = require(PATHS.cwdPackageJSON)
 
@@ -13,7 +20,7 @@ function main() {
         } = targetPackage
 
 
-        const peerDependencies = require(PATHS.package).peerDependencies
+        const { peerDependencies } = require(PATHS.package)
 
         let packagesToInstall = ''
         for (const dependency in peerDependencies) {

@@ -39,6 +39,7 @@
     "types": "./global.d.ts",
     "bin": "./bin/index.js",
     "scripts": {
+        "postinstall": "[[ $(npm -v | cut -c1) < 7 ]] && node ./bin/install_peers.js",
         "start": "npm run build_serv",
         "build_serv": "node $npm_package_config_index -b -s",
         "build_serv:prod": "npm run build:prod && npm run pm2",
@@ -48,7 +49,7 @@
         "build_node": "npx tsc -p ./src",
         "serv": "node $npm_package_config_index -s",
         "serv:prod": "npm run serv -- -p",
-        "deploy": "npm ci --no-audit --no-fund && npx siegel install-peers && npm run build_serv:prod",
+        "deploy": "npm ci --no-audit --no-fund && npm run build_serv:prod",
         "pm2": "npx pm2 start $npm_package_config_index -- -s -p",
         "validate": "npx tsc && npx eslint .",
         "debug": "node --inspect $npm_package_config_index -- -b -s",
@@ -68,7 +69,7 @@
         "html-webpack-plugin": "^5.3.2",
         "mime-types": "^2.1.31",
         "mini-css-extract-plugin": "^1.6.2",
-        "optimize-css-assets-webpack-plugin": "^5.0.8",
+        "optimize-css-assets-webpack-plugin": "^6.0.1",
         "pm2": "^5.1.0",
         "postcss-loader": "^6.1.1",
         "react": "^17.0.2",
@@ -87,20 +88,6 @@
         "webpack": "^5.42.0",
         "webpack-dev-middleware": "^5.0.0",
         "webpack-hot-middleware": "^2.25.0"
-    },
-    "devDependencies": {
-        "@types/express": "^4.17.9",
-        "@types/node": "^16.0.0",
-        "@types/react": "^17.0.13",
-        "@types/react-dom": "^17.0.8",
-        "@types/react-router-dom": "5.1.7",
-        "@types/webpack-env": "^1.16.2",
-        "@typescript-eslint/eslint-plugin": "^4.28.1",
-        "@typescript-eslint/parser": "^4.28.1",
-        "esbuild-loader": "^2.13.1",
-        "eslint": "^7.30.0",
-        "eslint-plugin-react": "^7.24.0",
-        "typescript": "^4.3.5"
     },
     "peerDependencies": {
         "@types/express": "^4.17.9",
