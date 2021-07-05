@@ -30,7 +30,7 @@
         "access": "public"
     },
     "engines": {
-        "node": ">= 12.x"
+        "node": ">= 14.x"
     },
     "config": {
         "index": "demo_app/server/ts_entry.js"
