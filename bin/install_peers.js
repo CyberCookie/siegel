@@ -4,7 +4,6 @@ const { PATHS }             = require('../cjs/constants')
 
 
 function main() {
-    console.log(process.env, PATHS)
     // Skip local install
     const { INIT_CWD, PWD } = process.env
     if (!INIT_CWD || INIT_CWD == PWD || !INIT_CWD.indexOf(PWD)) {

@@ -39,7 +39,7 @@
     "types": "./global.d.ts",
     "bin": "./bin/index.js",
     "scripts": {
-        "postinstall": "[ $(npm -v | cut -c1) -lt 7 ] && node ./bin/install_peers.js",
+        "postinstall": "[ $(npm -v | cut -c1) -le 7 ] && echo $(npm -v)",
         "start": "npm run build_serv",
         "build_serv": "node $npm_package_config_index -b -s",
         "build_serv:prod": "npm run build:prod && npm run pm2",
