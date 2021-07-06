@@ -1,33 +1,17 @@
-const resolve = require.resolve;
-const { loadersKeyMap, webpackModulesRegExp, DEPENDENCIES: { plugins: { miniCssExtract: { loader: miniCssExtractLoader } }, resolvedLoaders: { babelPresetEnv, babelPresetReact, babelPresetTS, babelPluginReactRefresh, babelPluginExportDefault, babelPluginExportNamespace, babelPluginDynamicImport, babelPluginTransformRuntime, babelPluginLogicalAssignment, babelPluginOptionalChaining, postCssAutoprefix, postCssSVG2Font } } } = require('../constants');
+//TODO: place 'theme = true' into a bundle if css modules enabled
+const { loadersKeyMap, webpackModulesRegExp, DEPENDENCIES: { plugins: { miniCssExtract }, loaders: { esbuild, styleLoader, cssLoader, sassLoader, sassResourcesLoader, postCssLoader, postCssAutoprefix, postCssSVG2Font } } } = require('../constants');
 module.exports = (CONFIG, RUN_PARAMS) => {
     const { sassResources, include, exclude } = CONFIG.build.input;
     const { isProd, isServer } = RUN_PARAMS;
     const defaults = {
         [webpackModulesRegExp.scripts]: {
-            loaderOrder: [loadersKeyMap.babel, loadersKeyMap.eslint],
+            loaderOrder: [loadersKeyMap.esbuild],
             loaders: {
-                [loadersKeyMap.babel]: {
-                    loader: resolve('babel-loader'),
+                [loadersKeyMap.esbuild]: {
+                    loader: esbuild,
                     options: {
-                        cacheDirectory: true,
-                        presets: [
-                            [babelPresetEnv, {
-                                    targets: 'last 1 chrome version',
-                                    shippedProposals: true
-                                }],
-                            babelPresetReact,
-                            babelPresetTS
-                        ],
-                        plugins: [
-                            ...(isProd ? [] : [babelPluginReactRefresh]),
-                            babelPluginExportDefault,
-                            babelPluginExportNamespace,
-                            babelPluginDynamicImport,
-                            babelPluginTransformRuntime,
-                            babelPluginLogicalAssignment,
-                            babelPluginOptionalChaining
-                        ]
+                        loader: 'tsx',
+                        target: 'es2015'
                     }
                 }
             }
@@ -36,10 +20,10 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             loaderOrder: [loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources],
             loaders: {
                 [loadersKeyMap.cssFinal]: isProd || !isServer
-                    ? miniCssExtractLoader
-                    : resolve('style-loader'),
+                    ? miniCssExtract.loader
+                    : styleLoader,
                 [loadersKeyMap.cssLoader]: {
-                    loader: resolve('css-loader'),
+                    loader: cssLoader,
                     options: {
                         sourceMap: !isProd,
                         url: false,
@@ -50,7 +34,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     }
                 },
                 [loadersKeyMap.postCssLoader]: {
-                    loader: resolve('postcss-loader'),
+                    loader: postCssLoader,
                     options: {
                         sourceMap: !isProd,
                         postcssOptions: {
@@ -65,13 +49,13 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     }
                 },
                 [loadersKeyMap.sassLoader]: {
-                    loader: resolve('sass-loader'),
+                    loader: sassLoader,
                     options: {
                         sourceMap: !isProd
                     }
                 },
                 [loadersKeyMap.sassResources]: {
-                    loader: resolve('sass-resources-loader'),
+                    loader: sassResourcesLoader,
                     options: {
                         resources: sassResources
                     }
@@ -79,7 +63,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             }
         }
     };
-    for (let regexpPart in defaults) {
+    for (const regexpPart in defaults) {
         defaults[regexpPart].ruleOptions = { include, exclude };
     }
     return defaults;

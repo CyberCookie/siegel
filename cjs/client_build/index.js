@@ -2,7 +2,7 @@ const { PATHS } = require('../constants');
 const { DEPENDENCIES } = require('./constants');
 const defaultModulesResolve = require('./modules');
 const defaultPluginsResolve = require('./plugins');
-const { DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, terserPlugin }, COMMONS: { ESLintExtensions } } = require('./constants');
+const { DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, esBuildMinifyPlugin }, COMMONS: { ESLintExtensions } } = require('./constants');
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
     const { isProd, isDevServer } = RUN_PARAMS;
     const { staticDir, build } = CONFIG;
@@ -10,13 +10,11 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
     let webpackConfig = {
         mode: process.env.NODE_ENV || 'development',
         cache: isDevServer,
-        devtool: isProd ? '' : 'cheap-module-eval-source-map',
-        // webpack 5
-        // ...( isProd ? {} : {
-        //     devtool: 'eval-cheap-module-source-map'
-        // }),
+        ...(isProd ? {} : {
+            devtool: 'eval-cheap-module-source-map'
+        }),
         resolve: {
-            // unsafeCache: true,
+            unsafeCache: true,
             alias: aliases,
             extensions: ESLintExtensions.concat(['.sass', '.d.ts']),
             modules: [PATHS.nodeModules, PATHS.parentNodeModules]
@@ -28,10 +26,9 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         output: {
             publicPath,
             path: staticDir,
+            pathinfo: false,
             chunkFilename: 'chunk.[contenthash].js',
-            filename: isProd ? 'app.[contenthash].js' : 'app.[hash].js',
-            //webpack 5
-            // filename: 'app.[contenthash].js',
+            filename: 'app.[contenthash].js',
         },
         optimization: {
             splitChunks: {
@@ -39,11 +36,9 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             },
             ...(isProd ? {
                 minimizer: [
-                    new terserPlugin({
-                        terserOptions: {
-                            output: { comments: false }
-                        },
-                        extractComments: false
+                    new esBuildMinifyPlugin({
+                        target: 'esnext',
+                        css: true
                     })
                 ]
             } : {})
@@ -80,7 +75,6 @@ module.exports = {
     getDevMiddlewares: (CONFIG, webpackCompiller) => ({
         dev: devMiddleware(webpackCompiller, {
             publicPath: CONFIG.build.publicPath,
-            hot: true,
             stats: statsOptions
         }),
         hot: hotMiddleware(webpackCompiller)

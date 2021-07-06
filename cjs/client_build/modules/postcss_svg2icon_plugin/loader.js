@@ -1,10 +1,10 @@
-const loaderUtils = require('loader-utils');
+const { parseQuery } = require('loader-utils');
 const createIconFont = require('./icons_to_font.js');
 module.exports = function () {
     this.cacheable && this.cacheable();
     const callback = this.async();
     // WTF?
-    const query = loaderUtils.parseQuery(this.query);
+    const query = parseQuery(this.query);
     // Add svgs to webpack file watching:
     query.svgs.forEach(svg => this.addDependency(svg));
     createIconFont(query)

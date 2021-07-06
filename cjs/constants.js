@@ -54,6 +54,7 @@ const DEFAULT_CONFIG = {
             include: [PATHS.clientCore],
             exclude: [PATHS.nodeModules /*, PATHS.parentNodeModules*/]
         },
+        eslint: false,
         publicPath: '/',
         aliases: {}
     }

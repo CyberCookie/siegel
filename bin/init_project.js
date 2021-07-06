@@ -1,14 +1,7 @@
 const { join, relative, posix }                     = require('path')
 const { existsSync, writeFileSync, readFileSync }   = require('fs')
-const shell                                         = require('child_process').execSync
 
 const { PATHS, LOC_NAMES }                          = require('../cjs/constants')
-
-const {
-    name: devCorePackageName,
-    scripts: siegelPackageJSONScripts,
-    config: devCorePackageConfig
-} = require(PATHS.package)
 
 
 const toJSON = data => JSON.stringify(data, null, 4)
@@ -16,6 +9,13 @@ const toJSON = data => JSON.stringify(data, null, 4)
 const getLocalPathToSiegel = (...args) => './' + join(LOC_NAMES.NODE_MODULES, ...args)
 
 function main(isGlobal) {
+    const shell = require('child_process').execSync
+    const {
+        name: devCorePackageName,
+        scripts: siegelPackageJSONScripts,
+        config: devCorePackageConfig
+    } = require(PATHS.package)
+
     const replaceDevPathWithModule = path => {
         const { join, relative } = posix
 
