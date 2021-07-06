@@ -19,10 +19,10 @@
 </h1>
 
 
-<h3>
+<h4>
     Siegel is a higly opiniated SPA development platform that helps you to build and host your projects of any scale in a simple way.
     <br />
-</h3>
+</h4>
 <br />
 
 The platform provides:<br/>
