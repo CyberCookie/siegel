@@ -35,7 +35,7 @@ The platform provides:<br/>
             <li>Code linting with <code>ESLint</code>.</li>
             <li><code>Hot Modules Replace</code> for <b>js</b>, <b>jsx</b> and <b>styles</b></li>
             <li><code>SASS</code> with <code>CSS modules</code> approach.</li>
-            <li>Build into <code>Brotli</code> and <code>GZIP</code> formats.</li>
+            <li>Build into <code>Brotli</code> and <code>GZIP</code> compression formats.</li>
             <li><code>SVG icons to font</code> converter.</li>
         </ul>
     </li>
@@ -48,7 +48,7 @@ The platform provides:<br/>
         </ul>
     </li>
     <li>
-        Utils and modules to use on client side code:
+        Utils and modules to use on client side:
         <ul>
             <li>Big set of <code>React components</code>.</li>
             <li>React <code>global state managers</code> built with <code>hooks</code> or <code>Redux</code> with fetch module to track requests with.</li>
@@ -83,9 +83,11 @@ Create <b>app.ts</b> file:<br /><br />
 import { render } from 'react-dom'
 
 render(
-    'hello siegel!',
+    'Hello Siegel!',
     document.getElementById('root')
 )
+
+module.hot?.accept() // Webpack's hmr bug workaround
 ```
 
 

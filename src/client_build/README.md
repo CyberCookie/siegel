@@ -16,7 +16,7 @@
 <br />
 <h3>What it does out of the box?</h3>
 
-<p>Config optimized to produce the smallest bundle and to build it as fast as possible. If you know how to make it faster - let me know :)</p>
+<p>Config optimized to produce the smallest bundle and to build it as fast as possible.</p>
 
 <ul>
     <b>Default features:</b>
@@ -24,10 +24,10 @@
     <li>All output files are minified and compressed</li>
     <li>Sourcemaps</li>
     <li>JS Lint</li>
-    <li>Transform React JSX and TypeScript files via Babel along with new syntax (included plugins / presets are listed below)</li>
+    <li>Transform React JSX and TypeScript files via ESBuild</li>
     <li>SASS/SCSS processing; style autoprefixing; css modules</li>
     <li>Transform SVG icons into woff(2) font</li>
-    <li>Autoreload on file change</li>
+    <li>Hot Module Reload on js / styles change</li>
     <li>Best service worker expirience</li>
 </ul>
 
@@ -160,7 +160,7 @@ const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/src/client_bui
         
         /*
             If you want to add additional plugin then no special key is required.
-            At least it shouldn't overlap with existing one.
+            At least it shouldn't overlap with existing ones.
         */
         [your_plugin_key]: {
             plugin: require('your_plugin'),
@@ -177,15 +177,7 @@ const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/src/client_bui
 
 Loaders that this build is use by default. Each loader has its own `loader key` to make it possible to extend it.
 
-- Babel: ( `babel` )
-    - @babel/preset-react
-    - @babel/preset-typescript
-    - @babel/plugin-proposal-export-default-from
-    - @babel/plugin-proposal-export-namespace-from
-    - @babel/plugin-syntax-dynamic-import
-    - @babel/plugin-proposal-logical-assignment-operators
-    - @babel/plugin-proposal-optional-chaining
-    - react-refresh/babel
+
 - ESLint ( `eslint` )
 - SASS styles ( `cssFinal` )<br />
     It is <b>style-loader</b> in dev mode<br />

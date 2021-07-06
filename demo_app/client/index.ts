@@ -31,3 +31,5 @@ if (rootComponent) {
 
     render(Router, rootComponent)
 }
+
+module.hot?.accept()

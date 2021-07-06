@@ -36,7 +36,6 @@ const COMMONS = {
 
 
 const loadersKeyMap = {
-    babel: 'babel',
     esbuild: 'esbuild-loader',
     cssFinal: 'cssFinal',
     cssLoader: 'cssLoader',

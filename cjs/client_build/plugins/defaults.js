@@ -1,7 +1,7 @@
 const { join, relative, dirname } = require('path');
 const { pluginInstancesKeyMap, pluginsKeysMap, COMMONS: { ESLintExtensions }, DEPENDENCIES: { webpack, plugins: { HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, cleanPlugin, miniCssExtract, reactRefresh, serviceWorkerPlugin, eslint } } } = require('../constants');
 module.exports = (CONFIG, RUN_PARAMS) => {
-    const { staticDir, eslint: eslintEnabled, build: { input } } = CONFIG;
+    const { staticDir, build: { input, eslint: eslintEnabled } } = CONFIG;
     const { isProd, isServer } = RUN_PARAMS;
     const defaults = {
         [pluginsKeysMap.compression]: {

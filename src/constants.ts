@@ -2,25 +2,6 @@ import type { RunParams } from './types'
 
 
 const { join }              = require('path')
-const { existsSync }        = require('fs')
-
-
-function getParentNodemodules() {
-    let result
-    if (require.main) {
-        const paths = require.main.paths
-        for (let i = 0, l = paths.length; i < l; i++) {
-            const nodePath = paths[i]
-            if (existsSync(nodePath)) {
-                result = nodePath
-                break
-            }
-        }
-    }
-
-
-    return result
-}
 
 
 const cwd = process.cwd()
@@ -46,7 +27,6 @@ const PATHS = {
     demoProject: join(root, 'demo_app'),
     clientCore: join(root, 'client_core'),
     nodeModules: join(root, LOC_NAMES.NODE_MODULES),
-    parentNodeModules: getParentNodemodules() || globalNodeModules,
     package: join(root, LOC_NAMES.PACKAGE_JSON),
     cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
     build: join(__dirname, 'client_build', 'index'),

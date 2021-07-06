@@ -1,9 +1,6 @@
-//TODO: replace useLayoutEffect with onBlur event
-
-import React, { useState, useLayoutEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 
 import isE from '../../../utils/is_exists'
-import isTouchScreen from '../../../utils/is_touchscreen'
 import { extractProps, applyRefApi, ComponentAttributes } from '../../ui_utils'
 import addChildren from '../../children'
 import type {
@@ -14,7 +11,6 @@ import type {
 
 const componentID = '-ui-select'
 
-const _isTouchScreen = isTouchScreen()
 const stopPropagationHandler = (e: React.MouseEvent) => { e.stopPropagation() }
 
 
@@ -83,7 +79,10 @@ const Select: Component = (props, noDefaults) => {
 
     let selectRootProps: NonNullable<Props['attributes']> = {
         className,
-        ref: useRef(null)
+        ref: useRef(null),
+        tabIndex: 0,
+        onFocus() { setActive(true) },
+        onBlur() { setActive(false) }
     }
 
     let optionsElement, selectedOption
@@ -98,34 +97,11 @@ const Select: Component = (props, noDefaults) => {
         optionsElement = optionsData.optionsElement
         selectedOption = optionsData.selectedOption
 
-        selectRootProps.onMouseDown = (e: React.MouseEvent) => {
-            e.stopPropagation()
-            e.preventDefault()
-
-            setActive(!isActive)
-        }
+        selectRootProps.onMouseDown = () => { setActive(!isActive) }
     }
 
     refApi && (applyRefApi(selectRootProps, mergedProps))
     attributes && (selectRootProps = Object.assign(selectRootProps, attributes))
-
-    useLayoutEffect(() => {
-        const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
-            (selectRootProps.ref as React.MutableRefObject<HTMLDivElement>)
-                .current.contains(e.target as Node) || setActive(false)
-        }
-        const eventOptions = { passive: true }
-
-        _isTouchScreen
-            ?   document.addEventListener('touchstart', handleOutsideClick, eventOptions)
-            :   document.addEventListener('mousedown', handleOutsideClick, eventOptions)
-
-        return () => {
-            _isTouchScreen
-                ?   document.removeEventListener('touchstart', handleOutsideClick)
-                :   document.removeEventListener('mousedown', handleOutsideClick)
-        }
-    }, [])
 
 
     const displayValue = selectedOption
@@ -143,6 +119,8 @@ const Select: Component = (props, noDefaults) => {
                 <div children={resetIcon} className={theme.reset}
                     onMouseDown={e => {
                         e.stopPropagation()
+                        e.preventDefault()
+
                         onChange(undefined, e)
                     }} />
             )}

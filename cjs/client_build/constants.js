@@ -30,7 +30,6 @@ const COMMONS = {
     ESLintExtensions: ['.js', '.jsx', '.ts', '.tsx']
 };
 const loadersKeyMap = {
-    babel: 'babel',
     esbuild: 'esbuild-loader',
     cssFinal: 'cssFinal',
     cssLoader: 'cssLoader',

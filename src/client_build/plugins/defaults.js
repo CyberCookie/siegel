@@ -19,8 +19,10 @@ const {
 module.exports = (CONFIG, RUN_PARAMS) => {
     const {
         staticDir,
-        eslint: eslintEnabled,
-        build: { input }
+        build: {
+            input,
+            eslint: eslintEnabled
+        }
     } = CONFIG
     const { isProd, isServer } = RUN_PARAMS
 

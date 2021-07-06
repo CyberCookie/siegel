@@ -1,4 +1,3 @@
-const { PATHS } = require('../constants');
 const { DEPENDENCIES } = require('./constants');
 const defaultModulesResolve = require('./modules');
 const defaultPluginsResolve = require('./plugins');
@@ -16,8 +15,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         resolve: {
             unsafeCache: true,
             alias: aliases,
-            extensions: ESLintExtensions.concat(['.sass', '.d.ts']),
-            modules: [PATHS.nodeModules, PATHS.parentNodeModules]
+            extensions: ESLintExtensions.concat(['.sass', '.d.ts'])
         },
         entry: [
             ...(isDevServer ? ['webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true'] : []),

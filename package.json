@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -40,6 +40,7 @@
     "bin": "./bin/index.js",
     "scripts": {
         "postinstall": "[ $(npm -v | cut -c1) -lt 7 ] && node ./bin/install_peers.js || exit 0",
+        "prepublishOnly": "npm run build_node",
         "start": "npm run build_serv",
         "build_serv": "node $npm_package_config_index -b -s",
         "build_serv:prod": "npm run build:prod && npm run pm2",
