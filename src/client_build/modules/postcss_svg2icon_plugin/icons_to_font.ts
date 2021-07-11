@@ -7,9 +7,9 @@ const fs                = require('fs')
 
 
 
-module.exports = ({ name, svgs, woff2 }) => new Promise((resolve, reject) => {
+module.exports = ({ fontName, svgs, woff2 }) => new Promise((resolve, reject) => {
     const fontStream = new Svgicons2svgfont({
-        name,
+        name: fontName,
         normalize: true,
         fontHeight: 1000,
         error: reject,
@@ -49,3 +49,5 @@ module.exports = ({ name, svgs, woff2 }) => new Promise((resolve, reject) => {
 })
     .then(svgFont => svg2ttf(svgFont, {}).buffer)
     .then(ttfFont => woff2 ? ttf2woff2(ttfFont) : ttf2woff(ttfFont).buffer)
+
+export {}

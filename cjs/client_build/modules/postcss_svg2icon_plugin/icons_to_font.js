@@ -1,12 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const Svgicons2svgfont = require('svgicons2svgfont');
 const svg2ttf = require('svg2ttf');
 const ttf2woff = require('ttf2woff');
 const ttf2woff2 = require('ttf2woff2');
 const Readable = require('stream').Readable;
 const fs = require('fs');
-module.exports = ({ name, svgs, woff2 }) => new Promise((resolve, reject) => {
+module.exports = ({ fontName, svgs, woff2 }) => new Promise((resolve, reject) => {
     const fontStream = new Svgicons2svgfont({
-        name,
+        name: fontName,
         normalize: true,
         fontHeight: 1000,
         error: reject,

@@ -1,0 +1,8 @@
+# gitignore extend
+.idea
+.vscode
+dist
+
+.github
+src/*
+!src/tsconfig.json

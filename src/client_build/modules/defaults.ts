@@ -19,9 +19,9 @@ module.exports = (CONFIG, RUN_PARAMS) => {
     const { isProd, isServer } = RUN_PARAMS
 
 
-    const defaults = {
+    const defaults: any = {
         [ webpackModulesRegExp.scripts ]: {
-            loaderOrder: [ loadersKeyMap.esbuild ],
+            loadersOrder: [ loadersKeyMap.esbuild ],
             loaders: {
                 [ loadersKeyMap.esbuild ]: {
                     loader: esbuild,
@@ -34,7 +34,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         },
 
         [ webpackModulesRegExp.styles ]: {
-            loaderOrder: [ loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources ],
+            loadersOrder: [ loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources ],
             loaders: {
                 [loadersKeyMap.cssFinal]: isProd || !isServer
                     ?   miniCssExtract.loader
@@ -91,3 +91,4 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
     return defaults
 }
+export {}

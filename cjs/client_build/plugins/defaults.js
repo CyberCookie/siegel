@@ -1,5 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const { join, relative, dirname } = require('path');
-const { pluginInstancesKeyMap, pluginsKeysMap, COMMONS: { ESLintExtensions }, DEPENDENCIES: { webpack, plugins: { HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, cleanPlugin, miniCssExtract, reactRefresh, serviceWorkerPlugin, eslint } } } = require('../constants');
+const { pluginInstancesKeyMap, pluginsKeysMap, COMMONS: { ESLintExtensions }, DEPENDENCIES: { webpack, plugins: { HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh, serviceWorkerPlugin, eslint } } } = require('../constants');
 module.exports = (CONFIG, RUN_PARAMS) => {
     const { staticDir, build: { input, eslint: eslintEnabled } } = CONFIG;
     const { isProd, isServer } = RUN_PARAMS;
@@ -11,7 +13,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     enabled: isProd,
                     options: {
                         test: /\.*$/,
-                        filename: '[path].br[query]',
+                        filename: '[name].br[query]',
                         algorithm: 'brotliCompress',
                         compressionOptions: {
                             level: 11
@@ -24,7 +26,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     enabled: isProd,
                     options: {
                         test: /\.*$/,
-                        filename: '[path].gz[query]',
+                        filename: '[name].gz[query]',
                         threshold: 10240,
                         deleteOriginalAssets: false
                     }
@@ -50,8 +52,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             plugin: miniCssExtract,
             enabled: isProd || !isServer,
             options: {
-                filename: isProd ? 'styles.[contenthash].css' : 'styles.css',
-                chunkFilename: isProd ? 'chunk.[contenthash].css' : '[id].css'
+                filename: isProd ? 'styles.[contenthash].css' : 'styles.[id].css',
+                chunkFilename: isProd ? 'chunk.[contenthash].css' : 'chunk.[id].css'
             }
         },
         [pluginsKeysMap.cssOptimize]: {
@@ -72,9 +74,6 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         [pluginsKeysMap.hot]: {
             plugin: webpack.HotModuleReplacementPlugin,
             enabled: !isProd
-        },
-        [pluginsKeysMap.clean]: {
-            plugin: cleanPlugin.CleanWebpackPlugin
         },
         [pluginsKeysMap.reactRefresh]: {
             plugin: reactRefresh,

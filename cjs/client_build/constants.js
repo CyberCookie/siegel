@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const resolve = require.resolve;
 const DEPENDENCIES = {
     webpack: require('webpack'),
@@ -9,7 +11,6 @@ const DEPENDENCIES = {
         optimizeCSS: require('optimize-css-assets-webpack-plugin'),
         fileCopyPlugin: require('copy-webpack-plugin'),
         compressionPlugin: require('compression-webpack-plugin'),
-        cleanPlugin: require('clean-webpack-plugin'),
         miniCssExtract: require('mini-css-extract-plugin'),
         reactRefresh: require('@pmmmwh/react-refresh-webpack-plugin'),
         eslint: require('eslint-webpack-plugin'),
@@ -49,7 +50,6 @@ const pluginsKeysMap = {
     cssOptimize: 'cssOptimize',
     hot: 'hot',
     html: 'html',
-    clean: 'clean',
     reactRefresh: 'reactRefresh',
     eslint: 'eslint'
 };

@@ -197,7 +197,7 @@ It's possible to initialize a demo project having siegel installed globally. In 
 siegel init -g
 ```
 
-but it's tricky since we need to define path to global node modules in tsconfig.json and .eslintrc.<br />
+but it's tricky since we need to define path to global node modules in <b>tsconfig.json</b> and <b>.eslintrc</b>.<br />
 This path may vary on different machines.
 
 

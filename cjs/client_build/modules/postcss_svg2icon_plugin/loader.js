@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const { parseQuery } = require('loader-utils');
 const createIconFont = require('./icons_to_font.js');
 module.exports = function () {

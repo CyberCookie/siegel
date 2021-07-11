@@ -11,7 +11,6 @@ const DEPENDENCIES = {
         optimizeCSS:            require('optimize-css-assets-webpack-plugin'),
         fileCopyPlugin:         require('copy-webpack-plugin'),
         compressionPlugin:      require('compression-webpack-plugin'),
-        cleanPlugin:            require('clean-webpack-plugin'),
         miniCssExtract:         require('mini-css-extract-plugin'),
         reactRefresh:           require('@pmmmwh/react-refresh-webpack-plugin'),
         eslint:                 require('eslint-webpack-plugin'),
@@ -28,7 +27,7 @@ const DEPENDENCIES = {
         postCssAutoprefix:      resolve('autoprefixer'),
         postCssSVG2Font:        resolve('./modules/postcss_svg2icon_plugin')
     }
-}
+} as const
 
 const COMMONS = {
     ESLintExtensions: [ '.js', '.jsx', '.ts', '.tsx' ]
@@ -42,12 +41,12 @@ const loadersKeyMap = {
     postCssLoader: 'postCssLoader',
     sassLoader: 'sassLoader',
     sassResources: 'sassResources'
-}
+} as const
 
 const webpackModulesRegExp = {
     scripts: '[tj]sx?',
     styles: 's[ac]ss'
-}
+} as const
 
 
 const pluginsKeysMap = {
@@ -58,16 +57,16 @@ const pluginsKeysMap = {
     cssOptimize: 'cssOptimize',
     hot: 'hot',
     html: 'html',
-    clean: 'clean',
     reactRefresh: 'reactRefresh',
     eslint: 'eslint'
-}
+} as const
 
 const pluginInstancesKeyMap = {
     compression_br: 'br',
     compression_gzip: 'gzip',
-}
+} as const
 
 
 
 module.exports = { loadersKeyMap, pluginsKeysMap, pluginInstancesKeyMap, webpackModulesRegExp, DEPENDENCIES, COMMONS }
+export {}

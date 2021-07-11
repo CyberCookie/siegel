@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.9.1",
+    "version": "0.9.2",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -41,6 +41,7 @@
     "scripts": {
         "postinstall": "[ $(npm -v | cut -c1) -lt 7 ] && node ./bin/install_peers.js || exit 0",
         "prepublishOnly": "npm run build_node",
+        "_client_prebuild": "npx ts-node ./src/index.ts --client_prebuild",
         "start": "npm run build_serv",
         "build_serv": "node $npm_package_config_index -b -s",
         "build_serv:prod": "npm run build:prod && npm run pm2",
@@ -59,7 +60,6 @@
     "dependencies": {
         "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
         "autoprefixer": "^9.8.6",
-        "clean-webpack-plugin": "^4.0.0-alpha.0",
         "compression-webpack-plugin": "^8.0.1",
         "connect-history-api-fallback": "^1.6.0",
         "copy-webpack-plugin": "^6.4.1",

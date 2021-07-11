@@ -72,3 +72,4 @@ module.exports = (defaultPlugins, userPlugins = {}) => {
 
     return result
 }
+export {}

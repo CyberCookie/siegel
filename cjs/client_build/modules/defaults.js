@@ -1,11 +1,13 @@
+"use strict";
 //TODO: place 'theme = true' into a bundle if css modules enabled
+Object.defineProperty(exports, "__esModule", { value: true });
 const { loadersKeyMap, webpackModulesRegExp, DEPENDENCIES: { plugins: { miniCssExtract }, loaders: { esbuild, styleLoader, cssLoader, sassLoader, sassResourcesLoader, postCssLoader, postCssAutoprefix, postCssSVG2Font } } } = require('../constants');
 module.exports = (CONFIG, RUN_PARAMS) => {
     const { sassResources, include, exclude } = CONFIG.build.input;
     const { isProd, isServer } = RUN_PARAMS;
     const defaults = {
         [webpackModulesRegExp.scripts]: {
-            loaderOrder: [loadersKeyMap.esbuild],
+            loadersOrder: [loadersKeyMap.esbuild],
             loaders: {
                 [loadersKeyMap.esbuild]: {
                     loader: esbuild,
@@ -17,7 +19,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             }
         },
         [webpackModulesRegExp.styles]: {
-            loaderOrder: [loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources],
+            loadersOrder: [loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources],
             loaders: {
                 [loadersKeyMap.cssFinal]: isProd || !isServer
                     ? miniCssExtract.loader

@@ -1,13 +1,17 @@
-const { DEPENDENCIES } = require('./constants');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const BUILD_CONSTANTS = require('./constants');
 const defaultModulesResolve = require('./modules');
 const defaultPluginsResolve = require('./plugins');
-const { DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, esBuildMinifyPlugin }, COMMONS: { ESLintExtensions } } = require('./constants');
+const { DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, esBuildMinifyPlugin }, COMMONS: { ESLintExtensions } } = BUILD_CONSTANTS;
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
     const { isProd, isDevServer } = RUN_PARAMS;
     const { staticDir, build } = CONFIG;
     const { input, aliases, publicPath, postProcessWebpackConfig } = build;
     let webpackConfig = {
-        mode: process.env.NODE_ENV || 'development',
+        mode: isProd
+            ? 'production'
+            : process.env.NODE_ENV || 'development',
         cache: isDevServer,
         ...(isProd ? {} : {
             devtool: 'eval-cheap-module-source-map'
@@ -23,10 +27,11 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         ],
         output: {
             publicPath,
+            clean: true,
             path: staticDir,
             pathinfo: false,
             chunkFilename: 'chunk.[contenthash].js',
-            filename: 'app.[contenthash].js',
+            filename: 'app.[contenthash].js'
         },
         optimization: {
             splitChunks: {
@@ -45,7 +50,7 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         module: defaultModulesResolve(CONFIG, RUN_PARAMS)
     };
     if (typeof postProcessWebpackConfig == 'function') {
-        webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig, DEPENDENCIES);
+        webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig, BUILD_CONSTANTS);
     }
     return webpackConfig;
 }

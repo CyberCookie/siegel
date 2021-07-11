@@ -33,10 +33,11 @@ module.exports = (CONFIG = {}, RUN_PARAMS = {}) => {
     if (RUN_PARAMS.isBuild) {
         const { input } = CONFIG.build;
         stringConfig && (input.js = stringConfig);
-        if (!existsSync(input.js)) {
-            throw `build.input.js ->> [${input.js}] file doesn't exists.`;
+        if (existsSync(input.js)) {
+            input.include.push(dirname(input.js));
         }
-        input.include.push(dirname(input.js));
+        else
+            throw `build.input.js ->> [${input.js}] file doesn't exists.`;
     }
     return { CONFIG, RUN_PARAMS };
 };

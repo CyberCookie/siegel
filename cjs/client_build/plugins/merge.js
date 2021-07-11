@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const mergeOptions = (defaultOptions, userOptions, rewrite) => (typeof userOptions == 'function'
     ? userOptions(defaultOptions)
     : !rewrite && typeof defaultOptions == 'object'

@@ -1,3 +1,6 @@
+//TODO: apply arrow controls when focused
+
+
 import React, { useState, useRef } from 'react'
 
 import isE from '../../../utils/is_exists'

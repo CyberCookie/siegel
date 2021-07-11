@@ -6,3 +6,4 @@ module.exports = (CONFIG, RUN_PARAMS) => mergeModules(
     getDefaultModules(CONFIG, RUN_PARAMS),
     CONFIG.build.modules
 )
+export {}

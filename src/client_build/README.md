@@ -103,7 +103,7 @@
         /*
             Use it to post process a final webpack config before being passed to webpack.
             Receives siegel config as a first parameter, webpack config as a second and
-            all the dependencies used in webpack config including webpack itself as a third parameter.
+            build constants (build dependencies, plugin/loader keys ).
         */
         postProcessWebpackConfig: Function
     }
@@ -120,7 +120,6 @@ Every plugin, that's already included, has its own `plugin key`.
 - mini-css-extract-plugin ( `cssExtract` ) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__
 - optimize-css-assets-webpack-plugin ( `cssOptimize` ) - enabled if __runParams.isProd == true__ 
 - html-webpack-plugin ( `html` ) - enabled if __config.build.input.html__ is specified
-- clean-webpack-plugin ( `clean` )
 - @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if __runParams.isProd == true__
 - <a href='#postcss_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if __config.build.input.sw__ is specified
     - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces. 
