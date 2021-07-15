@@ -39,8 +39,11 @@ module.exports = (defaultModules, userModules = {}) => {
     function addRule(regExpPart, loaders = {}, loadersOrder, ruleOptions = {}, defaultLoaders = {}) {
         const use = []
         loadersOrder.forEach(loaderKey => {
-            const mergedLoaders = mergeLoaders(loaders[loaderKey], defaultLoaders[loaderKey])
-            mergedLoaders && use.push(mergedLoaders)
+            const userLoader = loaders[loaderKey]
+            if (userLoader !== false) {
+                const mergedLoaders = mergeLoaders(userLoader, defaultLoaders[loaderKey])
+                mergedLoaders && use.push(mergedLoaders)
+            }
         })
 
 
@@ -61,7 +64,7 @@ module.exports = (defaultModules, userModules = {}) => {
 
 
     for (const regExpPart in defaultModules) {
-        if (regExpPart in userModules) {
+        if (userModules[regExpPart]) {
 
             const userModule = userModules[regExpPart]
             if (userModule) {

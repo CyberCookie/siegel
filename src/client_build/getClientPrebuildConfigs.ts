@@ -25,12 +25,6 @@ module.exports = () => {
 
             modules: {
                 [ webpackModulesRegExp.styles ]: {
-                    loadersOrder(defaultOrder) {
-                        const indexOfSassResourceLoader = defaultOrder.indexOf(loadersKeyMap.sassResources)
-                        defaultOrder.splice(indexOfSassResourceLoader, 1)
-
-                        return defaultOrder
-                    },
                     loaders: {
                         [ loadersKeyMap.sassResources ]: false
                     }
@@ -38,30 +32,47 @@ module.exports = () => {
             },
 
             postProcessWebpackConfig(webpackConfig) {
-                const entry = glob.sync(
-                    join(PATHS.clientCore, '**', '*.ts*'),
-                    {
-                        //TODO: make it buildable
-                        ignore: [
-                            '**/signalr*',
-                            '**/store/redux/**/*',
-                            '**/ui/Spinner/**/*'
-                        ]
-                    }
-                )
-                console.log(entry)
-                webpackConfig.entry = [ ...entry ]
+                // const newEntry = {}
+                // glob.sync(
+                //     join(PATHS.clientCore, '**', '*.ts*'),
+                //     {
+                //         //TODO: make it buildable
+                //         ignore: [
+                //             '**/*.d.ts',
+                //             '**/signalr*',
+                //             '**/store/redux/**/*',
+                //             '**/ui/Spinner/**/*'
+                //         ]
+                //     }
+                // ).forEach(e => {
+                //     newEntry[e.replace(PATHS.clientCore, '')] = e
+                // })
 
+                // webpackConfig.entry = newEntry
+                // console.log(newEntry)
+
+                // webpackConfig.entry = {
+                //     '/ui/Button': join(PATHS.clientCore, 'ui', '_form', 'Button', 'index.tsx'),
+                //     '/ui/Checkbox': join(PATHS.clientCore, 'ui', '_form', 'Checkbox', 'index.tsx'),
+                //     '/ui/Slider': join(PATHS.clientCore, 'ui', 'Slider', 'index.tsx')
+                // }
+
+                webpackConfig.entry = join(process.cwd(), '_test', 'some_module.js')
+
+                webpackConfig.externals = {
+                    react: 'react'
+                }
                 webpackConfig.output = {
-                    // module: true,
-                    clean: true,
-                    filename: '[file]',
-                    path: join(PATHS.cwd, 'lib_client')
+                    filename: '[name].js',
+                    path: join(PATHS.cwd, '_test', 'output'),
+                    library: {
+                        type: 'module'
+                    },
+                    environment: { module: true }
                 }
+                webpackConfig.experiments = { outputModule: true }
 
-                webpackConfig.experiments = {
-                    outputModule: true
-                }
+                // webpackConfig.externalsType = 'module'
 
                 delete webpackConfig.cache
                 delete webpackConfig.resolve.alias

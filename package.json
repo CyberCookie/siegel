@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.9.2",
+    "version": "0.9.3",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -30,7 +30,7 @@
         "access": "public"
     },
     "engines": {
-        "node": ">= 14.x"
+        "node": ">= 12.x"
     },
     "config": {
         "index": "demo_app/server/ts_entry.js"
@@ -60,6 +60,7 @@
     "dependencies": {
         "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
         "autoprefixer": "^9.8.6",
+        "clean-webpack-plugin": "^4.0.0-alpha.0",
         "compression-webpack-plugin": "^8.0.1",
         "connect-history-api-fallback": "^1.6.0",
         "copy-webpack-plugin": "^6.4.1",

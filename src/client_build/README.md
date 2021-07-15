@@ -120,6 +120,7 @@ Every plugin, that's already included, has its own `plugin key`.
 - mini-css-extract-plugin ( `cssExtract` ) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__
 - optimize-css-assets-webpack-plugin ( `cssOptimize` ) - enabled if __runParams.isProd == true__ 
 - html-webpack-plugin ( `html` ) - enabled if __config.build.input.html__ is specified
+- clean-webpack-plugin ( `clean` )
 - @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if __runParams.isProd == true__
 - <a href='#postcss_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if __config.build.input.sw__ is specified
     - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces. 
@@ -134,19 +135,19 @@ const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/src/client_bui
 
 {
     plugins: {
-        [pluginsKeysMap.compression]: {
+        [ pluginsKeysMap.compression ]: {
             instances: {
-                [pluginInstancesKeyMap.compression_br]: {
+                [ pluginInstancesKeyMap.compression_br ]: {
                     options: { /* plugin instance options */ }
                 },
 
-                [pluginInstancesKeyMap.compression_gzip]: false // to disable the plugin instance
+                [ pluginInstancesKeyMap.compression_gzip ]: false // to disable the plugin instance
             }
         },
 
-        [pluginsKeysMap.sw]: false, // to disable the plugin
+        [ pluginsKeysMap.sw ]: false, // to disable the plugin
 
-        [pluginsKeysMap.html]: {
+        [ pluginsKeysMap.html ]: {
             options: { /* plugin options */ }
 
             /* could be a function with default options as a first parameter */
@@ -161,7 +162,7 @@ const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/src/client_bui
             If you want to add additional plugin then no special key is required.
             At least it shouldn't overlap with existing ones.
         */
-        [your_plugin_key]: {
+        [ your_plugin_key ]: {
             plugin: require('your_plugin'),
             enabled: true,
             options: { /* plugin options */ }
@@ -196,7 +197,7 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/client_build
 
 {
     modules: {
-        [webpackModulesRegExp.styles]: {
+        [ webpackModulesRegExp.styles ]: {
             /*
                 This field can be a function in the case you extend one of the default rules.
                 The Function receives default laodersOrder and returns new one. 
@@ -221,9 +222,9 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/client_build
 
             loaders: {
                 /* Annother way to disable loader */
-                [loadersKeyMap.sassResources]: false,
+                [ loadersKeyMap.sassResources ]: false,
 
-                [loadersKeyMap.cssLoader]: {
+                [ loadersKeyMap.cssLoader ]: {
                     /*
                         This field can be a function in case you extend one of the default loaders. 
                     */
@@ -267,7 +268,7 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/client_build
 
             /* Any valid field you can pass into webpack's Rule but `test` and `use`. */
             ruleOptions: {
-                include: [' path_to_png_ico_files ']
+                include: [ 'path_to_png_ico_files' ]
             }
         }
     }

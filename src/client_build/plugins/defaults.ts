@@ -10,7 +10,7 @@ const {
         webpack,
         plugins: {
             HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
-            serviceWorkerPlugin, eslint
+            serviceWorkerPlugin, eslint, cleanPlugin
         }
     }
 } = require('../constants')
@@ -28,10 +28,10 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
 
     const defaults = {
-        [pluginsKeysMap.compression]: {
+        [ pluginsKeysMap.compression ]: {
             plugin: compressionPlugin,
             instances: {
-                [pluginInstancesKeyMap.compression_br]: {
+                [ pluginInstancesKeyMap.compression_br ]: {
                     enabled: isProd,
                     options: {
                         test: /\.*$/,
@@ -44,7 +44,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                         deleteOriginalAssets: false
                     }
                 },
-                [pluginInstancesKeyMap.compression_gzip]: {
+                [ pluginInstancesKeyMap.compression_gzip ]: {
                     enabled: isProd,
                     options: {
                         test: /\.*$/,
@@ -56,7 +56,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             }
         },
 
-        [pluginsKeysMap.copy]: {
+        [ pluginsKeysMap.copy ]: {
             plugin: fileCopyPlugin,
             enabled: !!input.assetsDir,
             options: {
@@ -73,13 +73,13 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             }
         },
 
-        [pluginsKeysMap.sw]: {
+        [ pluginsKeysMap.sw ]: {
             plugin: serviceWorkerPlugin,
             enabled: !!input.sw,
             options: input.sw
         },
 
-        [pluginsKeysMap.cssExtract]: {
+        [ pluginsKeysMap.cssExtract ]: {
             plugin: miniCssExtract,
             enabled: isProd || !isServer,
             options: {
@@ -88,12 +88,12 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             }
         },
 
-        [pluginsKeysMap.cssOptimize]: {
+        [ pluginsKeysMap.cssOptimize ]: {
             plugin: optimizeCSS,
             enabled: isProd,
         },
 
-        [pluginsKeysMap.html]: {
+        [ pluginsKeysMap.html ]: {
             plugin: HTMLPlugin,
             enabled: !!input.html,
             options: {
@@ -105,17 +105,21 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             }
         },
 
-        [pluginsKeysMap.hot]: {
+        [ pluginsKeysMap.hot ]: {
             plugin: webpack.HotModuleReplacementPlugin,
             enabled: !isProd
         },
 
-        [pluginsKeysMap.reactRefresh]: {
+        [ pluginsKeysMap.clean ]: {
+            plugin: cleanPlugin.CleanWebpackPlugin
+        },
+
+        [ pluginsKeysMap.reactRefresh ]: {
             plugin: reactRefresh,
             enabled: !isProd
         },
 
-        [pluginsKeysMap.eslint]: {
+        [ pluginsKeysMap.eslint ]: {
             plugin: eslint,
             enabled: eslintEnabled,
             options: {

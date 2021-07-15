@@ -202,3 +202,21 @@ This path may vary on different machines.
 
 
 More about demo project read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app).<br />
+
+
+<br /><br />
+<h3>Siegel development</h3><hr /><br />
+
+in case of you've cloned this repo:<br />
+
+Build `/src`
+
+```sh
+npm run build_node
+```
+
+Develop using `demo_app` with
+
+```sh
+npm start
+```

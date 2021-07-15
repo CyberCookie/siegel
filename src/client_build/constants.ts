@@ -14,6 +14,7 @@ const DEPENDENCIES = {
         miniCssExtract:         require('mini-css-extract-plugin'),
         reactRefresh:           require('@pmmmwh/react-refresh-webpack-plugin'),
         eslint:                 require('eslint-webpack-plugin'),
+        cleanPlugin:            require('clean-webpack-plugin'),
         serviceWorkerPlugin:    require('./plugins/plugin_sw')
     },
 
@@ -58,6 +59,7 @@ const pluginsKeysMap = {
     hot: 'hot',
     html: 'html',
     reactRefresh: 'reactRefresh',
+    clean: 'clean',
     eslint: 'eslint'
 } as const
 

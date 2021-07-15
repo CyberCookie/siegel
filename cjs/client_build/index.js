@@ -27,7 +27,6 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         ],
         output: {
             publicPath,
-            clean: true,
             path: staticDir,
             pathinfo: false,
             chunkFilename: 'chunk.[contenthash].js',

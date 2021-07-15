@@ -84,7 +84,7 @@ function main(isGlobal) {
     existsSync(PATHS.cwdPackageJSON) || shell('npm init -y')
 
 
-    const internalPackageScripts = [ 'postinstall', 'prepublishOnly' ]
+    const internalPackageScripts = [ 'postinstall', 'prepublishOnly', '_client_prebuild' ]
     internalPackageScripts.forEach(command => {
         delete siegelPackageJSONScripts.scripts[command]
     })
