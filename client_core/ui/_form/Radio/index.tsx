@@ -52,10 +52,10 @@ const Radio: Component = (props, noDefaults) => {
 }
 Radio.defaults = {
     theme: {
-        root: componentID,
-        option: componentID + '_option',
-        option__selected: componentID + '_option__selected',
-        _disabled: componentID + '__disabled'
+        root: '',
+        option: '',
+        option__selected: '',
+        _disabled: ''
     }
 }
 Radio.ID = componentID

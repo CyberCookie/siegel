@@ -142,13 +142,13 @@ const DropdownSearch: Component = (props, noDefaults) => {
 }
 DropdownSearch.defaults = {
     theme: {
-        root: componentID,
-        children: componentID + '_children',
-        options: componentID + '_options',
-        option: componentID + '_option',
-        _with_suggestions: componentID + '__with_suggestions',
-        _disabled: componentID + '__disabled',
-        _focused: componentID + '__focused'
+        root: '',
+        children: '',
+        options: '',
+        option: '',
+        _with_suggestions: '',
+        _disabled: '',
+        _focused: ''
     },
 
     minInputLength: 3

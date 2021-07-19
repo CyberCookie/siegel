@@ -259,16 +259,16 @@ Ranger.defaults = {
     rangersCrossBehavior: rangerCrossTypesMap.stop,
     rangePickIcon: '+',
     theme: {
-        root: componentID,
-        children: componentID + '_children',
-        range_area: componentID + '_range_area',
-        range_slider: componentID + '_range_slider',
-        label: componentID + '_label',
-        range_slide__in_progress: componentID + '_range_slide__in_progress',
-        range_slider__active: componentID + '_range_slider__active',
-        range__selected: componentID + '_range__selected',
-        range__unselected: componentID + '_range__unselected',
-        _disabled: componentID + '__disabled'
+        root: '',
+        children: '',
+        range_area: '',
+        range_slider: '',
+        label: '',
+        range_slide__in_progress: '',
+        range_slider__active: '',
+        range__selected: '',
+        range__unselected: '',
+        _disabled: ''
     }
 }
 Ranger.ID = componentID

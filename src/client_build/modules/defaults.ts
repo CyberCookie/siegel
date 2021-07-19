@@ -1,6 +1,3 @@
-//TODO: place 'theme = true' into a bundle if css modules enabled
-
-
 const {
     loadersKeyMap, webpackModulesRegExp,
 
@@ -36,11 +33,11 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         [ webpackModulesRegExp.styles ]: {
             loadersOrder: [ loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources ],
             loaders: {
-                [loadersKeyMap.cssFinal]: isProd || !isServer
+                [ loadersKeyMap.cssFinal ]: isProd || !isServer
                     ?   miniCssExtract.loader
                     :   styleLoader,
 
-                [loadersKeyMap.cssLoader]: {
+                [ loadersKeyMap.cssLoader ]: {
                     loader: cssLoader,
                     options: {
                         sourceMap: !isProd,

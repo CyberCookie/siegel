@@ -53,9 +53,7 @@ const Table: Component = (props, noDefaults) => {
         </table>
     )
 }
-Table.defaults = {
-    className: componentID
-}
+Table.defaults = {}
 Table.ID = componentID
 
 

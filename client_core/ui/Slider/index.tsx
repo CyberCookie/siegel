@@ -132,14 +132,14 @@ const Slider: Component = (props, noDefaults) => {
 }
 Slider.defaults = {
     theme: {
-        root: componentID,
-        children: componentID + '_children',
-        slides_wrapper: componentID + '_slides_wrapper',
-        slide: componentID + '_slide',
-        slide__active: componentID + '_slide__active',
-        controls_wrapper: componentID + '_controls_wrapper',
-        control: componentID + '_control',
-        control__active: componentID + '__active',
+        root: '',
+        children: '',
+        slides_wrapper: '',
+        slide: '',
+        slide__active: '',
+        controls_wrapper: '',
+        control: '',
+        control__active: '',
     },
 
     swipeDelta: 30

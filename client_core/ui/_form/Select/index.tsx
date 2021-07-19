@@ -152,20 +152,20 @@ const Select: Component = (props, noDefaults) => {
 }
 Select.defaults = {
     theme: {
-        root: componentID,
-        children: componentID + '_children',
-        label: componentID + '_label',
-        title: componentID + '_title',
-        reset: componentID + '_reset',
-        title_text: componentID + '_title_text',
-        input_wrapper: componentID + '_input_wrapper',
-        options: componentID + '_options',
-        option: componentID + '_option',
-        _filled: componentID + '__filled',
-        _active: componentID + '__active',
-        _disabled: componentID + '__disabled',
-        _option_active: componentID + '_option__active',
-        _option_disabled: componentID + '_option__disabled'
+        root: '',
+        children: '',
+        label: '',
+        title: '',
+        reset: '',
+        title_text: '',
+        input_wrapper: '',
+        options: '',
+        option: '',
+        _filled: '',
+        _active: '',
+        _disabled: '',
+        _option_active: '',
+        _option_disabled: ''
     },
 
     closeOnSelect: true,

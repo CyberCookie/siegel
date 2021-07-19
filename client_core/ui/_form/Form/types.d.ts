@@ -45,7 +45,7 @@ type Props = {
 } & PropsComponentBase
 
 type DefaultProps = {
-    className: NonNullable<Props['className']>
+    [key in keyof Props]?: Props[key]
 }
 
 type MergedProps = Props & DefaultProps

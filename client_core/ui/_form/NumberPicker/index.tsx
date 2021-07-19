@@ -246,14 +246,14 @@ const NumberPicker: Component = (props, noDefaults) => {
 NumberPicker.defaults = {
     className: styles[componentID + '_inner'],
     theme: updateThemeWithInputFieldTheme({
-        root: componentID,
-        children: componentID + '_children',
-        controls: componentID + '_controls',
-        button_minus: componentID + '_minus',
-        button_plus: componentID + '_plus',
-        input_root: componentID + '_input_root',
-        _disabled_all: componentID + '__disabled_all'
-    }, componentID),
+        root: '',
+        children: '',
+        controls: '',
+        button_minus: '',
+        button_plus: '',
+        input_root: '',
+        _disabled_all: ''
+    }),
 
     minusIcon: '-',
     plusIcon: '+',

@@ -50,13 +50,13 @@ const Toggle: Component = (props, noDefaults) => {
 }
 Toggle.defaults = {
     theme: {
-        root: componentID,
-        children: componentID + '_children',
-        _disabled: componentID + '__disabled',
-        _toggled: componentID + '__toggled',
-        label: componentID + '_label',
-        toggle_area: componentID + '_toggle_area',
-        toggler: componentID + '_toggler'
+        root: '',
+        children: '',
+        _disabled: '',
+        _toggled: '',
+        label: '',
+        toggle_area: '',
+        toggler: ''
     }
 }
 Toggle.ID = componentID

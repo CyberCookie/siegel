@@ -22,7 +22,7 @@ type PropsComponentThemed<K extends string = string, Props extends Indexable = I
 } & PropsComponentBase<Props>
 
 
-type CoreIUComponent<P extends PropsComponentThemed, D extends PropsComponentThemed> = {
+type CoreIUComponent<P extends PropsComponentThemed, D extends Partial<P>> = {
     (props: P, withDefaults?: boolean): JSX.Element
     defaults: D
     ID: string

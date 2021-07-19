@@ -61,7 +61,9 @@ function getBody(props: MergedProps, state: State) {
 
         postProcessBodyRow && (postProcessBodyRow(itemToPush, entity, i))
 
-        itemToPush.forEach(item => { resultList.push(item) })
+        itemToPush.length > 1
+            ?   itemToPush.forEach(item => { resultList.push(item) })
+            :   resultList.push(itemToPush[0])
     }
 
 

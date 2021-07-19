@@ -69,7 +69,7 @@ const Swipe: Component = (props, noDefaults) => {
             if (mouseDownPos && swipeStart && !isBlocked) {
                 const deltaPosition = getMousePos(e, xAxis) - mouseDownPos
 
-                if (Math.abs(deltaPosition) > deltaPos) {
+                if (Math.abs(deltaPosition) > deltaPos!) {
                     onSwipe(deltaPosition < 0, e)
                     isBlocked = true
                 }
@@ -91,7 +91,6 @@ const Swipe: Component = (props, noDefaults) => {
     return <div { ...swipeRootAttributes } />
 }
 Swipe.defaults = {
-    className: componentID,
     deltaPos: 60
 }
 Swipe.ID = componentID

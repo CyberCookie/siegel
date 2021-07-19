@@ -29,7 +29,6 @@ const Button: Component = (props, noDefaults) => {
     return <button { ...buttonProps } />
 }
 Button.defaults = {
-    className: componentID,
     type: 'button'
 }
 Button.ID = componentID

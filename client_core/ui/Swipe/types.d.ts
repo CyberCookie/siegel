@@ -12,8 +12,7 @@ type Props = {
 } & PropsComponentBase
 
 type DefaultProps = {
-    className: NonNullable<Props['className']>
-    deltaPos: number
+    deltaPos: NonNullable<Props['deltaPos']>
 }
 
 type MergedProps = Props & DefaultProps

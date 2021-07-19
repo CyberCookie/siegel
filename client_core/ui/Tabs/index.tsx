@@ -69,12 +69,12 @@ const Tabs: Component = (props, noDefaults) => {
 }
 Tabs.defaults = {
     theme: {
-        root: componentID,
-        labels_wrapper: componentID + '_labels_wrapper',
-        label: componentID + '_label',
-        label__active: componentID + '_label__active',
-        content: componentID + '_content',
-        content__empty: componentID + '_content__empty'
+        root: '',
+        labels_wrapper: '',
+        label: '',
+        label__active: '',
+        content: '',
+        content__empty: ''
     }
 }
 Tabs.ID = componentID

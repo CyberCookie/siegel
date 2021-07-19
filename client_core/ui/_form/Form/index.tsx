@@ -121,9 +121,7 @@ const Form: Component = (props, noDefaults) => {
 
     return <form { ...formProps } />
 }
-Form.defaults = {
-    className: componentID
-}
+Form.defaults = {}
 Form.ID = componentID
 
 

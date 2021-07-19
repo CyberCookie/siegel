@@ -28,7 +28,6 @@ if (rootComponent) {
         }
     })
 
-
     render(Router, rootComponent)
 }
 

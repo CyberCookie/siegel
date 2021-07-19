@@ -137,12 +137,12 @@ const Pagination: Component = (props, noDefaults) => {
 }
 Pagination.defaults = {
     theme: {
-        root: componentID,
-        separator: componentID + '_separator',
-        control: componentID + '_control',
-        control__active: componentID + '_control__active',
-        control__disabled: componentID + '_control__disabled',
-        _single: componentID + '_single'
+        root: '',
+        separator: '',
+        control: '',
+        control__active: '',
+        control__disabled: '',
+        _single: ''
     },
 
     elementsBySide: 1,

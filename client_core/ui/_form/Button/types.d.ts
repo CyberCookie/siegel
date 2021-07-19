@@ -12,7 +12,6 @@ type Props = {
 } & PropsComponentBase
 
 type DefaultProps = {
-    className: NonNullable<Props['className']>
     type: NonNullable<Props['type']>
 }
 

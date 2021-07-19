@@ -19,12 +19,9 @@ const inputFieldThemeKeys: InputFieldThemeKeysArray = [
     'label', 'label_text', 'field', 'error_text',
     '_filled', '_error', '_disabled', '_focused', '_touched', '_readonly'
 ]
-const updateThemeWithInputFieldTheme =
-<T extends PropsComponentThemed['theme']>
-(theme: T, componentID: ID) => {
-
+const updateThemeWithInputFieldTheme =<T extends PropsComponentThemed['theme']>(theme: T) => {
     inputFieldThemeKeys.forEach(key => {
-        (theme as Indexable)[key] = componentID + '_' + key
+        (theme as Indexable)[key] = ''
     })
 
     return theme as T & Record<InputFieldThemeKeysArray[number], string>
@@ -135,10 +132,10 @@ const Input: Component = (props, noDefaults) => {
 }
 Input.defaults = {
     theme: updateThemeWithInputFieldTheme({
-        root: componentID,
-        children: componentID + '_children',
-        textarea: componentID + '_textarea'
-    }, componentID)
+        root: '',
+        children: '',
+        textarea: ''
+    })
 }
 Input.ID = componentID
 

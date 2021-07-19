@@ -30,9 +30,7 @@ const Link: Component = (props, noDefaults) => {
 
     return <a { ...linkRootAttributes } />
 }
-Link.defaults = {
-    className: componentID
-}
+Link.defaults = {}
 Link.ID = componentID
 
 

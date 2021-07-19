@@ -3,6 +3,8 @@
 .vscode
 dist
 
+_test
+
 .github
 src/*
 !src/tsconfig.json

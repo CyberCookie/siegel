@@ -83,13 +83,13 @@ const Checkbox: Component = (props, noDefaults) => {
 }
 Checkbox.defaults = {
     theme: {
-        root: componentID + '_wrapper',
-        checkbox: componentID,
-        with_icon_wrapper: componentID + '_with_icon_wrapper',
-        label: componentID + '_label',
-        label_wrapper: componentID + '_label_wrapper',
-        _checked: componentID + '__checked',
-        _disabled: componentID + '__disabled'
+        root: '',
+        checkbox: '',
+        with_icon_wrapper: '',
+        label: '',
+        label_wrapper: '',
+        _checked: '',
+        _disabled: ''
     },
 
     value: false

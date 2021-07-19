@@ -44,9 +44,9 @@ const Popup: Component = (props, noDefaults) => {
 Popup.defaults = {
     className: styles[componentID + '_inner'],
     theme: {
-        root: componentID,
-        content: componentID + '_content',
-        close: componentID + '_close'
+        root: '',
+        content: '',
+        close: ''
     },
 
     closeIcon: 'X'

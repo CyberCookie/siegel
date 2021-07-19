@@ -82,12 +82,12 @@ const Accordion: Component = (props, noDefaults) => {
 }
 Accordion.defaults = {
     theme: {
-        root: componentID,
-        item: componentID + '_item',
-        item_title_wrapper: componentID + '_item_title_wrapper',
-        item_title: componentID + '_item_title',
-        children_wrapper: componentID + '_children_wrapper',
-        item__empty: componentID + '_item__empty'
+        root: '',
+        item: '',
+        item_title_wrapper: '',
+        item_title: '',
+        children_wrapper: '',
+        item__empty: ''
     }
 }
 Accordion.ID = componentID

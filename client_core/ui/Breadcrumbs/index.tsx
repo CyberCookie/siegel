@@ -102,8 +102,8 @@ Breadcrumbs.defaults = {
     className: styles[componentID + '_inner'],
     separator: '',
     theme: {
-        root: componentID,
-        link: componentID + '_link'
+        root: '',
+        link: ''
     }
 }
 Breadcrumbs.ID = componentID

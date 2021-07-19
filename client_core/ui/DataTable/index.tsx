@@ -117,11 +117,11 @@ const DataTable: Component = (props, noDefaults) => {
 }
 DataTable.defaults = {
     theme: {
-        root: componentID,
-        table: componentID + '_table',
-        table_resizer: componentID + '_table_resizer',
-        pagination_wrapper: componentID + '_pagination_wrapper',
-        _with_pagination: componentID + '__with_pagination'
+        root: '',
+        table: '',
+        table_resizer: '',
+        pagination_wrapper: '',
+        _with_pagination: ''
     }
 }
 DataTable.ID = componentID
