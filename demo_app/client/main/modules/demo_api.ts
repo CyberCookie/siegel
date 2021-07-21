@@ -7,12 +7,14 @@ import { dynamicCrumbsMap } from 'app/Router/config'
 
 type State = {
     received: string,
-    counter: number
+    counter: number,
+    proxyRes: Indexable
 }
 
 type Actions = {
     makeSomeFetch(store: StoreInitialized, userData: string): void
     updateCounter(store: StoreInitialized): void
+    proxyGet(store: StoreInitialized, id: string): void
 }
 
 type StoreInitialized = HookStore<State, Actions>
@@ -20,7 +22,8 @@ type StoreInitialized = HookStore<State, Actions>
 
 const initState: State = {
     received: '',
-    counter: 0
+    counter: 0,
+    proxyRes: {}
 }
 
 const actions: Actions = {
@@ -38,6 +41,20 @@ const actions: Actions = {
             state.received = dataToSend
             setState(state)
         })
+    },
+
+    proxyGet({ state, setState }, id) {
+        const handleResponse = (res: Indexable) => {
+            state.proxyRes = res
+            setState(state)
+        }
+
+        request({
+            url: '/api/proxy_get/:id',
+            params: { id }
+        })
+        .then(handleResponse)
+        .catch(handleResponse)
     },
 
     updateCounter({ state, setState }) {

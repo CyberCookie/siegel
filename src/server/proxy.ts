@@ -2,31 +2,60 @@ const http          = require('http')
 const querystring   = require('querystring')
 
 
-const proxy = (port: any, host: any) => (clientReq: any, clientRes: any) => {
-    const { path, method, headers, query } = clientReq
+const proxy = (proxyParams: any) => {
+    const { host, port, changeOrigin, postProcessReq } = proxyParams
 
-    const options = {
-        method, headers, host, port,
-        path: Object.keys(query).length
-            ?   `${path}?${querystring.stringify(query)}`
-            :   path
-    }
+    return (clientReq: any, clientRes: any) => {
+        const { path, method, headers, query, params } = clientReq
 
 
-    const proxyReq = http.request(options, (proxyRes: any) => {
-        if (proxyRes.statusCode !== 200) {
-            console.error(path, proxyRes.statusCode)
-            proxyRes.resume()
+        const proxyQuery = proxyParams.query || query
+        const proxyPath = proxyParams.path || path
+        let finalPath = Object.keys(proxyQuery).length
+            ?   `${proxyPath}?${querystring.stringify(proxyQuery)}`
+            :   proxyPath
+
+        //TODO: duplicate in client_core/request
+        if (params) {
+            for (const param in params) {
+                finalPath = finalPath.replace(':' + param, params[param])
+            }
         }
 
-        clientRes.writeHead(proxyRes.statusCode, proxyRes.headers)
 
-        proxyRes.pipe(clientRes, { end: true })
-    })
-    .on('error', console.error)
+        const proxyHeaders = proxyParams.headers
+        if (proxyHeaders) {
+            typeof proxyHeaders == 'function'
+                ?   proxyParams.headers(headers)
+                :   Object.assign(headers, proxyHeaders)
+        }
+        changeOrigin && (headers.host = `${host}${port ? ':' + port : ''}`)
 
 
-    clientReq.pipe(proxyReq, { end: true })
+        const options = {
+            host, port, headers,
+            method: proxyParams.method || method,
+            path: finalPath
+        }
+        postProcessReq && postProcessReq(clientReq, options)
+
+
+        const proxyReq = http.request(options, (proxyRes: any) => {
+            const { statusCode, headers } = proxyRes
+            if (statusCode !== 200) {
+                console.error(path, statusCode)
+                proxyRes.resume()
+            }
+
+            clientRes.writeHead(statusCode, headers)
+
+            proxyRes.pipe(clientRes, { end: true })
+        })
+        .on('error', console.error)
+
+
+        clientReq.pipe(proxyReq, { end: true })
+    }
 }
 
 

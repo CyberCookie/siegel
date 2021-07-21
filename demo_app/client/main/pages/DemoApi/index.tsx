@@ -9,8 +9,8 @@ import styles from './styles.sass'
 
 const DemoApi = (/*props: RouteComponentProps*/) => {
     const [
-        { received, counter },
-        { makeSomeFetch, updateCounter }
+        { received, counter, proxyRes },
+        { makeSomeFetch, updateCounter, proxyGet }
     ] = testModule()
 
     const [ requestString, setRequestString ] = useState('')
@@ -46,6 +46,14 @@ const DemoApi = (/*props: RouteComponentProps*/) => {
             <Button value={`update global counter [${counter}]`}
                 className={styles.global_counter}
                 onClick={updateCounter} />
+
+            <br />
+
+            <Button value='proxy fetch'
+                className={styles.global_counter}
+                onClick={() => { proxyGet(counter.toString()) }} />
+
+            <pre children={JSON.stringify(proxyRes, null, 4)} />
         </div>
     )
 }

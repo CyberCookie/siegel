@@ -131,7 +131,7 @@ Every plugin, that's already included, has its own `plugin key`.
 To extend default plugins or instances you should use `plugin keys` or `instance keys`
 
 ```js
-const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/src/client_build/constants')
+const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/cjs/client_build/constants')
 
 {
     plugins: {
@@ -193,7 +193,7 @@ Loaders that this build is use by default. Each loader has its own `loader key` 
 To extend default modules you should operate with `loader keys` and with `regExp parts` to math the file extensions:
 
 ```js
-const { loadersKeyMap, webpackModulesRegExp } = require('siegel/src/client_build/constants')
+const { loadersKeyMap, webpackModulesRegExp } = require('siegel/cjs/client_build/constants')
 
 {
     modules: {
@@ -288,7 +288,7 @@ The only purpose of this plugin is to place an array of build output assets into
 <b>siegel config</b>
 
 ```js
-const { pluginsKeysMap } = require('siegel/src/client_build/constants')
+const { pluginsKeysMap } = require('siegel/cjs/client_build/constants')
 
 {
     // ...client_build config,

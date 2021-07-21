@@ -51,6 +51,7 @@ function extractRequestData(request: RequestParams) {
     }
     options.method ||= 'GET'
 
+    //TODO: duplicate in src/server/proxy
     if (params) {
         for (const param in params) {
             fetchURL = fetchURL.replace(':' + param, params[param])

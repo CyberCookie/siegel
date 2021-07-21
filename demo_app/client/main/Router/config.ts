@@ -19,7 +19,7 @@ const dynamicCrumbsMap = {
 
 
 const routesConfig: RouterConfig & BreadcrumbConfig = {
-    [pagePathMap.home]: {
+    [ pagePathMap.home ]: {
         beforeEnter() {
             seo({
                 title: 'Siegel demo app',
@@ -31,7 +31,7 @@ const routesConfig: RouterConfig & BreadcrumbConfig = {
         LazyPage: lazy(() => import('app/pages/Home'))
     },
 
-    [pagePathMap.demo_components]: {
+    [ pagePathMap.demo_components ]: {
         beforeEnter() {
             seo({
                 title: 'Siegel | Demo components',
@@ -43,7 +43,7 @@ const routesConfig: RouterConfig & BreadcrumbConfig = {
         LazyPage: lazy(() => import('app/pages/DemoComponents'))
     },
 
-    [pagePathMap.demo_api]: {
+    [ pagePathMap.demo_api ]: {
         beforeEnter() {
             seo({
                 title: 'Siegel | Demo API',

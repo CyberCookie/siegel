@@ -4,12 +4,9 @@ const { PATHS }             = require('../cjs/constants')
 
 
 function main() {
-    // Skip local install
     const { INIT_CWD, PWD } = process.env
-    if (!INIT_CWD || INIT_CWD == PWD || !INIT_CWD.indexOf(PWD)) {
-        process.exitCode = 0
-        return
-    }
+    console.log('DEBUG: INIT_CWD: ', INIT_CWD)
+    console.log('DEBUG: PWD: ', PWD)
 
     if (existsSync(PATHS.cwdPackageJSON)) {
         const targetPackage = require(PATHS.cwdPackageJSON)

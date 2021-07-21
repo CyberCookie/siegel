@@ -1,16 +1,11 @@
 import type { RunParams } from './types'
 
 
-const { join }              = require('path')
+const { join } = require('path')
 
 
 const cwd = process.cwd()
 const root = join(__dirname, '..')
-
-const globalNodeModules = require('child_process')
-    .execSync('npm root -g')
-    .toString()
-    .trim()
 
 
 //TODO?: src, server folders
@@ -23,10 +18,9 @@ const LOC_NAMES = {
 } as const
 
 const PATHS = {
-    cwd, root, globalNodeModules,
+    cwd, root,
     demoProject: join(root, 'demo_app'),
     clientCore: join(root, 'client_core'),
-    nodeModules: join(root, LOC_NAMES.NODE_MODULES),
     package: join(root, LOC_NAMES.PACKAGE_JSON),
     cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
     build: join(__dirname, 'client_build', 'index'),
@@ -46,8 +40,7 @@ const DEFAULT_CONFIG = {
         input: {
             html: join(PATHS.demoProject, 'client', 'index.html'),
             js: join(cwd, 'app.ts'),
-            include: [ PATHS.clientCore ],
-            exclude: [ PATHS.nodeModules/*, PATHS.parentNodeModules*/ ]
+            include: [ PATHS.clientCore ]
         },
 
         eslint: false,
