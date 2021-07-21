@@ -1,10 +1,12 @@
 const { INIT_CWD, PWD } = process.env
 console.log('DEBUG: INIT_CWD: ', INIT_CWD)
-console.log('DEBUG: PWD: ', PWD)
+console.log('DEBUG: PWD:      ', PWD)
+console.log('DEBUG: CWD:      ', process.cwd())
 if (INIT_CWD && INIT_CWD != PWD) {
     process.chdir(INIT_CWD)
 }
 console.log('DEBUG: NEW PWD: ', process.env.PWD)
+console.log('DEBUG: NEW CWD: ', process.cwd())
 
 const { existsSync }        = require('fs')
 
