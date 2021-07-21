@@ -1,13 +1,3 @@
-const { INIT_CWD, PWD } = process.env
-console.log('DEBUG: INIT_CWD: ', INIT_CWD)
-console.log('DEBUG: PWD:      ', PWD)
-console.log('DEBUG: CWD:      ', process.cwd())
-if (INIT_CWD && INIT_CWD != PWD) {
-    process.chdir(INIT_CWD)
-}
-console.log('DEBUG: NEW PWD: ', process.env.PWD)
-console.log('DEBUG: NEW CWD: ', process.cwd())
-
 const { existsSync }        = require('fs')
 
 const { PATHS }             = require('../cjs/constants')
@@ -15,27 +5,26 @@ console.log('DEBUG: PATHS: ', PATHS)
 
 function main() {
     if (existsSync(PATHS.cwdPackageJSON)) {
-        const targetPackage = require(PATHS.cwdPackageJSON)
+        const userPackageJSON = require(PATHS.cwdPackageJSON)
 
         const {
-            dependencies: targetDependencies = {},
-            devDependencies: targetDevDependencies = {}
-        } = targetPackage
+            dependencies: userDependencies = {},
+            devDependencies: userDevDependencies = {}
+        } = userPackageJSON
 
 
         const { peerDependencies } = require(PATHS.package)
 
+        const parseVersionRegExp = /(\d*\.)(\d*\.)(\d*)/
+
         let packagesToInstall = ''
         for (const dependency in peerDependencies) {
-            const version = targetDevDependencies[dependency] || targetDependencies[dependency]
+            const version = userDevDependencies[dependency] || userDependencies[dependency]
 
             let packageToInstall
             if (version) {
-                const parseVersionRegExp = /(\d*\.)(\d*\.)(\d*)/
-
                 const parsedPackageVersion = peerDependencies[dependency].match(parseVersionRegExp)
                 const parsedTargetPackageVersion = version.match(parseVersionRegExp)
-
 
                 for (let i = 1; i < 4; i++) {
                     if (parsedPackageVersion[i] > parsedTargetPackageVersion[i]) {
