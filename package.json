@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.9.5",
+    "version": "0.9.6",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -29,8 +29,10 @@
     "publishConfig": {
         "access": "public"
     },
+    "engineStrict" : true,
     "engines": {
-        "node": ">= 12.x"
+        "node": ">= 12",
+        "npm": ">= 7"
     },
     "config": {
         "index": "demo_app/server/ts_entry.js"

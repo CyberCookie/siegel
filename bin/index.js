@@ -74,9 +74,6 @@ switch(command) {
     case 'create-ssl':
         return require('./create_SSL')()
 
-    case 'install-peers':
-        return require('./install_peers')()
-
     case '_hard-update':
         return require('./update_deps')()
 
@@ -105,10 +102,7 @@ switch(command) {
 
     ${getColoredCommandStr('create-ssl')} - Creates localhost ssl certificate to be used in NodeJS server.
                  Also it creates authority certificate for testing purposes to be imported in a web browser.
-    
 
-    ${getColoredCommandStr('install-peers')} - Installs siegel's peer dependencies in a cwd package.json (For NPM version < 7)
-    
     
     ${getColoredCommandStr('_hard-update')} - [ WARNING! Force update may break your project dependencies ]
                    It's the fastest way to update packages, listed in 'dependencies' and 'devDependencies' fields, to the most latest versions.
