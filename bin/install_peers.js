@@ -1,13 +1,17 @@
+const { INIT_CWD, PWD } = process.env
+console.log('DEBUG: INIT_CWD: ', INIT_CWD)
+console.log('DEBUG: PWD: ', PWD)
+if (INIT_CWD && INIT_CWD != PWD) {
+    process.chdir(INIT_CWD)
+}
+console.log('DEBUG: NEW PWD: ', process.env.PWD)
+
 const { existsSync }        = require('fs')
 
 const { PATHS }             = require('../cjs/constants')
-
+console.log('DEBUG: PATHS: ', PATHS)
 
 function main() {
-    const { INIT_CWD, PWD } = process.env
-    console.log('DEBUG: INIT_CWD: ', INIT_CWD)
-    console.log('DEBUG: PWD: ', PWD)
-
     if (existsSync(PATHS.cwdPackageJSON)) {
         const targetPackage = require(PATHS.cwdPackageJSON)
 

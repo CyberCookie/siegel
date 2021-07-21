@@ -1,7 +1,16 @@
-const proxy = require('../../src/server/proxy')
+/*
+    requiring siegel proxy.
+    Rewrite to require('siegel/cjs/server/proxy') or global path,
+    once demo project is inited
+*/
+const { dirname, join } = require('path')
+
+const siegelPath        = require('./siegel_resolve')
+const proxy             = require( join(dirname(siegelPath), 'server', 'proxy') )
+
 
 module.exports = (app: any, { express }: any) => {
-    app.use(express.json()) // remove if use proxy since body will be corrupted on the other end.
+    app.use(express.json())
 
     app.post('/api/send_data', (req: any, res: any) => {
         res.json( req.body )

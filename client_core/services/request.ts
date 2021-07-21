@@ -122,7 +122,7 @@ async function makeRequest(req: RequestParams) {
         })
 
         if (res.ok) {
-            afterRequest && afterRequest(reqData, parsedRes)
+            afterRequest?.(reqData, parsedRes)
             return parsedRes
         } else throw {
             status: res.status,
@@ -132,7 +132,7 @@ async function makeRequest(req: RequestParams) {
     } catch (err) {
         err.req = reqData
 
-        errorHandler && errorHandler(err)
+        errorHandler?.(err)
         throw err
     }
 }
@@ -141,7 +141,7 @@ async function makeRequest(req: RequestParams) {
 function request(req: RequestParams) {
     const { beforeRequest } = defaultSetup
 
-    const asyncInterceptor = beforeRequest && beforeRequest(req)
+    const asyncInterceptor = beforeRequest?.(req)
 
     return asyncInterceptor
         ?   asyncInterceptor.then(makeRequest)
