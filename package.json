@@ -39,7 +39,6 @@
     "types": "./global.d.ts",
     "bin": "./bin/index.js",
     "scripts": {
-        "postinstall": "[ $(npm -v | cut -c1) -lt 7 ] && node ./bin/install_peers.js || exit 0",
         "prepublishOnly": "npm run build_node",
         "start": "npm run build_serv",
         "build_serv": "node $npm_package_config_index -b -s",

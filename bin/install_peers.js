@@ -1,7 +1,7 @@
 const { existsSync }        = require('fs')
 
 const { PATHS }             = require('../cjs/constants')
-console.log('DEBUG: PATHS: ', PATHS)
+
 
 function main() {
     if (existsSync(PATHS.cwdPackageJSON)) {
