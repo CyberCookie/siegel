@@ -36,7 +36,13 @@ module.exports = (defaultModules, userModules = {}) => {
     }
 
 
-    function addRule(regExpPart, loaders = {}, loadersOrder, ruleOptions = {}, defaultLoaders = {}) {
+    function addRule(ruleParams) {
+        const {
+            regExpPart, loadersOrder, ruleOptions,
+            loaders = {},
+            defaultLoaders = {}
+        } = ruleParams
+
         const use = []
         loadersOrder.forEach(loaderKey => {
             const userLoader = loaders[loaderKey]
@@ -57,8 +63,10 @@ module.exports = (defaultModules, userModules = {}) => {
     function addWithoutMerge(modules, regExpPart) {
         const moduleConfig = modules[regExpPart]
         if (moduleConfig) {
-            const { ruleOptions = {}, enabled = true, loaders, loadersOrder } = moduleConfig
-            enabled && addRule(regExpPart, loaders, loadersOrder, ruleOptions)
+            const { ruleOptions, enabled = true, loaders, loadersOrder } = moduleConfig
+            enabled && addRule({
+                regExpPart, loaders, loadersOrder, ruleOptions
+            })
         }
     }
 
@@ -69,7 +77,7 @@ module.exports = (defaultModules, userModules = {}) => {
             const userModule = userModules[regExpPart]
             if (userModule) {
 
-                const { ruleOptions, enabled = true, loaders, loadersOrder } = userModule
+                const { ruleOptions, enabled = true, loaders, loadersOrder, rewriteRegExp } = userModule
                 if (enabled) {
                     const {
                         ruleOptions: defaultRuleOptions = {},
@@ -89,7 +97,12 @@ module.exports = (defaultModules, userModules = {}) => {
                         :   defaultLoadersOrder
 
 
-                    addRule(regExpPart, loaders, finalLoadersOrder, finalRuleOptions, defaultLoaders)
+                    addRule({
+                        loaders, defaultLoaders,
+                        regExpPart: rewriteRegExp,
+                        loadersOrder: finalLoadersOrder,
+                        ruleOptions: finalRuleOptions
+                    })
                 }
             }
         } else addWithoutMerge(defaultModules, regExpPart)

@@ -28,14 +28,16 @@ type Props = {
     minusIcon?: React.ReactNode
     plusIcon?: React.ReactNode
     payload?: any
-    disabledInput?: boolean
     precision?: number
     keyboardControls?: boolean
+
+    disabledInput?: boolean
     inputStore?: InputProps['innerStore']
-} & PropsComponentThemed<ThemeKeys> & Omit<InputProps, 'theme' | 'type' | 'attributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange' | 'innerStore'>
+    inputRootAttributes?: InputProps['attributes']
+} & PropsComponentThemed<ThemeKeys> & Omit<InputProps, 'theme' | 'type' | 'attributes' | 'payload' | 'onBlur' | 'onChange' | 'innerStore'>
 
 type DefaultProps = {
-    className: NonNullable<Required<Props['className']>>,
+    className: NonNullable<Required<Props['className']>>
     theme: NonNullable<Required<Props['theme']>>
     minusIcon: NonNullable<Props['minusIcon']>
     plusIcon: NonNullable<Props['plusIcon']>

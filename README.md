@@ -1,6 +1,8 @@
 [comment]: # (TODO: Fetch module last error)
 [comment]: # (TODO: Component refApi)
 [comment]: # (TODO: server proxy)
+[comment]: # (TODO: router children updater)
+[comment]: # (TODO: module regexp rewrite)
 
 <br />
 <h1>
@@ -30,7 +32,7 @@ The platform provides:<br/>
 
 <ul>
     <li>
-        Preconfiguread and easily extendable <code>Webpack</code> bundler:
+        Preconfigured and easily extendable <code>Webpack</code> bundler:
         <ul>
             <li><code>ESBuild</code> to transform <code>TypeScript</code> and <code>JSX</code> syntaxes.</li>
             <li>Code linting with <code>ESLint</code>.</li>
@@ -101,10 +103,14 @@ You've just built (`-b`) the <b>app.ts</b> file and now it is serving (`-s`) on 
 <b>Enjoy your development!</b>
 <br /><br />
 
-> You may also perform this actions with global siegel installation
+> You are also capable to perform this actions with global siegel installation
 
 <br />
-To print help information exec siegel command without arguments.
+To print siegel's CLI info run:
+
+```sh
+npx siegel
+```
 
 
 <br /><br />

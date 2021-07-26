@@ -105,7 +105,7 @@ const Input = withDefaults(_Input, { theme: inputTheme })
 
 const numberPickerTheme: NumberPickerProps['theme'] = Object.assign(_numberPickerTheme, {
     field: `${inputTheme.field} ${_numberPickerTheme.field}`,
-    label: inputTheme.label_text
+    label_text: inputTheme.label_text
 })
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,

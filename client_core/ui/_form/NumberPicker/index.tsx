@@ -129,8 +129,9 @@ const NumberPicker: Component = (props, noDefaults) => {
         :   (props as MergedProps)
 
     const {
-        theme, disabled, onChange, step, precision, min, max, disabledInput, keyboardControls, className,
-        value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes, refApi, attributes
+        theme, disabled, onChange, onFocus, step, precision, min, max, disabledInput, keyboardControls, className,
+        value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes, refApi, attributes,
+        inputRootAttributes
     } = mergedProps
 
 
@@ -189,7 +190,8 @@ const NumberPicker: Component = (props, noDefaults) => {
     theme.root = theme.input_root
 
     const inputFieldProps: InputProps = {
-        theme, label, errorMsg, placeholder, inputAttributes,
+        theme, label, errorMsg, placeholder, inputAttributes, onFocus,
+        attributes: inputRootAttributes,
         regexp: numberMask,
         value: getNormalizedStringValue(value),
         innerStore: _inputStore,

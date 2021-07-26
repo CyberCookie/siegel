@@ -29,9 +29,11 @@ type Props<Value = any> = {
     minInputLength?: number
     showOnFocus?: boolean
     showAll?: boolean
-    selected?: Value | undefined,
+    selected?: Value | undefined
     disabled?: boolean
-    inputProps?: Omit<InputProps, 'className' | 'onChange' | 'value' | 'attributes'>
+
+    label?: InputProps['label']
+    inputProps?: Omit<InputProps, 'type' | 'onChange' | 'value' | 'attributes'>
 } & PropsComponentThemed<ThemeKeys>
 
 type DefaultProps = {

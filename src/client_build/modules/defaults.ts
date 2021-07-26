@@ -5,7 +5,8 @@ const {
         plugins: { miniCssExtract },
         loaders: {
             esbuild, styleLoader, cssLoader, sassLoader, sassResourcesLoader,
-            postCssLoader, postCssAutoprefix, postCssSVG2Font
+            postCssLoader, postCssAutoprefix, postCssSVG2Font,
+            fileLoader
         }
     }
 } = require('../constants')
@@ -41,7 +42,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     loader: cssLoader,
                     options: {
                         sourceMap: !isProd,
-                        url: false,
+                        // url: url => !url.endsWith('.svg'),
                         importLoaders: 3,
                         modules: {
                             localIdentName: isProd ? '[hash:base64:4]' : '[local]--[hash:base64:4]'
@@ -76,6 +77,19 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     loader: sassResourcesLoader,
                     options: {
                         resources: sassResources
+                    }
+                }
+            }
+        },
+
+        [ webpackModulesRegExp.files ]: {
+            loadersOrder: [ loadersKeyMap.fileLoader ],
+            loaders: {
+                [ loadersKeyMap.fileLoader ]: {
+                    loader: fileLoader,
+                    options: {
+                        name: '[folder]/[name][contenthash].[ext]',
+                        outputPath: 'assets'
                     }
                 }
             }

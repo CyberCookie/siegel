@@ -6,7 +6,8 @@ if (INIT_CWD && INIT_CWD != PWD) {
 }
 
 
-const { join } = require('path')
+const { posix } = require('path')
+const join = posix.join
 
 
 const cwd = process.cwd()

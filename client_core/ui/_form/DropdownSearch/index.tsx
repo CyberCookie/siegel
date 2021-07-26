@@ -65,7 +65,7 @@ const DropdownSearch: Component = (props, noDefaults) => {
 
     const {
         theme, minInputLength, onSearch, className, showOnFocus, onChange, inputProps, refApi,
-        selected, searchOptions, attributes, disabled, innerStore
+        selected, searchOptions, attributes, disabled, innerStore, label
     } = mergedProps
 
     const store = ((innerStore || useState({ searchString: undefined })) as Store)
@@ -106,7 +106,7 @@ const DropdownSearch: Component = (props, noDefaults) => {
 
 
     const inputInnerProps: InputProps = {
-        disabled,
+        disabled, label,
         innerStore: inputStore,
         attributes: {
             tabIndex: 0

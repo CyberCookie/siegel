@@ -57,8 +57,15 @@
             */
             html: String,
 
-            /* Path to application static assets folder. */
-            assetsDir: String,
+            /*
+                CopyWebpackPlugin assets path.
+                If specified as string then it will be transformed to
+                [{
+                    from: copyFiles,
+                    to: join( staticDir, relative( dirname(input.html) copyFiles) )
+                }]
+            */
+            copyFiles: String || CopyWebpackPlugin options patterns,
 
             /*
                 Path to styles files which will be included in every other styles file.
@@ -116,7 +123,7 @@
 Every plugin, that's already included, has its own `plugin key`.
 - compression-webpack-plugin ( `compression` ) - Enabled if __runParams.isProd == true__.<br />
   May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`).
-- copy-webpack-plugin ( `copy` ) - enabled if __config.build.input.assetsDir__ is specified
+- copy-webpack-plugin ( `copy` ) - enabled if __config.build.input.copyFiles__ is specified
 - mini-css-extract-plugin ( `cssExtract` ) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__
 - optimize-css-assets-webpack-plugin ( `cssOptimize` ) - enabled if __runParams.isProd == true__ 
 - html-webpack-plugin ( `html` ) - enabled if __config.build.input.html__ is specified

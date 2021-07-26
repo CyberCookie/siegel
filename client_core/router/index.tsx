@@ -1,60 +1,11 @@
-//TODO: rerender routes on layout rerender (optional)
-
-import React, { Suspense, SuspenseProps } from 'react'
+import React, { Suspense, useState, useLayoutEffect } from 'react'
 import { Switch, Router, Route, Redirect, withRouter, RouteProps } from 'react-router-dom'
-import { createBrowserHistory, History } from 'history'
+import { createBrowserHistory } from 'history'
 
-import isExists from './utils/is_exists'
+import type { CreateRoutesWrapper, UpdateblePageProps, CreateRoutes, CreateRouter, RouterConfig, RouteConfig } from './types'
 
-
-type BeforeEnterProp = {
-    beforeEnter?(props: RouteProps): any
-}
-type Component = React.ComponentType<BeforeEnterProp>
-
-type RouteConfig = {
-    Page?: Component
-    LazyPage?: React.LazyExoticComponent<Component>
-    LazyFallback?: SuspenseProps['fallback']
-    Layout?: React.ComponentType<any>
-    exact?: boolean
-    redirectTo?: string
-    redirectUseParentBase?: boolean
-    children?: RouterConfig
-} & BeforeEnterProp
-
-type RouterConfig = {
-    [path: string]: RouteConfig
-}
-
-type CreateRouter = (
-    options: {
-        history?: History
-        notFound?: {
-            path: string
-            Page: RouteConfig['Page']
-        }
-        children: NonNullable<RouteConfig['children']>
-    } & Pick<RouteConfig, 'Layout' | 'LazyFallback'>
-) => JSX.Element
-
-type CreateRoutes = (
-    routerConfig: RouterConfig,
-    urlPref: string,
-    notFound?: Parameters<CreateRouter>['0']['notFound']
-) => {
-    routes: JSX.Element[] | JSX.Element
-    isLazy: boolean
-}
-
-type CreateRoutesWrapper = (
-    routes: ReturnType<CreateRoutes>['routes'],
-    params: {
-        isLazy: ReturnType<CreateRoutes>['isLazy']
-        Layout: RouteConfig['Layout']
-        LazyFallback: RouteConfig['LazyFallback']
-    }
-) => JSX.Element
+import usePrevious from '../hooks/previous'
+import isExists from '../utils/is_exists'
 
 
 const createRoutesWrapper: CreateRoutesWrapper = (routes, params) => {
@@ -74,15 +25,36 @@ const createRoutesWrapper: CreateRoutesWrapper = (routes, params) => {
 
 const createNotFoundRedirect = (path: string) => <Route path='*' children={ <Redirect to={path} /> } />
 
-const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
+const UpdateblePage = (_props: UpdateblePageProps) => {
+    const { RouterPage, props, beforeEnter, UpLevelLayout } = _props
+
+    const [ count, setState ] = useState(0)
+    UpLevelLayout.__childrenRefresh = () => {
+        setTimeout(setState, 0, count + 1)
+    }
+    useLayoutEffect(() => {
+        return () => { UpLevelLayout.__childrenRefresh = null }
+    }, [])
+
+
+    return <RouterPage { ...props } beforeEnter={beforeEnter?.(props)} />
+}
+
+const useUpdateChildren = (Layout: NonNullable<RouteConfig['Layout']>, pathname: string) => {
+    if (usePrevious(pathname) == pathname) {
+        (Layout as UpdateblePageProps['UpLevelLayout']).__childrenRefresh?.()
+    }
+}
+
+const createRoutes: CreateRoutes = ({ routeConfig, urlPref, notFound, UpLevelLayout }) => {
     const routes: JSX.Element[] | JSX.Element = []
     let isLazy = false
 
-    for (const path in routeConfigs) {
+    for (const path in routeConfig) {
         const {
             exact = true,
-            Layout, beforeEnter, Page, LazyPage, LazyFallback, children, redirectTo, redirectUseParentBase
-        } = routeConfigs[path]
+            Layout, beforeEnter, Page, LazyPage, LazyFallback, children, redirectTo, redirectUseParentBase, updateFromLayout
+        } = routeConfig[path]
 
         const pathResult = `${urlPref}/${path}`
 
@@ -106,9 +78,14 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
                 path: pathResult
             }
 
-
             if (children) {
-                const { routes: childrenRoutes, isLazy: childrenIsLazy } = createRoutes(children, pathResult, notFound)
+                const { routes: childrenRoutes, isLazy: childrenIsLazy } = createRoutes({
+                    notFound,
+                    routeConfig: children,
+                    urlPref: pathResult,
+                    UpLevelLayout: Layout
+                })
+
                 childrenIsLazy && (isLazy = true)
 
                 routeProps.children = createRoutesWrapper(childrenRoutes, {
@@ -118,12 +95,20 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
                 routeProps.exact = exact
 
                 const RouterPage = (Page || LazyPage)!
-                beforeEnter
-                    ?   routeProps.render = (props: RouteProps) => <RouterPage { ...props } beforeEnter={beforeEnter(props)} />
-                    :   routeProps.component = RouterPage
+                const isLayoutUpdate = updateFromLayout && UpLevelLayout
+
+                if (beforeEnter || isLayoutUpdate) {
+                    routeProps.render = (props: RouteProps) => (
+                        isLayoutUpdate
+                            ?   <UpdateblePage { ...{ RouterPage, props, beforeEnter }}
+                                    UpLevelLayout={UpLevelLayout!} />
+
+                            :   <RouterPage { ...props } beforeEnter={beforeEnter!(props)} />
+                    )
+                } else routeProps.component = RouterPage
             }
 
-            (routes as JSX.Element[]).push( <Route {...routeProps} /> )
+            (routes as JSX.Element[]).push( <Route { ...routeProps } /> )
         }
     }
 
@@ -136,7 +121,13 @@ const createRoutes: CreateRoutes = (routeConfigs, urlPref, notFound) => {
 const createRouter: CreateRouter = ({ children, Layout, LazyFallback, notFound, history }) => {
     notFound?.path && (notFound.path = '/' + notFound.path)
 
-    const { routes: createdRoutes, isLazy } = createRoutes(children, '', notFound)
+    const { routes: createdRoutes, isLazy } = createRoutes({
+        notFound,
+        routeConfig: children,
+        urlPref: '',
+        UpLevelLayout: Layout
+    })
+
 
     if (notFound) {
         const { Page, path } = notFound
@@ -155,6 +146,6 @@ const createRouter: CreateRouter = ({ children, Layout, LazyFallback, notFound, 
 }
 
 
-export { createBrowserHistory }
+export { createBrowserHistory, useUpdateChildren }
 export default createRouter
 export type { RouterConfig, RouteConfig, CreateRouter }

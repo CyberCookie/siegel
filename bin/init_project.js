@@ -84,7 +84,7 @@ function main(isGlobal) {
     const targetPackageJSON = require(PATHS.cwdPackageJSON)
 
 
-    const internalPackageScripts = [ 'postinstall', 'prepublishOnly' ]
+    const internalPackageScripts = [ 'prepublishOnly' ]
     internalPackageScripts.forEach(command => {
         delete siegelPackageJSONScripts[command]
     })

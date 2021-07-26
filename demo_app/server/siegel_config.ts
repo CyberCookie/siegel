@@ -37,7 +37,7 @@ const siegelConfig = {
             js: join(APP, 'index.ts'),
             sw: join(APP, 'sw.js'),
             html: join(APP, 'index.html'),
-            assetsDir: join(APP, 'assets'),
+            copyFiles: join(APP, 'assets', 'copy'),
             sassResources: join(APP, 'main', 'styles', 'sass_resources.sass')
         },
 

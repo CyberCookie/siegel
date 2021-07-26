@@ -1,6 +1,3 @@
-const { join, relative, dirname } = require('path')
-
-
 const {
     pluginInstancesKeyMap, pluginsKeysMap,
 
@@ -18,12 +15,9 @@ const {
 
 module.exports = (CONFIG, RUN_PARAMS) => {
     const {
-        staticDir,
-        build: {
-            input,
-            eslint: eslintEnabled
-        }
-    } = CONFIG
+        input,
+        eslint: eslintEnabled
+    } = CONFIG.build
     const { isProd, isServer } = RUN_PARAMS
 
 
@@ -58,18 +52,9 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
         [ pluginsKeysMap.copy ]: {
             plugin: fileCopyPlugin,
-            enabled: !!input.assetsDir,
+            enabled: !!input.copyFiles,
             options: {
-                patterns: [{
-                    from: input.assetsDir,
-                    to: input.assetsDir && join(
-                            staticDir,
-                            relative(
-                                dirname(input.html),
-                                input.assetsDir
-                            )
-                        )
-                }]
+                patterns: input.copyFiles
             }
         },
 

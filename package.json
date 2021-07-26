@@ -29,7 +29,7 @@
     "publishConfig": {
         "access": "public"
     },
-    "engineStrict" : true,
+    "engineStrict": true,
     "engines": {
         "node": ">= 12",
         "npm": ">= 7"
@@ -68,6 +68,7 @@
         "eslint-webpack-plugin": "^2.5.4",
         "express": "^4.17.1",
         "express-static-gzip": "^2.1.1",
+        "file-loader": "^6.2.0",
         "html-webpack-plugin": "^5.3.2",
         "mime-types": "^2.1.31",
         "mini-css-extract-plugin": "^1.6.2",
