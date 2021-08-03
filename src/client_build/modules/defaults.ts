@@ -88,7 +88,9 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                 [ loadersKeyMap.fileLoader ]: {
                     loader: fileLoader,
                     options: {
-                        name: '[folder]/[name][contenthash].[ext]',
+                        name: isProd
+                            ?   '[folder]/[name][contenthash].[ext]'
+                            :   '[folder]/[name].[ext]',
                         outputPath: 'assets'
                     }
                 }

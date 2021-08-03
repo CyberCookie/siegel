@@ -26,7 +26,7 @@ const siegelConfig = {
         watch: true,
 
         host: process.env.NODE_HOST,
-        port: process.env.NODE_PORT,
+        port: process.env.NODE_PORT
     },
 
 

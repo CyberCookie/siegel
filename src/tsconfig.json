@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "../cjs",
+        // "declaration": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "allowJs": true,

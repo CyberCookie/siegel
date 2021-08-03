@@ -11,62 +11,69 @@ const mergeOptions = (defaultOptions, userOptions, rewrite) => (
             :   userOptions
 )
 
+const isEnabledByUserPlugin = plugin => plugin && plugin.enabled !== false
+
+
 module.exports = (defaultPlugins, userPlugins = {}) => {
     const result = []
 
     function addWithoutMerge(pluginConfig) {
-        const { instances, enabled = true, plugin, options } = pluginConfig
+        const { instances, plugin, options } = pluginConfig
 
         if (instances) {
             for (const instanceKey in instances) {
-                const { enabled, options } = instances[instanceKey]
+                const { enabled = true, options } = instances[instanceKey]
                 enabled && result.push( new plugin(options) )
             }
-        } else if (enabled) {
-            result.push( new plugin(options) )
-        }
+        } else result.push( new plugin(options) )
     }
 
     for (const pluginKey in defaultPlugins) {
         const pluginConfig = defaultPlugins[pluginKey]
-        const { plugin, options, instances } = pluginConfig
+        const { plugin, options, instances, enabled = true } = pluginConfig
 
-        if (userPlugins[pluginKey]) {
-            const {
-                rewrite,
-                plugin: userPlugin = plugin,
-                options: userOptions,
-                instances: userInstances
-            } = userPlugins[pluginKey]
+        const userPluginConfig = userPlugins[pluginKey]
 
-            if (userInstances) {
-                for (const userPluginInstanceKey in userInstances) {
-                    const userInstance = userInstances[userPluginInstanceKey]
+        if (userPluginConfig !== false || isEnabledByUserPlugin(userPluginConfig)) {
+            if (userPluginConfig) {
+                const {
+                    rewrite,
+                    plugin: userPlugin = plugin,
+                    options: userOptions,
+                    instances: userInstances
+                } = userPluginConfig
 
-                    if (userInstance) {
-                        const { rewrite, options: userInstanceOptions } = userInstance
+                if (userInstances) {
+                    for (const userPluginInstanceKey in userInstances) {
+                        const userInstance = userInstances[userPluginInstanceKey]
 
-                        let finalPluginInstanceOptions = userInstanceOptions
-                        const defaultInstance = instances[userPluginInstanceKey]
+                        if (userInstance) {
+                            const { rewrite, options: userInstanceOptions } = userInstance
 
-                        if (defaultInstance) {
-                            finalPluginInstanceOptions = mergeOptions(defaultInstance.options, userInstanceOptions, rewrite)
+                            let finalPluginInstanceOptions = userInstanceOptions
+                            const defaultInstance = instances[userPluginInstanceKey]
+
+                            if (defaultInstance) {
+                                finalPluginInstanceOptions = mergeOptions(defaultInstance.options, userInstanceOptions, rewrite)
+                            }
+
+                            result.push( new userPlugin(finalPluginInstanceOptions) )
                         }
-
-                        result.push( new userPlugin(finalPluginInstanceOptions) )
                     }
+                } else {
+                    const finalPluginOptions = mergeOptions(options, userOptions, rewrite)
+                    result.push( new userPlugin(finalPluginOptions) )
                 }
-            } else {
-                const finalPluginOptions = mergeOptions(options, userOptions, rewrite)
-                result.push( new userPlugin(finalPluginOptions) )
-            }
-        } else if (userPlugins[pluginKey] !== false) {
-            addWithoutMerge(pluginConfig)
+            } else if (enabled) addWithoutMerge(pluginConfig)
         }
     }
 
     for (const userPluginKey in userPlugins) {
-        defaultPlugins[userPluginKey] || addWithoutMerge(userPlugins[userPluginKey])
+        const userCustomPlugin = userPlugins[userPluginKey]
+
+        if (!defaultPlugins[userPluginKey] && isEnabledByUserPlugin(userCustomPlugin)) {
+            addWithoutMerge(userCustomPlugin)
+        }
     }
 
 

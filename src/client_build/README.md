@@ -138,7 +138,7 @@ Every plugin, that's already included, has its own `plugin key`.
 To extend default plugins or instances you should use `plugin keys` or `instance keys`
 
 ```js
-const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel/cjs/client_build/constants')
+const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel').buildConstants
 
 {
     plugins: {
@@ -295,7 +295,7 @@ The only purpose of this plugin is to place an array of build output assets into
 <b>siegel config</b>
 
 ```js
-const { pluginsKeysMap } = require('siegel/cjs/client_build/constants')
+const { pluginsKeysMap } = require('siegel').buildConstants
 
 {
     // ...client_build config,

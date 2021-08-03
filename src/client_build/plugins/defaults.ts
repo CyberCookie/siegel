@@ -24,9 +24,9 @@ module.exports = (CONFIG, RUN_PARAMS) => {
     const defaults = {
         [ pluginsKeysMap.compression ]: {
             plugin: compressionPlugin,
+            enabled: isProd,
             instances: {
                 [ pluginInstancesKeyMap.compression_br ]: {
-                    enabled: isProd,
                     options: {
                         test: /\.*$/,
                         filename: '[name].br[query]',
@@ -39,7 +39,6 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     }
                 },
                 [ pluginInstancesKeyMap.compression_gzip ]: {
-                    enabled: isProd,
                     options: {
                         test: /\.*$/,
                         filename: '[name].gz[query]',

@@ -96,6 +96,9 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
 }
 
 
-require.main == module
-    ?   main()
-    :   (module.exports = main)
+if (require.main == module) main()
+else {
+    module.exports = main
+    module.exports.proxyReq = require('./server/proxy')
+    module.exports.buildConstants = require('./client_build/constants')
+}

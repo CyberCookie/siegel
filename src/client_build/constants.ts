@@ -49,7 +49,7 @@ const loadersKeyMap = {
 const webpackModulesRegExp = {
     scripts: '[tj]sx?',
     styles: 's[ac]ss',
-    files: 'woff2'
+    files: 'woff2?'
 } as const
 
 

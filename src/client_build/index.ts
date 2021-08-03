@@ -19,19 +19,23 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         mode: isProd
             ?   'production'
             :   process.env.NODE_ENV || 'development',
+
         cache: isDevServer,
         ...( isProd ? {} : {
             devtool: 'eval-cheap-module-source-map'
         }),
+
         resolve: {
             unsafeCache: true,
             alias: aliases,
             extensions: ESLintExtensions.concat(['.sass', '.d.ts'])
         },
+
         entry: [
             ...( isDevServer ? ['webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true'] : [] ),
             input.js
         ],
+
         output: {
             publicPath,
             path: staticDir,
@@ -39,7 +43,6 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             chunkFilename: 'chunk.[contenthash].js',
             filename: 'app.[contenthash].js'
         },
-
 
         optimization: {
             splitChunks: {

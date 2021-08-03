@@ -1,4 +1,4 @@
-const siegelPath = require('./siegel_resolve')
+const siegel = require('./siegel_lib')
 
 
 const RUN_ARGUMENTS = new Set(process.argv)
@@ -8,7 +8,7 @@ isProd && (process.env.NODE_ENV = 'production')
 
 
 
-require(siegelPath)(
+siegel(
     require('./siegel_config'),
     {
         isProd,
