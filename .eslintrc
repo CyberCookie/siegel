@@ -7,7 +7,6 @@
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
         "plugin:react/recommended"
     ],
-    "files": [ "*.ts*", "*.js*" ],
     "env": {
         "es2017": true,
         "browser": true,
