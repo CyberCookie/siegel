@@ -1,10 +1,8 @@
-const { dirname, posix }    = require('path')
-const existsSync            = require('fs').existsSync
+const { dirname }   = require('path')
+const existsSync    = require('fs').existsSync
 
-const CONSTANTS             = require('./constants')
+const CONSTANTS     = require('./constants')
 
-
-const { join, relative } = posix
 
 function mergeConfigWithDefaults(CONFIG: any, DEFAULT_CONFIG: any) {
     for (const key in DEFAULT_CONFIG) {
@@ -41,20 +39,6 @@ module.exports = (CONFIG: any = {}, RUN_PARAMS: any = {}) => {
 
     if (RUN_PARAMS.isBuild) {
         const { input } = CONFIG.build
-
-        if (typeof input.copyFiles == 'string') {
-            input.copyFiles = [{
-                from: input.copyFiles,
-                to: join(
-                    CONFIG.staticDir,
-                    relative(
-                        dirname(input.html),
-                        input.copyFiles
-                    )
-                )
-            }]
-        }
-
 
         stringConfig && (input.js = stringConfig)
 

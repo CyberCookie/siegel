@@ -56,10 +56,13 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
             let serverIndexFile: any
 
             function clearCachedDependencies({ filename }: any) {
-                const cacheChildren = require.cache[filename]!.children
-                delete require.cache[filename]
+                const cachedFile = require.cache[filename]
+                if (cachedFile) {
+                    const cacheChildren = cachedFile.children
+                    delete require.cache[filename]
 
-                cacheChildren.forEach(clearCachedDependencies)
+                    cacheChildren.forEach(clearCachedDependencies)
+                }
             }
 
             function stopDevServerInstance() {

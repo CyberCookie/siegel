@@ -55,7 +55,7 @@
                 Path to site entrypoint.
                 Default is: demo_app/client/index.html ( App container div's id = root )
             */
-            html: String,
+            html: String || HTMLWebpackPlugin -> options || (defaultConfig) => updatedConfig,
 
             /*
                 CopyWebpackPlugin assets path.
@@ -65,7 +65,7 @@
                     to: join( staticDir, relative( dirname(input.html) copyFiles) )
                 }]
             */
-            copyFiles: String || CopyWebpackPlugin options patterns,
+            copyFiles: String || CopyWebpackPlugin -> options -> patterns,
 
             /*
                 Path to styles files which will be included in every other styles file.
@@ -87,7 +87,7 @@
         },
 
         /* Enable ESlint */
-        eslint: Boolean,
+        eslint: Boolean || ESLintWebpackPlugin -> options || (defaultConfig) => updatedConfig,
 
         /* Webpack publicPath */
         publicPath: String,

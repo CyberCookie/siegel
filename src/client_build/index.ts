@@ -21,9 +21,8 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             :   process.env.NODE_ENV || 'development',
 
         cache: isDevServer,
-        ...( isProd ? {} : {
-            devtool: 'eval-cheap-module-source-map'
-        }),
+
+        devtool: !isProd && 'eval-cheap-module-source-map',
 
         resolve: {
             unsafeCache: true,

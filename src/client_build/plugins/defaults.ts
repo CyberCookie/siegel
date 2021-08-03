@@ -1,3 +1,4 @@
+const { dirname, posix } = require('path')
 const {
     pluginInstancesKeyMap, pluginsKeysMap,
 
@@ -13,13 +14,33 @@ const {
 } = require('../constants')
 
 
+const { join, relative } = posix
+
+function resolvePluginDefaultOptions(defaultOptions, userOptions) {
+    const typeofUserOptions = typeof userOptions
+
+    return typeofUserOptions == 'object'
+        ?   userOptions
+        :   typeofUserOptions == 'function'
+            ?   userOptions(defaultOptions)
+            :   defaultOptions
+}
+
+
 module.exports = (CONFIG, RUN_PARAMS) => {
     const {
         input,
-        eslint: eslintEnabled
+        eslint: eslintOptions
     } = CONFIG.build
     const { isProd, isServer } = RUN_PARAMS
 
+
+
+    const compressionInstanceCommonOptions = {
+        test: /\.*$/,
+        threshold: 10240,
+        deleteOriginalAssets: false
+    }
 
     const defaults = {
         [ pluginsKeysMap.compression ]: {
@@ -27,23 +48,19 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             enabled: isProd,
             instances: {
                 [ pluginInstancesKeyMap.compression_br ]: {
-                    options: {
-                        test: /\.*$/,
+                    options: Object.assign({}, compressionInstanceCommonOptions, {
                         filename: '[name].br[query]',
                         algorithm: 'brotliCompress',
                         compressionOptions: {
                             level: 11
-                        },
-                        threshold: 10240,
-                        deleteOriginalAssets: false
-                    }
+                        }
+                    })
                 },
                 [ pluginInstancesKeyMap.compression_gzip ]: {
                     options: {
-                        test: /\.*$/,
-                        filename: '[name].gz[query]',
-                        threshold: 10240,
-                        deleteOriginalAssets: false
+                        options: Object.assign({}, compressionInstanceCommonOptions, {
+                            filename: '[name].gz[query]'
+                        })
                     }
                 }
             }
@@ -53,7 +70,18 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             plugin: fileCopyPlugin,
             enabled: !!input.copyFiles,
             options: {
-                patterns: input.copyFiles
+                patterns: typeof input.copyFiles == 'string'
+                    ?   [{
+                            from: input.copyFiles,
+                            to: join(
+                                CONFIG.staticDir,
+                                relative(
+                                    dirname(input.html),
+                                    input.copyFiles
+                                )
+                            )
+                        }]
+                    :   input.copyFiles
             }
         },
 
@@ -74,19 +102,19 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
         [ pluginsKeysMap.cssOptimize ]: {
             plugin: optimizeCSS,
-            enabled: isProd,
+            enabled: isProd
         },
 
         [ pluginsKeysMap.html ]: {
             plugin: HTMLPlugin,
             enabled: !!input.html,
-            options: {
-                template: input.html,
+            options: resolvePluginDefaultOptions({
                 // scriptLoading: 'defer',
+                template: input.html,
                 minify: {
                     collapseWhitespace: true,
                 }
-            }
+            }, input.html)
         },
 
         [ pluginsKeysMap.hot ]: {
@@ -105,11 +133,11 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
         [ pluginsKeysMap.eslint ]: {
             plugin: eslint,
-            enabled: eslintEnabled,
-            options: {
+            enabled: eslintOptions,
+            options: resolvePluginDefaultOptions({
                 extensions: ESLintExtensions,
                 emitWarning: true
-            }
+            }, eslintOptions)
         }
     }
 
