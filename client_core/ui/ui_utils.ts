@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react'
 type ComponentAttributes<E = HTMLElement, A = React.HTMLAttributes<E>> = A & React.RefAttributes<E>
 
 type ComponentRefApi<Props> = {
-    getRef(ref: HTMLElement): void
+    getRef(ref: HTMLElement, props: Props): void
     getOnPropsUpdate?(props: Props): any[]
 }
 
@@ -45,7 +45,7 @@ function applyRefApi(rootProps: ComponentAttributes, mergedProps: PropsComponent
         :   undefined
 
     useEffect(() => {
-        getRef((rootProps.ref as React.MutableRefObject<HTMLElement>).current)
+        getRef((rootProps.ref as React.MutableRefObject<HTMLElement>).current, mergedProps)
     }, trackDependencies)
 }
 

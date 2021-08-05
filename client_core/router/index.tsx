@@ -40,8 +40,8 @@ const UpdateblePage = (_props: UpdateblePageProps) => {
     return <RouterPage { ...props } beforeEnter={beforeEnter?.(props)} />
 }
 
-const useUpdateChildren = (Layout: NonNullable<RouteConfig['Layout']>, pathname: string) => {
-    if (usePrevious(pathname) == pathname) {
+const useUpdateChildren = (Layout: NonNullable<RouteConfig['Layout']>, pathname: string, extraCondition = true) => {
+    if (usePrevious(pathname) == pathname && extraCondition) {
         (Layout as UpdateblePageProps['UpLevelLayout']).__childrenRefresh?.()
     }
 }

@@ -1,4 +1,4 @@
-<h1>client_build</h1>
+<h1>Client build</h1>
 
 <p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares that are used in express static server.</p>
 
@@ -200,7 +200,7 @@ Loaders that this build is use by default. Each loader has its own `loader key` 
 To extend default modules you should operate with `loader keys` and with `regExp parts` to math the file extensions:
 
 ```js
-const { loadersKeyMap, webpackModulesRegExp } = require('siegel/cjs/client_build/constants')
+const { loadersKeyMap, webpackModulesRegExp } = require('siegel').buildConstants
 
 {
     modules: {
@@ -246,6 +246,14 @@ const { loadersKeyMap, webpackModulesRegExp } = require('siegel/cjs/client_build
                     options: Object
                 }
             }
+        },
+        
+        [ webpackModulesRegExp.files ]: {
+            /*
+                Provide new regexp for all loaders
+                that use [ webpackModulesRegExp.files ] regexp
+            */
+            rewriteRegExp: '(png|jpg|woff2?|svg)'
         },
 
         /* Custom extension handler */
@@ -361,9 +369,9 @@ Output:
 }
 ```
 
-There are twho options you can pass to the plugin:
+There are two options you can pass to the plugin:
 ```js
-const { loadersKeyMap, webpackModulesRegExp } = require('../../src/client_build/constants')
+const { loadersKeyMap, webpackModulesRegExp } = require('siegel').buildConstants
 
 const config = {
     // ...siegel config

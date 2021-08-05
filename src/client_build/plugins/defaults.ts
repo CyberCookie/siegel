@@ -57,11 +57,9 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     })
                 },
                 [ pluginInstancesKeyMap.compression_gzip ]: {
-                    options: {
-                        options: Object.assign({}, compressionInstanceCommonOptions, {
-                            filename: '[name].gz[query]'
-                        })
-                    }
+                    options: Object.assign({}, compressionInstanceCommonOptions, {
+                        filename: '[name].gz[query]'
+                    })
                 }
             }
         },

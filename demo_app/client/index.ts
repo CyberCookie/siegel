@@ -1,5 +1,5 @@
 import { render } from 'react-dom'
-import { setup as requestServiceSetup, HEADER_CONTENT_TYPE, RequestParams } from 'siegel-services/request'
+import { setup as requestServiceSetup, HEADER_CONTENT_TYPE } from 'siegel-services/request'
 
 import Router from 'app/Router'
 
@@ -17,7 +17,7 @@ if (rootComponent) {
         .catch(console.error)
 
     requestServiceSetup({
-        beforeRequest(fetchParams: RequestParams) {
+        beforeRequest(fetchParams) {
             if (!fetchParams.headers?.[HEADER_CONTENT_TYPE]) {
                 fetchParams.headers = Object.assign({}, fetchParams.headers, extraHeades)
             }
