@@ -25,6 +25,13 @@ Client side related parts:
                 components that are lightweight, perfomant and flexible.
             </li>
             <li>
+                <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/router'>
+                    Router
+                </a>
+                ( react-router-dom wrapper)<br />
+                Provides more declarative interface to build routers of any complexity.
+            </li>
+            <li>
                 <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/store'>
                     State managers
                 </a>
@@ -34,13 +41,6 @@ Client side related parts:
                 <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/hooks'>
                     Custom hooks.
                 </a>
-            </li>
-            <li>
-                <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/router'>
-                    Router
-                </a>
-                ( react-router-dom wrapper)<br />
-                Provides more declarative interface to build routers of any complexity.
             </li>
         </ul>
     </li>

@@ -65,7 +65,13 @@ The platform provides:<br/>
 
 
 Read more about each part following the links below:
-- [UI](https://github.com/CyberCookie/siegel/tree/master/client_core)
+- [Client core](https://github.com/CyberCookie/siegel/tree/master/client_core)
+    - [UI](https://github.com/CyberCookie/siegel/tree/master/client_core/ui)
+    - [Router](https://github.com/CyberCookie/siegel/tree/master/client_core/router)
+    - [State managers](https://github.com/CyberCookie/siegel/tree/master/client_core/store)
+    - [Custom hooks](https://github.com/CyberCookie/siegel/tree/master/client_core/hooks)
+    - [Services](https://github.com/CyberCookie/siegel/tree/master/client_core/services)
+    - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils)
 - [Build](https://github.com/CyberCookie/siegel/tree/master/src/client_build)
 - [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
 - [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)

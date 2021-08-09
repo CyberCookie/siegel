@@ -178,6 +178,11 @@ Accepts uniq entity key.
 <ul>
     Returns and interface to perform CRUD operations:
     <li>addOrUpdate - add entity or update it if already exists</li>
+    <li>
+        addAll - adds an array of entities all together.<br />
+        Performs `addOrUpdate` on each element<br />
+        Accepts postProcessEntity callback as a second argument, where you can mutate each entity
+    </li>
     <li>get - retrieves an entity by id</li>
     <li>remove - removes an entity by id</li>
     <li>len - to get all entities count</li>

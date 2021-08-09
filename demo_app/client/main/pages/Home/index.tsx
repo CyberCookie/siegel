@@ -7,35 +7,53 @@ import styles from './styles.sass'
 
 const siegelDocsPathPrefix = 'https://github.com/cybercookie/siegel/blob/master/'
 
-const docsList = [
-    { path: 'README.md', title: 'Siegel' },
-    { path: 'demo_app/README.md', title: 'Demo app' },
-    { path: 'client_core/README.md', title: 'UI core' },
-    { path: 'src/client_build/README.md', title: 'Webpack build' },
-    { path: 'src/server/README.md', title: 'Server' }
-].map(({ path, title }) => (
-    <li key={path}>
-        <Link {...{
-            path: siegelDocsPathPrefix + path,
-            title
-        }} />
-    </li>
-))
+const docsListConfig = [
+    { path: '', title: 'Siegel' },
+    { path: 'demo_app', title: 'Demo app' },
+    {
+        path: 'client_core',
+        title: 'Client core',
+        children: [
+            { path: 'ui', title: 'Components' },
+            { path: 'router', title: 'Router' },
+            { path: 'store', title: 'State managers' },
+            { path: 'hooks', title: 'Custom hooks' },
+            { path: 'services', title: 'Services' }
+        ]
+    },
+    { path: 'src/client_build', title: 'Webpack build' },
+    { path: 'src/server', title: 'Server' }
+]
+
+const createDocList = (list: typeof docsListConfig, pathPrefix = '') => (
+    list.map(({ path, title, children }) => (
+        <li key={path}>
+            <Link {...{
+                path: siegelDocsPathPrefix + pathPrefix + path,
+                title
+            }} />
+
+            { children && <ul children={createDocList(children, path + '/')} /> }
+        </li>
+    ))
+)
+
+const docsList = createDocList(docsListConfig)
 
 
 const Home = () => (
     <div className={styles.page}>
         <div className={styles.text_block}>
-            <h1>Welcome to Siegel demo application!</h1>
+            <h1 children='Welcome to Siegel demo application!' />
 
             <div>
-                <h2>The purpose of this demo app is to demonstrate key features of Siegel</h2>
-                <h2>and to provide ready to use scalable app template</h2>
+                <h2 children='The purpose of this demo app is to demonstrate key features of Siegel' />
+                <h2 children='and to provide ready to use scalable app template' />
             </div>
 
             <ul className={styles.docs_list}>
                 Siegel documentation:
-                { docsList}
+                { docsList }
             </ul>
         </div>
     </div>

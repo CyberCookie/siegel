@@ -49,29 +49,34 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
 
         let devServerInstance = createDevServer()
         if (watch && appServerLoc) {
-            const fs = require('fs')
-            const { join } = require('path').posix
+            const { statSync, readdir, watch } = require('fs')
+            const { posix, dirname } = require('path')
 
-            let lock: any = false
-            let serverIndexFile: any
+            let lock: NodeJS.Timer = null
+            let serverIndexFile: string
+            let serverInstanceDir: string
 
-            function clearCachedDependencies({ filename }: any) {
+            function clearCachedDependencies({ filename }: NodeJS.Module) {
                 const cachedFile = require.cache[filename]
-                if (cachedFile) {
-                    const cacheChildren = cachedFile.children
-                    delete require.cache[filename]
 
-                    cacheChildren.forEach(clearCachedDependencies)
+                if (cachedFile) {
+                    if (filename.startsWith(serverInstanceDir)) {
+                        const cacheChildren = cachedFile.children
+                        delete require.cache[filename]
+
+                        cacheChildren.forEach(clearCachedDependencies)
+                    }
                 }
             }
 
             function stopDevServerInstance() {
-                clearCachedDependencies({ filename: serverIndexFile })
+                const userModuleEntry = require.cache[serverIndexFile]
+                userModuleEntry && clearCachedDependencies(userModuleEntry)
 
                 devServerInstance.close()
                 devServerInstance = createDevServer()
 
-                lock = false
+                lock = null
             }
 
             function onChange() {
@@ -79,17 +84,20 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
             }
 
             function applyWatchListener(file: any, prefix?: any) {
-                prefix && (file = join(prefix, file))
+                prefix && (file = posix.join(prefix, file))
 
-                if (fs.statSync(file).isDirectory()) {
-                    fs.readdir(file, (err: any, files: any) => {
+                if (statSync(file).isDirectory()) {
+                    readdir(file, (err: any, files: any) => {
                         err
                             ?   console.error(err)
                             :   files.forEach((f: any) => { applyWatchListener(f, file) })
                     })
                 } else {
-                    serverIndexFile || (serverIndexFile = file)
-                    fs.watch(file).on('change', onChange)
+                    serverIndexFile || (
+                        serverIndexFile = file,
+                        serverInstanceDir = dirname(file)
+                    )
+                    watch(file).on('change', onChange)
                 }
             }
 

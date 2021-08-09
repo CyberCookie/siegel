@@ -1,7 +1,7 @@
 type Entities<Entity extends Indexable = Indexable> = {
     clear(): Entities<Entity>
     addOrUpdate(entity: Entity): Entities<Entity>
-    addAll(entities: Entity[]): Entities<Entity>
+    addAll(entities: Entity[], postProcessEach: (entity: Entity) => void): Entities<Entity>
     remove(entityID: ID): Entities<Entity>
     sort(cb: (entity_a: Entity, entity_b: Entity) => number): Entities<Entity>
     each(cb: (entity: Entity, index: number) => boolean | void): Entities<Entity>
@@ -36,9 +36,12 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
             return entityStruct
         },
 
-        addAll(entities) {
+        addAll(entities, postProcessEach) {
             for (let i = 0, l = entities.length; i < l; i++) {
-                this.addOrUpdate(entities[i])
+                const entity = entities[i]
+
+                postProcessEach && postProcessEach(entity)
+                this.addOrUpdate(entity)
             }
 
             return entityStruct
