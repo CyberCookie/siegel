@@ -4,7 +4,7 @@ import type { History } from 'history'
 
 
 type BeforeEnterProp = {
-    beforeEnter?(props: RouteProps): any
+    beforeEnter?(props: RouteProps): (RouteProps & Indexable) | void
 }
 
 type Page = React.ComponentType<BeforeEnterProp>

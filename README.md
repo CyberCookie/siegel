@@ -7,7 +7,11 @@
 </a>
 
 <a href=''>
-    <img src='https://img.shields.io/badge/npm%20version-%3E%3D%207-brightgreen' alt='npm version' />
+    <img src='https://img.shields.io/badge/npm%20v-%3E%3D%207-brightgreen' alt='npm version' />
+</a>
+
+<a href=''>
+    <img src='https://img.shields.io/badge/node%20v-%3E%3D%2012-brightgreen' alt='npm version' />
 </a>
 
 <a href='https://david-dm.org/cybercookie/siegel' target='_blank'>

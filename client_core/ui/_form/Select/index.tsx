@@ -84,7 +84,7 @@ const Select: Component = (props, noDefaults) => {
         className,
         ref: useRef(null),
         tabIndex: 0,
-        onFocus() { setActive(true) },
+        onFocus() { disabled || setActive(true) },
         onBlur() { setActive(false) }
     }
 

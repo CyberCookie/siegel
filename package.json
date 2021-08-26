@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.9.11",
+    "version": "0.9.12",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -46,7 +46,7 @@
         "build_serv": "node $npm_package_config_index -b -s",
         "build_serv:prod": "npm run build:prod && npm run pm2",
         "build": "node $npm_package_config_index -b",
-        "build:prod": "npm run build_web:prod && npm run build_node",
+        "build:prod": "npm run build_node && npm run build_web:prod --",
         "build_web:prod": "npm run build -- -p",
         "build_node": "npx tsc -p ./src",
         "serv": "node $npm_package_config_index -s",
@@ -55,7 +55,7 @@
         "pm2": "npx pm2 start $npm_package_config_index -- -s -p",
         "validate": "npx tsc && npx eslint .",
         "debug": "node --inspect $npm_package_config_index -- -b -s",
-        "with_args": "node $npm_package_config_index"
+        "with_args": "node $npm_package_config_index --"
     },
     "dependencies": {
         "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
@@ -63,9 +63,9 @@
         "clean-webpack-plugin": "^4.0.0-alpha.0",
         "compression-webpack-plugin": "^8.0.1",
         "connect-history-api-fallback": "^1.6.0",
-        "copy-webpack-plugin": "^6.4.1",
-        "css-loader": "^5.2.4",
-        "eslint-webpack-plugin": "^2.5.4",
+        "copy-webpack-plugin": "^9.0.1",
+        "css-loader": "^6.2.0",
+        "eslint-webpack-plugin": "^3.0.1",
         "express": "^4.17.1",
         "express-static-gzip": "^2.1.1",
         "file-loader": "^6.2.0",
@@ -86,7 +86,7 @@
         "svg2ttf": "^6.0.2",
         "svgicons2svgfont": "^10.0.3",
         "ts-node": "^10.0.0",
-        "ttf2woff": "^2.0.2",
+        "ttf2woff": "^3.0.0",
         "ttf2woff2": "^4.0.3",
         "webpack": "^5.42.0",
         "webpack-dev-middleware": "^5.0.0",

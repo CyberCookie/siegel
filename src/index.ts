@@ -59,13 +59,11 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
             function clearCachedDependencies({ filename }: NodeJS.Module) {
                 const cachedFile = require.cache[filename]
 
-                if (cachedFile) {
-                    if (filename.startsWith(serverInstanceDir)) {
-                        const cacheChildren = cachedFile.children
-                        delete require.cache[filename]
+                if (cachedFile && filename.startsWith(serverInstanceDir)) {
+                    const cacheChildren = cachedFile.children
+                    delete require.cache[filename]
 
-                        cacheChildren.forEach(clearCachedDependencies)
-                    }
+                    cacheChildren.forEach(clearCachedDependencies)
                 }
             }
 

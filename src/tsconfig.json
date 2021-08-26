@@ -6,7 +6,7 @@
         "skipLibCheck": true,
         "allowJs": true,
         "moduleResolution": "node",
-        "target": "esnext",
+        "target": "es6",
         "module": "commonjs"
     }
 }

@@ -20,12 +20,14 @@ const dynamicCrumbsMap = {
 
 const routesConfig: RouterConfig & BreadcrumbConfig = {
     [ pagePathMap.home ]: {
-        beforeEnter() {
+        beforeEnter(props) {
             seo({
                 title: 'Siegel demo app',
                 keywords: 'demo app',
                 description: 'siegel demo app'
             })
+
+            return props
         },
         crumb: 'Home',
         LazyPage: lazy(() => import('app/pages/Home'))

@@ -37,7 +37,7 @@ const UpdateblePage = (_props: UpdateblePageProps) => {
     }, [])
 
 
-    return <RouterPage { ...props } beforeEnter={beforeEnter?.(props)} />
+    return <RouterPage { ...( beforeEnter?.({ ...props }) || props )} />
 }
 
 const useUpdateChildren = (Layout: NonNullable<RouteConfig['Layout']>, pathname: string, extraCondition = true) => {
@@ -103,7 +103,7 @@ const createRoutes: CreateRoutes = ({ routeConfig, urlPref, notFound, UpLevelLay
                             ?   <UpdateblePage { ...{ RouterPage, props, beforeEnter }}
                                     UpLevelLayout={UpLevelLayout!} />
 
-                            :   <RouterPage { ...props } beforeEnter={beforeEnter!(props)} />
+                            :   <RouterPage { ...( beforeEnter?.({ ...props }) || props )} />
                     )
                 } else routeProps.component = RouterPage
             }
