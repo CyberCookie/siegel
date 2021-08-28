@@ -130,9 +130,9 @@ async function makeRequest(req: RequestParams) {
             res: parsedRes
         }
     } catch (err) {
-        err.req = reqData
+        (err as ReqError).req = reqData
 
-        errorHandler?.(err)
+        errorHandler?.(err as ReqError)
         throw err
     }
 }
