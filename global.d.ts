@@ -16,6 +16,9 @@ type IndexObject<T, V = any> = {
 }
 
 
+interface URLSearchParams {
+    append(key: string, value: any): void
+}
 declare function isNaN(value: any): boolean
 declare function isFinite(value: any): boolean
 declare function parseInt(value: any, radix?: string): number

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import updateURLQuery from 'siegel-utils/query_update'
+import type { Page } from 'siegel-router'
 
 import { history } from 'app/Router/config'
 import * as demoComponents from './components'
@@ -23,7 +24,7 @@ function getActiveComponent(active: string) {
 
 const hashParam = 'active'
 
-const DemoPage = () => {
+const DemoPage: Page = () => {
     const [ active, setActive ] = useState(
         useMemo(() => (new URLSearchParams(window.location.search)).get(hashParam), [])
     )

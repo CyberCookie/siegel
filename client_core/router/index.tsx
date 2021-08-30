@@ -1,8 +1,11 @@
 import React, { Suspense, useState, useLayoutEffect } from 'react'
-import { Switch, Router, Route, Redirect, withRouter, RouteProps } from 'react-router-dom'
+import { Switch, Router, Route, Redirect, withRouter, RouteProps, RouteComponentProps } from 'react-router'
 import { createBrowserHistory } from 'history'
 
-import type { CreateRoutesWrapper, UpdateblePageProps, CreateRoutes, CreateRouter, RouterConfig, RouteConfig } from './types'
+import type {
+    CreateRoutesWrapper, UpdateblePageProps, CreateRoutes, CreateRouter,
+    RouterConfig, RouteConfig, Page
+} from './types'
 
 import usePrevious from '../hooks/previous'
 import isExists from '../utils/is_exists'
@@ -74,7 +77,7 @@ const createRoutes: CreateRoutes = ({ routeConfig, urlPref, notFound, UpLevelLay
                 </Route>
             )
         } else {
-            const routeProps: RouteProps & { key?: string } = {
+            const routeProps: RouteProps = {
                 path: pathResult
             }
 
@@ -98,7 +101,7 @@ const createRoutes: CreateRoutes = ({ routeConfig, urlPref, notFound, UpLevelLay
                 const isLayoutUpdate = updateFromLayout && UpLevelLayout
 
                 if (beforeEnter || isLayoutUpdate) {
-                    routeProps.render = (props: RouteProps) => (
+                    routeProps.render = (props: RouteComponentProps) => (
                         isLayoutUpdate
                             ?   <UpdateblePage { ...{ RouterPage, props, beforeEnter }}
                                     UpLevelLayout={UpLevelLayout!} />
@@ -148,4 +151,4 @@ const createRouter: CreateRouter = ({ children, Layout, LazyFallback, notFound, 
 
 export { createBrowserHistory, useUpdateChildren }
 export default createRouter
-export type { RouterConfig, RouteConfig, CreateRouter }
+export type { RouterConfig, RouteConfig, CreateRouter, Page }

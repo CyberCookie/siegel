@@ -1,6 +1,16 @@
 <h1>Siegel demo project</h1>
 
-- To setup the project (make sure you have installed NodeJS) exec `npm i`.
+Requirements:
+- NodeJS >= 12
+- NPM => 7
+
+<br />
+
+Install dependencies with `npm i`.
+<br /><br />
+
+
+package.json scripts:
 - To run the project in development mode: `npm start` (alias `npm run build_serv`).
 - To build the project in dev/prod mode run `npm run build` / `npm run build:prod` accordingly.
 - To transpile server app from TS run `npm run build_node`.
@@ -15,6 +25,7 @@
 
 - `client` - clientside related code and assets.
     - `assets` - static files which doesn't requires any transformations.
+        - `copy` - assets in this folder will be copied by `WebpackCopyPlugin` to the output folder
     - `main` - UI and business logic.
         - `Layout` - pages wrapper. Components like header, footer....
         - `components` - app level components, icons, raw siegel's `components theming`.

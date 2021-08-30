@@ -1,13 +1,13 @@
 import type { SuspenseProps } from 'react'
-import type { RouteProps } from 'react-router-dom'
+import type { RouteComponentProps } from 'react-router'
 import type { History } from 'history'
 
 
 type BeforeEnterProp = {
-    beforeEnter?(props: RouteProps): (RouteProps & Indexable) | void
+    beforeEnter?(props: RouteComponentProps): RouteComponentProps | void
 }
 
-type Page = React.ComponentType<BeforeEnterProp>
+type Page = React.ComponentType<BeforeEnterProp & RouteComponentProps>
 type LazyPage = React.LazyExoticComponent<Page>
 type Layout = React.ComponentType<any>
 type LazyFallback = SuspenseProps['fallback']
@@ -64,9 +64,9 @@ type CreateRoutesWrapper = (
 
 type UpdateblePageProps = {
     RouterPage: NonNullable<Page | LazyPage>
-    props: RouteProps,
+    props: RouteComponentProps,
     UpLevelLayout: Layout & { __childrenRefresh?: (() => void) | null }
 } & BeforeEnterProp
 
 
-export type { CreateRoutesWrapper, UpdateblePageProps, CreateRoutes, CreateRouter, RouterConfig, RouteConfig }
+export type { Page, CreateRoutesWrapper, UpdateblePageProps, CreateRoutes, CreateRouter, RouterConfig, RouteConfig }

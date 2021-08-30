@@ -1,13 +1,13 @@
-// import { RouteComponentProps } from 'react-router-dom'
 import React, { useState } from 'react'
-import { Button, Input } from 'app/components'
+import type { Page } from 'siegel-router'
 
-import testModule from '../../modules/demo_api'
+import { Button, Input } from 'app/components'
+import testModule from 'app/modules/demo_api'
 
 import styles from './styles.sass'
 
 
-const DemoApi = (/*props: RouteComponentProps*/) => {
+const DemoApi: Page = () => {
     const [
         { received, counter, proxyRes },
         { makeSomeFetch, updateCounter, proxyGet }

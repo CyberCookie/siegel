@@ -1,6 +1,6 @@
 import React from 'react'
-
 import Link from 'siegel-ui/Link'
+import type { Page } from 'siegel-router'
 
 import styles from './styles.sass'
 
@@ -41,7 +41,7 @@ const createDocList = (list: typeof docsListConfig, pathPrefix = '') => (
 const docsList = createDocList(docsListConfig)
 
 
-const Home = () => (
+const Home: Page = () => (
     <div className={styles.page}>
         <div className={styles.text_block}>
             <h1 children='Welcome to Siegel demo application!' />
