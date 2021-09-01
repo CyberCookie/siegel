@@ -182,22 +182,25 @@ const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel').buildConstan
 <br />
 <h3>Modules</h3>
 
-Loaders that this build is use by default. Each loader has its own `loader key` to make it possible to extend it.
+Each loader has its own `loader key` to make it easy to extend it. <br />
+Loaders used by default together with `related file extensions` are described below.
 
 
-- ESLint ( `eslint` )
-- SASS styles ( `cssFinal` )<br />
-    It is <b>style-loader</b> in dev mode<br />
-    or <b>mini-css-extract-plugin's loader</b> if mode is production.
-- PostCSS ( `postCssLoader` )
-    - autoprefixer
-    - <a href='#sw_plugin'>(custom) svg to font</a>
-- CSS modules ( `css-loader` )
-- sass-resources-loader ( `sassResources` )<br />
-    (to include mixins and variables imports in every css file. Normally CSS modules breaks this functionality)
+- ESBuild ( `esbuild` ) <br />
+RegExp: <b>[tj]sx?</b> ( `scripts` ) <br /><br />
+- Styles<br />
+RegExp: <b>s[ac]ss</b> ( `styles` ) <br />
+    - SASS ( `sassLoader` )
+    - CSS ( `cssLoader` )
+    - MiniCSSExtractPlugin ( `cssFinal` )
+    - SASS resources ( `sassResources` )
+    - PostCSS ( `postCssLoader` )
+        - autoprefixer
+        - <a href='#sw_plugin'>(custom) svg to font plugin</a><br /><br />
+- File loader ( `fileLoader` ) <br />
+RegExp: <b>woff2?</b> (`files` )
 
-
-To extend default modules you should operate with `loader keys` and with `regExp parts` to math the file extensions:
+<br />
 
 ```js
 const { loadersKeyMap, webpackModulesRegExp } = require('siegel').buildConstants

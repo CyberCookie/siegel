@@ -14,9 +14,9 @@ function deepClone<T>(obj: T): T {
 
     if ((obj as AnyObj).constructor.name == 'Array') {
         result = []
-        for (let i = 0, l = ((obj as unknown) as AnyArray).length; i < l; i++) {
+        for (let i = 0, l = (obj as unknown as AnyArray).length; i < l; i++) {
             result[i] = deepClone(
-                ((obj as unknown) as AnyArray)[i]
+                (obj as unknown as AnyArray)[i]
             )
         }
     } else if ((obj as AnyObj).constructor.name == 'Object') {

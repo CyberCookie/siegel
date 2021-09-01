@@ -6,13 +6,18 @@ type ID = string | number
 
 type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<T>
 
-
 type Indexable<V = any> = {
     [key: string]: V
 }
 
 type IndexObject<T, V = any> = {
     [key in keyof T]: V
+}
+
+type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never
+
+type NarrowObjectToValueTypes<O extends Indexable, T> = {
+    [k in keyof O as O[k] extends T ? k : never]: T
 }
 
 

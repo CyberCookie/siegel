@@ -32,7 +32,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         input,
         eslint: eslintOptions
     } = CONFIG.build
-    const { isProd, isServer } = RUN_PARAMS
+    const { isProd } = RUN_PARAMS
 
 
 
@@ -91,8 +91,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
         [ pluginsKeysMap.cssExtract ]: {
             plugin: miniCssExtract,
-            enabled: isProd || !isServer,
             options: {
+                experimentalUseImportModule: true,
                 filename: isProd ? 'styles.[contenthash].css' : 'styles.[id].css',
                 chunkFilename: isProd ? 'chunk.[contenthash].css' : 'chunk.[id].css'
             }

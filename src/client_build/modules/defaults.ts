@@ -4,7 +4,7 @@ const {
     DEPENDENCIES: {
         plugins: { miniCssExtract },
         loaders: {
-            esbuild, styleLoader, cssLoader, sassLoader, sassResourcesLoader,
+            esbuild, cssLoader, sassLoader, sassResourcesLoader,
             postCssLoader, postCssAutoprefix, postCssSVG2Font,
             fileLoader
         }
@@ -14,7 +14,9 @@ const {
 
 module.exports = (CONFIG, RUN_PARAMS) => {
     const { sassResources, include, exclude } = CONFIG.build.input
-    const { isProd, isServer } = RUN_PARAMS
+    const { isProd } = RUN_PARAMS
+
+    const isDev = !isProd
 
 
     const defaults: any = {
@@ -34,14 +36,12 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         [ webpackModulesRegExp.styles ]: {
             loadersOrder: [ loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources ],
             loaders: {
-                [ loadersKeyMap.cssFinal ]: isProd || !isServer
-                    ?   miniCssExtract.loader
-                    :   styleLoader,
+                [ loadersKeyMap.cssFinal ]: miniCssExtract.loader,
 
                 [ loadersKeyMap.cssLoader ]: {
                     loader: cssLoader,
                     options: {
-                        sourceMap: !isProd,
+                        sourceMap: isDev,
                         // url: url => !url.endsWith('.svg'),
                         importLoaders: 3,
                         modules: {
@@ -53,7 +53,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                 [ loadersKeyMap.postCssLoader ]: {
                     loader: postCssLoader,
                     options: {
-                        sourceMap: !isProd,
+                        sourceMap: isDev,
                         postcssOptions: {
                             plugins: [
                                 [ postCssAutoprefix, { overrideBrowserList: 'last 1 version' } ],
@@ -69,7 +69,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                 [ loadersKeyMap.sassLoader ]: {
                     loader: sassLoader,
                     options: {
-                        sourceMap: !isProd
+                        sourceMap: isDev
                     }
                 },
 

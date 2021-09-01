@@ -20,7 +20,6 @@ type InnerStore<State extends Indexable, A extends ActionsUnbinded<State>> = {
 }
 
 
-type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never
 type ActionsBinded<A extends ActionsUnbinded<any>> = {
     [action in keyof A]: (...args: Tail<Parameters<A[action]>>) => ReturnType<A[action]>
 }

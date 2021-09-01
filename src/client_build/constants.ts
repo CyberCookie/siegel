@@ -20,7 +20,6 @@ const DEPENDENCIES = {
 
     loaders: {
         esbuild:                resolve('esbuild-loader'),
-        styleLoader:            resolve('style-loader'),
         cssLoader:              resolve('css-loader'),
         postCssLoader:          resolve('postcss-loader'),
         sassLoader:             resolve('sass-loader'),
