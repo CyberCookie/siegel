@@ -192,6 +192,7 @@ RegExp: <b>[tj]sx?</b> ( `scripts` ) <br /><br />
 RegExp: <b>s[ac]ss</b> ( `styles` ) <br />
     - SASS ( `sassLoader` )
     - CSS ( `cssLoader` )
+    - Style ( `styleLoader` )
     - MiniCSSExtractPlugin ( `cssFinal` )
     - SASS resources ( `sassResources` )
     - PostCSS ( `postCssLoader` )

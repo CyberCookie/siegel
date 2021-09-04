@@ -1,9 +1,8 @@
 //TODO: apply arrow controls when focused
-
-
-import React, { useState, useRef } from 'react'
+import React, { useState, useLayoutEffect, useRef } from 'react'
 
 import isE from '../../../utils/is_exists'
+import isTouchScreen from '../../../utils/is_touchscreen'
 import { extractProps, applyRefApi, ComponentAttributes } from '../../ui_utils'
 import addChildren from '../../children'
 import type {
@@ -14,6 +13,7 @@ import type {
 
 const componentID = '-ui-select'
 
+const _isTouchScreen = isTouchScreen()
 const stopPropagationHandler = (e: React.MouseEvent) => { e.stopPropagation() }
 
 
@@ -64,9 +64,10 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
 }
 
 const Select: Component = (props, noDefaults) => {
+    console.log('render')
     const mergedProps = noDefaults
-    ?   extractProps(Select.defaults, props, false)
-    :   (props as MergedProps)
+        ?   extractProps(Select.defaults, props, false)
+        :   (props as MergedProps)
 
     const {
         theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi,
@@ -82,10 +83,7 @@ const Select: Component = (props, noDefaults) => {
 
     let selectRootProps: NonNullable<Props['attributes']> = {
         className,
-        ref: useRef(null),
-        tabIndex: 0,
-        onFocus() { disabled || setActive(true) },
-        onBlur() { setActive(false) }
+        ref: useRef(null)
     }
 
     let optionsElement, selectedOption
@@ -100,11 +98,36 @@ const Select: Component = (props, noDefaults) => {
         optionsElement = optionsData.optionsElement
         selectedOption = optionsData.selectedOption
 
-        selectRootProps.onMouseDown = () => { setActive(!isActive) }
+        selectRootProps.onMouseDown = (e: React.MouseEvent) => {
+            e.stopPropagation()
+            e.preventDefault()
+
+            setActive(!isActive)
+        }
     }
 
     refApi && (applyRefApi(selectRootProps, mergedProps))
     attributes && (selectRootProps = Object.assign(selectRootProps, attributes))
+
+    useLayoutEffect(() => {
+        if (isActive) {
+            const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+                (selectRootProps.ref as React.MutableRefObject<HTMLDivElement>)
+                    .current.contains(e.target as Node) || setActive(false)
+            }
+            const eventOptions = { passive: true }
+
+            _isTouchScreen
+                ?   document.addEventListener('touchstart', handleOutsideClick, eventOptions)
+                :   document.addEventListener('mousedown', handleOutsideClick, eventOptions)
+
+            return () => {
+                _isTouchScreen
+                    ?   document.removeEventListener('touchstart', handleOutsideClick)
+                    :   document.removeEventListener('mousedown', handleOutsideClick)
+            }
+        }
+    }, [ isActive ])
 
 
     const displayValue = selectedOption
@@ -122,8 +145,6 @@ const Select: Component = (props, noDefaults) => {
                 <div children={resetIcon} className={theme.reset}
                     onMouseDown={e => {
                         e.stopPropagation()
-                        e.preventDefault()
-
                         onChange(undefined, e)
                     }} />
             )}

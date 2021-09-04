@@ -20,6 +20,7 @@ const DEPENDENCIES = {
 
     loaders: {
         esbuild:                resolve('esbuild-loader'),
+        styleLoader:            resolve('style-loader'),
         cssLoader:              resolve('css-loader'),
         postCssLoader:          resolve('postcss-loader'),
         sassLoader:             resolve('sass-loader'),
@@ -39,6 +40,7 @@ const loadersKeyMap = {
     esbuild: 'esbuild-loader',
     cssFinal: 'cssFinal',
     cssLoader: 'cssLoader',
+    styleLoader: 'styleLoader',
     postCssLoader: 'postCssLoader',
     sassLoader: 'sassLoader',
     sassResources: 'sassResources',
