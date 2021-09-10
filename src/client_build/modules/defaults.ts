@@ -4,7 +4,7 @@ const {
     DEPENDENCIES: {
         plugins: { miniCssExtract },
         loaders: {
-            esbuild, cssLoader, styleLoader, sassLoader, sassResourcesLoader,
+            esbuild, cssLoader, sassLoader, sassResourcesLoader,
             postCssLoader, postCssAutoprefix, postCssSVG2Font,
             fileLoader
         }
@@ -14,7 +14,7 @@ const {
 
 module.exports = (CONFIG, RUN_PARAMS) => {
     const { sassResources, include, exclude } = CONFIG.build.input
-    const { isProd, isServer } = RUN_PARAMS
+    const { isProd } = RUN_PARAMS
 
     const isDev = !isProd
 
@@ -36,9 +36,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         [ webpackModulesRegExp.styles ]: {
             loadersOrder: [ loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources ],
             loaders: {
-                [ loadersKeyMap.cssFinal ]: isProd || !isServer
-                    ?   miniCssExtract.loader
-                    :   styleLoader,
+                [ loadersKeyMap.cssFinal ]: miniCssExtract.loader,
 
                 [ loadersKeyMap.cssLoader ]: {
                     loader: cssLoader,

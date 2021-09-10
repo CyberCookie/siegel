@@ -1,7 +1,3 @@
-type AnyObj = Record<string, unknown>
-type AnyArray = Array<any>
-
-
 /**
  * Clones an object iterating recursively over its keys
  * @param object to clone
@@ -12,14 +8,14 @@ function deepClone<T>(obj: T): T {
 
     let result: Indexable
 
-    if ((obj as AnyObj).constructor.name == 'Array') {
+    if (obj instanceof Array) {
         result = []
-        for (let i = 0, l = (obj as unknown as AnyArray).length; i < l; i++) {
+        for (let i = 0, l = obj.length; i < l; i++) {
             result[i] = deepClone(
-                (obj as unknown as AnyArray)[i]
+                obj[i]
             )
         }
-    } else if ((obj as AnyObj).constructor.name == 'Object') {
+    } else if ((obj as Record<string, unknown>).constructor.name == 'Object') {
         result = {}
         for (const i in obj) {
             result[i] = deepClone(obj[i])

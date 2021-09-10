@@ -64,7 +64,6 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
 }
 
 const Select: Component = (props, noDefaults) => {
-    console.log('render')
     const mergedProps = noDefaults
         ?   extractProps(Select.defaults, props, false)
         :   (props as MergedProps)
@@ -98,12 +97,7 @@ const Select: Component = (props, noDefaults) => {
         optionsElement = optionsData.optionsElement
         selectedOption = optionsData.selectedOption
 
-        selectRootProps.onMouseDown = (e: React.MouseEvent) => {
-            e.stopPropagation()
-            e.preventDefault()
-
-            setActive(!isActive)
-        }
+        selectRootProps.onMouseDown = () => { setActive(!isActive) }
     }
 
     refApi && (applyRefApi(selectRootProps, mergedProps))

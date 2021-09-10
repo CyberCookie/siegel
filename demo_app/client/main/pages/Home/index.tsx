@@ -5,13 +5,13 @@ import type { Page } from 'siegel-router'
 import styles from './styles.sass'
 
 
-const siegelDocsPathPrefix = 'https://github.com/cybercookie/siegel/blob/master/'
-
+const siegelDocsPathPrefix = 'https://github.com/cybercookie/siegel'
+const gitFilesRootPrefix = '/blob/master/'
 const docsListConfig = [
     { path: '', title: 'Siegel' },
-    { path: 'demo_app', title: 'Demo app' },
+    { path: gitFilesRootPrefix + 'demo_app', title: 'Demo app' },
     {
-        path: 'client_core',
+        path: gitFilesRootPrefix + 'client_core',
         title: 'Client core',
         children: [
             { path: 'ui', title: 'Components' },
@@ -21,8 +21,8 @@ const docsListConfig = [
             { path: 'services', title: 'Services' }
         ]
     },
-    { path: 'src/client_build', title: 'Webpack build' },
-    { path: 'src/server', title: 'Server' }
+    { path: gitFilesRootPrefix + 'src/client_build', title: 'Webpack build' },
+    { path: gitFilesRootPrefix + 'src/server', title: 'Server' }
 ]
 
 const createDocList = (list: typeof docsListConfig, pathPrefix = '') => (
