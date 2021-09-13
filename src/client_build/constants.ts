@@ -20,6 +20,7 @@ const DEPENDENCIES = {
 
     loaders: {
         esbuild:                resolve('esbuild-loader'),
+        styleLoader:            resolve('style-loader'),
         cssLoader:              resolve('css-loader'),
         postCssLoader:          resolve('postcss-loader'),
         sassLoader:             resolve('sass-loader'),
@@ -37,6 +38,7 @@ const COMMONS = {
 
 const loadersKeyMap = {
     esbuild: 'esbuild-loader',
+    styleLoader: 'styleLoader',
     cssFinal: 'cssFinal',
     cssLoader: 'cssLoader',
     postCssLoader: 'postCssLoader',
@@ -47,7 +49,7 @@ const loadersKeyMap = {
 
 const webpackModulesRegExp = {
     scripts: '[tj]sx?',
-    styles: 's[ac]ss',
+    styles: '(c|sc|sa)ss',
     files: 'woff2?'
 } as const
 

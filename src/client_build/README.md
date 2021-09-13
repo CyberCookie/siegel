@@ -189,10 +189,10 @@ Loaders used by default together with `related file extensions` are described be
 - ESBuild ( `esbuild` ) <br />
 RegExp: <b>[tj]sx?</b> ( `scripts` ) <br /><br />
 - Styles<br />
-RegExp: <b>s[ac]ss</b> ( `styles` ) <br />
+RegExp: <b>(c|sc|sa)ss</b> ( `styles` ) <br />
     - SASS ( `sassLoader` )
     - CSS ( `cssLoader` )
-    - MiniCSSExtractPlugin ( `cssFinal` )
+    - MiniCSSExtractPlugin <b>if run params are isProd || !isServer, else</b> Style loader ( `cssFinal` )
     - SASS resources ( `sassResources` )
     - PostCSS ( `postCssLoader` )
         - autoprefixer

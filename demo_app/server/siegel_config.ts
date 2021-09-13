@@ -2,23 +2,7 @@ const join = require('path').join
 const rootPath = join(__dirname, '..')
 
 
-
 const APP = join(rootPath, 'client')
-
-function getAliasesFromTSconfig() {
-    const TSAliases = require('../tsconfig').compilerOptions.paths
-    const aliases: any = {}
-
-    for (const alias in TSAliases) {
-        const WPAlias = alias.replace('/*', '')
-        const WPPath = TSAliases[alias][0].replace('/*', '')
-
-        aliases[WPAlias] = join(rootPath, WPPath)
-    }
-
-    return aliases
-}
-
 
 const siegelConfig = {
     server: {
@@ -32,8 +16,6 @@ const siegelConfig = {
 
     build: {
         input: {
-            include: [ APP ],
-
             js: join(APP, 'index.ts'),
             sw: join(APP, 'sw.js'),
             html: join(APP, 'index.html'),
@@ -43,7 +25,19 @@ const siegelConfig = {
 
         eslint: true,
 
-        aliases: getAliasesFromTSconfig()
+        aliases: (() => {
+            const TSAliases = require('../tsconfig').compilerOptions.paths
+            const aliases: any = {}
+
+            for (const alias in TSAliases) {
+                const WPAlias = alias.replace('/*', '')
+                const WPPath = TSAliases[alias][0].replace('/*', '')
+
+                aliases[WPAlias] = join(rootPath, WPPath)
+            }
+
+            return aliases
+        })()
     }
 }
 

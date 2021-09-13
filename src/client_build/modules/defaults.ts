@@ -4,7 +4,7 @@ const {
     DEPENDENCIES: {
         plugins: { miniCssExtract },
         loaders: {
-            esbuild, cssLoader, sassLoader, sassResourcesLoader,
+            esbuild, cssLoader, sassLoader, styleLoader, sassResourcesLoader,
             postCssLoader, postCssAutoprefix, postCssSVG2Font,
             fileLoader
         }
@@ -14,7 +14,7 @@ const {
 
 module.exports = (CONFIG, RUN_PARAMS) => {
     const { sassResources, include, exclude } = CONFIG.build.input
-    const { isProd } = RUN_PARAMS
+    const { isProd, isServer } = RUN_PARAMS
 
     const isDev = !isProd
 
@@ -36,14 +36,16 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         [ webpackModulesRegExp.styles ]: {
             loadersOrder: [ loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources ],
             loaders: {
-                [ loadersKeyMap.cssFinal ]: miniCssExtract.loader,
+                [ loadersKeyMap.cssFinal ]: isProd || !isServer
+                    ?   miniCssExtract.loader
+                    :   styleLoader,
 
                 [ loadersKeyMap.cssLoader ]: {
                     loader: cssLoader,
                     options: {
                         sourceMap: isDev,
                         // url: url => !url.endsWith('.svg'),
-                        importLoaders: 3,
+                        importLoaders: 2,
                         modules: {
                             localIdentName: isProd ? '[hash:base64:4]' : '[local]--[hash:base64:4]'
                         }
@@ -97,8 +99,19 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             }
         }
     }
+
     for (const regexpPart in defaults) {
-        defaults[regexpPart].ruleOptions = { include, exclude }
+        const defaultRuleOptions = defaults[regexpPart].ruleOptions || {}
+
+        defaults[regexpPart].ruleOptions = {
+            include: defaultRuleOptions.include
+                ?   defaultRuleOptions.include.concat(include || [])
+                :   include,
+
+            exclude: defaultRuleOptions.exclude
+                ?   defaultRuleOptions.exclude.concat(exclude || [])
+                :   exclude,
+        }
     }
 
 
