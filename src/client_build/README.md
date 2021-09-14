@@ -377,9 +377,9 @@ There are two options you can pass to the plugin:
 const { loadersKeyMap, webpackModulesRegExp } = require('siegel').buildConstants
 
 const config = {
-    // ...siegel config
+    // ...client build config
 
-    build.modules: {
+    modules: {
         [webpackModulesRegExp.styles]: {
             loaders: {
                 [loadersKeyMap.postCssLoader]: {
