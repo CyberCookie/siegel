@@ -18,6 +18,7 @@ const dynamicCrumbsMap = {
 } as const
 
 
+
 const routesConfig: RouterConfig & BreadcrumbConfig = {
     [ pagePathMap.home ]: {
         beforeEnter(props) {
@@ -26,7 +27,6 @@ const routesConfig: RouterConfig & BreadcrumbConfig = {
                 keywords: 'demo app',
                 description: 'siegel demo app'
             })
-
             return props
         },
         crumb: 'Home',

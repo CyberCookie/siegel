@@ -25,7 +25,7 @@
 
 
 <h4>
-    Siegel is a higly opiniated SPA development platform that helps you to build and host your projects of any scale in a simple way.
+    Siegel is a higly opiniated SPA development platform for building and hosting any scale projects in a simple way.
     <br />
 </h4>
 <br />

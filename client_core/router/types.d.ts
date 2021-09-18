@@ -3,11 +3,12 @@ import type { RouteComponentProps } from 'react-router'
 import type { History } from 'history'
 
 
-type BeforeEnterProp = {
-    beforeEnter?(props: RouteComponentProps): RouteComponentProps | void
+type AllNever<T extends Record<string, unknown>> = {
+    [K in keyof T]?: never
 }
 
-type Page = React.ComponentType<BeforeEnterProp & RouteComponentProps>
+
+type Page = React.ComponentType<BeforeEnterRouteConfig & RouteComponentProps>
 type LazyPage = React.LazyExoticComponent<Page>
 type Layout = React.ComponentType<any>
 type LazyFallback = SuspenseProps['fallback']
@@ -19,28 +20,63 @@ type NotFoundPage = {
 type Routes = JSX.Element[] | JSX.Element
 
 
-type RouteConfig = {
-    Page?: Page
-    LazyPage?: LazyPage
-    LazyFallback?: LazyFallback
-    Layout?: Layout
-    exact?: boolean
-    redirectTo?: string
-    redirectUseParentBase?: boolean
-    children?: RouterConfig
-    updateFromLayout?: boolean
-} & BeforeEnterProp
 
+type BeforeEnterRouteConfig = {
+    beforeEnter?(props: RouteComponentProps): RouteComponentProps | void
+}
+type ExactRouteConfig = { exact?: boolean }
+
+
+type NormalPageRouteConfig = { Page: Page }
+type NotNormalPageRouteConfig = AllNever<NormalPageRouteConfig>
+type NormalPageRouteConfigExcludeOthers = NormalPageRouteConfig & NotLazyPageRouteConfig
+
+
+type LazyPageRouteConfig = {
+    LazyPage: LazyPage
+    LazyFallback?: LazyFallback
+}
+type NotLazyPageRouteConfig = AllNever<LazyPageRouteConfig>
+type LazyPageRouteConfigRouteConfigExcludeOthers = LazyPageRouteConfig & NotNormalPageRouteConfig
+
+
+type PageRouteConfig = BeforeEnterRouteConfig
+    &   { updateFromLayout?: boolean }
+    &   ( NormalPageRouteConfigExcludeOthers | LazyPageRouteConfigRouteConfigExcludeOthers)
+type NotPageRouteConfig = AllNever<PageRouteConfig>
+type PageRouteConfigRouteConfigExcludeOthers = PageRouteConfig & NotWithChildrenRouteConfig & NotRedirectRouteConfig
+
+
+type WithChildrenRouteConfig = {
+    children: RouterConfig
+    Layout?: Layout
+}
+type NotWithChildrenRouteConfig = AllNever<WithChildrenRouteConfig>
+type WithChildrenRouteConfigRouteConfigExcludeOthers = WithChildrenRouteConfig & NotPageRouteConfig & NotRedirectRouteConfig
+
+
+type RedirectRouteConfig = {
+    redirectTo: string
+    redirectUseParentBase?: boolean
+}
+type NotRedirectRouteConfig = AllNever<RedirectRouteConfig>
+type RedirectRouteConfigRouteConfigExcludeOthers = RedirectRouteConfig & NotWithChildrenRouteConfig & NotPageRouteConfig
+
+
+type RouteConfig = WithChildrenRouteConfigRouteConfigExcludeOthers
+    |   ((PageRouteConfigRouteConfigExcludeOthers | RedirectRouteConfigRouteConfigExcludeOthers) & ExactRouteConfig)
 type RouterConfig = {
     [path: string]: RouteConfig
 }
+
+
 
 type CreateRouter = (
     options: {
         history?: History
         notFound?: NotFoundPage
         children: RouterConfig
-    } & Pick<RouteConfig, 'Layout' | 'LazyFallback'>
+    } & (Pick<WithChildrenRouteConfig, 'Layout'> & Pick<LazyPageRouteConfig, 'LazyFallback'>)
 ) => JSX.Element
 
 type CreateRoutes = (params: {
@@ -66,7 +102,9 @@ type UpdateblePageProps = {
     RouterPage: NonNullable<Page | LazyPage>
     props: RouteComponentProps,
     UpLevelLayout: Layout & { __childrenRefresh?: (() => void) | null }
-} & BeforeEnterProp
+} & BeforeEnterRouteConfig
 
 
-export type { Page, CreateRoutesWrapper, UpdateblePageProps, CreateRoutes, CreateRouter, RouterConfig, RouteConfig }
+export type {
+    Page, CreateRoutesWrapper, UpdateblePageProps, CreateRoutes, CreateRouter, RouterConfig, RouteConfig, ExactRouteConfig
+}

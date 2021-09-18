@@ -4,7 +4,7 @@ import { createBrowserHistory } from 'history'
 
 import type {
     CreateRoutesWrapper, UpdateblePageProps, CreateRoutes, CreateRouter,
-    RouterConfig, RouteConfig, Page
+    ExactRouteConfig, RouterConfig, RouteConfig, Page
 } from './types'
 
 import usePrevious from '../hooks/previous'
@@ -55,23 +55,19 @@ const createRoutes: CreateRoutes = ({ routeConfig, urlPref, notFound, UpLevelLay
 
     for (const path in routeConfig) {
         const {
-            exact = true,
-            Layout, beforeEnter, Page, LazyPage, LazyFallback, children, redirectTo, redirectUseParentBase, updateFromLayout
-        } = routeConfig[path]
+            Layout, beforeEnter, Page, LazyPage, LazyFallback, children, redirectTo, redirectUseParentBase, updateFromLayout,
+            exact = true
+        } = routeConfig[path] as RouteConfig & ExactRouteConfig
 
         const pathResult = `${urlPref}/${path}`
 
-        isExists(LazyPage) && (isLazy ||= true)
 
-
-        let _redirectTo = redirectTo
         if (isExists(redirectTo)) {
-            if (redirectUseParentBase) {
-                _redirectTo = urlPref
-                redirectTo && (_redirectTo += '/' + redirectTo)
-            }
+            const _redirectTo = redirectUseParentBase
+                ?   `${urlPref}/${redirectTo}`
+                :   redirectTo
 
-            (routes as JSX.Element[]).push(
+            ;(routes as JSX.Element[]).push(
                 <Route exact={exact} path={pathResult}>
                     <Redirect to={_redirectTo!} />
                 </Route>
@@ -95,6 +91,8 @@ const createRoutes: CreateRoutes = ({ routeConfig, urlPref, notFound, UpLevelLay
                     isLazy, Layout, LazyFallback
                 })
             } else {
+                isExists(LazyPage) && (isLazy ||= true)
+
                 routeProps.exact = exact
 
                 const RouterPage = (Page || LazyPage)!

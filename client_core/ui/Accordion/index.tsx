@@ -24,11 +24,11 @@ const Accordion: Component = (props, noDefaults) => {
     } = mergedProps
 
 
-    function childrenMapper({ title, children }: ListElement, i: number) {
+    function childrenMapper({ title, children, builderPayload }: ListElement, i: number) {
         let wrapperClass
 
         if (builder) {
-            const { elem, parentClassName } = builder(title, children)
+            const { elem, parentClassName } = builder(title, children, builderPayload)
             title = elem
             wrapperClass = parentClassName
         }

@@ -13,11 +13,14 @@ import styles from './styles.sass'
 
 const linkClickPreventDefault = (e: React.MouseEvent) => { e.preventDefault() }
 
-function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store) {
+function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store | undefined) {
     const { theme, history, separator, config, onChange, hasDynamicCrumbs } = props
 
     const location = history.location.pathname
     const locationArray = location == '/' ? [''] : location.split('/')
+    if (locationArray[ locationArray.length - 1 ] == '') {
+        locationArray[ locationArray.length - 1 ] = '/'
+    }
 
     const breadcrumbsElements = []
     let loocupScope = config
@@ -33,23 +36,25 @@ function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store) {
             isE(children) && (loocupScope = children)
 
 
-            const name = hasDynamicCrumbs && dynamicCrumb
-                ?   dynamicCrumbsStore[0][dynamicCrumb] || dynamicCrumb
-                :   typeof crumb == 'function'
-                        ?   crumb(newPath, loc)
-                        :   crumb
+            if (crumb || dynamicCrumb) {
+                const name = dynamicCrumb && hasDynamicCrumbs
+                    ?   dynamicCrumbsStore![0][dynamicCrumb] || dynamicCrumb
+                    :   typeof crumb == 'function'
+                            ?   crumb(newPath, loc)
+                            :   crumb
 
-            breadcrumbsElements.push(
-                <a key={newPath} className={theme.link} onClick={linkClickPreventDefault}
-                    onMouseDown={e => {
-                        onChange
-                            ?   onChange(newPath, e)
-                            :   history.push(newPath)
-                    }}>
+                breadcrumbsElements.push(
+                    <a key={newPath} className={theme.link} onClick={linkClickPreventDefault}
+                        onMouseDown={e => {
+                            onChange
+                                ?   onChange(newPath, e)
+                                :   history.push(newPath)
+                        }}>
 
-                    { i ? <>{separator} {name}</> : name as React.ReactNode }
-                </a>
-            )
+                        { i ? <>{separator} {name}</> : name as React.ReactNode }
+                    </a>
+                )
+            }
 
             path = newPath
         } else break
@@ -67,7 +72,7 @@ const Breadcrumbs: Component = (props, noDefaults) => {
     const { className, attributes, refApi, hasDynamicCrumbs } = mergedProps
 
 
-    let dynamicCrumbsStore: Store
+    let dynamicCrumbsStore: Store | undefined
     if (hasDynamicCrumbs) {
         dynamicCrumbsStore = useState({})
         const [ state, setState ] = dynamicCrumbsStore

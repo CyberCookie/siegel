@@ -1,19 +1,20 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
-type ListElement = {
+type ListElement<T = any> = {
     title: React.ReactNode
-    children?: ListElement[]
+    children?: ListElement<T>[]
+    builderPayload?: T
 }
 
 
 type ThemeKeys = 'item' | 'item_title' | 'item__empty' |  'item_title_wrapper' | 'children_wrapper'
 
-type Props = {
-    list: ListElement[]
+type Props<T = any> = {
+    list: ListElement<T>[]
     accordionIcon?: React.ReactNode
     soloOpen?: boolean
-    builder?(title: React.ReactNode, children?: ListElement[]): ({
+    builder?(title: React.ReactNode, children?: ListElement<T>[], builderPayload?: T): ({
         elem: React.ReactNode,
         parentClassName: string
     })

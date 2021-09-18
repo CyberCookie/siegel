@@ -5,22 +5,13 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 type State = Indexable<string>
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-type DynamicCrumb = {
-    dynamicCrumb: string
-}
-type Crumb = {
-    crumb: string | ((path: string, name: string) => void)
-}
-type BreadcrumbsConfigByPath = {
-    children?: {
-        [path: string]: BreadcrumbsConfigByPath
-    }
-} & (
-    (Partial<DynamicCrumb> & Crumb)
-        |   (DynamicCrumb & Partial<Crumb>)
-)
+
 type BreadcrumbConfig = {
-    [path: string]: BreadcrumbsConfigByPath
+    [path: string]: {
+        children?: BreadcrumbConfig
+        crumb?: string | ((path: string, name: string) => void)
+        dynamicCrumb?: string
+    }
 }
 
 

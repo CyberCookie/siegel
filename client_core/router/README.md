@@ -1,32 +1,40 @@
 <h1>Router</h1>
 
-This abstraction around react-router-dom module is to provide better declarative interface that allows to build recursive routing with dynamic pages, apply global NotFound page etc.
+This abstraction around `react-router-dom` module provides `better declarative interface` allowing to build `recursive routing`<br />
+with dynamically loaded pages, apply global NotFound page, layouts etc.
 
-`siegel-router` default export is routerCreator.<br />
-Also exports createBrowserHistory func and useUpdateChildren hook.
+`siegel-router` default export is `createRouter`.<br />
+Also exports `createBrowserHistory` func and `useUpdateChildren` hook.
 
+<br />
 <h3>createRouter = (options: RouterOptions) => Router</h3>
+<br />
 
 <h4>RouterOptions</h4>
 
-- children - router config. key - value object where key is a page url and value is a page route config. Config can have the next properties:
-    - Page - normal page to render.
-    - LazyPage - lazy loaded `Page` to render.
-    - LazyFallback - fallback component to display while lazy loading `Page` is fetching.
-    - Layout - like a root `Layout`, this one provides common view for nested `children` routes.
-    - children - nested routes.
-    - exact - `react-router-dom`'s exact.
-    - redirectTo - path to redirect to if current page url was matched.
-    - redirectUseParentBase - whether to use parent's path url as a base.
-    - updateFromLayout - allows for the page to be updatable from Layout using `useUpdateChildren` hook
-    - beforeEnter - function that executes before first page render.
-        Data returned from the function is passing to the page props.
+- <b>children</b> - router config. key - value object where key is a route url and value is a route config.<br />
+Config can have the next properties, which `visually divided into the groups`, meaning,<br />
+`not all the properties could be together in the same time`:
+    - <b>exact</b> - `react-router-dom`'s exact.<br /><br />
+    - <b>Page</b> - `normal page` to render.
+    - <b>LazyPage</b> - `lazy loaded page` to render.
+    - <b>LazyFallback</b> - `fallback` component to display while `lazy loading page` is fetching.
+    - <b>beforeEnter</b> - function that executes before first page render.<br />
+        Data returned from the function is passing to the page props.<br />
         First argument is a page props.
-- Layout - react component to wrap all the pages you put into routes.
-- notFound - page to render if no url was matched
-    - Page - page to render
-    - path - url path for 404 `Page`
-- history - browser history cteated with history module
+    - <b>updateFromLayout</b> - allows for the page to be updatable from Layout using `useUpdateChildren` hook<br /><br />
+    - <b>Layout</b> - like a root `Layout`, this one provides common view for nested `children` routes.
+    - <b>children</b> - `nested` routes.<br /><br />
+    - <b>redirectTo</b> - `path to redirect to` if current page url was matched.
+    - <b>redirectUseParentBase</b> - whether to use `parent's path url as a base`.<br /><br />
+- <b>Layout</b> - react component to `wrap all the pages` you put into routes.
+- <b>notFound</b> - `404 page` to render if no url was matched
+    - <b>Page</b> - `page` to render
+    - <b>path</b> - `url path` for 404 page
+- <b>history</b> - `browser history` cteated with history module
+
+<br />
+
 
 ```js
 import { lazy } from 'react'
@@ -36,8 +44,7 @@ import createRouter from 'siegel-router'
 
 const routesConfig = {
     '': {
-        Page: props => <div>home page</div>,
-        redirectTo: 'url_to_redirect'
+        Page: props => <div>home page</div>
     },
     some_page: {
         Layout: props => (
