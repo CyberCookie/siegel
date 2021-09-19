@@ -22,7 +22,7 @@ const Spinner = (props: any) => {
     const { className = '' } = props
 
 
-    return <div className={`${className} ${componentID}`} children={spinner} />
+    return <div className={ `${className} ${componentID}` } children={ spinner } />
 }
 
 

@@ -5,6 +5,8 @@ import Swipe, { Props } from 'siegel-ui/Swipe'
 import theme from './styles.sass'
 
 
+const { ID } = Swipe
+
 const Demo = () => {
     const [ swiped, setSwiped ] = useState(false)
 
@@ -21,16 +23,16 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Swipe.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple (swipe up / down)</h2>
-        <Swipe {...props} />
+        <h2 children='simple (swipe up / down)' />
+        <Swipe { ...props } />
 
-        <h2>xAxis. delta 30. (swipe left / right)</h2>
-        <Swipe {...props} className={horizaontalSwuipeClassName} deltaPos={30} xAxis />
+        <h2 children='xAxis. delta 30. (swipe left / right)' />
+        <Swipe { ...props } className={ horizaontalSwuipeClassName } deltaPos={ 30 } xAxis />
     </>
 }
-Demo.id = Swipe.ID
+Demo.id = ID
 
 
 export default Demo

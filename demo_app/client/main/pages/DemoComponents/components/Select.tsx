@@ -9,6 +9,8 @@ type DempSelectStore = [ DemoSelectState, React.Dispatch<React.SetStateAction<De
 type DemoSelectProps = SelectProps<DemoSelectState>
 
 
+const { ID } = Select
+
 const getSelectDisplayValue = ({ title }: DemoSelectProps['options'][number]) => 'selected - ' + title
 
 const Demo = () => {
@@ -37,22 +39,22 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Select.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
+        <h2 children='simple' />
         <Select { ...props } />
 
-        <h2>with label and displayTitle processing</h2>
-        <Select { ...props } label='some label' getDisplayValue={getSelectDisplayValue} />
+        <h2 children='with label and displayTitle processing' />
+        <Select { ...props } label='some label' getDisplayValue={ getSelectDisplayValue } />
 
-        <h2>filter selected: false; with reset</h2>
-        <Select { ...props } filterSelected={false} resetIcon={icons.close} />
+        <h2 children='filter selected: false; with reset' />
+        <Select { ...props } filterSelected={ false } resetIcon={ icons.close } />
 
-        <h2>disabled</h2>
+        <h2 children='disabled' />
         <Select { ...props } disabled />
     </>
 }
-Demo.id = Select.ID
+Demo.id = ID
 
 
 export default Demo

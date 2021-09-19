@@ -100,17 +100,17 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
                         uniqValues.add(setValue)
 
                         resultCheckbox.push(
-                            <Checkbox key={setValue as string} theme={checkboxTheme} value={!searchSet.has(setValue)}
-                                className={styles.set_checkbox} label={config.showValue!(entity, i).value}
-                                icon={icons.check}
-                                onChange={(checkboxValue, e) => {
+                            <Checkbox key={ setValue as string } theme={ checkboxTheme } value={ !searchSet.has(setValue) }
+                                className={ styles.set_checkbox } label={ config.showValue!(entity, i).value }
+                                icon={ icons.check }
+                                onChange={ (checkboxValue, e) => {
                                     e.stopPropagation()
 
                                     checkboxValue ? searchSet.delete(setValue) : searchSet.add(setValue)
                                     searchByField[index] = searchSet
 
                                     setDataGridHookState({ ...dataGridHookState })
-                                }} />
+                                } } />
                         )
                     }
                 })
@@ -122,60 +122,60 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
                 const rangeDateStart = dateStart || nowTimestamp
 
                 searchElement = (
-                    <Calendar rangePick triggerOnlyWhenFinished={false}
+                    <Calendar rangePick triggerOnlyWhenFinished={ false }
                         initDate={{
                             rangeDateStart,
                             rangeDateEnd: dateEnd || rangeDateStart
                         }}
-                        onChange={({ rangeDateStart: dateStart, rangeDateEnd: dateEnd }) => {
+                        onChange={ ({ rangeDateStart: dateStart, rangeDateEnd: dateEnd }) => {
                             searchByField[index] = {
                                 dateStart,
                                 dateEnd: dateEnd || dateStart
                             }
                             setDataGridHookState({ ...dataGridHookState })
-                        }} />
+                        } } />
                 )
             } else {
                 searchElement = (
-                    <Input theme={inputTheme} value={searchByField[index] || ''} autofocus
-                        className={styles.search_input}
-                        onChange={value => {
+                    <Input theme={ inputTheme } value={ searchByField[index] || '' } autofocus
+                        className={ styles.search_input }
+                        onChange={ value => {
                             searchByField[index] = value
                             setDataGridHookState({ ...dataGridHookState })
-                        }} />
+                        } } />
                 )
             }
 
 
-            return <div className={styles.search_wrapper} children={searchElement} />
+            return <div className={ styles.search_wrapper } children={ searchElement } />
         }
 
 
         return (
-            <div className={styles.grid_col_menu} onMouseDown={e => e.stopPropagation()}>
-                <div className={styles.grid_col_menu_sort} onMouseDown={onSort}
-                    data-sortvalue='-1' data-sortindex={index}>
+            <div className={ styles.grid_col_menu } onMouseDown={ e => e.stopPropagation() }>
+                <div className={ styles.grid_col_menu_sort } onMouseDown={ onSort }
+                    data-sortvalue='-1' data-sortindex={ index }>
 
                     { icons.chevron } ASC
                 </div>
 
-                <div className={styles.grid_col_menu_sort} onMouseDown={onSort}
-                    data-sortvalue='1' data-sortindex={index}>
+                <div className={ styles.grid_col_menu_sort } onMouseDown={ onSort }
+                    data-sortvalue='1' data-sortindex={ index }>
 
                     { icons.chevron } DESC
                 </div>
 
-                <div className={styles.grid_col_search} children={getSearch()} />
+                <div className={ styles.grid_col_search } children={ getSearch() } />
             </div>
         )
     }
 
 
     headCell.value = (
-        <div className={styles.grid_col_label}>
+        <div className={ styles.grid_col_label }>
             { label }
 
-            <div className={styles.grid_col_menu_toggle}>
+            <div className={ styles.grid_col_menu_toggle }>
                 { icons.more_vert }
 
                 { isActiveLabelMenu && getActiveLabelMenu() }
@@ -188,7 +188,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
     }
 }
 
-const displayQuantity = (count: number) => <div className={styles.paginator_count} children={'Total items: ' + count} />
+const displayQuantity = (count: number) => <div className={ styles.paginator_count } children={ 'Total items: ' + count } />
 
 function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DemoDataTableProps['postProcessHeadRow']>>>(
 { row, displayedEntityIDs, postProcessStore }:
@@ -213,8 +213,8 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DemoData
 
     row[0].children.unshift({
         value: (
-            <Checkbox value={checkboxValue}
-                onChange={value => {
+            <Checkbox value={ checkboxValue }
+                onChange={ value => {
                     if (value) {
                         for (let i = from; i < to; i++) {
                             selected.has(allPagesIDs[i]) || selected.add(allPagesIDs[i])
@@ -226,7 +226,7 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DemoData
                     }
 
                     setPostprocessData({ ...postProcessData })
-                }} />
+                } } />
         ),
         attributes: {
             className: styles.row_selector
@@ -250,14 +250,14 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DemoDataTab
 
     row[0].children.unshift({
         value: (
-            <Checkbox value={value}
-                onChange={() => {
+            <Checkbox value={ value }
+                onChange={ () => {
                     value
                         ?   selected.delete(entity.id)
                         :   selected.add(entity.id)
 
                     setPostprocessData({ ...postProcessData })
-                }} />
+                } } />
         ),
         attributes: {
             className: styles.row_selector

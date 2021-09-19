@@ -102,11 +102,11 @@ function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) 
             const resizeHandler = getResizeHandler()
 
             tableHeadCellToPush.value = <>
-                <div className={resizerClassName} onMouseDown={resizeHandler} />
+                <div className={ resizerClassName } onMouseDown={ resizeHandler } />
 
                 { tableHeadCellToPush.value }
 
-                <div className={resizerClassName} onMouseDown={resizeHandler} />
+                <div className={ resizerClassName } onMouseDown={ resizeHandler } />
             </>
         }
 

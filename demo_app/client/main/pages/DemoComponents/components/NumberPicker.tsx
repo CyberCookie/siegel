@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { NumberPicker, NumberPickerProps } from 'app/components'
 
 
+const { ID } = NumberPicker
+
 const Demo = () => {
     const [ value, setValue ] = useState('')
     const props: NumberPickerProps = {
@@ -14,22 +16,22 @@ const Demo = () => {
     }
 
     return <>
-        <h1>{NumberPicker.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
-        <NumberPicker {...props} />
+        <h2 children='simple' />
+        <NumberPicker { ...props } />
 
-        <h2>with step[0.1] limit[0 - 10] precision[2] autofocus</h2>
-        <NumberPicker {...props} step={0.1} min={0} max={10} precision={2} autofocus />
+        <h2 children='with step[0.1] limit[0 - 10] precision[2] autofocus' />
+        <NumberPicker { ...props } step={ 0.1 } min={ 0 } max={ 10 } precision={ 2 } autofocus />
 
-        <h2>disabled input, step[1], label</h2>
-        <NumberPicker {...props} step={1} disabledInput label='some label' />
+        <h2 children='disabled input, step[1], label' />
+        <NumberPicker { ...props } step={ 1 } disabledInput label='some label' />
 
-        <h2>disabled</h2>
-        <NumberPicker {...props} step={1} disabled />
+        <h2 children='disabled' />
+        <NumberPicker { ...props } step={ 1 } disabled />
     </>
 }
-Demo.id = NumberPicker.ID
+Demo.id = ID
 
 
 export default Demo

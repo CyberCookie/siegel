@@ -27,13 +27,13 @@ const docsListConfig = [
 
 const createDocList = (list: typeof docsListConfig, pathPrefix = '') => (
     list.map(({ path, title, children }) => (
-        <li key={path}>
-            <Link {...{
+        <li key={ path }>
+            <Link { ...{
                 path: siegelDocsPathPrefix + pathPrefix + path,
                 title
-            }} />
+            } } />
 
-            { children && <ul children={createDocList(children, path + '/')} /> }
+            { children && <ul children={ createDocList(children, path + '/') } /> }
         </li>
     ))
 )
@@ -42,8 +42,8 @@ const docsList = createDocList(docsListConfig)
 
 
 const Home: Page = () => (
-    <div className={styles.page}>
-        <div className={styles.text_block}>
+    <div className={ styles.page }>
+        <div className={ styles.text_block }>
             <h1 children='Welcome to Siegel demo application!' />
 
             <div>
@@ -51,7 +51,7 @@ const Home: Page = () => (
                 <h2 children='and to provide ready to use scalable app template' />
             </div>
 
-            <ul className={styles.docs_list}>
+            <ul className={ styles.docs_list }>
                 Siegel documentation:
                 { docsList }
             </ul>

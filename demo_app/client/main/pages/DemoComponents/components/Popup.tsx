@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { Popup, PopupProps } from 'app/components'
 
 
+const { ID } = Popup
+
 const Demo = () => {
     const [ isActivePopup, setActivePopup ] = useState(false)
 
@@ -15,16 +17,15 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Popup.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2 onMouseDown={() => { setActivePopup(true) }}>
-            simple [click to trigger the popup]
-        </h2>
+        <h2 children='simple [click to trigger the popup]'
+            onMouseDown={ () => { setActivePopup(true) } } />
 
-        { isActivePopup && <Popup {...props} /> }
+        { isActivePopup && <Popup { ...props } /> }
     </>
 }
-Demo.id = Popup.ID
+Demo.id = ID
 
 
 export default Demo

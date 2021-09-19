@@ -172,23 +172,23 @@ const Days = (props: ChildProps) => {
             const { timestamp, date, hidden } = allDays[day]
 
             const HTMLDay = hidden
-                ?   <div key={timestamp} className={`${theme.day} ${theme.day__placeholder}`} />
+                ?   <div key={ timestamp } className={ `${theme.day} ${theme.day__placeholder}` } />
 
-                :   <div key={timestamp} data-timestamp={timestamp} children={date}
+                :   <div key={ timestamp } data-timestamp={ timestamp } children={ date }
                         className={ getDayClass({
                             theme, hideSiblingMonthsDays, innerRangeStart, innerRangeEnd,
                             dayObj: allDays[day]
-                        })} />
+                        }) } />
 
 
             dayRow.push(HTMLDay)
         }
 
-        rows.push(<div key={i} className={`${theme.row} ${innerRowClassName}`} children={dayRow} />)
+        rows.push(<div key={ i } className={ `${theme.row} ${innerRowClassName}` } children={ dayRow } />)
     }
 
 
-    return <div className={className} onMouseDown={pickRangeStart} children={rows} />
+    return <div className={ className } onMouseDown={ pickRangeStart } children={ rows } />
 }
 
 

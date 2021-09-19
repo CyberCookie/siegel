@@ -4,6 +4,8 @@ import type { DoubleValue } from 'siegel-ui/_form/Ranger/types'
 import { Ranger, RangerProps } from 'app/components'
 
 
+const { ID } = Ranger
+
 const Demo = () => {
     const [ state, setState ] = useState({
         valueSingle: 0.5,
@@ -30,34 +32,34 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Ranger.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
-        <h3>value: {valueSingle.toFixed(2)}</h3>
-        <Ranger {...propsSingle} />
+        <h2 children='simple' />
+        <h3 children={ `value: ${valueSingle.toFixed(2)}` } />
+        <Ranger { ...propsSingle } />
 
 
-        <h2>double slide with label. Cross behavior: stop</h2>
+        <h2 children='double slide with label. Cross behavior: stop' />
         <h3>
             value from: {valueDouble[0].toFixed(2)}
             <br />
             value to: {valueDouble[1].toFixed(2)}
         </h3>
-        <Ranger {...propsDouble} />
+        <Ranger { ...propsDouble } />
 
 
-        <h2>Cross behavior: move</h2>
-        <Ranger {...propsDouble} rangersCrossBehavior='move' />
+        <h2 children='Cross behavior: move' />
+        <Ranger { ...propsDouble } rangersCrossBehavior='move' />
 
-        <h2>Cross behavior: cross</h2>
-        <Ranger {...propsDouble} rangersCrossBehavior='cross' />
+        <h2 children='Cross behavior: cross' />
+        <Ranger { ...propsDouble } rangersCrossBehavior='cross' />
 
 
-        <h2>simple disabled</h2>
-        <Ranger {...propsSingle} disabled />
+        <h2 children='simple disabled' />
+        <Ranger { ...propsSingle } disabled />
     </>
 }
-Demo.id = Ranger.ID
+Demo.id = ID
 
 
 export default Demo

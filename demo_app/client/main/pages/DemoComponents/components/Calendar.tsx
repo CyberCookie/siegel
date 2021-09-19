@@ -3,6 +3,8 @@ import React from 'react'
 import { Calendar, CalendarProps } from 'app/components'
 
 
+const { ID } = Calendar
+
 const timestamp = Date.now()
 
 const Demo = () => {
@@ -15,16 +17,16 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Calendar.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
-        <Calendar {...props} />
+        <h2 children='simple' />
+        <Calendar { ...props } />
 
-        <h2>range pick, months before/after 1</h2>
-        <Calendar {...props} monthsBefore={1} monthsAfter={1} rangePick />
+        <h2 children='range pick, months before/after 1' />
+        <Calendar { ...props } monthsBefore={ 1 } monthsAfter={ 1 } rangePick />
     </>
 }
-Demo.id = Calendar.ID
+Demo.id = ID
 
 
 export default Demo

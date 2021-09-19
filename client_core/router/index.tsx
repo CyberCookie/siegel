@@ -14,19 +14,19 @@ import isExists from '../utils/is_exists'
 const createRoutesWrapper: CreateRoutesWrapper = (routes, params) => {
     const { Layout, isLazy, LazyFallback } = params
 
-    let wrapper = <Switch children={routes} />
-    isLazy && (wrapper = <Suspense fallback={LazyFallback || ''} children={wrapper} />)
+    let wrapper = <Switch children={ routes } />
+    isLazy && (wrapper = <Suspense fallback={ LazyFallback || '' } children={ wrapper } />)
 
     if (Layout) {
         const LayoutWithRouter = withRouter(Layout)
-        wrapper = <LayoutWithRouter children={wrapper} />
+        wrapper = <LayoutWithRouter children={ wrapper } />
     }
 
 
     return wrapper
 }
 
-const createNotFoundRedirect = (path: string) => <Route path='*' children={ <Redirect to={path} /> } />
+const createNotFoundRedirect = (path: string) => <Route path='*' children={ <Redirect to={ path } /> } />
 
 const UpdateblePage = (_props: UpdateblePageProps) => {
     const { RouterPage, props, beforeEnter, UpLevelLayout } = _props
@@ -40,7 +40,7 @@ const UpdateblePage = (_props: UpdateblePageProps) => {
     }, [])
 
 
-    return <RouterPage { ...( beforeEnter?.({ ...props }) || props )} />
+    return <RouterPage { ...( beforeEnter?.({ ...props }) || props ) } />
 }
 
 const useUpdateChildren = (Layout: NonNullable<RouteConfig['Layout']>, pathname: string, extraCondition = true) => {
@@ -68,8 +68,8 @@ const createRoutes: CreateRoutes = ({ routeConfig, urlPref, notFound, UpLevelLay
                 :   redirectTo
 
             ;(routes as JSX.Element[]).push(
-                <Route exact={exact} path={pathResult}>
-                    <Redirect to={_redirectTo!} />
+                <Route exact={ exact } path={ pathResult }>
+                    <Redirect to={ _redirectTo! } />
                 </Route>
             )
         } else {
@@ -101,10 +101,10 @@ const createRoutes: CreateRoutes = ({ routeConfig, urlPref, notFound, UpLevelLay
                 if (beforeEnter || isLayoutUpdate) {
                     routeProps.render = (props: RouteComponentProps) => (
                         isLayoutUpdate
-                            ?   <UpdateblePage { ...{ RouterPage, props, beforeEnter }}
-                                    UpLevelLayout={UpLevelLayout!} />
+                            ?   <UpdateblePage { ...{ RouterPage, props, beforeEnter } }
+                                    UpLevelLayout={ UpLevelLayout! } />
 
-                            :   <RouterPage { ...( beforeEnter?.({ ...props }) || props )} />
+                            :   <RouterPage { ...( beforeEnter?.({ ...props }) || props ) } />
                     )
                 } else routeProps.component = RouterPage
             }
@@ -133,7 +133,7 @@ const createRouter: CreateRouter = ({ children, Layout, LazyFallback, notFound, 
     if (notFound) {
         const { Page, path } = notFound
         ;(createdRoutes as JSX.Element[]).push(
-            <Route path={path} component={Page} />,
+            <Route path={ path } component={ Page } />,
             createNotFoundRedirect(path)
         )
     }
@@ -143,7 +143,7 @@ const createRouter: CreateRouter = ({ children, Layout, LazyFallback, notFound, 
     })
 
 
-    return <Router history={history || createBrowserHistory()} children={routerContent} />
+    return <Router history={ history || createBrowserHistory() } children={ routerContent } />
 }
 
 

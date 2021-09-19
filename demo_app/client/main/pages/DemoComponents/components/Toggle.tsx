@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { Toggle, ToggleProps, icons } from 'app/components'
 
 
+const { ID } = Toggle
+
 const Demo = () => {
     const [ value, setToggle ] = useState(false)
 
@@ -13,22 +15,22 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Toggle.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
-        <h3>toggled: {value + ''}</h3>
-        <Toggle {...props} />
+        <h2 children='simple' />
+        <h3 children={ `toggled: ${ value + '' }` } />
+        <Toggle { ...props } />
 
-        <h2>with icon and labels</h2>
-        <Toggle {...props} toggleIcon={icons.edit}
+        <h2 children='with icon and labels' />
+        <Toggle { ...props } toggleIcon={ icons.edit }
             labelLeft='Left label'
             labelRight='Left label' />
 
-        <h2>disabled</h2>
-        <Toggle {...props} disabled />
+        <h2 children='disabled' />
+        <Toggle { ...props } disabled />
     </>
 }
-Demo.id = Toggle.ID
+Demo.id = ID
 
 
 export default Demo

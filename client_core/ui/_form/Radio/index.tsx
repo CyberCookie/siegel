@@ -25,8 +25,8 @@ function getOptions(mergedProps: MergedProps) {
 
 
         return (
-            <div key={id} className={optionClassName} children={content}
-                onMouseDown={(e: React.MouseEvent) => { disabled || onChange(id, e) }} />
+            <div key={ id } className={ optionClassName } children={ content }
+                onMouseDown={ (e: React.MouseEvent) => { disabled || onChange(id, e) } } />
         )
     })
 }
@@ -48,7 +48,7 @@ const Radio: Component = (props, noDefaults) => {
     attributes && Object.assign(rootProps, attributes)
 
 
-    return <div {...rootProps} />
+    return <div { ...rootProps } />
 }
 Radio.defaults = {
     theme: {

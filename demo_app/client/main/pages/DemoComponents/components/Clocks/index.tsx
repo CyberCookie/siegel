@@ -5,6 +5,8 @@ import { Clocks, ClocksProps } from 'app/components'
 import styles from './styles.sass'
 
 
+const { ID } = Clocks
+
 const timeBuilder = ({ date, month, year, hours, minutes, seconds }: Parameters<NonNullable<ClocksProps['builder']>>[0]) => (
     `${date} . ${month} . ${year} | ${hours} : ${minutes} : ${seconds}`
 )
@@ -13,7 +15,7 @@ const Demo = () => {
     const initDate = new Date()
 
 
-    const simpleClocksChild = <Clocks initDate={initDate} builder={timeBuilder} />
+    const simpleClocksChild = <Clocks initDate={ initDate } builder={ timeBuilder } />
 
     const secondsClocksChildParams: ClocksProps = {
         initDate,
@@ -23,23 +25,23 @@ const Demo = () => {
 
     const secondsClocksChild = <Clocks { ...secondsClocksChildParams } />
 
-    const secondsFastClocksChild = <Clocks { ...secondsClocksChildParams } speedCoef={10} />
+    const secondsFastClocksChild = <Clocks { ...secondsClocksChildParams } speedCoef={ 10 } />
 
 
     return <>
-        <h1>{Clocks.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple (by default update every minute)</h2>
-        <div className={styles.clocks} children={simpleClocksChild} />
+        <h2 children='simple (by default update every minute)' />
+        <div className={ styles.clocks } children={ simpleClocksChild } />
 
-        <h2>update every second</h2>
-        <div className={styles.clocks} children={secondsClocksChild} />
+        <h2 children='update every second' />
+        <div className={ styles.clocks } children={ secondsClocksChild } />
 
-        <h2>10x faster</h2>
-        <div className={styles.clocks} children={secondsFastClocksChild} />
+        <h2 children='10x faster' />
+        <div className={ styles.clocks } children={ secondsFastClocksChild } />
     </>
 }
-Demo.id = Clocks.ID
+Demo.id = ID
 
 
 export default Demo

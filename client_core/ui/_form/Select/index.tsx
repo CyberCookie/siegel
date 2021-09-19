@@ -51,15 +51,15 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
                 }
 
 
-        optionElements.push( <div { ...optionProps } key={value} /> )
+        optionElements.push( <div { ...optionProps } key={ value } /> )
     }
 
 
     return {
         selectedOption,
         optionsElement: (
-            <div className={theme.options} onMouseDown={stopPropagationHandler}
-                children={optionElements} />
+            <div className={ theme.options } onMouseDown={ stopPropagationHandler }
+                children={ optionElements } />
         )
     }
 }
@@ -133,15 +133,15 @@ const Select: Component = (props, noDefaults) => {
 
 
     const selectInput = <>
-        <div className={theme.title}>
-            <div className={theme.title_text} children={displayValue} />
+        <div className={ theme.title }>
+            <div className={ theme.title_text } children={ displayValue } />
 
             { resetIcon &&  (
-                <div children={resetIcon} className={theme.reset}
-                    onMouseDown={e => {
+                <div children={ resetIcon } className={ theme.reset }
+                    onMouseDown={ e => {
                         e.stopPropagation()
                         onChange(undefined, e)
-                    }} />
+                    } } />
             )}
 
             { dropdownIcon }
@@ -155,8 +155,8 @@ const Select: Component = (props, noDefaults) => {
         <div { ...selectRootProps }>
             { label
                 ?   <>
-                        <div className={theme.label} children={label} />
-                        <div className={theme.input_wrapper} children={selectInput} />
+                        <div className={ theme.label } children={ label } />
+                        <div className={ theme.input_wrapper } children={ selectInput } />
                     </>
 
                 :   selectInput

@@ -44,12 +44,12 @@ function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store | undefine
                             :   crumb
 
                 breadcrumbsElements.push(
-                    <a key={newPath} className={theme.link} onClick={linkClickPreventDefault}
-                        onMouseDown={e => {
+                    <a key={ newPath } className={ theme.link } onClick={ linkClickPreventDefault }
+                        onMouseDown={ e => {
                             onChange
                                 ?   onChange(newPath, e)
                                 :   history.push(newPath)
-                        }}>
+                        } }>
 
                         { i ? <>{separator} {name}</> : name as React.ReactNode }
                     </a>

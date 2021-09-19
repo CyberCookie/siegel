@@ -15,20 +15,20 @@ function getTableRow(row: TableHeadRow | TableBodyRow, rowIndex: number) {
     const { children, attributes = {} } = row
     attributes.key = attributes.key || rowIndex
 
-    return <tr {...attributes} children={(children as (TableTH | TableTD)[]).map(getTableCell)} />
+    return <tr { ...attributes } children={ (children as (TableTH | TableTD)[]).map(getTableCell) } />
 }
 
 function getTableCell(cell: TableTH | TableTD, cellIndex: number) {
     const { value, attributes = {} } = cell
     attributes.key = attributes.key || cellIndex
 
-    return <CellHTMLTag {...attributes} children={value} />
+    return <CellHTMLTag { ...attributes } children={ value } />
 }
 
 function getTableSection(data: (TableHeadRow | TableBodyRow)[], SectionHTMLTag: React.ElementType) {
     CellHTMLTag = SectionHTMLTag == 'thead' ? 'th' : 'td'
 
-    return <SectionHTMLTag children={data.map(getTableRow)} />
+    return <SectionHTMLTag children={ data.map(getTableRow) } />
 }
 
 const Table: Component = (props, noDefaults) => {
@@ -45,7 +45,7 @@ const Table: Component = (props, noDefaults) => {
 
     return (
         <table { ...tableRootProps }>
-            { caption && <caption children={caption} /> }
+            { caption && <caption children={ caption } /> }
 
             { head && getTableSection(head, 'thead') }
             { body && getTableSection(body, 'tbody') }

@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { DropdownSearch, DropdownSearchProps } from 'app/components'
 
 
+const { ID } = DropdownSearch
+
 const options: DropdownSearchProps['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: number) => ({
     inputValue: 'option ' + i,
     value: i
@@ -21,26 +23,25 @@ const Demo = () => {
 
 
     return <>
-        <h1>{DropdownSearch.ID}</h1>
+        <h1 children={ ID } />
 
-
-        <h2>simple</h2>
-        <DropdownSearch {...props}
+        <h2 children='simple' />
+        <DropdownSearch { ...props }
             inputProps={{
                 placeholder: 'type "option..."'
             }} />
 
-        <h2>show options on focus</h2>
-        <DropdownSearch {...props} showOnFocus
+        <h2 children='show options on focus' />
+        <DropdownSearch { ...props } showOnFocus
             inputProps={{
                 placeholder: 'type "option..."'
             }} />
 
-        <h2>disabled</h2>
-        <DropdownSearch {...props} disabled />
+        <h2 children='disabled' />
+        <DropdownSearch { ...props } disabled />
     </>
 }
-Demo.id = DropdownSearch.ID
+Demo.id = ID
 
 
 export default Demo

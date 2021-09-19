@@ -10,6 +10,8 @@ import type { Entity, DemoDataTableProps } from './types'
 import styles from './styles.sass'
 
 
+const { ID } = DataTable
+
 const entitiesStruct = createEntitiesStruct<Entity>('id')
 ;(new Array(200))
 .fill(1)
@@ -37,16 +39,16 @@ const Demo = () => {
 
 
     return <>
-        <h1>{DataTable.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple [like table]</h2>
+        <h2 children='simple [like table]' />
         <DataTable { ...props } />
 
-        <h2> with pagination, resizable, postProcess </h2>
+        <h2 children='with pagination, resizable, postProcess' />
         <DataTable { ...getEnchancedDataTableProps(props) } />
     </>
 }
-Demo.id = DataTable.ID
+Demo.id = ID
 
 
 export default Demo

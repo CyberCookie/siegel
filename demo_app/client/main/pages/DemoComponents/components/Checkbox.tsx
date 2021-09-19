@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { Checkbox, CheckboxProps } from 'app/components'
 
 
+const { ID } = Checkbox
+
 const Demo = () => {
     const [ isChecked, setChecked ] = useState(false)
 
@@ -13,23 +15,23 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Checkbox.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
-        <h3>checked: {isChecked + ''}</h3>
-        <Checkbox {...{ ...props, icon: false }} />
+        <h2 children='simple' />
+        <h3 children={ `checked: ${isChecked.toString()}` } />
+        <Checkbox { ...{ ...props, icon: false } } />
 
-        <h2>with label</h2>
-        <Checkbox {...{ ...props, icon: false }} disabled label='Some label' />
+        <h2 children='with label' />
+        <Checkbox { ...{ ...props, icon: false } } disabled label='Some label' />
 
-        <h2>with label and icon</h2>
-        <Checkbox {...props} label='Some label' />
+        <h2 children='with label and icon' />
+        <Checkbox { ...props } label='Some label' />
 
-        <h2>disabled</h2>
-        <Checkbox {...props} disabled />
+        <h2 children='disabled' />
+        <Checkbox { ...props } disabled />
     </>
 }
-Demo.id = Checkbox.ID
+Demo.id = ID
 
 
 export default Demo

@@ -25,15 +25,15 @@ function getTabsVisual(mergedProps: MergedProps) {
         }
 
         return (
-            <div key={id} className={labelClassName} children={label}
-                onMouseDown={e => { onChange(id, e, payload) }} />
+            <div key={ id } className={ labelClassName } children={ label }
+                onMouseDown={ e => { onChange(id, e, payload) } } />
         )
     })
 
 
     return {
-        activeTabContent: activeTabContent && <div className={theme.content} children={activeTabContent} />,
-        labels: <div className={theme.labels_wrapper} children={labels} />
+        activeTabContent: activeTabContent && <div className={ theme.content } children={ activeTabContent } />,
+        labels: <div className={ theme.labels_wrapper } children={ labels } />
     }
 }
 

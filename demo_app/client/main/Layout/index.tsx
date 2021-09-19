@@ -9,7 +9,7 @@ import './styles.sass'
 const Layout = (props: SwitchProps & RouteComponentProps) => {
     return <>
         <Header />
-        <main children={props.children} />
+        <main children={ props.children } />
     </>
 }
 

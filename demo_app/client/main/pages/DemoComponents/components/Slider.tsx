@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { Slider, SliderProps } from 'app/components'
 
 
+const { ID } = Slider
+
 const slides = (new Array(4))
     .fill(0)
     .map((_, i) => <>slide {i + 1}</>)
@@ -14,19 +16,19 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Slider.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
-        <Slider {...props} />
+        <h2 children='simple' />
+        <Slider { ...props } />
 
-        <h2>controlled. active slide: { store[0] }</h2>
-        <Slider {...props} innerStore={store} />
+        <h2 children={ `controlled. active slide: ${ store[0] }` } />
+        <Slider { ...props } innerStore={ store } />
 
-        <h2>with controls; loop</h2>
-        <Slider {...props} withControlls loop />
+        <h2 children='with controls; loop' />
+        <Slider { ...props } withControlls loop />
     </>
 }
-Demo.id = Slider.ID
+Demo.id = ID
 
 
 export default Demo

@@ -3,6 +3,8 @@ import React from 'react'
 import { Accordion, AccordionProps } from 'app/components'
 
 
+const { ID } = Accordion
+
 const list: AccordionProps['list'] = [
     { title: 'item 1' },
     { title: 'item 2' },
@@ -31,15 +33,15 @@ const list: AccordionProps['list'] = [
 ]
 
 const Demo = () => <>
-    <h1>{Accordion.ID}</h1>
+    <h1 children={ ID } />
 
-    <h2>simple</h2>
-    <Accordion {...{ list }} />
+    <h2 children='simple' />
+    <Accordion { ...{ list } } soloOpen />
 
-    <h2>expanded by default</h2>
-    <Accordion {...{ list: [list[list.length - 1]] }} autoExpand />
+    <h2 children='expanded by default' />
+    <Accordion { ...{ list: [list[list.length - 1]] } } autoExpand />
 </>
-Demo.id = Accordion.ID
+Demo.id = ID
 
 
 export default Demo

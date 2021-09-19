@@ -62,7 +62,7 @@ function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBod
 
 
     return (
-        <div className={theme.pagination_wrapper}>
+        <div className={ theme.pagination_wrapper }>
             { displayQuantity && displayQuantity(resultIDs.length) }
 
             <Select { ...dataTableSelectProps } />

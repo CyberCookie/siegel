@@ -53,9 +53,9 @@ function switchMonth(value: number, store: Store, e: React.MouseEvent, onMonthSw
 }
 
 function getWeekDayRow(localeWeek: string[], theme: DefaultProps['theme']) {
-    const getWeekDay = (day: string) => <div className={theme.week_day} key={day} children={day} />
+    const getWeekDay = (day: string) => <div className={ theme.week_day } key={ day } children={ day } />
 
-    return <div className={`${theme.week} ${innerWeekClassName}`} children={localeWeek.map(getWeekDay)} />
+    return <div className={ `${theme.week} ${innerWeekClassName}` } children={ localeWeek.map(getWeekDay) } />
 }
 
 function getCalendarVisuals(
@@ -73,12 +73,12 @@ function getCalendarVisuals(
     const weekdaysRow = getWeekDayRow(weekDayNames, theme)
 
     const iconPrev = noControls || (
-        <div className={theme.icon} onMouseDown={e => switchMonth(-1, store, e, onMonthSwitch)}
-            children={prevIcon} />
+        <div className={ theme.icon } onMouseDown={ e => switchMonth(-1, store, e, onMonthSwitch) }
+            children={ prevIcon } />
     )
     const iconNext = noControls || (
-        <div className={theme.icon} onMouseDown={e => switchMonth(1, store, e, onMonthSwitch)}
-            children={nextIcon} />
+        <div className={ theme.icon } onMouseDown={ e => switchMonth(1, store, e, onMonthSwitch) }
+            children={ nextIcon } />
     )
 
     const start = new Date(state.beginOfMonth)
@@ -88,11 +88,11 @@ function getCalendarVisuals(
         const month = start.getMonth()
 
         months.push(
-            <div key={i} className={theme.month_wrapper}>
-                <div className={`${theme.month_title_wrapper} ${innerMonthTitleWrapperClassName}`}>
+            <div key={ i } className={ theme.month_wrapper }>
+                <div className={ `${theme.month_title_wrapper} ${innerMonthTitleWrapperClassName}` }>
                     { iconPrev }
 
-                    <div className={theme.month_title}>
+                    <div className={ theme.month_title }>
                         { strings.months[month] }&nbsp;
                         { start.getFullYear() }
                     </div>
@@ -102,10 +102,10 @@ function getCalendarVisuals(
 
                 { weekdaysRow }
 
-                <Days calendarProps={mergedProps}
-                    pickRangeStart={pickRangeStart}
-                    parentState={state}
-                    beginOfMonth={new Date(start)} />
+                <Days calendarProps={ mergedProps }
+                    pickRangeStart={ pickRangeStart }
+                    parentState={ state }
+                    beginOfMonth={ new Date(start) } />
             </div>
         )
 

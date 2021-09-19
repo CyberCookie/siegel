@@ -35,14 +35,14 @@ const Toggle: Component = (props, noDefaults) => {
 
 
     return (
-        <div {...toggleRootProps}>
-            { labelLeft && <div className={theme.label} children={labelLeft} /> }
+        <div { ...toggleRootProps }>
+            { labelLeft && <div className={ theme.label } children={ labelLeft } /> }
 
-            <div className={theme.toggle_area}>
-                <div className={theme.toggler} children={toggleIcon} />
+            <div className={ theme.toggle_area }>
+                <div className={ theme.toggler } children={ toggleIcon } />
             </div>
 
-            { labelRight && <div className={theme.label} children={labelRight} /> }
+            { labelRight && <div className={ theme.label } children={ labelRight } /> }
 
             { addChildren(toggleRootProps, theme) }
         </div>

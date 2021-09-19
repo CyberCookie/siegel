@@ -46,14 +46,14 @@ function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }:
             })
 
 
-            options.push( <div { ...optionProps } key={value} /> )
+            options.push( <div { ...optionProps } key={ value } /> )
         }
     })
 
 
     return {
         selectedOption,
-        optionsElement: <div children={options} className={theme.options} />
+        optionsElement: <div children={ options } className={ theme.options } />
     }
 }
 

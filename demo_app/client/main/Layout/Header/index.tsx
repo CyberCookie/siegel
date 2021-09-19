@@ -21,14 +21,14 @@ const nav = ([
         label: 'Demo API'
     }
 ]).map(({ path, label }) => (
-    <Link key={path} to={'/' + path} children={label} className={styles.nav_link} />
+    <Link key={ path } to={ '/' + path } children={ label } className={ styles.nav_link } />
 ))
 
 const Header = () => (
-    <header className={styles.header}>
-        <nav children={nav} />
+    <header className={ styles.header }>
+        <nav children={ nav } />
 
-        <Breadcrumbs className={styles.breadcrumbs} />
+        <Breadcrumbs className={ styles.breadcrumbs } />
     </header>
 )
 

@@ -55,29 +55,29 @@ function getSliderVisuals(mergedProps: MergedProps, switchSlide: SwitchSlide, cu
 
     for (let i = 0; i < slidesLength; i++) {
         withControlls && controlls.push(
-            <div key={i} className={`${theme.control} ${i == curSlide ? theme.control__active : ''}`}
-                data-page={i} />
+            <div key={ i } className={ `${theme.control} ${i == curSlide ? theme.control__active : ''}` }
+                data-page={ i } />
         )
 
         let className = theme.slide
         i == curSlide && (className += ` ${theme.slide__active}`)
 
-        slidePages.push( <div className={className} key={i} children={slides[i]} /> )
+        slidePages.push( <div className={ className } key={ i } children={ slides[i] } /> )
     }
 
 
     return {
         pageControlls: withControlls && (
-            <div className={theme.controls_wrapper} children={controlls} onMouseDown={e => {
+            <div className={ theme.controls_wrapper } children={ controlls } onMouseDown={ e => {
                 const nextPage = (e.target as HTMLDivElement).dataset.page
                 nextPage && switchSlide(+nextPage)
-            }} />
+            } } />
         ),
 
         slidePages: (
-            <Swipe children={slidePages} className={theme.slides_wrapper} xAxis
-                deltaPos={swipeDelta}
-                onSwipe={onSlideSwipe} />
+            <Swipe children={ slidePages } className={ theme.slides_wrapper } xAxis
+                deltaPos={ swipeDelta }
+                onSwipe={ onSlideSwipe } />
         )
     }
 }

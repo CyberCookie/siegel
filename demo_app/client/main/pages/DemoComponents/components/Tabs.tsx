@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { Tabs, TabsProps } from 'app/components'
 
 
+const { ID } = Tabs
+
 const tabsData = ([1,2,3]).map(id => ({
     id,
     content: 'content ' + id,
@@ -22,13 +24,13 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Tabs.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
-        <Tabs {...props} />
+        <h2 children='simple' />
+        <Tabs { ...props } />
     </>
 }
-Demo.id = Tabs.ID
+Demo.id = ID
 
 
 export default Demo

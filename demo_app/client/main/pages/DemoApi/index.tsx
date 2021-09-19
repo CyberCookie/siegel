@@ -25,35 +25,35 @@ const DemoApi: Page = () => {
 
 
     return (
-        <div className={styles.page}>
-            <div className={styles.api_block}>
+        <div className={ styles.page }>
+            <div className={ styles.api_block }>
                 <Input placeholder='type some text and send it...'
                     label='Data to send:'
-                    value={requestString}
+                    value={ requestString }
                     attributes={{
                         onKeyDown(e) {
                             !isDisabledSend && e.key == 'Enter' && sendData()
                         }
                     }}
-                    onChange={value => { setRequestString(value) }} />
+                    onChange={ value => { setRequestString(value) } } />
 
-                <Button disabled={isDisabledSend} value='Send!' onClick={sendData} />
+                <Button disabled={ isDisabledSend } value='Send!' onClick={ sendData } />
 
                 <h1>Received from server: { received }</h1>
             </div>
 
 
-            <Button value={`update global counter [${counter}]`}
-                className={styles.global_counter}
-                onClick={updateCounter} />
+            <Button value={ `update global counter [${counter}]` }
+                className={ styles.global_counter }
+                onClick={ updateCounter } />
 
             <br />
 
             <Button value='proxy fetch'
-                className={styles.global_counter}
-                onClick={() => { proxyGet(counter.toString()) }} />
+                className={ styles.global_counter }
+                onClick={ () => { proxyGet(counter.toString()) } } />
 
-            <pre children={JSON.stringify(proxyRes, null, 4)} />
+            <pre children={ JSON.stringify(proxyRes, null, 4) } />
         </div>
     )
 }

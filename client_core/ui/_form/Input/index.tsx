@@ -126,7 +126,7 @@ const Input: Component = (props, noDefaults) => {
 
             { addChildren(inputRootProps, theme) }
 
-            { errorMsg && <div className={theme.error_text} children={errorMsg} /> }
+            { errorMsg && <div className={ theme.error_text } children={ errorMsg } /> }
         </div>
     )
 }

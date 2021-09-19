@@ -10,7 +10,7 @@ type ThemeWithChildren = {
 
 function addChildren(componentRootProps: ComponentAttributes, theme: ThemeWithChildren) {
     if (componentRootProps.children) {
-        return <div className={theme.children} children={componentRootProps.children} />
+        return <div className={ theme.children } children={ componentRootProps.children } />
     }
 }
 

@@ -3,6 +3,8 @@ import React from 'react'
 import { Table, TableProps } from 'app/components'
 
 
+const { ID } = Table
+
 const Demo = () => {
     const props: TableProps = {
         caption: 'Some table',
@@ -55,13 +57,13 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Table.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
-        <Table {...props} />
+        <h2 children='simple' />
+        <Table { ...props } />
     </>
 }
-Demo.id = Table.ID
+Demo.id = ID
 
 
 export default Demo

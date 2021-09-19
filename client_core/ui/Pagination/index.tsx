@@ -48,8 +48,8 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) 
 }
 
 const getPageElement: GetPageElement = (page: number, { curPage, theme }) => (
-    <div className={`${theme.control} ${page == curPage ? theme.control__active : '' }`}
-        key={page} data-page={page} children={page} />
+    <div className={ `${theme.control} ${page == curPage ? theme.control__active : ''}` }
+        key={ page } data-page={ page } children={ page } />
 )
 
 function fillGap(start: number, end: number, result: JSX.Element[], props: MergedProps, isLastGap?: boolean) {
@@ -57,7 +57,7 @@ function fillGap(start: number, end: number, result: JSX.Element[], props: Merge
 
     const elementToPush = (start - end) == 1
         ?   getPageElement(isLastGap ? start : end, props)
-        :   <div key={isLastGap ? tokenNextPage : tokenPrevPage} className={theme.separator} children={separator} />
+        :   <div key={ isLastGap ? tokenNextPage : tokenPrevPage } className={ theme.separator } children={ separator } />
 
     result.push(elementToPush)
 }
@@ -113,13 +113,13 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
 
 
     return <>
-        <div children={controlIcon} data-page={tokenPrevPage}
-            className={`${theme.control} ${curPage == 1 ? theme.control__disabled : ''}`} />
+        <div children={ controlIcon } data-page={ tokenPrevPage }
+            className={ `${theme.control} ${curPage == 1 ? theme.control__disabled : ''}` } />
 
         { result }
 
-        <div children={controlIcon} data-page={tokenNextPage}
-            className={`${theme.control} ${curPage == numberOfPages ? theme.control__disabled : ''}`} />
+        <div children={ controlIcon } data-page={ tokenNextPage }
+            className={ `${theme.control} ${curPage == numberOfPages ? theme.control__disabled : ''}` } />
     </>
 }
 

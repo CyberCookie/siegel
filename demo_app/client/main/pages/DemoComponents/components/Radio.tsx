@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { Radio, RadioProps } from 'app/components'
 
 
+const { ID } = Radio
+
 const options = ([1,2,3]).map(i => ({
     id: i,
     content: `option ${i}`
@@ -35,19 +37,19 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Radio.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple single select</h2>
-        <Radio {...props} />
+        <h2 children='simple single select' />
+        <Radio { ...props } />
 
-        <h2>multiple select</h2>
-        <Radio {...propsForMultiple} />
+        <h2 children='multiple select' />
+        <Radio { ...propsForMultiple } />
 
-        <h2>disabled</h2>
-        <Radio {...props} disabled />
+        <h2 children='disabled' />
+        <Radio { ...props } disabled />
     </>
 }
-Demo.id = Radio.ID
+Demo.id = ID
 
 
 export default Demo

@@ -4,6 +4,8 @@ import maskProcessor from 'siegel-ui/_form/Input/mask_processor'
 import { icons, Input, InputProps } from 'app/components'
 
 
+const { ID } = Input
+
 const Demo = () => {
     const [ inputValue, setInputValue ] = useState('')
 
@@ -17,23 +19,23 @@ const Demo = () => {
 
 
     return <>
-        <h1>{Input.ID}</h1>
+        <h1 children={ ID } />
 
-        <h2>simple</h2>
-        <Input {...props} />
+        <h2 children='simple' />
+        <Input { ...props } />
 
-        <h2>with error, label and extra content as icon, autofocus</h2>
-        <Input {...props}
+        <h2 children='with error, label and extra content as icon, autofocus' />
+        <Input { ...props }
             autofocus
-            errorMsg={inputValue.length < 5 ? 'too short' : ''}
+            errorMsg={ inputValue.length < 5 ? 'too short' : '' }
             attributes={{ children: icons.search }}
             label='some_label' />
 
-        <h2>textfield</h2>
-        <Input {...props} label='text field' type='textarea' />
+        <h2 children='textfield' />
+        <Input { ...props } label='text field' type='textarea' />
 
-        <h2>With mask and number regexp validation</h2>
-        <Input {...props} regexp={/^\d*$/}
+        <h2 children='With mask and number regexp validation' />
+        <Input { ...props } regexp={ /^\d*$/ }
             mask={{
                 processor: maskProcessor,
                 pattern: '== (****) ** - ** - ** ==',
@@ -41,11 +43,11 @@ const Demo = () => {
                 valuePlaceholderChar: '_'
             }} />
 
-        <h2>disabled</h2>
-        <Input {...props} disabled />
+        <h2 children='disabled' />
+        <Input { ...props } disabled />
     </>
 }
-Demo.id = Input.ID
+Demo.id = ID
 
 
 export default Demo

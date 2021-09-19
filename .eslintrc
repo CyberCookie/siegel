@@ -28,6 +28,8 @@
         "sourceType": "module"
     },
     "rules": {
+        "object-curly-spacing": [2, "always"],
+        "eol-last": [2, "never"],
         "quotes": [1, "single", "avoid-escape"],
         "semi": [1, "never"],
         "arrow-parens": [2, "as-needed"],
@@ -39,6 +41,10 @@
         "react/jsx-no-bind": 0,
         "react/no-children-prop": 0,
         "react/prop-types": 0,
+        "react/jsx-curly-spacing": [2, "always", {
+            "spacing": { "objectLiterals": "never" }
+        }],
+        "react/jsx-closing-bracket-location": [2, "after-props"],
         "@typescript-eslint/ban-ts-comment": 0,
         "@typescript-eslint/no-misused-promises": 0,
         "@typescript-eslint/no-var-requires": 0,

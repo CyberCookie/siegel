@@ -41,15 +41,15 @@ const DemoPage: Page = () => {
         }
         component == active && (props.className = styles.active)
 
-        componentsList.push( <div {...props} /> )
+        componentsList.push( <div { ...props } /> )
     }
 
 
     return (
-        <div className={styles.page}>
-            <div className={styles.sidebar} children={componentsList} />
+        <div className={ styles.page }>
+            <div className={ styles.sidebar } children={ componentsList } />
 
-            <div className={styles.demo_component} children={ active && getActiveComponent(active) } />
+            <div className={ styles.demo_component } children={ active && getActiveComponent(active) } />
         </div>
     )
 }

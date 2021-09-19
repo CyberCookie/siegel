@@ -17,7 +17,7 @@ const iconNames = [
 
 const icons: Partial<Record<IconName, React.ReactElement>> = {}
 iconNames.forEach(name => {
-    icons[name] = <i className={`${styles._icon} ${styles[name]}`} />
+    icons[name] = <i className={ `${styles._icon} ${styles[name]}` } />
 })
 
 

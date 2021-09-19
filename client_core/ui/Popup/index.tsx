@@ -32,9 +32,9 @@ const Popup: Component = (props, noDefaults) => {
 
     return (
         <div { ...popupRootAttributes }>
-            <div className={theme.content}>
-                <div onMouseDown={onClose} className={`${innerCloseClassName} ${theme.close}`}
-                    children={closeIcon} />
+            <div className={ theme.content }>
+                <div onMouseDown={ onClose } className={ `${innerCloseClassName} ${theme.close}` }
+                    children={ closeIcon } />
 
                 { content }
             </div>

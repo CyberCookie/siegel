@@ -116,7 +116,7 @@ function getStepper(props: MergedProps, numberValue: number, onNumberPickerChang
 
 
     return (
-        <div className={theme.controls}>
+        <div className={ theme.controls }>
             <button { ...minusProps } />
             <button { ...plusProps } />
         </div>

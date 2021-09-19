@@ -2,6 +2,8 @@ const { proxyReq } = require('./siegel_lib')
 
 
 module.exports = (app: any, { express }: any) => {
+    app.use(express.json())
+
     app.post('/api/send_data', (req: any, res: any) => {
         res.json( req.body )
     })
@@ -11,7 +13,5 @@ module.exports = (app: any, { express }: any) => {
         path: '/todos/:id',
         changeOrigin: true
     }))
-
-    app.use(express.json())
 }
 export {}
