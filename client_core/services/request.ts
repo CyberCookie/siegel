@@ -123,7 +123,10 @@ async function makeRequest(req: RequestParams) {
 
         if (res.ok) {
             afterRequest?.(reqData, parsedRes)
-            return parsedRes
+            return {
+                res: parsedRes,
+                err: null
+            }
         } else throw {
             status: res.status,
             message: res.statusText,
@@ -133,7 +136,10 @@ async function makeRequest(req: RequestParams) {
         (err as ReqError).req = reqData
 
         errorHandler?.(err as ReqError)
-        throw err
+        return {
+            res: null,
+            err
+        }
     }
 }
 

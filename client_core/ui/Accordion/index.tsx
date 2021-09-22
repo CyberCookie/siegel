@@ -2,7 +2,7 @@ import React from 'react'
 
 import { extractProps, applyRefApi } from '../ui_utils'
 import type {
-    ListElement, Component, MergedProps,
+    List, BuilderList, Component, MergedProps,
     Props
 } from './types'
 
@@ -24,7 +24,7 @@ const Accordion: Component = (props, noDefaults) => {
     } = mergedProps
 
 
-    function childrenMapper(listItem: ListElement, i: number, _acc: any) {
+    function childrenMapper(listItem: (List | BuilderList)[number], i: number, _acc?: any) {
         const { children } = listItem
 
         let { title } = listItem
@@ -36,7 +36,8 @@ const Accordion: Component = (props, noDefaults) => {
         }
         if (builder) {
             const { elem, acc } = builder({
-                listItem, listItemTheme,
+                listItemTheme,
+                listItem: listItem as BuilderList[number],
                 index: i,
                 acc: _acc
             })
@@ -88,7 +89,7 @@ const Accordion: Component = (props, noDefaults) => {
 
     const accordionRootProps = {
         className: _className,
-        children: list.map(childrenMapper)
+        children: list.map((listItem, i) => childrenMapper(listItem, i))
     }
     refApi && (applyRefApi(accordionRootProps, mergedProps))
     attributes && (Object.assign(accordionRootProps, attributes))

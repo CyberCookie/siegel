@@ -1,33 +1,43 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
-type ListElement<T = any> = {
+type List = {
     title: React.ReactNode
-    children?: ListElement<T>[]
-    builderPayload?: T
-}
+    children?: List
+}[]
 
-type BuilderArgs<T> = {
-    listItem: ListElement<T>
+type BuilderArgs<T = unknown> = {
+    listItem: BuilderList<T>[number]
     listItemTheme: Record<'item' | 'item_title' | 'item_title_wrapper' | 'children_wrapper', string>
     index: number
     acc: any
 }
+type BuilderList<T = unknown> = ({
+    children?: BuilderList[]
+    [key: string]: any
+} & T)[]
 
 
 type ThemeKeys = 'item' | 'item_title' | 'item__empty' |  'item_title_wrapper' | 'children_wrapper'
 
-type Props<T = any> = {
-    list: ListElement<T>[]
+type Props<T = unknown> = {
     accordionIcon?: React.ReactNode
     soloOpen?: boolean
-    builder?(args: BuilderArgs<T>): ({
-        elem: React.ReactNode
-        acc?: any
-    })
     attributes?: ComponentAttributes<HTMLDivElement>
     autoExpand?: boolean
-} & PropsComponentThemed<ThemeKeys>
+}
+    &   PropsComponentThemed<ThemeKeys>
+    &   ({
+            builder(args: BuilderArgs<T>): ({
+                elem: React.ReactNode
+                acc?: any
+            })
+            list: BuilderList<T>
+        }   |
+        {
+            builder?: never
+            list: List
+        })
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>
@@ -38,4 +48,4 @@ type MergedProps = Props & DefaultProps
 type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, ListElement, Component }
+export type { Props, DefaultProps, MergedProps, List, BuilderList, Component }

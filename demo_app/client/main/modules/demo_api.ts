@@ -26,35 +26,38 @@ const initState: State = {
     proxyRes: {}
 }
 
+const urls = {
+    demo: '/api/send_data',
+    proxy: '/api/proxy_get/:id'
+}
 const actions: Actions = {
     makeSomeFetch({ state, setState }, dataToSend) {
         request({
-            url: '/api/send_data',
+            url: urls.demo,
             body: { dataToSend }
-        }).then(({ dataToSend }) => {
-            window.dispatchEvent(new CustomEvent(breadcrumbID, {
-                detail: {
-                    [dynamicCrumbsMap.demo_api]: dataToSend
-                }
-            }))
+        }).then(({ res }) => {
+            if (res) {
+                const { dataToSend } = res
+                window.dispatchEvent(new CustomEvent(breadcrumbID, {
+                    detail: {
+                        [dynamicCrumbsMap.demo_api]: dataToSend
+                    }
+                }))
 
-            state.received = dataToSend
-            setState(state)
+                state.received = dataToSend
+                setState(state)
+            }
         })
     },
 
     proxyGet({ state, setState }, id) {
-        const handleResponse = (res: Indexable) => {
-            state.proxyRes = res
-            setState(state)
-        }
-
         request({
-            url: '/api/proxy_get/:id',
+            url: urls.proxy,
             params: { id }
+        }).then(reqResult => {
+            state.proxyRes = reqResult
+            setState(state)
         })
-        .then(handleResponse)
-        .catch(handleResponse)
     },
 
     updateCounter({ state, setState }) {
@@ -68,5 +71,5 @@ const actions: Actions = {
 const { useStore, store } = createHookStore(initState, actions)
 
 
-export { store }
+export { store, urls }
 export default useStore

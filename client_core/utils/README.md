@@ -1,9 +1,9 @@
-<h2>Utils</h2>
-<hr />
+<h1>Utils</h1>
 
 <br/>
 <h3>To UTC date</h3>
 Adjust hours in date object to match UTC date. 
+<br/>
 
 ```js
 import toUTCDate from 'siegel-utils/date/toUTCDate'

@@ -2,7 +2,12 @@
 
 
 <h3>Request</h3>
-Wrapper around FetchAPI with more convinient interface to make your request easier.<br />
+
+<h4>Convenient FetchAPI wrapper to make request with.</h4>
+<br />
+
+<h4>Options: </h4>
+<br />
 
 ```js
 import request from 'siegel-services/request'
@@ -85,16 +90,26 @@ setup({
 })
 ```
 
-Sending JSON body
+<br />
+<h4>Example of POST request where we send some JSON body with parameterized URL.</h4>
+<br />
+
 ```js
 import request, { HEADER_CONTENT_TYPE } from 'siegel-services/request'
 
 request({
-    url: 'some.url',
+    url: 'some_url/:id',
+    params: {
+        id: 24
+    },
     headers: {
         [ HEADER_CONTENT_TYPE ]: 'application/json'
     },
     body: JSON.stringify({ some_data: 42 })
+}).then(({ res, err }) => {
+    err
+        ?   console.error(err)
+        :   console.log(res)
 })
 ```
 
