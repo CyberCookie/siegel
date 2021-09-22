@@ -9,7 +9,7 @@ type State = {
 
 type Actions = {
     addToReqQueue(store: StoreInitialized, url: string): void
-    removeFromReqQueue(store: StoreInitialized, url: string): void
+    removeFromReqQueue(store: StoreInitialized, url: string, cleanupErrors?: boolean): void
     addToErrRes(store: StoreInitialized, res: any, url: string): void
     clearErrRes(store: StoreInitialized, url: string): void
     getLastErrorMsgByURL(store: StoreInitialized, url: string): string
@@ -41,9 +41,11 @@ const actions: Actions = {
         setState(state)
     },
 
-    removeFromReqQueue({ state, setState }, url) {
+    removeFromReqQueue({ state, setState }, url, cleanupErrors = false) {
         if (state.requests[url]) {
             decrementRequests(state, url)
+            if (cleanupErrors) delete state.errRes[url]
+
             setState(state)
         }
     },

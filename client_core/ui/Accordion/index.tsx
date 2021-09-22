@@ -27,12 +27,13 @@ const Accordion: Component = (props, noDefaults) => {
     function childrenMapper(listItem: (List | BuilderList)[number], i: number, _acc?: any) {
         const { children } = listItem
 
-        let { title } = listItem
+        let { title } = listItem as List[number]
         const listItemTheme: Parameters<NonNullable<MergedProps['builder']>>[0]['listItemTheme'] = {
             item: theme.item,
             item_title_wrapper: theme.item_title_wrapper,
             item_title: theme.item_title,
-            children_wrapper: theme.children_wrapper
+            children_wrapper: theme.children_wrapper,
+            item__empty: theme.item__empty
         }
         if (builder) {
             const { elem, acc } = builder({
@@ -58,10 +59,10 @@ const Accordion: Component = (props, noDefaults) => {
                     </summary>
 
                     <div className={ listItemTheme.children_wrapper }
-                        children={ children.map((listItem, i) => childrenMapper(listItem, i, _acc)) } />
+                        children={ children.map((listItem, i) => childrenMapper(listItem as List[number], i, _acc)) } />
                 </details>
 
-            :   <div key={ i } className={ theme.item__empty } children={ title } />
+            :   <div key={ i } className={ listItemTheme.item__empty } children={ title } />
     }
 
     function onAccordionToggle(e: React.MouseEvent<HTMLDivElement>) {

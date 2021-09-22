@@ -101,7 +101,12 @@ setup({
         addToReqQueue(req.initialURL) // add request url to request queue
     },
     afterRequest(req) {
-        removeFromReqQueue(req.initialURL) // success: remove url from request queue
+        /*
+            success.
+            First parameter: url to remove from request queue
+            Second parameter: indicates whether to cleanup errors, matched with this url, Default: false
+        */
+        removeFromReqQueue(req.initialURL, true)
     },
     errorHandler(err) {
         addToErrRes(err.res, err.req.initialURL) // error: add error to err response queue

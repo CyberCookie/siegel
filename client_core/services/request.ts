@@ -2,9 +2,10 @@ type FetchParams = {
     url: string
     options: RequestInit
 }
+type ReqData = ReturnType<typeof extractRequestData>
 
 type ReqError = {
-    req: FetchParams
+    req: ReqData
     message?: string
     status?: number
     res?: any
@@ -12,7 +13,7 @@ type ReqError = {
 
 type SetupFnParams = {
     beforeRequest?(opts: RequestParams): void | Promise<RequestParams>
-    afterRequest?(fetchParams: FetchParams, parseRes: any): void
+    afterRequest?(reqData: ReqData, parsedRes: any): void
     errorHandler?(error: ReqError): void
 } & Indexable
 
@@ -79,7 +80,7 @@ function extractRequestData(request: RequestParams) {
 }
 
 
-async function extractResponseData(req: RequestParams, res: Response & Indexable): Promise<any> {
+async function extractResponseData(req: RequestParams, res: Response): Promise<any> {
     let parseMethod = req.parseMethod
     let contentType
 
@@ -98,7 +99,7 @@ async function extractResponseData(req: RequestParams, res: Response & Indexable
         }
     }
 
-    try { return await res[parseMethod]() }
+    try { return await res[parseMethod as 'json' | 'formData' | 'text']() }
     catch (err) { throw new Error(
         `${err}. Failed to parse contentType: ${contentType} using ${parseMethod}() method.`
     )}

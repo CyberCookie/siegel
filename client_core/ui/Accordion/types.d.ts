@@ -8,13 +8,12 @@ type List = {
 
 type BuilderArgs<T = unknown> = {
     listItem: BuilderList<T>[number]
-    listItemTheme: Record<'item' | 'item_title' | 'item_title_wrapper' | 'children_wrapper', string>
+    listItemTheme: Record<ThemeKeys, string>
     index: number
     acc: any
 }
 type BuilderList<T = unknown> = ({
-    children?: BuilderList[]
-    [key: string]: any
+    children?: BuilderList<T>
 } & T)[]
 
 

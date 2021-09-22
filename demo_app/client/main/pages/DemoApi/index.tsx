@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
+import fetchModule from 'siegel-store/hook_store/fetch_module'
 import type { Page } from 'siegel-router'
 
 import { Button, Input } from 'app/components'
-import testModule from 'app/modules/demo_api'
+import testModule, { urls as demoApiUrls } from 'app/modules/demo_api'
 
 import styles from './styles.sass'
 
 
 const DemoApi: Page = () => {
+    const { requests, errRes } = fetchModule()[0]
     const [
         { received, counter, proxyRes },
         { makeSomeFetch, updateCounter, proxyGet }
@@ -22,6 +24,9 @@ const DemoApi: Page = () => {
     }
 
     const isDisabledSend = !requestString.length
+
+    const isProxyRequesting = requests[demoApiUrls.proxy] > 0
+    const isProxyError = errRes[demoApiUrls.proxy]
 
 
     return (
@@ -49,10 +54,19 @@ const DemoApi: Page = () => {
 
             <br />
 
-            <Button value='proxy fetch'
+
+            <Button value={ isProxyRequesting ? 'Requesting...' : 'proxy fetch' }
+                disabled={ isProxyRequesting }
                 className={ styles.global_counter }
                 onClick={ () => { proxyGet(counter.toString()) } } />
 
+            { isProxyError
+                ?   <>
+                        <br />
+                        Error:
+                    </>
+                :   ''
+            }
             <pre children={ JSON.stringify(proxyRes, null, 4) } />
         </div>
     )
