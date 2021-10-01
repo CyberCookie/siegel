@@ -30,6 +30,7 @@ type Props<T = unknown> = {
             builder(args: BuilderArgs<T>): ({
                 elem: React.ReactNode
                 acc?: any
+                replaceParentIfLast?: boolean
             })
             list: BuilderList<T>
         }   |

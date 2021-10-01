@@ -17,20 +17,30 @@ import styles from './styles.sass'
 
 const componentID = '-ui-number_picker'
 
-const keyDown = 'ArrowDown', keyUp = 'ArrowUp', deleteCode = 'Delete'
+const keyDown = 'ArrowDown'
+const keyUp = 'ArrowUp'
+const deleteCode = 'Delete'
+const CHAR_ZERO = '0'
+const CHAR_DOT = '.'
+const CHAR_MINUS = '-'
 
 function getRegExp(min: MergedProps['min'], max: MergedProps['max'], precision: MergedProps['precision']): RegExp {
     let regexpTemplate = '^'
 
     if (min < 0) {
-        regexpTemplate += '-'
+        regexpTemplate += CHAR_MINUS
         max >= 0 && (regexpTemplate += '?')
     }
 
     regexpTemplate += '(?!00)\\d'
 
-    if (isE(min) || isE(max)) {
-        regexpTemplate += `{0,${ parseInt(Math.max( Math.abs(min), Math.abs(max) )).toString().length }}`
+    if (isFinite(min) || isFinite(max)) {
+        const maxNumberAllowed = Math.max( Math.abs(min), Math.abs(max) )
+        const regexpModificator = isFinite(maxNumberAllowed)
+            ?   parseInt(maxNumberAllowed).toString().length
+            :   ''
+
+        regexpTemplate += `{0,${regexpModificator}}`
     } else regexpTemplate += '*'
 
     if (precision != 0) {
@@ -55,31 +65,39 @@ function getNumberValue(value: MergedProps['value'], min: MergedProps['min'], ma
         :   numberFloat
 }
 
-const zero = '0'
-function getNormalizedStringValue(value: string | undefined, precision?: number) {
+function getNormalizedStringValue(value: string | undefined, precision: number | undefined, isFocused: boolean) {
     if(!isE(value)) return
 
-    let indexOfDot = value.indexOf('.') || value.length
-    indexOfDot < 0 && (indexOfDot = value.length)
+    const indexOfDot = value.indexOf(CHAR_DOT)
 
+    const firstNumberPos = value[0] == CHAR_MINUS ? 1 : 0
     let zeroesCount = 0
-    for (let i = 0, l = indexOfDot - 1; i < l; i++) {
-        if (value[i] == zero) zeroesCount++
-        else if (zeroesCount) break
-    }
-    zeroesCount && (value = value.replace(zero.repeat(zeroesCount), ''))
+    if (value.length > (firstNumberPos + 1) && value[firstNumberPos] == CHAR_ZERO) {
+        for (let i = firstNumberPos, l = indexOfDot >= 0 ? indexOfDot : value.length; i < l; i++) {
+            if (value[i] == CHAR_ZERO && value[i + 1] != CHAR_DOT) zeroesCount++
+            else break
+        }
 
-    if (precision) {
-        const maxLength = indexOfDot + precision + 1
-        value.length > maxLength && (value = value.substr(0, maxLength))
+        zeroesCount && (value = value.replace(CHAR_ZERO.repeat(zeroesCount), ''))
     }
+
+
+    if (precision && indexOfDot > -1) {
+        const maxLength = indexOfDot + precision + 1
+        value = value.length > maxLength
+            ?   value.substr(0, maxLength)
+            :   value.length < maxLength && !isFocused
+                ?   (+value).toFixed(precision)
+                :   value
+    }
+
 
     return value
 }
 
 const getPrecision = (_num: number) => {
     const stringNum = _num+''
-    const indexOfDot = stringNum.indexOf('.')
+    const indexOfDot = stringNum.indexOf(CHAR_DOT)
 
     return indexOfDot >= 0 ? stringNum.length - indexOfDot - 1 : 0
 }
@@ -165,7 +183,6 @@ const NumberPicker: Component = (props, noDefaults) => {
     const onNumberPickerChange: OnNumberPickerChange = (e, arrowValue, step) => {
         if ((!isE(value) || value === '') && e.type == 'blur') return
 
-
         let result: string | number | undefined
         if (step) {
             const stepPrecision = getPrecision(step)
@@ -183,7 +200,7 @@ const NumberPicker: Component = (props, noDefaults) => {
 
         precision && (result = result.toFixed(precision))
 
-        result == value || onChange(result+'', e, arrowValue, payload)
+        result === value || onChange(result+'', e, arrowValue, payload)
     }
 
 
@@ -193,12 +210,12 @@ const NumberPicker: Component = (props, noDefaults) => {
         theme, label, errorMsg, placeholder, inputAttributes, onFocus,
         attributes: inputRootAttributes,
         regexp: numberMask,
-        value: getNormalizedStringValue(value),
+        value: getNormalizedStringValue(value, precision, isFocused),
         innerStore: _inputStore,
         disabled: disabled || disabledInput,
         onBlur: onNumberPickerChange,
         onChange(_value, e) {
-            const value = _value.replace(',', '.')
+            const value = _value.replace(',', CHAR_DOT)
             onChange(value, e, undefined, payload)
         }
     }
@@ -257,7 +274,7 @@ NumberPicker.defaults = {
         _disabled_all: ''
     }),
 
-    minusIcon: '-',
+    minusIcon: CHAR_MINUS,
     plusIcon: '+',
     min: -Infinity,
     max: Infinity,

@@ -26,8 +26,6 @@ const Accordion: Component = (props, noDefaults) => {
 
     function childrenMapper(listItem: (List | BuilderList)[number], i: number, _acc?: any) {
         const { children } = listItem
-
-        let { title } = listItem as List[number]
         const listItemTheme: Parameters<NonNullable<MergedProps['builder']>>[0]['listItemTheme'] = {
             item: theme.item,
             item_title_wrapper: theme.item_title_wrapper,
@@ -35,8 +33,11 @@ const Accordion: Component = (props, noDefaults) => {
             children_wrapper: theme.children_wrapper,
             item__empty: theme.item__empty
         }
+
+        let { title } = listItem as List[number]
+        let isTitleAsItemEmpty
         if (builder) {
-            const { elem, acc } = builder({
+            const { elem, acc, replaceParentIfLast } = builder({
                 listItemTheme,
                 listItem: listItem as BuilderList[number],
                 index: i,
@@ -45,6 +46,8 @@ const Accordion: Component = (props, noDefaults) => {
 
             _acc = acc
             title = elem
+            isTitleAsItemEmpty = replaceParentIfLast
+
         }
 
         return children
@@ -62,7 +65,9 @@ const Accordion: Component = (props, noDefaults) => {
                         children={ children.map((listItem, i) => childrenMapper(listItem as List[number], i, _acc)) } />
                 </details>
 
-            :   <div key={ i } className={ listItemTheme.item__empty } children={ title } />
+            :   isTitleAsItemEmpty
+                ?   title
+                :   <div key={ i } className={ listItemTheme.item__empty } children={ title } />
     }
 
     function onAccordionToggle(e: React.MouseEvent<HTMLDivElement>) {
