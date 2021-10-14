@@ -12,7 +12,7 @@ import styles from './styles.sass'
 
 
 type PostProcessState = {
-    selected: Set<ID>,
+    selected: Set<string>,
     activeCol: number
 }
 type PostProcessStore = [ PostProcessState, React.Dispatch<React.SetStateAction<PostProcessState>> ]

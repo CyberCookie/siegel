@@ -6,7 +6,7 @@ import { Tabs, TabsProps } from 'app/components'
 const { ID } = Tabs
 
 const tabsData = ([1,2,3]).map(id => ({
-    id,
+    id: id.toString(),
     content: 'content ' + id,
     label: 'label ' + id
 }))
@@ -18,7 +18,7 @@ const Demo = () => {
         activeTab,
         tabs: tabsData,
         onChange(id) {
-            setActiveTab(id as number)
+            setActiveTab(id)
         }
     }
 

@@ -5,13 +5,13 @@ type ThemeKeys = 'labels_wrapper' | 'label' | 'label__active' | 'content' | 'con
 
 type Props = {
     tabs: {
-        id: ID
-        content: React.ReactNode
+        id: string
         label: React.ReactNode
+        content?: React.ReactNode
         payload?: any
     }[],
-    onChange(id: ID, e: React.MouseEvent, payload?: any): void
-    activeTab?: ID
+    onChange(id: string, e: React.MouseEvent, payload?: any): void
+    activeTab?: string
     attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 

@@ -6,7 +6,7 @@ import { Radio, RadioProps } from 'app/components'
 const { ID } = Radio
 
 const options = ([1,2,3]).map(i => ({
-    id: i,
+    id: i.toString(),
     content: `option ${i}`
 }))
 
@@ -25,7 +25,7 @@ const Demo = () => {
     const propsForMultiple: RadioProps = {
         options,
         multiple: true,
-        selected: selectedMultiple.selected as Set<ID>,
+        selected: selectedMultiple.selected as Set<string>,
         onChange(value) {
             selectedMultiple.selected.has(value)
                 ?   selectedMultiple.selected.delete(value)

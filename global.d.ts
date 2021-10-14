@@ -1,9 +1,6 @@
 declare module '*.sass'
 
 
-type ID = string | number
-
-
 type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<T>
 
 type Indexable<V = any> = {

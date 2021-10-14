@@ -2,24 +2,24 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 
 type Option = {
-    id: ID
+    id: string
     content: React.ReactNode
     className?: string
 }
 
 type MultiSelectProps = {
     multiple: true
-    selected: Set<ID>
+    selected: Set<string>
 }
 type SingleSelectProps = {
     multiple?: false
-    selected: ID
+    selected: string
 }
 
 type ThemeKeys = 'option' | 'option__selected' | '_disabled'
 
 type Props = {
-    onChange(id: ID, e: React.MouseEvent): void
+    onChange(id: string, e: React.MouseEvent): void
     options: Option[]
     disabled?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>

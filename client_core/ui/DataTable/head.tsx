@@ -75,7 +75,7 @@ function getResizeHandler() {
 }
 
 
-function getHead(props: MergedProps, resultIDs: ID[], from: number, to: number) {
+function getHead(props: MergedProps, resultIDs: string[], from: number, to: number) {
     const { columnsConfig, resizable, theme, postProcessHeadRow, postProcessHeadCell } = props
 
     const resizerClassName = `${innerResizerClassName} ${theme.table_resizer}`

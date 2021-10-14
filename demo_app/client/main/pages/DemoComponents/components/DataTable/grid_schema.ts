@@ -7,7 +7,7 @@ type GridColumnConfig = DemoDataTableProps['columnsConfig'][number]
 type GridOnSortParams = Parameters<NonNullable<GridColumnConfig['onSort']>>
 type GridOnFilterParams = Parameters<NonNullable<GridColumnConfig['onFilter']>>
 
-type OnFilterCompareFunc = Parameters<Array<ID>['filter']>[0]
+type OnFilterCompareFunc = Parameters<Array<string>['filter']>[0]
 
 type DateSearchFilter = {
     dateStart: number
@@ -27,7 +27,7 @@ function filterValue(
     this: DemoDataTableProps['columnsConfig'][number],
     sorted: GridOnFilterParams[0],
     byID: GridOnFilterParams[1],
-    search: string | Set<ID> | DateSearchFilter
+    search: string | Set<string> | DateSearchFilter
 ) {
 
     const type = this.customParams!.valuePath
@@ -53,8 +53,8 @@ function filterValue(
     }
 
     const setFilterFunc: OnFilterCompareFunc = ID => {
-        const value = byID[ID][this.customParams!.valuePath]
-        return !(search as Set<ID>).has(value as ID)
+        const value: string = byID[ID][this.customParams!.valuePath]
+        return !(search as Set<string>).has(value)
     }
 
     const filterFunc = isTextColumn

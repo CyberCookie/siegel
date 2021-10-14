@@ -1,10 +1,14 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
-type List = {
+type ListItenExpandedProps = {
+    expanded?: boolean
+}
+
+type List = ({
     title: React.ReactNode
     children?: List
-}[]
+} & ListItenExpandedProps)[]
 
 type BuilderArgs<T = unknown> = {
     listItem: BuilderList<T>[number]
@@ -14,7 +18,7 @@ type BuilderArgs<T = unknown> = {
 }
 type BuilderList<T = unknown> = ({
     children?: BuilderList<T>
-} & T)[]
+} & ListItenExpandedProps & T)[]
 
 
 type ThemeKeys = 'item' | 'item_title' | 'item__empty' |  'item_title_wrapper' | 'children_wrapper'

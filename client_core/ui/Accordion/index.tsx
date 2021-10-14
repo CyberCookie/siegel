@@ -25,7 +25,7 @@ const Accordion: Component = (props, noDefaults) => {
 
 
     function childrenMapper(listItem: (List | BuilderList)[number], i: number, _acc?: any) {
-        const { children } = listItem
+        const { children, expanded } = listItem
         const listItemTheme: Parameters<NonNullable<MergedProps['builder']>>[0]['listItemTheme'] = {
             item: theme.item,
             item_title_wrapper: theme.item_title_wrapper,
@@ -51,7 +51,7 @@ const Accordion: Component = (props, noDefaults) => {
         }
 
         return children
-            ?   <details key={ i } className={ listItemTheme.item } open={ autoExpand }
+            ?   <details key={ i } className={ listItemTheme.item } open={ expanded || autoExpand }
                     onClick={ onClickHandler }>
 
                     <summary className={ listItemTheme.item_title_wrapper }

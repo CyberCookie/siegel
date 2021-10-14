@@ -19,7 +19,7 @@ function getOptions(mergedProps: MergedProps) {
         let optionClassName = theme.option
         className && (optionClassName += ` ${className}`)
 
-        if ((multiple && (selected as Set<ID>).has(id)) || (!multiple && selected == id)) {
+        if ((multiple && (selected as Set<string>).has(id)) || (!multiple && selected == id)) {
             optionClassName += ` ${theme.option__selected}`
         }
 

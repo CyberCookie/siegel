@@ -8,5 +8,5 @@
 		"jsx": "react",
 		"baseUrl": "."
 	},
-	"include": [ "client_core", "./global.d.ts" ]
+	"include": [ "client_core", "global.d.ts" ]
 }
