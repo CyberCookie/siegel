@@ -35,7 +35,7 @@ type Props = {
     }
     label?: React.ReactNode
     errorMsg?: React.ReactNode
-    type?: 'input' | 'textarea' | 'password'
+    type?: 'input' | 'textarea' | 'password' | 'color' | 'date' | 'week' | 'month' | 'time' | 'datetime-local'
     payload?: any
     regexp?: RegExp
     mask?: {

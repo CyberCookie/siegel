@@ -1,3 +1,6 @@
+import type { Configuration } from 'webpack'
+
+
 const BUILD_CONSTANTS               = require('./constants')
 const defaultModulesResolve         = require('./modules')
 const defaultPluginsResolve         = require('./plugins')
@@ -12,13 +15,13 @@ const {
 function getWebpackConfig(CONFIG, RUN_PARAMS) {
     const { isProd, isDevServer } = RUN_PARAMS
     const { staticDir, build } = CONFIG
-    const { input, aliases, publicPath, postProcessWebpackConfig } = build
+    const { input, aliases, publicPath, postProcessWebpackConfig/*, outputESM = true*/ } = build
 
 
-    let webpackConfig = {
+    let webpackConfig: Configuration = {
         mode: isProd
             ?   'production'
-            :   process.env.NODE_ENV || 'development',
+            :   (process.env.NODE_ENV as Configuration['mode']) || 'development',
 
         cache: isDevServer,
 
@@ -40,10 +43,28 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             path: staticDir,
             pathinfo: false,
             chunkFilename: 'chunk.[contenthash].js',
-            filename: 'app.[contenthash].js'
+            filename: 'app.[contenthash].js',
+            hashFunction: 'xxhash64'
+
+            // ...( outputESM ? {
+            //     module: true,
+            //     library: {
+            //         type: 'module'
+            //     }
+            // } : {})
+        },
+
+        experiments: {
+            cacheUnaffected: true
+
+            // ...( outputESM ? {
+            //     outputModule: true
+            // } : {})
         },
 
         optimization: {
+            sideEffects: false,
+            providedExports: false,
             splitChunks: {
                 chunks: 'all'
             },
@@ -59,7 +80,10 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
         },
 
         plugins: defaultPluginsResolve(CONFIG, RUN_PARAMS),
-        module: defaultModulesResolve(CONFIG, RUN_PARAMS)
+        module: {
+            unsafeCache: true,
+            rules: defaultModulesResolve(CONFIG, RUN_PARAMS)
+        }
     }
 
     if (typeof postProcessWebpackConfig == 'function') {

@@ -86,7 +86,7 @@
             exclude: String[]
         },
 
-        /* Enable ESlint */
+        /* Enables ESlint. Default false */
         eslint: Boolean || ESLintWebpackPlugin -> options || (defaultConfig) => updatedConfig,
 
         /* Webpack publicPath */
@@ -96,13 +96,13 @@
         aliases: Object,
 
         /*
-            Webpack plugins passed in extendable form.
+            Webpack plugins config.
             Read below the way to use it.
         */
         plugins: Object,
 
         /*
-            Webpack modules passed in extendable form.
+            Webpack loaders config.
             Read below the way to use it.
         */
         modules: Object,

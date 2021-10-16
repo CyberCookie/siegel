@@ -1,5 +1,6 @@
 import React from 'react'
 
+import isE from '../../utils/is_exists'
 import { extractProps, applyRefApi } from '../ui_utils'
 import type {
     List, BuilderList, Component, MergedProps,
@@ -34,10 +35,11 @@ const Accordion: Component = (props, noDefaults) => {
             item__empty: theme.item__empty
         }
 
+        let isExpanded = expanded
         let { title } = listItem as List[number]
         let isTitleAsItemEmpty
         if (builder) {
-            const { elem, acc, replaceParentIfLast } = builder({
+            const { elem, acc, replaceParentIfLast, expanded } = builder({
                 listItemTheme,
                 listItem: listItem as BuilderList[number],
                 index: i,
@@ -47,11 +49,11 @@ const Accordion: Component = (props, noDefaults) => {
             _acc = acc
             title = elem
             isTitleAsItemEmpty = replaceParentIfLast
-
+            isE(expanded) && (isExpanded = expanded)
         }
 
         return children
-            ?   <details key={ i } className={ listItemTheme.item } open={ expanded || autoExpand }
+            ?   <details key={ i } className={ listItemTheme.item } open={ isExpanded || autoExpand }
                     onClick={ onClickHandler }>
 
                     <summary className={ listItemTheme.item_title_wrapper }

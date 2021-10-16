@@ -30,9 +30,7 @@ function mergeLoaders(userLoader, defaultLoader) {
 
 
 module.exports = (defaultModules, userModules = {}) => {
-    const result = {
-        rules: []
-    }
+    const rules = []
 
 
     function addRule(ruleParams) {
@@ -52,7 +50,7 @@ module.exports = (defaultModules, userModules = {}) => {
         })
 
 
-        result.rules.push({
+        rules.push({
             test: new RegExp(`\\.${regExpPart}$`),
             use,
             ...ruleOptions
@@ -104,6 +102,6 @@ module.exports = (defaultModules, userModules = {}) => {
     }
 
 
-    return result
+    return rules
 }
 export {}

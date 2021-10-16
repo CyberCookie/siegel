@@ -35,6 +35,7 @@ type Props<T = unknown> = {
                 elem: React.ReactNode
                 acc?: any
                 replaceParentIfLast?: boolean
+                expanded?: boolean
             })
             list: BuilderList<T>
         }   |

@@ -25,13 +25,18 @@ const INSERT_TEXT = 'insertText'
 const INSERT_PASTE = 'insertFromPaste'
 const DELETE_BACKWARD = 'deleteContentBackward'
 const DELETE_FORWARD = 'deleteContentForward'
+const DELETE_CUT = 'deleteByCut'
 
 const CODE_UNDO = 'KeyZ'
 const CODE_REDO = 'KeyY'
 
 const valuePlaceholderCharDefault = ' '
 
-const setCaretPos = (input: HTMLInputElement, caretPos: number) => setTimeout(() => { input.setSelectionRange(caretPos, caretPos) })
+const setCaretPos = (ref: Ref, caretPos: number) => (
+    setTimeout(() => {
+        ref.current.setSelectionRange(caretPos, caretPos)
+    })
+)
 
 function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Parameters<MaskProcessor>[1]['value']) {
     const { pattern, patternValueChar, valuePlaceholderChar = valuePlaceholderCharDefault } = mask
@@ -110,7 +115,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
     })[0]
 
     useEffect(() => {
-        const timeoutID = setCaretPos((ref as Ref).current, maskState.caretPos)
+        const timeoutID = setCaretPos(ref as Ref, maskState.caretPos)
 
         return () => {
             if (maskState.historyPos == maskState.history.length - 1) {
@@ -186,7 +191,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
 
 
             updateInputData(e, valueArray, newCaretPos)
-        } else setCaretPos((ref as Ref).current, LAST_FILLED_INDEX! + 1)
+        } else setCaretPos(ref as Ref, LAST_FILLED_INDEX! + 1)
     }
 
     function replace(e: ChangeEvent | ClipboardEvent, startingFrom: number, count: number, data = '') {
@@ -223,11 +228,11 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             shiftNextChar && insertedCharsCount < insertDataLength && !placeholdersIndexesMap[ LAST_PLACEHOLDER_INDEX ].isFilled
                 ?   insert(e, nextCaretPos, data.substr(insertedCharsCount), valueArray)
                 :   updateInputData(e, valueArray, nextCaretPos)
-        } else setCaretPos((ref as Ref).current, FIRST_PLACEHOLDER_INDEX)
+        } else setCaretPos(ref as Ref, FIRST_PLACEHOLDER_INDEX)
     }
 
 
-    copyMask || (_inputAttr.onCopy = e => {
+    copyMask || (_inputAttr.onCopy = _inputAttr.onCut = e => {
         const { selectionStart, selectionEnd } = (e.target as HTMLTextAreaElement)
         const { isFilled, nextFilled } = placeholdersIndexesMap[selectionStart]
 
@@ -268,7 +273,6 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             let removedChars = pattern.length - inputLength
             let nextCaretPos
 
-
             if (inputType == INSERT_TEXT) {
                 const prevCaretPos = selectionStart - 1
                 const data = (e.nativeEvent as InputEvent).data!
@@ -277,14 +281,15 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                     ?   replace(e, prevCaretPos, removedChars, data)
                     :   insert(e, prevCaretPos, data)
             } else {
-                const isBackspace = inputType == DELETE_BACKWARD
-                if ((isBackspace || inputType == DELETE_FORWARD) && valueLength) {
+                const isBackwardDelete = inputType == DELETE_BACKWARD || inputType == DELETE_CUT
+
+                if ((isBackwardDelete || inputType == DELETE_FORWARD) && valueLength) {
                     if (removedChars > 1) replace(e, selectionStart, removedChars)
                     else {
                         const newValueArray = maskState.lastInputValue.split('')
 
-                        if (isBackspace) {
-                            if (selectionStart < FIRST_PLACEHOLDER_INDEX) return setCaretPos((ref as Ref).current, FIRST_PLACEHOLDER_INDEX)
+                        if (isBackwardDelete) {
+                            if (selectionStart < FIRST_PLACEHOLDER_INDEX) return setCaretPos(ref as Ref, FIRST_PLACEHOLDER_INDEX)
                             else {
                                 const { prevFilled, isFilled } = placeholdersIndexesMap[selectionStart]
 
@@ -301,7 +306,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                                 nextCaretPos = isE(newPrevFilled) ? newPrevFilled + 1 : FIRST_PLACEHOLDER_INDEX
                             }
                         } else {
-                            if (selectionStart > LAST_FILLED_INDEX!) return setCaretPos((ref as Ref).current, LAST_PLACEHOLDER_INDEX + 1)
+                            if (selectionStart > LAST_FILLED_INDEX!) return setCaretPos(ref as Ref, LAST_PLACEHOLDER_INDEX + 1)
                             else {
                                 const { nextFilled, isFilled } = placeholdersIndexesMap[selectionStart]
 
@@ -314,7 +319,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
 
                         updateInputData(e, newValueArray, nextCaretPos)
                     }
-                } else setCaretPos((ref as Ref).current, FIRST_PLACEHOLDER_INDEX)
+                } else setCaretPos(ref as Ref, FIRST_PLACEHOLDER_INDEX)
             }
         }
 
@@ -325,7 +330,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
 
             maskState.caretPos = nextCaretPos
 
-            setCaretPos((ref as Ref).current, nextCaretPos)
+            setCaretPos(ref as Ref, nextCaretPos)
             onFocus && onFocus(e)
         }
 
