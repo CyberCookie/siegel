@@ -1,5 +1,6 @@
 import { withDefaults } from 'siegel-ui/ui_utils'
 
+import ErrorBoundary from 'siegel-ui/ErrorBoundary'
 import _Button, { Props as ButtonProps } from 'siegel-ui/_form/Button'
 import _Breadcrumbs, { Props as BreadcrumbsProps } from 'siegel-ui/Breadcrumbs'
 import _Calendar, { Props as CalendarProps } from 'siegel-ui/_form/Calendar'
@@ -43,6 +44,7 @@ import tableTheme from './styles/table.sass'
 import tabsTheme from './styles/tabs.sass'
 import toggleTheme from './styles/toggle.sass'
 import rangerTheme from './styles/ranger.sass'
+
 
 
 const Button = withDefaults(_Button, { className: buttonTheme.button })
@@ -162,6 +164,7 @@ export {
     dataTableTheme, DataTable,
     Clocks,
     Swipe,
+    ErrorBoundary,
     accordionTheme, Accordion,
     dropdownSearchTheme, DropdownSearch,
     inputTheme, Input,

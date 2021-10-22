@@ -46,7 +46,7 @@ function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }:
             })
 
 
-            options.push( <div { ...optionProps } key={ value } /> )
+            options.push( <div { ...optionProps } key={ value as string } /> )
         }
     })
 

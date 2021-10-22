@@ -3,10 +3,9 @@ import { getDefaultState } from 'siegel-ui/DataTable'
 
 import {
     icons, Pagination, Select, Checkbox, Input, Calendar,
-    DataTableProps,
     paginationTheme, selectTheme, checkboxTheme, inputTheme
 } from 'app/components'
-import type { MockEntities, DemoDataTableProps } from './types'
+import type { DemoDataTableProps } from './types'
 
 import styles from './styles.sass'
 
@@ -304,7 +303,7 @@ export default (props: DemoDataTableProps) => {
             getSelectAllCheckboxTableCell({ row, displayedEntityIDs, postProcessStore }),
 
         postProcessBodyRow: (row, entity) => getSelectCheckboxTableCell({ row, entity, postProcessStore })
-    } as Partial<DataTableProps<MockEntities>>)
+    } as Partial<DemoDataTableProps>)
 
 
     return newProps

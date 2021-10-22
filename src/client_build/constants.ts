@@ -8,7 +8,7 @@ const DEPENDENCIES = {
 
     plugins: {
         HTMLPlugin:             require('html-webpack-plugin'),
-        optimizeCSS:            require('optimize-css-assets-webpack-plugin'),
+        optimizeCSS:            require('css-minimizer-webpack-plugin'),
         fileCopyPlugin:         require('copy-webpack-plugin'),
         compressionPlugin:      require('compression-webpack-plugin'),
         miniCssExtract:         require('mini-css-extract-plugin'),

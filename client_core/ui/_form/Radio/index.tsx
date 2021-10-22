@@ -1,10 +1,7 @@
 import React from 'react'
 
 import { extractProps, applyRefApi } from '../../ui_utils'
-import type {
-    Component, Option, MergedProps,
-    Props, MultiSelectProps, SingleSelectProps
-} from './types'
+import type { Component, MergedProps, Props, MultiSelectProps, SingleSelectProps } from './types'
 
 
 const componentID = '-ui-radio'
@@ -13,8 +10,8 @@ function getOptions(mergedProps: MergedProps) {
     const { options, theme, onChange, multiple, selected, disabled } = mergedProps
 
 
-    return options.map((option: Option) => {
-        const { id, content, className } = option
+    return options.map((option: MergedProps['options'][number]) => {
+        const { id, content, className, payload } = option
 
         let optionClassName = theme.option
         className && (optionClassName += ` ${className}`)
@@ -26,7 +23,7 @@ function getOptions(mergedProps: MergedProps) {
 
         return (
             <div key={ id } className={ optionClassName } children={ content }
-                onMouseDown={ (e: React.MouseEvent) => { disabled || onChange(id, e) } } />
+                onMouseDown={ (e: React.MouseEvent) => { disabled || onChange(id, e, payload) } } />
         )
     })
 }

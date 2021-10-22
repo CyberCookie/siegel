@@ -12,10 +12,19 @@ const {
 } = BUILD_CONSTANTS
 
 
-function getWebpackConfig(CONFIG, RUN_PARAMS) {
+const statsOptions = {
+    colors: true,
+    modules: false,
+    children: false
+}
+
+
+function clientBuilder(CONFIG, RUN_PARAMS) {
     const { isProd, isDevServer } = RUN_PARAMS
     const { staticDir, build } = CONFIG
     const { input, aliases, publicPath, postProcessWebpackConfig/*, outputESM = true*/ } = build
+
+    let webpackCompiller
 
 
     let webpackConfig: Configuration = {
@@ -85,49 +94,40 @@ function getWebpackConfig(CONFIG, RUN_PARAMS) {
             rules: defaultModulesResolve(CONFIG, RUN_PARAMS)
         }
     }
-
     if (typeof postProcessWebpackConfig == 'function') {
         webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig, BUILD_CONSTANTS)
     }
 
 
-    return webpackConfig
-}
 
+    return {
+        run: () => new Promise<void>(resolve => {
+            webpackCompiller = webpack(webpackConfig)
 
-const statsOptions = {
-    colors: true,
-    modules: false,
-    children: false
-}
+            if (isDevServer) resolve()
+            else {
+                webpackCompiller.run((err, stats) => {
+                    const message = err || (
+                        stats.hasErrors()
+                            ?   stats.compilation.errors
+                            :   stats.toString(statsOptions)
+                    )
+                    console.log(message)
 
-
-module.exports = {
-    run: (CONFIG, RUN_PARAMS) => new Promise(resolve => {
-        const webpackConfig = getWebpackConfig(CONFIG, RUN_PARAMS)
-        const webpackCompiller = webpack(webpackConfig)
-
-        if (!RUN_PARAMS.isDevServer) {
-            webpackCompiller.run((err, stats) => {
-                const message = err || (
-                    stats.hasErrors()
-                        ?   stats.compilation.errors
-                        :   stats.toString(statsOptions)
-                )
-
-                console.log(message)
-                resolve(webpackCompiller)
-            })
-        } else resolve(webpackCompiller)
-    }),
-
-    getDevMiddlewares: (CONFIG, webpackCompiller) => ({
-        dev: devMiddleware(webpackCompiller, {
-            publicPath: CONFIG.build.publicPath,
-            stats: statsOptions
+                    resolve()
+                })
+            }
         }),
 
-        hot: hotMiddleware(webpackCompiller)
-    })
+        getDevMiddlewares: () => ({
+            dev: devMiddleware(webpackCompiller, {
+                stats: statsOptions
+            }),
+            hot: hotMiddleware(webpackCompiller)
+        })
+    }
 }
+
+
+module.exports = clientBuilder
 export {}

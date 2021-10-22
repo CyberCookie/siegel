@@ -22,8 +22,7 @@ const paramFlowMap: Indexable = {
     }
 }
 
-
-export default (seoParams: SEOParams) => {
+function updateSEOParams(seoParams: SEOParams) {
     for (const param in seoParams) {
         const { selector, prop } = paramFlowMap[param]
 
@@ -31,4 +30,7 @@ export default (seoParams: SEOParams) => {
         seoElement && (seoElement[prop] = seoParams[param])
     }
 }
+
+
+export default updateSEOParams
 export type { SEOParams }

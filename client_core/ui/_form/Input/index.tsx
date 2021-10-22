@@ -5,7 +5,7 @@ import addChildren from '../../children'
 import getInputLabeled from '../label'
 import componentID from './id'
 import type {
-    Component, MergedProps, InputFieldThemeKeysArray, InputElementAttributesFinal,
+    Component, MergedProps, InputFieldThemeKeysArray, InputElementAttributes,
     Props
 } from './types'
 
@@ -44,7 +44,7 @@ const Input: Component = (props, noDefaults) => {
     const { isFocused, isTouched } = state
 
 
-    const inputProps: InputElementAttributesFinal = {
+    const inputProps: InputElementAttributes = {
         disabled, value, placeholder,
         className: theme.field
     }
@@ -110,7 +110,7 @@ const Input: Component = (props, noDefaults) => {
     attributes && Object.assign(inputRootProps, attributes)
     inputAttributes && Object.assign(inputProps, inputAttributes)
 
-    mask && mask.processor(mask, inputProps)
+    mask && mask.processor(mask, inputProps as Parameters<typeof mask['processor']>[1])
 
     let inputElement = <InputTag { ...inputProps } />
     label && (inputElement = getInputLabeled(

@@ -3,9 +3,12 @@ import React, { useState } from 'react'
 import { DropdownSearch, DropdownSearchProps } from 'app/components'
 
 
+type DemoDropdownSearchProps = DropdownSearchProps<number>
+
+
 const { ID } = DropdownSearch
 
-const options: DropdownSearchProps['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: number) => ({
+const options: DemoDropdownSearchProps['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: number) => ({
     inputValue: 'option ' + i,
     value: i
 }))
@@ -13,7 +16,7 @@ const options: DropdownSearchProps['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: 
 const Demo = () => {
     const [ selected, setSelected ] = useState(0)
 
-    const props: DropdownSearchProps<number> = {
+    const props: DemoDropdownSearchProps = {
         selected,
         onChange(id) {
             setSelected(id!)

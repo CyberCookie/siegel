@@ -4,15 +4,15 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 type ThemeKeys =  'children' | 'label' | 'title' | 'title_text' | 'input_wrapper' | 'options' | 'option' | 'reset'
     | '_option_active' | '_option_disabled' | '_active' | '_disabled' | '_filled'
 
-type Props<V = any> = {
+type Props<_Value = unknown, _Payload = unknown> = {
     options: {
-        value: V
+        value: _Value
         title: React.ReactNode
         disabled?: boolean
-        payload?: any
+        payload?: _Payload
         className?: string
     }[],
-    onChange(value: V, e: React.MouseEvent, payload?: any): void
+    onChange(value: _Value, e: React.MouseEvent, payload?: _Payload): void
     innerStore?: [ boolean, React.Dispatch<React.SetStateAction<boolean>> ]
     getDisplayValue?(selectedOption: Props['options'][number]): React.ReactNode
     dropdownIcon?: React.ReactNode
@@ -20,7 +20,7 @@ type Props<V = any> = {
     closeOnSelect?: boolean
     label?: React.ReactNode
     placeholder?: React.ReactNode
-    selected?: V
+    selected?: _Value
     filterSelected?: boolean
     disabled?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>

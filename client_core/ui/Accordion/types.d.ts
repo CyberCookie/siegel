@@ -10,20 +10,20 @@ type List = ({
     children?: List
 } & ListItenExpandedProps)[]
 
-type BuilderArgs<T = unknown> = {
-    listItem: BuilderList<T>[number]
+type BuilderArgs<_BuilderListExtend> = {
+    listItem: BuilderList<_BuilderListExtend>[number]
     listItemTheme: Record<ThemeKeys, string>
     index: number
     acc: any
 }
-type BuilderList<T = unknown> = ({
-    children?: BuilderList<T>
-} & ListItenExpandedProps & T)[]
+type BuilderList<_BuilderListExtend = unknown> = ({
+    children?: BuilderList<_BuilderListExtend>
+} & ListItenExpandedProps & _BuilderListExtend)[]
 
 
 type ThemeKeys = 'item' | 'item_title' | 'item__empty' |  'item_title_wrapper' | 'children_wrapper'
 
-type Props<T = unknown> = {
+type Props<_BuilderListExtend = unknown> = {
     accordionIcon?: React.ReactNode
     soloOpen?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>
@@ -31,13 +31,13 @@ type Props<T = unknown> = {
 }
     &   PropsComponentThemed<ThemeKeys>
     &   ({
-            builder(args: BuilderArgs<T>): ({
+            builder(args: BuilderArgs<_BuilderListExtend>): ({
                 elem: React.ReactNode
                 acc?: any
                 replaceParentIfLast?: boolean
                 expanded?: boolean
             })
-            list: BuilderList<T>
+            list: BuilderList<_BuilderListExtend>
         }   |
         {
             builder?: never

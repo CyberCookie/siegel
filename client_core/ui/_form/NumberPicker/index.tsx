@@ -233,7 +233,7 @@ const NumberPicker: Component = (props, noDefaults) => {
                         ?   (isFinite(min) ? min : 0)+''
                         :   ''
 
-                    onChange(newValue, e, payload)
+                    onChange(newValue, e, undefined, payload)
                 } else {
                     const isKeyUp = keyCode == keyUp
 

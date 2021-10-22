@@ -3,16 +3,16 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'separator' | '_single' | 'control' | 'control__active' | 'control__disabled'
 
-type Props = {
+type Props<_Payload = unknown> = {
     listLength: number
     curPage: number
     showPerPage: number
-    onChange(nextPage: number, e: React.MouseEvent, payload?: any): void
+    onChange(nextPage: number, e: React.MouseEvent, payload: _Payload): void
     elementsBySide?: number
     elementsByMiddle?: number
     controlIcon?: React.ReactNode
     separator?: React.ReactNode
-    payload?: any
+    payload?: _Payload
     attributes?: ComponentAttributes<HTMLDivElement>
     fixedWidth?: boolean
 } & PropsComponentThemed<ThemeKeys>

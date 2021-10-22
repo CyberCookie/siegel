@@ -51,7 +51,7 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
                 }
 
 
-        optionElements.push( <div { ...optionProps } key={ value } /> )
+        optionElements.push( <div { ...optionProps } key={ value as string } /> )
     }
 
 

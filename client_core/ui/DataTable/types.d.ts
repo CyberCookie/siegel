@@ -13,10 +13,10 @@ type DataTableTableProps = {
     attributes?: TableProps['attributes']
 }
 
-type DisplayedEntityIDs<T extends Entities = Entities> = {
+type DisplayedEntityIDs<_Entities extends Entities = Entities> = {
     from: number
     to: number
-    allPagesIDs: ReturnType<T['raw']>['sorted']
+    allPagesIDs: ReturnType<_Entities['raw']>['sorted']
 } | undefined
 
 type State = {
@@ -31,25 +31,25 @@ type State = {
 
 
 type ColumnsConfig<
-    T extends Entities,
-    K = any,
-    Entity = ReturnType<T['get']>,
-    ByID = ReturnType<T['raw']>['byID'],
-    Sorted = ReturnType<T['raw']>['sorted']
+    _Entities extends Entities,
+    _ColumnParamsExtend = unknown,
+    Entity = ReturnType<_Entities['get']>,
+    ByID = ReturnType<_Entities['raw']>['byID'],
+    Sorted = ReturnType<_Entities['raw']>['sorted']
 > = {
     showValue(entity: Entity, index: number): TableTD
     onSort?(IDs: Sorted, byID: ByID, value: number): Sorted
     onFilter?(IDs: Sorted, byID: ByID, search: any): Sorted
     label?: React.ReactNode
-    customParams?: K
+    customParams?: _ColumnParamsExtend
 }
 
 
 type ThemeKeys = 'table' | 'table_resizer' | 'pagination_wrapper' | '_with_pagination'
 
-type Props<T extends Entities = Entities, K = any> = {
-    entities: T
-    columnsConfig: ColumnsConfig<T, K>[]
+type Props<_Entities extends Entities = Entities, _ColumnParamsExtend = unknown> = {
+    entities: _Entities
+    columnsConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>[]
     innerStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
     attributes?: ComponentAttributes<HTMLDivElement>
     withPagination?: {
@@ -65,9 +65,14 @@ type Props<T extends Entities = Entities, K = any> = {
     }
     tableAttributes?: TableProps['attributes']
     resizable?: boolean
-    postProcessHeadCell?(headCell: TableTH, columnsConfig: ColumnsConfig<T, K>, index: number, displayedEntityIDs: DisplayedEntityIDs): void
+    postProcessHeadCell?(
+        headCell: TableTH,
+        columnsConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>,
+        index: number,
+        displayedEntityIDs: DisplayedEntityIDs
+    ): void
     postProcessHeadRow?(rows: TableHeadRow[], displayedEntityIDs: DisplayedEntityIDs): void
-    postProcessBodyRow?(row: TableBodyRow[], entity: ReturnType<T['get']>, index: number): void
+    postProcessBodyRow?(row: TableBodyRow[], entity: ReturnType<_Entities['get']>, index: number): void
 } & PropsComponentThemed<ThemeKeys>
 
 

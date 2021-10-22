@@ -7,8 +7,9 @@ type DateParsedNonZeroed = {
 }
 
 type DateParsed = DateParsedZeroed & DateParsedNonZeroed
-
 type DateParse = (date: Date | number, zeroPrefix?: boolean) => DateParsed
+
+
 /**
  * Parse provided or current date into localized separated date pieces
  * @param date - any valid Date value

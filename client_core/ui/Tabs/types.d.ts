@@ -3,14 +3,14 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'labels_wrapper' | 'label' | 'label__active' | 'content' | 'content__empty'
 
-type Props = {
+type Props<_Payload = unknown> = {
     tabs: {
         id: string
         label: React.ReactNode
         content?: React.ReactNode
-        payload?: any
+        payload?: _Payload
     }[],
-    onChange(id: string, e: React.MouseEvent, payload?: any): void
+    onChange(id: string, e: React.MouseEvent, payload: _Payload): void
     activeTab?: string
     attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>

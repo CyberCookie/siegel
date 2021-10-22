@@ -7,12 +7,12 @@ type ThemeKeys = 'month_wrapper' | 'month_title_wrapper' | 'icon' | 'month_title
     | 'day__last' | 'day__today' | 'day__placeholder' | 'from' | 'to' | '_in_progress'
 
 
-type Props = {
+type Props<_Payload = unknown> = {
     initDate: {
         rangeDateStart: number
         rangeDateEnd?: number
     }
-    onChange?(range: Props['initDate'], isFinished: boolean, payload?: any): void
+    onChange?(range: Props['initDate'], isFinished: boolean, payload: _Payload): void
     onMonthSwitch?(date: Date, value: number, e: React.MouseEvent): void
     hideSiblingMonthsDays?: boolean
     prevIcon?: React.ReactNode
@@ -24,7 +24,7 @@ type Props = {
     noControls?: boolean
     triggerOnlyWhenFinished?: boolean
     locale?: string
-    payload?: any
+    payload?: _Payload
     rangePick?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>
     strings?: {

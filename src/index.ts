@@ -17,11 +17,11 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
 
     let devMiddlewares: any = []
     if (isBuild) {
-        const { run, getDevMiddlewares } = require(CONSTANTS.PATHS.build)
-        const webpackCompiller = await run(CONFIG, RUN_PARAMS)
+        const { run, getDevMiddlewares } = require(CONSTANTS.PATHS.build)(CONFIG, RUN_PARAMS)
+        await run()
 
         if (isDevServer) {
-            devMiddlewares = Object.values(getDevMiddlewares(CONFIG, webpackCompiller))
+            devMiddlewares = Object.values(getDevMiddlewares())
         }
     }
 

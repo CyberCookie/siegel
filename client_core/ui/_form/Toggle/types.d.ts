@@ -3,14 +3,14 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'children' | 'label' | 'toggle_area' | 'toggler' | '_toggled' | '_disabled'
 
-type Props = {
+type Props<_Payload = unknown> = {
     value?: boolean
     labelLeft?: React.ReactNode
     labelRight?: React.ReactNode
     toggleIcon?: React.ReactNode
-    payload?: any
+    payload?: _Payload
     disabled?: boolean
-    onChange?(isToggled: boolean, e: React.MouseEvent, payload?: any): void
+    onChange?(isToggled: boolean, e: React.MouseEvent, payload: _Payload): void
     attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 

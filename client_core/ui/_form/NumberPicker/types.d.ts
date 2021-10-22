@@ -14,12 +14,12 @@ type OnNumberPickerChange = (
 type ThemeKeys = 'children' | 'controls' | 'button_minus' | 'button_plus' | '_disabled_all'
     | 'input_root' | InputFieldThemeKeysArray[number]
 
-type Props = {
+type Props<_Payload = unknown> = {
     onChange(
         value: string,
         e: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>,
-        arrowValue?: boolean,
-        payload?: any
+        arrowValue: boolean | undefined,
+        payload: _Payload
     ): void
     attributes?: ComponentAttributes<HTMLDivElement>
     step?: number
@@ -27,7 +27,7 @@ type Props = {
     max?: number
     minusIcon?: React.ReactNode
     plusIcon?: React.ReactNode
-    payload?: any
+    payload?: _Payload
     precision?: number
     keyboardControls?: boolean
 

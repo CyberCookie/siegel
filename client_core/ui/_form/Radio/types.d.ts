@@ -1,12 +1,6 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../../ui_utils'
 
 
-type Option = {
-    id: string
-    content: React.ReactNode
-    className?: string
-}
-
 type MultiSelectProps = {
     multiple: true
     selected: Set<string>
@@ -18,9 +12,14 @@ type SingleSelectProps = {
 
 type ThemeKeys = 'option' | 'option__selected' | '_disabled'
 
-type Props = {
-    onChange(id: string, e: React.MouseEvent): void
-    options: Option[]
+type Props<_Payload = unknown> = {
+    onChange(id: string, e: React.MouseEvent, payload: _Payload): void
+    options: {
+        id: string
+        content: React.ReactNode
+        className?: string
+        payload?: _Payload
+    }[]
     disabled?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
@@ -35,4 +34,4 @@ type MergedProps = Props & DefaultProps
 type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, Option, MultiSelectProps, SingleSelectProps }
+export type { Props, DefaultProps, MergedProps, Component, MultiSelectProps, SingleSelectProps }
