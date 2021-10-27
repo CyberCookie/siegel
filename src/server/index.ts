@@ -29,16 +29,14 @@ function createHTTPServer(CONFIG: any, middlewares: any, serverExtend: any) {
     serverExtend && serverExtend(expressApp, { express })
 
 
-    expressApp.disable('x-powered-by')
-
-    expressApp.use(historyApiFallback())
-
-    middlewares.forEach((m: any) => expressApp.use(m))
-
-    expressApp.use('/', expressStatic(staticDir, {
-        enableBrotli: true,
-        orderPreference: ['br', 'gzip']
-    }))
+    expressApp
+        .disable('x-powered-by')
+        .use(historyApiFallback())
+        .use('/', expressStatic(staticDir, {
+            enableBrotli: true,
+            orderPreference: ['br', 'gzip']
+        }))
+    middlewares.forEach((m: any) => { expressApp.use(m) })
 
 
     let server = expressApp
@@ -62,7 +60,7 @@ function createHTTP2Server(CONFIG: any, serverExtend: any) {
 
     const {
         HTTP2_HEADER_CONTENT_ENCODING,
-        HTTP2_HEADER_CONTENT_TYPE,
+        HTTP2_CONTENT_TYPE_KEY,
         HTTP2_HEADER_PATH,
         HTTP2_HEADER_STATUS
     } = http2.constants
@@ -86,7 +84,7 @@ function createHTTP2Server(CONFIG: any, serverExtend: any) {
         let filePath = path.join(staticDir, ext ? reqFilePath : 'index.html')
 
         const reponseHeaders = {
-            [HTTP2_HEADER_CONTENT_TYPE]: mime.contentType(path.extname(filePath))
+            [HTTP2_CONTENT_TYPE_KEY]: mime.contentType(path.extname(filePath))
         }
 
 

@@ -5,6 +5,7 @@
 		"skipLibCheck": true,
 		"paths": {
 			"app/*": ["./client/main/*"],
+			"dto/*": ["./dto/*"],
 			"siegel-services/*": ["../client_core/services/*"],
 			"siegel-store/*": ["../client_core/store/*"],
 			"siegel-hooks/*": ["../client_core/hooks/*"],
@@ -13,5 +14,5 @@
 			"siegel-router": ["../client_core/router/index.tsx"]
 		}
 	},
-	"include": [ "./client", "../global.d.ts" ]
+	"include": [ "./client", "./dto", "../global.d.ts" ]
 }

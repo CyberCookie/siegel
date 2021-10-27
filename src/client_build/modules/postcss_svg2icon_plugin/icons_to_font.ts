@@ -38,7 +38,7 @@ module.exports = ({ fontName, svgs, woff2 }) => new Promise((resolve, reject) =>
         fs.readFile(filename, (err, svgBuffer) => {
             if (err) return reject(err)
 
-            // prevent svgs with fill="none" from beeing translated into an empty symbol
+            // prevent svgs with fill="none" from being translated into an empty symbol
             const svgCode = svgBuffer.toString().replace(/\sfill\s*=\s*["']?none['"]?/ig, '')
             glyph.push(svgCode)
             glyph.push(null)

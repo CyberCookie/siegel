@@ -11,36 +11,48 @@ type ReqError = {
     res?: any
 }
 
-type SetupFnParams = {
-    beforeRequest?(opts: RequestParams): void | Promise<RequestParams>
-    afterRequest?(reqData: ReqData, parsedRes: any): void
-    errorHandler?(error: ReqError): void
-} & Indexable
-
-type RequestParams = {
+type RequestParams<_Body = any> = {
     url: string
     isFullRes?: boolean
     parseMethod?: string
-    params?: Indexable<string>
-    query?: string | string[][] | Indexable<string> | URLSearchParams
-    headers?: Indexable<string>
+    params?: Record<string, string>
+    query?: string | Record<string, string> | URLSearchParams
+    headers?: Record<string, string>
     credentials?: RequestInit['credentials']
     method?: RequestInit['method']
     signal?: RequestInit['signal']
-    body?: any
+    body?: _Body
+    json?: boolean
+    preventSame?: boolean
+    beforeRequest?: Hooks['beforeRequest']
+}
+
+type Hooks = {
+    beforeParse?(opts: RequestParams): void | Promise<RequestParams>
+    beforeRequest?(reqData: ReqData): void
+    afterRequest?(reqData: ReqData, parsedRes: any): void
+    errorHandler?(error: ReqError): void
+    json?: RequestParams['json']
 }
 
 
-function setup(newDefaults: SetupFnParams): void {
-    for (const key in newDefaults) defaultSetup[key] = newDefaults[key]
+const HEADERS = {
+    CONTENT_TYPE: 'content-type'
+} as const
+
+const CONTENT_TYPE = {
+    JSON: 'application/json',
+    FORM_DATA: 'multipart/form-data',
+    X_FORM: 'application/x-www-form-urlencoded'
+} as const
+
+const jsonContentTypeHeaders = {
+    [HEADERS.CONTENT_TYPE]: CONTENT_TYPE.JSON
 }
 
-const defaultSetup: SetupFnParams = {}
-
-const HEADER_CONTENT_TYPE = 'content-type'
 
 function extractRequestData(request: RequestParams) {
-    const { url, query, params, headers, body, credentials, signal } = request
+    const { url, query, params, headers, body, credentials, signal, json } = request
     let fetchURL = url as string
 
     const options: RequestInit = { method: request.method }
@@ -72,6 +84,14 @@ function extractRequestData(request: RequestParams) {
     signal && (options.signal = signal)
 
 
+    if (json) {
+        options.body && (options.body = JSON.stringify(options.body))
+        options.headers
+            ?   ((options.headers as Indexable)[HEADERS.CONTENT_TYPE] ||= CONTENT_TYPE.JSON)
+            :   (options.headers = jsonContentTypeHeaders)
+    }
+
+
     return {
         initialURL: url,
         url: fetchURL,
@@ -81,18 +101,19 @@ function extractRequestData(request: RequestParams) {
 
 
 async function extractResponseData(req: RequestParams, res: Response): Promise<any> {
-    let parseMethod = req.parseMethod
+    let { parseMethod } = req
     let contentType
 
     if (!parseMethod) {
         parseMethod = 'text'
-        contentType = res.headers.get(HEADER_CONTENT_TYPE)
+        contentType = res.headers.get(HEADERS.CONTENT_TYPE)
 
         if (contentType) {
-            if (contentType.startsWith('application/json')) {
+            if (req.json || contentType.startsWith(CONTENT_TYPE.JSON)) {
                 parseMethod = 'json'
-            } else if (contentType.startsWith('multipart/form-data')
-                || contentType.startsWith('application/x-www-form-urlencoded')) {
+
+            } else if (contentType.startsWith(CONTENT_TYPE.FORM_DATA)
+                || contentType.startsWith(CONTENT_TYPE.X_FORM)) {
 
                 parseMethod = 'formData'
             }
@@ -106,56 +127,72 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
 }
 
 
-async function makeRequest(req: RequestParams) {
-    const { afterRequest, errorHandler } = defaultSetup
+const createApi = (hooks: Hooks = {}) => {
+    const { beforeParse, beforeRequest, afterRequest, errorHandler, json } = hooks
+    const activeRequest = new Set()
 
-    const reqData = extractRequestData(req)
+
+    return async function request<Body = unknown, Res = unknown>(req: RequestParams<Body>) {
+        req.json ||= json
+
+        const ifAsync = beforeParse?.(req)
+        if (ifAsync) await ifAsync.then(_req => { req = _req })
+
+        const { isFullRes, preventSame = true } = req
+        const reqData = extractRequestData(req)
+
+        let reqKey
+        preventSame && (reqKey = `${reqData.url}_${reqData.options.method}_${reqData.options.body}`)
 
 
-    try {
-        const res = await fetch(reqData.url, reqData.options)
-        const { headers, status, statusText } = res
-
-        let parsedRes = await extractResponseData(req, res)
-        req.isFullRes && (parsedRes = {
-            status, statusText, headers,
-            data: parsedRes
-        })
-
-        if (res.ok) {
-            afterRequest?.(reqData, parsedRes)
-            return {
-                res: parsedRes,
-                err: null
+        beforeRequest?.(reqData)
+        req.beforeRequest?.(reqData)
+        try {
+            if (preventSame) {
+                if (activeRequest.has(reqKey)) {
+                    throw {
+                        err: new Error('Same request is already processing'),
+                        canceled: true
+                    }
+                } else activeRequest.add(reqKey)
             }
-        } else throw {
-            status: res.status,
-            message: res.statusText,
-            res: parsedRes
-        }
-    } catch (err) {
-        (err as ReqError).req = reqData
 
-        errorHandler?.(err as ReqError)
-        return {
-            res: null,
-            err
+            const res = await fetch(reqData.url, reqData.options)
+            const { headers, status, statusText } = res
+
+            let parsedRes = await extractResponseData(req, res)
+            isFullRes && (parsedRes = {
+                status, statusText, headers,
+                data: parsedRes
+            })
+
+            if (res.ok) {
+                preventSame && activeRequest.delete(reqKey)
+                afterRequest?.(reqData, parsedRes)
+
+                return {
+                    res: parsedRes as Res,
+                    err: null
+                }
+            } else throw {
+                status: res.status,
+                message: res.statusText,
+                res: parsedRes
+            }
+        } catch (err) {
+            (err as ReqError).req = reqData
+
+            errorHandler?.(err as ReqError)
+
+            return {
+                res: null,
+                err
+            }
         }
     }
 }
 
 
-function request(req: RequestParams) {
-    const { beforeRequest } = defaultSetup
-
-    const asyncInterceptor = beforeRequest?.(req)
-
-    return asyncInterceptor
-        ?   asyncInterceptor.then(makeRequest)
-        :   makeRequest(req)
-}
-
-
-export { setup, HEADER_CONTENT_TYPE }
-export default request
-export type { FetchParams, ReqError, SetupFnParams, RequestParams }
+export { HEADERS, CONTENT_TYPE }
+export default createApi
+export type { FetchParams, ReqError, Hooks, RequestParams }

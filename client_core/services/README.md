@@ -1,119 +1,107 @@
 <h1>Services</h1>
 
 
-<h3>Request</h3>
-
-<h4>Convenient FetchAPI wrapper to make request with.</h4>
+<h2>Request</h2>
+<h3>FetchAPI wrapper to make request with.</h3>
 <br />
 
-<h4>Options: </h4>
-<br />
 
 ```js
-import request from 'siegel-services/request'
+import setupRequest, { HEADERS, CONTENT_TYPE } from 'siegel-services/request'
 
-request({
-    /*
-        request URL.
-        Can include url params: someurl.com/:param1/:param2
-    */
-    url: 'someurl.com', 
+const request = setupRequest(config: ReqSetup)
 
-    /*
-        request method.
-        GET is by default.
-        If body is using then POST is default
-    */
-    method: 'PUT',
+request(options: ReqParams)
+    .then(({ res, err }) => {
+        if (res) ...
+    })
 
-    /* Request body */
-    body: {
-        some: 'data'
-    },
-
-    /* URL params that will be included in URL */
-    params: {
-        param1: 'paramValue1',
-        param2: 'paramValue2'
-    },
-
-    /*
-        Query params.
-        Can also be a string 
-    */
-    query: {
-        param1: 42,
-        param2: 'some param'
-    },
-
-    /* Request headers */
-    headers: {
-        auth: 'token',
-        contentType: 'application/json'
-    },
-
-    /* fetch credentials setup */
-    credentials: 'same-origin',
-
-    /*
-        Method to be executed on response to retrieve actual data.
-        By default request service sets this prop regarding to response content type.
-    */
-    parseMethod: 'json'
-})
-```
-
-
-<br />
-<h4>Request service can also be configured with beforeRequest, afterRequest and errorHandler hooks:</h4>
-<br />
-
-```js
-import { setup } from 'siegel-services/request'
-
-setup({
-    beforeRequest(request) {
-        request.url = 'api/' + request.url;
-
-        //return a promise to make the inerceptor asynchronous
-        return (new Promise(resolve => {
-            setTimeout(() => { resolve(request) }, 1000)
-        })).catch(console.error)
-    },
-    afterRequest(request, parsedResponse) {
-        /* do some logic */
-    },
-    errorHandler(error) {
-        let { req, res, status, message } = error;
-        console.error(`${status}. ${message}`)
-    }
-})
 ```
 
 <br />
-<h4>Example of POST request where we send some JSON body with parameterized URL.</h4>
+<h3>ReqParams</h3>
+<h4>Concrete request parameters object</h4><br />
+
+- `url`: <b>string</b><br />
+    Request URL. Can include url params: <i>someurl/:param1/:param2</i><br/>
+
+- `params`: <b>Record< string, string ></b><br />
+    URL params that will be included in URL.<br/>
+
+- `query`: <b>string | Record< string, string ></b></br>
+    URL query params.<br />
+
+- `method`: <b>string</b> Default is GET<br />
+    Request method.<br />
+
+- `body`: <b>Any valid request body</b><br />
+    Request payload.<br />
+
+- `headers`: <b>Record< string, string ></b><br />
+    Request headers.<br />
+
+- `parseMethod`: <b>string</b><br />
+    Method to be executed on response to retrieve actual data.<br />
+    By default request service sets this prop regarding to response content type.<br />
+
+- `credentials`: <b>string</b><br />
+    Request credentials.<br />
+
+- `json`: <b>boolean</b> Default is false<br />
+    Applies json content type to headers and parses response as json<br />
+
+- `preventSame`: <b>boolean</b> Default is true<br />
+    Prevents request if the same request is already processing.<br />
+    Same request is a request with the same <b>url</b> <b>method</b> and <b>stringified body</b><br />
+
+- `signal`: <b>Request signal</b><br />
+    Terminates request and prevents browser from response handling<br />
+
+- `isFullRes`: <b>boolean</b> Default is false <br />
+    Returns full response with headers, status code etc...<br />
+
+- `beforeRequest`: <b>(reqData: Parameters< typeof fetch >) => void</b><br />
+    Triggers right before fetch call.<br />
+    <b>reqData</b> argument has url and options props, compatible with browser fetch.<br />
+    <b>reqData</b> argument is mutable.<br />
+
+
 <br />
+<h3>ReqSetup</h3>
+<h4>Every request parameters object</h4><br />
 
-```js
-import request, { HEADER_CONTENT_TYPE } from 'siegel-services/request'
+- `beforeParse`: <b>(reqParams: ReqParams) => void | Promise< ReqParams ></b><br />
+    Triggers before request options are parsed into compatible fetch api options.<br />
+    <b>reqParams</b> argument is mutalbe.<br />
 
-request({
-    url: 'some_url/:id',
-    params: {
-        id: 24
-    },
-    headers: {
-        [ HEADER_CONTENT_TYPE ]: 'application/json'
-    },
-    body: JSON.stringify({ some_data: 42 })
-}).then(({ res, err }) => {
-    err
-        ?   console.error(err)
-        :   console.log(res)
-})
-```
+- `beforeRequest`: <b>ReqParams . beforeRequest</b><br />
+
+- `afterRequest`: <b>(reqData, parsedRes) => void</b><br />
+    This hook is calling after successfull request was made.<br />
+
+- `errorHandler`: <b>(error) => void </b><br />
+    Triggers after unsuccessfull request.<br />
+    <b>error</b> argument contains information about error and <b>reqData</b>.<br />
+
+- `json`: <b>ReqParams . json</b> <br />
 
 
-<br /><br />
-<h4>signalr</h4>
-docs will be soon
+<br />
+<h3>HEADERS</h3>
+<h4>Request headers constants used in <b>request</b> service</h4><br />
+
+
+<br />
+<h3>CONTENT_TYPE</h3>
+<h4>Content-type header values used in <b>request</b> service</h4><br />
+
+
+
+<br /><br /><br />
+<h3>Socket</h3>
+<h4>docs will be soon</h4>
+
+
+<br /><br /><br />
+<h3>SignalR</h3>
+<h4>docs will be soon</h4>

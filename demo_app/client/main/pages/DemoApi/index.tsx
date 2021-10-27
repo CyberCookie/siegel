@@ -12,15 +12,14 @@ const DemoApi: Page = () => {
     const { requests, errRes } = fetchModule()[0]
     const [
         { received, counter, proxyRes },
-        { makeSomeFetch, updateCounter, proxyGet }
+        { api_echo, updateCounter, api_proxyGet }
     ] = testModule()
 
     const [ requestString, setRequestString ] = useState('')
 
-
     function sendData() {
         setRequestString('')
-        makeSomeFetch(requestString)
+        api_echo({ dataToSend: requestString })
     }
 
     const isDisabledSend = !requestString.length
@@ -58,7 +57,7 @@ const DemoApi: Page = () => {
             <Button value={ isProxyRequesting ? 'Requesting...' : 'proxy fetch' }
                 disabled={ isProxyRequesting }
                 className={ styles.global_counter }
-                onClick={ () => { proxyGet(counter.toString()) } } />
+                onClick={ () => { api_proxyGet(counter.toString()) } } />
 
             { isProxyError
                 ?   <>

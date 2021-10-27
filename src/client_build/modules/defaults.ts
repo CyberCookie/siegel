@@ -27,7 +27,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     loader: esbuild,
                     options: {
                         loader: 'tsx',
-                        target: 'es2015'
+                        target: 'esnext'
                     }
                 }
             }
