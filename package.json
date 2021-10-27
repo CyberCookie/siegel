@@ -45,7 +45,7 @@
         "validate_siegel": "npm run validate && cd demo_app && npx tsc",
         "start": "npm run build_serv",
         "build_web": "node $npm_package_config_index -b",
-        "build_web:prod": "npm run build -- -p",
+        "build_web:prod": "npm run build_web -- -p",
         "build:prod": "npm run build_node && npm run build_web:prod --",
         "build_serv": "node $npm_package_config_index -b -s",
         "build_serv:prod": "npm run build:prod && npm run pm2",
