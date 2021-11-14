@@ -10,7 +10,7 @@ on:
 jobs:
   build:
 
-    runs-on: [ ubuntu-latest, windows-2022 ]
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
