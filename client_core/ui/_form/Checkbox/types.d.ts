@@ -27,7 +27,7 @@ type ThemeKeys = 'label' | 'checkbox' | 'with_icon_wrapper' | 'label_wrapper' | 
 //     attributes?: ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 // }
 
-type Props<_Payload = unknown> = {
+type Props<_Payload = any> = {
     value: boolean
     onChange?(checked: Props['value'], e: React.MouseEvent, payload: _Payload): void
     checkboxAttributes?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>

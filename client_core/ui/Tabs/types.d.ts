@@ -3,7 +3,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'labels_wrapper' | 'label' | 'label__active' | 'content' | 'content__empty'
 
-type Props<_Payload = unknown> = {
+type Props<_Payload = any> = {
     tabs: {
         id: string
         label: React.ReactNode

@@ -3,7 +3,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'separator' | '_single' | 'control' | 'control__active' | 'control__disabled'
 
-type Props<_Payload = unknown> = {
+type Props<_Payload = any> = {
     listLength: number
     curPage: number
     showPerPage: number

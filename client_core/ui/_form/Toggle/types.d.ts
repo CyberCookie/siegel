@@ -3,7 +3,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'children' | 'label' | 'toggle_area' | 'toggler' | '_toggled' | '_disabled'
 
-type Props<_Payload = unknown> = {
+type Props<_Payload = any> = {
     value?: boolean
     labelLeft?: React.ReactNode
     labelRight?: React.ReactNode

@@ -1,14 +1,14 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
 
 
-type ListItenExpandedProps = {
+type ListItemExpandedProps = {
     expanded?: boolean
 }
 
 type List = ({
     title: React.ReactNode
     children?: List
-} & ListItenExpandedProps)[]
+} & ListItemExpandedProps)[]
 
 type BuilderArgs<_BuilderListExtend> = {
     listItem: BuilderList<_BuilderListExtend>[number]
@@ -16,14 +16,14 @@ type BuilderArgs<_BuilderListExtend> = {
     index: number
     acc: any
 }
-type BuilderList<_BuilderListExtend = unknown> = ({
+type BuilderList<_BuilderListExtend = Indexable<any>> = ({
     children?: BuilderList<_BuilderListExtend>
-} & ListItenExpandedProps & _BuilderListExtend)[]
+} & ListItemExpandedProps & _BuilderListExtend)[]
 
 
 type ThemeKeys = 'item' | 'item_title' | 'item__empty' |  'item_title_wrapper' | 'children_wrapper'
 
-type Props<_BuilderListExtend = unknown> = {
+type Props<_BuilderListExtend = Indexable<any>> = {
     accordionIcon?: React.ReactNode
     soloOpen?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>

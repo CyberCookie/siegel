@@ -32,7 +32,7 @@ type State = {
 
 type ColumnsConfig<
     _Entities extends Entities,
-    _ColumnParamsExtend = unknown,
+    _ColumnParamsExtend = any,
     Entity = ReturnType<_Entities['get']>,
     ByID = ReturnType<_Entities['raw']>['byID'],
     Sorted = ReturnType<_Entities['raw']>['sorted']
@@ -47,7 +47,7 @@ type ColumnsConfig<
 
 type ThemeKeys = 'table' | 'table_resizer' | 'pagination_wrapper' | '_with_pagination'
 
-type Props<_Entities extends Entities = Entities, _ColumnParamsExtend = unknown> = {
+type Props<_Entities extends Entities = Entities, _ColumnParamsExtend = any> = {
     entities: _Entities
     columnsConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>[]
     innerStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]

@@ -12,7 +12,7 @@ type SingleSelectProps = {
 
 type ThemeKeys = 'option' | 'option__selected' | '_disabled'
 
-type Props<_Payload = unknown> = {
+type Props<_Payload = any> = {
     onChange(id: string, e: React.MouseEvent, payload: _Payload): void
     options: {
         id: string

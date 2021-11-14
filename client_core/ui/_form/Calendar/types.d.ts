@@ -7,7 +7,7 @@ type ThemeKeys = 'month_wrapper' | 'month_title_wrapper' | 'icon' | 'month_title
     | 'day__last' | 'day__today' | 'day__placeholder' | 'from' | 'to' | '_in_progress'
 
 
-type Props<_Payload = unknown> = {
+type Props<_Payload = any> = {
     initDate: {
         rangeDateStart: number
         rangeDateEnd?: number

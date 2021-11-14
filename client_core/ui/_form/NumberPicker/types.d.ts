@@ -14,7 +14,7 @@ type OnNumberPickerChange = (
 type ThemeKeys = 'children' | 'controls' | 'button_minus' | 'button_plus' | '_disabled_all'
     | 'input_root' | InputFieldThemeKeysArray[number]
 
-type Props<_Payload = unknown> = {
+type Props<_Payload = any> = {
     onChange(
         value: string,
         e: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>,

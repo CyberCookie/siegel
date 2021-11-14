@@ -4,7 +4,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 type ThemeKeys =  'children' | 'label' | 'title' | 'title_text' | 'input_wrapper' | 'options' | 'option' | 'reset'
     | '_option_active' | '_option_disabled' | '_active' | '_disabled' | '_filled'
 
-type Props<_Value = unknown, _Payload = unknown> = {
+type Props<_Value = any, _Payload = any> = {
     options: {
         value: _Value
         title: React.ReactNode

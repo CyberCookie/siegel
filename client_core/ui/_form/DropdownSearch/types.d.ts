@@ -9,7 +9,7 @@ type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
 type ThemeKeys = 'children' | 'options' | 'option' | '_with_suggestions' | '_disabled' | '_focused'
 
-type Props<_Value = unknown, _Payload = unknown> = {
+type Props<_Value = any, _Payload = any> = {
     onChange(value: _Value | undefined, e: React.MouseEvent | React.FocusEvent, payload?: _Payload): void
     searchOptions: {
         inputValue: string

@@ -25,7 +25,7 @@ type InputElementAttributes = {
     value: Props['value']
 } & Omit<ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>, 'onChange' | 'value'>
 
-type Props<_Payload= unknown> = {
+type Props<_Payload= any> = {
     value?: string
     innerStore?: InputStore
     disabled?: boolean
