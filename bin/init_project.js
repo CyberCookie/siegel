@@ -1,4 +1,4 @@
-const { join, relative, posix }                     = require('path')
+const { join, relative }                            = require('path')
 const { existsSync, writeFileSync, readFileSync }   = require('fs')
 const shell                                         = require('child_process').execSync
 
@@ -26,8 +26,6 @@ const getLocalPathToSiegel = (...args) => './' + join(LOC_NAMES.NODE_MODULES, ..
 
 function main(isGlobal) {
     const replaceDevPathWithModule = path => {
-        const { join, relative } = posix
-
         const replaceWith = isGlobal
             ?   join(relative(__dirname, PATHS.globalNodeModules), devCorePackageName)
             :   getLocalPathToSiegel(devCorePackageName)

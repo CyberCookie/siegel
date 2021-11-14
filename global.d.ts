@@ -17,6 +17,10 @@ type NarrowObjectToValueTypes<O extends Indexable, T> = {
     [k in keyof O as O[k] extends T ? k : never]: T
 }
 
+type CSSWithVariables = {
+    [key: string]: string | number
+} & React.CSSProperties
+
 
 interface URLSearchParams {
     append(key: string, value: any): void

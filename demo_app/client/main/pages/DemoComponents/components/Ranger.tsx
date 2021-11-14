@@ -54,7 +54,6 @@ const Demo = () => {
         <h2 children='Cross behavior: cross' />
         <Ranger { ...propsDouble } rangersCrossBehavior='cross' />
 
-
         <h2 children='simple disabled' />
         <Ranger { ...propsSingle } disabled />
     </>

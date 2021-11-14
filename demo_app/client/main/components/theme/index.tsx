@@ -21,10 +21,11 @@ import _Tabs, { Props as TabsProps } from 'siegel-ui/Tabs'
 import _Toggle, { Props as ToggleProps } from 'siegel-ui/_form/Toggle'
 import Swipe, { Props as SwipeProps } from 'siegel-ui/Swipe'
 import _Ranger, { Props as RangerProps } from 'siegel-ui/_form/Ranger'
+import _Stepper, { Props as StepperProps } from 'siegel-ui/_form/Stepper'
 
 
-import { routesConfig, history } from 'app/Router/config'
 import icons from '../icons'
+import { routesConfig, history } from 'app/Router'
 
 import buttonTheme from './styles/button.sass'
 import breadcrumbsTheme from './styles/breadcrumbs.sass'
@@ -44,6 +45,7 @@ import tableTheme from './styles/table.sass'
 import tabsTheme from './styles/tabs.sass'
 import toggleTheme from './styles/toggle.sass'
 import rangerTheme from './styles/ranger.sass'
+import stepperTheme from './styles/stepper.sass'
 
 
 
@@ -150,10 +152,19 @@ const Toggle = withDefaults(_Toggle, { theme: toggleTheme })
 
 const Tabs = withDefaults(_Tabs, { theme: tabsTheme })
 
-const Ranger = withDefaults(_Ranger, {
+
+const rangerDefaultProps = {
     theme: rangerTheme,
     rangePickIcon: ''
+}
+
+const Ranger = withDefaults(_Ranger, rangerDefaultProps)
+
+const Stepper = withDefaults(_Stepper, {
+    theme: stepperTheme,
+    rangetProps: rangerDefaultProps
 })
+
 
 
 export {
@@ -177,10 +188,11 @@ export {
     tableTheme, Table,
     toggleTheme, Toggle,
     tabsTheme, Tabs,
-    rangerTheme, Ranger
+    rangerTheme, Ranger,
+    stepperTheme, Stepper
 }
 export type {
     ButtonProps, BreadcrumbsProps, CalendarProps, CheckboxProps, ClocksProps, DataTableProps, SwipeProps,
     AccordionProps, DropdownSearchProps, InputProps, NumberPickerProps, PaginationProps, PopupProps, RadioProps,
-    SelectProps, SliderProps, TableProps, ToggleProps, TabsProps, RangerProps
+    SelectProps, SliderProps, TableProps, ToggleProps, TabsProps, RangerProps, StepperProps
 }

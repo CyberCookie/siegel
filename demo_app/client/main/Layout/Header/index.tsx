@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { pagePathMap } from 'app/Router/config'
 import { Breadcrumbs } from 'app/components'
+import { pagePathMap } from 'app/Router'
 
 import styles from './styles.sass'
 

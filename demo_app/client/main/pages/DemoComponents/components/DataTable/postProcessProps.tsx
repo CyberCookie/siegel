@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { getDefaultState } from 'siegel-ui/DataTable'
 
+import type { DemoDataTableProps } from './types'
 import {
     icons, Pagination, Select, Checkbox, Input, Calendar,
     paginationTheme, selectTheme, checkboxTheme, inputTheme
 } from 'app/components'
-import type { DemoDataTableProps } from './types'
 
 import styles from './styles.sass'
 

@@ -50,7 +50,7 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
         let devServerInstance = createDevServer()
         if (watch && appServerLoc) {
             const { statSync, readdir, watch } = require('fs')
-            const { posix, dirname } = require('path')
+            const { join, dirname } = require('path')
 
             let lock: NodeJS.Timer = null
             let serverIndexFile: string
@@ -82,7 +82,7 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
             }
 
             function applyWatchListener(file: any, prefix?: any) {
-                prefix && (file = posix.join(prefix, file))
+                prefix && (file = join(prefix, file))
 
                 if (statSync(file).isDirectory()) {
                     readdir(file, (err: any, files: any) => {

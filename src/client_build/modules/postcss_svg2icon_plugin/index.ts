@@ -1,8 +1,8 @@
-const { dirname, posix }    = require('path')
-const { createHash }        = require('crypto')
-const postcss               = require('postcss')
+const { dirname, join } = require('path')
+const { createHash }    = require('crypto')
+const postcss           = require('postcss')
 
-const iconToFont            = require('./icons_to_font')
+const iconToFont        = require('./icons_to_font')
 
 
 
@@ -12,8 +12,8 @@ const iconToFont            = require('./icons_to_font')
 //         name: fontName
 //     }
 
-//     const iconFontLoaderPath = posix.join(__dirname, 'loader.js')
-//     const iconFontPlaceholderPath = posix.join(__dirname, 'placeholder.svg')
+//     const iconFontLoaderPath = join(__dirname, 'loader.js')
+//     const iconFontPlaceholderPath = join(__dirname, 'placeholder.svg')
 
 //     // Use !! to tell webpack that we don't want any other loader to kick in
 
@@ -66,7 +66,7 @@ module.exports = ({ fontNamePrefix, isWoff2 }) => ({
                 } else
                 if (prop == 'font-icon') {
                     const unresolvedValue = getUnresolvedIconPath(value)
-                    const absolutePath = posix.join(context, unresolvedValue)
+                    const absolutePath = join(context, unresolvedValue)
 
 
                     // cssValueToAbsolutePath[value] = absolutePath //TODO?: use absolute paths

@@ -132,7 +132,7 @@ const createApi = (hooks: Hooks = {}) => {
     const activeRequest = new Set()
 
 
-    return async function request<Body = unknown, Res = unknown>(req: RequestParams<Body>) {
+    return async function request<Res = unknown, Body = unknown>(req: RequestParams<Body>) {
         req.json ||= json
 
         const ifAsync = beforeParse?.(req)

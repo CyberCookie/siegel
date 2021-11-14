@@ -1,24 +1,9 @@
-import request from 'app/network'
-import createHookStore, { HookStore } from 'siegel-store/hook_store'
+import createHookStore from 'siegel-store/hook_store'
 import breadcrumbID from 'siegel-ui/Breadcrumbs/id'
 
-import { EchoReqBody } from 'dto/demo_api'
-import { dynamicCrumbsMap } from 'app/Router/config'
-
-
-type State = {
-    received: string
-    proxyRes: Indexable
-    counter: number
-}
-
-type Actions = {
-    api_echo(store: StoreInitialized, body: EchoReqBody): void
-    api_proxyGet(store: StoreInitialized, id: string): void
-    updateCounter(store: StoreInitialized): void
-}
-
-type StoreInitialized = HookStore<State, Actions>
+import type { State, Actions, EchoReqBody } from './types'
+import request from 'app/network'
+import { dynamicCrumbsMap } from 'app/Router'
 
 
 const initState: State = {
@@ -52,12 +37,12 @@ const actions: Actions = {
     },
 
     api_proxyGet({ state, setState }, id) {
-        request({
+        request<Indexable>({
             url: urls.proxy,
             params: { id }
         }).then(({ res }) => {
             if (res) {
-                state.proxyRes = res as Indexable
+                state.proxyRes = res
                 setState(state)
             }
         })
@@ -76,3 +61,4 @@ const { useStore, store } = createHookStore(initState, actions)
 
 export { store, urls }
 export default useStore
+export * as DemoApiTypes from './types'

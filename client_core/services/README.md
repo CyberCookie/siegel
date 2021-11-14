@@ -11,7 +11,7 @@ import setupRequest, { HEADERS, CONTENT_TYPE } from 'siegel-services/request'
 
 const request = setupRequest(config: ReqSetup)
 
-request(options: ReqParams)
+request<Res, ReqBody>(options: ReqParams)
     .then(({ res, err }) => {
         if (res) ...
     })

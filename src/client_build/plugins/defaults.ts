@@ -1,4 +1,4 @@
-const { dirname, posix } = require('path')
+const { dirname, join, relative } = require('path')
 const {
     pluginInstancesKeyMap, pluginsKeysMap,
 
@@ -13,8 +13,6 @@ const {
     }
 } = require('../constants')
 
-
-const { join, relative } = posix
 
 function resolvePluginDefaultOptions(defaultOptions, userOptions) {
     const typeofUserOptions = typeof userOptions

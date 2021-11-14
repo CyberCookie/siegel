@@ -3,7 +3,7 @@ import fetchModule from 'siegel-store/hook_store/fetch_module'
 import type { Page } from 'siegel-router'
 
 import { Button, Input } from 'app/components'
-import testModule, { urls as demoApiUrls } from 'app/modules/demo_api'
+import { demoApiModule } from 'app/modules'
 
 import styles from './styles.sass'
 
@@ -13,7 +13,7 @@ const DemoApi: Page = () => {
     const [
         { received, counter, proxyRes },
         { api_echo, updateCounter, api_proxyGet }
-    ] = testModule()
+    ] = demoApiModule.default()
 
     const [ requestString, setRequestString ] = useState('')
 
@@ -24,8 +24,8 @@ const DemoApi: Page = () => {
 
     const isDisabledSend = !requestString.length
 
-    const isProxyRequesting = requests[demoApiUrls.proxy] > 0
-    const isProxyError = errRes[demoApiUrls.proxy]
+    const isProxyRequesting = requests[demoApiModule.urls.proxy] > 0
+    const isProxyError = errRes[demoApiModule.urls.proxy]
 
 
     return (

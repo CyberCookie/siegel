@@ -2,8 +2,8 @@ import React, { useState, useMemo } from 'react'
 import updateURLQuery from 'siegel-utils/query_update'
 import type { Page } from 'siegel-router'
 
-import { history } from 'app/Router/config'
 import * as demoComponents from './components'
+import { history } from 'app/Router'
 
 import styles from './styles.sass'
 

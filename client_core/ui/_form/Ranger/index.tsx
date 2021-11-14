@@ -1,9 +1,13 @@
+//TODO: vertical mode
+
+
 import React, { useState, useLayoutEffect } from 'react'
 
 import isE from '../../../utils/is_exists'
 import { extractProps, applyRefApi } from '../../ui_utils'
 import addChildren from '../../children'
 import type {
+    State, RangeCrossTypeMap, GetRangeElement, GetRangePickerElement,
     Component, MergedProps,
     DoubleValue, Props
 } from './types'
@@ -11,32 +15,17 @@ import type {
 import styles from './styles.sass'
 
 
-type RangeCrossTypeMap = {
-    [key in NonNullable<Props['rangersCrossBehavior']>]: key
-}
-
-type GetRangeElement = (key: string, className: string, width: number) => JSX.Element
-type GetRangePickerElement = (key: string, props: MergedProps, width: number) => JSX.Element
-
-type State = {
-    anchorPos: number
-    anchorFraction: number
-    activeSlider: null | HTMLDivElement
-    activeSliderArrValueIndex: undefined | number
-}
-
-
 const componentID = '-ui-ranger'
 
 const innerRangeAreaClassName = styles[componentID + '_inner_range_area']
 const innerRamgeSliderClassName = styles[componentID + '_inner_range_slider']
-
 
 const rangerCrossTypesMap: RangeCrossTypeMap = {
     stop: 'stop',
     move: 'move',
     cross: 'cross'
 } as const
+
 
 const validateValue = (value: number) => (
     value > 1
@@ -93,7 +82,7 @@ function getRangePickers(
     }
 }
 
-const toDefaultState = (state = {} as State) => {
+function toDefaultState(state = {} as State) {
     state.anchorPos = state.anchorFraction = 0
     state.activeSlider = null
     state.activeSliderArrValueIndex = undefined
@@ -127,18 +116,22 @@ const Ranger: Component = (props, noDefaults) => {
     } else valueValidated = validateValue(value as number)
 
 
+    const rootProps = { className }
+
     const rangeAreaProps: { className: string, children: JSX.Element, onMouseDown?: typeof onSlideStart} = {
         className: `${theme.range_area} ${innerRangeAreaClassName}`,
         children: getRangePickers(mergedProps, valueValidated, isDoubleValue)
     }
 
-    const rootProps = { className }
     disabled
         ?   (rootProps.className += ` ${theme._disabled}`)
-        :   (rangeAreaProps.onMouseDown = onSlideStart)
+        :   onChange
+            ?   (rangeAreaProps.onMouseDown = onSlideStart)
+            :   (rootProps.className += ` ${theme._readonly}`)
 
     refApi && applyRefApi(rootProps, mergedProps)
     attributes && Object.assign(rootProps, attributes)
+
 
 
     function onSlideStart(e: React.MouseEvent) {
@@ -149,7 +142,7 @@ const Ranger: Component = (props, noDefaults) => {
             x: rangeAreaOffsetX,
             width: rangeAreaWidth
         } = rangeAreaElement.getBoundingClientRect()
-        const { clientX, x } = e.nativeEvent
+        const { clientX, x: posX } = e.nativeEvent
 
         const rangeAreaPosXFraction = +((clientX - rangeAreaOffsetX) / rangeAreaWidth).toFixed(2)
 
@@ -171,16 +164,16 @@ const Ranger: Component = (props, noDefaults) => {
 
             if ((valueValidated as DoubleValue)[activeSliderArrValueIndex!] != rangeAreaPosXFraction) {
                 (valueValidated as DoubleValue)[activeSliderArrValueIndex!] = rangeAreaPosXFraction
-                onChange(valueValidated, e)
+                onChange!(valueValidated, e)
             }
         } else {
             activeSlider = rangeAreaElement.children[1] as HTMLDivElement
-            valueValidated != rangeAreaPosXFraction && onChange(rangeAreaPosXFraction, e)
+            valueValidated != rangeAreaPosXFraction && onChange!(rangeAreaPosXFraction, e)
         }
 
         activeSlider!.classList.add(theme.range_slider__active)
 
-        state.anchorPos = x
+        state.anchorPos = posX
         state.anchorFraction = rangeAreaPosXFraction
         state.activeSlider = activeSlider!
         state.activeSliderArrValueIndex = activeSliderArrValueIndex!
@@ -212,7 +205,7 @@ const Ranger: Component = (props, noDefaults) => {
                         if (isOverlapRight || isOverlapLeft) {
                             if (isStopRangerBehavior) {
                                 (valueValidated as DoubleValue)[activeSliderArrValueIndex] = opositeArrValue
-                                onChange(valueValidated, e)
+                                onChange!(valueValidated, e)
                                 return
                             } else {
                                 activeSlider!.classList.remove(theme.range_slider__active)
@@ -227,8 +220,8 @@ const Ranger: Component = (props, noDefaults) => {
                     }
 
                     (valueValidated as DoubleValue)[activeSliderArrValueIndex] = newValue
-                    onChange(valueValidated, e)
-                } else onChange(newValue, e)
+                    onChange!(valueValidated, e)
+                } else onChange!(newValue, e)
             }
         }
     }
@@ -245,13 +238,21 @@ const Ranger: Component = (props, noDefaults) => {
     }
 
 
+    const rangerElement = <div { ...rangeAreaProps } />
+    const children = addChildren(rootProps, theme)
+
+
     return (
         <div { ...rootProps }>
             { label && <div className={ theme.label } children={ label } /> }
 
-            <div { ...rangeAreaProps } />
-
-            { addChildren(rootProps, theme) }
+            { children
+                ?   <div className={ theme.ranger_content_wrapper }>
+                        { children }
+                        { rangerElement }
+                    </div>
+                :   rangerElement
+            }
         </div>
     )
 }
@@ -261,6 +262,7 @@ Ranger.defaults = {
     theme: {
         root: '',
         children: '',
+        ranger_content_wrapper: '',
         range_area: '',
         range_slider: '',
         label: '',
@@ -268,7 +270,8 @@ Ranger.defaults = {
         range_slider__active: '',
         range__selected: '',
         range__unselected: '',
-        _disabled: ''
+        _disabled: '',
+        _readonly: ''
     }
 }
 Ranger.ID = componentID
