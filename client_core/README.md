@@ -4,8 +4,8 @@ Client side related parts:
 
 <ul>
     <li>
-        <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/services'>
-            Services
+        <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/network'>
+            Network
         </a>
         to work with api (wrappers around SignalR client and browser's FetchAPI).
     </li>

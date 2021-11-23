@@ -1,4 +1,4 @@
-import createHookStore from 'siegel-store/hook_store'
+import createStore from 'siegel-store'
 import breadcrumbID from 'siegel-ui/Breadcrumbs/id'
 
 import type { State, Actions, EchoReqBody } from './types'
@@ -56,7 +56,7 @@ const actions: Actions = {
 
 
 
-const { useStore, store } = createHookStore(initState, actions)
+const { useStore, store } = createStore(initState, actions)
 
 
 export { store, urls }

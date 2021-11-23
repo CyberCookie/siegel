@@ -4,8 +4,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import isE from '../../utils/is_exists'
-import { extractProps, applyRefApi } from '../ui_utils'
-import addChildren from '../children'
+import extractProps from '../_internals/props_extract'
+import applyRefApi from '../_internals/ref_apply'
+import addChildren from '../_internals/children'
 import Swipe from '../Swipe'
 import type {
     Component, MergedProps, SwitchSlide,

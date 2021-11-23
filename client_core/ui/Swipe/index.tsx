@@ -1,7 +1,8 @@
 import React, { useLayoutEffect } from 'react'
 
 import isTouchScreen from '../../utils/is_touchscreen'
-import { extractProps, applyRefApi } from '../ui_utils'
+import extractProps from '../_internals/props_extract'
+import applyRefApi from '../_internals/ref_apply'
 import type {
     HTMLSwipeMouseEvent, Component, MergedProps,
     Props

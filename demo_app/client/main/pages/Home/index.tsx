@@ -18,7 +18,7 @@ const docsListConfig = [
             { path: 'router', title: 'Router' },
             { path: 'store', title: 'State managers' },
             { path: 'hooks', title: 'Custom hooks' },
-            { path: 'services', title: 'Services' }
+            { path: 'network', title: 'Network' }
         ]
     },
     { path: gitFilesRootPrefix + 'src/client_build', title: 'Webpack build' },

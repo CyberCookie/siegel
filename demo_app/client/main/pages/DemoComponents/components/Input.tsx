@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import maskProcessor from 'siegel-ui/_form/Input/mask_processor'
+import maskProcessor from 'siegel-ui/Input/mask_processor'
 
 import { icons, Input, InputProps } from 'app/components'
 

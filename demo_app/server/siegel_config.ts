@@ -27,7 +27,7 @@ const siegelConfig = {
 
         aliases: (() => {
             const TSAliases = require('../tsconfig').compilerOptions.paths
-            const aliases: any = {}
+            const aliases: Record<string, string> = {}
 
             for (const alias in TSAliases) {
                 const WPAlias = alias.replace('/*', '')

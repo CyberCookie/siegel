@@ -11,8 +11,8 @@ Every component receives `attributes` prop which is a valid set of attributes fo
 Siegel provides a `withDefaults` HOC to theme components and set default props:
 
 ```jsx
-import Button from 'siegel-ui/_form/Button'
-import { withDefaults } from 'siegel-ui/ui_utils'
+import Button from 'siegel-ui/Button'
+import withDefaults from 'siegel-ui/with_defaults'
 
 const ThemedButton = withDefaults(Button, {
     className: 'some-class',
@@ -49,7 +49,7 @@ Each component receives optional ref params to provide better controll over comp
 
 
 ```js
-import Button, { Props: ButtonProps } from 'siegel-ui/_form/Button'
+import Button, { Props: ButtonProps } from 'siegel-ui/Button'
 
 <Button value={42} disabled={false}
     refApi={{

@@ -34,7 +34,7 @@ The platform provides:<br/>
         <ul>
             <li><code>ESBuild</code> to transform <code>TypeScript</code> and <code>JSX</code> syntaxes.</li>
             <li>Code linting with <code>ESLint</code>.</li>
-            <li><code>Hot Modules Replace</code> for <b>js</b>, <b>jsx</b> and <b>styles</b></li>
+            <li><code>Hot Modules Replace</code> for <b>scripts</b> and <b>styles</b></li>
             <li><code>SASS</code> with <code>CSS modules</code> approach.</li>
             <li>Build into <code>Brotli</code> and <code>GZIP</code> compression formats.</li>
             <li><code>SVG icons to font</code> converter.</li>
@@ -43,16 +43,16 @@ The platform provides:<br/>
     <li>
         <code>ExpressJS</code> static server:
         <ul>
-            <li><code>HTTP(S)1 / HTTP(S)2</code>. +Script for creating dev certificates to use on localhost in Chrome.</li>
-            <li><code>PM2</code> deamon to wrap your application in production.</li>
-            <li><code>Live Reload</code> for <b>NodeJS</b> code.</li>
+            <li><code>HTTP(S)1 / HTTP(S)2</code>. +Script that creates dev certificates to use in Chrome on localhost.</li>
+            <li><code>PM2</code> deamon to wrap your application in production mode.</li>
+            <li><code>Live Reload</code> for <b>server side</b> code.</li>
         </ul>
     </li>
     <li>
         Utils and modules to use on client side:
         <ul>
             <li>Big set of <code>React components</code>.</li>
-            <li>React <code>global state managers</code> built with <code>hooks</code> or <code>Redux</code> with fetch module to track requests with.</li>
+            <li>React <code>global state managers</code> built with <code>hooks</code> or <code>Redux</code> with optional fetch module to track requests with.</li>
             <li>Recursively configurable <code>react router</code> wrapper.</li>
             <li><code>Request</code> service.</li>
         </ul>
@@ -70,7 +70,7 @@ Read more about each part following the links below:
     - [Router](https://github.com/CyberCookie/siegel/tree/master/client_core/router)
     - [State managers](https://github.com/CyberCookie/siegel/tree/master/client_core/store)
     - [Custom hooks](https://github.com/CyberCookie/siegel/tree/master/client_core/hooks)
-    - [Services](https://github.com/CyberCookie/siegel/tree/master/client_core/services)
+    - [Network](https://github.com/CyberCookie/siegel/tree/master/client_core/network)
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils)
 - [Build](https://github.com/CyberCookie/siegel/tree/master/src/client_build)
 - [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)

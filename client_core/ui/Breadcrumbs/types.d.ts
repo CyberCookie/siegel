@@ -1,5 +1,5 @@
 import type { History } from 'history'
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
 
 
 type State = Indexable<string>

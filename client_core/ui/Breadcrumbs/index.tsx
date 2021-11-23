@@ -1,7 +1,8 @@
 import React, { useState, useLayoutEffect } from 'react'
 
 import isE from '../../utils/is_exists'
-import { extractProps, applyRefApi } from '../ui_utils'
+import extractProps from '../_internals/props_extract'
+import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 import {
     Component, MergedProps, Store,

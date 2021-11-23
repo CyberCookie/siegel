@@ -31,4 +31,4 @@ module.exports = (app: Application, { express }: { express: Express }) => {
             changeOrigin: true
         }))
 }
-export {}
+export { }

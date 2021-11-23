@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import fetchModule from 'siegel-store/hook_store/fetch_module'
+import fetchModule from 'siegel-store/fetch_module'
 import type { Page } from 'siegel-router'
 
 import { Button, Input } from 'app/components'

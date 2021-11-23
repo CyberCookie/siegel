@@ -6,8 +6,9 @@
 		"paths": {
 			"app/*": ["./client/main/*"],
 			"dto/*": ["./dto/*"],
-			"siegel-services/*": ["../client_core/services/*"],
+			"siegel-network/*": ["../client_core/network/*"],
 			"siegel-store/*": ["../client_core/store/*"],
+			"siegel-store": ["../client_core/store"],
 			"siegel-hooks/*": ["../client_core/hooks/*"],
 			"siegel-ui/*": ["../client_core/ui/*"],
 			"siegel-utils/*": ["../client_core/utils/*"],

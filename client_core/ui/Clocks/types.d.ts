@@ -1,5 +1,5 @@
-import type { PropsComponentBase, CoreIUComponent } from '../ui_utils'
 import type { DateParse } from '../../utils/date/parse'
+import type { PropsComponentBase, CoreIUComponent } from '../_internals/types'
 
 
 type Props = {

@@ -1,5 +1,5 @@
-import createApi, { RequestParams } from 'siegel-services/request'
-import { store as fetchModuleStore } from 'siegel-store/hook_store/fetch_module'
+import createApi, { RequestParams } from 'siegel-network/request'
+import { store as fetchModuleStore } from 'siegel-store/fetch_module'
 
 
 const { addToReqQueue, addToErrRes, removeFromReqQueue } = fetchModuleStore.actions

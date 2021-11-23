@@ -1,4 +1,4 @@
-import type { HookStore } from 'siegel-store/hook_store'
+import type { HookStore } from 'siegel-store'
 import type { EchoReqBody } from 'dto/demo_api'
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import type { DoubleValue } from 'siegel-ui/_form/Ranger/types'
+import type { DoubleValue } from 'siegel-ui/Ranger'
 
 import { Ranger, RangerProps } from 'app/components'
 

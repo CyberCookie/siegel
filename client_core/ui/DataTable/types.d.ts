@@ -1,7 +1,7 @@
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults } from '../ui_utils'
 import type { Entities } from '../../utils/entities_struct'
+import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults } from '../_internals/types'
 import type { TableTH, TableTD, TableBodyRow, TableHeadRow, Props as TableProps } from '../Table/types'
-import type { Props as SelectProps, Component as SelectComponent } from '../_form/Select/types'
+import type { Props as SelectProps, Component as SelectComponent } from '../Select/types'
 import type { Props as PaginationProps, Component as PaginationComponent } from '../Pagination/types'
 
 

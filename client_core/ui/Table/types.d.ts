@@ -1,4 +1,4 @@
-import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../ui_utils'
+import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../_internals/types'
 
 
 type TableRow = {

@@ -5,7 +5,7 @@ import { useState, useLayoutEffect } from 'react'
 
 import dateParse from '../../utils/date/parse'
 import { msIn } from '../../utils/date/consts'
-import { extractProps } from '../ui_utils'
+import extractProps from '../_internals/props_extract'
 import type {
     Component, MergedProps,
     Props
@@ -49,7 +49,7 @@ const Clocks: Component = (props, noDefaults) => {
         let intervalID: number
         const deltaToFirstTickTimeoutID = setTimeout(() => {
             tick()
-            intervalID = (setInterval as typeof window.setInterval)(tick, updateInterval)
+            intervalID = (setInterval as Window['setInterval'])(tick, updateInterval)
         }, deltaToFirstTick)
 
 
