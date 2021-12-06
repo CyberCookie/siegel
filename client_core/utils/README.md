@@ -89,6 +89,139 @@ deepSet(someObject, ['a', 'b', 'c', 'd'], 'value to set')
 
 
 <br />
+<h3>Deep diff</h3>
+Performs deep comparsion of any JSON like objects.<br />
+Optionaly may accept comparator cb for to compare complex types like Date, Set, Map etc.
+
+```js
+import diff, { SYMBOL__VALUES_EQUAL, SYMBOL__OBJECT_FIELD_REMOVED } from 'siegel-utils/deep/diff'
+
+
+diff(
+    {
+        change: 20,
+        equal: 'string',
+        remove: 'sone_val',
+
+        object_change: {
+            change: 'some_string',
+            equal: false,
+            remove: 90,
+        },
+        object_equal: {
+            number_equal: 40,
+            string_equal: 'qwerty'
+        },
+
+        array_change_: [
+            10,
+            { equal: 'some_val' },
+            30
+        ],
+        array_equal_: [
+            'somve_val',
+            { equal: 20 }
+        ],
+        array_add: [ 80, 'some_val' ]
+    },
+
+    {
+        change: 20000,
+        equal: 'string',
+
+        object_change: {
+            change: 'some_string_changed',
+            equal: false
+        },
+        object_equal: {
+            number_equal: 40,
+            string_equal: 'qwerty'
+        },
+
+        array_change_: [
+            10000,
+            { equal: 'some_val' },
+            30
+        ],
+        array_equal_: [
+            'somve_val',
+            { equal: 20 }
+        ],
+        array_add: [ 80, 'some_val', 'new_value' ]
+    },
+)
+
+/*
+    result ->> {
+        change: 20000,
+        remove: SYMBOL__OBJECT_FIELD_REMOVED,
+
+        object_change: {
+            change: 'some_string_changed',
+            remove: SYMBOL__OBJECT_FIELD_REMOVED
+        },
+
+        array_change_: [
+            10000,
+            SYMBOL__VALUES_EQUAL,
+            SYMBOL__VALUES_EQUAL
+        ],
+
+        array_add: [ SYMBOL__VALUES_EQUAL, SYMBOL__VALUES_EQUAL, 'new_value' ]
+    }
+*/
+
+
+```
+
+
+Optionally you may pass options as third argument:<br />
+
+Options
+- valueForEqualArrElement: <b>any</b> - optional value used as a placeholder to mark equal elements<br /> in comparable arrays.<br />
+default is <b>Symbol.for('equal')</b>
+- valueForRemovedObjField: <b>any</b> - optional value used as a placeholder to mark removed object field<br /> in comparable objects.<br />
+default is <b>Symbol.for('removed')</b> 
+- complexTypesIsEqual: (a_value, b_value) => boolean - optional comparator that fires when both comparable types<br />
+are not a type of js primitive, array or plain object.<br />
+Returns <b>true</b> if values are not equal.
+
+```js
+import diff from 'siegel-utils/deep/diff'
+
+diff(
+    {
+        date_change: new Date(0),
+        remove: 'somve_val'
+    },
+    {
+        date_change: new Date(1000)
+    },
+    {
+        valueForRemovedObjField: '__REMOVED__',
+        complexTypesIsEqual(a, b) {
+            if (a.constructor == Date) {
+                return a.valueOf() != b.valueOf()
+            }
+    
+            return false // mark unsupported types as equal 
+        }
+    }
+)
+
+/*
+    result ->> {
+        date_change: new Date(1000),
+        remove: '__REMOVED__'
+    }
+*/
+
+
+```
+
+
+
+<br />
 <h3>Deep find</h3>
 To find some property in recursive object:
 

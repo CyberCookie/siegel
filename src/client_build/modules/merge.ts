@@ -51,7 +51,7 @@ module.exports = (defaultModules, userModules = {}) => {
 
 
         rules.push({
-            test: new RegExp(`\\.${regExpPart}$`),
+            test: new RegExp(regExpPart),
             use,
             ...ruleOptions
         })

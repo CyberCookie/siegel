@@ -37,7 +37,7 @@ const COMMONS = {
 
 
 const loadersKeyMap = {
-    esbuild: 'esbuild-loader',
+    esbuild: 'esbuildLoader',
     styleLoader: 'styleLoader',
     cssFinal: 'cssFinal',
     cssLoader: 'cssLoader',
@@ -48,9 +48,9 @@ const loadersKeyMap = {
 } as const
 
 const webpackModulesRegExp = {
-    scripts: '[tj]sx?',
-    styles: '(c|sc|sa)ss',
-    files: 'woff2?'
+    scripts: '\\.[tj]sx?$',
+    styles: '\\.(c|sc|sa)ss$',
+    files: '\\.woff2?$'
 } as const
 
 

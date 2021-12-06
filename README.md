@@ -39,7 +39,7 @@ The platform provides:<br/>
             <li>Build into <code>Brotli</code> and <code>GZIP</code> compression formats.</li>
             <li><code>SVG icons to font</code> converter.</li>
         </ul>
-    </li>
+    </li><br />
     <li>
         <code>ExpressJS</code> static server:
         <ul>
@@ -47,16 +47,16 @@ The platform provides:<br/>
             <li><code>PM2</code> deamon to wrap your application in production mode.</li>
             <li><code>Live Reload</code> for <b>server side</b> code.</li>
         </ul>
-    </li>
+    </li><br />
     <li>
         Utils and modules to use on client side:
         <ul>
             <li>Big set of <code>React components</code>.</li>
-            <li>React <code>global state managers</code> built with <code>hooks</code> or <code>Redux</code> with optional fetch module to track requests with.</li>
+            <li>React <code>global state manager</code> built on top of <code>react hooks</code> and optional fetch module to track requests with.</li>
             <li>Recursively configurable <code>react router</code> wrapper.</li>
             <li><code>Request</code> service.</li>
         </ul>
-    </li>
+    </li><br />
     <li>
         <code>Demo project</code> with themed components, predefined folder structure and scalable architecture built on top of Siegel.<br />
         It gives you a quick start right after initialization!

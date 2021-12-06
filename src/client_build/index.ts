@@ -1,4 +1,4 @@
-import type { Configuration } from 'webpack'
+import type { Configuration, Compiler } from 'webpack'
 
 
 const BUILD_CONSTANTS               = require('./constants')
@@ -24,7 +24,7 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
     const { staticDir, build } = CONFIG
     const { input, aliases, publicPath, postProcessWebpackConfig/*, outputESM = true*/ } = build
 
-    let webpackCompiller
+    let webpackCompiller: Compiler
 
 
     let webpackConfig: Configuration = {
@@ -64,8 +64,10 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
         },
 
         experiments: {
-            cacheUnaffected: true
-
+            cacheUnaffected: true,
+            backCompat: false,
+            topLevelAwait: true,
+            asyncWebAssembly: true
             // ...( outputESM ? {
             //     outputModule: true
             // } : {})

@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.10.0",
+    "version": "0.10.1",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -42,7 +42,7 @@
     "bin": "./bin/index.js",
     "scripts": {
         "prepublishOnly": "npm run build_node",
-        "validate_siegel": "npm run validate && cd demo_app && npx tsc",
+        "validate_siegel": "npm run validate && npx jest && cd demo_app && npx tsc",
         "start": "npm run build_serv",
         "build_web": "node $npm_package_config_index -b",
         "build_web:prod": "npm run build_web -- -p",
@@ -89,9 +89,13 @@
         "ts-node": "^10.3.0",
         "ttf2woff": "^3.0.0",
         "ttf2woff2": "^4.0.4",
-        "webpack": "^5.58.2",
+        "webpack": "^5.64.2",
         "webpack-dev-middleware": "^5.2.1",
         "webpack-hot-middleware": "^2.25.1"
+    },
+    "devDependencies": {
+        "jest": "^27.4.3",
+        "ts-jest": "^27.1.0"
     },
     "peerDependencies": {
         "@types/express": "^4.17.13",

@@ -3,7 +3,7 @@ import createEntitiesStruct from 'siegel-utils/entities_struct'
 import { msIn } from 'siegel-utils/date/consts'
 
 import type { Entity, DemoDataTableProps } from './types'
-import getEnchancedDataTableProps from './postProcessProps'
+import getEnchancedDataTableProps from './getEnchancedDataTableProps'
 import columnsConfig from './grid_schema'
 import { DataTable } from 'app/components'
 

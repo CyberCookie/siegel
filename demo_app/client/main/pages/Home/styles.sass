@@ -55,9 +55,9 @@ $blessed_primary_color: lighten($primary, 34%)
                 padding-top: 0
 
     a    
-        transition: color, letter-spacing $transition
+        transition: letter-spacing $transition
         
         &:hover
+            +text_shadow()
             color: $primary
             letter-spacing: 1.4px
-            +text_shadow()

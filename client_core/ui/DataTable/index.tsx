@@ -43,7 +43,7 @@ function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBod
     const { props: paginationProps, component: Pagination } = pagination
 
     const dataTableSelectProps = Object.assign({
-        displayValue: showPerPage,
+        selected: showPerPage,
         onChange(value: number) {
             state.showPerPage = value
             setState({ ...state })

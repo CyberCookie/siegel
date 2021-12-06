@@ -187,9 +187,9 @@ Loaders used by default together with `related file extensions` are described be
 
 
 - ESBuild ( `esbuild` ) <br />
-RegExp: <b>[tj]sx?</b> ( `scripts` ) <br /><br />
+RegExp string: <b>\\.[tj]sx?$</b> ( `scripts` ) <br /><br />
 - Styles<br />
-RegExp: <b>(c|sc|sa)ss</b> ( `styles` ) <br />
+RegExp string: <b>\\.(c|sc|sa)ss$</b> ( `styles` ) <br />
     - SASS ( `sassLoader` )
     - CSS ( `cssLoader` )
     - MiniCSSExtractPlugin <b>if run params are isProd || !isServer, else</b> Style loader ( `cssFinal` )
@@ -198,7 +198,7 @@ RegExp: <b>(c|sc|sa)ss</b> ( `styles` ) <br />
         - autoprefixer
         - <a href='#sw_plugin'>(custom) svg to font plugin</a><br /><br />
 - File loader ( `fileLoader` ) <br />
-RegExp: <b>woff2?</b> (`files` )
+RegExp string: <b>\\.woff2?$</b> (`files` )
 
 <br />
 
