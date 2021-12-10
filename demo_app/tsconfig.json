@@ -2,6 +2,7 @@
 	"extends": "../tsconfig.json",
     "compilerOptions": {
 		"baseUrl": ".",
+		"module": "es2020",
 		"skipLibCheck": true,
 		"paths": {
 			"app/*": ["./client/main/*"],
