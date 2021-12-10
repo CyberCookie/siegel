@@ -20,17 +20,18 @@ console.log(date)
 
 <br/>
 <h3>Date parse</h3>
-Parse date into parts. accepts zeroPrefix as second argument to prefix values less than 10 with `0` symbol. Returns an object that includes year, month, date, hours, minutes, seconds, day.
+Parse date into date parts.<br />
+Takes <b>Date</b>, <b>milliseconds</b> or <b>valid date string</b> as first paramenter (<b>Default is Date.now()</b>)<br />
+Accepts boolean as second argument to determine whether to pad values with `0`.<br />
+Returns an object that includes year, month, date, day, hours, minutes, seconds, milliseconds,
 
 ```js
 import dateParse from 'siegel-utils/date/parse'
 
 
-let date = new Date() // Fri Jan 01 2020 04:00:00 GMT+0300 (Eastern European Summer Time)
-
-let { year, month, date, hours, minutes, day } = dateParse(new Date(), true)
-
-console.log(year, month, date, hours, minutes, day) // 2020, 00, 00, 04, 00, 01
+let {
+    year, month, date, day, hours, minutes, day, milliseconds
+} = dateParse(new Date())
 ```
 
 
@@ -222,18 +223,6 @@ diff(
 
 
 <br />
-<h3>Deep find</h3>
-To find some property in recursive object:
-
-```js
-import deepFind from 'siegel-utils/deep/find'
-
-const someObject = {}
-```
-
-
-
-<br />
 <h3>Array objects sort</h3>
 To sort objects in array.<br />
 
@@ -375,7 +364,7 @@ entities.raw()
 Is not undefind.
 
 ```js
-import isExists from 'siegel-utils/is_exists'
+import isExists from 'siegel-utils/is/exists'
 
 isExists(undefined)
 // false

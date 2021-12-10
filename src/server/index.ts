@@ -71,47 +71,70 @@ function createHTTP2Server(CONFIG: any, serverExtend: any) {
         :   http2.createServer()
 
 
-    serverExtend && serverExtend(server, { mime })
+    let onStreamCb
+    serverExtend && serverExtend(server, {
+        mime,
+        onStream(cb) {
+            onStreamCb = cb
+        }
+    })
 
 
     server.on('error', console.error)
-    server.on('stream', onStream)
 
-
-    function onStream(stream: any, headers: any) {
+    server.on('stream', (stream, headers) => {
         const reqFilePath = headers[HTTP2_HEADER_PATH]
-        const ext = path.extname(reqFilePath)
-        let filePath = path.join(staticDir, ext ? reqFilePath : 'index.html')
+
+        const isRoot = reqFilePath == '/'
+        const isResourceRequested = reqFilePath.includes('.')
+        if (isRoot || isResourceRequested) {
+            handleRequestedFile({ reqFilePath, isRoot, stream })
+        } else onStreamCb?.(stream, headers)
+    })
+
+
+    function handleRequestedFile({ reqFilePath, isRoot, stream }) {
+        const { ext, name, dir } = isRoot
+            ?   {
+                    dir: '/',
+                    name: 'index',
+                    ext: '.html'
+                }
+            :   path.parse(reqFilePath)
 
         const reponseHeaders = {
-            [HTTP2_CONTENT_TYPE_KEY]: mime.contentType(path.extname(filePath))
+            [HTTP2_CONTENT_TYPE_KEY]: mime.contentType(ext)
         }
 
+        let filePathNoExt = path.join(staticDir, dir, name)
 
         const encodingOrder = ['br', 'gzip']
+        let pathToCompressedFile
+
         for (let i = 0, l = encodingOrder.length; i < l; i++) {
             const encoding = encodingOrder[i]
+            const fileName = `${filePathNoExt}.${encoding}`
 
-            if (fs.existsSync(`${filePath},${encoding}`)) {
-                filePath += `.${encoding}`
+            if (fs.existsSync(fileName)) {
+                pathToCompressedFile = fileName
                 reponseHeaders[HTTP2_HEADER_CONTENT_ENCODING] = encoding
                 break
             }
         }
 
 
-        function onError(err: any) {
-            stream.respond({
-                [HTTP2_HEADER_STATUS]: err.code == 'ENOENT' ? 404 : 500
-            })
+        const finalFileName = pathToCompressedFile || (filePathNoExt += ext)
 
-            stream.end()
-        }
+        stream.respondWithFile(finalFileName, reponseHeaders, {
+            onError(err) {
+                stream.respond({
+                    [HTTP2_HEADER_STATUS]: err.code == 'ENOENT' ? 404 : 500
+                })
 
-
-        stream.respondWithFile(filePath, reponseHeaders, { onError })
+                stream.end()
+            }
+        })
     }
-
 
 
     return listen(server, host, port)

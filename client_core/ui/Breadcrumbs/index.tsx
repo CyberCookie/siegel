@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react'
 
-import isE from '../../utils/is_exists'
+import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
@@ -30,11 +30,11 @@ function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store | undefine
         const loc = locationArray[i]
         const data = loocupScope[loc] || Object.values(loocupScope)[0]
 
-        if (isE(data)) {
+        if (isExists(data)) {
             const { crumb, dynamicCrumb, children } = data
 
             const newPath = path + ((loc ? '/' : '') + loc)
-            isE(children) && (loocupScope = children)
+            isExists(children) && (loocupScope = children)
 
 
             if (crumb || dynamicCrumb) {

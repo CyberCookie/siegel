@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 
-import isTouchScreen from '../../utils/is_touchscreen'
+import isTouchScreen from '../../utils/is/touchscreen'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import type {

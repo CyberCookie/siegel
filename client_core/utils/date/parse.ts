@@ -1,41 +1,46 @@
-type ZeroingDatePartsKeys = 'month' | 'date' | 'hours' | 'minutes' | 'seconds'
-type ZeroingDatePartsVals = number | string
-type DateParsedZeroed = Record<ZeroingDatePartsKeys, ZeroingDatePartsVals>
-type DateParsedNonZeroed = {
-    year: number,
-    day: number
-}
+type DateKeys = 'month' | 'date' | 'hours' | 'minutes' | 'seconds' | 'milliseconds' | 'year' | 'day'
+type DateValues = number | string
 
-type DateParsed = DateParsedZeroed & DateParsedNonZeroed
-type DateParse = (date: Date | number, zeroPrefix?: boolean) => DateParsed
+type DateParsed = Record<DateKeys, DateValues>
+type DateParse = (date: Date | number | string, zeroPrefix?: boolean) => DateParsed
 
+
+const resultMaxLength: { [key in DateKeys]?: number } = {
+    year: 4,
+    milliseconds: 4,
+    day: 0
+} as const
 
 /**
- * Parse provided or current date into localized separated date pieces
+ * Parse provided date (default is current date) into localized separated date pieces
  * @param date - any valid Date value
- * @param zeroPrefix - determine whether to prefix date parts if it's < 10
+ * @param zeroPrefix - determine whether to prefix date parts with zeroes
  * @returns parsed date object
 */
 const dateParse: DateParse = (date = Date.now(), zeroPrefix) => {
     const localDate = new Date(date)
 
-    const result: DateParsedZeroed = {
+    const result: DateParsed = {
+        year: localDate.getFullYear(),
         month: localDate.getMonth() + 1,
         date: localDate.getDate(),
+        day: localDate.getDay(),
         hours: localDate.getHours(),
         minutes: localDate.getMinutes(),
-        seconds: localDate.getSeconds()
+        seconds: localDate.getSeconds(),
+        milliseconds: localDate.getMilliseconds()
     }
 
     if (zeroPrefix) {
         for (const datePartKey in result) {
-            const datePart = result[datePartKey as ZeroingDatePartsKeys]
-            datePart < 10 && (result[datePartKey as ZeroingDatePartsKeys] = '0' + datePart)
+            const maxLength = resultMaxLength[datePartKey as keyof DateParsed]
+            if (maxLength != 0) {
+                result[datePartKey as DateKeys] = result[datePartKey as DateKeys]
+                    .toString()
+                    .padStart(maxLength || 2, '0')
+            }
         }
     }
-
-    (result as DateParsed).year = localDate.getFullYear()
-    ;(result as DateParsed).day = localDate.getDay()
 
 
     return result as DateParsed
@@ -43,4 +48,4 @@ const dateParse: DateParse = (date = Date.now(), zeroPrefix) => {
 
 
 export default dateParse
-export type { ZeroingDatePartsKeys, ZeroingDatePartsVals, DateParsedZeroed, DateParsed, DateParse }
+export type { DateParsed, DateParse }

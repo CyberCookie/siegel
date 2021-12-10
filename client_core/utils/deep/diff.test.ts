@@ -1,83 +1,110 @@
 import diff, { SYMBOL__OBJECT_FIELD_REMOVED, SYMBOL__VALUES_EQUAL } from './diff'
 
 
-describe('deep/diff', () => {
-    test('objects are equal', () => {
-        expect(
-            diff(
-                { a: 1, b: { c: 2 } },
-                { a: 1, b: { c: 2 } }
-            )
-        ).toBe(SYMBOL__VALUES_EQUAL)
-    })
-    test('object change field primitive values', () => {
-        expect(
-            diff(
-                { a: 20, b: 'qaaa' },
-                { a: 40, c: 'new_prop' }
-            )
-        ).toEqual({
-            a: 40,
-            b: SYMBOL__OBJECT_FIELD_REMOVED,
-            c: 'new_prop'
-        })
-    })
-    test('object change field iterable values', () => {
+describe('utils/deep/diff', () => {
+    test('big structure comparing', () => {
         expect(
             diff(
                 {
-                    a: [ 1, 2, 3 ],
-                    b: {
-                        c: 2,
-                        d: 'some_str'
+                    will_be_removed: 'some_str',
+                    will_be_removed_undef: undefined,
+                    will_be_changed: 'some_str',
+                    will_be_same: 'same',
+                    will_be_undef: null,
+                    will_be_null: undefined,
+                    will_be_same_undef: undefined,
+
+                    will_be_same_obj: {
+                        will_be_same: 'same',
+                        will_be_same_obj: {
+                            will_be_same: 'same'
+                        }
                     },
-                    c: [ 1, 2, 3 ]
+
+                    will_be_changeed_obj: {
+                        will_be_changed: 'some_str',
+                        will_be_same_array: [ 1, {} ]
+                    },
+                    will_be_same_array: [ [], [], undefined, null ],
+                    will_be_changed_array: [
+                        1, { will_be_changed: 12 }, [], null, undefined
+                    ]
                 },
                 {
-                    a: [ 1, 2, {} ],
-                    b: {
-                        a: 'some_str',
-                        c: 2,
-                        d: 'some_str'
+                    will_be_changed: 'changed',
+                    will_be_same: 'same',
+                    will_be_undef: undefined,
+                    will_be_null: null,
+                    will_be_same_undef: undefined,
+                    will_be_same_obj: {
+                        will_be_same: 'same',
+                        will_be_same_obj: {
+                            will_be_same: 'same'
+                        }
                     },
-                    c: [ 1, 2, 3 ]
+                    will_be_changeed_obj: {
+                        will_be_changed: 'changed',
+                        will_be_same_array: [ 1, {} ]
+                    },
+                    will_be_same_array: [ [], [], undefined, null ],
+                    will_be_changed_array: [
+                        1, { will_be_changed: 120 }, [], undefined, false, null, []
+                    ],
+                    will_be_added: [{}]
                 }
             )
         ).toEqual({
-            a: [ SYMBOL__VALUES_EQUAL, SYMBOL__VALUES_EQUAL, {} ],
-            b: {
-                a: 'some_str'
-            }
+            will_be_removed: SYMBOL__OBJECT_FIELD_REMOVED,
+            will_be_removed_undef: SYMBOL__OBJECT_FIELD_REMOVED,
+            will_be_changed: 'changed',
+            will_be_undef: undefined,
+            will_be_null: null,
+            will_be_changeed_obj: {
+                will_be_changed: 'changed',
+            },
+            will_be_changed_array: [
+                SYMBOL__VALUES_EQUAL, { will_be_changed: 120 }, SYMBOL__VALUES_EQUAL, undefined, false, null, []
+            ],
+            will_be_added:[{}]
         })
     })
 
-
-    test('arrays are equal', () => {
+    test('objects equals', () => {
         expect(
             diff(
-                [ 1, 2 ,3 ],
-                [ 1, 2, 3 ]
+                { a: 1, b: null },
+                { a: 1, b: null }
             )
         ).toBe(SYMBOL__VALUES_EQUAL)
     })
-    test('array change elements', () => {
+
+    test('arrays equals', () => {
         expect(
             diff(
-                [ 1, 2, 3 ],
-                [ 1, 4, 1, 2 ]
+                [ 1, 2, undefined, null ],
+                [ 1, 2, undefined, null ]
+            )
+        ).toBe(SYMBOL__VALUES_EQUAL)
+    })
+    test('arrays changed elements', () => {
+        expect(
+            diff(
+                [ 1, 2, false ],
+                [ 1, 4, false, {} ]
             )
         ).toEqual(
-            [ SYMBOL__VALUES_EQUAL, 4, 1, 2 ]
+            [ SYMBOL__VALUES_EQUAL, 4, SYMBOL__VALUES_EQUAL, {} ]
         )
     })
     test('array change nested iterables', () => {
         expect(
             diff(
-                [{ a: 1 }, { b: 2 }],
-                [{ a: 2 }, { b: 2 }]
+                [{ a: 1 }, { b: 0 }],
+                [{ a: 2 }, { b: 0 }]
             )
         ).toEqual([{ a: 2 }, SYMBOL__VALUES_EQUAL])
     })
+
 
 
     test('custom placeholders', () => {
@@ -100,8 +127,6 @@ describe('deep/diff', () => {
             b: [ '__EQUAL__', 2 ]
         })
     })
-
-
     test('hande complex types', () => {
         expect(
             diff(

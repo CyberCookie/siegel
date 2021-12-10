@@ -3,7 +3,7 @@ import React from 'react'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import getLabel from '../_internals/label'
-import isE from '../../utils/is_exists'
+import isExists from '../../utils/is/exists'
 import componentID from './id'
 import type {
     Component, MergedProps, CheckboxInputProps,
@@ -44,7 +44,7 @@ const Checkbox: Component = (props, noDefaults) => {
 
     const { theme, onChange, label, value, disabled, icon } = mergedProps
 
-    const withLabel = isE(label)
+    const withLabel = isExists(label)
 
 
     const checkboxInputProps: CheckboxInputProps = {

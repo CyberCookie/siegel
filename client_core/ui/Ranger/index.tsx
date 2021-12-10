@@ -3,7 +3,7 @@
 
 import React, { useState, useLayoutEffect } from 'react'
 
-import isE from '../../utils/is_exists'
+import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
@@ -193,7 +193,7 @@ const Ranger: Component = (props, noDefaults) => {
             const newValue = validateValue(anchorFraction + deltaPX / parentWidth)
 
             if (newValue != anchorFraction) {
-                if (isE(activeSliderArrValueIndex)) {
+                if (isExists(activeSliderArrValueIndex)) {
 
                     const isStopRangerBehavior = rangersCrossBehavior == rangerCrossTypesMap.stop
                     if (isStopRangerBehavior || rangersCrossBehavior == rangerCrossTypesMap.cross) {

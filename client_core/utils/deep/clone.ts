@@ -1,26 +1,27 @@
+import isPrimitive from '../is/primitive'
+
+
 /**
- * Clones an object iterating recursively over its keys
- * @param object to clone
- * @returns Clonned object
+ * Performs a deep clone of a given value
+ * @param value to clone
+ * @returns Clonned value
  */
-function deepClone<T>(obj: T): T {
-    if (typeof obj !== 'object') return obj
+function deepClone<T>(value: T): T {
+    if (isPrimitive(value as unknown as object)) return value
 
     let result: Indexable
 
-    if (obj instanceof Array) {
+    if (Array.isArray(value)) {
         result = []
-        for (let i = 0, l = obj.length; i < l; i++) {
-            result[i] = deepClone(
-                obj[i]
-            )
+        for (let i = 0, l = value.length; i < l; i++) {
+            result[i] = deepClone(value[i])
         }
-    } else if ((obj as Record<string, unknown>).constructor.name == 'Object') {
+    } else if ((value as Record<string, unknown>).constructor === Object) {
         result = {}
-        for (const i in obj) {
-            result[i] = deepClone(obj[i])
+        for (const i in value) {
+            result[i] = deepClone(value[i])
         }
-    } else result = new (obj as any).constructor(obj)
+    } else result = new (value as any).constructor(value)
 
 
     return result as T

@@ -1,3 +1,6 @@
+import isPrimitive from '../is/primitive'
+
+
 type Comparable = any[] | Record<string, any>
 
 type Options = {
@@ -19,15 +22,6 @@ const SYMBOL__OBJECT_FIELD_REMOVED = Symbol.for('removed')
 
 const isIterable = (val: Comparable) => Array.isArray(val) || val.constructor === Object
 
-const isPrimitive = ({ constructor }: object) => (
-    constructor === Number ||
-    constructor === String ||
-    constructor === Boolean ||
-    constructor === BigInt
-)
-
-const isNullable = (val: any) => val === null || val === undefined
-
 function comparsionCallBacks(
     a_val: any,
     b_val: any,
@@ -35,11 +29,11 @@ function comparsionCallBacks(
     { valuesIterable, valuesNotEqual, valuesEqual }: ComparsionCallBacks
 ) {
 
-    const isNullable_a = isNullable(a_val)
-    const isNullable_b = isNullable(b_val)
+    const isPrimitive_a = isPrimitive(a_val)
+    const isPrimitive_b = isPrimitive(b_val)
 
-    if (isNullable_a || isNullable_b) {
-        isNullable_a && isNullable_b
+    if (isPrimitive_a || isPrimitive_b) {
+        isPrimitive_a && isPrimitive_b
             ?   a_val === b_val
                 ?   valuesEqual?.()
                 :   valuesNotEqual()
@@ -48,10 +42,6 @@ function comparsionCallBacks(
     } else if (b_val.constructor === a_val.constructor) {
         if (isIterable(a_val)) {
             valuesIterable( compare(a_val, b_val, options) )
-
-        } else if (isPrimitive(a_val)) {
-            if (a_val === b_val) valuesEqual?.()
-            else valuesNotEqual()
 
         } else if (options.complexTypesIsEqual) {
             options.complexTypesIsEqual(a_val, b_val)
@@ -146,6 +136,14 @@ const compare = (a: Comparable, b: Comparable, options: Options) => (
         :   compareObjects(a, b, options)
 )
 
+
+/**
+ * Get object property by a given path
+ * @param obj - object where to find a value
+ * @param path - chain of links to get seeking value in given `obj`
+ * @param defaultValue - value to be returned if `path` cannot be resolved in given `obj`
+ * @returns value resolved by given `path` or `defaultValue`
+ */
 function diff(a: Comparable, b: Comparable, options = {} as Options) {
     if (a.constructor === b.constructor) {
         if (isIterable(a)) {
@@ -157,7 +155,7 @@ function diff(a: Comparable, b: Comparable, options = {} as Options) {
 
         } else {
             return options.complexTypesIsEqual
-                ?   options.complexTypesIsEqual(a, b) ? SYMBOL__VALUES_EQUAL : b 
+                ?   options.complexTypesIsEqual(a, b) ? SYMBOL__VALUES_EQUAL : b
                 :   b
         }
     } else return b

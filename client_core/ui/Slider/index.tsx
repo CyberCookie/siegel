@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 
-import isE from '../../utils/is_exists'
+import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
@@ -50,7 +50,7 @@ function getSliderVisuals(mergedProps: MergedProps, switchSlide: SwitchSlide, cu
                 :   loop ? slidesLength - 1 : undefined
         }
 
-        isE(nextPage) && switchSlide(nextPage)
+        isExists(nextPage) && switchSlide(nextPage)
     }
 
 

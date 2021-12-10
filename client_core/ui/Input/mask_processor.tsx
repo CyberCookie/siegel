@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react'
 
-import isE from '../../utils/is_exists'
+import isExists from '../../utils/is/exists'
 import type { Props } from './types'
 
 
@@ -54,20 +54,20 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Parameters<M
         const maskChar = pattern[i]
         const charData: MaskCharData = {}
 
-        isE(LAST_FILLED_INDEX) && (charData.prevFilled = LAST_FILLED_INDEX)
+        isExists(LAST_FILLED_INDEX) && (charData.prevFilled = LAST_FILLED_INDEX)
 
         if (maskChar == patternValueChar) {
             charData.index = maxLength
             maxLength = placeholderCharsOrdered.push(i)
 
-            if (isE(value[k])) {
+            if (isExists(value[k])) {
                 charData.isFilled = true
                 newValue += value[k]
                 k++
                 LAST_FILLED_INDEX = i
             } else {
                 newValue += valuePlaceholderChar
-                isE(FIRST_EMPTY_PLACEHOLDER_INDEX) || (FIRST_EMPTY_PLACEHOLDER_INDEX = i)
+                isExists(FIRST_EMPTY_PLACEHOLDER_INDEX) || (FIRST_EMPTY_PLACEHOLDER_INDEX = i)
             }
         } else newValue += maskChar
 
@@ -80,11 +80,11 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Parameters<M
     let nextFilled, next
     for (let i = LAST_PLACEHOLDER_INDEX; i >= 0; i--) {
         const charData = placeholdersIndexesMap[i]
-        isE(next) && (charData.next = next)
-        isE(nextFilled) && (charData.nextFilled = nextFilled)
+        isExists(next) && (charData.next = next)
+        isExists(nextFilled) && (charData.nextFilled = nextFilled)
 
         const { index, isFilled } = charData
-        if (isE(index)) {
+        if (isExists(index)) {
             next = i
             isFilled && (nextFilled = i)
         }
@@ -160,8 +160,8 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
     }
 
     function insert(e: ClipboardEvent | ChangeEvent, startingFrom: number, data: string, updatedValueArray?: string[]) {
-        const hasNextChars = isE(LAST_FILLED_INDEX) && startingFrom <= LAST_FILLED_INDEX
-        const hasEmpty = isE(FIRST_EMPTY_PLACEHOLDER_INDEX)
+        const hasNextChars = isExists(LAST_FILLED_INDEX) && startingFrom <= LAST_FILLED_INDEX
+        const hasEmpty = isExists(FIRST_EMPTY_PLACEHOLDER_INDEX)
 
         if (hasNextChars || hasEmpty) {
             const valueArray = updatedValueArray || maskState.lastInputValue.split('')
@@ -170,7 +170,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             let startingFromIndex = valueLength
             if (hasNextChars) {
                 const { index, next } = placeholdersIndexesMap[ startingFrom ]
-                startingFromIndex = isE(index) ? index : placeholdersIndexesMap[ next! ].index!
+                startingFromIndex = isExists(index) ? index : placeholdersIndexesMap[ next! ].index!
 
                 if (shiftNextChar && (startingFromIndex + dataLength < maxLength)) {
                     shiftRight(valueArray, startingFromIndex, dataLength)
@@ -187,7 +187,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
 
             const newLastFilledIndex = placeholderCharsOrdered[ insertLength + startingFromIndex - 1 ]
             const { next } = placeholdersIndexesMap[ newLastFilledIndex ]
-            const newCaretPos = isE(next) ? next : newLastFilledIndex + 1
+            const newCaretPos = isExists(next) ? next : newLastFilledIndex + 1
 
 
             updateInputData(e, valueArray, newCaretPos)
@@ -199,10 +199,10 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         const { isFilled, index, next } = placeholdersIndexesMap[startingFrom]
 
         if (isFilled) startingFromIndex = index
-        else if (isE(next)) startingFromIndex = placeholdersIndexesMap[next].index
+        else if (isExists(next)) startingFromIndex = placeholdersIndexesMap[next].index
 
 
-        if (isE(startingFromIndex)) {
+        if (isExists(startingFromIndex)) {
             const valueArray = maskState.lastInputValue.split('')
             const selectRangeEnd = startingFrom + count
             const insertDataLength = data.length
@@ -239,7 +239,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         const valueArray = maskState.lastInputValue.split('')
 
         let valueToCopy = isFilled ? valueArray[selectionStart] : ''
-        for (let i = nextFilled!; i < selectionEnd && isE(i); i = placeholdersIndexesMap[i].nextFilled!) {
+        for (let i = nextFilled!; i < selectionEnd && isExists(i); i = placeholdersIndexesMap[i].nextFilled!) {
             valueToCopy += valueArray[i]
         }
         valueToCopy && window.navigator.clipboard.writeText(valueToCopy)
@@ -303,7 +303,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                                 }
 
                                 newValueArray[indexToReplace!] = valuePlaceholderChar
-                                nextCaretPos = isE(newPrevFilled) ? newPrevFilled + 1 : FIRST_PLACEHOLDER_INDEX
+                                nextCaretPos = isExists(newPrevFilled) ? newPrevFilled + 1 : FIRST_PLACEHOLDER_INDEX
                             }
                         } else {
                             if (selectionStart > LAST_FILLED_INDEX!) return setCaretPos(ref as Ref, LAST_PLACEHOLDER_INDEX + 1)
@@ -311,7 +311,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                                 const { nextFilled, isFilled } = placeholdersIndexesMap[selectionStart]
 
                                 const indexToReplace = isFilled ? selectionStart : nextFilled
-                                isE(indexToReplace) && (newValueArray[indexToReplace] = valuePlaceholderChar)
+                                isExists(indexToReplace) && (newValueArray[indexToReplace] = valuePlaceholderChar)
 
                                 nextCaretPos = selectionStart < FIRST_PLACEHOLDER_INDEX ? FIRST_PLACEHOLDER_INDEX : selectionStart
                             }
@@ -324,7 +324,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         }
 
         _inputAttr.onFocus = e => {
-            const nextCaretPos = isE(FIRST_EMPTY_PLACEHOLDER_INDEX)
+            const nextCaretPos = isExists(FIRST_EMPTY_PLACEHOLDER_INDEX)
                 ?   FIRST_EMPTY_PLACEHOLDER_INDEX
                 :   LAST_FILLED_INDEX! + 1
 
@@ -351,7 +351,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                 maskState.historyPos++
             }
 
-            if (isE(newValue)) {
+            if (isExists(newValue)) {
                 (e.target as HTMLInputElement).value = newValue
 
                 const newValLength = newValue.length

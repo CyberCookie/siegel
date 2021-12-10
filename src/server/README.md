@@ -9,7 +9,7 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
 <ul>
     run(config, middlewares?, serverExtend?)
     <li><b>config</b> - siegel config.</li>
-    <li><b>middlewares</b> - ExpressJS middlewares. Thus affects only http(s) server.<br />
+    <li><b>middlewares</b> - <b>expressMiddleware[]</b> - ExpressJS middlewares. Thus affects only http(s) server.<br />
     By default siegel passes webpack hot and dev middlewares.</li>
     <li><b>serverExtend</b> - resolved server extender.</li>
 </ul>
@@ -27,7 +27,7 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
             Path to a user defined server to extend the one created by siegel.
             Server extender should be a function.
             Function receives an instance of the server as a first paramenter
-            and dependencies used to create this server as a second.
+            and dependencies used to create this server along with internal server API as a second parameter.
         */
         appServerLoc: String,
 
@@ -62,6 +62,59 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
         }
     }
 }
+```
+
+
+<br />
+<h3>serverExtend</h3>
+
+<br />
+siegel_config
+<br />
+
+```ts
+{
+    server: {
+        appServerLoc: path.join(__dirname, 'internal_server_extender.ts')
+    }
+}
+```
+
+<br />
+internal_server_extender.ts
+<br />
+
+```ts
+import type { Http2Server, Http2SecureServer, ServerHttp2Stream, IncomingHttpHeaders } from 'node:http2'
+import type { Application, Express } from 'express'
+
+
+type App = Application | Http2Server | Http2SecureServer
+
+type InternalAPI = {
+    express?: Express
+    onStream?: (
+        cb: (stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number) => void
+    ) => void
+}
+
+
+module.exports = (app: App, { express, onStream }: InternalAPI) => {
+    if (onStream) { // if HTTP2
+        onStream(() => {
+            console.log('HTTP2 stream')
+        })
+
+    } else {
+        (app as Application)
+            .use(express.json())
+
+            .post('/api/some_post', ((req, res) => {
+                res.send(req.body)
+            }))
+    }
+}
+
 ```
 
 

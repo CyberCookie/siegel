@@ -8,7 +8,6 @@ const siegelConfig = {
     server: {
         appServerLoc: join(rootPath, 'server', 'app_server.ts'),
         watch: true,
-
         host: process.env.NODE_HOST,
         port: process.env.NODE_PORT
     },

@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 
 import floatMath from '../../utils/math_float'
-import isE from '../../utils/is_exists'
+import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
@@ -46,7 +46,7 @@ function getRegExp(min: MergedProps['min'], max: MergedProps['max'], precision: 
 
     if (precision != 0) {
         regexpTemplate += '([.,]\\d'
-            +   ( isE(precision) ? `{0,${precision}}` : '*' )
+            +   ( isExists(precision) ? `{0,${precision}}` : '*' )
             +   ')?'
     }
 
@@ -67,7 +67,7 @@ function getNumberValue(value: MergedProps['value'], min: MergedProps['min'], ma
 }
 
 function getNormalizedStringValue(value: string | undefined, precision: number | undefined, isFocused: boolean) {
-    if(!isE(value)) return
+    if(!isExists(value)) return
 
     const indexOfDot = value.indexOf(CHAR_DOT)
 
@@ -182,7 +182,7 @@ const NumberPicker: Component = (props, noDefaults) => {
 
 
     const onNumberPickerChange: OnNumberPickerChange = (e, arrowValue, step) => {
-        if ((!isE(value) || value === '') && e.type == 'blur') return
+        if ((!isExists(value) || value === '') && e.type == 'blur') return
 
         let result: string | number | undefined
         if (step) {

@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react'
 
-import isE from '../../utils/is_exists'
+import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
@@ -120,7 +120,7 @@ const DropdownSearch: Component = (props, noDefaults) => {
 
             onSearch && onSearch(value, e)
         },
-        value: isE(searchString)
+        value: isExists(searchString)
             ?   searchString
             :   optionSelected
                 ?   optionSelected.inputValue

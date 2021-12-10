@@ -1,5 +1,3 @@
-import isExists from '../is_exists'
-
 /**
  * Get object property by a given path
  * @param obj - object where to find a value
@@ -11,11 +9,11 @@ function deepGet(obj: Indexable, path: string[] | string, defaultVal?: any): any
     const arrayPath = Array.isArray(path) ? path : [ path ]
     const deepLink = obj[arrayPath[0]]
 
-    return isExists(deepLink)
-        ?   arrayPath.length > 1
+    return deepLink === undefined
+        ?   defaultVal
+        :   arrayPath.length > 1
             ?   deepGet(deepLink, arrayPath.slice(1), defaultVal)
             :   deepLink
-        :   defaultVal
 }
 
 

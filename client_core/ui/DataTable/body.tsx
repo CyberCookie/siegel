@@ -1,4 +1,4 @@
-import isE from '../../utils/is_exists'
+import isExists from '../../utils/is/exists'
 import type { MergedProps, State } from './types'
 import type { TableBodyRow } from '../Table/types'
 
@@ -15,7 +15,7 @@ function getBody(props: MergedProps, state: State) {
         const config = columnsConfig[+configurationIndex]
         const { onFilter } = config
 
-        if (isE(onFilter)) {
+        if (isExists(onFilter)) {
             processedList = config.onFilter!(processedList, byID, searchByField[configurationIndex]) // must not deattach onFilter to keep `this`
         }
     }
@@ -26,7 +26,7 @@ function getBody(props: MergedProps, state: State) {
         const config = columnsConfig[index]
         const { onSort } = config
 
-        if (isE(onSort)) {
+        if (isExists(onSort)) {
             processedList = config.onSort!(processedList.slice(), byID, value) // must not deattach onSort to keep `this`
         }
     }
@@ -48,7 +48,7 @@ function getBody(props: MergedProps, state: State) {
     const resultList: TableBodyRow[] = []
     for (let i = from; i < to; i++) {
         const entityID = processedList[i]
-        if (!isE(entityID)) break
+        if (!isExists(entityID)) break
 
         const entity = byID[entityID]
 

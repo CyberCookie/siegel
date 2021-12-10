@@ -2,8 +2,8 @@
 
 import React, { useState, useLayoutEffect, useRef } from 'react'
 
-import isE from '../../utils/is_exists'
-import isTouchScreen from '../../utils/is_touchscreen'
+import isExists from '../../utils/is/exists'
+import isTouchScreen from '../../utils/is/touchscreen'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
@@ -77,7 +77,7 @@ const Select: Component = (props, noDefaults) => {
     } = mergedProps
 
     const [ isActive, setActive ] = ((innerStore || useState(false)) as NonNullable<Props['innerStore']>)
-    const isSelected = isE(selected)
+    const isSelected = isExists(selected)
 
     let className = mergedProps.className
     isActive && (className += ` ${theme._active}`)

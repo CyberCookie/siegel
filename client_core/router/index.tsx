@@ -8,7 +8,7 @@ import type {
 } from './types'
 
 import usePrevious from '../hooks/previous'
-import isExists from '../utils/is_exists'
+import isExists from '../utils/is/exists'
 
 
 const createRoutesWrapper: CreateRoutesWrapper = (routes, params) => {

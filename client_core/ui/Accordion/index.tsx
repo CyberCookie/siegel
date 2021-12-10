@@ -1,6 +1,6 @@
 import React from 'react'
 
-import isE from '../../utils/is_exists'
+import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import type {
@@ -50,7 +50,7 @@ const Accordion: Component = (props, noDefaults) => {
             _acc = acc
             title = elem
             isTitleAsItemEmpty = replaceParentIfLast
-            isE(expanded) && (isExpanded = expanded)
+            isExists(expanded) && (isExpanded = expanded)
         }
 
         return children

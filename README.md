@@ -68,7 +68,7 @@ Read more about each part following the links below:
 - [Client core](https://github.com/CyberCookie/siegel/tree/master/client_core)
     - [UI](https://github.com/CyberCookie/siegel/tree/master/client_core/ui)
     - [Router](https://github.com/CyberCookie/siegel/tree/master/client_core/router)
-    - [State managers](https://github.com/CyberCookie/siegel/tree/master/client_core/store)
+    - [Global store](https://github.com/CyberCookie/siegel/tree/master/client_core/store)
     - [Custom hooks](https://github.com/CyberCookie/siegel/tree/master/client_core/hooks)
     - [Network](https://github.com/CyberCookie/siegel/tree/master/client_core/network)
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils)

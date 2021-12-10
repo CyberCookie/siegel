@@ -1,1 +1,7 @@
-export default (date: Date) => date.setMinutes(date.getTimezoneOffset())
+const toUTCDate = (date: Date) => {
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
+    return date
+}
+
+
+export default toUTCDate

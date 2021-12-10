@@ -1,4 +1,5 @@
 import { render } from 'react-dom'
+
 import 'app/network'
 import Router from 'app/Router'
 
