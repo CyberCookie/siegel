@@ -1,7 +1,7 @@
 <h1>Siegel demo project</h1>
 
 Requirements:
-- NodeJS >= 12
+- NodeJS >= 14
 - NPM => 7
 
 <br />
