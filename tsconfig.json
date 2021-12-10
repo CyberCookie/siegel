@@ -2,13 +2,11 @@
     "compilerOptions": {
 		"allowJs": true,
 		"esModuleInterop": true,
-		"moduleResolution": "node",
 		"noEmit": true,
 		"strict": true,
 		"noImplicitAny": true,
 		"jsx": "react",
-		"baseUrl": ".",
-		"target": "es2020"
+		"baseUrl": "."
 	},
 	"include": [ "client_core", "global.d.ts" ]
 }

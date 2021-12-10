@@ -2,10 +2,6 @@ import isPrimitive from './primitive'
 
 
 describe('utils/is/primitive', () => {
-    test('primitive bigint', () => {
-        expect( isPrimitive(20n) ).toBe(true)
-    })
-
     test('primitive bool', () => {
         expect( isPrimitive(false) ).toBe(true)
     })
