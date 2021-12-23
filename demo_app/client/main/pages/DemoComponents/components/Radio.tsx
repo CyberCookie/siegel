@@ -18,8 +18,7 @@ const Demo = () => {
 
     const props: RadioProps = {
         selected, options,
-        onChange(value) { setSelected(value as string) },
-
+        onChange(value) { setSelected(value as string) }
     }
 
     const propsForMultiple: RadioProps = {

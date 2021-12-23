@@ -1,10 +1,23 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
 
 
-type SwitchSlide = (nextPage: number) => void
+type SwitchSlide = (
+    nextPage: number,
+    isNext: boolean,
+    isControlClick?: boolean
+) => void
+
+type GetSliderVisualsParams = {
+    mergedProps: MergedProps
+    switchSlide: SwitchSlide
+    curSlide: number
+}
 
 
-type ThemeKeys = 'children' | 'slides_wrapper' | 'slide' | 'slide__active' | 'controls_wrapper' | 'control' | 'control__active'
+type ThemeKeys = 'children' | 'slides_wrapper'
+    | 'slide' | 'slide__active' | 'slide__prev' | 'slide__next'
+    | 'controls_wrapper' | 'control' | 'control__active'
+    | '__slided_forward' | '__slided_backward'
 
 type Props = {
     slides: React.ReactNode[]
@@ -13,6 +26,7 @@ type Props = {
     withControlls?: boolean
     swipeDelta?: number
     loop?: boolean
+    autoslideInterval?: number
     attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>
 
@@ -26,4 +40,4 @@ type MergedProps = Props & DefaultProps
 type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, SwitchSlide }
+export type { Props, DefaultProps, MergedProps, Component, SwitchSlide, GetSliderVisualsParams }

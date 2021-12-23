@@ -1,3 +1,18 @@
+@keyframes slide_forward
+    0%
+        margin-left: 0
+
+    100%
+        margin-left: calc(var(--slide_width) * -1)
+
+@keyframes slide_backward
+    0%
+       margin-left: calc(var(--slide_width) * -2)
+
+    100%
+        margin-left: calc(var(--slide_width) * -1)
+
+    
 .root
     width: 40%
     overflow: hidden
@@ -6,27 +21,30 @@
     border-radius: $radius_lg
 
 
-.slides_wrapper, .control
-    transition: $transition
-
-.slides_wrapper
-    +flex('', center)
-    transition-property: margin-left
-
 .slides_wrapper, .slide
+    +flex('', center)
     width: 100%
 
 .slide
-    +flex(center, center)
     +font(36px, '', $secondary, 600)
+    justify-content: center
     flex-shrink: 0
     height: 300px
+
+.slide__prev
+    margin-left: calc(var(--slide_width) * -1)
+
+    .__slided_forward &
+        animation: slide_forward $transition forwards
+    
+    .__slided_backward &
+        animation: slide_backward $transition forwards
+
 
 .controls_wrapper
     +flex(center, center)
     margin-right: auto
     margin-bottom: $gutter
-
 
 .control
     width: 20px
@@ -35,6 +53,7 @@
     border: $border
     margin: 0 $gutter_sm
     cursor: pointer
+    transition: $transition
     transition-property: background border-color
 
 .control__active

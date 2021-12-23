@@ -10,7 +10,8 @@ const slides = (new Array(4))
     .map((_, i) => <>slide {i + 1}</>)
 
 const Demo = () => {
-    const store = useState(1)
+    const storeForExample1 = useState(0)
+    const storeForExample2 = useState(0)
 
     const props: SliderProps = { slides }
 
@@ -21,11 +22,12 @@ const Demo = () => {
         <h2 children='simple' />
         <Slider { ...props } />
 
-        <h2 children={ `controlled. active slide: ${ store[0] }` } />
-        <Slider { ...props } innerStore={ store } />
+        <h2 children={ `controlled. active slide: ${ storeForExample1[0] }` } />
+        <Slider { ...props } innerStore={ storeForExample1 } />
 
-        <h2 children='with controls; loop' />
-        <Slider { ...props } withControlls loop />
+        <h2 children='with controls; loop; autoslide' />
+        <Slider { ...props } withControlls loop autoslideInterval={ 2000 }
+            innerStore={ storeForExample2 } />
     </>
 }
 Demo.id = ID

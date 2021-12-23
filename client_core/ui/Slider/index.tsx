@@ -1,7 +1,4 @@
-//TODO: loop visual
-//TODO: autoslide
-
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useLayoutEffect, useRef } from 'react'
 
 import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
@@ -9,7 +6,7 @@ import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import Swipe from '../Swipe'
 import type {
-    Component, MergedProps, SwitchSlide,
+    Component, MergedProps, SwitchSlide, GetSliderVisualsParams,
     Props
 } from './types'
 
@@ -29,65 +26,64 @@ function getSliderRootProps(mergedProps: MergedProps) {
     return result
 }
 
-function getSliderVisuals(mergedProps: MergedProps, switchSlide: SwitchSlide, curSlide: number) {
-    const { withControlls, theme, swipeDelta, slides, loop } = mergedProps
+function getSliderVisuals(params: GetSliderVisualsParams) {
+    const { mergedProps, switchSlide, curSlide } = params
+    const { withControlls, theme, swipeDelta, slides } = mergedProps
 
-    const controlls = []
-    const slidePages = []
     const slidesLength = slides.length
 
-    function onSlideSwipe(isNext: boolean) {
-        let nextPage, next
-        if (isNext) {
-            next = curSlide + 1
-            nextPage = next < slidesLength
-                ?   next
-                :   loop ? 0 : undefined
-        } else {
-            next = curSlide - 1
-            nextPage = next >= 0
-                ?   next
-                :   loop ? slidesLength - 1 : undefined
+    const controlls = []
+    if (withControlls) {
+        for (let i = 0; i < slidesLength; i++) {
+            controlls.push(
+                <div key={ i } data-page={ i }
+                    className={ `${theme.control} ${i == curSlide ? theme.control__active : ''}` } />
+            )
         }
-
-        isExists(nextPage) && switchSlide(nextPage)
     }
 
 
-    for (let i = 0; i < slidesLength; i++) {
-        withControlls && controlls.push(
-            <div key={ i } className={ `${theme.control} ${i == curSlide ? theme.control__active : ''}` }
-                data-page={ i } />
-        )
+    let prevSlideIndex = curSlide - 1
+    prevSlideIndex < 0 && (prevSlideIndex = slidesLength - 1)
 
-        let className = theme.slide
-        i == curSlide && (className += ` ${theme.slide__active}`)
+    let nextSlideIndex = curSlide + 1
+    nextSlideIndex >= slidesLength && (nextSlideIndex = 0)
 
-        slidePages.push( <div className={ className } key={ i } children={ slides[i] } /> )
-    }
+    const slidePages = [
+        <div key={ `${prevSlideIndex} p` } className={ `${theme.slide} ${theme.slide__prev}` }
+            children={ slides[prevSlideIndex] } />,
+
+        <div key={ curSlide } className={ `${theme.slide} ${theme.slide__active}` }
+            children={ slides[curSlide] } />,
+
+        <div key={ `${nextSlideIndex} n` } className={ `${theme.slide} ${theme.slide__next}` }
+            children={ slides[ nextSlideIndex ] } />
+    ]
 
 
     return {
         pageControlls: withControlls && (
-            <div className={ theme.controls_wrapper } children={ controlls } onMouseDown={ e => {
-                const nextPage = (e.target as HTMLDivElement).dataset.page
-                nextPage && switchSlide(+nextPage)
-            } } />
+            <div className={ theme.controls_wrapper } children={ controlls }
+                onMouseDown={ e => {
+                    const nextSlide = (e.target as HTMLDivElement).dataset.page
+                    if (nextSlide) {
+                        const nextSlideInt = +nextSlide
+                        switchSlide(nextSlideInt, nextSlideInt > curSlide, true)
+                    }
+                } } />
         ),
 
         slidePages: (
             <Swipe children={ slidePages } className={ theme.slides_wrapper } xAxis
                 deltaPos={ swipeDelta }
-                onSwipe={ onSlideSwipe } />
+                onSwipe={ isSlideNext => {
+                    switchSlide(
+                        isSlideNext ? curSlide + 1 : curSlide - 1,
+                        isSlideNext
+                    )
+                } } />
         )
     }
-}
-
-function getSlideElements(rootChilds: NodeListOf<ChildNode>, withControlls: MergedProps['withControlls']) {
-    const slideArea = ((withControlls ? rootChilds[1] : rootChilds[0]) as HTMLElement)
-    const firstSlidePage = (slideArea.childNodes[0] as HTMLElement)
-
-    return { slideArea, firstSlidePage }
 }
 
 const Slider: Component = (props, noDefaults) => {
@@ -95,31 +91,62 @@ const Slider: Component = (props, noDefaults) => {
         ?   extractProps(Slider.defaults, props, false)
         :   (props as MergedProps)
 
-    const { withControlls, innerStore } = mergedProps
+    const { innerStore, theme, autoslideInterval, loop, withControlls } = mergedProps
 
     const [ curSlide, setSlide ] = innerStore || useState(0)
-
+    const slideDirectionState = useState({
+        isLastDirectionForward: undefined as boolean | undefined
+    })[0]
+    const { isLastDirectionForward } = slideDirectionState
 
     const sliderRootProps = getSliderRootProps(mergedProps)
 
-    useEffect(() => {
-        // Hack since React triggers useEffect before childs mount
-        curSlide && setTimeout(() => { switchSlide(curSlide) })
-    }, [])
-
-
-    const switchSlide: SwitchSlide = nextPage => {
-        const { slideArea, firstSlidePage } = getSlideElements(sliderRootProps.ref.current.childNodes, withControlls)
-        const offset = (nextPage * -firstSlidePage.offsetWidth) + 'px'
-
-        slideArea.style.setProperty('--offset_left', offset)
-        slideArea.style.marginLeft = offset
-
-        setSlide(nextPage)
+    if (isExists(isLastDirectionForward)) {
+        sliderRootProps.className += ` ${isLastDirectionForward ? theme.__slided_forward : theme.__slided_backward}`
     }
 
 
-    const { pageControlls, slidePages } = getSliderVisuals(mergedProps, switchSlide, curSlide)
+    useLayoutEffect(() => {
+        const rootElement = sliderRootProps.ref.current as HTMLDivElement
+        rootElement.style.setProperty(
+            '--slide_width',
+            (
+                rootElement
+                    .childNodes[ withControlls ? 1 : 0 ]
+                    .childNodes[ 0 ] as HTMLDivElement
+            ).offsetWidth + 'px'
+        )
+    }, [])
+
+    if (autoslideInterval) {
+        useLayoutEffect(() => {
+            const timeoutID = setTimeout(() => {
+                switchSlide(curSlide + 1, true)
+            }, autoslideInterval)
+
+            return () => { clearTimeout(timeoutID) }
+        }, [ curSlide ])
+    }
+
+
+    const switchSlide: SwitchSlide = (_nextSlide, isSlideNext, isControlClick) => {
+        slideDirectionState.isLastDirectionForward = isSlideNext
+
+        const lastIndex = mergedProps.slides.length - 1
+        const nextSlide = isControlClick
+            ?   _nextSlide
+            :   _nextSlide > lastIndex
+                ?   loop ? 0 : lastIndex
+                :   _nextSlide < 0
+                    ?   loop ? lastIndex : 0
+                    :   _nextSlide
+
+
+        setSlide(nextSlide)
+    }
+
+
+    const { pageControlls, slidePages } = getSliderVisuals({ mergedProps, switchSlide, curSlide })
 
 
     return (
@@ -138,9 +165,13 @@ Slider.defaults = {
         slides_wrapper: '',
         slide: '',
         slide__active: '',
+        slide__prev: '',
+        slide__next: '',
         controls_wrapper: '',
         control: '',
         control__active: '',
+        __slided_forward: '',
+        __slided_backward: ''
     },
 
     swipeDelta: 30

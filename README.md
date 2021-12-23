@@ -11,7 +11,7 @@
 </a>
 
 <a href=''>
-    <img src='https://img.shields.io/badge/node%20v-%3E%3D%2012-brightgreen' alt='npm version' />
+    <img src='https://img.shields.io/badge/node%20v-%3E%3D%2014-brightgreen' alt='npm version' />
 </a>
 
 <a href=''>

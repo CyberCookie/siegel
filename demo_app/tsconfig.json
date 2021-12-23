@@ -3,6 +3,9 @@
     "compilerOptions": {
 		"baseUrl": ".",
 		"skipLibCheck": true,
+		"target": "es2020",
+		"module": "es2020",
+        "moduleResolution": "node",
 		"paths": {
 			"app/*": ["./client/main/*"],
 			"dto/*": ["./dto/*"],
