@@ -110,7 +110,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
             exclude: defaultRuleOptions.exclude
                 ?   defaultRuleOptions.exclude.concat(exclude || [])
-                :   exclude,
+                :   exclude
         }
     }
 

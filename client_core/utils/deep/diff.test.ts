@@ -60,7 +60,7 @@ describe('utils/deep/diff', () => {
             will_be_undef: undefined,
             will_be_null: null,
             will_be_changeed_obj: {
-                will_be_changed: 'changed',
+                will_be_changed: 'changed'
             },
             will_be_changed_array: [
                 SYMBOL__VALUES_EQUAL, { will_be_changed: 120 }, SYMBOL__VALUES_EQUAL, undefined, false, null, []

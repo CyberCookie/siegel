@@ -69,7 +69,7 @@ const pluginsKeysMap = {
 
 const pluginInstancesKeyMap = {
     compression_br: 'br',
-    compression_gzip: 'gzip',
+    compression_gzip: 'gzip'
 } as const
 
 

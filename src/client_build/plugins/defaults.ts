@@ -109,7 +109,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                 // scriptLoading: 'defer',
                 template: input.html,
                 minify: {
-                    collapseWhitespace: true,
+                    collapseWhitespace: true
                 }
             }, input.html)
         },

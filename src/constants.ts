@@ -29,7 +29,7 @@ const PATHS = {
     package: join(root, LOC_NAMES.PACKAGE_JSON),
     cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
     build: join(__dirname, 'client_build', 'index'),
-    staticServer: join(__dirname, 'server', 'index'),
+    staticServer: join(__dirname, 'server', 'index')
 } as const
 
 
