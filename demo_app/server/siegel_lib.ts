@@ -12,7 +12,7 @@ catch(e) {
             .toString()
             .trim()
 
-            siegel = require(globalNodeModulesPath + '/siegel')
+        siegel = require(globalNodeModulesPath + '/siegel')
     }
 }
 

@@ -8,7 +8,6 @@
 		"jsx": "react",
 		"baseUrl": ".",
 		"target": "es2020",
-		"module": "es2020",
 		"moduleResolution": "node",
 		"skipLibCheck": true
 	},
