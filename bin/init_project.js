@@ -55,12 +55,12 @@ function main(isGlobal) {
     //Copy Eslint jsons
     shell(`cp ${ PATHS.root }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
 
-    //Copy ts-node tsconfig.json
+    //Copy tsconfig.json for ts-node
     shell(`cp ${join( PATHS.root, LOC_NAMES.SRC_DIR_NAME, LOC_NAMES.TS_JSON )} ${LOC_NAMES.SERVER_DIR_NAME}`)
 
 
 
-    //Extend TSConfig
+    //Modify user's demo_app client TSConfig
     const TSConfig = require(TSPath)
 
     TSConfig.extends = replaceDevPathWithModule(TSConfig.extends)
@@ -81,6 +81,7 @@ function main(isGlobal) {
     const ESLintConfig = JSON.parse(readFileSync(ESLintPath, 'utf8'))
 
     ESLintConfig.extends.push( getLocalPathToSiegel(devCorePackageName, LOC_NAMES.ESLINT_JSON) )
+    ESLintConfig.ignorePatterns.pop()
     ESLintConfig.rules = {}
 
     writeFileSync(ESLintPath, toJSON(ESLintConfig))

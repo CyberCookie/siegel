@@ -1,5 +1,8 @@
 {
-    "ignorePatterns": [ "/dist/", "/cjs/", "/lib/", "/node_modules/" ],
+    "ignorePatterns": [
+        "/dist/", "/cjs/", "/node_modules/",
+        "/lib_client/" //Removing during new project init
+    ],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",

@@ -75,7 +75,7 @@
 
             /*
                 List of directories and/or files to be processed by webpack's loaders.
-                Default is: [ client_core, path.dirname(build.input.js) ]
+                Default is: [ client_core ]
             */
             include: String[],
             
@@ -86,7 +86,16 @@
             exclude: String[]
         },
 
-        /* Enables ESlint. Default false */
+        /*
+            target EcmaScript version.
+            Default is: es2020
+        */
+        target: String
+
+        /* 
+            Enables ESlint.
+            Default false
+        */
         eslint: Boolean || ESLintWebpackPlugin -> options || (defaultConfig) => updatedConfig,
 
         /* Webpack publicPath */

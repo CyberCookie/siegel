@@ -11,7 +11,7 @@ const cwd = process.cwd()
 const root = join(__dirname, '..')
 
 
-//TODO: rename, ?refactor
+//TODO: refactor
 const LOC_NAMES = {
     PACKAGE_JSON: 'package.json',
     ESLINT_JSON: '.eslintrc',
@@ -24,7 +24,6 @@ const LOC_NAMES = {
     SRC_DIR_NAME: 'src',
     SERVER_DIR_NAME: 'server'
 }
-
 const PATHS = {
     cwd, root,
     demoProject: join(root, 'demo_app'),
@@ -51,7 +50,7 @@ const DEFAULT_CONFIG = {
             include: [ PATHS.clientCore ]
         },
 
-        target: 'esnext',
+        target: 'es2020',
 
         eslint: false,
 

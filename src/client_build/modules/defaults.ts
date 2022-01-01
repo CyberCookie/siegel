@@ -47,7 +47,9 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                         // url: url => !url.endsWith('.svg'),
                         importLoaders: 2,
                         modules: {
-                            localIdentName: isProd ? '[hash:base64:4]' : '[local]--[hash:base64:4]'
+                            localIdentName: isProd
+                                ?   '[hash:base64:4]'
+                                :   '[local]--[hash:base64:4]'
                         }
                     }
                 },

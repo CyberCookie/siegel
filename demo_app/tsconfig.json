@@ -1,9 +1,6 @@
 {
 	"extends": "../tsconfig.json",
     "compilerOptions": {
-		"target": "esnext",
-		"module": "es2020",
-        "moduleResolution": "node",
 		"baseUrl": ".",
 		"paths": {
 			"app/*": ["client/main/*"],
