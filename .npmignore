@@ -7,4 +7,5 @@ _test
 
 .github
 src/*
+client_core/*
 !src/tsconfig.json

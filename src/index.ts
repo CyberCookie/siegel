@@ -1,3 +1,5 @@
+'use strict'
+
 import type { RunParams } from './types'
 export {}
 

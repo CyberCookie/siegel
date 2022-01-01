@@ -6,7 +6,8 @@
 		"strict": true,
 		"noImplicitAny": true,
 		"jsx": "react",
-		"baseUrl": "."
+		"baseUrl": ".",
+		"skipLibCheck": true
 	},
 	"include": [ "client_core", "global.d.ts" ]
 }

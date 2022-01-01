@@ -3,13 +3,13 @@ import type { FetchParams, ReqError, RequestParams, Hooks } from './types'
 
 const HEADERS = {
     CONTENT_TYPE: 'content-type'
-} as const
+}
 
 const CONTENT_TYPE = {
     JSON: 'application/json',
     FORM_DATA: 'multipart/form-data',
     X_FORM: 'application/x-www-form-urlencoded'
-} as const
+}
 
 const jsonContentTypeHeaders = {
     [HEADERS.CONTENT_TYPE]: CONTENT_TYPE.JSON
@@ -151,7 +151,7 @@ const createApi = (hooks: Hooks = {}) => {
 
             return {
                 res: null,
-                err
+                err: err as ReqError
             }
         }
     }

@@ -1,14 +1,21 @@
+//TODO: console output: checkboxes, progress, timings
+
+'use strict'
+
 const { join, relative }                            = require('path')
 const { existsSync, writeFileSync, readFileSync }   = require('fs')
 const shell                                         = require('child_process').execSync
 
 const { PATHS, LOC_NAMES }                          = require('../cjs/constants')
+const siegelPackageJson                             = require(PATHS.package)
+
+
 
 const {
     name: devCorePackageName,
     scripts: siegelPackageJSONScripts,
     config: devCorePackageConfig
-} = require(PATHS.package)
+} = siegelPackageJson
 
 
 const TSPath = join(PATHS.cwd, LOC_NAMES.TS_JSON)
@@ -22,7 +29,7 @@ pathToIndex = pathToIndex.substr(pathToIndex.search(/\w/))
 
 const toJSON = data => JSON.stringify(data, null, 4)
 
-const getLocalPathToSiegel = (...args) => './' + join(LOC_NAMES.NODE_MODULES, ...args)
+const getLocalPathToSiegel = (...args) => join(LOC_NAMES.NODE_MODULES, ...args)
 
 function main(isGlobal) {
     const replaceDevPathWithModule = path => {
@@ -31,7 +38,10 @@ function main(isGlobal) {
             :   getLocalPathToSiegel(devCorePackageName)
 
 
-        return path.replace('..', replaceWith)
+        return path.replace(
+            '..',
+            replaceWith.replace(LOC_NAMES.CLIENT_CORE_DIR_NAME, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME)
+        )
     }
 
 
@@ -40,13 +50,13 @@ function main(isGlobal) {
     shell(`cp -r ${PATHS.demoProject}/. .`)
 
     //Create demo app global.d.ts
-    writeFileSync(join(PATHS.cwd, 'global.d.ts'), `/// <reference types='${devCorePackageName}' />`)
+    writeFileSync(join(PATHS.cwd, LOC_NAMES.TS_GLOBAL_TYPES), `/// <reference types='${devCorePackageName}' />`)
 
     //Copy Eslint jsons
     shell(`cp ${ PATHS.root }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
 
     //Copy ts-node tsconfig.json
-    shell(`cp ${join( PATHS.root, 'src', LOC_NAMES.TS_JSON )} ./server`)
+    shell(`cp ${join( PATHS.root, LOC_NAMES.SRC_DIR_NAME, LOC_NAMES.TS_JSON )} ${LOC_NAMES.SERVER_DIR_NAME}`)
 
 
 
@@ -91,7 +101,7 @@ function main(isGlobal) {
         let siegelPackageJSONCommand = siegelPackageJSONScripts[command]
 
         siegelPackageJSONScripts[command] = command == 'build_node'
-        ?   siegelPackageJSONCommand.replace('src', 'server')
+        ?   siegelPackageJSONCommand.replace(LOC_NAMES.SRC_DIR_NAME, LOC_NAMES.SERVER_DIR_NAME)
         :   siegelPackageJSONCommand.replace(
                 '$npm_package_config_index',
                 command == 'pm2' ? 'cjs' : pathToIndex

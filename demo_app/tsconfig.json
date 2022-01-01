@@ -1,14 +1,14 @@
 {
 	"extends": "../tsconfig.json",
     "compilerOptions": {
-		"baseUrl": ".",
-		"skipLibCheck": true,
-		"target": "es2020",
+		"target": "esnext",
 		"module": "es2020",
         "moduleResolution": "node",
+		"baseUrl": ".",
 		"paths": {
-			"app/*": ["./client/main/*"],
-			"dto/*": ["./dto/*"],
+			"app/*": ["client/main/*"],
+			"assets/*": ["client/assets/*"],
+			"dto/*": ["dto/*"],
 			"siegel-network/*": ["../client_core/network/*"],
 			"siegel-store/*": ["../client_core/store/*"],
 			"siegel-store": ["../client_core/store"],
@@ -18,5 +18,5 @@
 			"siegel-router": ["../client_core/router/index.tsx"]
 		}
 	},
-	"include": [ "./client", "./dto", "../global.d.ts" ]
+	"include": [ "client", "dto", "../global.d.ts" ]
 }

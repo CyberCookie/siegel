@@ -171,8 +171,7 @@ app.get('/api/proxy_get/:id', apiProxy)
     <ul>
         <li>Compatible HTTP1 and HTTP2 static server</li>
         <li>SEO for crawlers (pages prebuild or build on the fly)</li>
-        <li>Typization</li>
+        <li>Add more typings</li>
         <li>Isomorphic API?</li>
-        <li>Implement webSocket abstraction?</li>
     </ul>
 </details>

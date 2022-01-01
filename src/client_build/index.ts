@@ -1,16 +1,17 @@
 import type { Configuration, Compiler } from 'webpack'
 
 
+const { DEFAULT_CONFIG }            = require('../constants')
 const BUILD_CONSTANTS               = require('./constants')
 const defaultModulesResolve         = require('./modules')
 const defaultPluginsResolve         = require('./plugins')
+
 
 
 const {
     DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, esBuildMinifyPlugin },
     COMMONS: { ESLintExtensions }
 } = BUILD_CONSTANTS
-
 
 const statsOptions = {
     colors: true,
@@ -53,6 +54,9 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             pathinfo: false,
             chunkFilename: 'chunk.[contenthash].js',
             filename: 'app.[contenthash].js',
+            assetModuleFilename: isProd
+                ?   'assets/[name][contenthash].[ext]'
+                :   'assets/[name].[ext]',
             hashFunction: 'xxhash64'
 
             // ...( outputESM ? {
@@ -83,7 +87,7 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             ...( isProd ? {
                 minimizer: [
                     new esBuildMinifyPlugin({
-                        target: 'esnext',
+                        target: DEFAULT_CONFIG.build.target,
                         css: true
                     })
                 ]

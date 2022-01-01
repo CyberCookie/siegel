@@ -26,7 +26,6 @@ const DEPENDENCIES = {
         sassLoader:             resolve('sass-loader'),
         sassResourcesLoader:    resolve('sass-resources-loader'),
         postCssAutoprefix:      resolve('autoprefixer'),
-        fileLoader:             resolve('file-loader'),
         postCssSVG2Font:        resolve('./modules/postcss_svg2icon_plugin')
     }
 } as const
@@ -43,14 +42,13 @@ const loadersKeyMap = {
     cssLoader: 'cssLoader',
     postCssLoader: 'postCssLoader',
     sassLoader: 'sassLoader',
-    sassResources: 'sassResources',
-    fileLoader: 'fileLoader'
+    sassResources: 'sassResources'
 } as const
 
 const webpackModulesRegExp = {
     scripts: '\\.[tj]sx?$',
     styles: '\\.(c|sc|sa)ss$',
-    files: '\\.woff2?$'
+    files: '\\.(avif|webp|jpg|png|svg|woff2)?$'
 } as const
 
 

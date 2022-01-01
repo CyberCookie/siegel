@@ -1,5 +1,5 @@
 {
-    "ignorePatterns": [ "/dist/", "/cjs/", "/node_modules/" ],
+    "ignorePatterns": [ "/dist/", "/cjs/", "/lib/", "/node_modules/" ],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
