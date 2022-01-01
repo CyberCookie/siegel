@@ -99,7 +99,7 @@ module.hot?.accept() // Webpack's hmr bug workaround
 
 
 ```sh
-npx siegel run -b -s -js ./app.ts
+npx siegel run -b -s -js app.ts
 ```
 
 
@@ -220,7 +220,7 @@ More about demo project read [here](https://github.com/CyberCookie/siegel/tree/m
 
 in case of you've cloned this repo:<br />
 
-Build `/src`
+Build `src`
 
 ```sh
 npm run build_node

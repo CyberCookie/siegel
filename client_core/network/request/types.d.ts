@@ -2,6 +2,7 @@ type FetchParams = {
     url: string
     options: RequestInit
 }
+
 type ReqData = {
     initialURL: string
     url: string

@@ -1,7 +1,7 @@
-const { dirname }   = require('path')
-const existsSync    = require('fs').existsSync
+const { dirname }       = require('path')
+const { existsSync }    = require('fs')
 
-const CONSTANTS     = require('./constants')
+const { DEFAULT_RUN_PARAMS, DEFAULT_CONFIG } = require('./constants')
 
 
 function mergeConfigWithDefaults(CONFIG: any, DEFAULT_CONFIG: any) {
@@ -13,7 +13,7 @@ function mergeConfigWithDefaults(CONFIG: any, DEFAULT_CONFIG: any) {
             CONFIG[key] = defaultValue
         } else if (Array.isArray(configValue) && Array.isArray(defaultValue)) {
             CONFIG[key] = Array.from(new Set( defaultValue.concat(configValue) ))
-        } else if (configValue.constructor.name == 'Object' && defaultValue.constructor.name == 'Object') {
+        } else if (configValue.constructor == Object && defaultValue.constructor == Object) {
             mergeConfigWithDefaults(CONFIG[key], defaultValue)
         }
     }
@@ -22,8 +22,8 @@ function mergeConfigWithDefaults(CONFIG: any, DEFAULT_CONFIG: any) {
 
 
 module.exports = (CONFIG: any = {}, RUN_PARAMS: any = {}) => {
-    if (RUN_PARAMS) mergeConfigWithDefaults(RUN_PARAMS, CONSTANTS.DEFAULT_RUN_PARAMS)
-    else RUN_PARAMS = CONSTANTS.DEFAULT_RUN_PARAMS
+    if (RUN_PARAMS) mergeConfigWithDefaults(RUN_PARAMS, DEFAULT_RUN_PARAMS)
+    else RUN_PARAMS = DEFAULT_RUN_PARAMS
 
     RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer
 
@@ -35,15 +35,17 @@ module.exports = (CONFIG: any = {}, RUN_PARAMS: any = {}) => {
         CONFIG = {}
     }
 
-    mergeConfigWithDefaults(CONFIG, CONSTANTS.DEFAULT_CONFIG)
-
+    mergeConfigWithDefaults(CONFIG, DEFAULT_CONFIG)
     if (RUN_PARAMS.isBuild) {
         const { input } = CONFIG.build
 
         stringConfig && (input.js = stringConfig)
 
         if (existsSync(input.js)) {
-            input.include.push( dirname(input.js) )
+            const userJSEntryDirName = dirname(input.js)
+            input.include
+                ?   input.include.push( userJSEntryDirName )
+                :   (input.include = [ userJSEntryDirName ])
         } else throw `build.input.js ->> [${input.js}] file doesn't exists.`
     }
 

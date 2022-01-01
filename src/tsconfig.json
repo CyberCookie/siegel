@@ -1,12 +1,10 @@
 {
+    "extends": "../tsconfig.json",
     "compilerOptions": {
         "outDir": "../cjs",
-        // "declaration": true,
+        // "declaration": true, //TODO
         "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "allowJs": true,
-        "moduleResolution": "node",
-        "target": "es6",
+        "noEmit": false,
         "module": "commonjs"
     }
 }

@@ -35,7 +35,8 @@ module.exports = (defaultModules, userModules = {}) => {
 
     function addRule(ruleParams) {
         const {
-            regExpPart, loadersOrder, ruleOptions,
+            regExpPart, ruleOptions,
+            loadersOrder = [],
             loaders = {},
             defaultLoaders = {}
         } = ruleParams

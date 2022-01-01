@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+'use strict'
+
 const { isAbsolute, join } = require('path')
 
 
@@ -90,7 +92,7 @@ switch(command) {
         ${getColoredCommandArgumentStr('-port')}    - static server port
         ${getColoredCommandArgumentStr('-cfg')}     - path to siegel config 
 
-        example: ... run -b -s -js ./app.ts -port 4000
+        example: ... run -b -s -js app.ts -port 4000
     
 
     ${getColoredCommandStr('init')} - Creates production ready project with predefined folder structure including already configured siegel.

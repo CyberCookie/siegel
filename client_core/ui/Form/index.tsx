@@ -53,12 +53,13 @@ const Form: Component = (props, noDefaults) => {
     }, attributes)
 
     const ifDisabledBy = (name: string) => {
-        const nameStateData = values[name] || {}
-        const value = nameStateData.value || ''
         const formElementData = inputs[name]
 
         return formElementData
-            ?   !!validate(value, formElementData.validators || [])
+            ?   !!validate(
+                    values[name]?.value || '',
+                    formElementData.validators || []
+                )
             :   false
     }
 

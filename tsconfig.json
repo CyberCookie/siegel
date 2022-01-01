@@ -6,7 +6,11 @@
 		"strict": true,
 		"noImplicitAny": true,
 		"jsx": "react",
-		"baseUrl": "."
+		"baseUrl": ".",
+		"target": "es2020",
+		"module": "es2020",
+		"moduleResolution": "node",
+		"skipLibCheck": true
 	},
 	"include": [ "client_core", "global.d.ts" ]
 }

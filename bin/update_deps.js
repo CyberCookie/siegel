@@ -1,3 +1,5 @@
+'use strict'
+
 const { PATHS }         = require('../cjs/constants')
 const { existsSync }    = require('fs')
 

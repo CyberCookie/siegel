@@ -5,11 +5,11 @@ const {
         plugins: { miniCssExtract },
         loaders: {
             esbuild, cssLoader, sassLoader, styleLoader, sassResourcesLoader,
-            postCssLoader, postCssAutoprefix, postCssSVG2Font,
-            fileLoader
+            postCssLoader, postCssAutoprefix, postCssSVG2Font
         }
     }
 } = require('../constants')
+const { DEFAULT_CONFIG } = require('../../constants')
 
 
 module.exports = (CONFIG, RUN_PARAMS) => {
@@ -27,7 +27,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                     loader: esbuild,
                     options: {
                         loader: 'tsx',
-                        target: 'esnext'
+                        target: DEFAULT_CONFIG.build.target
                     }
                 }
             }
@@ -47,7 +47,9 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                         // url: url => !url.endsWith('.svg'),
                         importLoaders: 2,
                         modules: {
-                            localIdentName: isProd ? '[hash:base64:4]' : '[local]--[hash:base64:4]'
+                            localIdentName: isProd
+                                ?   '[hash:base64:4]'
+                                :   '[local]--[hash:base64:4]'
                         }
                     }
                 },
@@ -85,33 +87,24 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         },
 
         [ webpackModulesRegExp.files ]: {
-            loadersOrder: [ loadersKeyMap.fileLoader ],
-            loaders: {
-                [ loadersKeyMap.fileLoader ]: {
-                    loader: fileLoader,
-                    options: {
-                        name: isProd
-                            ?   '[folder]/[name][contenthash].[ext]'
-                            :   '[folder]/[name].[ext]',
-                        outputPath: 'assets'
-                    }
-                }
+            ruleOptions: {
+                type: 'asset/resource'
             }
         }
     }
 
     for (const regexpPart in defaults) {
-        const defaultRuleOptions = defaults[regexpPart].ruleOptions || {}
+        defaults[regexpPart].ruleOptions ||= {}
+        const { ruleOptions } = defaults[regexpPart]
+        const { include: _include, exclude: _exclude } = ruleOptions
 
-        defaults[regexpPart].ruleOptions = {
-            include: defaultRuleOptions.include
-                ?   defaultRuleOptions.include.concat(include || [])
-                :   include,
+        ruleOptions.include = _include && include
+            ?   _include.concat(include)
+            :   _include || include,
 
-            exclude: defaultRuleOptions.exclude
-                ?   defaultRuleOptions.exclude.concat(exclude || [])
-                :   exclude
-        }
+        ruleOptions.exclude = _exclude && exclude
+            ?   _exclude.concat(exclude)
+            :   _exclude || exclude
     }
 
 

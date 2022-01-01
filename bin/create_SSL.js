@@ -1,3 +1,5 @@
+'use strict'
+
 const { writeFileSync, unlinkSync } = require('fs')
 const join = require('path').join
 const shell = require('child_process').execSync
