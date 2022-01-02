@@ -13,15 +13,18 @@ Install dependencies with `npm i`.
 <br />
 <h2>package.json scripts:</h2>
 
-- To run the project in development mode: `npm start` ( alias `npm run build_serv` ).
-- To build client code in dev/prod mode run `npm run build_web` / `npm run build_web:prod` accordingly.
+- To run the project in development mode: `npm start`.
+- To build client for production run `npm run build_web`.
 - To transpile server app from TS run `npm run build_node`.
-- `npm run build:prod` is `npm run build_web:prod` + `npm run build_node`.
-- To host the project locally using NodeJS server (make sure you had built it first running one of the commands above) run `npm run serv` / `npm run serv:prod`.
-- To build in prod mode and to host using `pm2` daemon - run `npm run build_serv:prod`.
+- `npm run build` &nbsp;=&nbsp; `npm run build_web` &nbsp;+&nbsp; `npm run build_node`.
+- To host the project locally run `npm run serv`.<br />
+    To use this command first ensure you built a client using `npm run build_web`.
+- To build in prod mode and to host using `pm2` daemon - run `npm run build_serv`.
 - To validate the project code with eslint and typescript run `npm run validate`.
-- To deploy the project from scratch run `npm run deploy`. This script installs dependencies, siegel's peer dependencies and executes `npm run build_serv:prod` command from above.
-- To debug your NodeJS application run `npm run debug`. Site will be ran in dev mode with NodeJS inspector atttached to your browser dev tool.
+- To deploy the project from scratch run `npm run deploy`.<br />
+    This script installs dependencies and executes `npm run build_serv` command from above.
+- To debug your NodeJS application run `npm run debug`.<br />
+    Site will be ran in dev mode with NodeJS inspector atttached to your browser dev tool.
 
 
 <br />

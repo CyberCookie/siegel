@@ -1,8 +1,8 @@
 const join = require('path').join
 const rootPath = join(__dirname, '..')
 
-
 const APP = join(rootPath, 'client')
+
 
 const siegelConfig = {
     server: {
@@ -25,15 +25,16 @@ const siegelConfig = {
         eslint: true,
 
         aliases: (() => {
-            const TSAliases = require('../tsconfig').compilerOptions.paths
-            const aliases: Record<string, string> = {}
+            const TSAliases = require('../client/tsconfig').compilerOptions.paths
 
+            const aliases: Record<string, string> = {}
             for (const alias in TSAliases) {
                 const WPAlias = alias.replace('/*', '')
                 const WPPath = TSAliases[alias][0].replace('/*', '')
 
-                aliases[WPAlias] = join(rootPath, WPPath)
+                aliases[WPAlias] = join(APP, WPPath)
             }
+
 
             return aliases
         })()

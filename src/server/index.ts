@@ -82,14 +82,14 @@ function createHTTP2Server(CONFIG: any, serverExtend: any) {
 
     server.on('error', console.error)
 
-    server.on('stream', (stream, headers) => {
+    server.on('stream', (stream, headers, flags) => {
         const reqFilePath = headers[HTTP2_HEADER_PATH]
 
         const isRoot = reqFilePath == '/'
         const isResourceRequested = reqFilePath.includes('.')
         if (isRoot || isResourceRequested) {
             handleRequestedFile({ reqFilePath, isRoot, stream })
-        } else onStreamCb?.(stream, headers)
+        } else onStreamCb?.(stream, headers, flags)
     })
 
 

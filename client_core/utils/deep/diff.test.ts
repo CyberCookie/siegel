@@ -128,16 +128,19 @@ describe('utils/deep/diff', () => {
         })
     })
     test('hande complex types', () => {
+        const thisDate = new Date()
+        const afterOneSecDate = new Date(1000)
+
         expect(
             diff(
                 {
                     a: new Date(0),
-                    b: new Date(),
+                    b: thisDate,
                     c: new Set([ 1, 2, 3 ])
                 },
                 {
-                    a: new Date(1000),
-                    b: new Date(),
+                    a: afterOneSecDate,
+                    b: thisDate,
                     c: new Set([ 1, 2, 3 ])
                 },
                 {
@@ -151,7 +154,7 @@ describe('utils/deep/diff', () => {
                 }
             )
         ).toEqual({
-            a: new Date(1000),
+            a: afterOneSecDate,
             c: new Set([ 1, 2, 3 ])
         })
     })

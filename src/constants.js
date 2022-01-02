@@ -21,8 +21,7 @@ const LOC_NAMES = {
     NODE_MODULES: 'node_modules',
     CLIENT_CORE_DIR_NAME: 'client_core',
     CLIENT_CORE_OUTPUT_DIR_NAME: 'lib_client',
-    SRC_DIR_NAME: 'src',
-    SERVER_DIR_NAME: 'server'
+    SRC_DIR_NAME: 'src'
 }
 const PATHS = {
     cwd, root,
@@ -31,7 +30,7 @@ const PATHS = {
     package: join(root, LOC_NAMES.PACKAGE_JSON),
     cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
     build: join(__dirname, 'client_build', 'index'),
-    staticServer: join(__dirname, LOC_NAMES.SERVER_DIR_NAME, 'index')
+    staticServer: join(__dirname, 'server', 'index')
 }
 
 
@@ -47,7 +46,9 @@ const DEFAULT_CONFIG = {
         input: {
             html: join(PATHS.demoProject, 'client', 'index.html'),
             js: join(cwd, 'app.ts'),
-            include: [ PATHS.clientCore ]
+            include: cwd == root
+                ?   [ PATHS.clientCore ]
+                :   undefined
         },
 
         target: 'es2020',
@@ -58,6 +59,7 @@ const DEFAULT_CONFIG = {
         aliases: {}
     }
 }
+
 
 
 const DEFAULT_RUN_PARAMS = {

@@ -92,8 +92,12 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             enabled: isProd || !isServer,
             options: {
                 experimentalUseImportModule: true,
-                filename: isProd ? 'styles.[contenthash].css' : 'styles.[name].css',
-                chunkFilename: isProd ? 'chunk.[contenthash].css' : 'chunk.[name].css'
+                filename: isProd
+                    ?   'styles.[contenthash].css'
+                    :   'styles.[name].css',
+                chunkFilename: isProd
+                    ?   'chunk.[contenthash].css'
+                    :   'chunk.[name].css'
             }
         },
 
