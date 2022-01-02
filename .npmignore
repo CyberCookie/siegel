@@ -4,10 +4,10 @@
 
 dist
 
-src
+src/*
 !src/tsconfig.json
 
-client_core
+client_core/*
 !client_core/tsconfig.json
 
 cjs/**/*.d.ts

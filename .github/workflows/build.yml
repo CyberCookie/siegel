@@ -26,4 +26,4 @@ jobs:
     - run: npm ci
     - run: npm run prepublishOnly
     - run: npm run build_web
-    - run: npm run build_serv
+    - run: npm run build_node
