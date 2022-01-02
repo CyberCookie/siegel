@@ -18,7 +18,10 @@ console.timeEnd('transpilation took')
 
 function transpileSrcTS() {
     console.log('Creating cjs...')
-    fs.rmdirSync(path.join(PATHS.cwd, 'cjs'), { recursive: true })
+
+    const cjsDirParh = path.join(PATHS.cwd, 'cjs')
+    fs.existsSync(cjsDirParh) && fs.rmdirSync(cjsDirParh, { recursive: true })
+
     shell(`npx tsc -p ${LOC_NAMES.SRC_DIR_NAME}`)
 }
 
@@ -37,10 +40,12 @@ function iterateFiles(dirPath, cb) {
 
 function transpileClientCoreTS() {
     console.log('Creating lib...')
-    fs.rmdirSync(path.join(PATHS.cwd, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME), { recursive: true })
+
+    const OUTPUT_CLIENT_CORE_PATH = path.join(PATHS.cwd, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME)
+    fs.existsSync(OUTPUT_CLIENT_CORE_PATH) && fs.rmdirSync(OUTPUT_CLIENT_CORE_PATH, { recursive: true })
+
     shell(`npx tsc -p ${LOC_NAMES.CLIENT_CORE_DIR_NAME}`)
 
-    const OUTPUT_CLIENT_CORE_PATH = path.join(process.cwd(), LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME)
 
     iterateFiles(PATHS.clientCore, fileNamePath => {
         if (fileNamePath.endsWith('.d.ts')) {
