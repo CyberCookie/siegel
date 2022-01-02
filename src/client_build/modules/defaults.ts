@@ -9,11 +9,13 @@ const {
         }
     }
 } = require('../constants')
-const { DEFAULT_CONFIG } = require('../../constants')
 
 
 module.exports = (CONFIG, RUN_PARAMS) => {
-    const { sassResources, include, exclude } = CONFIG.build.input
+    const {
+        target,
+        input: { sassResources, include, exclude }
+    } = CONFIG.build
     const { isProd, isServer } = RUN_PARAMS
 
     const isDev = !isProd
@@ -26,8 +28,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                 [ loadersKeyMap.esbuild ]: {
                     loader: esbuild,
                     options: {
-                        loader: 'tsx',
-                        target: DEFAULT_CONFIG.build.target
+                        target,
+                        loader: 'tsx'
                     }
                 }
             }

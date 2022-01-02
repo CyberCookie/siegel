@@ -1,11 +1,16 @@
-# gitignore extend
 .idea
 .vscode
+.github
+
 dist
 
-_test
-
-.github
-src/*
-client_core/*
+src
 !src/tsconfig.json
+
+client_core
+!client_core/tsconfig.json
+
+cjs/**/*.d.ts
+!cjs/constants.d.ts
+
+prepublish.js

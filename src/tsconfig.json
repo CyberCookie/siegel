@@ -1,10 +1,12 @@
 {
-    "extends": "../tsconfig.json",
     "compilerOptions": {
         "outDir": "../cjs",
-        // "declaration": true, //TODO
+        "declaration": true,
         "resolveJsonModule": true,
-        "noEmit": false,
+        "skipLibCheck": true,
+        "allowJs": true,
+        "moduleResolution": "node",
+        "target": "es2020",
         "module": "commonjs"
     }
 }

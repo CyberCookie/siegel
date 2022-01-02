@@ -1,7 +1,6 @@
 {
     "ignorePatterns": [
-        "/dist/", "/cjs/", "/node_modules/",
-        "/lib_client/" //Removing during new project init
+        "/dist/", "/cjs/", "/node_modules/", "/lib_client/"
     ],
     "extends": [
         "eslint:recommended",

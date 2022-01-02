@@ -75,7 +75,6 @@
 
             /*
                 List of directories and/or files to be processed by webpack's loaders.
-                Default is: [ client_core ]
             */
             include: String[],
             

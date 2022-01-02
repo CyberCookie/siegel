@@ -12,13 +12,14 @@ const siegelPackageJson                             = require(PATHS.package)
 
 
 const {
-    name: devCorePackageName,
+    name: siegelPackageName,
     scripts: siegelPackageJSONScripts,
     config: devCorePackageConfig
 } = siegelPackageJson
 
 
-const TSPath = join(PATHS.cwd, LOC_NAMES.TS_JSON)
+
+
 const ESLintPath = join(PATHS.cwd, LOC_NAMES.ESLINT_JSON)
 
 const demoDirPathFromRoot = relative(PATHS.root, PATHS.demoProject)
@@ -29,88 +30,104 @@ pathToIndex = pathToIndex.substr(pathToIndex.search(/\w/))
 
 const toJSON = data => JSON.stringify(data, null, 4)
 
-const getLocalPathToSiegel = (...args) => join(LOC_NAMES.NODE_MODULES, ...args)
-
 function main(isGlobal) {
-    const replaceDevPathWithModule = path => {
-        const replaceWith = isGlobal
-            ?   join(relative(__dirname, PATHS.globalNodeModules), devCorePackageName)
-            :   getLocalPathToSiegel(devCorePackageName)
+    function createDemoApp() {
+        //Copy demo_app
+        shell(`cp -r ${PATHS.demoProject}/. .`)
+
+        //Create global.d.ts
+        writeFileSync(join(PATHS.cwd, LOC_NAMES.TS_GLOBAL_TYPES), `/// <reference types='${siegelPackageName}' />`)
+
+        //Copy Eslint jsons
+        shell(`cp ${ PATHS.root }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
+    }
 
 
-        return path.replace(
-            '..',
-            replaceWith.replace(LOC_NAMES.CLIENT_CORE_DIR_NAME, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME)
+    function modiyTSConfigs() {
+        const userClientTSConfigPath = join(PATHS.cwd, 'client', LOC_NAMES.TS_JSON)
+        const clientTSConfig = require(userClientTSConfigPath)
+
+        const userServerTSConfigPath = join(PATHS.cwd, 'server', LOC_NAMES.TS_JSON)
+        const userServerTSConfig = require(userServerTSConfigPath)
+
+
+        const pathToSiegel = isGlobal
+            ?   join(relative(__dirname, PATHS.globalNodeModules), siegelPackageName)
+            :   join('..', LOC_NAMES.NODE_MODULES, siegelPackageName)
+
+        const replaceDevPathWithSiegel = path => path.replace('../..', pathToSiegel)
+
+
+
+        clientTSConfig.extends = replaceDevPathWithSiegel(clientTSConfig.extends)
+        clientTSConfig.include.push(
+            clientTSConfig.include.pop().replace('../', '')
         )
-    }
 
-
-
-    //Copy demo_app
-    shell(`cp -r ${PATHS.demoProject}/. .`)
-
-    //Create demo app global.d.ts
-    writeFileSync(join(PATHS.cwd, LOC_NAMES.TS_GLOBAL_TYPES), `/// <reference types='${devCorePackageName}' />`)
-
-    //Copy Eslint jsons
-    shell(`cp ${ PATHS.root }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
-
-    //Copy tsconfig.json for ts-node
-    shell(`cp ${join( PATHS.root, LOC_NAMES.SRC_DIR_NAME, LOC_NAMES.TS_JSON )} ${LOC_NAMES.SERVER_DIR_NAME}`)
-
-
-
-    //Modify user's demo_app client TSConfig
-    const TSConfig = require(TSPath)
-
-    TSConfig.extends = replaceDevPathWithModule(TSConfig.extends)
-    TSConfig.include.push(
-        TSConfig.include.pop().replace('..', '.')
-    )
-
-    const paths = TSConfig.compilerOptions.paths
-    for (const alias in paths) {
-        paths[alias][0] = replaceDevPathWithModule(paths[alias][0])
-    }
-
-    writeFileSync(TSPath, toJSON(TSConfig))
-
-
-
-    //Extend Eslint jsons
-    const ESLintConfig = JSON.parse(readFileSync(ESLintPath, 'utf8'))
-
-    ESLintConfig.extends.push( getLocalPathToSiegel(devCorePackageName, LOC_NAMES.ESLINT_JSON) )
-    ESLintConfig.ignorePatterns.pop()
-    ESLintConfig.rules = {}
-
-    writeFileSync(ESLintPath, toJSON(ESLintConfig))
-
-
-
-    //Extend package.json
-    existsSync(PATHS.cwdPackageJSON) || shell('npm init -y')
-    const targetPackageJSON = require(PATHS.cwdPackageJSON)
-
-
-    const internalPackageScripts = [ 'prepublishOnly', 'validate_siegel' ]
-    internalPackageScripts.forEach(command => {
-        delete siegelPackageJSONScripts[command]
-    })
-
-    for (const command in siegelPackageJSONScripts) {
-        let siegelPackageJSONCommand = siegelPackageJSONScripts[command]
-
-        siegelPackageJSONScripts[command] = command == 'build_node'
-        ?   siegelPackageJSONCommand.replace(LOC_NAMES.SRC_DIR_NAME, LOC_NAMES.SERVER_DIR_NAME)
-        :   siegelPackageJSONCommand.replace(
-                '$npm_package_config_index',
-                command == 'pm2' ? 'cjs' : pathToIndex
+        const paths = clientTSConfig.compilerOptions.paths
+        for (const alias in paths) {
+            paths[alias][0] = paths[alias][0].replace(
+                `../../${LOC_NAMES.CLIENT_CORE_DIR_NAME}`,
+                `${pathToSiegel}/${LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME}`
             )
-    }
-    targetPackageJSON.scripts = siegelPackageJSONScripts
+        }
 
-    writeFileSync(PATHS.cwdPackageJSON, toJSON(targetPackageJSON))
+
+        userServerTSConfig.extends = replaceDevPathWithSiegel(userServerTSConfig.extends)
+
+
+        writeFileSync(userClientTSConfigPath, toJSON(clientTSConfig))
+        writeFileSync(userServerTSConfigPath, toJSON(userServerTSConfig))
+    }
+
+
+    function modiyESLintConfig() {
+        //Extend Eslint jsons
+        const ESLintConfig = JSON.parse(readFileSync(ESLintPath, 'utf8'))
+
+        ESLintConfig.extends.push(
+            join(LOC_NAMES.NODE_MODULES, siegelPackageName, LOC_NAMES.ESLINT_JSON)
+            // getLocalPathToSiegel(siegelPackageName, LOC_NAMES.ESLINT_JSON)
+        )
+        ESLintConfig.ignorePatterns.pop()
+        ESLintConfig.rules = {}
+
+        writeFileSync(ESLintPath, toJSON(ESLintConfig))
+    }
+
+
+    function modifyPackageJson() {
+        //Extend package.json
+        existsSync(PATHS.cwdPackageJSON) || shell('npm init -y')
+        const targetPackageJSON = require(PATHS.cwdPackageJSON)
+
+
+        const internalPackageScripts = [ 'prepublishOnly' ]
+        internalPackageScripts.forEach(command => {
+            delete siegelPackageJSONScripts[command]
+        })
+
+        for (const command in siegelPackageJSONScripts) {
+            let siegelPackageJSONCommand = siegelPackageJSONScripts[command]
+
+            siegelPackageJSONScripts[command] = command == 'build_node'
+                ?   siegelPackageJSONCommand.replace(LOC_NAMES.SRC_DIR_NAME, 'server')
+                :   siegelPackageJSONCommand.replace(
+                        '$npm_package_config_index',
+                        command == 'pm2' ? 'cjs' : pathToIndex
+                    )
+        }
+        targetPackageJSON.scripts = siegelPackageJSONScripts
+
+        writeFileSync(PATHS.cwdPackageJSON, toJSON(targetPackageJSON))
+    }
+
+
+
+    createDemoApp()
+    modiyTSConfigs()
+    modiyESLintConfig()
+    modifyPackageJson()
 }
 
 
