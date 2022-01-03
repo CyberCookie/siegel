@@ -136,7 +136,7 @@ require('siegel')(config, runParams)
 There is another signature when you only specify absolute path to js entry file:<br />
 
 ```js
-require('siegel')('/path/to/js_entry.js')
+require('siegel')('/path/to/js_entry.ts')
 ```
 
 
@@ -220,13 +220,14 @@ More about demo project read [here](https://github.com/CyberCookie/siegel/tree/m
 
 in case of you've cloned this repo:<br />
 
-Build `src`
+Build `src and client_core`
 
 ```sh
-npm run build_node
+node prepublish.js
 ```
 
-Develop using `demo_app` with
+
+Run `demo_app` in development mode
 
 ```sh
 npm start

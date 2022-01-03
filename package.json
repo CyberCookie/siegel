@@ -37,6 +37,11 @@
     "config": {
         "index": "demo_app/server/ts_entry.js"
     },
+    "files": [
+        "bin", "cjs", "lib_client", "demo_app",
+        "client_core/tsconfig.json", "src/tsconfig.json", "global.d.ts",
+        ".eslintrc"
+    ],
     "main": "cjs/index.js",
     "types": "global.d.ts",
     "bin": "bin/index.js",

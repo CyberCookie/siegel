@@ -1,7 +1,7 @@
 import type { Configuration, Compiler } from 'webpack'
 
 
-const { DEFAULT_CONFIG }            = require('../constants')
+const { DEFAULT_CONFIG, PATHS }     = require('../constants')
 const BUILD_CONSTANTS               = require('./constants')
 const defaultModulesResolve         = require('./modules')
 const defaultPluginsResolve         = require('./plugins')
@@ -40,7 +40,8 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
         resolve: {
             unsafeCache: true,
             alias: aliases,
-            extensions: ESLintExtensions.concat(['.sass', '.css', '.d.ts'])
+            extensions: ESLintExtensions.concat(['.sass', '.css', '.d.ts']),
+            modules: [ PATHS.nodeModules, PATHS.globalNodeModules ]
         },
 
         entry: [

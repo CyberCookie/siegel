@@ -4,6 +4,21 @@ if (INIT_CWD && INIT_CWD != PWD) {
 }
 
 
+// const { existsSync } = require('fs')
+// function getParentNodemodules() {
+//     if (require.main) {
+//         const { paths } = require.main
+//         for (let i = 0, l = paths.length; i < l; i++) {
+//             if (existsSync(paths[i])) return nodePath
+//         }
+//     }
+// }
+const globalNodeModules = require('child_process')
+    .execSync('npm root -g')
+    .toString()
+    .trim()
+
+
 const { join } = require('path')
 
 
@@ -24,10 +39,11 @@ const LOC_NAMES = {
     SRC_DIR_NAME: 'src'
 }
 const PATHS = {
-    cwd, root,
+    cwd, root, globalNodeModules,
     demoProject: join(root, 'demo_app'),
     clientCore: join(root, LOC_NAMES.CLIENT_CORE_DIR_NAME),
     package: join(root, LOC_NAMES.PACKAGE_JSON),
+    nodeModules: join(root, LOC_NAMES.NODE_MODULES),
     cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
     build: join(__dirname, 'client_build', 'index'),
     staticServer: join(__dirname, 'server', 'index')
