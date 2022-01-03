@@ -41,7 +41,7 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             unsafeCache: true,
             alias: aliases,
             extensions: ESLintExtensions.concat(['.sass', '.css', '.d.ts']),
-            modules: [ PATHS.nodeModules, PATHS.globalNodeModules ] // TODO: use in global mode
+            modules: [ PATHS.nodeModules, PATHS.cwdNodeModules ]
         },
 
         entry: [

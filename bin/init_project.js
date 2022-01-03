@@ -31,7 +31,7 @@ const toJSON = data => JSON.stringify(data, null, 4)
 function main(isGlobal) {
     const pathToSiegel = isGlobal
         ?   join(relative(PATHS.cwd, PATHS.globalNodeModules), siegelPackageName)
-        :   join('..', LOC_NAMES.NODE_MODULES, siegelPackageName)
+        :   './' + join(LOC_NAMES.NODE_MODULES, siegelPackageName)
 
 
     function createDemoApp() {
@@ -53,7 +53,7 @@ function main(isGlobal) {
         const userServerTSConfigPath = join(PATHS.cwd, 'server', LOC_NAMES.TS_JSON)
         const userServerTSConfig = require(userServerTSConfigPath)
 
-        const replaceDevPathWithSiegel = path => path.replace('../..', pathToSiegel)
+        const replaceDevPathWithSiegel = path => path.replace('../', pathToSiegel)
 
 
         clientTSConfig.extends = replaceDevPathWithSiegel(clientTSConfig.extends)
@@ -64,7 +64,7 @@ function main(isGlobal) {
         const paths = clientTSConfig.compilerOptions.paths
         for (const alias in paths) {
             paths[alias][0] = paths[alias][0].replace(
-                `../../${LOC_NAMES.CLIENT_CORE_DIR_NAME}`,
+                `../${LOC_NAMES.CLIENT_CORE_DIR_NAME}`,
                 `${pathToSiegel}/${LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME}`
             )
         }
@@ -83,9 +83,7 @@ function main(isGlobal) {
         const ESLintConfig = JSON.parse(readFileSync(ESLintPath, 'utf8'))
 
         ESLintConfig.extends.push(
-            isGlobal
-                ?   join(pathToSiegel, LOC_NAMES.ESLINT_JSON)
-                :   `./${join(LOC_NAMES.NODE_MODULES, siegelPackageName, LOC_NAMES.ESLINT_JSON)}`
+            join(pathToSiegel, LOC_NAMES.ESLINT_JSON)
         )
         ESLintConfig.ignorePatterns.pop()
         ESLintConfig.rules = {}

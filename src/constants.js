@@ -33,6 +33,7 @@ const PATHS = {
     clientCore: join(root, LOC_NAMES.CLIENT_CORE_DIR_NAME),
     package: join(root, LOC_NAMES.PACKAGE_JSON),
     nodeModules: join(root, LOC_NAMES.NODE_MODULES),
+    cwdNodeModules: join(cwd, LOC_NAMES.NODE_MODULES),
     cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
     build: join(__dirname, 'client_build', 'index'),
     staticServer: join(__dirname, 'server', 'index')
