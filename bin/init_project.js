@@ -1,5 +1,3 @@
-//TODO: console output: checkboxes, progress, timings
-
 'use strict'
 
 const { join, relative }                            = require('path')
@@ -31,6 +29,11 @@ pathToIndex = pathToIndex.substr(pathToIndex.search(/\w/))
 const toJSON = data => JSON.stringify(data, null, 4)
 
 function main(isGlobal) {
+    const pathToSiegel = isGlobal
+        ?   join(relative(PATHS.cwd, PATHS.globalNodeModules), siegelPackageName)
+        :   join('..', LOC_NAMES.NODE_MODULES, siegelPackageName)
+
+
     function createDemoApp() {
         //Copy demo_app
         shell(`cp -r ${PATHS.demoProject}/. .`)
@@ -50,13 +53,7 @@ function main(isGlobal) {
         const userServerTSConfigPath = join(PATHS.cwd, 'server', LOC_NAMES.TS_JSON)
         const userServerTSConfig = require(userServerTSConfigPath)
 
-
-        const pathToSiegel = isGlobal
-            ?   join(relative(__dirname, PATHS.globalNodeModules), siegelPackageName)
-            :   join('..', LOC_NAMES.NODE_MODULES, siegelPackageName)
-
         const replaceDevPathWithSiegel = path => path.replace('../..', pathToSiegel)
-
 
 
         clientTSConfig.extends = replaceDevPathWithSiegel(clientTSConfig.extends)
@@ -86,7 +83,9 @@ function main(isGlobal) {
         const ESLintConfig = JSON.parse(readFileSync(ESLintPath, 'utf8'))
 
         ESLintConfig.extends.push(
-            `./${join(LOC_NAMES.NODE_MODULES, siegelPackageName, LOC_NAMES.ESLINT_JSON)}`
+            isGlobal
+                ?   join(pathToSiegel, LOC_NAMES.ESLINT_JSON)
+                :   `./${join(LOC_NAMES.NODE_MODULES, siegelPackageName, LOC_NAMES.ESLINT_JSON)}`
         )
         ESLintConfig.ignorePatterns.pop()
         ESLintConfig.rules = {}
@@ -122,11 +121,23 @@ function main(isGlobal) {
     }
 
 
+    function modiyDemoAppTsEntry() {
+        const demoAppTsEntryPath = join(PATHS.cwd, 'server', 'ts_entry.js')
+
+        const tsEntryContent = readFileSync(demoAppTsEntryPath, 'utf-8')
+        const newContent = `require.main.paths.push('${PATHS.globalNodeModules}/siegel/node_modules');\n${tsEntryContent}`
+
+        writeFileSync(demoAppTsEntryPath, newContent)
+    }
+
+
 
     createDemoApp()
     modifyTSConfigs()
     modifyESLintConfig()
     modifyPackageJson()
+
+    isGlobal && modiyDemoAppTsEntry()
 }
 
 

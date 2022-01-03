@@ -98,23 +98,43 @@ module.hot?.accept() // Webpack's hmr bug workaround
 ```
 
 
+<br />
+To bootstrap this application run:<br />
+
 ```sh
-npx siegel run -b -s -js app.ts
+npx siegel run -client app.ts 
+```
+
+Now your application is hosting on<b>localhost:3000</b> in watch mode and ready for development!<br /><br />
+
+
+You may also define <b>hot-reloadable NodeJS dev server</b> with `-server` flag:<br />
+
+create <b>server.js</b>
+
+```js
+module.exports = (app, { express }) => {
+    console.log('Custom server is ready')
+}
+```
+
+In console run:<br />
+
+```sh
+npx siegel run -client app.ts --server server.js 
 ```
 
 
-You've just built (`-b`) the <b>app.ts</b> file and now it is serving (`-s`) on <b>localhost:3000</b> in watch mode.<br />
-<b>Enjoy your development!</b>
-<br /><br />
-
-> You are also capable to perform this actions with global siegel installation
-
 <br />
-To print siegel's CLI info run:
+To get more info about siegel CLI commands run:<br />
 
 ```sh
 npx siegel
 ```
+
+<br />
+<br />
+
 
 
 <br /><br />
@@ -189,28 +209,42 @@ require('siegel')('/path/to/js_entry.ts')
 <br /><br />
 <h2>Demo project init</h2><hr /><br />
 
+Initialization of demo project it's a quick way to start your project with everything you need right out of the box.<br />
+There are two module resolution strategies that you may choose.<br /><br >
+
+We already seen the first one, where we had siegel installed locally and were able to initialize project with `npx siegel init`<br />
+
 ```sh
-siegel init
+    npm i siegel
+
+    npx siegel init
 ```
 
+<br /><br />
+
+The second one is to have siegel installed globally and to use its node modules therefore to have a <b>single source of node modules for all your siegel proejcts</b>.<br />
+
+```sh
+npm i -g siegel
+
+siegel init -g
+```
+
+> Eslint is not working in projects initialized with `-g` flag.<br />
+
+
+<br /><br />
 Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists).<br />
 Now you have project skeleton with preconfigured siegel in it!<br />
-Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production mode. For example:<br />
+Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production mode.<br />
+Now you may start a newly created project with: <br />
 
 ```sh
 npm start
 ```
 
+
 <br />
-It's possible to initialize a demo project having siegel installed globally. In this case you need to pass <code>-g</code> paremeter to init script
-
-```sh
-siegel init -g
-```
-
-but it's tricky since we need to define path to global node modules in <b>tsconfig.json</b> and <b>.eslintrc</b>.<br />
-This path may vary on different machines.
-
 
 More about demo project read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app).<br />
 

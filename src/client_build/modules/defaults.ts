@@ -39,7 +39,10 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         },
 
         [ webpackModulesRegExp.styles ]: {
-            loadersOrder: [ loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader, loadersKeyMap.sassLoader, loadersKeyMap.sassResources ],
+            loadersOrder: [
+                loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader,
+                loadersKeyMap.sassLoader, loadersKeyMap.sassResources
+            ],
             loaders: {
                 [ loadersKeyMap.cssFinal ]: isProd || !isServer
                     ?   miniCssExtract.loader

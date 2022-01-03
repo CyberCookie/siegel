@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.11.5",
+    "version": "0.11.6",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -40,7 +40,7 @@
     "files": [
         "bin", "cjs", "lib_client", "demo_app",
         "client_core/tsconfig.json", "src/tsconfig.json", "global.d.ts",
-        ".eslintrc"
+        ".eslintrc", "tsconfig.eslint.json"
     ],
     "main": "cjs/index.js",
     "types": "global.d.ts",

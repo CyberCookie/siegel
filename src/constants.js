@@ -4,26 +4,15 @@ if (INIT_CWD && INIT_CWD != PWD) {
 }
 
 
-// const { existsSync } = require('fs')
-// function getParentNodemodules() {
-//     if (require.main) {
-//         const { paths } = require.main
-//         for (let i = 0, l = paths.length; i < l; i++) {
-//             if (existsSync(paths[i])) return nodePath
-//         }
-//     }
-// }
-const globalNodeModules = require('child_process')
-    .execSync('npm root -g')
-    .toString()
-    .trim()
-
-
 const { join } = require('path')
 
 
 const cwd = process.cwd()
 const root = join(__dirname, '..')
+const globalNodeModules = require('child_process')
+    .execSync('npm root -g')
+    .toString()
+    .trim()
 
 
 //TODO: refactor
