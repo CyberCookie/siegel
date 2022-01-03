@@ -12,7 +12,7 @@
 			"siegel-hooks/*": ["../../client_core/hooks/*"],
 			"siegel-ui/*": ["../../client_core/ui/*"],
 			"siegel-utils/*": ["../../client_core/utils/*"],
-			"siegel-router": ["../../client_core/router/index.tsx"]
+			"siegel-router": ["../../client_core/router/*"]
 		}
 	},
 	"include": [ ".", "../dto", "../../global.d.ts" ]

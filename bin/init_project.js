@@ -43,7 +43,7 @@ function main(isGlobal) {
     }
 
 
-    function modiyTSConfigs() {
+    function modifyTSConfigs() {
         const userClientTSConfigPath = join(PATHS.cwd, 'client', LOC_NAMES.TS_JSON)
         const clientTSConfig = require(userClientTSConfigPath)
 
@@ -81,13 +81,12 @@ function main(isGlobal) {
     }
 
 
-    function modiyESLintConfig() {
+    function modifyESLintConfig() {
         //Extend Eslint jsons
         const ESLintConfig = JSON.parse(readFileSync(ESLintPath, 'utf8'))
 
         ESLintConfig.extends.push(
-            join(LOC_NAMES.NODE_MODULES, siegelPackageName, LOC_NAMES.ESLINT_JSON)
-            // getLocalPathToSiegel(siegelPackageName, LOC_NAMES.ESLINT_JSON)
+            `./${join(LOC_NAMES.NODE_MODULES, siegelPackageName, LOC_NAMES.ESLINT_JSON)}`
         )
         ESLintConfig.ignorePatterns.pop()
         ESLintConfig.rules = {}
@@ -125,8 +124,8 @@ function main(isGlobal) {
 
 
     createDemoApp()
-    modiyTSConfigs()
-    modiyESLintConfig()
+    modifyTSConfigs()
+    modifyESLintConfig()
     modifyPackageJson()
 }
 
