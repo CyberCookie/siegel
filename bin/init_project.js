@@ -82,9 +82,10 @@ function main(isGlobal) {
         //Extend Eslint jsons
         const ESLintConfig = JSON.parse(readFileSync(ESLintPath, 'utf8'))
 
-        ESLintConfig.extends.push(
-            join(pathToSiegel, LOC_NAMES.ESLINT_JSON)
-        )
+        let siegelEslintPath = join(pathToSiegel, LOC_NAMES.ESLINT_JSON)
+        isGlobal || (siegelEslintPath = './' + siegelEslintPath)
+        ESLintConfig.extends.push(siegelEslintPath)
+
         ESLintConfig.ignorePatterns.pop()
         ESLintConfig.rules = {}
 
