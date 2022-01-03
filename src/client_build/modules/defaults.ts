@@ -1,3 +1,6 @@
+const { join } = require('path')
+
+const { PATHS, LOC_NAMES } = require('../../constants')
 const {
     loadersKeyMap, webpackModulesRegExp,
 
@@ -85,7 +88,13 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                         resources: sassResources
                     }
                 }
-            }
+            },
+
+            ...( PATHS.root != PATHS.cwd ? {
+                ruleOptions: {
+                    include: [ join(PATHS.root, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME) ]
+                }
+            } : {})
         },
 
         [ webpackModulesRegExp.files ]: {
