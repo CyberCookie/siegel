@@ -1,9 +1,11 @@
-const { LOC_NAMES } = require('./src/constants')
+const {
+    LOC_NAMES: { CLIENT_CORE_DIR_NAME }
+} = require('./src/constants')
 
 
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
     preset: 'ts-jest',
-    rootDir: LOC_NAMES.CLIENT_CORE_DIR_NAME,
-    testMatch: [ `**/${ LOC_NAMES.CLIENT_CORE_DIR_NAME }/**/*.test.ts` ]
+    rootDir: CLIENT_CORE_DIR_NAME,
+    testMatch: [ `**/${ CLIENT_CORE_DIR_NAME }/**/*.test.ts` ]
 }

@@ -36,6 +36,8 @@ const COMMAND_SSL_CREATE = 'create-ssl'
 const COMMAND_HARD_UPDATE = '_hard-update'
 
 
+const resolvePath = path => isAbsolute(path) ? path : join(PATHS.cwd, path)
+
 
 switch(command) {
     case COMMAND_RUN:
@@ -68,9 +70,7 @@ switch(command) {
 
                 case CLI_PARAMS.siegelConfig:
                     var cfgPath = scriptArgs[i + 1]
-                    var pathNormalized = isAbsolute(cfgPath)
-                        ?   cfgPath
-                        :   join(PATHS.cwd, cfgPath)
+                    var pathNormalized = resolvePath(cfgPath)
 
                     config = require(pathNormalized)
 
@@ -80,9 +80,7 @@ switch(command) {
                 case CLI_PARAMS.clientEntrySrc:
                     var jsPath = scriptArgs[i + 1]
                     config.build.input = {
-                        js: isAbsolute(jsPath)
-                            ?   jsPath
-                            :   join(PATHS.cwd, jsPath)
+                        js: resolvePath(jsPath)
                     }
 
                     i++
@@ -90,9 +88,7 @@ switch(command) {
 
                 case CLI_PARAMS.serverEntrySrc:
                     var nodeJsPath = scriptArgs[i + 1]
-                    config.server.appServerLoc = isAbsolute(nodeJsPath)
-                        ?   nodeJsPath
-                        :   join(PATHS.cwd, nodeJsPath)
+                    config.server.appServerLoc = resolvePath(nodeJsPath)
 
                     config.server.watch = true
 

@@ -14,7 +14,7 @@
  
 
 <br />
-<h3>What it does out of the box?</h3>
+<h3>What it can do out of the box?</h3>
 
 <p>Config optimized to produce the smallest bundle and to build it as fast as possible.</p>
 
@@ -27,19 +27,29 @@
     <li>Transform React JSX and TypeScript files via ESBuild</li>
     <li>SASS/SCSS processing; style autoprefixing; css modules</li>
     <li>Transform SVG icons into woff(2) font</li>
-    <li>Hot Module Reload on js / styles change</li>
-    <li>Best service worker expirience</li>
+    <li>Service worker plugin to provide the best caching strategy</li>
+    <li>Hot relaod client js, styles and nodejs server when changes occurs</li>
 </ul>
 
 
 <br />
-<h3>Config</h3>
+<h3>Config</h3><br />
+
+<p>
+    This config allows you to bring any changes to an underlying webpack configuration,<br />
+    providing an easy to use api.<br />
+</p>
+<p>
+    All the fields are optional since many of them are already defined in the underlying default webpack configuration.<br />
+</p><br />
+
 
 ```js
 {
     /* Output path */
     staticDir: String,
 
+    /* Build specific config */
     build: {
         input: {
             /*
@@ -55,17 +65,17 @@
                 Path to site entrypoint.
                 Default is: demo_app/client/index.html ( App container div's id = root )
             */
-            html: String || HTMLWebpackPlugin -> options || (defaultConfig) => updatedConfig,
+            html: String || HTMLWebpackPlugin::options || (defaultConfig) => updatedConfig,
 
             /*
                 CopyWebpackPlugin assets path.
                 If specified as string then it will be transformed to
                 [{
-                    from: copyFiles,
-                    to: join( staticDir, relative( dirname(input.html) copyFiles) )
+                    from: copyFilesDir,
+                    to: join( staticDir, relative( dirname(input.html) copyFilesDir) )
                 }]
             */
-            copyFiles: String || CopyWebpackPlugin -> options -> patterns,
+            copyFiles: String || CopyWebpackPlugin::options::patterns,
 
             /*
                 Path to styles files which will be included in every other styles file.
@@ -80,25 +90,53 @@
             
             /*
                 List of directories and/or files to exclude from being processed by webpack's loaders.
-                Default is: [ siegel's node_modules ]
             */
             exclude: String[]
         },
 
-        /*
-            target EcmaScript version.
-            Default is: es2020
-        */
-        target: String
+        output: {
+            /*
+                target EcmaScript version.
+                Default is: es2020
+            */
+            target: String,
+
+            /*
+                Webpack publicPath
+                Default is: /
+            */
+            publicPath: String,
+
+            /* Output files naming format */
+            filenames: {
+                /*
+                    There will be PROD's or DEV's fields, depending on selected mode.
+                */ 
+                PROD: {
+                    assets: String          // Default is: assets/[contenthash].[ext]
+                    js: String              // Default is: [contenthash].js
+                    js_chunk: String        // Default is: [contenthash].js
+                    styles: String          // Default is: [contenthash].css
+                    styles_chunk: String    // Default is: [contenthash].css
+                    brotli: String          // Default is: [name].br
+                    gzip: String            // Default is: [name].gz
+                },
+                DEV: {
+                    assets: String          // Default is: assets/[name].[ext]
+                    js: String              // Default is: app.[contenthash].js
+                    js_chunk: String        // Default is: chunk.[name][contenthash].js
+                    styles: String          // Default is: styles.[name].css
+                    styles_chunk: String    // Default is: chunk.[name].css
+                }
+            }
+        }
 
         /* 
             Enables ESlint.
             Default false
         */
-        eslint: Boolean || ESLintWebpackPlugin -> options || (defaultConfig) => updatedConfig,
+        eslint: Boolean || ESLintWebpackPlugin::options || (defaultConfig) => updatedConfig,
 
-        /* Webpack publicPath */
-        publicPath: String,
 
         /* Webpack aliases */
         aliases: Object,
@@ -133,9 +171,11 @@ Every plugin, that's already included, has its own `plugin key`.
   May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`).
 - copy-webpack-plugin ( `copy` ) - enabled if __config.build.input.copyFiles__ is specified
 - mini-css-extract-plugin ( `cssExtract` ) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__
-- optimize-css-assets-webpack-plugin ( `cssOptimize` ) - enabled if __runParams.isProd == true__ 
+- css-minimizer-webpack-plugin ( `cssOptimize` ) - enabled if __runParams.isProd == true__ 
 - html-webpack-plugin ( `html` ) - enabled if __config.build.input.html__ is specified
 - clean-webpack-plugin ( `clean` )
+- EsLint ( `eslint` ) - Eslint plugin, Enabled if __config.build.esbuil == true__
+- webpack HHMR plugin (`hot`) - enabled if __runParams.isProd == false__
 - @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if __runParams.isProd == true__
 - <a href='#postcss_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if __config.build.input.sw__ is specified
     - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces. 
@@ -205,8 +245,8 @@ RegExp string: <b>\\.(c|sc|sa)ss$</b> ( `styles` ) <br />
     - PostCSS ( `postCssLoader` )
         - autoprefixer
         - <a href='#sw_plugin'>(custom) svg to font plugin</a><br /><br />
-- File loader ( `fileLoader` ) <br />
-RegExp string: <b>\\.woff2?$</b> (`files` )
+- Webpack v5 assets loader <br />
+RegExp string: <b>\\.(avif|webp|jpg|png|svg|woff2)?$</b> (`files` )
 
 <br />
 

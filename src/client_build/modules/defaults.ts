@@ -1,6 +1,4 @@
-const { join } = require('path')
-
-const { PATHS, LOC_NAMES } = require('../../constants')
+const { PATHS } = require('../../constants')
 const {
     loadersKeyMap, webpackModulesRegExp,
 
@@ -16,7 +14,7 @@ const {
 
 module.exports = (CONFIG, RUN_PARAMS) => {
     const {
-        target,
+        output: { target },
         input: { sassResources, include, exclude }
     } = CONFIG.build
     const { isProd, isServer } = RUN_PARAMS
@@ -95,7 +93,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
             ...( PATHS.root != PATHS.cwd ? {
                 ruleOptions: {
-                    include: [ join(PATHS.root, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME) ]
+                    include: [ PATHS.clientCoreOutput ]
                 }
             } : {})
         },

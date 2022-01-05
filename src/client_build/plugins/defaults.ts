@@ -27,8 +27,11 @@ function resolvePluginDefaultOptions(defaultOptions, userOptions) {
 
 module.exports = (CONFIG, RUN_PARAMS) => {
     const {
-        input,
-        eslint: eslintOptions
+        eslint: eslintOptions,
+        output: {
+            filenames: outputFilenames
+        },
+        input
     } = CONFIG.build
     const { isProd, isServer } = RUN_PARAMS
 
@@ -47,7 +50,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             instances: {
                 [ pluginInstancesKeyMap.compression_br ]: {
                     options: Object.assign({}, compressionInstanceCommonOptions, {
-                        filename: '[name].br[query]',
+                        filename: outputFilenames.brotli,
                         algorithm: 'brotliCompress',
                         compressionOptions: {
                             level: 11
@@ -56,7 +59,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                 },
                 [ pluginInstancesKeyMap.compression_gzip ]: {
                     options: Object.assign({}, compressionInstanceCommonOptions, {
-                        filename: '[name].gz[query]'
+                        filename: outputFilenames.gzip
                     })
                 }
             }
@@ -92,12 +95,8 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             enabled: isProd || !isServer,
             options: {
                 experimentalUseImportModule: true,
-                filename: isProd
-                    ?   'styles.[contenthash].css'
-                    :   'styles.[name].css',
-                chunkFilename: isProd
-                    ?   'chunk.[contenthash].css'
-                    :   'chunk.[name].css'
+                filename: outputFilenames.styles,
+                chunkFilename: outputFilenames.styles_chunk
             }
         },
 
@@ -138,6 +137,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
             options: resolvePluginDefaultOptions({
                 extensions: ESLintExtensions,
                 emitWarning: true
+                // ,fix: true
             }, eslintOptions)
         }
     }

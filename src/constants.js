@@ -25,19 +25,34 @@ const LOC_NAMES = {
     NODE_MODULES: 'node_modules',
     CLIENT_CORE_DIR_NAME: 'client_core',
     CLIENT_CORE_OUTPUT_DIR_NAME: 'lib_client',
+    SRC_OUTPUT: 'cjs',
     SRC_DIR_NAME: 'src'
 }
 const PATHS = {
     cwd, root, globalNodeModules,
-    demoProject: join(root, 'demo_app'),
-    clientCore: join(root, LOC_NAMES.CLIENT_CORE_DIR_NAME),
-    package: join(root, LOC_NAMES.PACKAGE_JSON),
-    nodeModules: join(root, LOC_NAMES.NODE_MODULES),
     cwdNodeModules: join(cwd, LOC_NAMES.NODE_MODULES),
     cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
-    build: join(__dirname, 'client_build', 'index'),
-    staticServer: join(__dirname, 'server', 'index')
+    demoProject: join(root, 'demo_app'),
+    clientCore: join(root, LOC_NAMES.CLIENT_CORE_DIR_NAME),
+    clientCoreOutput: join(root, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME),
+    build: join(__dirname, 'client_build'),
+    staticServer: join(__dirname, 'server'),
+    srcOutput: join(root, LOC_NAMES.SRC_OUTPUT),
+    package: join(root, LOC_NAMES.PACKAGE_JSON),
+    nodeModules: join(root, LOC_NAMES.NODE_MODULES)
 }
+
+const _PATHS = {
+    cwd,
+    root: {
+        src: {
+            static_server: 'server',
+            client_build: 'client_build'
+        },
+        src_output: 'cjs'
+    }
+}
+
 
 
 const DEFAULT_CONFIG = {
@@ -57,11 +72,31 @@ const DEFAULT_CONFIG = {
                 :   undefined
         },
 
-        target: 'es2020',
+        output: {
+            publicPath: '/',
+            target: 'es2020',
+            filenames: {
+                PROD: {
+                    assets: 'assets/[contenthash].[ext]',
+                    js: '[contenthash].js',
+                    js_chunk: '[contenthash].js',
+                    styles: '[contenthash].css',
+                    styles_chunk: '[contenthash].css',
+                    brotli: '[name].br',
+                    gzip: '[name].gz'
+                },
+                DEV: {
+                    assets: 'assets/[name].[ext]',
+                    js: 'app.[contenthash].js',
+                    js_chunk: 'chunk.[name][contenthash].js',
+                    styles: 'styles.[name].css',
+                    styles_chunk: 'chunk.[name].css'
+                }
+            }
+        },
 
         eslint: false,
 
-        publicPath: '/',
         aliases: {}
     }
 }

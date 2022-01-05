@@ -25,7 +25,8 @@ module.exports = (CONFIG: any = {}, RUN_PARAMS: any = {}) => {
     if (RUN_PARAMS) mergeConfigWithDefaults(RUN_PARAMS, DEFAULT_RUN_PARAMS)
     else RUN_PARAMS = DEFAULT_RUN_PARAMS
 
-    RUN_PARAMS.isDevServer = !RUN_PARAMS.isProd && RUN_PARAMS.isServer
+    const { isProd, isServer, isBuild }= RUN_PARAMS
+    RUN_PARAMS.isDevServer = !isProd && isServer
 
 
 
@@ -36,8 +37,12 @@ module.exports = (CONFIG: any = {}, RUN_PARAMS: any = {}) => {
     }
 
     mergeConfigWithDefaults(CONFIG, DEFAULT_CONFIG)
-    if (RUN_PARAMS.isBuild) {
-        const { input } = CONFIG.build
+    if (isBuild) {
+        const { input, output } = CONFIG.build
+
+
+        output.filenames = output.filenames[ isProd ? 'PROD' : 'DEV' ]
+
 
         stringConfig && (input.js = stringConfig)
 

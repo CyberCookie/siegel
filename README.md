@@ -21,7 +21,7 @@
 
 
 <h4>
-    Siegel is a higly opiniated SPA development platform for building and hosting any scale projects in a simple way.
+    Siegel is a higly opiniated SPA development platform to build and host any scale projects in a simple way.
     <br />
 </h4>
 <br />
@@ -35,8 +35,8 @@ The platform provides:<br/>
             <li><code>ESBuild</code> to transform <code>TypeScript</code> and <code>JSX</code> syntaxes.</li>
             <li>Code linting with <code>ESLint</code>.</li>
             <li><code>Hot Modules Replace</code> for <b>scripts</b> and <b>styles</b></li>
-            <li><code>SASS</code> with <code>CSS modules</code> approach.</li>
-            <li>Build into <code>Brotli</code> and <code>GZIP</code> compression formats.</li>
+            <li><code>SASS</code> with <code>CSS modules</code>.</li>
+            <li>Compress and serve site assets compressed with <code>Brotli</code> or <code>GZIP</code>.</li>
             <li><code>SVG icons to font</code> converter.</li>
         </ul>
     </li><br />
@@ -54,7 +54,7 @@ The platform provides:<br/>
             <li>Big set of <code>React components</code>.</li>
             <li>React <code>global state manager</code> built on top of <code>react hooks</code> and optional fetch module to track requests with.</li>
             <li>Recursively configurable <code>react router</code> wrapper.</li>
-            <li><code>Request</code> service.</li>
+            <li>Network services for making a request and minimal client WebSocket implementation.</li>
         </ul>
     </li><br />
     <li>
@@ -121,7 +121,7 @@ module.exports = (app, { express }) => {
 In console run:<br />
 
 ```sh
-npx siegel run -client app.ts --server server.js 
+npx siegel run -client app.ts -server server.js 
 ```
 
 

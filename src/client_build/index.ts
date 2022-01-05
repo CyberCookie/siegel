@@ -1,10 +1,10 @@
 import type { Configuration, Compiler } from 'webpack'
 
 
-const { DEFAULT_CONFIG, PATHS }     = require('../constants')
-const BUILD_CONSTANTS               = require('./constants')
-const defaultModulesResolve         = require('./modules')
-const defaultPluginsResolve         = require('./plugins')
+const { PATHS }             = require('../constants')
+const BUILD_CONSTANTS       = require('./constants')
+const defaultModulesResolve = require('./modules')
+const defaultPluginsResolve = require('./plugins')
 
 
 
@@ -22,11 +22,16 @@ const statsOptions = {
 
 function clientBuilder(CONFIG, RUN_PARAMS) {
     const { isProd, isDevServer } = RUN_PARAMS
-    const { staticDir, build } = CONFIG
-    const { input, aliases, publicPath, postProcessWebpackConfig/*, outputESM = true*/ } = build
+    const {
+        staticDir,
+        build: {
+            output: { target, publicPath, filenames },
+            input, aliases, postProcessWebpackConfig//, outputESM = true
+        }
+    } = CONFIG
+
 
     let webpackCompiller: Compiler
-
 
     let webpackConfig: Configuration = {
         mode: isProd
@@ -41,7 +46,9 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             unsafeCache: true,
             alias: aliases,
             extensions: ESLintExtensions.concat(['.sass', '.css', '.d.ts']),
-            modules: [ PATHS.nodeModules, PATHS.cwdNodeModules ]
+            modules: PATHS.nodeModules == PATHS.cwdNodeModules
+                ?   [ PATHS.nodeModules ]
+                :   [ PATHS.nodeModules, PATHS.cwdNodeModules ]
         },
 
         entry: [
@@ -53,11 +60,9 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             publicPath,
             path: staticDir,
             pathinfo: false,
-            chunkFilename: 'chunk.[contenthash].js',
-            filename: 'app.[contenthash].js',
-            assetModuleFilename: isProd
-                ?   'assets/[name][contenthash].[ext]'
-                :   'assets/[name].[ext]',
+            chunkFilename: filenames.js_chunk,
+            filename: filenames.js,
+            assetModuleFilename: filenames.assets,
             hashFunction: 'xxhash64'
 
             // ...( outputESM ? {
@@ -88,7 +93,7 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             ...( isProd ? {
                 minimizer: [
                     new esBuildMinifyPlugin({
-                        target: DEFAULT_CONFIG.build.target,
+                        target,
                         css: true
                     })
                 ]

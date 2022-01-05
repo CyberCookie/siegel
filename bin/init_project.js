@@ -29,6 +29,11 @@ pathToIndex = pathToIndex.substr(pathToIndex.search(/\w/))
 const toJSON = data => JSON.stringify(data, null, 4)
 
 function main(isGlobal) {
+    if (PATHS.root == PATHS.cwd) {
+        console.error('Attempt to initialize demo_app inside siegel pckg')
+        return
+    }
+
     const pathToSiegel = isGlobal
         ?   join(relative(PATHS.cwd, PATHS.globalNodeModules), siegelPackageName)
         :   './' + join(LOC_NAMES.NODE_MODULES, siegelPackageName)
@@ -111,7 +116,7 @@ function main(isGlobal) {
                 ?   siegelPackageJSONCommand.replace(LOC_NAMES.SRC_DIR_NAME, 'server')
                 :   siegelPackageJSONCommand.replace(
                         '$npm_package_config_index',
-                        command == 'pm2' ? 'cjs' : pathToIndex
+                        command == 'pm2' ? LOC_NAMES.SRC_OUTPUT : pathToIndex
                     )
         }
         targetPackageJSON.scripts = siegelPackageJSONScripts
