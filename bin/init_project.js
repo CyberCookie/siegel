@@ -78,7 +78,7 @@ function main(isGlobal) {
             paths[alias][0] = replaceDevPathWithSiegel(paths[alias][0], ...replacementArgs)
         }
 
-        clientTSConfig.include.push(
+        INIT_PATHS.siegelDemoAppShift && clientTSConfig.include.push(
             clientTSConfig.include.pop()
                 .replace(`${INIT_PATHS.siegelDemoAppShift}/`, '')
         )
@@ -104,7 +104,11 @@ function main(isGlobal) {
         // Extend Eslint jsons
         const ESLintConfig = JSON.parse(readFileSync(INIT_PATHS.userESLint, 'utf8'))
 
-        ESLintConfig.extends.push(INIT_PATHS.siegelEsLint)
+        ESLintConfig.extends.push(
+            INIT_PATHS.siegelEsLint[0] == '.' || INIT_PATHS.siegelEsLint[0] == '/'
+                ?   INIT_PATHS.siegelEsLint
+                :   `./${INIT_PATHS.siegelEsLint}`
+        )
         ESLintConfig.ignorePatterns.pop()
         ESLintConfig.rules = {}
 
