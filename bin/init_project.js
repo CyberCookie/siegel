@@ -113,8 +113,8 @@ function main(isGlobal) {
 
 
     function modifyPackageJson() {
-        existsSync(PATHS.cwdPackageJSON) || shell('npm init -y')
-        const targetPackageJSON = require(PATHS.cwdPackageJSON)
+        existsSync(INIT_PATHS.userPackageJson) || shell('npm init -y')
+        const targetPackageJSON = require(INIT_PATHS.userPackageJson)
 
 
         const internalPackageScripts = [ 'prepublishOnly' ]
@@ -134,7 +134,7 @@ function main(isGlobal) {
         }
         targetPackageJSON.scripts = siegelPackageJSONScripts
 
-        writeFileSync(PATHS.cwdPackageJSON, toJSON(targetPackageJSON))
+        writeFileSync(INIT_PATHS.userPackageJson, toJSON(targetPackageJSON))
     }
 
 

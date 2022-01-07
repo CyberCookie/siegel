@@ -123,18 +123,25 @@ switch(command) {
         ${getColoredCommandArgumentStr(CLI_PARAMS.devServerPort)} - dev static server port. ${getColoredHighlightText('Default: 3000')}
         ${getColoredCommandArgumentStr(CLI_PARAMS.siegelConfig)} - path to siegel config 
 
-        example: ... run ${CLI_PARAMS.clientEntrySrc} app.ts ${CLI_PARAMS.serverEntrySrc} server.js ${CLI_PARAMS.devServerPort} 4000
+        example: ${getColoredHighlightText(`siegel run ${CLI_PARAMS.clientEntrySrc} app.ts ${CLI_PARAMS.serverEntrySrc} server.js ${CLI_PARAMS.devServerPort} 4000`)}
     
 
     ${getColoredCommandStr(COMMAND_INIT)} - Creates production ready project with predefined folder structure including already configured siegel.
-           Modifies existing package.json or creates new one.
-           More about demo project read here: https://github.com/CyberCookie/siegel/tree/master/demo_app
+        Modifies existing package.json or creates new one.
+        More about demo project read here: https://github.com/CyberCookie/siegel/tree/master/demo_app
 
-        ${getColoredCommandArgumentStr(CLI_PARAMS.siegelGlobal)} - if siegel is installed globally
-    
+        example: ${getColoredHighlightText('siegel init')}
+
+        ${getColoredCommandArgumentStr(CLI_PARAMS.siegelGlobal)} - if you want to extend global siegel's node modules
+
+            example: ${getColoredHighlightText('siegel init -g')}
+            
+
 
     ${getColoredCommandStr(COMMAND_SSL_CREATE)} - Creates localhost ssl certificate to be used in NodeJS server.
-                 Also it creates authority certificate for testing purposes to be imported in a web browser.
+        Also it creates authority certificate for testing purposes to be imported in a web browser.
+
+        example: ${getColoredHighlightText('siegel create-ssl')}
 `
         )
 }

@@ -3,9 +3,8 @@ if (INIT_CWD && INIT_CWD != PWD) {
     process.chdir(INIT_CWD)
 }
 
-console.time(1)
+
 const { join } = require('path')
-console.timeEnd(1)
 
 const cwd = process.cwd()
 const root = join(__dirname, '..')
