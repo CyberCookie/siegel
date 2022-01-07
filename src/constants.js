@@ -3,19 +3,15 @@ if (INIT_CWD && INIT_CWD != PWD) {
     process.chdir(INIT_CWD)
 }
 
-
+console.time(1)
 const { join } = require('path')
-
+console.timeEnd(1)
 
 const cwd = process.cwd()
 const root = join(__dirname, '..')
-const globalNodeModules = require('child_process')
-    .execSync('npm root -g')
-    .toString()
-    .trim()
+const _isSelfDevelopment = cwd == root
 
-
-//TODO: refactor
+//TODO?: refactor
 const LOC_NAMES = {
     PACKAGE_JSON: 'package.json',
     ESLINT_JSON: '.eslintrc',
@@ -29,34 +25,21 @@ const LOC_NAMES = {
     SRC_DIR_NAME: 'src'
 }
 const PATHS = {
-    cwd, root, globalNodeModules,
-    cwdNodeModules: join(cwd, LOC_NAMES.NODE_MODULES),
-    cwdPackageJSON: join(cwd, LOC_NAMES.PACKAGE_JSON),
-    demoProject: join(root, 'demo_app'),
-    clientCore: join(root, LOC_NAMES.CLIENT_CORE_DIR_NAME),
-    clientCoreOutput: join(root, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME),
-    build: join(__dirname, 'client_build'),
-    staticServer: join(__dirname, 'server'),
-    srcOutput: join(root, LOC_NAMES.SRC_OUTPUT),
-    package: join(root, LOC_NAMES.PACKAGE_JSON),
-    nodeModules: join(root, LOC_NAMES.NODE_MODULES)
-}
-
-const _PATHS = {
-    cwd,
-    root: {
-        src: {
-            static_server: 'server',
-            client_build: 'client_build'
-        },
-        src_output: 'cjs'
-    }
+    _isSelfDevelopment, cwd, root,
+    cwdNodeModules:     `${cwd}/${LOC_NAMES.NODE_MODULES}`,
+    nodeModules:        `${root}/${LOC_NAMES.NODE_MODULES}`,
+    clientCore:         `${root}/${LOC_NAMES.CLIENT_CORE_DIR_NAME}`,
+    clientCoreOutput:   `${root}/${LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME}`,
+    srcOutput:          `${root}/${LOC_NAMES.SRC_OUTPUT}`,
+    demoProject:        `${root}/demo_app`,
+    build:              `${__dirname}/client_build`,
+    staticServer:       `${__dirname}/server`
 }
 
 
 
 const DEFAULT_CONFIG = {
-    staticDir: join(cwd, 'dist'),
+    staticDir: `${cwd}/dist`,
 
     server: {
         host: 'localhost',
@@ -65,11 +48,12 @@ const DEFAULT_CONFIG = {
 
     build: {
         input: {
-            html: join(PATHS.demoProject, 'client', 'index.html'),
-            js: join(cwd, 'app.ts'),
-            include: cwd == root
-                ?   [ PATHS.clientCore ]
-                :   undefined
+            html: `${PATHS.demoProject}/client/index.html`,
+            js: `${cwd}/app.ts`,
+
+            ...( _isSelfDevelopment ? {
+                include: [ PATHS.clientCore ]
+            }: {})
         },
 
         output: {
@@ -108,6 +92,7 @@ const DEFAULT_RUN_PARAMS = {
     isBuild: true,
     isProd: false
 }
+
 
 
 module.exports = { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG }

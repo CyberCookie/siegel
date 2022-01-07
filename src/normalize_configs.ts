@@ -26,7 +26,7 @@ module.exports = (CONFIG: any = {}, RUN_PARAMS: any = {}) => {
     else RUN_PARAMS = DEFAULT_RUN_PARAMS
 
     const { isProd, isServer, isBuild }= RUN_PARAMS
-    RUN_PARAMS.isDevServer = !isProd && isServer
+    RUN_PARAMS._isDevServer = !isProd && isServer
 
 
 

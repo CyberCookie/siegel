@@ -91,11 +91,11 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                 }
             },
 
-            ...( PATHS.root != PATHS.cwd ? {
+            ...( !PATHS._isSelfDevelopment ? {
                 ruleOptions: {
                     include: [ PATHS.clientCoreOutput ]
                 }
-            } : {})
+            }: {})
         },
 
         [ webpackModulesRegExp.files ]: {

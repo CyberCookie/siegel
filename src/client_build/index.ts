@@ -21,7 +21,7 @@ const statsOptions = {
 
 
 function clientBuilder(CONFIG, RUN_PARAMS) {
-    const { isProd, isDevServer } = RUN_PARAMS
+    const { isProd, _isDevServer } = RUN_PARAMS
     const {
         staticDir,
         build: {
@@ -29,6 +29,9 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             input, aliases, postProcessWebpackConfig//, outputESM = true
         }
     } = CONFIG
+
+    const nodeModulesPaths = [ PATHS.nodeModules ]
+    PATHS._isSelfDevelopment || nodeModulesPaths.push(PATHS.cwdNodeModules)
 
 
     let webpackCompiller: Compiler
@@ -38,7 +41,7 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             ?   'production'
             :   (process.env.NODE_ENV as Configuration['mode']) || 'development',
 
-        cache: isDevServer,
+        cache: _isDevServer,
 
         devtool: !isProd && 'eval-cheap-module-source-map',
 
@@ -46,13 +49,11 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             unsafeCache: true,
             alias: aliases,
             extensions: ESLintExtensions.concat(['.sass', '.css', '.d.ts']),
-            modules: PATHS.nodeModules == PATHS.cwdNodeModules
-                ?   [ PATHS.nodeModules ]
-                :   [ PATHS.nodeModules, PATHS.cwdNodeModules ]
+            modules: nodeModulesPaths
         },
 
         entry: [
-            ...( isDevServer ? [ 'webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true' ] : [] ),
+            ...( _isDevServer ? [ 'webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true' ] : [] ),
             input.js
         ],
 
@@ -116,7 +117,7 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
         run: () => new Promise<void>(resolve => {
             webpackCompiller = webpack(webpackConfig)
 
-            if (isDevServer) resolve()
+            if (_isDevServer) resolve()
             else {
                 webpackCompiller.run((err, stats) => {
                     const message = err || (

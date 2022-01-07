@@ -15,7 +15,6 @@ const getColored = (color, str) => `\x1b[${color}m${str}\x1b[0m`
 const getColoredCommandStr = getColored.bind(null, 36)
 const getColoredCommandArgumentStr = getColored.bind(null, 32)
 const getColoredHighlightText = getColored.bind(null, 33)
-const getColoredWarningText = getColored.bind(null, 31)
 
 
 
@@ -33,7 +32,6 @@ const CLI_PARAMS = {
 const COMMAND_RUN = 'run'
 const COMMAND_INIT = 'init'
 const COMMAND_SSL_CREATE = 'create-ssl'
-const COMMAND_HARD_UPDATE = '_hard-update'
 
 
 const resolvePath = path => isAbsolute(path) ? path : join(PATHS.cwd, path)
@@ -111,9 +109,6 @@ switch(command) {
     case COMMAND_SSL_CREATE:
         return require('./create_SSL')()
 
-    case COMMAND_HARD_UPDATE:
-        return require('./update_deps')()
-
 
     default:
         console.log(
@@ -140,11 +135,6 @@ switch(command) {
 
     ${getColoredCommandStr(COMMAND_SSL_CREATE)} - Creates localhost ssl certificate to be used in NodeJS server.
                  Also it creates authority certificate for testing purposes to be imported in a web browser.
-
-    
-    ${getColoredCommandStr(COMMAND_HARD_UPDATE)} - ${getColoredWarningText('[ WARNING! Force update may break your project dependencies ]')}
-                   It's the fastest way to update packages, listed in 'dependencies' and 'devDependencies' fields, to the most latest versions.
-                   Must be ran at project root level where package.json is.
 `
         )
 }

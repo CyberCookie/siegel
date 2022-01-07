@@ -7,32 +7,31 @@ process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
 
-const CONSTANTS                 = require('./constants')
-const normalizeConfigs          = require('./normalize_configs')
+const { PATHS }         = require('./constants')
+const normalizeConfigs  = require('./normalize_configs')
 
 
 async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
     const { CONFIG, RUN_PARAMS } = normalizeConfigs(_CONFIG, _RUN_PARAMS)
 
-    const { isBuild, isDevServer, isServer } = RUN_PARAMS
+    const { isBuild, _isDevServer, isServer } = RUN_PARAMS
 
 
     let devMiddlewares: any = []
     if (isBuild) {
-        const { run, getDevMiddlewares } = require(CONSTANTS.PATHS.build)(CONFIG, RUN_PARAMS)
+        const { run, getDevMiddlewares } = require(PATHS.build)(CONFIG, RUN_PARAMS)
         await run()
 
-        if (isDevServer) {
+        if (_isDevServer) {
             devMiddlewares = Object.values(getDevMiddlewares())
         }
     }
 
 
     if (isServer) {
-        const { appServerLoc, watch } = CONFIG.server
-        const devServerLoc = CONSTANTS.PATHS.staticServer
+        const devServer = require(PATHS.staticServer)
 
-        const devServer = require(devServerLoc)
+        const { appServerLoc, watch } = CONFIG.server
 
         function createDevServer() {
             let appServer
@@ -93,10 +92,10 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
                             :   files.forEach((f: any) => { applyWatchListener(f, file) })
                     })
                 } else {
-                    serverIndexFile || (
-                        serverIndexFile = file,
+                    if (!serverIndexFile) {
+                        serverIndexFile = file
                         serverInstanceDir = dirname(file)
-                    )
+                    }
                     watch(file).on('change', onChange)
                 }
             }

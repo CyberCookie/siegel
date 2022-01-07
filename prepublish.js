@@ -2,11 +2,15 @@
 'use strict'
 
 const fs    = require('fs')
-const path  = require('path')
 const shell = require('child_process').execSync
 const esbuild = require('esbuild')
 
 const { PATHS, LOC_NAMES, DEFAULT_CONFIG } = require('./src/constants')
+
+
+const PREPUBLISH_PATHS = {
+    siegelTsNodeOutput: `${PATHS.root}/${LOC_NAMES.SRC_OUTPUT}`
+}
 
 
 console.time('transpilation took')
@@ -16,11 +20,12 @@ transpileClientCoreTS()
 
 console.timeEnd('transpilation took')
 
+
 function transpileSrcTS() {
     console.log('Creating cjs...')
 
-    fs.existsSync(PATHS.srcOutput)
-        && fs.rmdirSync(PATHS.srcOutput, { recursive: true })
+    fs.existsSync(PREPUBLISH_PATHS.siegelTsNodeOutput)
+        && fs.rmdirSync(PREPUBLISH_PATHS.siegelTsNodeOutput, { recursive: true })
 
     shell(`npx tsc -p ${LOC_NAMES.SRC_DIR_NAME}`)
 }
@@ -30,7 +35,7 @@ function iterateFiles(dirPath, cb) {
     fs.readdirSync(dirPath, { withFileTypes: true })
         .forEach(dirent => {
             const { name } = dirent
-            const nextDirPath = path.join(dirPath, name)
+            const nextDirPath = `${dirPath}/${name}`
 
             dirent.isDirectory()
                 ?   iterateFiles(nextDirPath, cb)
@@ -55,6 +60,7 @@ function transpileClientCoreTS() {
                 .pipe(fs.createWriteStream(destinationFileName))
         }
     })
+
 
     iterateFiles(PATHS.clientCoreOutput, fileNamePath => {
         if (fileNamePath.endsWith('.js')) {
