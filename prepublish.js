@@ -61,7 +61,6 @@ function transpileClientCoreTS() {
         }
     })
 
-
     iterateFiles(PATHS.clientCoreOutput, fileNamePath => {
         if (fileNamePath.endsWith('.js')) {
             const notMinifiedJSFile = fs.readFileSync(fileNamePath, 'utf8')

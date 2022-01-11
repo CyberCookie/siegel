@@ -12,7 +12,7 @@ import styles from './styles.sass'
 
 const componentID = '-ui-popup'
 
-const innerCloseClassName = styles[componentID + '_close']
+const innerCloseClassName = styles[`${componentID}_close`]
 
 const Popup: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
@@ -43,7 +43,7 @@ const Popup: Component = (props, noDefaults) => {
     )
 }
 Popup.defaults = {
-    className: styles[componentID + '_inner'],
+    className: styles[`${componentID}_inner`],
     theme: {
         root: '',
         content: '',

@@ -24,7 +24,7 @@ const LOC_NAMES = {
     SRC_DIR_NAME: 'src'
 }
 const PATHS = {
-    _isSelfDevelopment, cwd, root,
+    cwd, root,
     cwdNodeModules:     `${cwd}/${LOC_NAMES.NODE_MODULES}`,
     nodeModules:        `${root}/${LOC_NAMES.NODE_MODULES}`,
     clientCore:         `${root}/${LOC_NAMES.CLIENT_CORE_DIR_NAME}`,
@@ -89,7 +89,9 @@ const DEFAULT_CONFIG = {
 const DEFAULT_RUN_PARAMS = {
     isServer: true,
     isBuild: true,
-    isProd: false
+    isProd: false,
+
+    _isSelfDevelopment
 }
 
 

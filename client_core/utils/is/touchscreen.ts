@@ -1,5 +1,5 @@
 /** Determine whether current device has a touch screen */
-export default function() {
+export default () => {
     try { document.createEvent('TouchEvent') }
     catch (e) { return false }
 

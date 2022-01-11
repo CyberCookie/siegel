@@ -54,8 +54,7 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
             const { join, dirname } = require('path')
 
             let lock: NodeJS.Timer = null
-            let serverIndexFile: string
-            let serverInstanceDir: string
+            const serverInstanceDir = dirname(appServerLoc)
 
             function clearCachedDependencies({ filename }: NodeJS.Module) {
                 const cachedFile = require.cache[filename]
@@ -69,7 +68,7 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
             }
 
             function stopDevServerInstance() {
-                const userModuleEntry = require.cache[serverIndexFile]
+                const userModuleEntry = require.cache[appServerLoc]
                 userModuleEntry && clearCachedDependencies(userModuleEntry)
 
                 devServerInstance.close()
@@ -82,23 +81,18 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: RunParams) {
                 lock || (lock = setTimeout(stopDevServerInstance, 100))
             }
 
-            function applyWatchListener(file: any, prefix?: any) {
-                prefix && (file = join(prefix, file))
-
-                if (statSync(file).isDirectory()) {
-                    readdir(file, (err: any, files: any) => {
-                        err
-                            ?   console.error(err)
-                            :   files.forEach((f: any) => { applyWatchListener(f, file) })
-                    })
-                } else {
-                    if (!serverIndexFile) {
-                        serverIndexFile = file
-                        serverInstanceDir = dirname(file)
-                    }
-                    watch(file).on('change', onChange)
-                }
+            function applyWatchListener(filePath: any) {
+                statSync(filePath).isDirectory()
+                    ?   readdir(filePath, (err: any, dirFiles: any) => {
+                            err
+                                ?   console.error(err)
+                                :   dirFiles.forEach((f: any) => {
+                                        applyWatchListener( join(f, filePath) )
+                                    })
+                        })
+                    :   watch(filePath).on('change', onChange)
             }
+
 
             applyWatchListener(appServerLoc)
         }

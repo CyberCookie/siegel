@@ -69,8 +69,8 @@ const Accordion: Component = (props, noDefaults) => {
                 </details>
 
             :   isTitleAsItemEmpty
-                ?   title
-                :   <div key={ i } className={ listItemTheme.item__empty } children={ title } />
+                    ?   title
+                    :   <div key={ i } className={ listItemTheme.item__empty } children={ title } />
     }
 
     function onAccordionToggle(e: React.MouseEvent<HTMLDivElement>) {

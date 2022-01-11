@@ -37,11 +37,11 @@ const validateValue = (value: number) => (
 )
 
 const getRange: GetRangeElement = (key, className, width) => (
-    <div key={ key } className={ className } style={{ width: width + '%' }} />
+    <div key={ key } className={ className } style={{ width: `${width}%` }} />
 )
 const getRangePicker: GetRangePickerElement = (key, { theme, rangePickIcon }, left) => (
     <div  key={ key } children={ rangePickIcon } data-slider={ key[1] || '' }
-        style={{ left: left + '%' }}
+        style={{ left: `${left}%` }}
         className={ `${theme.range_slider} ${innerRamgeSliderClassName}` } />
 )
 

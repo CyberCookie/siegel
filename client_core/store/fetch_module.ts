@@ -77,7 +77,7 @@ const actions: Actions = {
         const errorsById = store.state.errRes[ID]
 
         return errorsById && errorsById.length
-            ?   errorsById[errorsById.length - 1].message
+            ?   errorsById.at(-1).message
             :   ''
     }
 }

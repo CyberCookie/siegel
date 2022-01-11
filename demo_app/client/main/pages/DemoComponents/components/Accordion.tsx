@@ -54,7 +54,7 @@ const Demo = () => <>
     <Accordion { ...{ list } } soloOpen />
 
     <h2 children='expanded by default' />
-    <Accordion { ...{ list: [list[list.length - 1]] } } autoExpand />
+    <Accordion { ...{ list: [ list.at(-1)! ] } } autoExpand />
 
     <h2 children='with custom list props and builder' />
     <Accordion { ...customListAccordionProps } />

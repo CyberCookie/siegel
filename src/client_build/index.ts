@@ -21,7 +21,7 @@ const statsOptions = {
 
 
 function clientBuilder(CONFIG, RUN_PARAMS) {
-    const { isProd, _isDevServer } = RUN_PARAMS
+    const { isProd, _isDevServer, _isSelfDevelopment } = RUN_PARAMS
     const {
         staticDir,
         build: {
@@ -31,7 +31,7 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
     } = CONFIG
 
     const nodeModulesPaths = [ PATHS.nodeModules ]
-    PATHS._isSelfDevelopment || nodeModulesPaths.push(PATHS.cwdNodeModules)
+    _isSelfDevelopment || nodeModulesPaths.push(PATHS.cwdNodeModules)
 
 
     let webpackCompiller: Compiler

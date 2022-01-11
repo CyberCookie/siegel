@@ -53,7 +53,6 @@ const routesConfig: RouterConfig & BreadcrumbConfig = {
                 description: 'siegel demo API'
             })
         },
-        updateFromLayout: true,
         dynamicCrumb: dynamicCrumbsMap.demo_api,
         LazyPage: lazy(() => import('app/pages/DemoApi'))
     }

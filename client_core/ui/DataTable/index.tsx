@@ -20,7 +20,7 @@ import type {
 import styles from './styles.sass'
 
 
-const innerTableClassName = styles[componentID + '_inner_table']
+const innerTableClassName = styles[`${componentID}_inner_table`]
 
 const getDefaultState = () => ({
     sortByField: {

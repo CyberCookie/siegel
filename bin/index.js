@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-//TODO: console output: checkboxes, progress, timings
-//TODO: merge CLI_PARAMS with CLI_COMMANDS
+
+//TODO?: console output: checkboxes, progress, timings
+//TODO?: merge CLI_PARAMS with CLI_COMMANDS
 'use strict'
 
 const { isAbsolute, join }  = require('path')

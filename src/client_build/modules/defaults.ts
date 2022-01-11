@@ -17,7 +17,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
         output: { target },
         input: { sassResources, include, exclude }
     } = CONFIG.build
-    const { isProd, isServer } = RUN_PARAMS
+    const { isProd, isServer, _isSelfDevelopment } = RUN_PARAMS
 
     const isDev = !isProd
 
@@ -91,7 +91,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
                 }
             },
 
-            ...( !PATHS._isSelfDevelopment ? {
+            ...( !_isSelfDevelopment ? {
                 ruleOptions: {
                     include: [ PATHS.clientCoreOutput ]
                 }

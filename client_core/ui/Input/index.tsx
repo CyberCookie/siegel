@@ -1,3 +1,5 @@
+//TODO: add formatter mode
+
 import React, { useRef, useEffect, useState } from 'react'
 
 import extractProps from '../_internals/props_extract'

@@ -13,7 +13,7 @@ import type {
 import styles from './styles.sass'
 
 
-const innerRootClassName = styles[componentID + '_inner']
+const innerRootClassName = styles[`${componentID}_inner`]
 
 const _onChange = (e: React.ChangeEvent) => {
     e.stopPropagation()

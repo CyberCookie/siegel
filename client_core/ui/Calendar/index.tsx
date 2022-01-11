@@ -18,9 +18,9 @@ import type {
 import styles from './styles.sass'
 
 
-const innerRootClassName = styles[componentID + '_inner']
-const innerWeekClassName = styles[componentID + '_inner_week']
-const innerMonthTitleWrapperClassName = styles[componentID + '_inner_month_title_wrapper']
+const innerRootClassName = styles[`${componentID}_inner`]
+const innerWeekClassName = styles[`${componentID}_inner_week`]
+const innerMonthTitleWrapperClassName = styles[`${componentID}_inner_month_title_wrapper`]
 
 function getDefaultStrings() {
     const { months, weekDaysShort } = dateLocales.get.en()
@@ -103,10 +103,8 @@ function getCalendarVisuals(
 
                 { weekdaysRow }
 
-                <Days calendarProps={ mergedProps }
-                    pickRangeStart={ pickRangeStart }
-                    parentState={ state }
-                    beginOfMonth={ new Date(start) } />
+                <Days calendarProps={ mergedProps } parentState={ state } beginOfMonth={ new Date(start) }
+                    pickRangeStart={ pickRangeStart } />
             </div>
         )
 

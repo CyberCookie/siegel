@@ -115,7 +115,7 @@ function getCalendarMonthDays(prevNextDaysParams: PrevNextDaysParams) {
             fillWithSiblingMonthDateRange(pasteBefore, fromDate, toDate - 1, date, isHiddenSiblings)
             allDays = pasteBefore.concat(allDays)
         } else {
-            const { date: fromDate, timestamp } = allDays[allDays.length - 1]
+            const { date: fromDate, timestamp } = allDays.at(-1)!
             const date = new Date(timestamp)
             fillWithSiblingMonthDateRange(allDays, fromDate + 1, fromDate + DAYS_IN_WEEK, date, isHiddenSiblings)
         }

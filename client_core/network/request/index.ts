@@ -123,7 +123,7 @@ const createApi = (hooks: Hooks = {}) => {
             }
 
             const res = await fetch(reqData.url, reqData.options)
-            const { headers, status, statusText } = res
+            const { headers, status, statusText, ok } = res
 
             let parsedRes = await extractResponseData(req, res)
             isFullRes && (parsedRes = {
@@ -131,7 +131,7 @@ const createApi = (hooks: Hooks = {}) => {
                 data: parsedRes
             })
 
-            if (res.ok) {
+            if (ok) {
                 preventSame && activeRequest.delete(reqKey)
                 afterRequest?.(reqData, parsedRes)
 
@@ -140,8 +140,8 @@ const createApi = (hooks: Hooks = {}) => {
                     err: null
                 }
             } else throw {
-                status: res.status,
-                message: res.statusText,
+                status,
+                message: statusText,
                 res: parsedRes
             }
         } catch (err) {

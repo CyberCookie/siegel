@@ -19,7 +19,7 @@ function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store | undefine
 
     const location = history.location.pathname
     const locationArray = location == '/' ? [''] : location.split('/')
-    if (locationArray[ locationArray.length - 1 ] == '') {
+    if (locationArray.at(-1) == '') {
         locationArray[ locationArray.length - 1 ] = '/'
     }
 
@@ -33,7 +33,7 @@ function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store | undefine
         if (isExists(data)) {
             const { crumb, dynamicCrumb, children } = data
 
-            const newPath = path + ((loc ? '/' : '') + loc)
+            const newPath = `${path}${loc ? '/' : ''}${loc}`
             isExists(children) && (loocupScope = children)
 
 
@@ -105,7 +105,7 @@ const Breadcrumbs: Component = (props, noDefaults) => {
     return <div { ...breadcrumbsRootProps } />
 }
 Breadcrumbs.defaults = {
-    className: styles[componentID + '_inner'],
+    className: styles[`${componentID}_inner`],
     separator: '',
     theme: {
         root: '',

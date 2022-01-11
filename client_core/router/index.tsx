@@ -120,7 +120,7 @@ const createRoutes: CreateRoutes = ({ routeConfig, urlPref, notFound, UpLevelLay
 }
 
 const createRouter: CreateRouter = ({ children, Layout, LazyFallback, notFound, history }) => {
-    notFound?.path && (notFound.path = '/' + notFound.path)
+    notFound?.path && (notFound.path = `/${notFound.path}`)
 
     const { routes: createdRoutes, isLazy } = createRoutes({
         notFound,

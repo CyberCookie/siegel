@@ -1,5 +1,4 @@
-//TODO: process with mask applied
-//TODO: add formatter mode
+//TODO?: process with mask applied
 
 import { useState, useEffect } from 'react'
 
@@ -38,7 +37,11 @@ const setCaretPos = (ref: Ref, caretPos: number) => (
     })
 )
 
-function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Parameters<MaskProcessor>[1]['value']) {
+function extractMaskData(
+    mask: Parameters<MaskProcessor>[0],
+    value: Parameters<MaskProcessor>[1]['value']
+) {
+
     const { pattern, patternValueChar, valuePlaceholderChar = valuePlaceholderCharDefault } = mask
 
     const placeholdersIndexesMap: Indexable<MaskCharData> = {}
@@ -55,6 +58,7 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Parameters<M
         const charData: MaskCharData = {}
 
         isExists(LAST_FILLED_INDEX) && (charData.prevFilled = LAST_FILLED_INDEX)
+
 
         if (maskChar == patternValueChar) {
             charData.index = maxLength
@@ -89,6 +93,7 @@ function extractMaskData(mask: Parameters<MaskProcessor>[0], value: Parameters<M
             isFilled && (nextFilled = i)
         }
     }
+
 
     return {
         newValue, placeholdersIndexesMap, placeholderCharsOrdered, maxLength,

@@ -9,6 +9,7 @@ type WithLabel = (
     labelTextProps: ComponentAttributes<HTMLDivElement>
 ) => JSX.Element
 
+
 const withLabel: WithLabel = (input, labelProps, labelTextProps) => (
     <label { ...labelProps }>
         <div { ...labelTextProps } />

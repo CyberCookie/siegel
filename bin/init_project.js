@@ -4,7 +4,7 @@ const { relative }                                  = require('path')
 const { existsSync, writeFileSync, readFileSync }   = require('fs')
 const shell                                         = require('child_process').execSync
 
-const { PATHS, LOC_NAMES }                          = require('../cjs/constants')
+const { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS }      = require('../cjs/constants')
 const {
     name: siegelPackageName,
     scripts: siegelPackageJSONScripts
@@ -14,7 +14,7 @@ const {
 const toJSON = data => JSON.stringify(data, null, 4)
 
 function main(isGlobal) {
-    if (PATHS._isSelfDevelopment) {
+    if (DEFAULT_RUN_PARAMS._isSelfDevelopment) {
         throw new Error('Attempt to initialize demo_app inside siegel pckg')
     }
 

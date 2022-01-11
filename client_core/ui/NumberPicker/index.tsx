@@ -201,7 +201,7 @@ const NumberPicker: Component = (props, noDefaults) => {
 
         precision && (result = result.toFixed(precision))
 
-        result === value || onChange(result+'', e, arrowValue, payload)
+        result === value || onChange(`${result}`, e, arrowValue, payload)
     }
 
 
@@ -264,7 +264,7 @@ const NumberPicker: Component = (props, noDefaults) => {
     )
 }
 NumberPicker.defaults = {
-    className: styles[componentID + '_inner'],
+    className: styles[`${componentID}_inner`],
     theme: updateThemeWithInputFieldTheme({
         root: '',
         children: '',

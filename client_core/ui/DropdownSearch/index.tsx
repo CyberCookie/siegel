@@ -19,7 +19,7 @@ import styles from './styles.sass'
 
 const componentID = '-ui-dropdown_search'
 
-const innerInputRootClassName = styles[componentID + '_inner_input']
+const innerInputRootClassName = styles[`${componentID}_inner_input`]
 
 function getSearchOptions({ showAll, onChange, searchOptions, theme, selected }: MergedProps, store: Store) {
     const [{ searchString }, setState ] = store
