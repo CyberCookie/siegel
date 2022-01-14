@@ -7,6 +7,6 @@
         "allowJs": true,
         "moduleResolution": "node",
         "target": "es2020",
-        "module": "commonjs"
+        "module": "es2020"
     }
 }

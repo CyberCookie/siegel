@@ -35,13 +35,14 @@
         "npm": ">= 7"
     },
     "config": {
-        "index": "demo_app/server/ts_entry.js"
+        "index": "demo_app/server"
     },
     "files": [
         "bin", "cjs", "lib_client", "demo_app",
         "client_core/tsconfig.json", "src/tsconfig.json", "global.d.ts",
         ".eslintrc", "tsconfig.eslint.json"
     ],
+    "type": "module",
     "main": "cjs/index.js",
     "types": "global.d.ts",
     "bin": "bin/index.js",

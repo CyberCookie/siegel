@@ -1,8 +1,10 @@
 'use strict'
 
-const { writeFileSync, unlinkSync } = require('fs')
-const join = require('path').join
-const shell = require('child_process').execSync
+import { writeFileSync, unlinkSync } from 'fs'
+import { join } from 'path'
+import { execSync as shell } from 'child_process'
+
+import { isRunDirectly } from '../cjs/utils/index.js'
 
 
 function main() {
@@ -60,6 +62,7 @@ Import ${filenames.rootCACrt} into the chrome browser SSL settings -> Authoritie
 }
 
 
-require.main == module
-    ?   main()
-    :   (module.exports = main)
+isRunDirectly(import.meta) && main()
+
+
+export default main

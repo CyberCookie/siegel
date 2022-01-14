@@ -1,14 +1,18 @@
 'use strict'
 
-const { relative }                                  = require('path')
-const { existsSync, writeFileSync, readFileSync }   = require('fs')
-const shell                                         = require('child_process').execSync
+import { relative } from 'path'
+import { existsSync, writeFileSync, readFileSync } from 'fs'
+import { execSync as shell } from 'child_process'
 
-const { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS }      = require('../cjs/constants')
+import isRunDirectly from '../cjs/utils/is_run_directly.js'
+import requireJSON from '../cjs/utils/require_json.js'
+import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../cjs/constants.js'
+
+
 const {
     name: siegelPackageName,
     scripts: siegelPackageJSONScripts
-} = require(`${PATHS.root}/${LOC_NAMES.PACKAGE_JSON}`)
+} = requireJSON(`${PATHS.root}/${LOC_NAMES.PACKAGE_JSON}`)
 
 
 const toJSON = data => JSON.stringify(data, null, 4)
@@ -68,7 +72,7 @@ function main(isGlobal) {
 
 
 
-        const clientTSConfig = require(INIT_PATHS.userClientTSConfigPath)
+        const clientTSConfig = requireJSON(INIT_PATHS.userClientTSConfigPath)
 
         const replacementArgs = [ INIT_PATHS.userClientTSRelativePath, LOC_NAMES.CLIENT_CORE_DIR_NAME, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME ]
         clientTSConfig.extends = replaceDevPathWithSiegel(clientTSConfig.extends, ...replacementArgs)
@@ -87,7 +91,7 @@ function main(isGlobal) {
 
 
 
-        const userServerTSConfig = require(INIT_PATHS.userServerTSConfigPath)
+        const userServerTSConfig = requireJSON(INIT_PATHS.userServerTSConfigPath)
 
         userServerTSConfig.extends = replaceDevPathWithSiegel(
             userServerTSConfig.extends,
@@ -118,7 +122,7 @@ function main(isGlobal) {
 
     function modifyPackageJson() {
         existsSync(INIT_PATHS.userPackageJson) || shell('npm init -y')
-        const targetPackageJSON = require(INIT_PATHS.userPackageJson)
+        const targetPackageJSON = requireJSON(INIT_PATHS.userPackageJson)
 
 
         const internalPackageScripts = [ 'prepublishOnly' ]
@@ -159,7 +163,7 @@ function main(isGlobal) {
     isGlobal && modiyDemoAppTsEntry()
 }
 
+isRunDirectly(import.meta) && main()
 
-require.main == module
-    ?   main()
-    :   (module.exports = main)
+
+export default main

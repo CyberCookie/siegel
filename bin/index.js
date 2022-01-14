@@ -4,8 +4,10 @@
 //TODO?: merge CLI_PARAMS with CLI_COMMANDS
 'use strict'
 
-const { isAbsolute, join }  = require('path')
-const { PATHS }             = require('../cjs/constants')
+import path from 'path'
+import fs from 'fs'
+
+import { PATHS } from '../cjs/constants.js'
 
 
 const scriptArgs = process.argv.slice(2)
@@ -33,13 +35,16 @@ const CLI_PARAMS = {
 const COMMAND_RUN = 'run'
 const COMMAND_INIT = 'init'
 const COMMAND_SSL_CREATE = 'create-ssl'
+const COMMAND_VERSION = 'v'
 
 
-const resolvePath = path => isAbsolute(path) ? path : join(PATHS.cwd, path)
+const resolvePath = _path => path.isAbsolute(_path) ? _path : `${PATHS.cwd}/${_path}`
 
 
 switch(command) {
     case COMMAND_RUN:
+        var siegel = (await import('../cjs')).default
+
         var config = {
             server: {},
             build: {}
@@ -71,7 +76,7 @@ switch(command) {
                     var cfgPath = scriptArgs[i + 1]
                     var pathNormalized = resolvePath(cfgPath)
 
-                    config = require(pathNormalized)
+                    config = (await import(pathNormalized)).default
 
                     i++
                     break
@@ -100,15 +105,23 @@ switch(command) {
             }
         }
 
-        return require('../cjs')(config, runParams)
+        return siegel(config, runParams)
 
 
     case COMMAND_INIT:
         var isGlobal = scriptArgs[0] == CLI_PARAMS.siegelGlobal
-        return require('./init_project')(isGlobal)
+
+        var initScript = (await import('./init_project.js')).default
+        return initScript(isGlobal)
 
     case COMMAND_SSL_CREATE:
-        return require('./create_SSL')()
+        var createSSLScript = (await import('./create_SSL')).default
+        return createSSLScript()
+
+    case COMMAND_VERSION:
+        var packageJSONFileContent = fs.readFileSync('../package.json', 'utf8')
+
+        return JSON.parse(packageJSONFileContent).version
 
 
     default:
@@ -127,6 +140,7 @@ switch(command) {
         example: ${getColoredHighlightText(`siegel run ${CLI_PARAMS.clientEntrySrc} app.ts ${CLI_PARAMS.serverEntrySrc} server.js ${CLI_PARAMS.devServerPort} 4000`)}
     
 
+
     ${getColoredCommandStr(COMMAND_INIT)} - Creates production ready project with predefined folder structure including already configured siegel.
         Modifies existing package.json or creates new one.
         More about demo project read here: https://github.com/CyberCookie/siegel/tree/master/demo_app
@@ -143,6 +157,10 @@ switch(command) {
         Also it creates authority certificate for testing purposes to be imported in a web browser.
 
         example: ${getColoredHighlightText('siegel create-ssl')}
+    
+    
+    
+    ${getColoredCommandStr(COMMAND_VERSION)} - returns installed Siegel's version
 `
         )
 }
