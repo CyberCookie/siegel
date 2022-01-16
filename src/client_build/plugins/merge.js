@@ -14,7 +14,7 @@ const mergeOptions = (defaultOptions, userOptions, rewrite) => (
 const isEnabledByUserPlugin = plugin => plugin && plugin.enabled !== false
 
 
-module.exports = (defaultPlugins, userPlugins = {}) => {
+function merge(defaultPlugins, userPlugins = {}) {
     const result = []
 
     function addWithoutMerge(pluginConfig) {
@@ -79,4 +79,6 @@ module.exports = (defaultPlugins, userPlugins = {}) => {
 
     return result
 }
-export {}
+
+
+export default merge

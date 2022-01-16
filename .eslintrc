@@ -27,7 +27,8 @@
         "project": "tsconfig.eslint.json",
         "tsconfigRootDir": ".",
         "ecmaFeatures": { "jsx": true },
-        "sourceType": "module"
+        "sourceType": "module",
+        "extraFileExtensions": [ ".cjs", ".mjs" ]
     },
     "rules": {
         "object-curly-spacing": [2, "always"],

@@ -1,17 +1,19 @@
-const { dirname, join, relative } = require('path')
+import { dirname, join, relative } from 'path'
+
+import {
+    pluginInstancesKeyMap, pluginsKeysMap, COMMONS, DEPENDENCIES
+} from '../constants.js'
+
+
 const {
-    pluginInstancesKeyMap, pluginsKeysMap,
-
-    COMMONS: { ESLintExtensions },
-
-    DEPENDENCIES: {
-        webpack,
-        plugins: {
-            HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
-            serviceWorkerPlugin, eslint, cleanPlugin
-        }
+    webpack,
+    plugins: {
+        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
+        serviceWorkerPlugin, eslint, cleanPlugin
     }
-} = require('../constants')
+} = DEPENDENCIES
+
+const { ESLintExtensions } = COMMONS
 
 
 function resolvePluginDefaultOptions(defaultOptions, userOptions) {
@@ -25,7 +27,7 @@ function resolvePluginDefaultOptions(defaultOptions, userOptions) {
 }
 
 
-module.exports = (CONFIG, RUN_PARAMS) => {
+function getDefaultPluginsConfig(CONFIG, RUN_PARAMS) {
     const {
         eslint: eslintOptions,
         output: {
@@ -145,4 +147,6 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
     return defaults
 }
-export {}
+
+
+export default getDefaultPluginsConfig

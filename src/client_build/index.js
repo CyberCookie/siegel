@@ -1,11 +1,7 @@
-import type { Configuration, Compiler } from 'webpack'
-
-
-const { PATHS }             = require('../constants')
-const BUILD_CONSTANTS       = require('./constants')
-const defaultModulesResolve = require('./modules')
-const defaultPluginsResolve = require('./plugins')
-
+import { PATHS } from '../constants.js'
+import * as BUILD_CONSTANTS from './constants.js'
+import defaultModulesResolve from './modules/index.js'
+import defaultPluginsResolve from './plugins/index.js'
 
 
 const {
@@ -34,12 +30,12 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
     _isSelfDevelopment || nodeModulesPaths.push(PATHS.cwdNodeModules)
 
 
-    let webpackCompiller: Compiler
+    let webpackCompiller
 
-    let webpackConfig: Configuration = {
+    let webpackConfig = {
         mode: isProd
             ?   'production'
-            :   (process.env.NODE_ENV as Configuration['mode']) || 'development',
+            :   process.env.NODE_ENV || 'development',
 
         cache: _isDevServer,
 
@@ -107,14 +103,14 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             rules: defaultModulesResolve(CONFIG, RUN_PARAMS)
         }
     }
+
     if (typeof postProcessWebpackConfig == 'function') {
         webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig, BUILD_CONSTANTS)
     }
 
 
-
     return {
-        run: () => new Promise<void>(resolve => {
+        run: () => new Promise(resolve => {
             webpackCompiller = webpack(webpackConfig)
 
             if (_isDevServer) resolve()
@@ -142,5 +138,4 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
 }
 
 
-module.exports = clientBuilder
-export {}
+export default clientBuilder

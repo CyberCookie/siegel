@@ -1,34 +1,30 @@
-//@ts-nocheck
 'use strict'
 
-const fs    = require('fs')
-const shell = require('child_process').execSync
-const esbuild = require('esbuild')
-
-const { PATHS, LOC_NAMES, DEFAULT_CONFIG } = require('./src/constants')
+import fs from 'fs'
+import { execSync as shell } from 'child_process'
+import esbuild from 'esbuild'
 
 
-const PREPUBLISH_PATHS = {
-    siegelTsNodeOutput: `${PATHS.root}/${LOC_NAMES.SRC_OUTPUT}`
-}
+import { PATHS, LOC_NAMES, DEFAULT_CONFIG } from './src/constants.js'
 
 
-console.time('transpilation took')
+// const PREPUBLISH_PATHS = {
+//     siegelTsNodeOutput: `${PATHS.root}/${LOC_NAMES.SRC_OUTPUT}`
+// }
 
-transpileSrcTS()
+
+// transpileSrcTS()
 transpileClientCoreTS()
 
-console.timeEnd('transpilation took')
 
+// function transpileSrcTS() {
+//     console.log('Creating cjs...')
 
-function transpileSrcTS() {
-    console.log('Creating cjs...')
+//     fs.existsSync(PREPUBLISH_PATHS.siegelTsNodeOutput)
+//         && fs.rmdirSync(PREPUBLISH_PATHS.siegelTsNodeOutput, { recursive: true })
 
-    fs.existsSync(PREPUBLISH_PATHS.siegelTsNodeOutput)
-        && fs.rmdirSync(PREPUBLISH_PATHS.siegelTsNodeOutput, { recursive: true })
-
-    shell(`npx tsc -p ${LOC_NAMES.SRC_DIR_NAME}`)
-}
+//     shell(`npx tsc -p ${LOC_NAMES.SRC_DIR_NAME}`)
+// }
 
 
 function iterateFiles(dirPath, cb) {

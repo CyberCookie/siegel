@@ -1,8 +1,8 @@
 const { dirname, join } = require('path')
-const { createHash }    = require('crypto')
-const postcss           = require('postcss')
+const { createHash } = require('crypto')
+const postcss = require('postcss')
 
-const iconToFont        = require('./icons_to_font')
+const iconToFont = require('./icons_to_font.cjs')
 
 
 
@@ -38,7 +38,7 @@ const cssPropValueMap = {
 }
 
 
-module.exports = ({ fontNamePrefix, isWoff2 }) => ({
+const svgToFontConvertPlugin = ({ fontNamePrefix, isWoff2 }) => ({
     postcssPlugin: 'postcss-svg2icon',
     prepare(_result) {
         const context = dirname(_result.opts.from)
@@ -63,8 +63,7 @@ module.exports = ({ fontNamePrefix, isWoff2 }) => ({
                 if (prop == 'font-icon-dest') {
                     rootDecl = decl
                     // result.rootValue = getUnresolvedIconPath(value)
-                } else
-                if (prop == 'font-icon') {
+                } else if (prop == 'font-icon') {
                     const unresolvedValue = getUnresolvedIconPath(value)
                     const absolutePath = join(context, unresolvedValue)
 
@@ -121,5 +120,6 @@ module.exports = ({ fontNamePrefix, isWoff2 }) => ({
         }
     }
 })
-module.exports.postcss = true
-export {}
+
+
+module.exports = svgToFontConvertPlugin

@@ -1,13 +1,17 @@
-const join = require('path').join
-const rootPath = join(__dirname, '..')
+import { join } from 'path'
+import { readFileSync } from 'fs'
 
-const APP = join(rootPath, 'client')
+import cjs__dirname from '../../src/utils/__dirname.js'
+
+
+const __dirname = cjs__dirname(import.meta)
+const rootPath = join(__dirname, '..')
+const APP = `${rootPath}/client`
 
 
 const siegelConfig = {
     server: {
-        appServerLoc: join(rootPath, 'server', 'app_server.ts'),
-        watch: true,
+        appServerLoc: join(rootPath, 'server', 'app_server.js'),
         host: process.env.NODE_HOST,
         port: process.env.NODE_PORT
     },
@@ -25,9 +29,12 @@ const siegelConfig = {
         eslint: true,
 
         aliases: (() => {
-            const TSAliases = require('../client/tsconfig').compilerOptions.paths
+            const tsConfig = JSON.parse(
+                readFileSync(`${APP}/tsconfig.json`, 'utf8')
+            )
+            const TSAliases = tsConfig.compilerOptions.paths
 
-            const aliases: Record<string, string> = {}
+            const aliases = {}
             for (const alias in TSAliases) {
                 const WPAlias = alias.replace('/*', '')
                 const WPPath = TSAliases[alias][0].replace('/*', '')
@@ -42,4 +49,4 @@ const siegelConfig = {
 }
 
 
-module.exports = siegelConfig
+export default siegelConfig

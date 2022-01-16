@@ -1,13 +1,17 @@
+import path from 'path'
+
+import cjs__dirname from './utils/__dirname.js'
+
+
 const { INIT_CWD, PWD } = process.env
 if (INIT_CWD && INIT_CWD != PWD) {
     process.chdir(INIT_CWD)
 }
 
 
-const { join } = require('path')
-
+const __dirname = cjs__dirname(import.meta)
 const cwd = process.cwd()
-const root = join(__dirname, '..')
+const root = path.join(__dirname, '..')
 const _isSelfDevelopment = cwd == root
 
 //TODO?: refactor
@@ -31,10 +35,9 @@ const PATHS = {
     clientCoreOutput:   `${root}/${LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME}`,
     srcOutput:          `${root}/${LOC_NAMES.SRC_OUTPUT}`,
     demoProject:        `${root}/demo_app`,
-    build:              `${__dirname}/client_build`,
-    staticServer:       `${__dirname}/server`
+    build:              `${__dirname}/client_build/index.js`,
+    staticServer:       `${__dirname}/server/index.js`
 }
-
 
 
 const DEFAULT_CONFIG = {
@@ -85,7 +88,6 @@ const DEFAULT_CONFIG = {
 }
 
 
-
 const DEFAULT_RUN_PARAMS = {
     isServer: true,
     isBuild: true,
@@ -95,5 +97,4 @@ const DEFAULT_RUN_PARAMS = {
 }
 
 
-
-module.exports = { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG }
+export { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG }

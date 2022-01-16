@@ -1,33 +1,32 @@
-const fs = require('fs')
+import fs from 'fs'
 
 
-const listen = (server: any, host: any, port: any) => (
-    server.listen(port, host, (err: any) => {
+const listen = (server, host, port) => (
+    server.listen(port, host, err => {
         err
             ?   console.error(err)
             :   console.info('Starting server on %s:%s.', host, port)
     })
 )
 
-const extractSSL = (ssl: any) => ({
-    key: fs.readFileSync(ssl.keyPath),
-    cert: fs.readFileSync(ssl.certPath)
+const extractSSL = ({ keyPath, certPath }) => ({
+    key: fs.readFileSync(keyPath),
+    cert: fs.readFileSync(certPath)
 })
 
 
-function createHTTPServer(CONFIG: any, middlewares: any, serverExtend: any) {
+async function createHTTPServer(CONFIG, middlewares, serverExtend) {
+    const express = (await import('express')).default
+    const expressStatic = (await import('express-static-gzip')).default
+    const historyApiFallback = (await import('connect-history-api-fallback')).default
+
+
     const { staticDir, server: serverConfig } = CONFIG
     const { host, port, ssl } = serverConfig
 
-    const express = require('express')
+
     const expressApp = express()
-
-    const expressStatic = require('express-static-gzip')
-    const historyApiFallback = require('connect-history-api-fallback')
-
-
     serverExtend && serverExtend(expressApp, { express })
-
 
     expressApp
         .disable('x-powered-by')
@@ -36,12 +35,13 @@ function createHTTPServer(CONFIG: any, middlewares: any, serverExtend: any) {
             enableBrotli: true,
             orderPreference: ['br', 'gzip']
         }))
-    middlewares.forEach((m: any) => { expressApp.use(m) })
+
+    middlewares.forEach(m => { expressApp.use(m) })
 
 
     let server = expressApp
     if (ssl) {
-        const { createServer } = require('https')
+        const { createServer } = await import('https')
         server = createServer(extractSSL(ssl), expressApp)
     }
 
@@ -50,13 +50,15 @@ function createHTTPServer(CONFIG: any, middlewares: any, serverExtend: any) {
 }
 
 
-function createHTTP2Server(CONFIG: any, serverExtend: any) {
+async function createHTTP2Server(CONFIG, serverExtend) {
+    const http2 = await import('http2')
+    const path = await import('path')
+    const mime = (await import('mime-types')).default
+
+
     const { staticDir, server: serverConfig } = CONFIG
     const { host, port, ssl } = serverConfig
 
-    const http2 = require('http2')
-    const mime = require('mime-types')
-    const path = require('path')
 
     const {
         HTTP2_HEADER_CONTENT_ENCODING,
@@ -141,12 +143,13 @@ function createHTTP2Server(CONFIG: any, serverExtend: any) {
 }
 
 
-
-module.exports = {
-    run(CONFIG: any, middlewares = [], serverExtend: any) {
+const server = {
+    run(CONFIG, middlewares = [], serverExtend) {
         return CONFIG.server.http2
             ?   createHTTP2Server(CONFIG, serverExtend)
             :   createHTTPServer(CONFIG, middlewares, serverExtend)
     }
 }
-export {}
+
+
+export default server

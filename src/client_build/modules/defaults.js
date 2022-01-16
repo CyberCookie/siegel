@@ -1,18 +1,17 @@
-const { PATHS } = require('../../constants')
+import { PATHS } from '../../constants.js'
+import { loadersKeyMap, webpackModulesRegExp, DEPENDENCIES } from '../constants.js'
+
+
 const {
-    loadersKeyMap, webpackModulesRegExp,
-
-    DEPENDENCIES: {
-        plugins: { miniCssExtract },
-        loaders: {
-            esbuild, cssLoader, sassLoader, styleLoader, sassResourcesLoader,
-            postCssLoader, postCssAutoprefix, postCssSVG2Font
-        }
+    plugins: { miniCssExtract },
+    loaders: {
+        esbuild, cssLoader, sassLoader, styleLoader, sassResourcesLoader,
+        postCssLoader, postCssAutoprefix, postCssSVG2Font
     }
-} = require('../constants')
+} = DEPENDENCIES
 
 
-module.exports = (CONFIG, RUN_PARAMS) => {
+function getDefaultModulesConfig(CONFIG, RUN_PARAMS) {
     const {
         output: { target },
         input: { sassResources, include, exclude }
@@ -22,7 +21,7 @@ module.exports = (CONFIG, RUN_PARAMS) => {
     const isDev = !isProd
 
 
-    const defaults: any = {
+    const defaults = {
         [ webpackModulesRegExp.scripts ]: {
             loadersOrder: [ loadersKeyMap.esbuild ],
             loaders: {
@@ -106,7 +105,11 @@ module.exports = (CONFIG, RUN_PARAMS) => {
     }
 
     for (const regexpPart in defaults) {
-        defaults[regexpPart].ruleOptions ||= {}
+        //TODO: update with ||= when drop old node support
+        if (defaults[regexpPart].ruleOptions === undefined) {
+            defaults[regexpPart].ruleOptions = {}
+        }
+
         const { ruleOptions } = defaults[regexpPart]
         const { include: _include, exclude: _exclude } = ruleOptions
 
@@ -122,4 +125,6 @@ module.exports = (CONFIG, RUN_PARAMS) => {
 
     return defaults
 }
-export {}
+
+
+export default getDefaultModulesConfig

@@ -1,14 +1,15 @@
-const { Compilation, sources }  = require('webpack')
-const { readFileSync }          = require('fs')
-const { basename }              = require('path')
+import fs from 'fs'
+import path from 'path'
+import webpack from 'webpack'
 
+
+const { sources, Compilation } = webpack
 
 const NAME = 'siegel-sw-plugin'
 
-
-module.exports = function(entry) {
-    const filename = basename(entry)
-    const swContent = readFileSync(entry).toString()
+function serviceWorkerPlugin(entry) {
+    const filename = path.basename(entry)
+    const swContent = fs.readFileSync(entry).toString()
 
 
     this.apply = function(compiler) {
@@ -28,4 +29,6 @@ module.exports = function(entry) {
         })
     }
 }
-export {}
+
+
+export default serviceWorkerPlugin

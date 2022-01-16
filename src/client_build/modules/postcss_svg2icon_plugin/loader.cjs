@@ -1,8 +1,9 @@
 const { parseQuery } = require('loader-utils')
-const createIconFont = require('./icons_to_font.js')
+
+const createIconFont = require('./icons_to_font.cjs')
 
 
-module.exports = function() {
+function loader() {
     this.cacheable && this.cacheable()
 
     const callback = this.async()
@@ -17,10 +18,12 @@ module.exports = function() {
             result => {
                 const font = Buffer.from(result).toString('base64')
                 // Return the font to webpack
-                const url = '"data:application/x-font-woff;charset=utf-8;base64,' + font + '"'
-                callback(null, 'module.exports=' + JSON.stringify(url) + ';')
+                const url = `"data:application/x-font-woff;charset=utf-8;base64,${font}"`
+                callback(null, `module.exports='${JSON.stringify(url)};`)
             },
             callback
         )
 }
-export {}
+
+
+module.exports = loader

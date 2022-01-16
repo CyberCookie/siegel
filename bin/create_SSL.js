@@ -1,14 +1,13 @@
 'use strict'
 
-const { writeFileSync, unlinkSync } = require('fs')
-const join = require('path').join
-const shell = require('child_process').execSync
+import fs from 'fs'
+import { execSync as shell } from 'child_process'
+
+import isRunDirectly from '../src/utils/is_run_directly.js'
+import { PATHS } from '../src/constants.js'
 
 
 function main() {
-    const cwd = process.cwd()
-
-
     const filenames = {
         domains: 'domains.ext',
         rootCAKey: 'RootCA.key',
@@ -28,15 +27,17 @@ function main() {
         'DNS.1 = localhost'
     ].join('\n')
 
-    const domainsPath = join(cwd, filenames.domains)
-    const rootCAPemPath = join(cwd, filenames.rootCAPem)
+    const domainsPath = `${PATHS.cwd}/${filenames.domains}`
+    const rootCAPemPath = `${PATHS.cwd}/${filenames.rootCAPem}`
+    const localhostCSRPath = `${PATHS.cwd}/${filenames.localhostCsr}`
+    const rootCAKeyPath = `${PATHS.cwd}/${filenames.rootCAKey}`
 
     const days = '-days 1024'
     const rsa = '-newkey rsa:2048'
 
 
 
-    writeFileSync(domainsPath, domainsContent)
+    fs.writeFileSync(domainsPath, domainsContent)
 
     shell(`openssl req -x509 -nodes -new -sha256 ${days} ${rsa} -keyout ${filenames.rootCAKey} -out ${filenames.rootCAPem} -subj "/C=US/CN=Example-Root-CA"`)
     shell(`openssl x509 -outform pem -in ${filenames.rootCAPem} -out ${filenames.rootCACrt}`)
@@ -44,11 +45,11 @@ function main() {
     shell(`openssl x509 -req -sha256 ${days} -in ${filenames.localhostCsr} -CA ${filenames.rootCAPem} -CAkey ${filenames.rootCAKey} -CAcreateserial -extfile ${filenames.domains} -out ${filenames.localhostCrt}`)
 
 
-    unlinkSync(domainsPath)
-    unlinkSync(join(cwd, filenames.localhostCsr))
-    unlinkSync(join(cwd, filenames.rootCAKey))
-    unlinkSync(rootCAPemPath)
-    unlinkSync(rootCAPemPath.replace('pem', 'srl'))
+    fs.unlinkSync(domainsPath)
+    fs.unlinkSync(localhostCSRPath)
+    fs.unlinkSync(rootCAKeyPath)
+    fs.unlinkSync(rootCAPemPath)
+    fs.unlinkSync(rootCAPemPath.replace('pem', 'srl'))
 
 
 
@@ -59,7 +60,7 @@ Import ${filenames.rootCACrt} into the chrome browser SSL settings -> Authoritie
     `)
 }
 
+isRunDirectly(import.meta) && main()
 
-require.main == module
-    ?   main()
-    :   (module.exports = main)
+
+export default main

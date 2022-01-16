@@ -1,13 +1,12 @@
-const Svgicons2svgfont  = require('svgicons2svgfont')
-const svg2ttf           = require('svg2ttf')
-const ttf2woff          = require('ttf2woff')
-const ttf2woff2         = require('ttf2woff2')
-const Readable          = require('stream').Readable
-const fs                = require('fs')
+const fs = require('fs')
+const stream = require('stream')
+const Svgicons2svgfont = require('svgicons2svgfont')
+const svg2ttf = require('svg2ttf')
+const ttf2woff = require('ttf2woff')
+const ttf2woff2 = require('ttf2woff2')
 
 
-
-module.exports = ({ fontName, svgs, woff2 }) => new Promise((resolve, reject) => {
+const convertSVGtoFont = ({ fontName, svgs, woff2 }) => new Promise((resolve, reject) => {
     const fontStream = new Svgicons2svgfont({
         name: fontName,
         normalize: true,
@@ -24,7 +23,7 @@ module.exports = ({ fontName, svgs, woff2 }) => new Promise((resolve, reject) =>
         .on('error', reject)
 
     svgs.forEach((filename, i) => {
-        const glyph = Object.assign(new Readable(), {
+        const glyph = Object.assign(new stream.Readable(), {
             // eslint-disable-next-line
             _read() {},
             metadata: {
@@ -50,4 +49,5 @@ module.exports = ({ fontName, svgs, woff2 }) => new Promise((resolve, reject) =>
     .then(svgFont => svg2ttf(svgFont, {}).buffer)
     .then(ttfFont => woff2 ? ttf2woff2(ttfFont) : ttf2woff(ttfFont).buffer)
 
-export {}
+
+module.exports = convertSVGtoFont

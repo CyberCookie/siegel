@@ -1,3 +1,5 @@
+import populateURLParams from '../../../utils_cross_env/populate_url_params'
+
 import type { FetchParams, ReqError, RequestParams, Hooks } from './types'
 
 
@@ -29,15 +31,11 @@ function extractRequestData(request: RequestParams) {
     }
     options.method ||= 'GET'
 
-    //TODO: duplicate in src/server/proxy
-    if (params) {
-        for (const param in params) {
-            fetchURL = fetchURL.replace(':' + param, params[param])
-        }
-    }
+    params && (fetchURL = populateURLParams(fetchURL, params))
+
 
     if (query) {
-        const queryToAdd = typeof query == 'string'
+        const queryToAdd = query.constructor == String
             ?   query
             :   `?${(new URLSearchParams(query)).toString()}`
 

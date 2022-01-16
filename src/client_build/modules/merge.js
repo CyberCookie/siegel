@@ -29,7 +29,7 @@ function mergeLoaders(userLoader, defaultLoader) {
 }
 
 
-module.exports = (defaultModules, userModules = {}) => {
+function merge(defaultModules, userModules = {}) {
     const rules = []
 
 
@@ -105,4 +105,6 @@ module.exports = (defaultModules, userModules = {}) => {
 
     return rules
 }
-export {}
+
+
+export default merge

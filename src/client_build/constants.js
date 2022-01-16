@@ -1,21 +1,30 @@
-const resolve = require.resolve
+import { createRequire } from 'module'
+import webpack from 'webpack'
+import devMiddleware from 'webpack-dev-middleware'
+import hotMiddleware from 'webpack-hot-middleware'
+import esBuild from 'esbuild-loader'
+import HTMLPlugin from 'html-webpack-plugin'
+import optimizeCSS from 'css-minimizer-webpack-plugin'
+import fileCopyPlugin from 'copy-webpack-plugin'
+import compressionPlugin from 'compression-webpack-plugin'
+import miniCssExtract from 'mini-css-extract-plugin'
+import reactRefresh from '@pmmmwh/react-refresh-webpack-plugin'
+import eslint from 'eslint-webpack-plugin'
+import cleanPlugin from 'clean-webpack-plugin'
+
+import serviceWorkerPlugin from './plugins/plugin_sw.js'
+
+
+const { resolve } = createRequire(import.meta.url)
 
 const DEPENDENCIES = {
-    webpack:                require('webpack'),
-    devMiddleware:          require('webpack-dev-middleware'),
-    hotMiddleware:          require('webpack-hot-middleware'),
-    esBuildMinifyPlugin:    require('esbuild-loader').ESBuildMinifyPlugin,
+    webpack, devMiddleware, hotMiddleware,
+    esBuildMinifyPlugin: esBuild.ESBuildMinifyPlugin,
 
     plugins: {
-        HTMLPlugin:             require('html-webpack-plugin'),
-        optimizeCSS:            require('css-minimizer-webpack-plugin'),
-        fileCopyPlugin:         require('copy-webpack-plugin'),
-        compressionPlugin:      require('compression-webpack-plugin'),
-        miniCssExtract:         require('mini-css-extract-plugin'),
-        reactRefresh:           require('@pmmmwh/react-refresh-webpack-plugin'),
-        eslint:                 require('eslint-webpack-plugin'),
-        cleanPlugin:            require('clean-webpack-plugin'),
-        serviceWorkerPlugin:    require('./plugins/plugin_sw')
+        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, reactRefresh,
+        eslint, cleanPlugin, serviceWorkerPlugin,
+        miniCssExtract: miniCssExtract.default
     },
 
     loaders: {
@@ -26,14 +35,14 @@ const DEPENDENCIES = {
         sassLoader:             resolve('sass-loader'),
         sassResourcesLoader:    resolve('sass-resources-loader'),
         postCssAutoprefix:      resolve('autoprefixer'),
-        postCssSVG2Font:        resolve('./modules/postcss_svg2icon_plugin')
+        postCssSVG2Font:        resolve('./modules/postcss_svg2icon_plugin/index.cjs')
     }
-} as const
+}
+
 
 const COMMONS = {
     ESLintExtensions: [ '.js', '.jsx', '.ts', '.tsx' ]
 }
-
 
 const loadersKeyMap = {
     esbuild: 'esbuildLoader',
@@ -43,14 +52,13 @@ const loadersKeyMap = {
     postCssLoader: 'postCssLoader',
     sassLoader: 'sassLoader',
     sassResources: 'sassResources'
-} as const
+}
 
 const webpackModulesRegExp = {
     scripts: '\\.[tj]sx?$',
     styles: '\\.(c|sc|sa)ss$',
     files: '\\.(avif|webp|jpg|png|svg|woff2)?$'
-} as const
-
+}
 
 const pluginsKeysMap = {
     compression: 'compression',
@@ -63,14 +71,15 @@ const pluginsKeysMap = {
     reactRefresh: 'reactRefresh',
     clean: 'clean',
     eslint: 'eslint'
-} as const
+}
 
 const pluginInstancesKeyMap = {
     compression_br: 'br',
     compression_gzip: 'gzip'
-} as const
+}
 
 
-
-module.exports = { loadersKeyMap, pluginsKeysMap, pluginInstancesKeyMap, webpackModulesRegExp, DEPENDENCIES, COMMONS }
-export {}
+export {
+    loadersKeyMap, pluginsKeysMap, pluginInstancesKeyMap, webpackModulesRegExp,
+    DEPENDENCIES, COMMONS
+}
