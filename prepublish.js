@@ -38,7 +38,7 @@ function iterateFiles(dirPath, cb) {
                 :   cb(nextDirPath)
         })
 }
-console.log(PATHS)
+
 function transpileClientCoreTS() {
     console.log('Creating lib...')
 
