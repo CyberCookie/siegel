@@ -22,8 +22,9 @@ const DEPENDENCIES = {
     esBuildMinifyPlugin: esBuild.ESBuildMinifyPlugin,
 
     plugins: {
-        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
-        eslint, cleanPlugin, serviceWorkerPlugin
+        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, reactRefresh,
+        eslint, cleanPlugin, serviceWorkerPlugin,
+        miniCssExtract: miniCssExtract.default
     },
 
     loaders: {
