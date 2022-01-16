@@ -24,5 +24,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i -g npm@7 --registry=https://registry.npmjs.org
     - run: npm ci
-    - run: npm run prepublishOnly
+    - run: npm run validate_siegel
     - run: npm run build
