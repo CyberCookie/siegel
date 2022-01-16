@@ -98,6 +98,7 @@
         "webpack-hot-middleware": "^2.25.1"
     },
     "devDependencies": {
+        "@types/jest": "^27.4.0",
         "jest": "^27.4.7",
         "ts-jest": "^27.1.3"
     },
