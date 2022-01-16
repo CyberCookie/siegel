@@ -142,7 +142,7 @@ function main(isGlobal) {
 
         targetPackageJSON.type = siegelPackageType
 
-        const internalPackageScripts = [ 'prepublishOnly' ]
+        const internalPackageScripts = [ 'prepublishOnly', 'validate_siegel' ]
         internalPackageScripts.forEach(command => {
             delete siegelPackageJSONScripts[command]
         })

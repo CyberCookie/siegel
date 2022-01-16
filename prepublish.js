@@ -38,7 +38,7 @@ function iterateFiles(dirPath, cb) {
                 :   cb(nextDirPath)
         })
 }
-
+console.log(PATHS)
 function transpileClientCoreTS() {
     console.log('Creating lib...')
 
@@ -50,8 +50,12 @@ function transpileClientCoreTS() {
 
     iterateFiles(PATHS.clientCore, fileNamePath => {
         if (fileNamePath.endsWith('.d.ts') || fileNamePath.endsWith('.sass')) {
-            const destinationFileName = fileNamePath.replace(LOC_NAMES.CLIENT_CORE_DIR_NAME, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME)
-
+            console.log(fileNamePath)
+            const destinationFileName = fileNamePath.replace(
+                LOC_NAMES.CLIENT_CORE_DIR_NAME,
+                LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME
+            )
+            console.log(destinationFileName)
             fs.createReadStream(fileNamePath)
                 .pipe(fs.createWriteStream(destinationFileName))
         }

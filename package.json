@@ -53,7 +53,8 @@
     "types": "global.d.ts",
     "bin": "bin/index.js",
     "scripts": {
-        "prepublishOnly": "npx eslint . && npx jest && node prepublish.js",
+        "validate_siegel": "npx eslint . && tsc -p client_core && tsc -p demo_app/client && npx jest",
+        "prepublishOnly": "npm run validate_siegel && node prepublish.js",
         "start": "node $npm_package_config_index -b -s",
         "build": "node $npm_package_config_index -b -p",
         "build_serv": "node $npm_package_config_index -b -s -p",
