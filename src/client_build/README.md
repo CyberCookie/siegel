@@ -186,7 +186,11 @@ Every plugin, that's already included, has its own `plugin key`.
 To extend default plugins or instances you should use `plugin keys` or `instance keys`
 
 ```js
-const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel').buildConstants
+import { BUILD_CONSTANTS } from 'siegel'
+import somePlugin from 'some_webpack_plugin'
+
+
+const { pluginsKeysMap, pluginInstancesKeyMap } = BUILD_CONSTANTS
 
 {
     plugins: {
@@ -218,7 +222,7 @@ const { pluginsKeysMap, pluginInstancesKeyMap } = require('siegel').buildConstan
             At least it shouldn't overlap with existing ones.
         */
         [ your_plugin_key ]: {
-            plugin: require('your_plugin'),
+            plugin: somePlugin,
             enabled: true,
             options: { /* plugin options */ }
         }
@@ -251,7 +255,10 @@ RegExp string: <b>\\.(avif|webp|jpg|png|svg|woff2)?$</b> (`files` )
 <br />
 
 ```js
-const { loadersKeyMap, webpackModulesRegExp } = require('siegel').buildConstants
+import { BUILD_CONSTANTS } from 'siegel'
+
+
+const { loadersKeyMap, webpackModulesRegExp } = BUILD_CONSTANTS
 
 {
     modules: {
@@ -354,7 +361,10 @@ The only purpose of this plugin is to place an array of build output assets into
 <b>siegel config</b>
 
 ```js
-const { pluginsKeysMap } = require('siegel').buildConstants
+import { BUILD_CONSTANTS } from 'siegel'
+
+
+const { pluginsKeysMap } = BUILD_CONSTANTS
 
 {
     // ...client_build config,
@@ -422,7 +432,10 @@ Output:
 
 There are two options you can pass to the plugin:
 ```js
-const { loadersKeyMap, webpackModulesRegExp } = require('siegel').buildConstants
+import { BUILD_CONSTANTS } from 'siegel'
+
+
+const { loadersKeyMap, webpackModulesRegExp } = BUILD_CONSTANTS
 
 const config = {
     // ...client build config

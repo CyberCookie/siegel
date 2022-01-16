@@ -1,18 +1,14 @@
 import { PATHS } from '../../constants.js'
-import * as buildConstants from '../constants.js'
+import { loadersKeyMap, webpackModulesRegExp, DEPENDENCIES } from '../constants.js'
 
 
 const {
-    loadersKeyMap, webpackModulesRegExp,
-
-    DEPENDENCIES: {
-        plugins: { miniCssExtract },
-        loaders: {
-            esbuild, cssLoader, sassLoader, styleLoader, sassResourcesLoader,
-            postCssLoader, postCssAutoprefix, postCssSVG2Font
-        }
+    plugins: { miniCssExtract },
+    loaders: {
+        esbuild, cssLoader, sassLoader, styleLoader, sassResourcesLoader,
+        postCssLoader, postCssAutoprefix, postCssSVG2Font
     }
-} = buildConstants
+} = DEPENDENCIES
 
 
 function getDefaultModulesConfig(CONFIG, RUN_PARAMS) {
@@ -109,6 +105,7 @@ function getDefaultModulesConfig(CONFIG, RUN_PARAMS) {
     }
 
     for (const regexpPart in defaults) {
+        //TODO: update with ||= when drop old node support
         if (defaults[regexpPart].ruleOptions === undefined) {
             defaults[regexpPart].ruleOptions = {}
         }

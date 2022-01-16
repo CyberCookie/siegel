@@ -31,9 +31,6 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
         */
         appServerLoc: String,
 
-        /* Reload when some changes in user server occur. */
-        watch: Boolean,
-
         /*
             Static server host.
             Default is: 'localhost'
@@ -75,38 +72,26 @@ siegel_config
 ```ts
 {
     server: {
-        appServerLoc: path.join(__dirname, 'internal_server_extender.ts')
+        appServerLoc: path.join(__dirname, 'internal_server_extender.js')
     }
 }
 ```
 
 <br />
-internal_server_extender.ts
+internal_server_extender.js
 <br />
 
-```ts
-import type { Http2Server, Http2SecureServer, ServerHttp2Stream, IncomingHttpHeaders } from 'node:http2'
-import type { Application, Express } from 'express'
+```js
+const { proxyReq } = (await import('../../src/index.js'))
 
 
-type App = Application | Http2Server | Http2SecureServer
-
-type InternalAPI = {
-    express?: Express
-    onStream?: (
-        cb: (stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number) => void
-    ) => void
-}
-
-
-module.exports = (app: App, { express, onStream }: InternalAPI) => {
+function appServer(app, { express, onStream }) {
     if (onStream) { // if HTTP2
         onStream(() => {
             console.log('HTTP2 stream')
         })
-
     } else {
-        (app as Application)
+        app
             .use(express.json())
 
             .post('/api/some_post', ((req, res) => {
@@ -115,6 +100,8 @@ module.exports = (app: App, { express, onStream }: InternalAPI) => {
     }
 }
 
+
+export default appServer
 ```
 
 
@@ -126,11 +113,13 @@ module.exports = (app: App, { express, onStream }: InternalAPI) => {
 Siegel provides method to proxy server requests:
 
 ```js
-const app = require('express')()
-const proxy = require('siegel').proxyReq
+import express from 'express'
+import { proxyReq } from 'siegel'
 
 
-const apiProxy = proxy({
+const app = express()
+
+const apiProxy = proxyReq({
     host: 'jsonplaceholder.typicode.com',
     path: '/todos/:id',
     changeOrigin: true

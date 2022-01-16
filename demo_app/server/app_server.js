@@ -1,4 +1,4 @@
-import { proxyReq } from '../../src/index.js'
+const { proxyReq } = (await import('../../src/index.js'))
 
 
 function appServer(app, { express, onStream }) {

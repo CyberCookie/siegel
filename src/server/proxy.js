@@ -1,6 +1,8 @@
 import http from 'http'
 import querystring from 'querystring'
 
+import populateURLParams from '../../utils_cross_env/populate_url_params.js'
+
 
 const proxy = proxyParams => {
     const { host, port, changeOrigin, postProcessReq } = proxyParams
@@ -16,12 +18,7 @@ const proxy = proxyParams => {
             ?   `${proxyPath}?${querystring.stringify(proxyQuery)}`
             :   proxyPath
 
-        //TODO: duplicate in client_core/request
-        if (params) {
-            for (const param in params) {
-                finalPath = finalPath.replace(`:${param}`, params[param])
-            }
-        }
+        params && (finalPath = populateURLParams(finalPath, params))
 
 
         const proxyHeaders = proxyParams.headers

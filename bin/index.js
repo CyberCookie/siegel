@@ -5,9 +5,8 @@
 'use strict'
 
 import path from 'path'
-import fs from 'fs'
 
-import { PATHS } from '../cjs/constants.js'
+import { PATHS } from '../src/constants.js'
 
 
 const scriptArgs = process.argv.slice(2)
@@ -43,7 +42,7 @@ const resolvePath = _path => path.isAbsolute(_path) ? _path : `${PATHS.cwd}/${_p
 
 switch(command) {
     case COMMAND_RUN:
-        var siegel = (await import('../cjs')).default
+        var siegel = (await import('../src/index.js')).default
 
         var config = {
             server: {},
@@ -105,23 +104,28 @@ switch(command) {
             }
         }
 
-        return siegel(config, runParams)
+        siegel(config, runParams)
+        break
 
 
     case COMMAND_INIT:
         var isGlobal = scriptArgs[0] == CLI_PARAMS.siegelGlobal
 
         var initScript = (await import('./init_project.js')).default
-        return initScript(isGlobal)
+        initScript(isGlobal)
+        break
+
 
     case COMMAND_SSL_CREATE:
-        var createSSLScript = (await import('./create_SSL')).default
-        return createSSLScript()
+        var createSSLScript = (await import('./create_SSL.js')).default
+        createSSLScript()
+        break
+
 
     case COMMAND_VERSION:
-        var packageJSONFileContent = fs.readFileSync('../package.json', 'utf8')
-
-        return JSON.parse(packageJSONFileContent).version
+        var requireJSON = (await import('../src/utils/require_json.js')).default
+        requireJSON('../package.json').version
+        break
 
 
     default:

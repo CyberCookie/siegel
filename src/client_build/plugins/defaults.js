@@ -1,21 +1,19 @@
 import { dirname, join, relative } from 'path'
 
-import * as buildConstants from '../constants.js'
+import {
+    pluginInstancesKeyMap, pluginsKeysMap, COMMONS, DEPENDENCIES
+} from '../constants.js'
 
 
 const {
-    pluginInstancesKeyMap, pluginsKeysMap,
-
-    COMMONS: { ESLintExtensions },
-
-    DEPENDENCIES: {
-        webpack,
-        plugins: {
-            HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
-            serviceWorkerPlugin, eslint, cleanPlugin
-        }
+    webpack,
+    plugins: {
+        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
+        serviceWorkerPlugin, eslint, cleanPlugin
     }
-} = buildConstants
+} = DEPENDENCIES
+
+const { ESLintExtensions } = COMMONS
 
 
 function resolvePluginDefaultOptions(defaultOptions, userOptions) {

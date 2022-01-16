@@ -1,4 +1,6 @@
-const isRunDirectly = meta => process.argv[0] == meta.url
+const isRunDirectly = ({ url }) => (
+    url.replace('file://', '') == process.argv[1]
+)
 
 
 export default isRunDirectly

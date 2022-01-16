@@ -45,7 +45,6 @@ The platform provides:<br/>
         <ul>
             <li><code>HTTP(S)1 / HTTP(S)2</code>. +Script that creates dev certificates to use in Chrome on localhost.</li>
             <li><code>PM2</code> deamon to wrap your application in production mode.</li>
-            <li><code>Live Reload</code> for <b>server side</b> code.</li>
         </ul>
     </li><br />
     <li>
@@ -108,14 +107,16 @@ npx siegel run -client app.ts
 Now your application is hosting on<b>localhost:3000</b> in watch mode and ready for development!<br /><br />
 
 
-You may also define <b>hot-reloadable NodeJS dev server</b> with `-server` flag:<br />
+You may also define <b>NodeJS dev server</b> with `-server` flag:<br />
 
 create <b>server.js</b>
 
 ```js
-module.exports = (app, { express }) => {
+function appServer(app, { express }) {
     console.log('Custom server is ready')
 }
+
+export default appServer
 ```
 
 In console run:<br />
@@ -148,7 +149,9 @@ npx siegel
 
 
 ```js
-require('siegel')(config, runParams)
+import siegel from 'siegel'
+
+siegel(config, runParams)
 ```
 
 
@@ -156,7 +159,9 @@ require('siegel')(config, runParams)
 There is another signature when you only specify absolute path to js entry file:<br />
 
 ```js
-require('siegel')('/path/to/js_entry.ts')
+import siegel from 'siegel'
+
+siegel('/path/to/js_entry.ts')
 ```
 
 
