@@ -4,8 +4,7 @@ import { relative } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import isRunDirectly from '../src/utils/is_run_directly.js'
-import requireJSON from '../src/utils/require_json.js'
+import { isRunDirectly, requireJSON } from '../src/utils/index.js'
 import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../src/constants.js'
 
 
@@ -14,7 +13,7 @@ const {
     scripts: siegelPackageJSONScripts,
     type: siegelPackageType,
     main: siegelEntryPoint
-} = requireJSON(`${PATHS.root}/${LOC_NAMES.PACKAGE_JSON}`)
+} = requireJSON(PATHS.packageJSON)
 
 
 const toJSON = data => JSON.stringify(data, null, 4)
@@ -41,9 +40,9 @@ function main(isGlobal) {
         siegelEsLint:               `${pathToSiegel}/${LOC_NAMES.ESLINT_JSON}`,
         siegelDemoAppServerPath:    `${PATHS.demoProject}/server`,
         userClientTSConfigPath:     `${userClientPath}/${LOC_NAMES.TS_JSON}`,
-        userServerTSConfigPath:     `${userServerPath}/${LOC_NAMES.TS_JSON}`,
         userServerPath:             `${userServerPath}/app_server.js`,
         userServerEntryPath:        `${userServerPath}/index.js`,
+        userServerSiegelConfigPath: `${userServerPath}/siegel_config.js`,
         userPackageJson:            `${PATHS.cwd}/${LOC_NAMES.PACKAGE_JSON}`,
         userTSGlobal:               `${PATHS.cwd}/${LOC_NAMES.TS_GLOBAL_TYPES}`,
         userESLint:                 `${PATHS.cwd}/${LOC_NAMES.ESLINT_JSON}`,
@@ -72,17 +71,13 @@ function main(isGlobal) {
             `${PATHS.root}/${siegelEntryPoint}`
         )
 
-        const userServerEntryContent = readFileSync(INIT_PATHS.userServerEntryPath, 'utf8')
-        writeFileSync(
-            INIT_PATHS.userServerEntryPath,
-            userServerEntryContent.replace(replaceStringPart, siegelPackageName)
-        )
+        ;([ INIT_PATHS.userServerEntryPath, INIT_PATHS.userServerPath, INIT_PATHS.userServerSiegelConfigPath ])
+            .forEach(path => {
+                const newFileContent = readFileSync(path, 'utf8')
+                    .replace(replaceStringPart, siegelPackageName)
 
-        const userServerContent = readFileSync(INIT_PATHS.userServerPath, 'utf8')
-        writeFileSync(
-            INIT_PATHS.userServerPath,
-            userServerContent.replace(replaceStringPart, siegelPackageName)
-        )
+                writeFileSync(path, newFileContent)
+            })
     }
 
 
@@ -120,7 +115,6 @@ function main(isGlobal) {
 
 
     function modifyESLintConfig() {
-        // Extend Eslint jsons
         const ESLintConfig = JSON.parse(readFileSync(INIT_PATHS.userESLint, 'utf8'))
 
         ESLintConfig.extends.push(

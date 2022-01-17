@@ -1,8 +1,9 @@
 import { join } from 'path'
-import { readFileSync } from 'fs'
 
-import cjs__dirname from '../../src/utils/__dirname.js'
+import { utils } from '../../src/index.js'
 
+
+const { requireJSON, cjs__dirname } = utils
 
 const __dirname = cjs__dirname(import.meta)
 const rootPath = join(__dirname, '..')
@@ -29,9 +30,7 @@ const siegelConfig = {
         eslint: true,
 
         aliases: (() => {
-            const tsConfig = JSON.parse(
-                readFileSync(`${APP}/tsconfig.json`, 'utf8')
-            )
+            const tsConfig = requireJSON(`${APP}/tsconfig.json`)
             const TSAliases = tsConfig.compilerOptions.paths
 
             const aliases = {}
@@ -41,7 +40,6 @@ const siegelConfig = {
 
                 aliases[WPAlias] = join(APP, WPPath)
             }
-
 
             return aliases
         })()

@@ -123,8 +123,8 @@ switch(command) {
 
 
     case COMMAND_VERSION:
-        var requireJSON = (await import('../src/utils/require_json.js')).default
-        requireJSON('../package.json').version
+        var { requireJSON } = await import('../src/utils/index.js')
+        console.log( requireJSON(PATHS.packageJSON).version )
         break
 
 

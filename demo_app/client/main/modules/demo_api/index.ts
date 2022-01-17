@@ -1,4 +1,4 @@
-import createStore from 'siegel-store'
+import createStore from 'siegel-store/index'
 import breadcrumbID from 'siegel-ui/Breadcrumbs/id'
 
 import type { State, Actions, EchoReqBody } from './types'

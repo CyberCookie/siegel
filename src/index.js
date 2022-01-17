@@ -1,7 +1,6 @@
 'use strict'
 
-import dirname from './utils/__dirname.js'
-import isRunDirectly from './utils/is_run_directly.js'
+import * as utils from './utils/index.js'
 import proxyReq from './server/proxy.js'
 import * as BUILD_CONSTANTS from './client_build/constants.js'
 import { PATHS } from './constants.js'
@@ -50,8 +49,8 @@ async function main(_CONFIG, _RUN_PARAMS) {
     }
 }
 
-isRunDirectly(import.meta) && main()
+utils.isRunDirectly(import.meta) && main()
 
 
 export default main
-export { BUILD_CONSTANTS, proxyReq, dirname, isRunDirectly }
+export { BUILD_CONSTANTS, proxyReq, utils }

@@ -72,7 +72,7 @@ siegel_config
 ```ts
 {
     server: {
-        appServerLoc: path.join(__dirname, 'internal_server_extender.js')
+        appServerLoc: `${process.cwd()}/internal_server_extender.js`
     }
 }
 ```

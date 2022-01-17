@@ -1,7 +1,8 @@
 'use strict'
 
+import siegel from '../../src/index.js'
+
 import siegelConfig from './siegel_config.js'
-const siegel = (await import('../../src/index.js')).default
 
 
 const RUN_ARGUMENTS = new Set(process.argv)

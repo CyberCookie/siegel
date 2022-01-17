@@ -1,6 +1,6 @@
 import path from 'path'
 
-import cjs__dirname from './utils/__dirname.js'
+import cjs__dirname from './utils/cjs__dirname.js'
 
 
 const { INIT_CWD, PWD } = process.env
@@ -34,6 +34,7 @@ const PATHS = {
     clientCore:         `${root}/${LOC_NAMES.CLIENT_CORE_DIR_NAME}`,
     clientCoreOutput:   `${root}/${LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME}`,
     srcOutput:          `${root}/${LOC_NAMES.SRC_OUTPUT}`,
+    packageJSON:        `${root}/${LOC_NAMES.PACKAGE_JSON}`,
     demoProject:        `${root}/demo_app`,
     build:              `${__dirname}/client_build/index.js`,
     staticServer:       `${__dirname}/server/index.js`

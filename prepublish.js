@@ -26,6 +26,9 @@ transpileClientCoreTS()
 //     shell(`npx tsc -p ${LOC_NAMES.SRC_DIR_NAME}`)
 // }
 
+// const matchImportStringRegExp = /import .* from/g
+
+
 
 function iterateFiles(dirPath, cb) {
     fs.readdirSync(dirPath, { withFileTypes: true })
@@ -41,6 +44,7 @@ function iterateFiles(dirPath, cb) {
 
 function transpileClientCoreTS() {
     console.log('Creating lib...')
+    const importAddExtensionRegExp = /(import .* from\s+['"])(.*\/.*)(?=['"])/g
 
     fs.existsSync(PATHS.clientCoreOutput)
         && fs.rmSync(PATHS.clientCoreOutput, { recursive: true })
@@ -62,7 +66,12 @@ function transpileClientCoreTS() {
 
     iterateFiles(PATHS.clientCoreOutput, fileNamePath => {
         if (fileNamePath.endsWith('.js')) {
-            const notMinifiedJSFile = fs.readFileSync(fileNamePath, 'utf8')
+            let notMinifiedJSFile = fs.readFileSync(fileNamePath, 'utf8')
+
+            if (notMinifiedJSFile.startsWith('import')) {
+                notMinifiedJSFile = notMinifiedJSFile.replace(importAddExtensionRegExp, '$1$2.js')
+            }
+
             const minified = esbuild.transformSync(notMinifiedJSFile, {
                 minify: true,
                 target: DEFAULT_CONFIG.build.output.target
