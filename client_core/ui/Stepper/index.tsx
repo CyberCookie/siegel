@@ -1,7 +1,7 @@
 import React from 'react'
 
 import extractProps from '../_internals/props_extract'
-import Ranger, { Props as RangerProps, DoubleValue } from '../Ranger'
+import Ranger, { Props as RangerProps, DoubleValue } from '../Ranger/index'
 import type { MergedProps, Props, Component } from './types'
 
 

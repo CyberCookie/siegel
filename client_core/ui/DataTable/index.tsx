@@ -8,7 +8,7 @@ import React, { useState } from 'react'
 
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
-import Table from '../Table'
+import Table from '../Table/index'
 import tableHeadRows from './head'
 import tableBodyRows from './body'
 import componentID from './id'

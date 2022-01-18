@@ -7,7 +7,7 @@ import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
-import Input, { getDefaultInputStoreState, Props as InputProps } from '../Input'
+import Input, { getDefaultInputStoreState, Props as InputProps } from '../Input/index'
 import type { ComponentAttributes } from '../_internals/types'
 import type {
     Component, MergedProps, Store,

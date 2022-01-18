@@ -4,7 +4,7 @@ import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
-import Swipe from '../Swipe'
+import Swipe from '../Swipe/index'
 import type {
     Component, MergedProps, SwitchSlide, GetSliderVisualsParams,
     Props
