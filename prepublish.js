@@ -4,7 +4,6 @@ import fs from 'fs'
 import { execSync as shell } from 'child_process'
 import esbuild from 'esbuild'
 
-
 import { PATHS, LOC_NAMES, DEFAULT_CONFIG } from './src/constants.js'
 
 
@@ -44,7 +43,7 @@ function iterateFiles(dirPath, cb) {
 
 function transpileClientCoreTS() {
     console.log('Creating lib...')
-    const importAddExtensionRegExp = /(import .* from\s+['"])(.*\/.*)(?=['"])/g
+    const addExtensionToImportRegExp = /(import .* from\s+['"])(.*\/.*)(?<![.]\w*)(?=['"])/g
 
     fs.existsSync(PATHS.clientCoreOutput)
         && fs.rmSync(PATHS.clientCoreOutput, { recursive: true })
@@ -67,9 +66,8 @@ function transpileClientCoreTS() {
     iterateFiles(PATHS.clientCoreOutput, fileNamePath => {
         if (fileNamePath.endsWith('.js')) {
             let notMinifiedJSFile = fs.readFileSync(fileNamePath, 'utf8')
-
-            if (notMinifiedJSFile.startsWith('import')) {
-                notMinifiedJSFile = notMinifiedJSFile.replace(importAddExtensionRegExp, '$1$2.js')
+            if (notMinifiedJSFile.includes('import')) {
+                notMinifiedJSFile = notMinifiedJSFile.replace(addExtensionToImportRegExp, '$1$2.js')
             }
 
             const minified = esbuild.transformSync(notMinifiedJSFile, {

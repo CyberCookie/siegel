@@ -10,7 +10,7 @@
         "plugin:react/recommended"
     ],
     "env": {
-        "es2017": true,
+        "es2020": true,
         "browser": true,
         "node": true,
         "serviceworker": true,
