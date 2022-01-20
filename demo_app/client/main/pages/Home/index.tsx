@@ -23,7 +23,8 @@ const docsListConfig = [
         ]
     },
     { path: gitFilesRootPrefix + 'src/client_build', title: 'Webpack build' },
-    { path: gitFilesRootPrefix + 'src/server', title: 'Server' }
+    { path: gitFilesRootPrefix + 'src/server', title: 'Server' },
+    { path: gitFilesRootPrefix + 'src/utils', title: 'Utils' }
 ]
 
 const createDocList = (list: typeof docsListConfig, pathPrefix = '') => (

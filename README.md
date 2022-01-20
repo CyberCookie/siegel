@@ -73,6 +73,7 @@ Read more about each part following the links below:
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils)
 - [Build](https://github.com/CyberCookie/siegel/tree/master/src/client_build)
 - [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
+- [Utils](https://github.com/CyberCookie/siegel/tree/master/src/utils)
 - [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)
 
 <br /><br />
@@ -116,7 +117,7 @@ function appServer(app, { express }) {
     console.log('Custom server is ready')
 }
 
-export default appServer
+module.exports = appServer
 ```
 
 In console run:<br />

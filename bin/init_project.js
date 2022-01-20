@@ -27,17 +27,16 @@ function main(isGlobal) {
     const userClientPath = `${PATHS.cwd}/client`
     const userServerPath = `${PATHS.cwd}/server`
     const userAppEntry = `${userServerPath}/index.js`
-    const pathToSiegel = relative(
-        PATHS.cwd,
-        isGlobal
-            ?   `${shell('npm root -g').toString().trim()}/${siegelPackageName}`
-            :   PATHS.root
-    )
+
+    const pathToSiegelAbsolute = isGlobal
+        ?   `${shell('npm root -g').toString().trim()}/${siegelPackageName}`
+        :   PATHS.root
+
+    const pathToSiegelRelative = relative(PATHS.cwd, pathToSiegelAbsolute)
 
     const INIT_PATHS = {
-        pathToSiegel, userAppEntry,
-        pathToSiegelNodeModules:    `${pathToSiegel}/${LOC_NAMES.NODE_MODULES}`,
-        siegelEsLint:               `${pathToSiegel}/${LOC_NAMES.ESLINT_JSON}`,
+        pathToSiegelRelative, userAppEntry,
+        siegelEsLint:               `${ isGlobal ? pathToSiegelAbsolute : pathToSiegelRelative }/${LOC_NAMES.ESLINT_JSON}`,
         siegelDemoAppServerPath:    `${PATHS.demoProject}/server`,
         userClientTSConfigPath:     `${userClientPath}/${LOC_NAMES.TS_JSON}`,
         userServerPath:             `${userServerPath}/app_server.js`,
@@ -58,7 +57,7 @@ function main(isGlobal) {
         shell(`cp -r ${PATHS.demoProject}/. .`)
 
         // Create global.d.ts
-        writeFileSync(INIT_PATHS.userTSGlobal, `/// <reference types='${siegelPackageName}' />`)
+        writeFileSync(INIT_PATHS.userTSGlobal, `/// <reference types='${ isGlobal ? pathToSiegelAbsolute : siegelPackageName }' />`)
 
         // Copy Eslint jsons
         shell(`cp ${ PATHS.root }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
@@ -71,10 +70,15 @@ function main(isGlobal) {
             `${PATHS.root}/${siegelEntryPoint}`
         )
 
+        const siegelEntryPointPath = isGlobal
+            ?   `${pathToSiegelAbsolute}/${siegelEntryPoint}`
+            :   siegelPackageName
+
+
         ;([ INIT_PATHS.userServerEntryPath, INIT_PATHS.userServerPath, INIT_PATHS.userServerSiegelConfigPath ])
             .forEach(path => {
                 const newFileContent = readFileSync(path, 'utf8')
-                    .replace(replaceStringPart, siegelPackageName)
+                    .replace(replaceStringPart, siegelEntryPointPath)
 
                 writeFileSync(path, newFileContent)
             })
@@ -85,7 +89,7 @@ function main(isGlobal) {
         const replaceDevPathWithSiegel = (path, newDirName) => (
             path.replace(
                 `${INIT_PATHS.siegelDemoAppPathShift}/${INIT_PATHS.userClientTSRelativePath}/${LOC_NAMES.CLIENT_CORE_DIR_NAME}`,
-                `${INIT_PATHS.userClientTSRelativePath}/${INIT_PATHS.pathToSiegel}/${newDirName}`
+                `${INIT_PATHS.userClientTSRelativePath}/${INIT_PATHS.pathToSiegelRelative}/${newDirName}`
             )
         )
 
@@ -118,7 +122,7 @@ function main(isGlobal) {
         const ESLintConfig = JSON.parse(readFileSync(INIT_PATHS.userESLint, 'utf8'))
 
         ESLintConfig.extends.push(
-            INIT_PATHS.siegelEsLint[0] == '.' || INIT_PATHS.siegelEsLint[0] == '/'
+            INIT_PATHS.siegelEsLint[0] == '.' || isGlobal
                 ?   INIT_PATHS.siegelEsLint
                 :   `./${INIT_PATHS.siegelEsLint}`
         )
@@ -155,22 +159,12 @@ function main(isGlobal) {
     }
 
 
-    function createNodePathExport() {
-        writeFileSync(
-            `${PATHS.cwd}/.profile`,
-            `export NODE_PATH=${INIT_PATHS.pathToSiegelNodeModules}`
-        )
-    }
-
-
 
     createDemoApp()
     modifyDemoAppSiegelPath()
     modifyTSConfigs()
     modifyESLintConfig()
     modifyPackageJson()
-
-    isGlobal && createNodePathExport()
 }
 
 isRunDirectly(import.meta) && main()
