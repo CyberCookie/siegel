@@ -1,4 +1,4 @@
-import path from 'path'
+import { join } from 'path'
 
 import cjs__dirname from './utils/cjs__dirname.js'
 
@@ -11,7 +11,7 @@ if (INIT_CWD && INIT_CWD != PWD) {
 
 const __dirname = cjs__dirname(import.meta)
 const cwd = process.cwd()
-const root = path.join(__dirname, '..')
+const root = join(__dirname, '..')
 const _isSelfDevelopment = cwd == root
 
 //TODO?: refactor
@@ -29,20 +29,20 @@ const LOC_NAMES = {
 }
 const PATHS = {
     cwd, root,
-    cwdNodeModules:     `${cwd}/${LOC_NAMES.NODE_MODULES}`,
-    nodeModules:        `${root}/${LOC_NAMES.NODE_MODULES}`,
-    clientCore:         `${root}/${LOC_NAMES.CLIENT_CORE_DIR_NAME}`,
-    clientCoreOutput:   `${root}/${LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME}`,
-    srcOutput:          `${root}/${LOC_NAMES.SRC_OUTPUT}`,
-    packageJSON:        `${root}/${LOC_NAMES.PACKAGE_JSON}`,
-    demoProject:        `${root}/demo_app`,
-    build:              `${__dirname}/client_build/index.js`,
-    staticServer:       `${__dirname}/server/index.js`
+    cwdNodeModules:     join(cwd, LOC_NAMES.NODE_MODULES),
+    nodeModules:        join(root, LOC_NAMES.NODE_MODULES),
+    clientCore:         join(root, LOC_NAMES.CLIENT_CORE_DIR_NAME),
+    clientCoreOutput:   join(root, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME),
+    srcOutput:          join(root, LOC_NAMES.SRC_OUTPUT),
+    packageJSON:        join(root, LOC_NAMES.PACKAGE_JSON),
+    demoProject:        join(root, 'demo_app'),
+    build:              join(__dirname, 'client_build/index.js'),
+    staticServer:       join(__dirname, 'server/index.js')
 }
 
 
 const DEFAULT_CONFIG = {
-    staticDir: `${cwd}/dist`,
+    staticDir: join(cwd, 'dist'),
 
     server: {
         host: 'localhost',
@@ -51,8 +51,8 @@ const DEFAULT_CONFIG = {
 
     build: {
         input: {
-            html: `${PATHS.demoProject}/client/index.html`,
-            js: `${cwd}/app.ts`,
+            html: join(PATHS.demoProject, 'client/index.html'),
+            js: join(cwd, 'app.ts'),
 
             ...( _isSelfDevelopment ? {
                 include: [ PATHS.clientCore ]

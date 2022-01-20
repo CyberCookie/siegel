@@ -1,6 +1,6 @@
 'use strict'
 
-import { relative } from 'path'
+import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
@@ -24,9 +24,9 @@ function main(isGlobal) {
     }
 
 
-    const userClientPath = `${PATHS.cwd}/client`
-    const userServerPath = `${PATHS.cwd}/server`
-    const userAppEntry = `${userServerPath}/index.js`
+    const userClientPath = join(PATHS.cwd, 'client')
+    const userServerPath = join(PATHS.cwd, 'server')
+    const userAppEntry = join(userServerPath, 'index.js')
 
     const pathToSiegelAbsolute = isGlobal
         ?   `${shell('npm root -g').toString().trim()}/${siegelPackageName}`
@@ -36,15 +36,15 @@ function main(isGlobal) {
 
     const INIT_PATHS = {
         pathToSiegelRelative, userAppEntry,
-        siegelEsLint:               `${ isGlobal ? pathToSiegelAbsolute : pathToSiegelRelative }/${LOC_NAMES.ESLINT_JSON}`,
-        siegelDemoAppServerPath:    `${PATHS.demoProject}/server`,
-        userClientTSConfigPath:     `${userClientPath}/${LOC_NAMES.TS_JSON}`,
-        userServerPath:             `${userServerPath}/app_server.js`,
-        userServerEntryPath:        `${userServerPath}/index.js`,
-        userServerSiegelConfigPath: `${userServerPath}/siegel_config.js`,
-        userPackageJson:            `${PATHS.cwd}/${LOC_NAMES.PACKAGE_JSON}`,
-        userTSGlobal:               `${PATHS.cwd}/${LOC_NAMES.TS_GLOBAL_TYPES}`,
-        userESLint:                 `${PATHS.cwd}/${LOC_NAMES.ESLINT_JSON}`,
+        siegelEsLint:               join(isGlobal ? pathToSiegelAbsolute : pathToSiegelRelative, LOC_NAMES.ESLINT_JSON),
+        siegelDemoAppServerPath:    join(PATHS.demoProject, 'server'),
+        userClientTSConfigPath:     join(userClientPath, LOC_NAMES.TS_JSON),
+        userServerPath:             join(userServerPath, 'app_server.js'),
+        userServerEntryPath:        join(userServerPath, 'index.js'),
+        userServerSiegelConfigPath: join(userServerPath, 'siegel_config.js'),
+        userPackageJson:            join(PATHS.cwd, LOC_NAMES.PACKAGE_JSON),
+        userTSGlobal:               join(PATHS.cwd, LOC_NAMES.TS_GLOBAL_TYPES),
+        userESLint:                 join(PATHS.cwd, LOC_NAMES.ESLINT_JSON),
         siegelDemoAppPathShift:     relative(PATHS.demoProject, PATHS.root),
         cwdRelativeUserServer:      relative(PATHS.cwd, userAppEntry),
         userClientTSRelativePath:   relative(userClientPath, PATHS.cwd)
