@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useLayoutEffect } from 'react'
-import { Switch, Router, Route, Redirect, withRouter, RouteProps, RouteComponentProps } from 'react-router'
+import { Switch, Router, Route, Redirect, withRouter, RouteProps, RouteComponentProps } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 
 import type {
