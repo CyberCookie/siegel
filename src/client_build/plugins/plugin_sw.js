@@ -9,7 +9,7 @@ const NAME = 'siegel-sw-plugin'
 
 function serviceWorkerPlugin(entry) {
     const filename = path.basename(entry)
-    const swContent = fs.readFileSync(entry).toString()
+    const swContent = fs.readFileSync(entry, 'utf8')
 
 
     this.apply = function(compiler) {

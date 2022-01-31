@@ -60,7 +60,8 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
             chunkFilename: filenames.js_chunk,
             filename: filenames.js,
             assetModuleFilename: filenames.assets,
-            hashFunction: 'xxhash64'
+            hashFunction: 'xxhash64',
+            clean: true
 
             // ...( outputESM ? {
             //     module: true,

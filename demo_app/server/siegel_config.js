@@ -12,9 +12,7 @@ const APP = `${rootPath}/client`
 
 const siegelConfig = {
     server: {
-        appServerLoc: join(rootPath, 'server', 'app_server.js'),
-        host: process.env.NODE_HOST,
-        port: process.env.NODE_PORT
+        appServerLoc: join(rootPath, 'server', 'app_server.js')
     },
 
 

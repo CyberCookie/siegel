@@ -23,7 +23,7 @@ function normalizeConfig(CONFIG = {}, RUN_PARAMS = {}) {
     if (RUN_PARAMS) mergeConfigWithDefaults(RUN_PARAMS, DEFAULT_RUN_PARAMS)
     else RUN_PARAMS = DEFAULT_RUN_PARAMS
 
-    const { isProd, isServer, isBuild }= RUN_PARAMS
+    const { isProd, isServer, isBuild } = RUN_PARAMS
     RUN_PARAMS._isDevServer = !isProd && isServer
 
 

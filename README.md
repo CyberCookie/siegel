@@ -53,7 +53,7 @@ The platform provides:<br/>
             <li>Big set of <code>React components</code>.</li>
             <li>React <code>global state manager</code> built on top of <code>react hooks</code> and optional fetch module to track requests with.</li>
             <li>Recursively configurable <code>react router</code> wrapper.</li>
-            <li>Network services for making a request and minimal client WebSocket implementation.</li>
+            <li>Network services to make requests and minimal client WebSocket implementation.</li>
         </ul>
     </li><br />
     <li>
@@ -145,7 +145,7 @@ npx siegel
 <p>
     Appart from calling siegel from CLI you may also use it in the most straightforward and flexible way - as a NodeJS module!<br />
     Siegel itself is a function that accepts <b><a href='#config'>config</a></b> as a first argument and <b><a href='#runParams'>runParams</a></b> as a second.<br />
-    You may read about these parameters below.
+    You may read about these parameters further.
 </p>
 
 
@@ -258,16 +258,16 @@ More about demo project read [here](https://github.com/CyberCookie/siegel/tree/m
 <br /><br />
 <h3>Siegel development</h3><hr /><br />
 
-in case of you've cloned this repo:<br />
+In case you've cloned this repo:<br />
 
-Build `src and client_core`
+To build `client_core` run:
 
 ```sh
 node prepublish.js
 ```
 
 
-Run `demo_app` in development mode
+To start a local development with `demo_app` run:
 
 ```sh
 npm start

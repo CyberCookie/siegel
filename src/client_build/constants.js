@@ -10,7 +10,6 @@ import compressionPlugin from 'compression-webpack-plugin'
 import miniCssExtract from 'mini-css-extract-plugin'
 import reactRefresh from '@pmmmwh/react-refresh-webpack-plugin'
 import eslint from 'eslint-webpack-plugin'
-import cleanPlugin from 'clean-webpack-plugin'
 
 import serviceWorkerPlugin from './plugins/plugin_sw.js'
 
@@ -22,8 +21,8 @@ const DEPENDENCIES = {
     esBuildMinifyPlugin: esBuild.ESBuildMinifyPlugin,
 
     plugins: {
-        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, reactRefresh,
-        eslint, cleanPlugin, serviceWorkerPlugin,
+        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, reactRefresh, eslint,
+        serviceWorkerPlugin,
         miniCssExtract: miniCssExtract.default
     },
 

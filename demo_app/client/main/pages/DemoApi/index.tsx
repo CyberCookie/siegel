@@ -46,13 +46,11 @@ const DemoApi: Page = () => {
                 <h1>Received from server: { received }</h1>
             </div>
 
-
             <Button value={ `update global counter [${counter}]` }
                 className={ styles.global_counter }
                 onClick={ updateCounter } />
 
             <br />
-
 
             <Button value={ isProxyRequesting ? 'Requesting...' : 'proxy fetch' }
                 disabled={ isProxyRequesting }
@@ -66,6 +64,7 @@ const DemoApi: Page = () => {
                     </>
                 :   ''
             }
+
             <pre children={ JSON.stringify(proxyRes, null, 4) } />
         </div>
     )

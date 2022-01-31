@@ -9,7 +9,7 @@ const {
     webpack,
     plugins: {
         HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
-        serviceWorkerPlugin, eslint, cleanPlugin
+        serviceWorkerPlugin, eslint
     }
 } = DEPENDENCIES
 
@@ -122,10 +122,6 @@ function getDefaultPluginsConfig(CONFIG, RUN_PARAMS) {
         [ pluginsKeysMap.hot ]: {
             plugin: webpack.HotModuleReplacementPlugin,
             enabled: !isProd
-        },
-
-        [ pluginsKeysMap.clean ]: {
-            plugin: cleanPlugin.CleanWebpackPlugin
         },
 
         [ pluginsKeysMap.reactRefresh ]: {
