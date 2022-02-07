@@ -35,7 +35,7 @@ function extractRequestData(request: RequestParams) {
 
 
     if (query) {
-        const queryToAdd = query.constructor == String
+        const queryToAdd = query instanceof String
             ?   query
             :   `?${(new URLSearchParams(query)).toString()}`
 

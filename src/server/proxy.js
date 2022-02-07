@@ -23,7 +23,7 @@ const proxy = proxyParams => {
 
         const proxyHeaders = proxyParams.headers
         if (proxyHeaders) {
-            proxyHeaders.constructor == Function
+            proxyHeaders instanceof Function
                 ?   proxyParams.headers(headers)
                 :   Object.assign(headers, proxyHeaders)
         }

@@ -201,7 +201,7 @@ diff(
     {
         valueForRemovedObjField: '__REMOVED__',
         complexTypesIsEqual(a, b) {
-            if (a.constructor == Date) {
+            if (a instanceof Date) {
                 return a.valueOf() != b.valueOf()
             }
     

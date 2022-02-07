@@ -20,7 +20,7 @@ type ComparsionCallBacks = {
 const SYMBOL__VALUES_EQUAL = Symbol.for('equal')
 const SYMBOL__OBJECT_FIELD_REMOVED = Symbol.for('removed')
 
-const isIterable = (val: Comparable) => Array.isArray(val) || val.constructor === Object
+const isIterable = (val: Comparable) => Array.isArray(val) || val instanceof Object
 
 function comparsionCallBacks(
     a_val: any,

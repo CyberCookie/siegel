@@ -26,7 +26,7 @@ async function createHTTPServer(CONFIG, middlewares, serverExtend) {
 
 
     const expressApp = express()
-    serverExtend && serverExtend(expressApp, { express })
+    serverExtend && await serverExtend(expressApp, { express })
 
     expressApp
         .disable('x-powered-by')
@@ -74,7 +74,7 @@ async function createHTTP2Server(CONFIG, serverExtend) {
 
 
     let onStreamCb
-    serverExtend && serverExtend(server, {
+    serverExtend && await serverExtend(server, {
         mime,
         onStream(cb) {
             onStreamCb = cb

@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 
 //TODO?: console output: checkboxes, progress, timings
-//TODO?: merge CLI_PARAMS with CLI_COMMANDS
 'use strict'
 
 import path from 'path'
 
-import { PATHS } from '../src/constants.js'
+import { globalNodeModulesPath, requireJSON, parseCommandLineArgs } from '../src/utils/index.js'
+import { LOC_NAMES, PATHS, DEFAULT_CONFIG, DEFAULT_RUN_PARAMS } from '../src/constants.js'
+import normalizeConfig from '../src/normalize_configs.js'
+import siegel from '../src/index.js'
+import initProject from './init_project.js'
+import createSSLCerts from './create_SSL.js'
 
-
-const scriptArgs = process.argv.slice(2)
-const command = scriptArgs.shift()
 
 
 const getColored = (color, str) => `\x1b[${color}m${str}\x1b[0m`
@@ -18,153 +19,245 @@ const getColoredCommandStr = getColored.bind(null, 36)
 const getColoredCommandArgumentStr = getColored.bind(null, 32)
 const getColoredHighlightText = getColored.bind(null, 33)
 
-
-
-const CLI_PARAMS = {
-    isProd: '-p',
-    isBuild: '-b',
-    isServer: '-s',
-    enableEslint: '-lint',
-    siegelGlobal: '-g',
-    siegelConfig: '-cfg',
-    clientEntrySrc: '-client',
-    serverEntrySrc: '-server',
-    devServerPort: '-port'
-}
-const COMMAND_RUN = 'run'
-const COMMAND_INIT = 'init'
-const COMMAND_SSL_CREATE = 'create-ssl'
-const COMMAND_VERSION = 'v'
-
-
 const resolvePath = _path => path.isAbsolute(_path) ? _path : `${PATHS.cwd}/${_path}`
 
 
-switch(command) {
-    case COMMAND_RUN:
-        var siegel = (await import('../src/index.js')).default
 
-        var config = {
-            server: {},
-            build: {}
-        }
-        var runParams = {}
+const COMMANDS_TREE = {
+    run: {
+        description: 'Builds client and runs dev server with client watch mode enabled.',
+        example: (command, { client, server, port }) => (
+            `siegel ${command} ${client.flagLong} app.ts ${server.flagLong} server.js ${port.flagLong} 4000`
+        ),
+        prepareResult: () => ({
+            config: DEFAULT_CONFIG,
+            runParams: DEFAULT_RUN_PARAMS
+        }),
+        commandAction({ result, CLIParamsValues }) {
+            const { config, runParams } = result
+            siegel(config, runParams, !CLIParamsValues['--config'])
+        },
+        params: [
+            {
+                flagLong: '--production',
+                flag: '-p',
+                description: 'Production mode.',
+                defaultValue: DEFAULT_RUN_PARAMS.isProd,
+                paramAction({ value, result }) {
+                    result.runParams.isProd = value
+                }
+            },
+            {
+                flagLong: '--build-only',
+                flag: '-b',
+                description: 'Builds client with no static server enabled.',
+                defaultValue: false,
+                paramAction({ result }) {
+                    result.runParams.isServer = false
+                }
+            },
+            {
+                flagLong: '--serv-only',
+                flag: '-s',
+                description: 'Build client and run dev server with client watch mode enabled.',
+                defaultValue: false,
+                paramAction({ result }) {
+                    result.runParams.isBuild = false
+                }
+            },
+            {
+                flagLong: '--config',
+                description: 'Path to siegel config.',
+                async paramAction({ value, result }) {
+                    const resolvedPath = resolvePath(value)
 
-        for (let i = 0, l = scriptArgs.length; i < l; i++) {
-            const argument = scriptArgs[i]
+                    const config = value.endsWith('.json')
+                        ?   requireJSON(resolvedPath)
+                        :   (await import(resolvedPath)).default
 
+                    result.config = normalizeConfig(config, result.runParams)
+                }
+            },
+            {
+                flagLong: '--eslint',
+                flag: '-l',
+                description: 'Enables lintng with ESLint.',
+                defaultValue: DEFAULT_CONFIG.build.eslint,
+                paramAction({ value, result }) {
+                    result.config.build.eslint = value
+                }
+            },
+            {
+                flagLong: '--resolve-globals',
+                flag: '-g',
+                description: 'Enable resolve global node modules imports.',
+                defaultValue: false,
+                paramAction({ result }) {
+                    result.config.build.postProcessWebpackConfig = webpackConfig => {
+                        webpackConfig.resolve.modules.push(
+                            globalNodeModulesPath()
+                        )
 
-            switch(argument) {
-                case CLI_PARAMS.isProd:
-                    runParams.isProd = true
-                    break
-
-                case CLI_PARAMS.isBuild:
-                    runParams.isBuild = true
-                    break
-
-                case CLI_PARAMS.isServer:
-                    runParams.isServer = true
-                    break
-
-                case CLI_PARAMS.enableEslint:
-                    config.build.eslint = true
-                    break
-
-                case CLI_PARAMS.siegelConfig:
-                    var cfgPath = scriptArgs[i + 1]
-                    var pathNormalized = resolvePath(cfgPath)
-
-                    config = (await import(pathNormalized)).default
-
-                    i++
-                    break
-
-                case CLI_PARAMS.clientEntrySrc:
-                    var jsPath = scriptArgs[i + 1]
-                    config.build.input = {
-                        js: resolvePath(jsPath)
+                        return webpackConfig
                     }
+                }
+            },
+            {
+                flagLong: '--client',
+                description: 'Path to client app entrypoint. [ js, ts, jsx, tsx ]',
+                defaultValue: DEFAULT_CONFIG.build.input.js,
+                paramAction({ value, result }) {
+                    result.config.build.input = {
+                        js: resolvePath(value)
+                    }
+                }
+            },
+            {
+                flagLong: '--server',
+                description: 'Path to server app entrypoint. [ js ]',
+                paramAction({ value, result }) {
+                    result.config.server.appServerLoc = resolvePath(value)
+                }
+            },
+            {
+                flagLong: '--port',
+                description: 'Dev server port.',
+                defaultValue: DEFAULT_CONFIG.server.port,
+                paramAction({ value, result }) {
+                    result.config.server.port = value
+                }
+            },
+            {
+                flagLong: '--host',
+                description: 'Dev server host.',
+                defaultValue: DEFAULT_CONFIG.server.host,
+                paramAction({ value, result }) {
+                    result.config.server.host = value
+                }
+            }
+        ]
+    },
 
-                    i++
-                    break
 
-                case CLI_PARAMS.serverEntrySrc:
-                    var nodeJsPath = scriptArgs[i + 1]
-                    config.server.appServerLoc = resolvePath(nodeJsPath)
+    init: {
+        description:    `Creates production ready project with predefined folder structure including already configured siegel.
+                        \r\tModifies existing ${LOC_NAMES.PACKAGE_JSON} or creates new one.
+                        \r\tMore about demo project read here: ${getColoredHighlightText('https://github.com/CyberCookie/siegel/tree/master/demo_app')}`,
+        example: true,
+        commandAction({ CLIParamsValues }) {
+            initProject(CLIParamsValues.globalSiegel)
+        },
+        params: [{
+            flagLong: '--global',
+            flag: '-g',
+            defaultValue: false,
+            description: 'Updates Siegel related paths to global.'
+        }]
+    },
 
-                    config.server.watch = true
 
-                    i++
-                    break
+    'create-ssl': {
+        example: true,
+        description:    `Creates localhost ssl certificate to be used with NodeJS server;
+                        \r\tCreates authority certificate to be imported in a web browser for testing purposes.`,
+        commandAction() {
+            createSSLCerts()
+        }
+    },
 
-                case CLI_PARAMS.devServerPort:
-                    config.server.port = +scriptArgs[i + 1]
-                    i++
+
+    version: {
+        description: 'Prints current Siegel version.',
+        commandAction() {
+            console.log(
+                requireJSON(PATHS.packageJSON).version
+            )
+        }
+    }
+}
+
+
+const CLI_ARGS = process.argv.slice(2)
+
+const COMMAND = CLI_ARGS.shift()
+const commandConfig = COMMANDS_TREE[COMMAND]
+if (commandConfig) {
+    const { params, commandAction, prepareResult } = commandConfig
+    const result = prepareResult?.()
+
+    let { CLIParamsValues, unresolvedParamsCount } = parseCommandLineArgs(CLI_ARGS)
+
+    params && params.forEach(param => {
+        const { flag, flagLong, paramAction } = param
+        if (paramAction) {
+            const paramValueData = CLIParamsValues[flagLong] || CLIParamsValues[flag]
+            if (paramValueData) {
+                paramValueData.resolved = true
+                unresolvedParamsCount--
+
+                paramAction({
+                    result,
+                    value: paramValueData.value,
+                    CLIParamsValues
+                })
             }
         }
+    })
 
-        siegel(config, runParams)
-        break
+    if (unresolvedParamsCount) {
+        const notSupportedParams = []
+        for (const CLIParam in CLIParamsValues) {
+            CLIParamsValues[CLIParam].resolved || notSupportedParams.push(CLIParam)
+        }
 
-
-    case COMMAND_INIT:
-        var isGlobal = scriptArgs[0] == CLI_PARAMS.siegelGlobal
-
-        var initScript = (await import('./init_project.js')).default
-        initScript(isGlobal)
-        break
-
-
-    case COMMAND_SSL_CREATE:
-        var createSSLScript = (await import('./create_SSL.js')).default
-        createSSLScript()
-        break
+        if (notSupportedParams.length) {
+            throw Error(`
+                \rCommand ${getColoredCommandStr(COMMAND)} doesn't support following arguments: ${getColoredCommandArgumentStr(notSupportedParams.join(' '))}
+            `)
+        }
+    }
 
 
-    case COMMAND_VERSION:
-        var { requireJSON } = await import('../src/utils/index.js')
-        console.log( requireJSON(PATHS.packageJSON).version )
-        break
+    commandAction({ CLIParamsValues, result })
+} else {
+    COMMAND && console.log(`Command ${getColoredCommandStr(COMMAND)} doesn't exist.\n`)
 
+    for (const commandConfigKey in COMMANDS_TREE) {
+        const { description, example, params } = COMMANDS_TREE[commandConfigKey]
 
-    default:
-        console.log(
-`
-    ${getColoredCommandStr(COMMAND_RUN)} - bootstrap application
-        ${getColoredCommandArgumentStr(CLI_PARAMS.isProd)} - production mode
-        ${getColoredCommandArgumentStr(CLI_PARAMS.isBuild)} - build mode
-        ${getColoredCommandArgumentStr(CLI_PARAMS.isServer)} - server mode
-        ${getColoredCommandArgumentStr(CLI_PARAMS.clientEntrySrc)} - path to client js entrypoint. ${getColoredHighlightText('Default: cwd + app.ts')}
-        ${getColoredCommandArgumentStr(CLI_PARAMS.serverEntrySrc)} - path to server js entrypoint
-        ${getColoredCommandArgumentStr(CLI_PARAMS.enableEslint)} - enable eslint. ${getColoredHighlightText('Default: false')}
-        ${getColoredCommandArgumentStr(CLI_PARAMS.devServerPort)} - dev static server port. ${getColoredHighlightText('Default: 3000')}
-        ${getColoredCommandArgumentStr(CLI_PARAMS.siegelConfig)} - path to siegel config 
+        console.log(`\n  ${getColoredCommandStr(commandConfigKey)} - ${description}`)
 
-        example: ${getColoredHighlightText(`siegel run ${CLI_PARAMS.clientEntrySrc} app.ts ${CLI_PARAMS.serverEntrySrc} server.js ${CLI_PARAMS.devServerPort} 4000`)}
-    
+        const flagsMap = {}
+        params && params.forEach(paramConfg => {
+            const { description, defaultValue, flag, flagLong } = paramConfg
 
+            let logString = '\n\t'
 
-    ${getColoredCommandStr(COMMAND_INIT)} - Creates production ready project with predefined folder structure including already configured siegel.
-        Modifies existing package.json or creates new one.
-        More about demo project read here: https://github.com/CyberCookie/siegel/tree/master/demo_app
+            flag && (logString += getColoredCommandArgumentStr(flag))
+            flag && flagLong && (logString += ' ')
+            flagLong && (logString += getColoredCommandArgumentStr(flagLong))
 
-        example: ${getColoredHighlightText('siegel init')}
+            logString += ` - ${description}`
 
-        ${getColoredCommandArgumentStr(CLI_PARAMS.siegelGlobal)} - if you want to extend global siegel's node modules
+            if (defaultValue !== undefined) {
+                logString += `\n\r\t\t${getColoredHighlightText(` Default value: ${defaultValue}`)}`
+            }
 
-            example: ${getColoredHighlightText('siegel init -g')}
-            
+            console.log(logString)
 
+            flagsMap[flagLong.substr(2)] = { flag, flagLong }
+        })
 
-    ${getColoredCommandStr(COMMAND_SSL_CREATE)} - Creates localhost ssl certificate to be used in NodeJS server.
-        Also it creates authority certificate for testing purposes to be imported in a web browser.
+        if (example) {
+            const exampleType = typeof example
+            const logString = exampleType == 'function'
+                ?   example(commandConfigKey, flagsMap)
+                :   exampleType == 'string'
+                    ?   example
+                    :   `siegel ${commandConfigKey}`
 
-        example: ${getColoredHighlightText('siegel create-ssl')}
-    
-    
-    
-    ${getColoredCommandStr(COMMAND_VERSION)} - returns installed Siegel's version
-`
-        )
+            console.log(`\n\tExample: ${getColoredHighlightText(logString)}\n`)
+        }
+    }
+    console.log('\n')
 }

@@ -11,8 +11,10 @@ process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
 
-async function main(_CONFIG, _RUN_PARAMS) {
-    const { CONFIG, RUN_PARAMS } = normalizeConfigs(_CONFIG, _RUN_PARAMS)
+async function main(_CONFIG, _RUN_PARAMS, performConfigNormalize = true) {
+    const normalized = performConfigNormalize && normalizeConfigs(_CONFIG, _RUN_PARAMS)
+    const CONFIG = normalized ? normalized.CONFIG : _CONFIG
+    const RUN_PARAMS = normalized ? normalized.RUN_PARAMS : _RUN_PARAMS
 
     const { isBuild, _isDevServer, isServer } = RUN_PARAMS
 
@@ -32,14 +34,14 @@ async function main(_CONFIG, _RUN_PARAMS) {
 
     if (isServer) {
         const devServer = (await import(PATHS.staticServer)).default
-        let appServer
 
+        let appServer
         const { appServerLoc } = CONFIG.server
         if (appServerLoc) {
             try {
                 appServer = (await import(appServerLoc)).default
 
-                if (appServer.constructor != Function) {
+                if (!appServer || !(appServer instanceof Function || appServer instanceof Promise)) {
                     throw '[appServerLoc] export type is not a function'
                 }
             } catch(err) { console.error(err) }

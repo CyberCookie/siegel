@@ -16,7 +16,7 @@ function deepClone<T>(value: T): T {
         for (let i = 0, l = value.length; i < l; i++) {
             result[i] = deepClone(value[i])
         }
-    } else if ((value as Record<string, unknown>).constructor === Object) {
+    } else if (value instanceof Object) {
         result = {}
         for (const i in value) {
             result[i] = deepClone(value[i])

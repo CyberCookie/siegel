@@ -145,7 +145,7 @@ describe('utils/deep/diff', () => {
                 },
                 {
                     complexTypesIsEqual(a, b) {
-                        if (a.constructor === Date) {
+                        if (a instanceof Date) {
                             return (a as Date).valueOf() == b.valueOf()
                         }
 

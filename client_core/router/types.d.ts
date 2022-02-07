@@ -80,8 +80,8 @@ type CreateRouter = (
 ) => JSX.Element
 
 type CreateRoutes = (params: {
-    routeConfig: RouterConfig,
-    urlPref: string,
+    routeConfig: RouterConfig
+    urlPref: string
     notFound?: NotFoundPage
     UpLevelLayout?: Layout
 }) => {
@@ -100,7 +100,7 @@ type CreateRoutesWrapper = (
 
 type UpdateblePageProps = {
     RouterPage: NonNullable<Page | LazyPage>
-    props: RouteComponentProps,
+    props: RouteComponentProps
     UpLevelLayout: Layout & { __childrenRefresh?: (() => void) | null }
 } & BeforeEnterRouteConfig
 

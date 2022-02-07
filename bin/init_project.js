@@ -4,7 +4,7 @@ import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { isRunDirectly, requireJSON } from '../src/utils/index.js'
+import { isRunDirectly, requireJSON, globalNodeModulesPath } from '../src/utils/index.js'
 import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../src/constants.js'
 
 
@@ -29,7 +29,7 @@ function main(isGlobal) {
     const userAppEntry = join(userServerPath, 'index.js')
 
     const pathToSiegelAbsolute = isGlobal
-        ?   `${shell('npm root -g').toString().trim()}/${siegelPackageName}`
+        ?   `${globalNodeModulesPath()}/${siegelPackageName}`
         :   PATHS.root
 
     const pathToSiegelRelative = relative(PATHS.cwd, pathToSiegelAbsolute)

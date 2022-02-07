@@ -102,13 +102,13 @@ module.hot?.accept() // Webpack's hmr bug workaround
 Bootstrap the app with the next command:<br />
 
 ```sh
-npx siegel run -client app.ts
+npx siegel run
 ```
 
 Now your application is hosting on <b>localhost:3000</b> in watch mode and ready for development!<br /><br />
 
 
-You may also define <b>NodeJS dev server</b> with `-server` flag:<br />
+You may also define <b>NodeJS dev server</b> with `--server` flag:<br />
 
 create <b>server.js</b>
 
@@ -123,7 +123,7 @@ module.exports = appServer
 In console run:<br />
 
 ```sh
-npx siegel run -client app.ts -server server.js 
+npx siegel run --server server.js 
 ```
 
 
