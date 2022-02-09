@@ -64,7 +64,7 @@ const DEFAULT_CONFIG = {
             target: 'es2020',
             filenames: {
                 PROD: {
-                    assets: 'assets/[contenthash].[ext]',
+                    assets: 'assets/[contenthash][ext]',
                     js: '[contenthash].js',
                     js_chunk: '[contenthash].js',
                     styles: '[contenthash].css',
@@ -73,7 +73,7 @@ const DEFAULT_CONFIG = {
                     gzip: '[name].gz'
                 },
                 DEV: {
-                    assets: 'assets/[name].[ext]',
+                    assets: 'assets/[name][ext]',
                     js: 'app.[contenthash].js',
                     js_chunk: 'chunk.[name][contenthash].js',
                     styles: 'styles.[name].css',
