@@ -15,50 +15,55 @@ const extractSSL = ({ keyPath, certPath }) => ({
 })
 
 
-async function createHTTPServer(CONFIG, middlewares, serverExtend) {
+async function createHTTPServer(params) {
+    const {
+        devMiddlewares, appServer,
+        CONFIG: {
+            staticDir,
+            server: { host, port, ssl }
+        }
+    } = params
+
+
     const express = (await import('express')).default
     const expressStatic = (await import('express-static-gzip')).default
     const historyApiFallback = (await import('connect-history-api-fallback')).default
 
 
-    const { staticDir, server: serverConfig } = CONFIG
-    const { host, port, ssl } = serverConfig
+    let staticServer = express()
+    appServer && await appServer(staticServer, { express })
 
-
-    const expressApp = express()
-    serverExtend && await serverExtend(expressApp, { express })
-
-    expressApp
+    staticServer
         .disable('x-powered-by')
         .use(historyApiFallback())
-        .use('/', expressStatic(staticDir, {
-            enableBrotli: true,
-            orderPreference: ['br', 'gzip']
-        }))
 
-    middlewares.forEach(m => { expressApp.use(m) })
+    devMiddlewares
+        ?   devMiddlewares.forEach(m => {
+                staticServer.use(m)
+            })
+        :   staticServer.use('/', expressStatic(staticDir, {
+                enableBrotli: true,
+                orderPreference: ['br', 'gzip']
+            }))
 
-
-    let server = expressApp
     if (ssl) {
         const { createServer } = await import('https')
-        server = createServer(extractSSL(ssl), expressApp)
+        staticServer = createServer(extractSSL(ssl), staticServer)
     }
 
 
-    return listen(server, host, port)
+    return listen(staticServer, host, port)
 }
 
 
-async function createHTTP2Server(CONFIG, serverExtend) {
-    const http2 = await import('http2')
-    const path = await import('path')
-    const mime = (await import('mime-types')).default
-
-
-    const { staticDir, server: serverConfig } = CONFIG
-    const { host, port, ssl } = serverConfig
-
+async function createHTTP2Server(params) {
+    const {
+        devMiddlewares, appServer,
+        CONFIG: {
+            staticDir,
+            server: { host, port, ssl }
+        }
+    } = params
 
     const {
         HTTP2_HEADER_CONTENT_ENCODING,
@@ -68,19 +73,14 @@ async function createHTTP2Server(CONFIG, serverExtend) {
     } = http2.constants
 
 
+    const http2 = await import('http2')
+    const path = await import('path')
+    const mime = (await import('mime-types')).default
+
+
     const server = ssl
         ?   http2.createSecureServer(extractSSL(ssl))
         :   http2.createServer()
-
-
-    let onStreamCb
-    serverExtend && await serverExtend(server, {
-        mime,
-        onStream(cb) {
-            onStreamCb = cb
-        }
-    })
-
 
     server.on('error', console.error)
 
@@ -90,9 +90,19 @@ async function createHTTP2Server(CONFIG, serverExtend) {
         const isRoot = reqFilePath == '/'
         const isResourceRequested = reqFilePath.includes('.')
         if (isRoot || isResourceRequested) {
-            handleRequestedFile({ reqFilePath, isRoot, stream })
+            devMiddlewares || handleRequestedFile({ reqFilePath, isRoot, stream })
         } else onStreamCb?.(stream, headers, flags)
     })
+
+
+    let onStreamCb
+    appServer && await appServer(server, {
+        mime,
+        onStream(cb) {
+            onStreamCb = cb
+        }
+    })
+
 
 
     function handleRequestedFile({ reqFilePath, isRoot, stream }) {
@@ -144,11 +154,9 @@ async function createHTTP2Server(CONFIG, serverExtend) {
 
 
 const server = {
-    run(CONFIG, middlewares = [], serverExtend) {
-        return CONFIG.server.http2
-            ?   createHTTP2Server(CONFIG, serverExtend)
-            :   createHTTPServer(CONFIG, middlewares, serverExtend)
-    }
+    run: params => params.CONFIG.server.http2
+        ?   createHTTP2Server(params)
+        :   createHTTPServer(params)
 }
 
 

@@ -47,7 +47,7 @@ async function main(_CONFIG, _RUN_PARAMS, performConfigNormalize = true) {
             } catch(err) { console.error(err) }
         }
 
-        devServer.run(CONFIG, devMiddlewares, appServer)
+        devServer.run({ CONFIG, devMiddlewares, appServer })
     }
 }
 

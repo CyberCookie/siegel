@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 
 import floatMath from '../../utils/math_float'
 import isExists from '../../utils/is/exists'
+import * as keyCodes from '../_internals/key_codes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
@@ -18,9 +19,6 @@ import styles from './styles.sass'
 
 const componentID = '-ui-number_picker'
 
-const keyDown = 'ArrowDown'
-const keyUp = 'ArrowUp'
-const deleteCode = 'Delete'
 const CHAR_ZERO = '0'
 const CHAR_DOT = '.'
 const CHAR_MINUS = '-'
@@ -229,16 +227,16 @@ const NumberPicker: Component = (props, noDefaults) => {
             numberpickerRootProps.onKeyDown = e => {
                 const keyCode = e.nativeEvent.key
 
-                if (keyCode == deleteCode) {
+                if (keyCode == keyCodes.DELETE) {
                     const newValue = inputFieldProps.disabled
                         ?   (isFinite(min) ? min : 0)+''
                         :   ''
 
                     onChange(newValue, e, undefined, payload)
                 } else {
-                    const isKeyUp = keyCode == keyUp
+                    const isKeyUp = keyCode == keyCodes.UP
 
-                    if (isKeyUp || keyCode == keyDown) {
+                    if (isKeyUp || keyCode == keyCodes.DOWN) {
                         e.preventDefault()
 
                         let _step = step

@@ -4,22 +4,30 @@ import type { Props as InputProps } from '../Input/types'
 
 type State = {
     searchString: string | undefined
+    arrowSelectIndex: number | undefined
 }
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-type ThemeKeys = 'children' | 'options' | 'option' | '_with_suggestions' | '_disabled' | '_focused'
+type Option = {
+    inputValue: string
+    value: _Value
+    title?: React.ReactNode
+    className?: string
+    payload?: _Payload
+    disabled?: boolean
+    alwaysVisible?: boolean
+}
+
+type ThemeKeys = 'children' | 'options' | 'option' | 'option__selected'
+    | '_with_suggestions' | '_disabled' | '_focused'
 
 type Props<_Value = any, _Payload = any> = {
-    onChange(value: _Value | undefined, e: React.MouseEvent | React.FocusEvent, payload?: _Payload): void
-    searchOptions: {
-        inputValue: string
-        value: _Value
-        title?: React.ReactNode
-        className?: string
+    onChange(
+        value: _Value | undefined,
+        e: React.MouseEvent | React.FocusEvent | React.KeyboardEvent,
         payload?: _Payload
-        disabled?: boolean
-        alwaysVisible?: boolean
-    }[]
+    ): void
+    searchOptions: Option[]
     onSearch?(
         searchValue: string,
         e: Parameters<NonNullable<InputProps['onChange']>>[1]
@@ -45,4 +53,4 @@ type MergedProps = Props & DefaultProps
 type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, Store, State }
+export type { Props, DefaultProps, MergedProps, Component, Store, State, Option }

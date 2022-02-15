@@ -5,14 +5,15 @@ import type { PropsComponentBase, CoreIUComponent } from '../_internals/types'
 type Props = {
     initDate: Date
     zeroing?: boolean
-    incrementEveryMinute?: boolean
+    tickEveryMinute?: boolean
     speedCoef?: number
+    backward?: boolean
     builder?(dateParsed: ReturnType<DateParse>): React.ReactNode
 } & Omit<PropsComponentBase, 'refApi'>
 
 type DefaultProps = {
     speedCoef: NonNullable<Props['speedCoef']>
-    incrementEveryMinute: NonNullable<Props['incrementEveryMinute']>
+    tickEveryMinute: NonNullable<Props['tickEveryMinute']>
     zeroing: NonNullable<Props['zeroing']>
 } & PropsComponentBase
 

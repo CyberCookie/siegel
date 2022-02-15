@@ -11,6 +11,8 @@ type Props<_Payload = any> = {
         payload?: _Payload
     }[],
     onChange(id: string, e: React.MouseEvent, payload: _Payload): void
+    renderAll?: boolean
+    showEmpty?: boolean
     activeTab?: string
     attributes?: ComponentAttributes<HTMLDivElement>
 } & PropsComponentThemed<ThemeKeys>

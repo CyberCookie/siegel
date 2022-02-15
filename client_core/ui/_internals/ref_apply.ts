@@ -5,7 +5,11 @@ import { useEffect, useRef } from 'react'
 import type { ComponentAttributes, PropsComponentBase } from './types'
 
 
-function applyRefApi(rootProps: ComponentAttributes, mergedProps: PropsComponentBase) {
+function applyRefApi<
+    A extends ComponentAttributes,
+    P extends PropsComponentBase
+>(rootProps: A, mergedProps: P) {
+
     const { getRef, getOnPropsUpdate } = mergedProps.refApi!
     rootProps.ref = useRef(null)
 

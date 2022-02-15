@@ -1,5 +1,3 @@
-//TODO: renderAll
-
 import React from 'react'
 
 import extractProps from '../_internals/props_extract'
@@ -13,16 +11,21 @@ import type {
 const componentID = '-ui-tabs'
 
 function getTabsVisual(mergedProps: MergedProps) {
-    const { tabs, activeTab, onChange, theme } = mergedProps
+    const { tabs, activeTab, onChange, theme, showEmpty, renderAll } = mergedProps
 
-    let activeTabContent: React.ReactNode
+    const tabsContent: React.ReactNode[] = []
     const labels = tabs.map(tab => {
         const { label, id, payload, content } = tab
 
         let labelClassName = theme.label
+
         if (activeTab == id) {
             labelClassName += ` ${theme.label__active}`
-            activeTabContent = content
+            tabsContent.push(content)
+        } else if (renderAll) {
+            tabsContent.push(
+                <div key={ id } style={{ display: 'none' }} children={ content } />
+            )
         }
 
         return (
@@ -33,7 +36,10 @@ function getTabsVisual(mergedProps: MergedProps) {
 
 
     return {
-        activeTabContent: activeTabContent && <div className={ theme.content } children={ activeTabContent } />,
+        activeTabContent: (showEmpty || tabsContent.length) && (
+            <div className={ theme.content }
+                children={ renderAll ? tabsContent : tabsContent[0] } />
+        ),
         labels: <div className={ theme.labels_wrapper } children={ labels } />
     }
 }

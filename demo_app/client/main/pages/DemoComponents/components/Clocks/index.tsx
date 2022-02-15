@@ -14,31 +14,35 @@ const timeBuilder = ({ date, month, year, hours, minutes, seconds }: Parameters<
 const Demo = () => {
     const initDate = new Date()
 
-
-    const simpleClocksChild = <Clocks initDate={ initDate } builder={ timeBuilder } />
-
     const secondsClocksChildParams: ClocksProps = {
         initDate,
         builder: timeBuilder,
-        incrementEveryMinute: false
+        tickEveryMinute: false
     }
-
-    const secondsClocksChild = <Clocks { ...secondsClocksChildParams } />
-
-    const secondsFastClocksChild = <Clocks { ...secondsClocksChildParams } speedCoef={ 10 } />
 
 
     return <>
         <h1 children={ ID } />
 
         <h2 children='simple (by default update every minute)' />
-        <div className={ styles.clocks } children={ simpleClocksChild } />
+        <div className={ styles.clocks }>
+            <Clocks initDate={ initDate } builder={ timeBuilder } />
+        </div>
 
         <h2 children='update every second' />
-        <div className={ styles.clocks } children={ secondsClocksChild } />
+        <div className={ styles.clocks }>
+            <Clocks { ...secondsClocksChildParams } />
+        </div>
 
         <h2 children='10x faster' />
-        <div className={ styles.clocks } children={ secondsFastClocksChild } />
+        <div className={ styles.clocks }>
+            <Clocks { ...secondsClocksChildParams } speedCoef={ 10 } />
+        </div>
+
+        <h2 children='backward 5x slower' />
+        <div className={ styles.clocks }>
+            <Clocks { ...secondsClocksChildParams } backward speedCoef={ 0.2 } />
+        </div>
     </>
 }
 Demo.id = ID

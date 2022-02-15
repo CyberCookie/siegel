@@ -1,8 +1,9 @@
 import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
 
 
-type ThemeKeys =  'children' | 'label' | 'title' | 'title_text' | 'input_wrapper' | 'options' | 'option' | 'reset'
-    | '_option_active' | '_option_disabled' | '_active' | '_disabled' | '_filled'
+type ThemeKeys =  'children' | 'label' | 'title' | 'title_text' | 'input_wrapper' | 'reset'
+    | 'options' | 'option' | 'option__active' | 'option__disabled'
+    | '_active' | '_disabled' | '_filled'
 
 type Props<_Value = any, _Payload = any> = {
     options: {

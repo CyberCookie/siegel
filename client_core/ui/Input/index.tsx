@@ -85,6 +85,10 @@ const Input: Component = (props, noDefaults) => {
     else if (onChange) {
         inputRootProps.onFocus = e => {
             if (!isFocused) {
+                const valLength = value.length
+                valLength && (e.target as HTMLInputElement)
+                    ?.setSelectionRange(valLength, valLength)
+
                 state.isFocused = true
 
                 onFocus && onFocus(e)

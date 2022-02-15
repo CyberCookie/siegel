@@ -35,7 +35,7 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
             selectedOption = option
 
             if (filterSelected) continue
-            else optionClassName += ` ${theme._option_active}`
+            else optionClassName += ` ${theme.option__active}`
         }
         className && (optionClassName += ` ${className}`)
 
@@ -45,7 +45,7 @@ function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetState
         }
 
         disabled
-            ?   optionProps.className += ` ${theme._option_disabled}`
+            ?   optionProps.className += ` ${theme.option__disabled}`
             :   optionProps.onMouseDown = (e: React.MouseEvent) => {
                     e.stopPropagation()
                     onChange(value, e, payload)
@@ -182,8 +182,8 @@ Select.defaults = {
         _filled: '',
         _active: '',
         _disabled: '',
-        _option_active: '',
-        _option_disabled: ''
+        option__active: '',
+        option__disabled: ''
     },
 
     closeOnSelect: true,
