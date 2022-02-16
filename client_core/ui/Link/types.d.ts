@@ -1,15 +1,13 @@
 import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../_internals/types'
 
 
-type Props = {
+type Props = PropsComponentBase<{
     path: string
     title: React.ReactNode
     attributes?: ComponentAttributes<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>
-} & PropsComponentBase
+}>
 
-type DefaultProps = {
-    [key in keyof Props]?: Props[key]
-}
+type DefaultProps = {}
 
 type MergedProps = Props & DefaultProps
 

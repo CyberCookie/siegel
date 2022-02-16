@@ -7,7 +7,7 @@ type ThemeKeys = 'month_wrapper' | 'month_title_wrapper' | 'icon' | 'month_title
     | 'day__last' | 'day__today' | 'day__placeholder' | 'from' | 'to' | '_in_progress'
 
 
-type Props<_Payload = any> = {
+type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
     initDate: {
         rangeDateStart: number
         rangeDateEnd?: number
@@ -31,7 +31,7 @@ type Props<_Payload = any> = {
         months: ReturnType<DateResolver>['months']
         weekDaysShort: ReturnType<DateResolver>['weekDaysShort']
     }
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

@@ -3,13 +3,13 @@ import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '.
 
 type _Attributes = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
 
-type Props = {
+type Props = PropsComponentBase<{
     type?: _Attributes['type']
     value?: React.ReactNode
     disabled?: _Attributes['disabled']
     onClick?: _Attributes['onClick']
     attributes?: _Attributes
-} & PropsComponentBase
+}>
 
 type DefaultProps = {
     type: NonNullable<Props['type']>

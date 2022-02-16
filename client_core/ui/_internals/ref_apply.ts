@@ -1,5 +1,3 @@
-//TODO?: refApi fn arguments infer proper types
-
 import { useEffect, useRef } from 'react'
 
 import type { ComponentAttributes, PropsComponentBase } from './types'

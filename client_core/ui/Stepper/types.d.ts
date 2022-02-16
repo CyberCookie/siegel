@@ -13,7 +13,7 @@ type State = {
 
 type ThemeKeys = 'anchors_wrapper' | 'anchor' | 'anchor__active'
 
-type Props = {
+type Props = PropsComponentThemed<ThemeKeys, {
     selectedFrom: string
     options: {
         value: string
@@ -27,7 +27,7 @@ type Props = {
     ): void
     selectedTo?: string
     rangetProps?: Omit<RangerProps, 'value' | 'onChange'>
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

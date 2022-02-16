@@ -12,7 +12,7 @@ type SingleSelectProps = {
 
 type ThemeKeys = 'option' | 'option__selected' | '_disabled'
 
-type Props<_Payload = any> = {
+type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
     onChange(id: string, e: React.MouseEvent, payload: _Payload): void
     options: {
         id: string
@@ -22,8 +22,7 @@ type Props<_Payload = any> = {
     }[]
     disabled?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>
-} & PropsComponentThemed<ThemeKeys>
-    & (MultiSelectProps | SingleSelectProps)
+}> & (MultiSelectProps | SingleSelectProps)
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

@@ -74,7 +74,7 @@ const Input: Component = (props, noDefaults) => {
                 state.isTouched ||= true
                 state.isFocused &&= false
 
-                onBlur && onBlur(e)
+                onBlur?.(e)
                 setState({ ...state })
             }
         }
@@ -85,13 +85,9 @@ const Input: Component = (props, noDefaults) => {
     else if (onChange) {
         inputRootProps.onFocus = e => {
             if (!isFocused) {
-                const valLength = value.length
-                valLength && (e.target as HTMLInputElement)
-                    ?.setSelectionRange(valLength, valLength)
-
                 state.isFocused = true
 
-                onFocus && onFocus(e)
+                onFocus?.(e)
                 setState({ ...state })
             }
         }
@@ -118,7 +114,7 @@ const Input: Component = (props, noDefaults) => {
     attributes && Object.assign(inputRootProps, attributes)
     inputAttributes && Object.assign(inputProps, inputAttributes)
 
-    mask && mask.processor(mask, inputProps as Parameters<typeof mask['processor']>[1])
+    mask?.processor(mask, inputProps as Parameters<typeof mask['processor']>[1])
 
     let inputElement = <InputTag { ...inputProps } />
     label && (inputElement = getInputLabeled(

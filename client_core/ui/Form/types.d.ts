@@ -38,15 +38,13 @@ type FormInput = {
 } & (InputData | CheckboxData)
 
 
-type Props = {
+type Props = PropsComponentBase<{
     onSubmit(values: ValuesState, e: React.FormEvent<HTMLFormElement>): void
     inputs: Indexable<FormInput>
     attributes?: ComponentAttributes<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>
-} & PropsComponentBase
+}>
 
-type DefaultProps = {
-    [key in keyof Props]?: Props[key]
-}
+type DefaultProps = {}
 
 type MergedProps = Props & DefaultProps
 

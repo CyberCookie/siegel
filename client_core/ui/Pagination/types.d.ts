@@ -3,7 +3,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'separator' | '_single' | 'control' | 'control__active' | 'control__disabled'
 
-type Props<_Payload = any> = {
+type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
     listLength: number
     curPage: number
     showPerPage: number
@@ -15,7 +15,7 @@ type Props<_Payload = any> = {
     payload?: _Payload
     attributes?: ComponentAttributes<HTMLDivElement>
     fixedWidth?: boolean
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

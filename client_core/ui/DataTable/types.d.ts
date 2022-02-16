@@ -47,7 +47,8 @@ type ColumnsConfig<
 
 type ThemeKeys = 'table' | 'table_resizer' | 'pagination_wrapper' | '_with_pagination'
 
-type Props<_Entities extends Entities = Entities, _ColumnParamsExtend = any> = {
+type Props<_Entities extends Entities = Entities, _ColumnParamsExtend = any>
+= PropsComponentThemed<ThemeKeys, {
     entities: _Entities
     columnsConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>[]
     innerStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
@@ -73,7 +74,7 @@ type Props<_Entities extends Entities = Entities, _ColumnParamsExtend = any> = {
     ): void
     postProcessHeadRow?(rows: TableHeadRow[], displayedEntityIDs: DisplayedEntityIDs): void
     postProcessBodyRow?(row: TableBodyRow[], entity: ReturnType<_Entities['get']>, index: number): void
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 
 type DefaultProps = {

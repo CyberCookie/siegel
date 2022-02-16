@@ -3,13 +3,13 @@ import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '.
 
 type HTMLSwipeMouseEvent = MouseEvent | TouchEvent
 
-type Props = {
+type Props = PropsComponentBase<{
     onSwipe(dirrection: boolean, e: HTMLSwipeMouseEvent): void
     children?: React.ReactNode
     xAxis?: boolean
     deltaPos?: number
     attributes?: ComponentAttributes<HTMLDivElement>
-} & PropsComponentBase
+}>
 
 type DefaultProps = {
     deltaPos: NonNullable<Props['deltaPos']>

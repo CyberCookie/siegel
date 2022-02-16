@@ -1,6 +1,3 @@
-//TODO?: loaderApi
-
-
 type ComponentAttributes<E = HTMLElement, A = React.HTMLAttributes<E>> = A & React.RefAttributes<E>
 
 type ComponentRefApi<Props> = {
@@ -10,9 +7,8 @@ type ComponentRefApi<Props> = {
 
 type PropsComponentBase<Props extends Indexable = Indexable> = {
     refApi?: ComponentRefApi<Props>
-    // loaderApi?: boolean | Indexable<boolean>
     className?: string
-}
+} & Props
 
 type PropsComponentThemed<K extends string = string, Props extends Indexable = Indexable> = {
     theme?: Partial<Record<K | 'root', string>>

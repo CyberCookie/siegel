@@ -3,7 +3,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'children' | 'label' | 'toggle_area' | 'toggler' | '_toggled' | '_disabled'
 
-type Props<_Payload = any> = {
+type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
     value?: boolean
     labelLeft?: React.ReactNode
     labelRight?: React.ReactNode
@@ -12,7 +12,7 @@ type Props<_Payload = any> = {
     disabled?: boolean
     onChange?(isToggled: boolean, e: React.MouseEvent, payload: _Payload): void
     attributes?: ComponentAttributes<HTMLDivElement>
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

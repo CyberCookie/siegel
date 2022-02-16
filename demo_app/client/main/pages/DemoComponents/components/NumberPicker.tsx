@@ -10,7 +10,7 @@ const Demo = () => {
     const props: NumberPickerProps = {
         value,
         placeholder: 'placeholder',
-        onChange(value) {
+        onChange({ value }) {
             setValue(value)
         }
     }

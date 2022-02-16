@@ -3,12 +3,12 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'content' | 'close'
 
-type Props = {
+type Props = PropsComponentThemed<ThemeKeys, {
     onClose(e: React.MouseEvent): void
     closeIcon?: React.ReactNode
     content?: React.ReactNode
     attributes?: ComponentAttributes<HTMLDivElement>
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     className: NonNullable<Required<Props['className']>>

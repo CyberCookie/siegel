@@ -26,17 +26,15 @@ type TableBodyRow = {
 
 
 
-type Props = {
+type Props = PropsComponentBase<{
     head?: TableHeadRow[]
     body?: TableBodyRow[]
     foot?: TableBodyRow[]
     caption?: React.ReactNode
     attributes?: ComponentAttributes<HTMLTableElement, React.TableHTMLAttributes<HTMLTableElement>>
-} & PropsComponentBase
+}>
 
-type DefaultProps = {
-    [key in keyof Props]?: Props[key]
-}
+type DefaultProps = {}
 
 type MergedProps = Props & DefaultProps
 

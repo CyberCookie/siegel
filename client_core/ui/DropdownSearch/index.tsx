@@ -1,4 +1,4 @@
-//TODO?: add reset selection
+//TODO: add reset selection
 
 import React, { useState } from 'react'
 
@@ -24,7 +24,7 @@ const innerInputRootClassName = styles[`${componentID}_inner_input`]
 function getSearchOptions(params: MergedProps, state: State, onSelect: any) {
     const { showAll, searchOptions, theme, selected } = params
     const { searchString, arrowSelectIndex } = state
-    const searchLower = searchString && searchString.toLowerCase()
+    const searchLower = searchString?.toLowerCase()
 
     const options: JSX.Element[] = []
     let selectedOption

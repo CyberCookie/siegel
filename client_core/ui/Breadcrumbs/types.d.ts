@@ -17,14 +17,14 @@ type BreadcrumbConfig = {
 
 type ThemeKeys = 'link'
 
-type Props = {
+type Props = PropsComponentThemed<ThemeKeys, {
     config: BreadcrumbConfig
     history: History
     hasDynamicCrumbs?: boolean
     onChange?(path: string, e: React.MouseEvent): void
     separator?: React.ReactNode
     attributes?: ComponentAttributes<HTMLDivElement>
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     className: NonNullable<Props['className']>

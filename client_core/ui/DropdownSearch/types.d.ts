@@ -21,7 +21,7 @@ type Option = {
 type ThemeKeys = 'children' | 'options' | 'option' | 'option__selected'
     | '_with_suggestions' | '_disabled' | '_focused'
 
-type Props<_Value = any, _Payload = any> = {
+type Props<_Value = any, _Payload = any> = PropsComponentThemed<ThemeKeys, {
     onChange(
         value: _Value | undefined,
         e: React.MouseEvent | React.FocusEvent | React.KeyboardEvent,
@@ -41,7 +41,7 @@ type Props<_Value = any, _Payload = any> = {
     disabled?: boolean
     label?: InputProps['label']
     inputProps?: Omit<InputProps, 'type' | 'onChange' | 'value' | 'attributes'>
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

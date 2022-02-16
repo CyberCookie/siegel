@@ -3,7 +3,7 @@ import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from 
 
 type ThemeKeys = 'labels_wrapper' | 'label' | 'label__active' | 'content' | 'content__empty'
 
-type Props<_Payload = any> = {
+type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
     tabs: {
         id: string
         label: React.ReactNode
@@ -15,7 +15,7 @@ type Props<_Payload = any> = {
     showEmpty?: boolean
     activeTab?: string
     attributes?: ComponentAttributes<HTMLDivElement>
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

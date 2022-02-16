@@ -37,7 +37,7 @@ const Swipe: Component = (props, noDefaults) => {
     refApi && (applyRefApi(swipeRootAttributes, mergedProps))
     attributes && (swipeRootAttributes = Object.assign(swipeRootAttributes, attributes))
 
-    useLayoutEffect(() => { removeTouchEvents && removeTouchEvents() }, [])
+    useLayoutEffect(() => { removeTouchEvents?.() }, [])
 
     let removeTouchEvents: () => void
 

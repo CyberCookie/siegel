@@ -1,5 +1,3 @@
-//TODO?: onchange isValid flag
-
 import React, { useState } from 'react'
 
 import floatMath from '../../utils/math_float'
@@ -179,8 +177,8 @@ const NumberPicker: Component = (props, noDefaults) => {
     attributes && Object.assign(numberpickerRootProps, attributes)
 
 
-    const onNumberPickerChange: OnNumberPickerChange = (e, arrowValue, step) => {
-        if ((!isExists(value) || value === '') && e.type == 'blur') return
+    const onNumberPickerChange: OnNumberPickerChange = (event, isKeyboardArrowUp, step) => {
+        if ((!isExists(value) || value === '') && event.type == 'blur') return
 
         let result: string | number | undefined
         if (step) {
@@ -199,7 +197,10 @@ const NumberPicker: Component = (props, noDefaults) => {
 
         precision && (result = result.toFixed(precision))
 
-        result === value || onChange(`${result}`, e, arrowValue, payload)
+        result === value || onChange({
+            value: `${result}`,
+            event, isKeyboardArrowUp, payload
+        })
     }
 
 
@@ -213,9 +214,12 @@ const NumberPicker: Component = (props, noDefaults) => {
         innerStore: _inputStore,
         disabled: disabled || disabledInput,
         onBlur: onNumberPickerChange,
-        onChange(_value, e) {
-            const value = _value.replace(',', CHAR_DOT)
-            onChange(value, e, undefined, payload)
+        onChange(_value, event) {
+            onChange({
+                isKeyboardArrowUp: undefined,
+                value: _value.replace(',', CHAR_DOT),
+                event, payload
+            })
         }
     }
     disabled && (numberpickerRootProps.className += ` ${theme._disabled_all}`)
@@ -224,25 +228,29 @@ const NumberPicker: Component = (props, noDefaults) => {
     let stepper
     if (step) {
         if (keyboardControls && isFocused) {
-            numberpickerRootProps.onKeyDown = e => {
-                const keyCode = e.nativeEvent.key
+            numberpickerRootProps.onKeyDown = event => {
+                const keyCode = event.nativeEvent.key
 
                 if (keyCode == keyCodes.DELETE) {
                     const newValue = inputFieldProps.disabled
                         ?   (isFinite(min) ? min : 0)+''
                         :   ''
 
-                    onChange(newValue, e, undefined, payload)
+                    onChange({
+                        value: newValue,
+                        isKeyboardArrowUp: undefined,
+                        event, payload
+                    })
                 } else {
                     const isKeyUp = keyCode == keyCodes.UP
 
                     if (isKeyUp || keyCode == keyCodes.DOWN) {
-                        e.preventDefault()
+                        event.preventDefault()
 
                         let _step = step
                         isKeyUp || (_step *= -1)
 
-                        onNumberPickerChange(e, isKeyUp, _step)
+                        onNumberPickerChange(event, isKeyUp, _step)
                     }
                 }
             }

@@ -25,7 +25,7 @@ type InputElementAttributes = {
     value: Props['value']
 } & Omit<ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>, 'onChange' | 'value'>
 
-type Props<_Payload= any> = {
+type Props<_Payload= any> = PropsComponentThemed<ThemeKeys, {
     value?: string
     innerStore?: InputStore
     disabled?: boolean
@@ -55,7 +55,7 @@ type Props<_Payload= any> = {
         payload: _Payload
     ): any
     onFocus?(e: React.FocusEvent<HTMLDivElement>): void
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 
 type DefaultProps = {

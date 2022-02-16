@@ -5,7 +5,7 @@ type ThemeKeys =  'children' | 'label' | 'title' | 'title_text' | 'input_wrapper
     | 'options' | 'option' | 'option__active' | 'option__disabled'
     | '_active' | '_disabled' | '_filled'
 
-type Props<_Value = any, _Payload = any> = {
+type Props<_Value = any, _Payload = any> = PropsComponentThemed<ThemeKeys, {
     options: {
         value: _Value
         title: React.ReactNode
@@ -25,7 +25,7 @@ type Props<_Value = any, _Payload = any> = {
     filterSelected?: boolean
     disabled?: boolean
     attributes?: ComponentAttributes<HTMLDivElement>
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

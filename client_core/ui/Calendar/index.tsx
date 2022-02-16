@@ -50,7 +50,7 @@ function switchMonth(value: number, store: Store, e: React.MouseEvent, onMonthSw
     state.beginOfMonth.setMonth(state.beginOfMonth.getMonth() + value)
     setState({ ...state })
 
-    onMonthSwitch && onMonthSwitch(state.beginOfMonth, value, e)
+    onMonthSwitch?.(state.beginOfMonth, value, e)
 }
 
 function getWeekDayRow(localeWeek: string[], theme: DefaultProps['theme']) {
@@ -196,7 +196,7 @@ const Calendar: Component = (props, noDefaults) => {
 
         state.inProgress = false
 
-        onChange && onChange({
+        onChange?.({
             rangeDateStart: state.innerRangeStart,
             rangeDateEnd: state.innerRangeEnd
         }, true, payload)

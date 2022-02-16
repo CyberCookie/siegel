@@ -136,7 +136,7 @@ const Ranger: Component = (props, noDefaults) => {
 
 
     function onSlideStart(e: React.MouseEvent) {
-        onRangePickStart && onRangePickStart(e)
+        onRangePickStart?.(e)
 
         const rangeAreaElement = e.currentTarget as HTMLDivElement
         const {
@@ -228,7 +228,7 @@ const Ranger: Component = (props, noDefaults) => {
     }
 
     function onSlideFinish(e?: MouseEvent) {
-        onRangePickFinish && onRangePickFinish(e)
+        onRangePickFinish?.(e)
 
         state.activeSlider?.classList.remove(theme.range_slider__active)
 

@@ -14,13 +14,13 @@ type OnNumberPickerChange = (
 type ThemeKeys = 'children' | 'controls' | 'button_minus' | 'button_plus' | '_disabled_all'
     | 'input_root' | InputFieldThemeKeysArray[number]
 
-type Props<_Payload = any> = {
-    onChange(
-        value: string,
-        e: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>,
-        arrowValue: boolean | undefined,
+type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
+    onChange(changeParams: {
+        value: string
+        event: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>
+        isKeyboardArrowUp: boolean | undefined
         payload: _Payload
-    ): void
+    }): void
     attributes?: ComponentAttributes<HTMLDivElement>
     step?: number
     min?: number
@@ -34,7 +34,7 @@ type Props<_Payload = any> = {
     disabledInput?: boolean
     inputStore?: InputProps['innerStore']
     inputRootAttributes?: InputProps['attributes']
-} & PropsComponentThemed<ThemeKeys> & Omit<InputProps, 'theme' | 'type' | 'attributes' | 'payload' | 'onBlur' | 'onChange' | 'innerStore'>
+}> & Omit<InputProps, 'theme' | 'type' | 'attributes' | 'payload' | 'onBlur' | 'onChange' | 'innerStore'>
 
 type DefaultProps = {
     className: NonNullable<Required<Props['className']>>

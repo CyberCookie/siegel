@@ -1,4 +1,5 @@
 //TODO: apply arrow controls when focused
+//TODO: add reset selection
 
 import React, { useState, useLayoutEffect, useRef } from 'react'
 
@@ -8,10 +9,7 @@ import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import type { ComponentAttributes } from '../_internals/types'
-import type {
-    MergedProps, Component,
-    Props
-} from './types'
+import type { MergedProps, Component, Props } from './types'
 
 
 const componentID = '-ui-select'

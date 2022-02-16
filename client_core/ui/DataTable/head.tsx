@@ -115,7 +115,7 @@ function getHead(props: MergedProps, resultIDs: string[], from: number, to: numb
     })
 
     const result = [{ children }]
-    postProcessHeadRow && postProcessHeadRow(result, displayedEntityIDs)
+    postProcessHeadRow?.(result, displayedEntityIDs)
 
 
     return result

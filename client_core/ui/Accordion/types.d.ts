@@ -23,13 +23,14 @@ type BuilderList<_BuilderListExtend = Indexable<any>> = ({
 
 type ThemeKeys = 'item' | 'item_title' | 'item__empty' |  'item_title_wrapper' | 'children_wrapper'
 
-type Props<_BuilderListExtend = Indexable<any>> = {
-    accordionIcon?: React.ReactNode
-    soloOpen?: boolean
-    attributes?: ComponentAttributes<HTMLDivElement>
-    autoExpand?: boolean
-}
-    &   PropsComponentThemed<ThemeKeys>
+type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
+    ThemeKeys,
+    {
+        accordionIcon?: React.ReactNode
+        soloOpen?: boolean
+        attributes?: ComponentAttributes<HTMLDivElement>
+        autoExpand?: boolean
+    }
     &   ({
             builder(args: BuilderArgs<_BuilderListExtend>): ({
                 elem: React.ReactNode
@@ -38,11 +39,14 @@ type Props<_BuilderListExtend = Indexable<any>> = {
                 expanded?: boolean
             })
             list: BuilderList<_BuilderListExtend>
-        }   |
+        }
+        |
         {
             builder?: never
             list: List
         })
+>
+
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

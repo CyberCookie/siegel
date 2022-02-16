@@ -249,7 +249,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         }
         valueToCopy && window.navigator.clipboard.writeText(valueToCopy)
 
-        onCopy && onCopy(e)
+        onCopy?.(e)
     })
 
 
@@ -263,7 +263,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                 ?   replace(e, selectionStart, Math.abs(selectionRange), dataToPaste)
                 :   insert(e, selectionStart, dataToPaste)
 
-            onPaste && onPaste(e)
+            onPaste?.(e)
         }
 
         _inputAttr.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -336,7 +336,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             maskState.caretPos = nextCaretPos
 
             setCaretPos(ref as Ref, nextCaretPos)
-            onFocus && onFocus(e)
+            onFocus?.(e)
         }
 
         _inputAttr.onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -369,7 +369,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                 onChange(e)
             }
 
-            onKeyDown && onKeyDown(e)
+            onKeyDown?.(e)
         }
     }
 }

@@ -19,7 +19,7 @@ type ThemeKeys = 'children' | 'slides_wrapper'
     | 'controls_wrapper' | 'control' | 'control__active'
     | '__slided_forward' | '__slided_backward'
 
-type Props = {
+type Props = PropsComponentThemed<ThemeKeys, {
     slides: React.ReactNode[]
     innerStore?: [ number, React.Dispatch<React.SetStateAction<number>> ]
     startFrom?: number
@@ -28,7 +28,7 @@ type Props = {
     loop?: boolean
     autoslideInterval?: number
     attributes?: ComponentAttributes<HTMLDivElement>
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     theme: NonNullable<Required<Props['theme']>>

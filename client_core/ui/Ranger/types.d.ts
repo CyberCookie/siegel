@@ -22,7 +22,7 @@ type DoubleValue = [ number, number ]
 type ThemeKeys = 'children' | 'ranger_content_wrapper' | 'range_slider' | 'range_area' | 'label'
     | '_readonly' | '_disabled' | 'range__selected' | 'range__unselected' | 'range_slider__active' | 'range_slide__in_progress'
 
-type Props = {
+type Props = PropsComponentThemed<ThemeKeys, {
     value: number | DoubleValue
     onChange?(value: Props['value'], e: MouseEvent | React.MouseEvent): void
     onRangePickStart?:(e: React.MouseEvent) => void
@@ -32,7 +32,7 @@ type Props = {
     label?: React.ReactNode
     attributes?: ComponentAttributes<HTMLDivElement>
     disabled?: boolean
-} & PropsComponentThemed<ThemeKeys>
+}>
 
 type DefaultProps = {
     rangersCrossBehavior: NonNullable<Props['rangersCrossBehavior']>
