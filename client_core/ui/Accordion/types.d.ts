@@ -1,4 +1,6 @@
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
 type ListItemExpandedProps = {
@@ -12,7 +14,7 @@ type List = ({
 
 type BuilderArgs<_BuilderListExtend> = {
     listItem: BuilderList<_BuilderListExtend>[number]
-    listItemTheme: Record<ThemeKeys, string>
+    listItemTheme: NonNullable<Props['theme']>
     index: number
     acc: any
 }
@@ -21,14 +23,20 @@ type BuilderList<_BuilderListExtend = Indexable<any>> = ({
 } & ListItemExpandedProps & _BuilderListExtend)[]
 
 
-type ThemeKeys = 'item' | 'item_title' | 'item__empty' |  'item_title_wrapper' | 'children_wrapper'
+type Theme = {
+    item?: string
+    item__empty?: string
+    item_title?: string
+    item_title_wrapper?: string
+    item_children_wrapper?: string
+}
 
 type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
-    ThemeKeys,
+    theme,
     {
         accordionIcon?: React.ReactNode
         soloOpen?: boolean
-        attributes?: ComponentAttributes<HTMLDivElement>
+        rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
         autoExpand?: boolean
     }
     &   ({
@@ -48,9 +56,9 @@ type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
 >
 
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Props['theme']
+}>
 
 type MergedProps = Props & DefaultProps
 

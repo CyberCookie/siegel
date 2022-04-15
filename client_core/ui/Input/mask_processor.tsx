@@ -1,4 +1,6 @@
 //TODO?: process with mask applied
+//TODO: arrow left right caret positioning
+
 
 import { useState, useEffect } from 'react'
 

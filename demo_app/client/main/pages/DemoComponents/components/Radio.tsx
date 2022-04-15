@@ -13,25 +13,12 @@ const options = ([1,2,3]).map(i => ({
 const Demo = () => {
     const [ selected, setSelected ] = useState('')
     const [ selectedMultiple, setSelectedMultiple ] = useState({
-        selected: new Set()
+        selected: new Set() as Set<string>
     })
 
     const props: RadioProps = {
         selected, options,
         onChange(value) { setSelected(value as string) }
-    }
-
-    const propsForMultiple: RadioProps = {
-        options,
-        multiple: true,
-        selected: selectedMultiple.selected as Set<string>,
-        onChange(value) {
-            selectedMultiple.selected.has(value)
-                ?   selectedMultiple.selected.delete(value)
-                :   selectedMultiple.selected.add(value)
-
-            setSelectedMultiple({ ...selectedMultiple })
-        }
     }
 
 
@@ -42,7 +29,15 @@ const Demo = () => {
         <Radio { ...props } />
 
         <h2 children='multiple select' />
-        <Radio { ...propsForMultiple } />
+        <Radio options={ options } multiple
+            selected={ selectedMultiple.selected }
+            onChange={ value => {
+                selectedMultiple.selected.has(value)
+                    ?   selectedMultiple.selected.delete(value)
+                    :   selectedMultiple.selected.add(value)
+
+                setSelectedMultiple({ ...selectedMultiple })
+            } } />
 
         <h2 children='disabled' />
         <Radio { ...props } disabled />

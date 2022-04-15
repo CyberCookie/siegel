@@ -1,10 +1,11 @@
-<h1>Network</h1>
+# Network
 
 
-<h2>Request</h2>
-<h3>FetchAPI wrapper to make requests with.</h3>
+## Request
+
+### FetchAPI wrapper to make requests with.
+
 <br />
-
 
 ```js
 import setupRequest, { HEADERS, CONTENT_TYPE } from 'siegel-network/request'
@@ -19,89 +20,120 @@ request<Res, ReqBody>(options: ReqParams)
 ```
 
 <br />
-<h3>ReqParams</h3>
-<h4>Concrete request parameters object</h4><br />
 
-- `url`: <b>string</b><br />
-    Request URL. Can include url params: <i>someurl/:param1/:param2</i><br/>
+### setupReqest
 
-- `params`: <b>Record< string, string ></b><br />
-    URL params that will be included in URL.<br/>
+**Function** to setupp **request** API to use in further requests<br />
+Receives **1** argument - **Object** wit the next fields:
 
-- `query`: <b>string | Record< string, string ></b></br>
-    URL query params.<br />
+- `beforeParse` - **Function**. Triggered before request **Object** is beeing parsed<br />
+    Has **1** argument:
+    - **reqParams** - **ReqParams**. Concrete request's request params. (Read below)
 
-- `method`: <b>string</b> Default is <b>GET</b><br />
-    Request method.<br />
+- `beforeRequest` - **Function**. Triggered right before **Fetch API** call<br />
+    Has **1** argument:
+    - **reqData** - **Mutable Object**. Holds request data further passed to **Fetch API**<br />
+        **Object** has the next fields:
+        - `initialURL` - **String**. URL passed to request to make a request
+        - `url` - **String**. URL to be passed to **Fetch API**
+        - `options` - **Object**. Options to be passed to **Fetch API** **Object** can possibly have the next fields:
+            - `body` - **Request** body
+            - `method` - **Request** method
+            - `credentials` - **Request** credentials
+            - `headers` - **Request** headers
+            - `signal` - **Request** signal
 
-- `body`: <b>Any valid request body</b><br />
-    Request payload.<br />
+- `afterRequest` - **Function**. Triggered after successful request was made<br />
+    Has **2** arguments:
+    - **reqData** - **ReqParams**. Data used to make a request
+    - **parsedRes** - **Any | Object**. Response data<br />
+        Can be **Object** if **ReqParams.isFullRes** was set to **true**. **Object** has the next fields:
+        - `status` - **Number**. Response status code
+        - `statusText` - **String**. Response status text
+        - `headers` - **ReqParams.headers**. Headers that was used in this request
+        - `data` - **Any**. Response data
 
-- `headers`: <b>Record< string, string ></b><br />
-    Request headers.<br />
+- `errorHandler` - **Function**. Triggered if request was failure<br />
+    Has **1** argument:
+    - **error** - **Object** with the next fields:
+        - `status` - Same as **status** in **afterRequest** callback
+        - `message` - Same as **statusText** in **afterRequest** callback
+        - `res` - Same as **parsedRes** in **afterRequest** callback
+        - `req` - Same as **reqData** in **afterRequest** callback
 
-- `parseMethod`: <b>string</b><br />
-    Method to be executed on response to retrieve actual data.<br />
-    By default request service sets this prop regarding to response content type.<br />
-
-- `credentials`: <b>string</b><br />
-    Request credentials.<br />
-
-- `json`: <b>boolean</b> Default is <b>false</b><br />
-    Applies json content type to headers and parses response as json.<br />
-
-- `preventSame`: <b>boolean</b> Default is <b>true</b><br />
-    Prevents request if the same request is already processing.<br />
-    Same request is a request with the same <b>url</b> <b>method</b> and <b>stringified body.</b><br />
-
-- `signal`: <b>Request signal</b><br />
-    Terminates request and prevents browser from response handling.<br />
-
-- `isFullRes`: <b>boolean</b> Default is <b>false</b> <br />
-    Returns full response with headers, status code etc...<br />
-
-- `beforeRequest`: <b>(reqData: Parameters< typeof fetch >) => void</b><br />
-    Triggers right before fetch call.<br />
-    <b>reqData</b> argument has url and options props, compatible with browser fetch.<br />
-    <b>reqData</b> argument is mutable.<br />
+- `json` - **Boolean**. Default is **false**<br />
+    Applies json content type to headers and parses response as json
 
 
-<br />
-<h3>ReqSetup</h3>
-<h4>Every request parameters object</h4><br />
+<br /><br />
 
-- `beforeParse`: <b>(reqParams: ReqParams) => void | Promise< ReqParams ></b><br />
-    Triggers before request options are parsed into compatible fetch api options.<br />
-    <b>reqParams</b> argument is mutalbe.<br />
+### HEADERS
 
-- `beforeRequest`: <b>ReqParams . beforeRequest</b><br />
-
-- `afterRequest`: <b>(reqData, parsedRes) => void</b><br />
-    This hook is calling after successful request was made.<br />
-
-- `errorHandler`: <b>(error) => void </b><br />
-    Triggers after unsuccessful request.<br />
-    <b>error</b> argument contains information about error and <b>reqData</b>.<br />
-
-- `json`: <b>ReqParams . json</b> <br />
-
+Request headers constants used in **request**.
 
 <br />
-<h3>HEADERS</h3>
-<h4>Request headers constants used in <b>request</b> service</h4><br />
 
+### CONTENT_TYPE
+
+Content-type header values used in **request**.
 
 <br />
-<h3>CONTENT_TYPE</h3>
-<h4>Content-type header values used in <b>request</b> service</h4><br />
+
+### ReqParams
+
+**Object** to hold concrete request parameters:
+
+<br />
+
+- `url` - **String**<br />
+    Request URL. Can include url params: _someurl/:param1/:param2_
+
+- `params` - **Object** where _key_ is parameter ID and _value_ is parameter value<br />
+    URL params that will be included to URL
+
+- `query` - **String | Object**<br />
+    If object provided then _key_ is query ID and _value_ is query value<br />
+    URL query params
+
+- `method` - **String** Default is **'GET'**<br />
+    Request method
+
+- `body` - **Any valid request body**<br />
+    Request payload
+
+- `headers` - **Object** where _key_ is header ID and _value_ is header value<br />
+    Request headers
+
+- `parseMethod` - **String**<br />
+    Method to be executed on response to retrieve actual data<br />
+    By default **request** sets this prop regarding to response content type
+
+- `credentials` - **String**<br />
+    Request credentials
+
+- `json` - Same as **beforeRequest** in **setupRequest Object**
+
+- `preventSame` - **Boolean**. Default is **true**<br />
+    Prevents request if the same request is already processing<br />
+    Same request is a request with the same **url** **method** and **stringified body**
+
+- `signal` - **(new AbortController()).signal**<br />
+    Terminates request and prevents browser from response handling
+
+- `isFullRes` - **Boolean** Default is **false**<br />
+    Returns full response with headers, status code etc.
+
+- `beforeRequest` - Same as **beforeRequest** in **setupRequest Object**
 
 
 
 <br /><br /><br />
-<h2>Socket</h2>
-<h3>Simple WebSocket wrapper to establish socket connections with a server</h3>
-<br />
 
+## Socket
+
+### Simple WebSocket wrapper to establish socket connections with a server
+
+<br />
 
 ```js
 import createSocket from 'siegel-network/socket'
@@ -125,74 +157,80 @@ socket.send('messageType', payload)
 ```
 
 <br />
-<h3>CreateSocketParams</h3>
-<h4>Socket connection parameters and events. All the params are optional</h4><br />
 
-- `url`: <b>string</b> Default is <b>window.location.hostname</b><br />
-    Socket connection URL.<br/>
+### CreateSocketParams
 
-- `port`: <b>number</b><br />
-    Socket connection port.<br/>
+#### Socket connection parameters and events. All the params are optional
 
-- `path`: <b>string</b></br>
-    Socket connection URL path.<br />
+<br />
 
-- `wss`: <b>boolean</b> Default is <b>false</b><br />
-    Enable secure socket protocol.<br />
+- `url` - **String** Default is **window.location.hostname**<br />
+    Socket connection URL<br/>
 
-- `messageTypeKey`: <b>string</b> Default is <b>type</b><br />
+- `port` - **Number**<br />
+    Socket connection port<br />
+
+- `path` - **String**<br />
+    Socket connection URL path<br />
+
+- `wss` - **Boolean** Default is **false**<br />
+    Enable secure socket protocol<br />
+
+- `messageTypeKey` - **String** Default is **'type'**<br />
     To make it possible to subscribe on different messages, we need to know<br />
-    a message field that holds message type string. 
+    a message field that holds message type string
 
-- `payloadKey`: <b>string</b> Default is <b>data</b><br />
-    Message field to place payload in.<br />
+- `payloadKey` - **String** Default is **'data'**<br />
+    Message field to place payload in<br />
 
-- `reconnectInterval`: <b>number</b><br />
-    Socket will try to reconnect every <b>reconnectInterval</b> ms., when socket connection error occures.<br />
+- `reconnectInterval` - **Number**<br />
+    Socket reconnect interval in ms. , if socket connection error occurs<br />
 
-- `serverTimeout`: <b>number</b><br />
+- `serverTimeout` - **Number**<br />
     Closes socket connection if no messages has been received from a server<br />
-    during <b>serverTimeout</b> ms.<br />
-    Triggers <b>onerror</b> event with no arguments passed to. <br /> 
+    during `serverTimeout` ms<br />
+    Triggers **onerror** event with no arguments passed to<br /> 
 
-- `ping`: <b>object</b><br />
-    Ping message to be sent on a server every <b>interval</b> ms with <b>payload</b> data.
-    -   `interval`: <b>number</b><br />
-        Ping message interval in ms.<br />
-    -   `payload`: <b>string | Blob | ArrayBufferLike | ArrayBufferView</b><br />
-        Ping message payload of any type. <br /><br />
+- `ping` - **Object**<br />
+    Ping message to be sent on a server every **interval** ms with **payload** data<br />
+    **Object** has the next fields:
+    - `interval` - **Number**<br />
+            Ping message interval in ms<br />
+    - `payload` - **String | Blob | ArrayBufferLike | ArrayBufferView**<br />
+            Ping message payload of any type<br />
 
-- `parseIncommingMsg`: <b>(e: MessageEvent) => any</b><br />
-    Socket incomming message parse function where you can apply your custom algorithm.<br />
-    Default message parser is JSON.parse()<br />
-    Parsed message must contain <b>messageTypeKey</b> and <b>payloadKey</b> fields to maket it<br />
-    possible to trigger message subscribe handlers.<br /> 
+- `parseIncommingMsg` - **(e: MessageEvent) => any**<br />
+    Socket incomming message parse function where you can apply your custom algorithm<br />
+    Default message parser is **JSON.parse()**<br />
+    Parsed message must contain **messageTypeKey** and **payloadKey** fields to maket it<br />
+    possible to trigger message subscribe handlers<br /> 
 
-- `serializeOutcommingMsg`: <b><br />
+- `serializeOutcommingMsg` - **<br />
     (serializeParams: {<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;messageTypeKey: string<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;messageType: string<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;payloadKey: string<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;payload: any<br />
-    }) => string | Blob | ArrayBufferLike | ArrayBufferView</b><br />
-    Constructs a message to be sent on a server.<br />
-    By default serialization is made by <b>JSON.stringify</b> using<br/>
-    <b>messageTypeKey</b> and <b>payloadKey</b> fields to store messageType and payload accordingly.<br />
+    }) => string | Blob | ArrayBufferLike | ArrayBufferView**<br />
+    Constructs a message to be sent on a server<br />
+    By default serialization is made by **JSON.stringify()** using<br/>
+    **messageTypeKey** and **payloadKey** fields to store messageType and payload accordingly<br />
 
-- `events`: <b>object</b><br />
-    Different events that are fired during a socket connection lifecycle you may listen to.<br />
-    - `onopen`: <b>(e: Event) => void</b><br />
-        Triggered after connection has been established.<br />
+- `events` - **Object**<br />
+    Different events that are fired during a socket connection lifecycle you may listen to<br />
+    - `onopen` - **(e: Event) => void**<br />
+        Triggered after connection has been established<br />
 
-    - `onreconnect`: <b>(e: Event) => void</b><br />
-        Triggers after successful reconnection.<br />
+    - `onreconnect` - **Function** That is triggered after successful reconnection<br />
+        Has **1** argument:
+        - **event** - **Event**<br /><br />
 
-    - `onmessage`: <b>(e: MessageEvent, parsedMessage: any) => void</b><br />
-        Triggers when message is received.<br />
+    - `onmessage` - **(e: MessageEvent, parsedMessage: any) => void**<br />
+        Triggers when message is received<br />
         
-    - `onclose`: <b>(e: CloseEvent) => void</b><br />
-        Triggers once socket connection has been clossed.<br />
+    - `onclose` - **(e: CloseEvent) => void**<br />
+        Triggers once socket connection has been clossed<br />
 
-    - `onerror`: <b>(e?: Event) => void</b><br />
+    - `onerror` - **(e?: Event) => void**<br />
         Triggres once an error is occured in a socket connection<br />
-        Undefined parameter means that connection was closed when <b>serverTimeout</b> has been elapsed.
+        **undefined** parameter means that connection was closed when **serverTimeout** has been elapsed

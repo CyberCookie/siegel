@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Tabs, TabsProps } from 'app/components'
+import { Tabs } from 'app/components'
 
 
 const { ID } = Tabs
@@ -14,20 +14,15 @@ const tabsData = ([1,2,3]).map(id => ({
 const Demo = () => {
     const [ activeTab, setActiveTab ] = useState(tabsData[0].id)
 
-    const props: TabsProps = {
-        activeTab,
-        tabs: tabsData,
-        onChange(id) {
-            setActiveTab(id)
-        }
-    }
-
 
     return <>
         <h1 children={ ID } />
 
         <h2 children='simple' />
-        <Tabs { ...props } />
+        <Tabs tabs={ tabsData } activeTab={ activeTab }
+            onChange={ id => {
+                setActiveTab(id)
+            } } />
     </>
 }
 Demo.id = ID

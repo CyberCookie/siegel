@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { DropdownSearch, DropdownSearchProps } from 'app/components'
+import { DropdownSearch, DropdownSearchProps, icons } from 'app/components'
 
 
 type DemoDropdownSearchProps = DropdownSearchProps<number>
@@ -18,6 +18,7 @@ const Demo = () => {
 
     const props: DemoDropdownSearchProps = {
         selected,
+        placeholder: 'type "option..."',
         onChange(id) {
             setSelected(id!)
         },
@@ -29,16 +30,11 @@ const Demo = () => {
         <h1 children={ ID } />
 
         <h2 children='simple' />
-        <DropdownSearch { ...props }
-            inputProps={{
-                placeholder: 'type "option..."'
-            }} />
+        <DropdownSearch { ...props } />
 
-        <h2 children='show options on focus' />
-        <DropdownSearch { ...props } showOnFocus
-            inputProps={{
-                placeholder: 'type "option..."'
-            }} />
+        <h2 children='with reset icon and show options on focus' />
+        <DropdownSearch { ...props } label='label' showOnFocus
+            resetIcon={ icons.close } />
 
         <h2 children='disabled' />
         <DropdownSearch { ...props } disabled />

@@ -1,11 +1,13 @@
-<h1>Custom hooks</h1>
+# Custom hooks
 
 <br />
-<h3>useDidUpdate</h3>
+
+## useDidUpdate
+
 <br />
 
-Checks whether some props have been changed.<br />
-It has the same signature as useEffect / useLayoutEffect hooks.
+Checks whether some props have been changed<br />
+It has the same signature as **React.useEffect** hook
 
 ``` js
 import React from 'react'
@@ -26,21 +28,20 @@ const Component = props => {
 
 
 <br /><br />
-<h3>usePrevious</h3>
+
+## usePrevious
+
 <br />
 
-Saves given value and returns it on the next render.<br />
-Returns undefined on the first render.<br />
+Saves given value and returns it on the next render<br />
+Returns undefined on the first render<br />
 
-<h4>Signature:</h4>
+Receives **3** arguments:
+- **value** - **Required** **Any**. Value to save
+- **reusableRef** - **React.useRef()**. If ypu already have an initialized ref - you may pass it to this hook
+- **key** - **String**. Key to store a value in ref the provided **reusableRef**
 
-<ul>usePrevious(value, reusableRef?, key?)
-    <li><b>value</b> - value to save</li>
-    <li>
-        <b>reusableRef</b> - If ypu already have an initialized ref - you may pass it to this hook<br />
-    </li>
-    <li><b>key</b> - key to store a value in ref object. default is <i>_prevValue</i></li>
-</ul>
+<br />
 
 ``` js
 import React, { useRef } from 'react'

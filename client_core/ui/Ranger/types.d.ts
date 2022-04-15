@@ -1,13 +1,13 @@
 import React from 'react'
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+
+import type {
+    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
 type RangeCrossTypeMap = {
     [key in NonNullable<Props['rangersCrossBehavior']>]: key
 }
-
-type GetRangeElement = (key: string, className: string, width: number) => JSX.Element
-type GetRangePickerElement = (key: string, props: MergedProps, width: number) => JSX.Element
 
 type State = {
     anchorPos: number
@@ -17,28 +17,38 @@ type State = {
 }
 
 
-type DoubleValue = [ number, number ]
+type Theme = {
+    _readonly?: string
+    _disabled?: string
+    _single_picker?: string
+    children?: string
+    label?: string
+    ranger_content_wrapper?: string
+    range_area?: string
+    range__selected?: string
+    range__unselected?: string
+    range_slider?: string
+    range_slider__active?: string
+}
 
-type ThemeKeys = 'children' | 'ranger_content_wrapper' | 'range_slider' | 'range_area' | 'label'
-    | '_readonly' | '_disabled' | 'range__selected' | 'range__unselected' | 'range_slider__active' | 'range_slide__in_progress'
-
-type Props = PropsComponentThemed<ThemeKeys, {
-    value: number | DoubleValue
+type Props = PropsComponentThemed<Theme, {
+    value: number[]
     onChange?(value: Props['value'], e: MouseEvent | React.MouseEvent): void
     onRangePickStart?:(e: React.MouseEvent) => void
     onRangePickFinish?:(e?: MouseEvent) => void
+    children?: React.ReactNode
     rangersCrossBehavior?: 'stop' | 'move' | 'cross'
     rangePickIcon?: React.ReactNode
     label?: React.ReactNode
-    attributes?: ComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
     disabled?: boolean
 }>
 
-type DefaultProps = {
-    rangersCrossBehavior: NonNullable<Props['rangersCrossBehavior']>
-    rangePickIcon: NonNullable<Props['rangePickIcon']>
-    theme: NonNullable<Required<Props['theme']>>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props['theme']>
+    rangersCrossBehavior: Props['rangersCrossBehavior']
+    rangePickIcon: Props['rangePickIcon']
+}>
 
 type MergedProps = Props & DefaultProps
 
@@ -46,6 +56,5 @@ type Component = CoreIUComponent<Props, DefaultProps>
 
 
 export type {
-    Props, DefaultProps, MergedProps, Component, DoubleValue, State, RangeCrossTypeMap,
-    GetRangeElement, GetRangePickerElement
+    Props, DefaultProps, MergedProps, Component, State, RangeCrossTypeMap
 }

@@ -1,9 +1,10 @@
 import { useState, useLayoutEffect } from 'react'
 
+import useDidUpdate from '../../hooks/did_update'
 import dateParse from '../../utils/date/parse'
-import { msIn } from '../../utils/date/consts'
+import msIn from '../../utils/date/constants'
 import extractProps from '../_internals/props_extract'
-import type { Component, MergedProps, Props } from './types'
+import type { Component, MergedProps } from './types'
 
 
 const componentID = '-ui-clocks'
@@ -19,6 +20,10 @@ const Clocks: Component = (props, noDefaults) => {
 
     const [ date, setDate ] = useState(initDate ? new Date(initDate) : new Date())
 
+
+    useDidUpdate(() => {
+        setDate(initDate)
+    }, [ initDate ])
 
     useLayoutEffect(() => {
         function tick(timeChangeValueMS: number) {
@@ -97,4 +102,4 @@ Clocks.ID = componentID
 
 export { componentID }
 export default Clocks
-export type { Props }
+export * from './types'

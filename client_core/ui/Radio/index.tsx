@@ -1,8 +1,9 @@
 import React from 'react'
 
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
-import type { Component, MergedProps, Props, MultiSelectProps, SingleSelectProps } from './types'
+import type { Component, MergedProps } from './types'
 
 
 const componentID = '-ui-radio'
@@ -34,16 +35,16 @@ const Radio: Component = (props, noDefaults) => {
         ?   extractProps(Radio.defaults, props, false)
         :   (props as MergedProps)
 
-    const { disabled, theme, attributes, refApi } = mergedProps
+    const { disabled, theme, rootTagAttributes, refApi } = mergedProps
 
 
-    const rootProps = {
+    let rootProps = {
         className: mergedProps.className,
         children: getOptions(mergedProps)
     }
     disabled && (rootProps.className += ` ${theme._disabled}`)
     refApi && (applyRefApi(rootProps, mergedProps))
-    attributes && Object.assign(rootProps, attributes)
+    rootTagAttributes && (rootProps = mergeTagAttributes(rootProps, rootTagAttributes))
 
 
     return <div { ...rootProps } />
@@ -61,4 +62,4 @@ Radio.ID = componentID
 
 export { componentID }
 export default Radio
-export type { Props, MultiSelectProps, SingleSelectProps }
+export * from './types'

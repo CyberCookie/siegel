@@ -9,20 +9,20 @@ $width: 200px
         .options
             display: block
         
-        .title
+        .title_wrapper
             border-color: $primary
             border-radius: $radius $radius 0 0
 
             & > i
                 transform: rotate(90deg)
     
-    &:not(._disabled) .title
+    &:not(._disabled) .title_wrapper
         cursor: pointer
 
     &:not(._filled) .reset
         display: none
 
-.title
+.title_wrapper
     +flex('', center)
     flex-grow: 1
     padding-right: $gutter
@@ -69,7 +69,7 @@ $width: 200px
         &:hover
             color: $secondary
 
-._disabled .title
+._disabled .title_wrapper
     color: $border_color_light
     border-color: $border_color_light
 

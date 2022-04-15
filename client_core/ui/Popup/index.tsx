@@ -1,25 +1,21 @@
 import React from 'react'
 
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
-import type {
-    Component, MergedProps,
-    Props
-} from './types'
+import type { Component, MergedProps } from './types'
 
 import styles from './styles.sass'
 
 
 const componentID = '-ui-popup'
 
-const innerCloseClassName = styles[`${componentID}_close`]
-
 const Popup: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Popup.defaults, props, false)
         :   (props as MergedProps)
 
-    const { theme, closeIcon, content, onClose, attributes, className, refApi } = mergedProps
+    const { theme, closeIcon, content, onClose, rootTagAttributes, className, refApi } = mergedProps
 
     let popupRootAttributes = {
         className,
@@ -28,13 +24,13 @@ const Popup: Component = (props, noDefaults) => {
         }
     }
     refApi && (applyRefApi(popupRootAttributes, mergedProps))
-    attributes && (popupRootAttributes = Object.assign(popupRootAttributes, attributes))
+    rootTagAttributes && (popupRootAttributes = mergeTagAttributes(popupRootAttributes, rootTagAttributes))
 
 
     return (
         <div { ...popupRootAttributes }>
             <div className={ theme.content }>
-                <div onMouseDown={ onClose } className={ `${innerCloseClassName} ${theme.close}` }
+                <div onMouseDown={ onClose } className={ `${styles.close} ${theme.close}` }
                     children={ closeIcon } />
 
                 { content }
@@ -43,7 +39,7 @@ const Popup: Component = (props, noDefaults) => {
     )
 }
 Popup.defaults = {
-    className: styles[`${componentID}_inner`],
+    className: styles.root,
     theme: {
         root: '',
         content: '',
@@ -57,4 +53,4 @@ Popup.ID = componentID
 
 export { componentID }
 export default Popup
-export type { Props }
+export * from './types'

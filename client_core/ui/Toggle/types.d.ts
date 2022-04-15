@@ -1,22 +1,32 @@
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
-type ThemeKeys = 'children' | 'label' | 'toggle_area' | 'toggler' | '_toggled' | '_disabled'
+type Theme = {
+    _toggled?: string
+    _disabled?: string
+    children?: string
+    label?: string
+    toggle_area?: string
+    toggler?: string
+}
 
-type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
+type Props<_Payload = any> = PropsComponentThemed<Theme, {
+    children?: React.ReactNode
     value?: boolean
     labelLeft?: React.ReactNode
     labelRight?: React.ReactNode
     toggleIcon?: React.ReactNode
     payload?: _Payload
     disabled?: boolean
-    onChange?(isToggled: boolean, e: React.MouseEvent, payload: _Payload): void
-    attributes?: ComponentAttributes<HTMLDivElement>
+    onChange?(value: boolean, e: React.MouseEvent, payload: _Payload): void
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
 }>
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props['theme']>
+}>
 
 type MergedProps = Props & DefaultProps
 

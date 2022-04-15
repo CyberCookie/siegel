@@ -1,4 +1,6 @@
-import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentBase, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
 type HTMLSwipeMouseEvent = MouseEvent | TouchEvent
@@ -8,12 +10,12 @@ type Props = PropsComponentBase<{
     children?: React.ReactNode
     xAxis?: boolean
     deltaPos?: number
-    attributes?: ComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
 }>
 
-type DefaultProps = {
-    deltaPos: NonNullable<Props['deltaPos']>
-}
+type DefaultProps = NonNullableKeys<{
+    deltaPos: Props['deltaPos']
+}>
 
 type MergedProps = Props & DefaultProps
 

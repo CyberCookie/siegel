@@ -1,12 +1,11 @@
 .root
     +flex('', center)
 
+    & > div
+        width: 40px
+        margin: 0 $gutter_sm
 
-.control, .separator
-    width: 40px
-    margin: 0 $gutter_sm
-
-.control
+.page, .icon_prev, .icon_next
     +flex(center, center)
     +font(20px, 40px, $secondary)
     height: 40px
@@ -15,25 +14,26 @@
     border-radius: 50%
     cursor: pointer
 
-    &:first-of-type i
-        transform: rotate(-180deg)
 
+.icon_prev, .icon_next
     i
         +font(26px, '', $secondary)
         pointer-events: none
 
+.icon_prev i
+    transform: rotate(-180deg)
 
-.control__active
-    color: $white
-    background: $primary
-    border-color: $primary
-
-.control__disabled
+.icon__disabled
     border-color: $border_color_light
     cursor: default
 
     i
         color: $border_color_light
+
+.page__active
+    color: $white
+    background: $primary
+    border-color: $primary
 
 .separator
     align-self: flex-end

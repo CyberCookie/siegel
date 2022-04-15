@@ -6,8 +6,8 @@
 
 <br/>
 <h3>CJS __dirname</h3>
-Retrieves dirname in CommonJS manner.<br />
-It accessible through global variable <b>__dirname</b> in CommonJS.
+Retrieves dirname in CommonJS manner<br />
+It accessible through global variable **__dirname** in CommonJS.
 <br/>
 
 ```js
@@ -18,8 +18,8 @@ const __dirname = utils.cjs__dirname(import.meta)
 
 <br/>
 <h3>is run directly</h3>
-Returns true if module were run directly from CLI.<br />
-In CommonJS were made with <b>require.main == module</b> check.
+Returns true if module were run directly from CLI<br />
+In CommonJS were made with **require.main == module** check.
 <br/>
 
 ```js
@@ -30,7 +30,7 @@ utils.isRunDirectly(import.meta)
 
 <br/>
 <h3>Require json</h3>
-Returns parsed JSON by json file pathname.<br /> 
+Returns parsed JSON by json file pathname<br /> 
 <br/>
 
 ```js
@@ -41,7 +41,7 @@ const parsed = utils.requireJSON('path/to/file.json')
 
 <br/>
 <h3>Global node modules path</h3>
-Returns location where global node modules are stored.<br /> 
+Returns location where global node modules are stored<br /> 
 <br/>
 
 ```js
@@ -53,7 +53,7 @@ const parsed = utils.globalNodeModulesPath()
 
 <br/>
 <h3>Parse CLI args</h3>
-Returns parsed JSON by json file pathname.<br /> 
+Returns parsed JSON by json file pathname<br /> 
 <br/>
 
 ```js

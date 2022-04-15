@@ -1,11 +1,11 @@
 import React, { useLayoutEffect } from 'react'
 
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import isTouchScreen from '../../utils/is/touchscreen'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import type {
-    HTMLSwipeMouseEvent, Component, MergedProps,
-    Props
+    HTMLSwipeMouseEvent, Component, MergedProps, Props
 } from './types'
 
 
@@ -27,15 +27,24 @@ const Swipe: Component = (props, noDefaults) => {
         ?   extractProps(Swipe.defaults, props, false)
         :   (props  as MergedProps)
 
-    const { className, children, xAxis, deltaPos, onSwipe, attributes, refApi } = mergedProps
+    const {
+        className, children, xAxis, deltaPos, onSwipe, rootTagAttributes, refApi
+    } = mergedProps
 
-    let swipeRootAttributes: Props['attributes'] = { className, children }
+    let swipeRootAttributes: Props['rootTagAttributes'] = {
+        className,
+        children
+    }
     _isTouchScreen
         ?   (swipeRootAttributes.onTouchStart = onMouseDown)
         :   (swipeRootAttributes.onMouseDown = onMouseDown)
 
     refApi && (applyRefApi(swipeRootAttributes, mergedProps))
-    attributes && (swipeRootAttributes = Object.assign(swipeRootAttributes, attributes))
+
+    if (rootTagAttributes) {
+        swipeRootAttributes = mergeTagAttributes(swipeRootAttributes, rootTagAttributes)
+    }
+
 
     useLayoutEffect(() => { removeTouchEvents?.() }, [])
 
@@ -99,4 +108,4 @@ Swipe.ID = componentID
 
 export { componentID }
 export default Swipe
-export type { Props }
+export * from './types'

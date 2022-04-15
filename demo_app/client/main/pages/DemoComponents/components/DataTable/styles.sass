@@ -2,6 +2,19 @@
     height: 600px
     width: min-content
 
+    table
+        border-width: 0 1px 1px
+
+        th, td
+            min-width: 25px
+
+            &:first-child
+                border-left: $border
+            
+            &:last-child
+                border-right: $border
+
+
     
 .pagination_single_page
     display: none
@@ -101,3 +114,8 @@
 
 .set_checkbox:not(:last-child)
     margin-bottom: $gutter
+
+
+.column_toggles_wrapper
+    +flex(space-between)
+    margin: $gutter

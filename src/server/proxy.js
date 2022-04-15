@@ -9,7 +9,7 @@ const proxy = proxyParams => {
 
 
     return (clientReq, clientRes) => {
-        const { path, method, headers, query, params } = clientReq
+        const { path, method, headers, query, params, body } = clientReq
 
 
         const proxyQuery = proxyParams.query || query
@@ -49,10 +49,15 @@ const proxy = proxyParams => {
             }
 
             clientRes.writeHead(statusCode, headers)
-
             proxyRes.pipe(clientRes, { end: true })
         })
-        .on('error', console.error)
+        body && proxyReq.write(
+            body.constructor == Object
+                ?   JSON.stringify(body)
+                :   body
+        )
+
+        proxyReq.on('error', console.error)
 
 
         clientReq.pipe(proxyReq, { end: true })

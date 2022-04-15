@@ -1,4 +1,4 @@
-<h1>Siegel demo project</h1>
+# Siegel demo project
 
 Requirements:
 - NodeJS >= 14
@@ -11,24 +11,26 @@ Install dependencies with `npm i`.
 
 
 <br />
-<h2>package.json scripts:</h2>
+
+## package.json scripts:
 
 - To run the project in development mode: `npm start`.
 - To build client for production run `npm run build_web`.
 - To transpile server app from TS run `npm run build_node`.
 - `npm run build` &nbsp;=&nbsp; `npm run build_web` &nbsp;+&nbsp; `npm run build_node`.
-- To host the project locally run `npm run serv`.<br />
+- To host the project locally run `npm run serv`<br />
     To use this command first ensure you built a client using `npm run build_web`.
 - To build in prod mode and to host using `pm2` daemon - run `npm run build_serv`.
 - To validate the project code with eslint and typescript run `npm run validate`.
-- To deploy the project from scratch run `npm run deploy`.<br />
+- To deploy the project from scratch run `npm run deploy`<br />
     This script installs dependencies and executes `npm run build_serv` command from above.
-- To debug your NodeJS application run `npm run debug`.<br />
+- To debug your NodeJS application run `npm run debug`<br />
     Site will be ran in dev mode with NodeJS inspector atttached to your browser dev tool.
 
 
 <br />
-<h2>Project structure</h2>
+
+## Project structure
 
 - `client` - clientside related code and assets.
     - `assets` - static files which doesn't requires any transformations.

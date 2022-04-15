@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import extractProps from '../_internals/props_extract'
-import Ranger, { Props as RangerProps, DoubleValue } from '../Ranger/index'
-import type { MergedProps, Props, Component } from './types'
+import Ranger, { Props as RangerProps } from '../Ranger'
+import type { MergedProps, Component } from './types'
 
 
-type AnchorPositions = {
-    positionsSorted: number[]
-    posToValueMap: Record<number, string>
-    valueToPosMap: Record<string, number>
+type State = {
+    rangerValues: number[]
+    rangerValuesString: string
+    anchorPositionsSorted: number[]
+    anchorToOptionData: Indexable<{ value: string, index: number }>
+    valueToAnchorMap: Indexable<number>
 }
+
 
 const componentID = '-ui-stepper'
 
@@ -32,62 +35,75 @@ function getClosestNumberFromArray(sortedValuesArray: number[], value: number) {
     return lastClosestValue
 }
 
+function toDefaultState(state: Partial<State>) {
+    state.rangerValues = []
+    state.rangerValuesString = ''
+    state.anchorPositionsSorted = []
+    state.anchorToOptionData = {}
+    state.valueToAnchorMap = {}
+
+    return state as State
+}
+
 const Stepper: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Ranger.defaults, props, false)
         :   (props as MergedProps)
 
     const {
-        options, onChange, selectedFrom, selectedTo, theme, rangetProps
+        className, options, onChange, value, theme, children, refApi,
+        disabled, label, onRangePickFinish, onRangePickStart, rangePickIcon, rangersCrossBehavior,
+        rangerTheme
     } = mergedProps
 
-
-    const anchorPositions: AnchorPositions = {
-        positionsSorted: [],
-        posToValueMap: {},
-        valueToPosMap: {}
-    }
-    const { positionsSorted, posToValueMap, valueToPosMap } = anchorPositions
+    // To have fresh data within Ranger.onChange handler
+    const state = useState( toDefaultState({}) )[0]
+    state.rangerValuesString && toDefaultState(state)
 
 
     const optionsCount = options.length
     let rangerChildren
     if (optionsCount > 2) {
+        const isSingle = value.length == 1
         const percentsPerAnchor = 100 / ((optionsCount - 1) * 100)
 
-        const innerSelectFrom = selectedFrom || options[0].value
-        const innerSelectTo = selectedTo || options[optionsCount - 1].value
-        let selectingInProgress: boolean
+        const valuesCounter: Indexable<number> = {}
+        value.forEach(v => {
+            valuesCounter[v]
+                ?   valuesCounter[v]++
+                :   (valuesCounter[v] = 1)
+        })
 
-        const anchorsElements = options.map((anchorConfig, i) => {
+        let anchorInRange: boolean
+
+        const anchorsElements = options.map((anchorConfig, index) => {
             const { value, label, className } = anchorConfig
 
-            const anchorPosition = i * percentsPerAnchor
-            positionsSorted.push(anchorPosition)
-            posToValueMap[anchorPosition] = value
-            valueToPosMap[value] = anchorPosition
+            const anchorPosition = index * percentsPerAnchor
 
-            const isStartAnchor = value == innerSelectFrom
-            const isEndAnchor = value == innerSelectTo
-            const isStartOrEnd = isStartAnchor || isEndAnchor
+            state.anchorPositionsSorted.push(anchorPosition)
+            state.anchorToOptionData[anchorPosition] = { value, index }
+            state.valueToAnchorMap[value] = anchorPosition
 
 
             let _className = theme.anchor
             className && (_className += ` ${className}`)
-            if (selectingInProgress || isStartOrEnd) {
-                _className += ` ${theme.anchor__active}`
+
+            let isAnchorActive
+            const valuesCount = valuesCounter[value]
+            if (valuesCount) {
+                isAnchorActive = true
+                anchorInRange = !(isSingle || anchorInRange || (valuesCount == 2))
             }
 
-            if (selectingInProgress !== false && isStartOrEnd) {
-                selectingInProgress = isEndAnchor
-                    ?   false
-                    :   isStartAnchor
+            if (anchorInRange || isAnchorActive) {
+                _className += ` ${theme.anchor__active}`
             }
 
 
             return (
-                <div key={ i } className={ _className } children={ label }
-                    style={{ '--ui-ranger_anchors_index': i } as CSSWithVariables} />
+                <div key={ index } className={ _className } children={ label }
+                    style={{ '--ui-ranger_anchors_index': index } as CSSWithVariables} />
             )
         })
         rangerChildren = (
@@ -96,23 +112,47 @@ const Stepper: Component = (props, noDefaults) => {
         )
     }
 
-    const _rangerProps = Object.assign(rangetProps, {
-        className: theme.root,
-        value: [
-            selectedFrom ? valueToPosMap[selectedFrom] : 0,
-            selectedTo ? valueToPosMap[selectedTo] : 1
-        ],
-        attributes: {
-            children: rangerChildren
-        },
-        rangersCrossBehavior: 'cross'
-    } as RangerProps)
-    onChange && (_rangerProps.onChange = (value: DoubleValue, e) => {
-        const [ fromPos, toPos ] = value.map(rangeValue => (
-            getClosestNumberFromArray(positionsSorted, rangeValue))
-        ) as DoubleValue
 
-        onChange(posToValueMap[fromPos], posToValueMap[toPos], e)
+    value.forEach(optionValue => {
+        const rangerValue = state.valueToAnchorMap[optionValue]
+
+        state.rangerValues.push(rangerValue)
+        state.rangerValuesString += `-${rangerValue}`
+    })
+
+
+    const _rangerProps: RangerProps = {
+        className, refApi, disabled, label, rangePickIcon, rangersCrossBehavior,
+        theme: rangerTheme,
+        onRangePickFinish, onRangePickStart,
+        value: state.rangerValues,
+        children: children
+            ?   <div className={ theme.children_wrapper }>
+                    { children }
+                    { rangerChildren }
+                </div>
+            :   rangerChildren
+    }
+    onChange && (_rangerProps.onChange = (newRangerValues, e) => {
+        const { anchorToOptionData, rangerValuesString, anchorPositionsSorted } = state
+
+        const newAnchoredRangerValue: number[] = []
+        let newRangerValuesString = ''
+
+        const stepperValues = newRangerValues.map(rangeValue => {
+            const anchorValue = getClosestNumberFromArray(anchorPositionsSorted, rangeValue)!
+            const { value, index } = anchorToOptionData[anchorValue]
+
+            newAnchoredRangerValue.push(anchorValue)
+            newRangerValuesString += `-${anchorValue}`
+
+            return {
+                value,
+                optionIndex: index
+            }
+        })
+
+        rangerValuesString != newRangerValuesString && onChange(stepperValues, e)
     })
 
 
@@ -122,13 +162,13 @@ Stepper.defaults = {
     theme: {
         root: '',
         anchors_wrapper: '',
+        children_wrapper: '',
         anchor: '',
         anchor__active: ''
     }
 }
-Stepper.recursiveMergeProps = ['rangetProps']
 Stepper.ID = componentID
 
 
 export default Stepper
-export type { Props }
+export * from './types'

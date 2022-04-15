@@ -1,48 +1,88 @@
-import type { DateResolver } from '../../utils/date/consts'
-import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../_internals/types'
+import type { DateResolver } from '../../utils/date/constants'
+import type { PropsComponentThemed, CoreIUComponent, NewComponentAttributes } from '../_internals/types'
 
 
-type ThemeKeys = 'month_wrapper' | 'month_title_wrapper' | 'icon' | 'month_title'
-    | 'month_days_wrapper' | 'month__sibling' | 'week' | 'week_day' | 'row' | 'day' | 'day__selected' | 'day__first'
-    | 'day__last' | 'day__today' | 'day__placeholder' | 'from' | 'to' | '_in_progress'
+type PostProcessCalendarDayParams = {
+    className: string
+    children: React.ReactNode
+}
 
 
-type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
+type Theme = {
+    _in_progress?: string
+    month_wrapper?: string
+    month_title_wrapper?: string
+    month_title?: string
+    icon_month?: string
+    icon_year?: string
+    icon_prev?: string
+    icon_next?: string
+    month_days_wrapper?: string
+    month__sibling?: string
+    week?: string
+    week_day?: string
+    row?: string
+    day?: string
+    day__selected?: string
+    day__first?: string
+    day__last?: string
+    day__today?: string
+    day__hidden?: string
+    day__range_from?: string
+    day__range_to?: string
+}
+
+type Props<_Payload = any> = PropsComponentThemed<Theme, {
     initDate: {
         rangeDateStart: number
         rangeDateEnd?: number
     }
     onChange?(range: Props['initDate'], isFinished: boolean, payload: _Payload): void
     onMonthSwitch?(date: Date, value: number, e: React.MouseEvent): void
+    onYearSwitch?(date: Date, value: number, e: React.MouseEvent): void
+    postProcessCalendarDay?(children: PostProcessCalendarDayParams): PostProcessCalendarDayParams
+    constructCalendarTitle?(
+        params: {
+            prevMonthIcon: Props['prevMonthIcon']
+            nextMonthIcon: Props['nextMonthIcon']
+            prevYearIcon: Props['prevYearIcon']
+            nextYearIcon: Props['nextYearIcon']
+            year: number
+            monthName: string
+        }
+    ): React.ReactNode
     hideSiblingMonthsDays?: boolean
-    prevIcon?: React.ReactNode
-    nextIcon?: React.ReactNode
+    fixedHeight?: boolean
+    noControls?: boolean
+    prevMonthIcon?: React.ReactNode
+    nextMonthIcon?: React.ReactNode
+    prevYearIcon?: React.ReactNode
+    nextYearIcon?: React.ReactNode
     monthsBefore?: number
     monthsAfter?: number
-    fixedHeight?: boolean
     weekStartsFrom?: 1 | 2 | 3 | 4 | 5 | 6
-    noControls?: boolean
     triggerOnlyWhenFinished?: boolean
-    locale?: string
     payload?: _Payload
     rangePick?: boolean
-    attributes?: ComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
     strings?: {
         months: ReturnType<DateResolver>['months']
         weekDaysShort: ReturnType<DateResolver>['weekDaysShort']
     }
 }>
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
-    strings: NonNullable<Props['strings']>
-    prevIcon: NonNullable<Props['prevIcon']>
-    nextIcon: NonNullable<Props['nextIcon']>
-    monthsBefore: NonNullable<Props['monthsBefore']>
-    monthsAfter: NonNullable<Props['monthsAfter']>
-    fixedHeight: boolean
-    triggerOnlyWhenFinished: NonNullable<Props['triggerOnlyWhenFinished']>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props['theme']>
+    strings: Required<Props['strings']>
+    prevMonthIcon: Props['prevMonthIcon']
+    nextMonthIcon: Props['nextMonthIcon']
+    prevYearIcon: Props['prevYearIcon']
+    nextYearIcon: Props['nextYearIcon']
+    monthsBefore: Props['monthsBefore']
+    monthsAfter: Props['monthsAfter']
+    fixedHeight: Props['fixedHeight']
+    triggerOnlyWhenFinished: Props['triggerOnlyWhenFinished']
+}>
 
 type MergedProps = Props & DefaultProps
 
@@ -55,40 +95,9 @@ type State = {
 }
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-type ChildProps = {
-    calendarProps: MergedProps
-    parentState: State
-    beginOfMonth: Date
-    pickRangeStart(e: React.MouseEvent): void
-}
 
-type AllDaysData = {
-    timestamp: number
-    date: number
-    isSiblingMonth?: boolean
-    hidden?: boolean
-    isFirst?: boolean
-    isLast?: boolean
-    isToday?: boolean
-}
-
-type PrevNextDaysParams = {
-    beginOfMonth: ChildProps['beginOfMonth']
-    hideSiblingMonthsDays: MergedProps['hideSiblingMonthsDays']
-    weekStartsFrom: MergedProps['weekStartsFrom']
-    fixedHeight: MergedProps['fixedHeight']
-}
-
-type GetDayClass = (params: {
-    dayObj: AllDaysData
-    theme: MergedProps['theme']
-    hideSiblingMonthsDays: MergedProps['hideSiblingMonthsDays']
-    innerRangeStart: State['innerRangeStart']
-    innerRangeEnd: State['innerRangeEnd']
-}) => string
 
 type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Component, Store, Props, DefaultProps, MergedProps, ChildProps,
-    AllDaysData, PrevNextDaysParams, GetDayClass }
+export type { Component, Store, Props, DefaultProps, MergedProps }

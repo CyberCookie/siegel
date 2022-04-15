@@ -19,11 +19,11 @@ const jsonContentTypeHeaders = {
 
 
 function extractRequestData(request: RequestParams) {
-    const { url, query, params, headers, body, credentials, signal, json } = request
-    let fetchURL = url as string
+    const {
+        url, query, params, method, headers, body, credentials, signal, json
+    } = request
 
-    const options: RequestInit = { method: request.method }
-
+    const options: RequestInit = { method }
 
     if (body) {
         options.body = body
@@ -31,7 +31,9 @@ function extractRequestData(request: RequestParams) {
     }
     options.method ||= 'GET'
 
-    params && (fetchURL = populateURLParams(fetchURL, params))
+    let fetchURL = params
+        ?   populateURLParams(url, params) as string
+        :   url
 
 
     if (query) {
@@ -114,7 +116,7 @@ const createApi = (hooks: Hooks = {}) => {
             if (preventSame) {
                 if (activeRequest.has(reqKey)) {
                     throw {
-                        err: new Error('Same request is already processing'),
+                        err: new Error('Same request is already processing...'),
                         canceled: true
                     }
                 } else activeRequest.add(reqKey)

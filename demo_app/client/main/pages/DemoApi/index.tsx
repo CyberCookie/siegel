@@ -34,7 +34,7 @@ const DemoApi: Page = () => {
                 <Input placeholder='type some text and send it...'
                     label='Data to send:'
                     value={ requestString }
-                    attributes={{
+                    rootTagAttributes={{
                         onKeyDown(e) {
                             !isDisabledSend && e.key == 'Enter' && sendData()
                         }

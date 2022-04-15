@@ -1,4 +1,6 @@
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
 type MultiSelectProps = {
@@ -10,9 +12,14 @@ type SingleSelectProps = {
     selected: string
 }
 
-type ThemeKeys = 'option' | 'option__selected' | '_disabled'
 
-type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
+type Theme = {
+    option?: string
+    option__selected?: string
+    _disabled?: string
+}
+
+type Props<_Payload = any> = PropsComponentThemed<Theme, {
     onChange(id: string, e: React.MouseEvent, payload: _Payload): void
     options: {
         id: string
@@ -21,12 +28,12 @@ type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
         payload?: _Payload
     }[]
     disabled?: boolean
-    attributes?: ComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
 }> & (MultiSelectProps | SingleSelectProps)
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props['theme']>
+}>
 
 type MergedProps = Props & DefaultProps
 

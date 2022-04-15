@@ -37,7 +37,7 @@ async function createHTTPServer(params) {
         .disable('x-powered-by')
         .use(historyApiFallback())
 
-    devMiddlewares
+    devMiddlewares.length
         ?   devMiddlewares.forEach(m => {
                 staticServer.use(m)
             })

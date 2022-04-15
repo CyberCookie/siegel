@@ -35,7 +35,7 @@ import _dataTableTheme from './styles/data_table.sass'
 import accordionTheme from './styles/accordion.sass'
 import _dropdownSearchTheme from './styles/dropdown_search.sass'
 import inputTheme from './styles/input.sass'
-import _numberPickerTheme from './styles/number_picker.sass'
+import numberPickerTheme from './styles/number_picker.sass'
 import paginationTheme from './styles/pagination.sass'
 import popupTheme from './styles/popup.sass'
 import radioTheme from './styles/radio.sass'
@@ -53,7 +53,6 @@ const Button = withDefaults(_Button, { className: buttonTheme.button })
 
 const Breadcrumbs = withDefaults(_Breadcrumbs, {
     history,
-    hasDynamicCrumbs: true,
     theme: breadcrumbsTheme,
     separator: icons.chevron,
     config: routesConfig
@@ -61,8 +60,8 @@ const Breadcrumbs = withDefaults(_Breadcrumbs, {
 
 const Calendar = withDefaults(_Calendar, {
     theme: calendarTheme,
-    prevIcon: icons.chevron,
-    nextIcon: icons.chevron
+    prevMonthIcon: icons.chevron,
+    nextMonthIcon: icons.chevron
 })
 
 const Checkbox = withDefaults(_Checkbox, {
@@ -95,12 +94,11 @@ const dropdownSearchTheme: DropdownSearchProps['theme'] = {
 }
 const DropdownSearch = withDefaults(_DropdownSearch, {
     theme: dropdownSearchTheme,
-    inputProps: {
-        theme: {
-            field: `${inputTheme.field} ${_dropdownSearchTheme.field}`,
-            label_text: inputTheme.label_text,
-            _focused: inputTheme._focused
-        }
+    inputTheme: {
+        field: `${inputTheme.field} ${_dropdownSearchTheme.field}`,
+        label_text: inputTheme.label_text,
+        children: `${_selectTheme.reset} ${_dropdownSearchTheme.reset}`,
+        _focused: inputTheme._focused
     }
 })
 
@@ -108,12 +106,14 @@ const DropdownSearch = withDefaults(_DropdownSearch, {
 const Input = withDefaults(_Input, { theme: inputTheme })
 
 
-const numberPickerTheme: NumberPickerProps['theme'] = Object.assign(_numberPickerTheme, {
-    field: `${inputTheme.field} ${_numberPickerTheme.field}`,
-    label_text: inputTheme.label_text
-})
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
+    inputTheme: {
+        _focused: numberPickerTheme._focused,
+        _disabled: numberPickerTheme._disabled,
+        field: `${inputTheme.field} ${numberPickerTheme.field}`,
+        label_text: inputTheme.label_text
+    },
     minusIcon: icons.chevron,
     plusIcon: icons.chevron
 })
@@ -121,7 +121,8 @@ const NumberPicker = withDefaults(_NumberPicker, {
 
 const Pagination = withDefaults(_Pagination, {
     theme: paginationTheme,
-    controlIcon: icons.chevron,
+    iconPrev: icons.chevron,
+    iconNext: icons.chevron,
     separator: '---'
 })
 
@@ -136,7 +137,7 @@ const Radio = withDefaults(_Radio, {
 
 
 const selectTheme: SelectProps['theme'] = Object.assign(_selectTheme, {
-    title: `${inputTheme.field} ${_selectTheme.title}`,
+    title_wrapper: `${inputTheme.field} ${_selectTheme.title_wrapper}`,
     label: inputTheme.label_text
 })
 const Select = withDefaults(_Select, {
@@ -154,16 +155,18 @@ const Toggle = withDefaults(_Toggle, { theme: toggleTheme })
 const Tabs = withDefaults(_Tabs, { theme: tabsTheme })
 
 
-const rangerDefaultProps = {
+const Ranger = withDefaults(_Ranger, {
     theme: rangerTheme,
     rangePickIcon: ''
-}
-
-const Ranger = withDefaults(_Ranger, rangerDefaultProps)
+})
 
 const Stepper = withDefaults(_Stepper, {
     theme: stepperTheme,
-    rangetProps: rangerDefaultProps
+    rangerTheme: Object.assign(rangerTheme, {
+        range__selected: `${rangerTheme.range__selected} ${stepperTheme.range__selected}`,
+        _single_picker: stepperTheme.single_pick
+    }),
+    rangePickIcon: ''
 })
 
 

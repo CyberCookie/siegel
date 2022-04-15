@@ -11,27 +11,45 @@ type State = {
     activeSliderArrValueIndex: undefined | number
 }
 
-type ThemeKeys = 'anchors_wrapper' | 'anchor' | 'anchor__active'
+type Option = {
+    value: string
+    label?: React.ReactNode
+    className?: string
+    payload?: any
+}
 
-type Props = PropsComponentThemed<ThemeKeys, {
-    selectedFrom: string
-    options: {
-        value: string
-        label?: React.ReactNode
-        className?: string
-    }[]
+
+type Theme = {
+    anchors_wrapper?: string
+    anchor?: string
+    anchor__active?: string
+    children_wrapper?: string
+}
+
+type Props = PropsComponentThemed<Theme, {
+    value: string[]
+    options: Option[]
     onChange?(
-        selectedFrom: Props['selectedFrom'],
-        selectedTo: Props['selectedTo'],
+        values: {
+            value: Option['value']
+            optionIndex: number
+        }[],
         e: MouseEvent | React.MouseEvent
     ): void
-    selectedTo?: string
-    rangetProps?: Omit<RangerProps, 'value' | 'onChange'>
+    rangerTheme?: RangerProps['theme']
+    onRangePickStart?: RangerProps['onRangePickStart']
+    onRangePickFinish?: RangerProps['onRangePickFinish']
+    rangersCrossBehavior?: RangerProps['rangersCrossBehavior']
+    rangePickIcon?: RangerProps['rangePickIcon']
+    refApi?: RangerProps['refApi']
+    label?: RangerProps['label']
+    disabled?: RangerProps['disabled']
+    children?: React.ReactNode
 }>
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props['theme']>
+}>
 
 type MergedProps = Props & DefaultProps
 

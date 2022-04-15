@@ -1,4 +1,14 @@
-type ComponentAttributes<E = HTMLElement, A = React.HTMLAttributes<E>> = A & React.RefAttributes<E>
+type ComponentAttributes<
+    E = HTMLElement,
+    A = React.HTMLAttributes<E>
+> = A & React.RefAttributes<E>
+
+type NewComponentAttributes<
+    E = HTMLElement,
+    A = React.HTMLAttributes<E>,
+    CA = Partial<ComponentAttributes<E, A>>
+> = CA | ((defAttributes: CA) => CA)
+
 
 type ComponentRefApi<Props> = {
     getRef(ref: HTMLElement, props: Props): void
@@ -6,12 +16,14 @@ type ComponentRefApi<Props> = {
 }
 
 type PropsComponentBase<Props extends Indexable = Indexable> = {
-    refApi?: ComponentRefApi<Props>
     className?: string
+    refApi?: ComponentRefApi<Props>
 } & Props
 
-type PropsComponentThemed<K extends string = string, Props extends Indexable = Indexable> = {
-    theme?: Partial<Record<K | 'root', string>>
+type PropsComponentThemed<T extends Indexable = Indexable, Props extends Indexable = Indexable> = {
+    theme?: {
+        root?: string
+    } & T
 } & PropsComponentBase<Props>
 
 
@@ -19,7 +31,6 @@ type CoreIUComponent<P extends PropsComponentThemed, D extends Partial<P>> = {
     (props: P, withDefaults?: boolean): JSX.Element
     defaults: D
     ID: string
-    recursiveMergeProps?: (Extract<keyof P, string>)[]
 }
 
 type CoreIUComponentWithDefaults<C extends CoreIUComponent<any, any>> = {
@@ -29,7 +40,7 @@ type CoreIUComponentWithDefaults<C extends CoreIUComponent<any, any>> = {
 
 
 export type {
-    ComponentAttributes,
+    ComponentAttributes, NewComponentAttributes,
     ComponentRefApi,
     CoreIUComponent, CoreIUComponentWithDefaults,
     PropsComponentBase, PropsComponentThemed

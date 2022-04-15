@@ -1,56 +1,25 @@
-<h1>Client core</h1>
+# Client core
 
-<h3>Client side related parts:</h3></br>
+### Client side related parts:
 
-<ul>
-    <li>
-        <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/ui'>
-            UI: - 
-        </a>
-        Most usefull <b>fast</b> and <b>lightweight</b> <b>React ui components.</b>
-    </li><br />
-    <li>
-        <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/router'>
-            Router: -
-        </a>
-        ( react-router-dom wrapper)<br />
-        React-router wrapper that provides <b>much more convenient way</b> to <br />
-        create routerrs of <b>any complexity</b>.
-    </li><br />
-    <li>
-        <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/store'>
-            Global state manager: -
-        </a>
-        <b>Minimalistic</b> and <b>easy to use</b> state manager built with <b>React hooks</b><br />
-        grands you the best experience to work with React global state management.
-    </li><br />
-    <li>
-        <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/hooks'>
-            Some useful React hooks.
-        </a>
-    </li><br />
-    <li>
-        <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/network'>
-            Network: -
-        </a>
-        Smart, fast and configurable <b>Fetch</b> and <b>WebScoket</b> wrappers to work with api.
-    </li><br />
-    <li>
-        <a href='https://github.com/CyberCookie/siegel/tree/master/client_core/utils'>
-            Utils: -
-        </a>
-        So help you to perform the most common tasks.
-    </li>
-</ul>
+</br>
+
+- [UI](https://github.com/CyberCookie/siegel/tree/master/client_core/ui) - Most usefull **fast** and **lightweight** **React ui components**.
+- [Router](https://github.com/CyberCookie/siegel/tree/master/client_core/router) - ( react-router-dom wrapper)<br />
+    React-router wrapper that provides **much more convenient way** to <br />
+    create routerrs of **any complexity**.
+- [Global state manager](https://github.com/CyberCookie/siegel/tree/master/client_core/store) - **Minimalistic** and **easy to use** state manager built with **React hooks**<br />
+    grands you the best experience to work with React global state management.
+- [Some useful React hooks](https://github.com/CyberCookie/siegel/tree/master/client_core/hooks)
+- [Network](https://github.com/CyberCookie/siegel/tree/master/client_core/network) - Smart, fast and configurable **Fetch** and **WebScoket** wrappers to work with api.
+- [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils) - To help you to perform the most common tasks.
+
+
 <br /><br />
-
-
 <details>
-    <summary><h5>TODO</h5></summary>
-    <ul>
-        <li>PWA</li>
-        <li>Components low level configuration</li>
-        <li>More unit tests</li>
-        <li>Resolve TODOs</li>
-    </ul>
+    <summary>TODO</summary>
+    - PWA<br />
+    - Components low level configuration<br />
+    - More unit tests<br />
+    - Resolve TODOs
 </details>

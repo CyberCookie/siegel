@@ -1,10 +1,10 @@
 import React from 'react'
 
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import type {
-    Component, MergedProps,
-    TableBodyRow, TableHeadRow, TableTH, TableTD, Props
+    Component, MergedProps, TableBodyRow, TableHeadRow, TableTH, TableTD
 } from './types'
 
 
@@ -37,11 +37,13 @@ const Table: Component = (props, noDefaults) => {
         ?   extractProps(Table.defaults, props, false)
         :   (props as MergedProps)
 
-    const { className, head, body, foot, attributes, caption, refApi } = mergedProps
+    const { className, head, body, foot, rootTagAttributes, caption, refApi } = mergedProps
 
     let tableRootProps = { className }
     refApi && (applyRefApi(tableRootProps, mergedProps))
-    attributes && (tableRootProps = Object.assign(tableRootProps, attributes))
+    if (rootTagAttributes) {
+        tableRootProps = mergeTagAttributes(tableRootProps, rootTagAttributes)
+    }
 
 
     return (
@@ -60,4 +62,4 @@ Table.ID = componentID
 
 export { componentID }
 export default Table
-export type { TableBodyRow, TableHeadRow, TableTH, TableTD, Props }
+export * from './types'

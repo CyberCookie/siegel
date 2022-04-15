@@ -19,7 +19,7 @@ function getTextValue(this: GridColumnConfig, entity: Entity) {
     const { className, valuePath } = this.customParams!
     return {
         className,
-        value: entity[valuePath]
+        value: entity[valuePath!]
     }
 }
 
@@ -53,7 +53,7 @@ function filterValue(
     }
 
     const setFilterFunc: OnFilterCompareFunc = ID => {
-        const value: string = byID[ID][this.customParams!.valuePath]
+        const value: string = byID[ID][this.customParams!.valuePath!]
         return !(search as Set<string>).has(value)
     }
 
@@ -86,6 +86,7 @@ function sortValue(
 
 const columnsConfig: DemoDataTableProps['columnsConfig'] = [
     {
+        ID: 'id',
         label: 'ID',
         showValue: getTextValue,
         onSort: sortValue,
@@ -97,6 +98,7 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
         }
     },
     {
+        ID: 'date',
         label: 'Date',
         showValue({ date }) {
             return {
@@ -113,6 +115,7 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
         }
     },
     {
+        ID: 'name',
         label: 'Name',
         showValue: getTextValue,
         onSort: sortValue,
@@ -124,6 +127,7 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
         }
     },
     {
+        ID: 'number',
         label: 'Some number',
         showValue: getTextValue,
         onSort: sortValue,
@@ -135,6 +139,7 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
         }
     },
     {
+        ID: 'bool',
         label: 'Some boolean',
         showValue({ bool }) {
             return {

@@ -22,8 +22,7 @@ const DEPENDENCIES = {
 
     plugins: {
         HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, reactRefresh, eslint,
-        serviceWorkerPlugin,
-        miniCssExtract: miniCssExtract.default
+        serviceWorkerPlugin, miniCssExtract
     },
 
     loaders: {

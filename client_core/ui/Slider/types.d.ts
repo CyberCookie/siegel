@@ -1,4 +1,6 @@
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
 type SwitchSlide = (
@@ -7,37 +9,41 @@ type SwitchSlide = (
     isControlClick?: boolean
 ) => void
 
-type GetSliderVisualsParams = {
-    mergedProps: MergedProps
-    switchSlide: SwitchSlide
-    curSlide: number
+
+type Theme = {
+    _slided_forward?: string
+    _slided_backward?: string
+    children?: string
+    slides_wrapper?: string
+    slide?: string
+    slide__active?: string
+    slide__prev?: string
+    slide__next?: string
+    controls_wrapper?: string
+    control?: string
+    control__active?: string
 }
 
-
-type ThemeKeys = 'children' | 'slides_wrapper'
-    | 'slide' | 'slide__active' | 'slide__prev' | 'slide__next'
-    | 'controls_wrapper' | 'control' | 'control__active'
-    | '__slided_forward' | '__slided_backward'
-
-type Props = PropsComponentThemed<ThemeKeys, {
+type Props = PropsComponentThemed<Theme, {
     slides: React.ReactNode[]
-    innerStore?: [ number, React.Dispatch<React.SetStateAction<number>> ]
+    store?: [ number, React.Dispatch<React.SetStateAction<number>> ]
+    children?: React.ReactNode
     startFrom?: number
-    withControlls?: boolean
+    withControls?: boolean
     swipeDelta?: number
     loop?: boolean
     autoslideInterval?: number
-    attributes?: ComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
 }>
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
-    swipeDelta: NonNullable<Props['swipeDelta']>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props['theme']>
+    swipeDelta: Props['swipeDelta']
+}>
 
 type MergedProps = Props & DefaultProps
 
 type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, SwitchSlide, GetSliderVisualsParams }
+export type { Props, DefaultProps, MergedProps, Component, SwitchSlide }

@@ -12,13 +12,17 @@ $right_radius: 0 50% 50% 0
 .month_wrapper
     &:not(:first-child)
         margin-left: $gutter
-    
-    &:first-child:not(:last-child) .icon:last-child,
-    &:last-child:not(:first-child) .icon:first-child,
-    &:not(:first-child):not(:last-child) .icon
+
+    &:not(:first-child):not(:last-child)
+        .icon_next, .icon_prev
+            visibility: hidden
+
+    &:last-child:not(:first-child) .icon_prev,
+    &:first-child:not(:last-child) .icon_next
         visibility: hidden
 
-.icon
+
+.icon_month
     cursor: pointer
 
     &:first-of-type i
@@ -30,6 +34,10 @@ $right_radius: 0 50% 50% 0
     i
         +font(34px, '', $primary)
         vertical-align: text-bottom
+
+.icon_year
+    cursor: pointer
+    +font(24px, '', $primary, 700)
 
 
 .month_title_wrapper
@@ -51,19 +59,21 @@ $right_radius: 0 50% 50% 0
 .day
     cursor: pointer
 
-.day__today, .from, .to, .day__selected
+.day__today, .day__range_from, .day__range_to, .day__selected
     color: $white
 
-.from
+.day__range_from
     border-radius: $left_radius !important
 
-.to
+.day__range_to
     border-radius: $right_radius !important
 
-.from:last-child, .to:first-child, .from.to
+.day__range_from:last-child,
+.day__range_to:first-child,
+.day__range_from.day__range_to
     border-radius: 50% !important
 
-.to, .day__selected
+.day__range_to, .day__selected
     background: lighten($primary, 10%)
 
 .day__today

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import inputID from '../Input/id'
 import checkboxID from '../Checkbox/id'
 import type { Component as _Input, Props as InputProps } from '../Input/types'
 import type { Component as _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
 import type {
-    Component, ValueStateValue, Validator, FormStore, CommonChangeProps, MergedProps,
-    Props
+    Component, ValueStateValue, Validator, FormStore, CommonChangeProps, MergedProps
 } from './types'
 
 
@@ -33,7 +33,7 @@ const onInputChange = (commonChangeProps: CommonChangeProps, value: string) => {
 }
 
 const Form: Component = (props, noDefaults) => {
-    const { onSubmit, className, attributes, inputs } = noDefaults
+    const { onSubmit, className, rootTagAttributes, inputs } = noDefaults
         ?   extractProps(Form.defaults, props, false)
         :   (props as MergedProps)
 
@@ -41,7 +41,7 @@ const Form: Component = (props, noDefaults) => {
     const formStore: FormStore = useState({})
     const [ values, setValues ] = formStore
 
-    const formProps = Object.assign({
+    let formProps = {
         className,
         onSubmit(e: React.FormEvent<HTMLFormElement>) {
             e.stopPropagation()
@@ -50,7 +50,8 @@ const Form: Component = (props, noDefaults) => {
             onSubmit(values, e)
         },
         children: getFormElements()
-    }, attributes)
+    }
+    rootTagAttributes && (formProps = mergeTagAttributes(formProps, rootTagAttributes))
 
     const ifDisabledBy = (name: string) => {
         const formElementData = inputs[name]
@@ -72,7 +73,7 @@ const Form: Component = (props, noDefaults) => {
 
             let ComponentToPush: JSX.Element
 
-            const dissabled = disabledIf
+            const disabled = disabledIf
                 ?   typeof disabledIf == 'string'
                     ?   ifDisabledBy(disabledIf)
                     :   disabledIf.some(ifDisabledBy)
@@ -85,7 +86,7 @@ const Form: Component = (props, noDefaults) => {
                 const changeCommonParams = { validators, name, formStore }
 
                 const extraProps = {
-                    value, name, dissabled,
+                    value, name, disabled,
                     errorMsg: (props as InputProps).errorMsg || errorMsg,
                     onChange(value) {
                         onInputChange(changeCommonParams, value)
@@ -98,7 +99,7 @@ const Form: Component = (props, noDefaults) => {
                 ComponentToPush = React.createElement(Component as _Input, Object.assign(extraProps, props))
             } else if (Component.ID == checkboxID) {
                 const extraProps = {
-                    value, dissabled,
+                    value, disabled,
                     onChange(value) {
                         values[name] = { value }
                         setValues({ ...values })
@@ -128,4 +129,4 @@ Form.ID = componentID
 
 export { componentID }
 export default Form
-export type { Props }
+export * from './types'

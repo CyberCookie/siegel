@@ -1,21 +1,26 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useMemo, useState, useLayoutEffect } from 'react'
 
 import isExists from '../../utils/is/exists'
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
-import {
-    Component, MergedProps, Store,
-    Props, BreadcrumbConfig
-} from './types'
+import { Component, MergedProps, Store, Props } from './types'
 
 import styles from './styles.sass'
 
 
-const linkClickPreventDefault = (e: React.MouseEvent) => { e.preventDefault() }
+function linkClickPreventDefault(e: React.MouseEvent) {
+    e.preventDefault()
+}
 
-function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store | undefined) {
-    const { theme, history, separator, config, onChange, hasDynamicCrumbs } = props
+function getBreadcrumbs(
+    props: MergedProps,
+    dynamicCrumbsState: Store[0] | undefined,
+    hasDynamicCrumbs: boolean | undefined
+) {
+
+    const { theme, history, separator, config, onChange } = props
 
     const location = history.location.pathname
     const locationArray = location == '/' ? [''] : location.split('/')
@@ -39,16 +44,16 @@ function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store | undefine
 
             if (crumb || dynamicCrumb) {
                 const name = dynamicCrumb && hasDynamicCrumbs
-                    ?   dynamicCrumbsStore![0][dynamicCrumb] || dynamicCrumb
+                    ?   dynamicCrumbsState![dynamicCrumb] || dynamicCrumb
                     :   typeof crumb == 'function'
                             ?   crumb(newPath, loc)
                             :   crumb
 
                 breadcrumbsElements.push(
-                    <a key={ newPath } className={ theme.link } onClick={ linkClickPreventDefault }
+                    <a key={ newPath } className={ theme.crumb } onClick={ linkClickPreventDefault }
                         onMouseDown={ e => {
                             onChange
-                                ?   onChange(newPath, e)
+                                ?   onChange(newPath, loc, e)
                                 :   history.push(newPath)
                         } }>
 
@@ -65,18 +70,28 @@ function getBreadcrumbs(props: MergedProps, dynamicCrumbsStore: Store | undefine
     return breadcrumbsElements
 }
 
+const checkHasDynamicCrumb: (config: Props['config']) => boolean | undefined = config => {
+    for (const path in config) {
+        const { children, dynamicCrumb } = config[path]
+        if (dynamicCrumb) return true
+        else if (children) return checkHasDynamicCrumb(children)
+    }
+}
+
 const Breadcrumbs: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(Breadcrumbs.defaults, props, false)
         :   (props as MergedProps)
 
-    const { className, attributes, refApi, hasDynamicCrumbs } = mergedProps
+    const { className, rootTagAttributes, refApi, config } = mergedProps
 
 
-    let dynamicCrumbsStore: Store | undefined
+    const hasDynamicCrumbs = useMemo(() => checkHasDynamicCrumb(config), [])
+
+    let dynamicCrumbsState: Store[0] | undefined
     if (hasDynamicCrumbs) {
-        dynamicCrumbsStore = useState({})
-        const [ state, setState ] = dynamicCrumbsStore
+        const [ state, setState ] = useState({})
+        dynamicCrumbsState = state
 
         useLayoutEffect(() => {
             const setDynamicCrumbsHandler = (function({ detail }: CustomEvent) {
@@ -94,12 +109,12 @@ const Breadcrumbs: Component = (props, noDefaults) => {
     }
 
 
-    const breadcrumbsRootProps: Props['attributes'] = {
+    let breadcrumbsRootProps: Props['rootTagAttributes'] = {
         className,
-        children: getBreadcrumbs(mergedProps, dynamicCrumbsStore!)
+        children: getBreadcrumbs(mergedProps, dynamicCrumbsState!, hasDynamicCrumbs)
     }
     refApi && (applyRefApi(breadcrumbsRootProps, mergedProps))
-    attributes && Object.assign(breadcrumbsRootProps, attributes)
+    rootTagAttributes && (breadcrumbsRootProps = mergeTagAttributes(breadcrumbsRootProps, rootTagAttributes))
 
 
     return <div { ...breadcrumbsRootProps } />
@@ -109,7 +124,7 @@ Breadcrumbs.defaults = {
     separator: '',
     theme: {
         root: '',
-        link: ''
+        crumb: ''
     }
 }
 Breadcrumbs.ID = componentID
@@ -117,4 +132,4 @@ Breadcrumbs.ID = componentID
 
 export { componentID }
 export default Breadcrumbs
-export type { BreadcrumbConfig, Props }
+export * from './types'

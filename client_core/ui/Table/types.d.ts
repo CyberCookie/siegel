@@ -1,4 +1,6 @@
-import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentBase, ComponentAttributes, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
 type TableRow = {
@@ -31,7 +33,7 @@ type Props = PropsComponentBase<{
     body?: TableBodyRow[]
     foot?: TableBodyRow[]
     caption?: React.ReactNode
-    attributes?: ComponentAttributes<HTMLTableElement, React.TableHTMLAttributes<HTMLTableElement>>
+    rootTagAttributes?: NewComponentAttributes<HTMLTableElement, React.TableHTMLAttributes<HTMLTableElement>>
 }>
 
 type DefaultProps = {}

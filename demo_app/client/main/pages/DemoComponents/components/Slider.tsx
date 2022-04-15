@@ -22,12 +22,12 @@ const Demo = () => {
         <h2 children='simple' />
         <Slider { ...props } />
 
-        <h2 children={ `controlled. active slide: ${ storeForExample1[0] }` } />
-        <Slider { ...props } innerStore={ storeForExample1 } />
+        <h2 children={ `controled. active slide: ${ storeForExample1[0] }` } />
+        <Slider { ...props } store={ storeForExample1 } />
 
         <h2 children='with controls; loop; autoslide' />
-        <Slider { ...props } withControlls loop autoslideInterval={ 2000 }
-            innerStore={ storeForExample2 } />
+        <Slider { ...props } withControls loop autoslideInterval={ 2000 }
+            store={ storeForExample2 } />
     </>
 }
 Demo.id = ID

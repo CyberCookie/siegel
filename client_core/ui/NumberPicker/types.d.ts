@@ -1,9 +1,9 @@
-import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../_internals/types'
-import type { Props as InputProps, InputFieldThemeKeysArray } from '../Input/types'
+import type {
+    PropsComponentThemed, CoreIUComponent, NewComponentAttributes
+} from '../_internals/types'
+import type { Props as InputProps } from '../Input/types'
 
 
-type BtnClickEv = React.MouseEvent<HTMLButtonElement>
-type BtnProps = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
 type OnNumberPickerChange = (
     e: React.FocusEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>,
     isButtonClick?: boolean,
@@ -11,17 +11,24 @@ type OnNumberPickerChange = (
 ) => void
 
 
-type ThemeKeys = 'children' | 'controls' | 'button_minus' | 'button_plus' | '_disabled_all'
-    | 'input_root' | InputFieldThemeKeysArray[number]
+type Theme = {
+    _disabled_all?: string
+    children?: string
+    controls?: string
+    button_minus?: string
+    button_plus?: string
+    input_root?: string
+}
 
-type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
+type Props<_Payload = any> = PropsComponentThemed<Theme, {
     onChange(changeParams: {
         value: string
         event: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>
         isKeyboardArrowUp: boolean | undefined
         payload: _Payload
     }): void
-    attributes?: ComponentAttributes<HTMLDivElement>
+    children?: React.ReactNode
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
     step?: number
     min?: number
     max?: number
@@ -29,22 +36,21 @@ type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
     plusIcon?: React.ReactNode
     payload?: _Payload
     precision?: number
-    keyboardControls?: boolean
-
     disabledInput?: boolean
-    inputStore?: InputProps['innerStore']
-    inputRootAttributes?: InputProps['attributes']
-}> & Omit<InputProps, 'theme' | 'type' | 'attributes' | 'payload' | 'onBlur' | 'onChange' | 'innerStore'>
+    inputTheme?: InputProps['theme']
+    inputStore?: InputProps['store']
+    inputRootAttributes?: InputProps['rootTagAttributes']
+    onBlur?: InputProps['onBlur']
+}> & Omit<InputProps, 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store'>
 
-type DefaultProps = {
-    className: NonNullable<Required<Props['className']>>
-    theme: NonNullable<Required<Props['theme']>>
-    minusIcon: NonNullable<Props['minusIcon']>
-    plusIcon: NonNullable<Props['plusIcon']>
-    min: NonNullable<Props['min']>
-    max: NonNullable<Props['max']>
-    keyboardControls: NonNullable<Props['keyboardControls']>
-}
+type DefaultProps = NonNullableKeys<{
+    className: Props['className']
+    theme: Required<Props['theme']>
+    minusIcon: Props['minusIcon']
+    plusIcon: Props['plusIcon']
+    min: Props['min']
+    max: Props['max']
+}>
 
 type MergedProps = Props & DefaultProps
 

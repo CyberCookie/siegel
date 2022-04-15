@@ -19,49 +19,35 @@
 </a>
 </h1>
 
-
-<h4>
-    Siegel is a higly opiniated SPA development platform to build and host any scale projects in a simple way.
-    <br />
-</h4>
 <br />
 
-The platform provides:<br/>
+#### Siegel is a higly opiniated SPA development platform to build and host any scale projects in a simple way.
 
-<ul>
-    <li>
-        Preconfigured and easily extendable <code>Webpack</code> bundler:
-        <ul>
-            <li><code>ESBuild</code> to transform <code>TypeScript</code> and <code>JSX</code> syntaxes.</li>
-            <li>Code linting with <code>ESLint</code>.</li>
-            <li><code>Hot Modules Replace</code> for <b>scripts</b> and <b>styles</b></li>
-            <li><code>SASS</code> with <code>CSS modules</code>.</li>
-            <li>Compress and serve site assets compressed with <code>Brotli</code> or <code>GZIP</code>.</li>
-            <li><code>SVG icons to font</code> converter.</li>
-        </ul>
-    </li><br />
-    <li>
-        <code>ExpressJS</code> static server:
-        <ul>
-            <li><code>HTTP(S)1 / HTTP(S)2</code>. +Script that creates dev certificates to use in Chrome on localhost.</li>
-            <li><code>PM2</code> deamon to wrap your application in production mode.</li>
-        </ul>
-    </li><br />
-    <li>
-        Utils and modules to use on client side:
-        <ul>
-            <li>Big set of <code>React components</code>.</li>
-            <li>React <code>global state manager</code> built on top of <code>react hooks</code> and optional fetch module to track requests with.</li>
-            <li>Recursively configurable <code>react router</code> wrapper.</li>
-            <li>Network services to make requests and minimal client WebSocket implementation.</li>
-        </ul>
-    </li><br />
-    <li>
-        <code>Demo project</code> with themed components, predefined folder structure and scalable architecture built on top of Siegel.<br />
-        It gives you a quick start right after initialization!
-    </li>
-</ul>
+<br />
 
+Features:
+- Preconfigured and easily extendable `Webpack` bundler:
+    - `ESBuild` to transform `TypeScript` and `JSX` syntaxes
+    - Code linting with `ESLint`
+    - `Hot Modules Replace` for **scripts** and **styles**
+    - `SASS` with `CSS modules`
+    - Compress and serve site assets compressed with `Brotli` or `GZIP`
+    - `SVG icons to font` converter<br /><br />
+
+- `ExpressJS` static server:
+    - `HTTP(S)1 / HTTP(S)2`. +Script that creates dev certificates to use in Chrome on localhost
+    - `PM2` deamon to wrap your application in production mode<br /><br />
+
+- `Utils` and `modules` to use on client side:
+    - Big set of `React components`
+    - React `global state manager` built on top of `react hooks` and optional fetch module to track requests with
+    - Recursively configurable `react router` wrapper
+    - `Network` services to make requests and minimal client WebSocket implementation<br /><br />
+
+- `Demo project` with themed components, predefined folder structure and scalable architecture built on top of Siegel<br />
+    It gives you a quick start right after initialization!
+
+<br />
 
 Read more about each part following the links below:
 - [Client core](https://github.com/CyberCookie/siegel/tree/master/client_core)
@@ -77,16 +63,20 @@ Read more about each part following the links below:
 - [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)
 
 <br /><br />
-<h2>Simple usage</h2><hr /><br />
+
+## Simple usage
+
+<hr /><br />
 
 ```sh
 npm i siegel
 ```
 
 <br />
-Create <b>app.ts</b> file:<br /><br />
 
-```ts
+Create **app.ts** file:<br /><br />
+
+```js
 import { render } from 'react-dom'
 
 render(
@@ -105,12 +95,12 @@ Bootstrap the app with the next command:<br />
 npx siegel run
 ```
 
-Now your application is hosting on <b>localhost:3000</b> in watch mode and ready for development!<br /><br />
+Now your application is hosting on **localhost:3000** in watch mode and ready for development!<br /><br />
 
 
-You may also define <b>NodeJS dev server</b> with `--server` flag:<br />
+You may also define **NodeJS dev server** with `--server` flag:<br />
 
-create <b>server.js</b>
+create **server.js**
 
 ```js
 function appServer(app, { express }) {
@@ -134,18 +124,16 @@ To get more info about siegel CLI commands run:<br />
 npx siegel
 ```
 
-<br />
-<br />
-
-
-
 <br /><br />
-<h2>Usage</h2><hr /><br />
+
+## Usage
+
+<hr /><br />
 
 <p>
     Appart from calling siegel from CLI you may also use it in the most straightforward and flexible way - as a NodeJS module!<br />
-    Siegel itself is a function that accepts <b><a href='#config'>config</a></b> as a first argument and <b><a href='#runParams'>runParams</a></b> as a second.<br />
-    You may read about these parameters further.
+    Siegel itself is a function that accepts <a href='#config'>config</a> as a first argument and <a href='#runParams'>runParams</a> as a second<br />
+    You may read about these parameters further
 </p>
 
 
@@ -167,13 +155,13 @@ siegel('/path/to/js_entry.ts')
 
 
 <br />
-<h4>
-    <a id='config'>Config</a>
-</h4>
+
+#### <a id='config'>Config</a>
+
 <br />
 
-[->> Build configuration](https://github.com/CyberCookie/siegel/tree/master/src/client_build)<br />
-[->> Server configuration](https://github.com/CyberCookie/siegel/tree/master/src/server)
+[Build configuration](https://github.com/CyberCookie/siegel/tree/master/src/client_build)<br />
+[Server configuration](https://github.com/CyberCookie/siegel/tree/master/src/server)
 
 ```js
 {   
@@ -193,9 +181,9 @@ siegel('/path/to/js_entry.ts')
 ```
 
 <br />
-<h4>
-    <a id='runParams'>runParams</a>
-</h4>
+
+#### <a id='runParams'>runParams</a>
+
 <br />
 
 ```js
@@ -213,10 +201,13 @@ siegel('/path/to/js_entry.ts')
 
 
 <br /><br />
-<h2>Demo project init</h2><hr /><br />
 
-Initialization of demo project it's a quick way to start your project with everything you need right out of the box.<br />
-There are two module resolution strategies that you may choose.<br /><br >
+## Demo project init
+
+<hr /><br />
+
+Initialization of demo project it's a quick way to start your project with everything you need right out of the box<br />
+There are two module resolution strategies that you may choose<br /><br >
 
 We already seen the first one, where we had siegel installed locally and were able to initialize project with `npx siegel init`<br />
 
@@ -228,7 +219,7 @@ We already seen the first one, where we had siegel installed locally and were ab
 
 <br /><br />
 
-The second one is to have siegel installed globally and to use its node modules therefore to have a <b>single source of node modules for all your siegel proejcts</b>.<br />
+The second one is to have siegel installed globally and to use its node modules therefore to have a **single source of node modules for all your siegel proejcts**<br />
 
 ```sh
 npm i -g siegel
@@ -236,14 +227,14 @@ npm i -g siegel
 siegel init -g
 ```
 
-> Eslint is not working in projects initialized with `-g` flag.<br />
+> Eslint is not working in projects initialized with `-g` flag<br />
 
 
 <br /><br />
-Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists).<br />
+Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists)<br />
 Now you have project skeleton with preconfigured siegel in it!<br />
-Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production mode.<br />
-Now you may start a newly created project with: <br />
+Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production mode<br />
+Now you may start a newly created project with:<br />
 
 ```sh
 npm start
@@ -252,11 +243,14 @@ npm start
 
 <br />
 
-More about demo project read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app).<br />
+More about demo project read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app)<br />
 
 
 <br /><br />
-<h3>Siegel development</h3><hr /><br />
+
+### Siegel development
+
+<hr /><br />
 
 In case you've cloned this repo:<br />
 

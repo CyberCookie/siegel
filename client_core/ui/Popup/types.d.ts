@@ -1,20 +1,25 @@
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
-type ThemeKeys = 'content' | 'close'
+type Theme = {
+    content?: string
+    close?: string
+}
 
-type Props = PropsComponentThemed<ThemeKeys, {
+type Props = PropsComponentThemed<Theme, {
     onClose(e: React.MouseEvent): void
     closeIcon?: React.ReactNode
     content?: React.ReactNode
-    attributes?: ComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
 }>
 
-type DefaultProps = {
-    className: NonNullable<Required<Props['className']>>
-    theme: NonNullable<Required<Props['theme']>>
-    closeIcon: NonNullable<Props['closeIcon']>
-}
+type DefaultProps = NonNullableKeys<{
+    className: Props['className']
+    theme: Required<Props['theme']>
+    closeIcon: Props['closeIcon']
+}>
 
 type MergedProps = Props & DefaultProps
 

@@ -14,11 +14,11 @@ const nav = ([
     },
     {
         path: pagePathMap.demo_components,
-        label: 'Demo components'
+        label: 'Components'
     },
     {
         path: pagePathMap.demo_api,
-        label: 'Demo API'
+        label: 'Store + API'
     }
 ]).map(({ path, label }) => (
     <Link key={ path } to={ '/' + path } children={ label } className={ styles.nav_link } />

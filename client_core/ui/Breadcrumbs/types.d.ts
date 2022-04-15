@@ -1,5 +1,7 @@
 import type { History } from 'history'
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
 type State = Indexable<string>
@@ -9,28 +11,29 @@ type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 type BreadcrumbConfig = {
     [path: string]: {
         children?: BreadcrumbConfig
-        crumb?: string | ((path: string, name: string) => void)
+        crumb?: string | ((fullPath: string, pathPart: string) => void)
         dynamicCrumb?: string
     }
 }
 
 
-type ThemeKeys = 'link'
+type Theme = {
+    crumb?: string
+}
 
-type Props = PropsComponentThemed<ThemeKeys, {
+type Props = PropsComponentThemed<Theme, {
     config: BreadcrumbConfig
     history: History
-    hasDynamicCrumbs?: boolean
-    onChange?(path: string, e: React.MouseEvent): void
+    onChange?(fullPath: string, pathPart: string, e: React.MouseEvent): void
     separator?: React.ReactNode
-    attributes?: ComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
 }>
 
-type DefaultProps = {
-    className: NonNullable<Props['className']>
-    separator: NonNullable<Props['separator']>
-    theme: Required<NonNullable<Props['theme']>>
-}
+type DefaultProps = NonNullableKeys<{
+    className: Props['className']
+    theme: Required<Props['theme']>
+    separator: Props['separator']
+}>
 
 type MergedProps = Props & DefaultProps
 

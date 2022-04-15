@@ -14,11 +14,11 @@ type Props = Omit<
     'refApi'
 >
 
-type DefaultProps = {
-    speedCoef: NonNullable<Props['speedCoef']>
-    tickEveryMinute: NonNullable<Props['tickEveryMinute']>
-    zeroing: NonNullable<Props['zeroing']>
-}
+type DefaultProps = NonNullableKeys<{
+    speedCoef: Props['speedCoef']
+    tickEveryMinute: Props['tickEveryMinute']
+    zeroing: Props['zeroing']
+}>
 
 type MergedProps = Props & DefaultProps
 

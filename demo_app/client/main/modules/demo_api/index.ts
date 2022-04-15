@@ -24,11 +24,13 @@ const actions: Actions = {
         }).then(({ res }) => {
             if (res) {
                 const { dataToSend } = res
-                window.dispatchEvent(new CustomEvent(breadcrumbID, {
-                    detail: {
-                        [dynamicCrumbsMap.demo_api]: dataToSend
-                    }
-                }))
+                window.dispatchEvent(
+                    new CustomEvent(breadcrumbID, {
+                        detail: {
+                            [dynamicCrumbsMap.demo_api]: dataToSend
+                        }
+                    })
+                )
 
                 state.received = dataToSend
                 setState(state)

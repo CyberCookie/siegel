@@ -1,128 +1,108 @@
-//TODO: virtualization
-//TODO: resize with %
-//TODO: columns toggle
-//TODO: recursive merge select and pagination props
-//TODO: column ID
+//TODO?: recursive merge select and pagination props
+//TODO?: resize with %
+
 
 import React, { useState } from 'react'
 
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
+import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
 import Table from '../Table/index'
-import tableHeadRows from './head'
-import tableBodyRows from './body'
 import componentID from './id'
-import type {
-    Component, DataTableTableProps, State, MergedProps,
-    Props
-} from './types'
+import {
+    getBody, getHead, getPaginationFooter, applyVirtualization,
+    GetPaginationFnProps
+} from './helpers'
+import type { ComponentAttributes } from '../_internals/types'
+import type { Component, DataTableTableProps, State, MergedProps } from './types'
 
 import styles from './styles.sass'
 
 
-const innerTableClassName = styles[`${componentID}_inner_table`]
-
-const getDefaultState = () => ({
-    sortByField: {
-        index: 0,
-        value: 0
-    },
+const getDefaultState: () => State = () => ({
+    sortByField: {},
     searchByField: {},
+    toggledColumns: new Set(),
     showPerPage: 0,
     currentPage: 1
-} as State)
-
-function getPagination(props: MergedProps, resultIDs: ReturnType<typeof tableBodyRows>['resultIDs']) {
-    const { withPagination, theme, innerStore } = props
-
-    const [ state, setState ] = innerStore!
-    const showPerPage = state.showPerPage
-
-    const { displayQuantity, select, pagination } = withPagination!
-    const { props: selectProps, component: Select } = select
-    const { props: paginationProps, component: Pagination } = pagination
-
-    const dataTableSelectProps = Object.assign({
-        selected: showPerPage,
-        onChange(value: number) {
-            state.showPerPage = value
-            setState({ ...state })
-        }
-    }, selectProps)
-
-    const dataTablePaginationProps = {
-        showPerPage,
-        listLength: resultIDs.length,
-        curPage: state.currentPage,
-        onChange(value: number) {
-            state.currentPage = value
-            setState({ ...state })
-        }
-    }
-    paginationProps && Object.assign(dataTablePaginationProps, paginationProps)
-
-
-    return (
-        <div className={ theme.pagination_wrapper }>
-            { displayQuantity && displayQuantity(resultIDs.length) }
-
-            <Select { ...dataTableSelectProps } />
-
-            <Pagination { ...dataTablePaginationProps } />
-        </div>
-    )
-}
-
-const defaultState = getDefaultState()
+})
 
 const DataTable: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
         ?   extractProps(DataTable.defaults, props, false)
         :   (props as MergedProps)
 
-    const { theme, className, attributes, withPagination, tableAttributes, refApi } = mergedProps
-    mergedProps.innerStore ||= useState(defaultState)
+    const {
+        theme, className, rootTagAttributes, withFooter, tableAttributes, refApi,
+        virtualization, children
+    } = mergedProps
+    mergedProps.store ||= useState( getDefaultState() )
 
-    const hookState = mergedProps.innerStore[0]
 
-    const rootAttributes = { className }
-    refApi && (applyRefApi(rootAttributes, mergedProps))
-    attributes && (Object.assign(rootAttributes, attributes))
+    const hookState = mergedProps.store[0]
 
-    if (withPagination) {
-        hookState.showPerPage ||= withPagination.select.props.options[0].value
-        rootAttributes.className += ` ${theme._with_pagination}`
+    let rootAttributes: ComponentAttributes<HTMLDivElement> = { className }
+
+    if (withFooter) {
+        if (!hookState.showPerPage && withFooter.select) {
+            hookState.showPerPage = withFooter.select.props.options[0].value
+        }
+
+        rootAttributes.className += ` ${theme._with_footer}`
     }
 
-    const { body, resultIDs, from, to } = tableBodyRows(mergedProps, hookState)
-    const head = tableHeadRows(mergedProps, resultIDs, from, to)
+
+    let virtualizationParams
+    if (virtualization) {
+        virtualizationParams = applyVirtualization({ hookState, rootAttributes, mergedProps })
+        rootAttributes.onScroll = virtualizationParams.onScrollHandler
+    }
+
+
+    refApi && (applyRefApi(rootAttributes, mergedProps))
+    rootTagAttributes && (rootAttributes = mergeTagAttributes(rootAttributes, rootTagAttributes))
+
+
+    const {
+        body, resultIDs, from, to
+    } = getBody(mergedProps, hookState, virtualizationParams?.slideWindowRange)
+
+    virtualizationParams?.useVirtualizationScrolling(
+        Math.min(virtualizationParams.maxItemsCount, resultIDs.length)
+    )
+
 
     const dataTableTableProps: DataTableTableProps = {
-        head, body,
-        className: `${innerTableClassName} ${theme.table}`
+        body,
+        head: getHead(mergedProps, hookState, resultIDs, from, to),
+        className: `${styles.table} ${theme.table}`
     }
-    withPagination && (dataTableTableProps.foot = [{
+    withFooter && (dataTableTableProps.foot = [{
         children: [{
-            value: getPagination(mergedProps, resultIDs),
+            value: getPaginationFooter(mergedProps as GetPaginationFnProps, resultIDs),
             attributes: { colSpan: 100 }
         }]
     }])
-    tableAttributes && (dataTableTableProps.attributes = tableAttributes)
+    tableAttributes && (dataTableTableProps.rootTagAttributes = tableAttributes)
 
 
     return (
         <div { ...rootAttributes }>
             <Table { ...dataTableTableProps } />
+
+            { children && addChildren(children, theme) }
         </div>
      )
 }
 DataTable.defaults = {
     theme: {
         root: '',
+        children: '',
         table: '',
         table_resizer: '',
         pagination_wrapper: '',
-        _with_pagination: ''
+        _with_footer: ''
     }
 }
 DataTable.ID = componentID
@@ -130,4 +110,4 @@ DataTable.ID = componentID
 
 export { getDefaultState, componentID }
 export default DataTable
-export type { Props }
+export * from './types'

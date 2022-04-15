@@ -1,19 +1,21 @@
-import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentBase, CoreIUComponent, NewComponentAttributes, ComponentAttributes
+} from '../_internals/types'
 
 
-type _Attributes = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
+type ButtonAttributes = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
 
 type Props = PropsComponentBase<{
-    type?: _Attributes['type']
+    type?: ButtonAttributes['type']
     value?: React.ReactNode
-    disabled?: _Attributes['disabled']
-    onClick?: _Attributes['onClick']
-    attributes?: _Attributes
+    disabled?: ButtonAttributes['disabled']
+    onClick?: ButtonAttributes['onClick']
+    rootTagAttributes?: NewComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
 }>
 
-type DefaultProps = {
-    type: NonNullable<Props['type']>
-}
+type DefaultProps = NonNullableKeys<{
+    type: Props['type']
+}>
 
 type MergedProps = Props & DefaultProps
 

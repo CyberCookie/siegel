@@ -2,34 +2,25 @@
 
 import React, { useRef, useEffect, useState } from 'react'
 
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getInputLabeled from '../_internals/label'
 import componentID from './id'
-import type { PropsComponentThemed } from '../_internals/types'
 import type {
-    Component, MergedProps, InputFieldThemeKeysArray, InputElementAttributes,
+    Component, MergedProps, InnerInputAttributes,
     Props
 } from './types'
 
 
-const getDefaultInputStoreState = () => ({
+type InputRef = React.MutableRefObject<HTMLInputElement>
+
+
+const getDefaultState = () => ({
     isTouched: false,
     isFocused: false
 })
-
-const inputFieldThemeKeys: InputFieldThemeKeysArray = [
-    'label', 'label_text', 'field', 'error_text',
-    '_filled', '_error', '_disabled', '_focused', '_touched', '_readonly'
-]
-const updateThemeWithInputFieldTheme =<T extends PropsComponentThemed['theme']>(theme: T) => {
-    inputFieldThemeKeys.forEach(key => {
-        (theme as Indexable)[key] = ''
-    })
-
-    return theme as T & Record<InputFieldThemeKeysArray[number], string>
-}
 
 //[email, password, search, tel, text, url, (textarea)]
 const Input: Component = (props, noDefaults) => {
@@ -39,24 +30,24 @@ const Input: Component = (props, noDefaults) => {
 
     const {
         value = '',
-        theme, label, errorMsg, type, disabled, onBlur, attributes, inputAttributes,
-        onChange, onFocus, payload, innerStore, autofocus, placeholder, regexp, mask, refApi
+        theme, label, errorMsg, type, disabled, onBlur, rootTagAttributes, inputAttributes,
+        onChange, onFocus, payload, store, autofocus, placeholder, regexp, mask, refApi, children
     } = mergedProps
 
-    const store = innerStore || useState(getDefaultInputStoreState())
-    const [ state, setState ] = store
+    const innerStore = store || useState(getDefaultState())
+    const [ state, setState ] = innerStore
     const { isFocused, isTouched } = state
 
 
-    const inputProps: InputElementAttributes = {
+    let inputProps: InnerInputAttributes = {
         disabled, value, placeholder,
         className: theme.field
     }
     if (autofocus || mask) {
-        inputProps.ref = useRef<HTMLInputElement>(null)
+        inputProps.ref = useRef() as InputRef
 
         autofocus && useEffect(() => {
-            disabled || (inputProps.ref as React.MutableRefObject<HTMLInputElement>).current.focus()
+            disabled || (inputProps.ref as InputRef).current.focus()
         }, [ disabled ])
     }
 
@@ -67,7 +58,7 @@ const Input: Component = (props, noDefaults) => {
     isFocused && (className += ` ${theme._focused}`)
     isTouched && (className += ` ${theme._touched}`)
 
-    const inputRootProps: Props['attributes'] = {
+    let inputRootProps: Props['rootTagAttributes'] = {
         className,
         onBlur(e) {
             if (!isTouched || isFocused) {
@@ -92,7 +83,7 @@ const Input: Component = (props, noDefaults) => {
             }
         }
 
-        inputProps.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        inputProps.onChange = e => {
             const value = (e.target as HTMLInputElement).value
             ;(!regexp || regexp.test(value)) && onChange(value, e, payload)
         }
@@ -111,8 +102,9 @@ const Input: Component = (props, noDefaults) => {
     }
 
     refApi && (applyRefApi(inputRootProps, mergedProps))
-    attributes && Object.assign(inputRootProps, attributes)
-    inputAttributes && Object.assign(inputProps, inputAttributes)
+    rootTagAttributes && (inputRootProps = mergeTagAttributes(inputRootProps, rootTagAttributes))
+
+    inputAttributes && (inputProps = mergeTagAttributes(inputProps, inputAttributes))
 
     mask?.processor(mask, inputProps as Parameters<typeof mask['processor']>[1])
 
@@ -128,22 +120,32 @@ const Input: Component = (props, noDefaults) => {
         <div { ...inputRootProps }>
             { inputElement }
 
-            { addChildren(inputRootProps, theme) }
+            { children && addChildren(children, theme) }
 
             { errorMsg && <div className={ theme.error_text } children={ errorMsg } /> }
         </div>
     )
 }
 Input.defaults = {
-    theme: updateThemeWithInputFieldTheme({
+    theme: {
         root: '',
+        _filled: '',
+        _error: '',
+        _disabled: '',
+        _focused: '',
+        _touched: '',
+        _readonly: '',
         children: '',
-        textarea: ''
-    })
+        textarea: '',
+        label: '',
+        label_text: '',
+        field: '',
+        error_text: ''
+    }
 }
 Input.ID = componentID
 
 
-export { componentID, getDefaultInputStoreState, updateThemeWithInputFieldTheme }
+export { componentID, getDefaultState }
 export default Input
-export type { Props }
+export * from './types'

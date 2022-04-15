@@ -1,17 +1,15 @@
 import React from 'react'
 
 import isExists from '../../utils/is/exists'
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
-import type {
-    List, BuilderList, Component, MergedProps,
-    Props
-} from './types'
+import type { List, BuilderList, Component, MergedProps, Props } from './types'
 
 
 const componentID = '-ui-accordion'
 
-const onClickHandler = (e: React.MouseEvent) => {
+function onClickHandler(e: React.MouseEvent) {
     e.preventDefault()
     e.stopPropagation()
 }
@@ -22,17 +20,17 @@ const Accordion: Component = (props, noDefaults) => {
         :   (props as MergedProps)
 
     const {
-        className, theme, list, builder, accordionIcon, soloOpen, attributes, autoExpand, refApi
+        className, theme, list, builder, accordionIcon, soloOpen, rootTagAttributes, autoExpand, refApi
     } = mergedProps
 
 
     function childrenMapper(listItem: (List | BuilderList)[number], i: number, _acc?: any) {
         const { children, expanded } = listItem
-        const listItemTheme: Parameters<NonNullable<MergedProps['builder']>>[0]['listItemTheme'] = {
+        const listItemTheme: Parameters<NonNullable<Props['builder']>>[0]['listItemTheme'] = {
             item: theme.item,
             item_title_wrapper: theme.item_title_wrapper,
             item_title: theme.item_title,
-            children_wrapper: theme.children_wrapper,
+            item_children_wrapper: theme.item_children_wrapper,
             item__empty: theme.item__empty
         }
 
@@ -64,7 +62,7 @@ const Accordion: Component = (props, noDefaults) => {
                         { accordionIcon }
                     </summary>
 
-                    <div className={ listItemTheme.children_wrapper }
+                    <div className={ listItemTheme.item_children_wrapper }
                         children={ children.map((listItem, i) => childrenMapper(listItem as List[number], i, _acc)) } />
                 </details>
 
@@ -93,15 +91,15 @@ const Accordion: Component = (props, noDefaults) => {
     }
 
 
-    let _className = theme.children_wrapper
+    let _className = theme.item_children_wrapper
     className && (_className += ` ${className}`)
 
-    const accordionRootProps = {
+    let accordionRootProps = {
         className: _className,
         children: list.map((listItem, i) => childrenMapper(listItem, i))
     }
     refApi && (applyRefApi(accordionRootProps, mergedProps))
-    attributes && (Object.assign(accordionRootProps, attributes))
+    rootTagAttributes && (accordionRootProps = mergeTagAttributes(accordionRootProps, rootTagAttributes))
 
 
     return <div { ...accordionRootProps } />
@@ -110,10 +108,10 @@ Accordion.defaults = {
     theme: {
         root: '',
         item: '',
+        item__empty: '',
         item_title_wrapper: '',
         item_title: '',
-        children_wrapper: '',
-        item__empty: ''
+        item_children_wrapper: ''
     }
 }
 Accordion.ID = componentID
@@ -121,4 +119,4 @@ Accordion.ID = componentID
 
 export { componentID }
 export default Accordion
-export type { Props }
+export * from './types'

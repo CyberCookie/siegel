@@ -1,47 +1,47 @@
-<h1>Client build</h1>
+# Client build
 
-<p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares that are used in express static server.</p>
+<p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares that are used in express static server</p>
 
-<ul>
-    <b>The build exports object with two methods:</b>
-    <li>
-        <b>run(config, runParams)</b> - creates webpack compiller and runs it to produce a bundle. Returns a promise which resolves with webpack compiller.
-    </li>
-    <li>
-        <b>getDevMiddlewares(config, webpackCompiller)</b> - returns an object with dev and hot middlewares using webpack compiller.
-    </li>
-</ul>
+The build exports object with two methods:
+- `run` - **(config, runParams)**. Creates webpack compiller and runs it to produce a bundle<br />
+    - Receives **2** parameters:
+        - **config** - More about config read further
+        - **runParams** - Siegel run params
+    - Returns promise which resolved with webpack compiller<br /><br />
+
+- `getDevMiddlewares` - (config, webpackCompiller)** - Returns an object with webpack dev and hot middlewares
  
 
 <br />
-<h3>What it can do out of the box?</h3>
 
-<p>Config optimized to produce the smallest bundle and to build it as fast as possible.</p>
+### What it can do out of the box?
 
-<ul>
-    <b>Default features:</b>
-    <li>Code splitting</li>
-    <li>All output files are minified and compressed</li>
-    <li>Sourcemaps</li>
-    <li>JS Lint</li>
-    <li>Transform React JSX and TypeScript files via ESBuild</li>
-    <li>SASS/SCSS processing; style autoprefixing; css modules</li>
-    <li>Transform SVG icons into woff(2) font</li>
-    <li>Service worker plugin to provide the best caching strategy</li>
-    <li>Hot relaod client js, styles and nodejs server when changes occurs</li>
-</ul>
+<p>Config optimized to produce the smallest bundle and to build it as fast as possible</p>
 
+Features:
+- Code splitting
+- All output files are minified and compressed
+- Sourcemaps
+- JS Lint
+- Transform React JSX and TypeScript files via ESBuild
+- SASS/SCSS processing; style autoprefixing; css modules
+- Transform SVG icons into woff(2) font
+- Service worker plugin to provide the best caching strategy
+- Hot relaod client js, styles and nodejs server when changes occurs
+
+
+<br /><br />
+
+## Config
 
 <br />
-<h3>Config</h3><br />
 
-<p>
-    This config allows you to bring any changes to an underlying webpack configuration,<br />
-    providing an easy to use api.<br />
-</p>
-<p>
-    All the fields are optional since many of them are already defined in the underlying default webpack configuration.<br />
-</p><br />
+
+This config allows you to bring any changes to an underlying webpack configuration,<br />
+providing an easy to use api<br />
+All the fields are optional since many of them are already defined in the underlying default webpack configuration
+
+<br />
 
 
 ```js
@@ -164,21 +164,22 @@
 ```
 
 <br />
-<h3>Plugins</h3>
 
-Every plugin, that's already included, has its own `plugin key`.
-- compression-webpack-plugin ( `compression` ) - Enabled if __runParams.isProd == true__.<br />
-  May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`).
-- copy-webpack-plugin ( `copy` ) - enabled if __config.build.input.copyFiles__ is specified
-- mini-css-extract-plugin ( `cssExtract` ) - enabled if __runParams.isProd == true__ or if __runParams.isServer == false__
-- css-minimizer-webpack-plugin ( `cssOptimize` ) - enabled if __runParams.isProd == true__ 
-- html-webpack-plugin ( `html` ) - enabled if __config.build.input.html__ is specified
+### Plugins
+
+Every plugin, that's already included, has its own `plugin key`
+- compression-webpack-plugin ( `compression` ) - Enabled if **runParams.isProd == true**<br />
+  May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`)
+- copy-webpack-plugin ( `copy` ) - enabled if **config.build.input.copyFiles** is specified
+- mini-css-extract-plugin ( `cssExtract` ) - enabled if **runParams.isProd == true** or if **runParams.isServer == false**
+- css-minimizer-webpack-plugin ( `cssOptimize` ) - enabled if **runParams.isProd == true** 
+- html-webpack-plugin ( `html` ) - enabled if **config.build.input.html** is specified
 - clean-webpack-plugin ( `clean` )
-- EsLint ( `eslint` ) - Eslint plugin, Enabled if __config.build.esbuil == true__
-- webpack HHMR plugin (`hot`) - enabled if __runParams.isProd == false__
-- @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if __runParams.isProd == true__
-- <a href='#postcss_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if __config.build.input.sw__ is specified
-    - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces. 
+- EsLint ( `eslint` ) - Eslint plugin, Enabled if **config.build.esbuil == true**
+- webpack HHMR plugin (`hot`) - enabled if **runParams.isProd == false**
+- @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if **runParams.isProd == true**
+- <a href='#postcss_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if **config.build.input.sw** is specified
+    - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces
 
 
 <br />
@@ -232,25 +233,28 @@ const { pluginsKeysMap, pluginInstancesKeyMap } = BUILD_CONSTANTS
 
 
 <br />
-<h3>Modules</h3>
 
-Each loader has its own `loader key` to make it easy to extend it. <br />
-Loaders used by default together with `related file extensions` are described below.
+### Modules
+
+Each loader has its own `loader key` to make it easy to extend it<br />
+Loaders used by default together with `related file extensions` are described below
 
 
 - ESBuild ( `esbuild` ) <br />
-RegExp string: <b>\\.[tj]sx?$</b> ( `scripts` ) <br /><br />
+RegExp string: **\\.[tj]sx?$** ( `scripts` )<br /><br />
+
 - Styles<br />
-RegExp string: <b>\\.(c|sc|sa)ss$</b> ( `styles` ) <br />
+RegExp string: **\\.(c|sc|sa)ss$** ( `styles` )
     - SASS ( `sassLoader` )
     - CSS ( `cssLoader` )
-    - MiniCSSExtractPlugin <b>if run params are isProd || !isServer, else</b> Style loader ( `cssFinal` )
+    - MiniCSSExtractPlugin **if run params are isProd || !isServer, else** Style loader ( `cssFinal` )
     - SASS resources ( `sassResources` )
     - PostCSS ( `postCssLoader` )
         - autoprefixer
         - <a href='#sw_plugin'>(custom) svg to font plugin</a><br /><br />
-- Webpack v5 assets loader <br />
-RegExp string: <b>\\.(avif|webp|jpg|png|svg|woff2)?$</b> (`files` )
+
+- Webpack v5 assets loader<br />
+RegExp string: **\\.(avif|webp|jpg|png|svg|woff2)?$** (`files` )
 
 <br />
 
@@ -348,19 +352,19 @@ const { loadersKeyMap, webpackModulesRegExp } = BUILD_CONSTANTS
 }
 ```
 
+<br /><br />
+
+### <a id='sw_plugin'>Service worker plugin</a>
+
 <br />
-<h3>
-    <a id='sw_plugin'>Service worker plugin</a>
-</h3><br />
 
-The only purpose of this plugin is to place an array of build output assets into a service worker thus enabling some tricks to use in caching strategies.<br />
-<b>Plugin emits an output service worker file to the destination root.</b><br />
+The only purpose of this plugin is to place an array of build output assets into a service worker thus enabling some tricks to use in caching strategies<br />
+**Plugin emits an output service worker file to the destination root**<br />
 
-
-
-<b>siegel config</b>
 
 ```js
+// siegel config
+
 import { BUILD_CONSTANTS } from 'siegel'
 
 
@@ -377,9 +381,9 @@ const { pluginsKeysMap } = BUILD_CONSTANTS
 }
 ```
 
-<b>sw.js</b>
-
 ```js
+// service worker file sw.js
+
 // Variable is put during the build phase.
 console.log(buildOutput) // [ 'index.js', 'assets/fonts/some_font.woff2' ]
 ```
@@ -392,12 +396,13 @@ window.navigator.serviceWorker?.register('/sw.js')
 ```
 
 
-<br />
-<h3>
-    <a id='postcss_plugin'>SVG icons to font PostCSS plugin</a>
-</h3><br />
+<br /><br />
 
-Plugin that transforms svg icons paths in your css into font.
+### <a id='postcss_plugin'>SVG icons to font PostCSS plugin</a>
+
+<br />
+
+Plugin that transforms svg icons paths in your css into font
 
 ```css
 .all_icons {
@@ -466,12 +471,10 @@ const config = {
 
 <br /><hr />
 <details>
-    <summary><h5>TODO</h5></summary>
-    <ul>
-        <li>ES modules</li>
-        <li>Add more typings</li>
-        <li>Save font icon to a separate file</li>
-        <li>Separate styles for different media queries</li>
-        <li>Generate code documentation from TS</li>
-    </ul>
+    <summary>TODO</summary>
+    - ES modules<br />
+    - Add more typings<br />
+    - Save font icon to a separate file<br />
+    - Separate styles for different media queries<br />
+    - Generate code documentation from TS
 </details>

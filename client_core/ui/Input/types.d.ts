@@ -1,11 +1,13 @@
-import type { PropsComponentThemed, CoreIUComponent, ComponentAttributes } from '../_internals/types'
+import type {
+    PropsComponentThemed, CoreIUComponent, NewComponentAttributes, ComponentAttributes
+} from '../_internals/types'
 
 
-type ComponentRootAttributes = NonNullable<Props['inputAttributes']> & {
-    error: '' | null
-    filled: '' | null
-}
+type onChangeEventType = React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>
 
+type InnerInputAttributes = {
+    onChange?(e: onChangeEventType): void
+} & ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 
 type InputState = {
     isTouched: boolean
@@ -13,26 +15,31 @@ type InputState = {
 }
 type InputStore = [ InputState, React.Dispatch<React.SetStateAction<InputState>> ]
 
-type InputFieldThemeKeysArray = [
-    'label', 'label_text', 'field', 'error_text',
-    '_filled', '_error', '_disabled', '_focused', '_touched', '_readonly'
-]
-type ThemeKeys = 'textarea' | 'children' | InputFieldThemeKeysArray[number]
 
+type Theme = {
+    _filled?: string
+    _error?: string
+    _disabled?: string
+    _focused?: string
+    _touched?: string
+    _readonly?: string
+    textarea?: string
+    children?: string
+    label?: string
+    label_text?: string
+    field?: string
+    error_text?: string
+}
 
-type InputElementAttributes = {
-    onChange?(e: Parameters<NonNullable<Props['onChange']>>[1]): void
-    value: Props['value']
-} & Omit<ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>, 'onChange' | 'value'>
-
-type Props<_Payload= any> = PropsComponentThemed<ThemeKeys, {
+type Props<_Payload = any> = PropsComponentThemed<Theme, {
+    children?: React.ReactNode
     value?: string
-    innerStore?: InputStore
+    store?: InputStore
     disabled?: boolean
     autofocus?: boolean
     placeholder?: string
-    attributes?: ComponentAttributes<HTMLDivElement>
-    inputAttributes?: InputElementAttributes
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    inputAttributes?: NewComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
     label?: React.ReactNode
     errorMsg?: React.ReactNode
     type?: 'input' | 'textarea' | 'password' | 'color' | 'date' | 'week' | 'month' | 'time' | 'datetime-local'
@@ -43,24 +50,21 @@ type Props<_Payload= any> = PropsComponentThemed<ThemeKeys, {
         patternValueChar: string
         processor(
             mask: Omit<NonNullable<Props['mask']>, 'processor'>,
-            inputFieldAttr: Omit<InputElementAttributes, 'value'> & { value: NonNullable<Props['value']> }
+            inputFieldAttr: InnerInputAttributes & { value: NonNullable<Props['value']> }
         ): void
         valuePlaceholderChar?: string
         shiftNextChar?: boolean
         copyMask?: boolean
     }
-    onBlur?(e: React.FocusEvent<HTMLDivElement>): any
-    onChange?(
-        value: string, e: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>,
-        payload: _Payload
-    ): any
+    onBlur?(e: React.FocusEvent<HTMLDivElement>): void
+    onChange?(value: string, e: onChangeEventType, payload: _Payload): void
     onFocus?(e: React.FocusEvent<HTMLDivElement>): void
 }>
 
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props['theme']>
+}>
 
 type MergedProps = Props & DefaultProps
 
@@ -68,6 +72,5 @@ type Component = CoreIUComponent<Props, DefaultProps>
 
 
 export type {
-    Props, DefaultProps, MergedProps, ComponentRootAttributes, Component,
-    InputFieldThemeKeysArray, InputElementAttributes
+    Props, DefaultProps, MergedProps, Component, InnerInputAttributes
 }

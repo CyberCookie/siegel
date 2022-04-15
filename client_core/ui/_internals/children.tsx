@@ -1,18 +1,14 @@
 import React from 'react'
 
-import type { ComponentAttributes } from './types'
-
 
 type ThemeWithChildren = {
     children: string
 }
 
 
-function addChildren(componentRootProps: ComponentAttributes, theme: ThemeWithChildren) {
-    if (componentRootProps.children) {
-        return <div className={ theme.children } children={ componentRootProps.children } />
-    }
-}
+const addChildren = (children: React.ReactNode, theme: ThemeWithChildren) => (
+    <div className={ theme.children } children={ children } />
+)
 
 
 export default addChildren

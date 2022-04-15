@@ -1,11 +1,9 @@
 import React from 'react'
 
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
-import type {
-    Component, MergedProps,
-    Props
-} from './types'
+import type { Component, MergedProps } from './types'
 
 
 const componentID = '-ui-button'
@@ -18,13 +16,13 @@ const Button: Component = (props, noDefaults) => {
     const {
         value: children,
         onClick: onMouseDown,
-        className, type, disabled, attributes, refApi
+        className, type, disabled, rootTagAttributes, refApi
     } = mergedProps
 
 
-    const buttonProps = { className, onMouseDown, type, disabled, children }
+    let buttonProps = { className, onMouseDown, type, disabled, children }
     refApi && applyRefApi(buttonProps, mergedProps)
-    attributes && Object.assign(buttonProps, attributes)
+    rootTagAttributes && (buttonProps = mergeTagAttributes(buttonProps, rootTagAttributes))
 
 
     return <button { ...buttonProps } />
@@ -37,4 +35,4 @@ Button.ID = componentID
 
 export { componentID }
 export default Button
-export type { Props }
+export * from './types'

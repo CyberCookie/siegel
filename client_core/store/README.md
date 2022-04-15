@@ -1,14 +1,14 @@
-<h1>Hook Store</h1>
+# Hook Store
 
 
-Store creator accepts three arguments:
-<ul>
-    <li>initialState - object</li>
-    <li>actions - object</li>
-    <li>with reset - boolean</li>
-</ul>
+Store creator receives **3** parameters:
 
-example:
+- `initialState` - **Object**. Store state
+
+- `actions` - **Object**. Store actions, where _key_ is action name and _value_ is action **Function**
+
+- `withReset` - **Boolean**. Whether to create state reset function that will be returned along with **store** and **useStore** hook
+
 
 ```js
 import React, { useLayoutEffect } from 'react'
@@ -53,8 +53,10 @@ const Component = () => {
 }
 ```
 
-Also your state is populates with `__updated` property which increments every time state has changed.<br />
-The counter resets to zero when no subscibed components left.<br />
+<br />
+
+Also your state is populates with `__updated` property which increments every time state has changed<br />
+The counter resets to zero when no subscibed components left<br />
 It can help you to avoid unnecessary rerenders in combinations with such hooks as useMemo or useDidUpdate.
 
 ```js

@@ -1,4 +1,4 @@
-import type { PropsComponentBase, CoreIUComponent, ComponentAttributes } from '../_internals/types'
+import type { PropsComponentBase, CoreIUComponent, NewComponentAttributes } from '../_internals/types'
 import type { Component as _Input, Props as InputProps } from '../Input/types'
 import type { Component as _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
 
@@ -41,7 +41,7 @@ type FormInput = {
 type Props = PropsComponentBase<{
     onSubmit(values: ValuesState, e: React.FormEvent<HTMLFormElement>): void
     inputs: Indexable<FormInput>
-    attributes?: ComponentAttributes<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>
+    rootTagAttributes?: NewComponentAttributes<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>
 }>
 
 type DefaultProps = {}

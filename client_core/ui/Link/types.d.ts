@@ -1,10 +1,12 @@
-import type { PropsComponentBase, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentBase, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
 type Props = PropsComponentBase<{
     path: string
     title: React.ReactNode
-    attributes?: ComponentAttributes<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>
+    rootTagAttributes?: NewComponentAttributes<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>
 }>
 
 type DefaultProps = {}

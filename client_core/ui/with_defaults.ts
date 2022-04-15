@@ -9,12 +9,12 @@ function withDefaults
     NewDefaults extends Partial<Props>
 >
 (Component: C, newDefaults: NewDefaults) {
-    const { ID, defaults, recursiveMergeProps } = Component
-    const mergedDefaults = extractProps(defaults, newDefaults, false, recursiveMergeProps)
+    const { ID, defaults } = Component
+    const mergedDefaults = extractProps(defaults, newDefaults, false)
 
     const componentWithDefaults = (props: PartialKeys<Props, keyof NewDefaults>) => (
         Component(
-            extractProps(mergedDefaults, props, true, recursiveMergeProps)
+            extractProps(mergedDefaults, props, true)
         )
     )
     componentWithDefaults.ID = ID

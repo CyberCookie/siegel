@@ -20,9 +20,6 @@ class ErrorBoundary extends React.Component<Props, State> {
     }
 
     static ID = componentID
-    static defaults = {
-        className: ''
-    }
 
     static getDerivedStateFromError(err: Error) {
         console.error(err)

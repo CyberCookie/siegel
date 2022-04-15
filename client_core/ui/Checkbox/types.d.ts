@@ -1,11 +1,7 @@
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type { PropsComponentThemed, NewComponentAttributes, CoreIUComponent } from '../_internals/types'
 
 
-type CheckboxInputProps = React.InputHTMLAttributes<HTMLInputElement>
-
-type ThemeKeys = 'label' | 'checkbox' | 'with_icon_wrapper' | 'label_wrapper' | '_checked' | '_disabled'
-
-//#TS_sucks. attributes type should depend on label <> icon presence
+// TODO typing?: attributes type should depend on label <> icon presence
 // type WithLabelProps = {
 //     label: React.ReactNode
 //     icon?: never
@@ -27,11 +23,25 @@ type ThemeKeys = 'label' | 'checkbox' | 'with_icon_wrapper' | 'label_wrapper' | 
 //     attributes?: ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 // }
 
-type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
+type CheckboxRootProps = NewComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+type WithIconRootProps = NewComponentAttributes<HTMLDivElement>
+type WithLabelRootProps = NewComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+
+
+type Theme = {
+    _checked?: string
+    _disabled?: string
+    label?: string
+    checkbox?: string
+    with_icon_wrapper?: string
+    label_wrapper?: string
+}
+
+type Props<_Payload = any> = PropsComponentThemed<Theme, {
     value: boolean
     onChange?(checked: Props['value'], e: React.MouseEvent, payload: _Payload): void
-    checkboxAttributes?: ComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
-    attributes?: ComponentAttributes<HTMLDivElement> | ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+    checkboxAttributes?: NewComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+    rootTagAttributes?: WithIconRootProps | WithLabelRootProps
     label?: React.ReactNode
     icon?: React.ReactNode
     disabled?: boolean
@@ -39,14 +49,17 @@ type Props<_Payload = any> = PropsComponentThemed<ThemeKeys, {
 }>
     // & ( WithLabelProps | WithIconProps | NoIconLabelProps /*| WithLabelAndIconProps*/ )
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
-    value: NonNullable<Props['value']>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props['theme']>
+    value: Props['value']
+}>
 
 type MergedProps = Props & DefaultProps
 
 type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, CheckboxInputProps }
+export type {
+    Props, DefaultProps, MergedProps, Component,
+    WithIconRootProps, WithLabelRootProps, CheckboxRootProps
+}

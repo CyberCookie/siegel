@@ -1,21 +1,21 @@
-<h1>Server</h1>
-Server could be runned in HTTP / HTTP2 mode with or without secure layer depending on a server configuration you passed.
-Static server is already configured to serve brotli and gzip compressed files and always responses with index.html due to SPA.
-So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
+# Server
+
+Server could be runned in HTTP / HTTP2 mode with or without secure layer depending on a server configuration you passed<br />
+Static server is already configured to serve brotli and gzip compressed files and always responses with index.html due to SPA<br />
+So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible
 
 <br/>
-<h3>Server exposes interface with the only method:</h3>
 
-<ul>
-    run(config, middlewares?, serverExtend?)
-    <li><b>config</b> - siegel config.</li>
-    <li><b>middlewares</b> - <b>expressMiddleware[]</b> - ExpressJS middlewares. Thus affects only http(s) server.<br />
-    By default siegel passes webpack hot and dev middlewares.</li>
-    <li><b>serverExtend</b> - resolved server extender.</li>
-</ul>
-<br />
+### Server exposes interface with the only method named **run**:
 
-<h3>config</h3>
+Receives **3** parameters:
+- **config** - Siegel config
+- **middlewares** - **Array of expressMiddleware** - ExpressJS middlewares. Thus affects only http(s) server
+- **serverExtend** - resolved server extender
+
+<br/>
+
+### config
 
 ```js
 {   
@@ -62,14 +62,14 @@ So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible.
 ```
 
 
-<br />
-<h3>serverExtend</h3>
+<br /><br />
+
+### serverExtend
 
 <br />
-siegel_config
-<br />
 
-```ts
+```js
+// siegel_config
 {
     server: {
         appServerLoc: `${process.cwd()}/internal_server_extender.js`
@@ -77,11 +77,10 @@ siegel_config
 }
 ```
 
-<br />
-internal_server_extender.js
-<br />
 
 ```js
+// internal_server_extender.js
+
 const { proxyReq } = (await import('../../src/index.js'))
 
 
@@ -105,9 +104,10 @@ export default appServer
 ```
 
 
+<br /><br />
 
-<br />
-<h2>Proxy request</h2>
+## Proxy request
+
 <br/>
 
 Siegel provides method to proxy server requests:
@@ -130,37 +130,34 @@ app.get('/api/proxy_get/:id', apiProxy)
 // exoress code...
 ```
 
-<ul>
-    Proxy signature:
-    <li>
-        <b>proxy params - object</b>
-        <ul>
-            <li><b>host</b> - destination host.</li>
-            <li><b>port</b> - destination port.</li>
-            <li><b>path</b> - url path. Default is original request url path.</li>
-            <li><b>query</b> - url query params. Default is original request query params.</li>
-            <li><b>method</b> - request method. Default is original request method.</li>
-            <li>
-                <b>headers</b> - request headers. Could be a function which retrieves original request headers<br/>
-                and returns final headers.
-            </li>
-            <li><b>changeOrigin</b> - (Boolean) - could be helpful for CORS requests.</li>
-            <li>
-                <b>postProcessReq</b> - function that retrieves original request as first argument<br />
-                and mutable final proxy request options as second.
-        </ul>
-    </li>
-</ul>
 
+Proxy receives **1** parameter - **Object** with the next fields:
+- `host` **String** - destination host
+- `port` **Number** - destination port
+- `path` **String** - url path. Default is original request url path
+- `query` **String | Object** - url query params. Default is original request query params.<br />
+    If **Object** provided then **Object** _key_ is query key and **Object** _value_ is query value
+- `method` **String** - request method. Default is original request method
+- `headers` **Object | Function** - request headers.<br />
+    If **Object** provided then **Object** _key_ is header key and **Object** _value_ is header value. Given **Object** will be merged with **Request headers**<br />
+    If **Function** provided then it has **1** argument:
+        - **headers** - **Mutable request headers**. 
+- `changeOrigin` - **Boolean** - could be helpful for CORS requests
+- `postProcessReq` **Function** - Triggered before request to the next resource occurs. Has **2** arguments:
+    - **client request** - **Object**. Request made by your client.
+    - **options** - **Object**. Options that will be passed to request to make a request to. Has the next fields:
+        - `host` - **String**. Host to make request to
+        - `port` - **Number**. Port to make request to
+        - `headers` - **Object**. Final headers to make request to
+        - `method` - **String**. Method to make request to
+        - `path` - **String**. Final path to make request to
 
 
 <br /><hr />
 <details>
-    <summary><h5>TODO</h5></summary>
-    <ul>
-        <li>Compatible HTTP1 and HTTP2 static server</li>
-        <li>SEO for crawlers (pages prebuild or build on the fly)</li>
-        <li>Add more typings</li>
-        <li>Isomorphic API?</li>
-    </ul>
+    <summary>TODO</summary>
+    - Compatible HTTP1 and HTTP2 static server<br />
+    - SEO for crawlers (pages prebuild or build on the fly)<br />
+    - Add more typings<br />
+    - Isomorphic API?
 </details>

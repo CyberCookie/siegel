@@ -1,68 +1,31 @@
-//TODO: apply arrow controls when focused
-//TODO: add reset selection
-
-import React, { useState, useLayoutEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 
 import isExists from '../../utils/is/exists'
-import isTouchScreen from '../../utils/is/touchscreen'
+import * as keyCodes from '../_internals/key_codes'
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
+import { getOptionWithKeyboard, getOptions } from './helpers'
 import type { ComponentAttributes } from '../_internals/types'
-import type { MergedProps, Component, Props } from './types'
+import type { MergedProps, Component, Store, Option } from './types'
+
+
+type OnSelect = (
+    value: Option['value'],
+    e: Parameters<MergedProps['onChange']>[1],
+    payload?: Option['payload']
+) => void
+
+type RootRef = React.MutableRefObject<HTMLDivElement>
 
 
 const componentID = '-ui-select'
 
-const _isTouchScreen = isTouchScreen()
-const stopPropagationHandler = (e: React.MouseEvent) => { e.stopPropagation() }
-
-
-function getOptions(props: MergedProps, setActive: React.Dispatch<React.SetStateAction<boolean>>) {
-    const { options, selected, theme, onChange, closeOnSelect, filterSelected } = props
-
-    const optionElements = []
-    let selectedOption
-    for (let i = 0; i < options.length; i++) {
-        const option = options[i]
-        const { disabled, title, value, payload, className } = option
-
-        let optionClassName = theme.option
-
-        if (value === selected) {
-            selectedOption = option
-
-            if (filterSelected) continue
-            else optionClassName += ` ${theme.option__active}`
-        }
-        className && (optionClassName += ` ${className}`)
-
-        const optionProps: ComponentAttributes<HTMLDivElement> = {
-            children: title,
-            className: optionClassName
-        }
-
-        disabled
-            ?   optionProps.className += ` ${theme.option__disabled}`
-            :   optionProps.onMouseDown = (e: React.MouseEvent) => {
-                    e.stopPropagation()
-                    onChange(value, e, payload)
-                    closeOnSelect && setActive(false)
-                }
-
-
-        optionElements.push( <div { ...optionProps } key={ value as string } /> )
-    }
-
-
-    return {
-        selectedOption,
-        optionsElement: (
-            <div className={ theme.options } onMouseDown={ stopPropagationHandler }
-                children={ optionElements } />
-        )
-    }
-}
+const getDefaultState = () => ({
+    isActive: false,
+    arrowSelectIndex: undefined
+} as Store[0])
 
 const Select: Component = (props, noDefaults) => {
     const mergedProps = noDefaults
@@ -70,20 +33,32 @@ const Select: Component = (props, noDefaults) => {
         :   (props as MergedProps)
 
     const {
-        theme, attributes, options, getDisplayValue, selected, dropdownIcon, label, disabled, placeholder, refApi,
-        innerStore, resetIcon, onChange
+        theme, rootTagAttributes, options, getDisplayValue, selected, dropdownIcon, label,
+        disabled, placeholder, refApi, store, resetIcon, onChange, closeOnSelect, children
     } = mergedProps
 
-    const [ isActive, setActive ] = ((innerStore || useState(false)) as NonNullable<Props['innerStore']>)
+    const [ state, setState ] = store || useState(getDefaultState())
+    const { isActive, arrowSelectIndex } = state
+
+
+    const onSelect: OnSelect = (value, e, payload) => {
+        e.stopPropagation()
+        e.preventDefault()
+
+        onChange(value, e, payload)
+
+        closeOnSelect && (selectRootProps.ref as RootRef).current.blur()
+    }
+
     const isSelected = isExists(selected)
 
     let className = mergedProps.className
     isActive && (className += ` ${theme._active}`)
     isSelected && (className += ` ${theme._filled}`)
 
-    let selectRootProps: NonNullable<Props['attributes']> = {
+    let selectRootProps: ComponentAttributes<HTMLDivElement> = {
         className,
-        ref: useRef(null)
+        ref: useRef() as RootRef
     }
 
     let optionsElement, selectedOption
@@ -94,35 +69,50 @@ const Select: Component = (props, noDefaults) => {
             selectedOption = options.find(option => option.value == selected)
         }
     } else {
-        const optionsData = getOptions(mergedProps, setActive)
-        optionsElement = optionsData.optionsElement
-        selectedOption = optionsData.selectedOption
+        ({ optionsElement, selectedOption } = getOptions(mergedProps, onSelect, arrowSelectIndex))
 
-        selectRootProps.onMouseDown = () => { setActive(!isActive) }
+        selectRootProps.tabIndex = 0
+
+        selectRootProps.onFocus = () => {
+            if (!isActive) {
+                state.isActive = true
+                setState({ ...state })
+            }
+        }
+
+        if (isActive) {
+            selectRootProps.onBlur = () => {
+                setState( getDefaultState() )
+            }
+
+            selectRootProps.onKeyDown = e => {
+                const keyCode = e.nativeEvent.key
+                const isUp = keyCode == keyCodes.UP
+
+                const isArrowIndexExists = isExists(arrowSelectIndex)
+
+                if (isUp || keyCode == keyCodes.DOWN) {
+                    state.arrowSelectIndex = isArrowIndexExists
+                        ?   isUp
+                            ?   getOptionWithKeyboard(options, arrowSelectIndex, -1)
+                            :   getOptionWithKeyboard(options, arrowSelectIndex, 1)
+                        :   getOptionWithKeyboard(options, 0, 1)
+
+                    setState({ ...state })
+
+                } else if (keyCode == keyCodes.DELETE) {
+                    onSelect(undefined, e)
+
+                } else if (keyCode == keyCodes.ENTER && isArrowIndexExists) {
+                    const { value, payload } = options[arrowSelectIndex]
+                    onSelect(value, e, payload)
+                }
+            }
+        }
     }
 
     refApi && (applyRefApi(selectRootProps, mergedProps))
-    attributes && (selectRootProps = Object.assign(selectRootProps, attributes))
-
-    useLayoutEffect(() => {
-        if (isActive) {
-            const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
-                (selectRootProps.ref as React.MutableRefObject<HTMLDivElement>)
-                    .current.contains(e.target as Node) || setActive(false)
-            }
-            const eventOptions = { passive: true }
-
-            _isTouchScreen
-                ?   document.addEventListener('touchstart', handleOutsideClick, eventOptions)
-                :   document.addEventListener('mousedown', handleOutsideClick, eventOptions)
-
-            return () => {
-                _isTouchScreen
-                    ?   document.removeEventListener('touchstart', handleOutsideClick)
-                    :   document.removeEventListener('mousedown', handleOutsideClick)
-            }
-        }
-    }, [ isActive ])
+    rootTagAttributes && (selectRootProps = mergeTagAttributes(selectRootProps, rootTagAttributes))
 
 
     const displayValue = selectedOption
@@ -131,16 +121,14 @@ const Select: Component = (props, noDefaults) => {
             :   selectedOption.title
         :   placeholder
 
-
     const selectInput = <>
-        <div className={ theme.title }>
+        <div className={ theme.title_wrapper }>
             <div className={ theme.title_text } children={ displayValue } />
 
-            { resetIcon &&  (
+            { !disabled && resetIcon && (
                 <div children={ resetIcon } className={ theme.reset }
                     onMouseDown={ e => {
-                        e.stopPropagation()
-                        onChange(undefined, e)
+                        onSelect(undefined, e)
                     } } />
             )}
 
@@ -162,35 +150,33 @@ const Select: Component = (props, noDefaults) => {
                 :   selectInput
             }
 
-            { addChildren(selectRootProps, theme) }
+            { children && addChildren(children, theme) }
         </div>
     )
 }
 Select.defaults = {
     theme: {
         root: '',
+        _filled: '',
+        _active: '',
+        _disabled: '',
         children: '',
         label: '',
-        title: '',
         reset: '',
+        title_wrapper: '',
         title_text: '',
         input_wrapper: '',
         options: '',
         option: '',
-        _filled: '',
-        _active: '',
-        _disabled: '',
         option__active: '',
         option__disabled: ''
     },
-
     closeOnSelect: true,
-    dropdownIcon: '',
     filterSelected: true
 }
 Select.ID = componentID
 
 
-export { componentID }
+export { componentID, getDefaultState }
 export default Select
-export type { Props }
+export * from './types'

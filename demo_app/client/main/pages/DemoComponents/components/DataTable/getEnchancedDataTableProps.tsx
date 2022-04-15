@@ -1,25 +1,25 @@
 import React, { useState } from 'react'
-import { getDefaultState } from 'siegel-ui/DataTable'
+import { getDefaultState, SortState } from 'siegel-ui/DataTable'
 
-import type { DemoDataTableProps } from './types'
 import {
     icons, Pagination, Select, Checkbox, Input, Calendar,
     paginationTheme, selectTheme, checkboxTheme, inputTheme
 } from 'app/components'
+import type { DemoDataTableProps } from './types'
 
 import styles from './styles.sass'
 
 
 type PostProcessState = {
     selected: Set<string>,
-    activeCol: number
+    activeColID: string
 }
 type PostProcessStore = [ PostProcessState, React.Dispatch<React.SetStateAction<PostProcessState>> ]
 
 
 const dataTableSelectTheme = Object.assign({}, selectTheme, {
     root: `${selectTheme!.root} ${styles.paginator_select}`,
-    title: `${selectTheme!.title} ${styles.paginator_select_title}`,
+    title: `${selectTheme!.title_text} ${styles.paginator_select_title}`,
     label: `${selectTheme!.label} ${styles.paginator_select_label}`,
     input_wrapper: styles.paginator_select_input_wrapper,
     options: `${selectTheme!.options} ${styles.paginator_select_options}`,
@@ -30,7 +30,7 @@ const dataTablePaginationTheme = Object.assign({}, paginationTheme, {
     _single: styles.pagination_single_page
 })
 
-const paginatorSelectOptions = ([1,2,3]).map(num => {
+const paginatorSelectOptions = ([1,2,3, 30]).map(num => {
     const value = num * 10
     return { value, title: value }
 })
@@ -38,48 +38,45 @@ const paginatorSelectOptions = ([1,2,3]).map(num => {
 const nowTimestamp = Date.now()
 
 function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTableProps['postProcessHeadCell']>>>(
-{ headCell, config, index, dataGridHookStore, postProcessStore, entities }:
+{ headCell, config, dataGridHookStore, postProcessStore, entities }:
 {
     headCell: T[0]
     config: T[1]
     index: T[2]
     entities: DemoDataTableProps['entities']
-    dataGridHookStore: NonNullable<DemoDataTableProps['innerStore']>
+    dataGridHookStore: NonNullable<DemoDataTableProps['store']>
     postProcessStore: PostProcessStore
 }) {
 
     const [ dataGridHookState, setDataGridHookState ] = dataGridHookStore
 
     const [ postProcessData, setPostprocessData ] = postProcessStore
-    const activeCol = postProcessData.activeCol
+    const { activeColID } = postProcessData
 
-    const isActiveLabelMenu = activeCol == index
-    const { label, customParams } = config
+    const { label, customParams, ID } = config
+    const isActiveLabelMenu = activeColID == ID
     const { type, valuePath } = customParams!
 
 
     function onLabelMenuOpen() {
-        if (isActiveLabelMenu) {
-            postProcessData.activeCol = -1
-        } else postProcessData.activeCol = index
-
+        postProcessData.activeColID = isActiveLabelMenu ? '' : ID
         setPostprocessData({ ...postProcessData })
     }
 
     const getActiveLabelMenu = () => {
         function onSort(e: React.MouseEvent) {
             e.stopPropagation()
-            const { sortvalue, sortindex } = (e.currentTarget as HTMLDivElement).dataset
+            const { sortvalue, sortid } = (e.currentTarget as HTMLDivElement).dataset
 
-            const { value: curValue, index: curIndex } = dataGridHookState.sortByField
-            const intIndex = +sortindex!
+            const { value: value, ID: curID } = dataGridHookState.sortByField as SortState
             const intValue = +sortvalue!
 
-            let index, value: number
-            curIndex == intIndex && curValue == intValue
-                ?   (index = value = 0)
-                :   (index = intIndex, value = intValue)
-            dataGridHookState.sortByField = { index, value }
+            dataGridHookState.sortByField = curID == sortid && value == intValue
+                ?   {}
+                :   {
+                        ID: sortid,
+                        value: sortvalue
+                    }
 
             setDataGridHookState({ ...dataGridHookState })
         }
@@ -90,7 +87,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
 
             if (type == 'set') {
                 const resultCheckbox: JSX.Element[] = []
-                const searchSet = searchByField[index] || new Set()
+                const searchSet = searchByField[ID] || new Set()
                 const uniqValues = new Set()
 
                 entities.each((entity, i) => {
@@ -100,13 +97,13 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
 
                         resultCheckbox.push(
                             <Checkbox key={ setValue as string } theme={ checkboxTheme } value={ !searchSet.has(setValue) }
-                                className={ styles.set_checkbox } label={ config.showValue!(entity, i).value }
+                                className={ styles.set_checkbox } label={ `${config.showValue!(entity, i).value}` }
                                 icon={ icons.check }
                                 onChange={ (checkboxValue, e) => {
                                     e.stopPropagation()
 
                                     checkboxValue ? searchSet.delete(setValue) : searchSet.add(setValue)
-                                    searchByField[index] = searchSet
+                                    searchByField[ID] = searchSet
 
                                     setDataGridHookState({ ...dataGridHookState })
                                 } } />
@@ -117,7 +114,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
 
                 searchElement = <>{resultCheckbox}</>
             } else if (type == 'date') {
-                const { dateStart, dateEnd } = searchByField[index] || {}
+                const { dateStart, dateEnd } = searchByField[ID] || {}
                 const rangeDateStart = dateStart || nowTimestamp
 
                 searchElement = (
@@ -127,7 +124,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
                             rangeDateEnd: dateEnd || rangeDateStart
                         }}
                         onChange={ ({ rangeDateStart: dateStart, rangeDateEnd: dateEnd }) => {
-                            searchByField[index] = {
+                            searchByField[ID] = {
                                 dateStart,
                                 dateEnd: dateEnd || dateStart
                             }
@@ -136,10 +133,10 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
                 )
             } else {
                 searchElement = (
-                    <Input theme={ inputTheme } value={ searchByField[index] || '' } autofocus
+                    <Input theme={ inputTheme } value={ searchByField[ID] || '' } autofocus
                         className={ styles.search_input }
                         onChange={ value => {
-                            searchByField[index] = value
+                            searchByField[ID] = value
                             setDataGridHookState({ ...dataGridHookState })
                         } } />
                 )
@@ -153,13 +150,13 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
         return (
             <div className={ styles.grid_col_menu } onMouseDown={ e => e.stopPropagation() }>
                 <div className={ styles.grid_col_menu_sort } onMouseDown={ onSort }
-                    data-sortvalue='-1' data-sortindex={ index }>
+                    data-sortvalue='-1' data-sortid={ ID }>
 
                     { icons.chevron } ASC
                 </div>
 
                 <div className={ styles.grid_col_menu_sort } onMouseDown={ onSort }
-                    data-sortvalue='1' data-sortindex={ index }>
+                    data-sortvalue='1' data-sortid={ ID }>
 
                     { icons.chevron } DESC
                 </div>
@@ -270,13 +267,13 @@ export default (props: DemoDataTableProps) => {
     const dataGridHookStore = useState(gridDefaultState)
     const postProcessStore: PostProcessStore = useState({
         selected: new Set(),
-        activeCol: -1
+        activeColID: ''
     })
 
-    const newProps: DemoDataTableProps = Object.assign(props, {
-        innerStore: dataGridHookStore,
+    const newProps: DemoDataTableProps = Object.assign({}, props, {
+        store: dataGridHookStore,
         resizable: true,
-        withPagination: {
+        withFooter: {
             displayQuantity,
             select: {
                 component: Select,

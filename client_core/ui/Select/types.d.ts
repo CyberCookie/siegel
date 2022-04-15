@@ -1,21 +1,45 @@
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+} from '../_internals/types'
 
 
-type ThemeKeys =  'children' | 'label' | 'title' | 'title_text' | 'input_wrapper' | 'reset'
-    | 'options' | 'option' | 'option__active' | 'option__disabled'
-    | '_active' | '_disabled' | '_filled'
+type State = {
+    isActive: boolean
+    arrowSelectIndex: number | undefined
+}
+type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-type Props<_Value = any, _Payload = any> = PropsComponentThemed<ThemeKeys, {
-    options: {
-        value: _Value
-        title: React.ReactNode
-        disabled?: boolean
-        payload?: _Payload
-        className?: string
-    }[],
-    onChange(value: _Value, e: React.MouseEvent, payload?: _Payload): void
-    innerStore?: [ boolean, React.Dispatch<React.SetStateAction<boolean>> ]
-    getDisplayValue?(selectedOption: Props['options'][number]): React.ReactNode
+type Option = {
+    value: _Value
+    title: React.ReactNode
+    disabled?: boolean
+    payload?: _Payload
+    className?: string
+}
+
+
+type Theme = {
+    _active?: string
+    _disabled?: string
+    _filled?: string
+    children?: string
+    label?: string
+    title_wrapper?: string
+    title_text?: string
+    input_wrapper?: string
+    reset?: string
+    options?: string
+    option?: string
+    option__active?: string
+    option__disabled?: string
+}
+
+type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
+    options: Option[],
+    onChange(value: _Value, e: React.MouseEvent | React.KeyboardEvent, payload?: _Payload): void
+    children?: React.ReactNode
+    store?: Store
+    getDisplayValue?(selectedOption: Option): React.ReactNode
     dropdownIcon?: React.ReactNode
     resetIcon?: React.ReactNode
     closeOnSelect?: boolean
@@ -24,19 +48,18 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<ThemeKeys, {
     selected?: _Value
     filterSelected?: boolean
     disabled?: boolean
-    attributes?: ComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
 }>
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props['theme']>>
-    closeOnSelect: NonNullable<Props['closeOnSelect']>
-    dropdownIcon: NonNullable<Props['dropdownIcon']>
-    filterSelected: NonNullable<Props['filterSelected']>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props['theme']>
+    closeOnSelect: Props['closeOnSelect']
+    filterSelected: Props['filterSelected']
+}>
 
 type MergedProps = Props & DefaultProps
 
 type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component }
+export type { Props, DefaultProps, MergedProps, Component, Store, Option }

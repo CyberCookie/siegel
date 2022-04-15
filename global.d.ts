@@ -5,6 +5,10 @@ declare module '*.sass'
 
 type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<T>
 
+type NonNullableKeys<T extends Indexable> = {
+    [k in keyof T]: NonNullable<T[k]>
+}
+
 type Indexable<V = any> = {
     [key: string]: V
 }

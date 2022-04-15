@@ -1,5 +1,7 @@
 import type { Entities } from '../../utils/entities_struct'
-import type { PropsComponentThemed, ComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults } from '../_internals/types'
+import type {
+    PropsComponentThemed, NewComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults
+} from '../_internals/types'
 import type { TableTH, TableTD, TableBodyRow, TableHeadRow, Props as TableProps } from '../Table/types'
 import type { Props as SelectProps, Component as SelectComponent } from '../Select/types'
 import type { Props as PaginationProps, Component as PaginationComponent } from '../Pagination/types'
@@ -10,7 +12,7 @@ type DataTableTableProps = {
     body: NonNullable<TableProps['body']>
     foot?: NonNullable<TableProps['foot']>
     className: NonNullable<TableProps['className']>
-    attributes?: TableProps['attributes']
+    rootTagAttributes?: TableProps['rootTagAttributes']
 }
 
 type DisplayedEntityIDs<_Entities extends Entities = Entities> = {
@@ -19,12 +21,14 @@ type DisplayedEntityIDs<_Entities extends Entities = Entities> = {
     allPagesIDs: ReturnType<_Entities['raw']>['sorted']
 } | undefined
 
+type SortState = {
+    ID: string
+    value: number
+}
 type State = {
-    sortByField: {
-        index: number
-        value: number,
-    }
+    sortByField: SortState | {}
     searchByField: Indexable
+    toggledColumns: Set<SortState['ID']>
     showPerPage: number
     currentPage: number
 }
@@ -37,6 +41,7 @@ type ColumnsConfig<
     ByID = ReturnType<_Entities['raw']>['byID'],
     Sorted = ReturnType<_Entities['raw']>['sorted']
 > = {
+    ID: string
     showValue(entity: Entity, index: number): TableTD
     onSort?(IDs: Sorted, byID: ByID, value: number): Sorted
     onFilter?(IDs: Sorted, byID: ByID, search: any): Sorted
@@ -45,26 +50,41 @@ type ColumnsConfig<
 }
 
 
-type ThemeKeys = 'table' | 'table_resizer' | 'pagination_wrapper' | '_with_pagination'
+type Theme = {
+    _with_footer?: string
+    table?: string
+    children?: string
+    table_resizer?: string
+    pagination_wrapper?: string
+}
 
-type Props<_Entities extends Entities = Entities, _ColumnParamsExtend = any>
-= PropsComponentThemed<ThemeKeys, {
+type Props<
+    _Entities extends Entities<Indexable> = Entities<Indexable>,
+    _ColumnParamsExtend = any
+> = PropsComponentThemed<Theme, {
     entities: _Entities
     columnsConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>[]
-    innerStore?: [ State, React.Dispatch<React.SetStateAction<State>> ]
-    attributes?: ComponentAttributes<HTMLDivElement>
-    withPagination?: {
+    store?: [ State, React.Dispatch<React.SetStateAction<State>> ]
+    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    withFooter?: {
         displayQuantity?(quantity: number): React.ReactNode
-        select: {
-            props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps>
+        select?: {
+            props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps<number>>
             component: CoreIUComponentWithDefaults<SelectComponent> | SelectComponent
         }
-        pagination: {
+        pagination?: {
             props?: Partial<PaginationProps>
             component: CoreIUComponentWithDefaults<PaginationComponent> | PaginationComponent
         }
     }
-    tableAttributes?: TableProps['attributes']
+    virtualization?: {
+        itemHeight: number
+        tableHeight?: number
+        preloadedItemsBySide?: number
+        scrollUpdateInterval?: number
+    }
+    children?: React.ReactNode
+    tableAttributes?: TableProps['rootTagAttributes']
     resizable?: boolean
     postProcessHeadCell?(
         headCell: TableTH,
@@ -77,16 +97,16 @@ type Props<_Entities extends Entities = Entities, _ColumnParamsExtend = any>
 }>
 
 
-type DefaultProps = {
-    theme: NonNullable<Required<Props<any>['theme']>>
-}
+type DefaultProps = NonNullableKeys<{
+    theme: Required<Props<any>['theme']>
+}>
 
 type MergedProps = Props & DefaultProps
 
-type Component = CoreIUComponent<Props<any>, DefaultProps>
+type Component = CoreIUComponent<Props, DefaultProps>
 
 
 export type {
     State, Props, DefaultProps, MergedProps, Component, DataTableTableProps, ColumnsConfig,
-    DisplayedEntityIDs
+    DisplayedEntityIDs, SortState
 }

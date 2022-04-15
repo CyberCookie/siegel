@@ -1,5 +1,6 @@
 import React from 'react'
 
+import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import type {
@@ -15,9 +16,9 @@ const Link: Component = (props, noDefaults) => {
         ?   extractProps(Link.defaults, props, false)
         :   (props as MergedProps)
 
-    const { className, path, title, attributes, refApi } = mergedProps
+    const { className, path, title, rootTagAttributes, refApi } = mergedProps
 
-    let linkRootAttributes: Props['attributes'] = {
+    let linkRootAttributes: Props['rootTagAttributes'] = {
         className,
         target: '_blank',
         rel: 'noreferrer',
@@ -26,7 +27,7 @@ const Link: Component = (props, noDefaults) => {
     title && (linkRootAttributes.children = title)
 
     refApi && (applyRefApi(linkRootAttributes, mergedProps))
-    attributes && (linkRootAttributes = Object.assign(linkRootAttributes, attributes))
+    rootTagAttributes && (linkRootAttributes = mergeTagAttributes(linkRootAttributes, rootTagAttributes))
 
 
     return <a { ...linkRootAttributes } />
@@ -37,4 +38,4 @@ Link.ID = componentID
 
 export { componentID }
 export default Link
-export type { Props }
+export * from './types'
