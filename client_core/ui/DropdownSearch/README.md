@@ -20,8 +20,13 @@ Searchable input with select hints built on top of **Input** component<br />
 - `theme`
     - `root`
     - `_with_suggestions`
+        - Applied if suggestions are visible
     - `_disabled`
+        - Applied if `props.disabled` is `true`
     - `_focused`
+        - Applied if component is focused
+    - `_error`
+        - Applied if `props.errorMsg` is defined
     - `children`
     - `options`
     - `option`

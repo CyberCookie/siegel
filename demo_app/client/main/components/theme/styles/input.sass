@@ -1,6 +1,5 @@
 $height: 40px
 $width: 300px
-$error_color: #f00
 
 
 .root
@@ -47,21 +46,17 @@ $error_color: #f00
 
 
 ._error
-    &._touched
-        .field, .label_text, .error_text
-            color: $error_color
-        
-        .error_text
-            visibility: visible
-            
-        .field
-            border-color: $error_color
-        
-        .children i
-            color: $error_color
-
+    .field, .label_text, .error_text
+        color: $red_2
+    
     .error_text
-        visibility: hidden
+        visibility: visible
+        
+    .field
+        border-color: $red_2
+
+    .children i
+        color: $red_2
     
 
 

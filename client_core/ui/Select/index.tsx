@@ -1,3 +1,6 @@
+//TODO: add error msg
+
+
 import React, { useState, useRef } from 'react'
 
 import isExists from '../../utils/is/exists'
@@ -34,7 +37,8 @@ const Select: Component = (props, noDefaults) => {
 
     const {
         theme, rootTagAttributes, options, getDisplayValue, selected, dropdownIcon, label,
-        disabled, placeholder, refApi, store, resetIcon, onChange, closeOnSelect, children
+        disabled, placeholder, refApi, store, resetIcon, onChange, closeOnSelect, children,
+        errorMsg
     } = mergedProps
 
     const [ state, setState ] = store || useState(getDefaultState())
@@ -60,6 +64,7 @@ const Select: Component = (props, noDefaults) => {
         className,
         ref: useRef() as RootRef
     }
+    errorMsg && (selectRootProps.className += ` ${theme._error}`)
 
     let optionsElement, selectedOption
     if (disabled) {
@@ -86,6 +91,8 @@ const Select: Component = (props, noDefaults) => {
             }
 
             selectRootProps.onKeyDown = e => {
+                e.preventDefault()
+
                 const keyCode = e.nativeEvent.key
                 const isUp = keyCode == keyCodes.UP
 
@@ -135,6 +142,8 @@ const Select: Component = (props, noDefaults) => {
             { dropdownIcon }
         </div>
 
+        { errorMsg && <div className={ theme.error_text } children={ errorMsg } /> }
+
         { optionsElement }
     </>
 
@@ -160,11 +169,13 @@ Select.defaults = {
         _filled: '',
         _active: '',
         _disabled: '',
+        _error: '',
         children: '',
         label: '',
         reset: '',
         title_wrapper: '',
         title_text: '',
+        error_text: '',
         input_wrapper: '',
         options: '',
         option: '',

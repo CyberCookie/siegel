@@ -1,6 +1,6 @@
 <br />
 <h1>
-    siegel&nbsp;&nbsp;&nbsp;
+    Siegel&nbsp;&nbsp;&nbsp;
 
 <a href='https://badge.fury.io/js/siegel' target='_blank'>
     <img src='https://badge.fury.io/js/siegel.svg' alt='npm package version' />
@@ -100,9 +100,9 @@ Now your application is hosting on **localhost:3000** in watch mode and ready fo
 
 You may also define **NodeJS dev server** with `--server` flag:<br />
 
-create **server.js**
-
 ```js
+// server.js
+
 function appServer(app, { express }) {
     console.log('Custom server is ready')
 }
@@ -118,7 +118,7 @@ npx siegel run --server server.js
 
 
 <br />
-To get more info about siegel CLI commands run:<br />
+To get more info about Siegel CLI commands run:<br />
 
 ```sh
 npx siegel
@@ -131,7 +131,7 @@ npx siegel
 <hr /><br />
 
 <p>
-    Appart from calling siegel from CLI you may also use it in the most straightforward and flexible way - as a NodeJS module!<br />
+    Appart from calling Siegel from CLI you may also use it in the most straightforward and flexible way - as a NodeJS module!<br />
     Siegel itself is a function that accepts <a href='#config'>config</a> as a first argument and <a href='#runParams'>runParams</a> as a second<br />
     You may read about these parameters further
 </p>
@@ -206,35 +206,30 @@ siegel('/path/to/js_entry.ts')
 
 <hr /><br />
 
-Initialization of demo project it's a quick way to start your project with everything you need right out of the box<br />
+Demo project it's a quick way to start your development journey with everything you need right after project initialization.<br />
 There are two module resolution strategies that you may choose<br /><br >
 
-We already seen the first one, where we had siegel installed locally and were able to initialize project with `npx siegel init`<br />
+Having Siegel installed localy, run:<br />
+
+`npx siegel init`<br /><br />
+
+
+<br />
+
+The second one is to have Siegel installed globally and to use its node modules therefore to have a **single source of node modules for all your Siegel proejcts**<br />
 
 ```sh
-    npm i siegel
-
-    npx siegel init
-```
-
-<br /><br />
-
-The second one is to have siegel installed globally and to use its node modules therefore to have a **single source of node modules for all your siegel proejcts**<br />
-
-```sh
-npm i -g siegel
-
 siegel init -g
 ```
 
-> Eslint is not working in projects initialized with `-g` flag<br />
+> Keep in mind that Eslint is not working in projects initialized with `-g` flag<br />
 
 
 <br /><br />
-Here we initialize a demo project in a current dirrectory along with a package.json (if not yet exists)<br />
-Now you have project skeleton with preconfigured siegel in it!<br />
+Here we initialize a demo project in a current dirrectory along with `package.json` (if not yet exists)<br />
+Now you have project skeleton with preconfigured Siegel in it!<br />
 Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production mode<br />
-Now you may start a newly created project with:<br />
+Bootstrap newly created project with:<br />
 
 ```sh
 npm start

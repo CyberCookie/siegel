@@ -95,7 +95,7 @@ Examples of component theming and usage you may find in demo project:<br />
 
 ### className
 
-Defines `className` for a root tag.
+Defines `className` for a root tag
 
 <br />
 

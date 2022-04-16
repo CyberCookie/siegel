@@ -102,9 +102,9 @@ const DropdownSearch: Component = (props, noDefaults) => {
     refApi && applyRefApi(dropdownSearchRootProps, mergedProps)
 
 
-    const isShowOptions = showOnFocus
-        ?   isFocused
-        :   (searchString ? searchString.length : 0) >= minInputLength
+    const isShowOptions = isFocused
+        && (showOnFocus || (searchString ? searchString.length : 0) >= minInputLength)
+
 
     let optionsElement: JSX.Element | undefined
     let selectedOption: Option | undefined
@@ -116,9 +116,9 @@ const DropdownSearch: Component = (props, noDefaults) => {
         selectedOption = searchOptions.find(({ value }) => value == selected)
     }
 
+    errorMsg && (dropdownSearchRootProps.className += ` ${theme._error}`)
     disabled && (dropdownSearchRootProps.className += ` ${theme._disabled}`)
     rootTagAttributes && (dropdownSearchRootProps = mergeTagAttributes(dropdownSearchRootProps, rootTagAttributes))
-
 
 
     const inputInnerProps: InputProps = {
@@ -162,14 +162,15 @@ const DropdownSearch: Component = (props, noDefaults) => {
 DropdownSearch.defaults = {
     theme: {
         root: '',
+        _with_suggestions: '',
+        _disabled: '',
+        _focused: '',
+        _error: '',
         reset: '',
         children: '',
         options: '',
         option: '',
-        option__selected: '',
-        _with_suggestions: '',
-        _disabled: '',
-        _focused: ''
+        option__selected: ''
     },
     minInputLength: 3
 }

@@ -21,6 +21,7 @@ type Option = {
 type Theme = {
     _active?: string
     _disabled?: string
+    _error?: string
     _filled?: string
     children?: string
     label?: string
@@ -28,6 +29,7 @@ type Theme = {
     title_text?: string
     input_wrapper?: string
     reset?: string
+    error_text?: string
     options?: string
     option?: string
     option__active?: string
@@ -40,6 +42,7 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     children?: React.ReactNode
     store?: Store
     getDisplayValue?(selectedOption: Option): React.ReactNode
+    errorMsg?: React.ReactNode
     dropdownIcon?: React.ReactNode
     resetIcon?: React.ReactNode
     closeOnSelect?: boolean

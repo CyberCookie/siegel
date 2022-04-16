@@ -90,16 +90,15 @@ const dropdownSearchTheme: DropdownSearchProps['theme'] = {
     option: _selectTheme.option,
     option__selected: _selectTheme.option__active,
     _disabled: _dropdownSearchTheme._disabled,
-    _with_suggestions: _dropdownSearchTheme._with_suggestions
+    _with_suggestions: _dropdownSearchTheme._with_suggestions,
+    _error: _dropdownSearchTheme._error
 }
 const DropdownSearch = withDefaults(_DropdownSearch, {
     theme: dropdownSearchTheme,
-    inputTheme: {
+    inputTheme: Object.assign({}, inputTheme, {
         field: `${inputTheme.field} ${_dropdownSearchTheme.field}`,
-        label_text: inputTheme.label_text,
-        children: `${_selectTheme.reset} ${_dropdownSearchTheme.reset}`,
-        _focused: inputTheme._focused
-    }
+        children: `${_selectTheme.reset} ${_dropdownSearchTheme.reset}`
+    })
 })
 
 
@@ -137,7 +136,9 @@ const Radio = withDefaults(_Radio, {
 
 
 const selectTheme: SelectProps['theme'] = Object.assign(_selectTheme, {
+    _error: `${inputTheme._error} ${_selectTheme._error}`,
     title_wrapper: `${inputTheme.field} ${_selectTheme.title_wrapper}`,
+    error_text: inputTheme.error_text,
     label: inputTheme.label_text
 })
 const Select = withDefaults(_Select, {

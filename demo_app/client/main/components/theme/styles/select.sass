@@ -56,7 +56,7 @@ $width: 200px
     margin-top: -1px
     padding: 0 $gutter $gutter-sm
     border: 1px solid $primary
-    border-top-color: $white
+    border-top-color: transparent
     background: $white
     border-radius: 0 0 $radius $radius
 
@@ -72,6 +72,13 @@ $width: 200px
 ._disabled .title_wrapper
     color: $border_color_light
     border-color: $border_color_light
+
+._error
+    .options
+        border-color: transparent $red_2 $red_2
+    
+    &._active .title_wrapper
+        border-color: $red_2
 
 .option__active
     color: $primary

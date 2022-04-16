@@ -19,14 +19,15 @@ type Option = {
 
 
 type Theme = {
+    _with_suggestions?: string
     _disabled?: string
     _focused?: string
+    _error?: string
     children?: string
     reset?: string
     options?: string
     option?: string
     option__selected?: string
-    _with_suggestions?: string
 }
 
 type Props<_Value = any> = PropsComponentThemed<Theme, {

@@ -151,6 +151,5 @@ Flexible calendar to pick single or range of dates<br />
         - `months` - **Array of strings**
         - `weekDaysShort` - **Array of strings**
     - Default **Object** is:
-        - `months` - **[ 'january', 'february', 'march', 'april', 'may', 'june',**<br />
-            **'july', 'august', 'september', 'october', 'november', 'december' ]**
+        - `months` - **[ 'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december' ]**
         - `weekDaysShort` - **[ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ]**

@@ -16,17 +16,20 @@ Dropdown options selector<br />
 - `theme`
     - `root`
     - `_active`
-        - Applied when select is in focus
+        - Applied if select is in focus
     - `_disabled`
-        - Applied when select is disabled
+        - Applied if select is disabled
     - `_filled`
-        - Applied when select has selected value
+        - Applied if select has selected value
+    - `_error`
+        - Applied if `props.errorMsg` is not empty
     - `children`
     - `label`
     - `title`
     - `title_text`
     - `input_wrapper`
     - `reset`
+    - `error_text`
     - `options`
     - `option`
     - `option__active`
@@ -84,6 +87,10 @@ Dropdown options selector<br />
 - `label`
     - **Select** component lbel
     - **React.ReactNode**<br /><br />
+
+- `errorMsg`
+    - Error message
+    - **React.ReactNode**
 
 - `placeholder`
     - String to place instead of **props.getDisplayValue()** when option is not selected
