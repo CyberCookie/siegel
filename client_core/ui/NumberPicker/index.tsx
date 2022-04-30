@@ -181,6 +181,6 @@ NumberPicker.defaults = {
 NumberPicker.ID = componentID
 
 
-export { componentID }
 export default NumberPicker
+export { componentID }
 export * from './types'

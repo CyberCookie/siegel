@@ -177,6 +177,6 @@ DropdownSearch.defaults = {
 DropdownSearch.ID = componentID
 
 
-export { componentID, getDefaultState }
 export default DropdownSearch
+export { componentID, getDefaultState }
 export * from './types'

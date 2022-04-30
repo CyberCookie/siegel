@@ -100,6 +100,6 @@ Tabs.defaults = {
 Tabs.ID = componentID
 
 
-export { componentID }
 export default Tabs
+export { componentID }
 export * from './types'

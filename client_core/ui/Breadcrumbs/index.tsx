@@ -20,10 +20,10 @@ function getBreadcrumbs(
     hasDynamicCrumbs: boolean | undefined
 ) {
 
-    const { theme, history, separator, config, onChange } = props
+    const { theme, separator, config, onChange } = props
 
-    const location = history.location.pathname
-    const locationArray = location == '/' ? [''] : location.split('/')
+    const { pathname } = location
+    const locationArray = pathname == '/' ? [''] : pathname.split('/')
     if (locationArray.at(-1) == '') {
         locationArray[ locationArray.length - 1 ] = '/'
     }
@@ -39,6 +39,7 @@ function getBreadcrumbs(
             const { crumb, dynamicCrumb, children } = data
 
             const newPath = `${path}${loc ? '/' : ''}${loc}`
+
             isExists(children) && (loocupScope = children)
 
 
@@ -50,11 +51,10 @@ function getBreadcrumbs(
                             :   crumb
 
                 breadcrumbsElements.push(
-                    <a key={ newPath } className={ theme.crumb } onClick={ linkClickPreventDefault }
+                    <a key={ newPath } className={ theme.crumb } href={ newPath || '/' }
+                        onClick={ linkClickPreventDefault }
                         onMouseDown={ e => {
-                            onChange
-                                ?   onChange(newPath, loc, e)
-                                :   history.push(newPath)
+                            onChange(newPath, loc, e)
                         } }>
 
                         { i ? <>{separator} {name}</> : name as React.ReactNode }
@@ -101,9 +101,9 @@ const Breadcrumbs: Component = (props, noDefaults) => {
             } as EventListener)
 
 
-            window.addEventListener(componentID, setDynamicCrumbsHandler)
+            addEventListener(componentID, setDynamicCrumbsHandler)
             return () => {
-                window.removeEventListener(componentID, setDynamicCrumbsHandler)
+                removeEventListener(componentID, setDynamicCrumbsHandler)
             }
         }, [])
     }
@@ -130,6 +130,6 @@ Breadcrumbs.defaults = {
 Breadcrumbs.ID = componentID
 
 
-export { componentID }
 export default Breadcrumbs
+export { componentID }
 export * from './types'

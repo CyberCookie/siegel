@@ -118,6 +118,6 @@ Checkbox.defaults = {
 Checkbox.ID = componentID
 
 
-export { componentID }
 export default Checkbox
+export { componentID }
 export * from './types'

@@ -2,10 +2,10 @@ import React from 'react'
 import createEntitiesStruct from 'siegel-utils/entities_struct'
 import msIn from 'siegel-utils/date/constants'
 
-import type { Entity, DemoDataTableProps } from './types'
+import { DataTable, Checkbox } from 'app/components'
 import getEnchancedDataTableProps from './getEnchancedDataTableProps'
 import columnsConfig from './grid_schema'
-import { DataTable, Checkbox } from 'app/components'
+import type { Entity, DemoDataTableProps } from './types'
 
 import styles from './styles.sass'
 

@@ -41,7 +41,7 @@ Features:
 - `Utils` and `modules` to use on client side:
     - Big set of `React components`
     - React `global state manager` built on top of `react hooks` and optional fetch module to track requests with
-    - Recursively configurable `react router` wrapper
+    - Easy configurable `Router`
     - `Network` services to make requests and minimal client WebSocket implementation<br /><br />
 
 - `Demo project` with themed components, predefined folder structure and scalable architecture built on top of Siegel<br />
@@ -52,7 +52,7 @@ Features:
 Read more about each part following the links below:
 - [Client core](https://github.com/CyberCookie/siegel/tree/master/client_core)
     - [UI](https://github.com/CyberCookie/siegel/tree/master/client_core/ui)
-    - [Router](https://github.com/CyberCookie/siegel/tree/master/client_core/router)
+    - [Router](https://github.com/CyberCookie/siegel/tree/master/client_core/Router)
     - [Global store](https://github.com/CyberCookie/siegel/tree/master/client_core/store)
     - [Custom hooks](https://github.com/CyberCookie/siegel/tree/master/client_core/hooks)
     - [Network](https://github.com/CyberCookie/siegel/tree/master/client_core/network)

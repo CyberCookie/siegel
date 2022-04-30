@@ -33,6 +33,6 @@ Button.defaults = {
 Button.ID = componentID
 
 
-export { componentID }
 export default Button
+export { componentID }
 export * from './types'

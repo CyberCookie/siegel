@@ -146,6 +146,6 @@ Input.defaults = {
 Input.ID = componentID
 
 
-export { componentID, getDefaultState }
 export default Input
+export { componentID, getDefaultState }
 export * from './types'

@@ -3,7 +3,6 @@ import updateURLQuery from 'siegel-utils/query_update'
 import type { Page } from 'siegel-router'
 
 import * as demoComponents from './components'
-import { history } from 'app/Router'
 
 import styles from './styles.sass'
 
@@ -26,7 +25,7 @@ const hashParam = 'active'
 
 const DemoPage: Page = () => {
     const [ active, setActive ] = useState(
-        useMemo(() => (new URLSearchParams(window.location.search)).get(hashParam), [])
+        useMemo(() => (new URLSearchParams(location.search)).get(hashParam), [])
     )
 
     const componentsList = []
@@ -35,7 +34,7 @@ const DemoPage: Page = () => {
             key: component,
             children: _demoComponents[component].id,
             onMouseDown() {
-                updateURLQuery(history, hashParam, component)
+                updateURLQuery(hashParam, component)
                 setActive(component)
             }
         }

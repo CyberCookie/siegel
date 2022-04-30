@@ -1,5 +1,4 @@
 import isNullable from '../../utils/is/nullable'
-
 import type { ComponentAttributes, NewComponentAttributes } from '../_internals/types'
 
 

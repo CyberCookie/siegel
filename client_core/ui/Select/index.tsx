@@ -1,6 +1,3 @@
-//TODO: add error msg
-
-
 import React, { useState, useRef } from 'react'
 
 import isExists from '../../utils/is/exists'
@@ -188,6 +185,6 @@ Select.defaults = {
 Select.ID = componentID
 
 
-export { componentID, getDefaultState }
 export default Select
+export { componentID, getDefaultState }
 export * from './types'

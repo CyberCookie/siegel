@@ -137,13 +137,6 @@ const compare = (a: Comparable, b: Comparable, options: Options) => (
 )
 
 
-/**
- * Get object property by a given path
- * @param obj - object where to find a value
- * @param path - chain of links to get seeking value in given `obj`
- * @param defaultValue - value to be returned if `path` cannot be resolved in given `obj`
- * @returns value resolved by given `path` or `defaultValue`
- */
 function diff(a: Comparable, b: Comparable, options = {} as Options) {
     if (a.constructor === b.constructor) {
         if (isIterable(a)) {
@@ -162,5 +155,5 @@ function diff(a: Comparable, b: Comparable, options = {} as Options) {
 }
 
 
-export { SYMBOL__VALUES_EQUAL, SYMBOL__OBJECT_FIELD_REMOVED }
 export default diff
+export { SYMBOL__VALUES_EQUAL, SYMBOL__OBJECT_FIELD_REMOVED }

@@ -1,6 +1,5 @@
 import populateURLParams from '../../../utils_cross_env/populate_url_params'
-
-import type { FetchParams, ReqError, RequestParams, Hooks } from './types'
+import type { ReqError, RequestParams, Hooks } from './types'
 
 
 const HEADERS = {
@@ -158,6 +157,6 @@ const createApi = (hooks: Hooks = {}) => {
 }
 
 
-export { HEADERS, CONTENT_TYPE }
 export default createApi
-export type { FetchParams, ReqError, Hooks, RequestParams }
+export { HEADERS, CONTENT_TYPE }
+export * from './types'

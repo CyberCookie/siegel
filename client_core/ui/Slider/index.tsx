@@ -103,6 +103,6 @@ Slider.defaults = {
 Slider.ID = componentID
 
 
-export { componentID }
 export default Slider
+export { componentID }
 export * from './types'

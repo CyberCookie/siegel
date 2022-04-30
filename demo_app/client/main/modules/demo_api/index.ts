@@ -1,9 +1,9 @@
 import createStore from 'siegel-store/index'
 import breadcrumbID from 'siegel-ui/Breadcrumbs/id'
 
-import type { State, Actions, EchoReqBody } from './types'
 import request from 'app/network'
 import { dynamicCrumbsMap } from 'app/Router'
+import type { State, Actions, EchoReqBody } from './types'
 
 
 const initState: State = {
@@ -24,7 +24,7 @@ const actions: Actions = {
         }).then(({ res }) => {
             if (res) {
                 const { dataToSend } = res
-                window.dispatchEvent(
+                dispatchEvent(
                     new CustomEvent(breadcrumbID, {
                         detail: {
                             [dynamicCrumbsMap.demo_api]: dataToSend
@@ -61,6 +61,6 @@ const actions: Actions = {
 const { useStore, store } = createStore(initState, actions)
 
 
-export { store, urls }
 export default useStore
+export { store, urls }
 export * as DemoApiTypes from './types'

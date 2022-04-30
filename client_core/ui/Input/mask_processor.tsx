@@ -249,7 +249,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         for (let i = nextFilled!; i < selectionEnd && isExists(i); i = placeholdersIndexesMap[i].nextFilled!) {
             valueToCopy += valueArray[i]
         }
-        valueToCopy && window.navigator.clipboard.writeText(valueToCopy)
+        valueToCopy && navigator.clipboard.writeText(valueToCopy)
 
         onCopy?.(e)
     })

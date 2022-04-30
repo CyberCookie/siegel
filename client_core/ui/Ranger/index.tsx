@@ -118,8 +118,8 @@ const Ranger: Component = (props, noDefaults) => {
         state.activeSlider = activeSlider!
 
 
-        window.addEventListener('mousemove', onSlide)
-        window.addEventListener('mouseup', onSlideFinish)
+        addEventListener('mousemove', onSlide)
+        addEventListener('mouseup', onSlideFinish)
     }
 
     function onSlide(e: MouseEvent) {
@@ -173,8 +173,8 @@ const Ranger: Component = (props, noDefaults) => {
 
         toDefaultState(state)
 
-        window.removeEventListener('mousemove', onSlide)
-        window.removeEventListener('mouseup', onSlideFinish)
+        removeEventListener('mousemove', onSlide)
+        removeEventListener('mouseup', onSlideFinish)
     }
 
 
@@ -217,6 +217,6 @@ Ranger.defaults = {
 Ranger.ID = componentID
 
 
-export { componentID }
 export default Ranger
+export { componentID }
 export * from './types'

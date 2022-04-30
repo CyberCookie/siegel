@@ -1,4 +1,3 @@
-import type { History } from 'history'
 import type {
     PropsComponentThemed, NewComponentAttributes, CoreIUComponent
 } from '../_internals/types'
@@ -23,8 +22,7 @@ type Theme = {
 
 type Props = PropsComponentThemed<Theme, {
     config: BreadcrumbConfig
-    history: History
-    onChange?(fullPath: string, pathPart: string, e: React.MouseEvent): void
+    onChange(fullPath: string, pathPart: string, e: React.MouseEvent): void
     separator?: React.ReactNode
     rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
 }>

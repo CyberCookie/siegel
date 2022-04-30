@@ -127,6 +127,6 @@ Form.defaults = {}
 Form.ID = componentID
 
 
-export { componentID }
 export default Form
+export { componentID }
 export * from './types'

@@ -60,11 +60,11 @@ const Swipe: Component = (props, noDefaults) => {
 
 
         if (_isTouchScreen) {
-            window.addEventListener('touchend', onMouseUp, passiveEv)
-            window.addEventListener('touchmove', onMouseMove, passiveEv)
+            addEventListener('touchend', onMouseUp, passiveEv)
+            addEventListener('touchmove', onMouseMove, passiveEv)
         } else {
-            window.addEventListener('mouseup', onMouseUp, passiveEv)
-            window.addEventListener('mousemove', onMouseMove, passiveEv)
+            addEventListener('mouseup', onMouseUp, passiveEv)
+            addEventListener('mousemove', onMouseMove, passiveEv)
         }
 
         function onMouseUp(e: HTMLSwipeMouseEvent) {
@@ -88,11 +88,11 @@ const Swipe: Component = (props, noDefaults) => {
 
         removeTouchEvents = () => {
             if (_isTouchScreen) {
-                window.removeEventListener('touchend', onMouseUp)
-                window.removeEventListener('touchmove', onMouseMove)
+                removeEventListener('touchend', onMouseUp)
+                removeEventListener('touchmove', onMouseMove)
             } else {
-                window.removeEventListener('mouseup', onMouseUp)
-                window.removeEventListener('mousemove', onMouseMove)
+                removeEventListener('mouseup', onMouseUp)
+                removeEventListener('mousemove', onMouseMove)
             }
         }
     }
@@ -106,6 +106,6 @@ Swipe.defaults = {
 Swipe.ID = componentID
 
 
-export { componentID }
 export default Swipe
+export { componentID }
 export * from './types'

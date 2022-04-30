@@ -8,16 +8,11 @@ type DateParse = (date: Date | number | string, zeroPrefix?: boolean) => DatePar
 const resultMaxLength: { [key in DateKeys]?: number } = {
     year: 4,
     milliseconds: 4,
-    day: 0
+    day: 1
 } as const
 
-/**
- * Parse provided date (default is current date) into localized separated date pieces
- * @param date - any valid Date value
- * @param zeroPrefix - determine whether to prefix date parts with zeroes
- * @returns parsed date object
-*/
-const dateParse: DateParse = (date = Date.now(), zeroPrefix) => {
+
+const dateParse: DateParse = (date, zeroPrefix) => {
     const localDate = new Date(date)
 
     const result: DateParsed = {
@@ -33,11 +28,12 @@ const dateParse: DateParse = (date = Date.now(), zeroPrefix) => {
 
     if (zeroPrefix) {
         for (const datePartKey in result) {
-            const maxLength = resultMaxLength[datePartKey as keyof DateParsed]
-            if (maxLength != 0) {
-                result[datePartKey as DateKeys] = result[datePartKey as DateKeys]
-                    .toString()
-                    .padStart(maxLength || 2, '0')
+            const datePartStringified = result[datePartKey as DateKeys].toString()
+            const maxLength = resultMaxLength[datePartKey as keyof DateParsed] || 2
+
+            if (datePartStringified.length < maxLength) {
+                result[datePartKey as DateKeys] = datePartStringified
+                    .padStart(maxLength, '0')
             }
         }
     }

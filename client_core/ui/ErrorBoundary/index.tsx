@@ -4,6 +4,7 @@ import React from 'react'
 type Props = {
     onError?(err: Error): void
     getUIErrorText?(err: Error): React.ReactNode
+    children: React.ReactNode
 }
 
 type State = {
@@ -37,7 +38,7 @@ class ErrorBoundary extends React.Component<Props, State> {
 
 
         return err
-            ?   getUIErrorText?.(err) || 'Error has occured: ' + err.message
+            ?   getUIErrorText?.(err) || `Error has occured: ${err.message}`
             :   children
     }
 }

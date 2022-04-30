@@ -105,10 +105,7 @@ function getDefaultModulesConfig(CONFIG, RUN_PARAMS) {
     }
 
     for (const regexpPart in defaults) {
-        //TODO: update with ||= when drop old node support
-        if (defaults[regexpPart].ruleOptions === undefined) {
-            defaults[regexpPart].ruleOptions = {}
-        }
+        defaults[regexpPart].ruleOptions ||= {}
 
         const { ruleOptions } = defaults[regexpPart]
         const { include: _include, exclude: _exclude } = ruleOptions

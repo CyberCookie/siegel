@@ -25,7 +25,7 @@ import _Stepper, { Props as StepperProps } from 'siegel-ui/Stepper'
 
 
 import icons from '../icons'
-import { routesConfig, history } from 'app/Router'
+import { routesConfig } from 'app/Router'
 
 import buttonTheme from './styles/button.sass'
 import breadcrumbsTheme from './styles/breadcrumbs.sass'
@@ -52,10 +52,12 @@ import stepperTheme from './styles/stepper.sass'
 const Button = withDefaults(_Button, { className: buttonTheme.button })
 
 const Breadcrumbs = withDefaults(_Breadcrumbs, {
-    history,
     theme: breadcrumbsTheme,
     separator: icons.chevron,
-    config: routesConfig
+    config: routesConfig,
+    onChange(newPath) {
+        history.push!(newPath)
+    }
 })
 
 const Calendar = withDefaults(_Calendar, {

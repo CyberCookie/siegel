@@ -158,6 +158,6 @@ Pagination.defaults = {
 Pagination.ID = componentID
 
 
-export { componentID }
 export default Pagination
+export { componentID }
 export * from './types'

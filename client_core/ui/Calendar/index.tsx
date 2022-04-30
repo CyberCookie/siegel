@@ -84,6 +84,6 @@ Calendar.defaults = {
 Calendar.ID = componentID
 
 
-export { componentID }
 export default Calendar
+export { componentID }
 export * from './types'

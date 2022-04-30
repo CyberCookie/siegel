@@ -3,12 +3,10 @@
 Updates URL string with new query params<br />
 
 Has **2** signatures:
-- Receives **3** parameters, to change one query paramenter:
-    - **history** - **window.history** or **history**, created by external **history** package
+- Receives **2** parameters, to change one query paramenter:
     - **key** - **String**. Paramenter key
     - **value** - **String**. Paramenter value
-- Receives **2** parameters, to change multiple parameters:
-    - **history**
+- Receives **1** parameter, to change multiple parameters:
     - **paramenters** - **Object** where key is parameter key and value is paramenter value
 
 <br />
@@ -16,5 +14,5 @@ Has **2** signatures:
 ```js
 import updateURLQuery from 'siegel-utils/query_update'
 
-updateURLQuery(window.history, 'somekey', 'someValue') 
+updateURLQuery(history, 'somekey', 'someValue') 
 ```

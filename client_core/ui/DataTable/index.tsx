@@ -108,6 +108,6 @@ DataTable.defaults = {
 DataTable.ID = componentID
 
 
-export { getDefaultState, componentID }
 export default DataTable
+export { getDefaultState, componentID }
 export * from './types'

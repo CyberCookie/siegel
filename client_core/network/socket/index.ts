@@ -111,7 +111,7 @@ function createSocket(params: CreateSocketParams) {
         path, port, wss, events, reconnectInterval, serverTimeout, ping,
         parseIncommingMsg = messageParseDefault,
         serializeOutcommingMsg = messageSerializeDefault,
-        url = window.location.hostname,
+        url = location.hostname,
         messageTypeKey = 'type',
         payloadKey = 'data'
     } = params

@@ -91,7 +91,7 @@ Configurable and flexible data grid to manage big amount of data, built on top o
     - Used to speed up performance if you want to display all entities without pagination paging
     - **Object** with the next fields:
         - `itemHeight` - **Required** **Number**. Minimal height of the row
-        - `tableHeight` - **Number**. Default is **window.innerHeight**, Height of the table. Specifying this prop can precise item loading quantity
+        - `tableHeight` - **Number**. Default is **innerHeight**, Height of the table. Specifying this prop can precise item loading quantity
         - `preloadedItemsBySide` - **Number**. Default is **20**. Quantity of items to preload above and below of visible area
         - `scrollUpdateInterval` - **Number**. Default is **350**ms. Specify how frequent displayed range of items will be updated by scrolling<br /><br />
 

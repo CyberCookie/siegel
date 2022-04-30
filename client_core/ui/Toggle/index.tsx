@@ -65,6 +65,6 @@ Toggle.defaults = {
 Toggle.ID = componentID
 
 
-export { componentID }
 export default Toggle
+export { componentID }
 export * from './types'

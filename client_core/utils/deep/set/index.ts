@@ -1,12 +1,6 @@
 type Key = string | number
 
 
-/**
- * Set object property by mutating it using given `path`
- * @param obj - object where to set a value
- * @param path - chain of links using to set a value into given `obj`
- * @param value - value to set
- */
 function deepSet(iterable: any[] | Indexable, path: Key[] | Key, value: any): void {
     let link: Indexable = iterable
     const pathSequence = Array.isArray(path) ? path : [ path ]

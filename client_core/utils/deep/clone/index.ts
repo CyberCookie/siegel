@@ -1,11 +1,6 @@
 import isPrimitive from '../../is/primitive'
 
 
-/**
- * Performs a deep clone of a given value
- * @param value to clone
- * @returns Clonned value
- */
 function deepClone<T>(value: T): T {
     if (isPrimitive(value as unknown as object)) return value
 

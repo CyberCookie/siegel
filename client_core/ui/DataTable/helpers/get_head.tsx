@@ -11,7 +11,7 @@ const passiveEv = { passive: true }
 function getColumnWidthParams(columnEl: HTMLTableCellElement) {
     const {
         width, minWidth, paddingLeft, paddingRight, borderLeftWidth, borderRightWidth
-    } = window.getComputedStyle(columnEl)
+    } = getComputedStyle(columnEl)
 
     return {
         width: parseInt(width),
@@ -33,8 +33,8 @@ function getResizeHandler() {
     function onMouseUp() {
         mouseXAnchor = targetColumn = currentWidth = siblingColumn = siblingWidth = isLeftSide = currentMinWidth = siblingMinWidth = null
 
-        window.removeEventListener('mousemove', onMouseMove)
-        window.removeEventListener('mouseup', onMouseUp)
+        removeEventListener('mousemove', onMouseMove)
+        removeEventListener('mouseup', onMouseUp)
     }
 
     function onMouseMove(e: MouseEvent) {
@@ -70,8 +70,8 @@ function getResizeHandler() {
             ({ width: currentWidth, minWidth: currentMinWidth } = getColumnWidthParams(targetColumn))
             ;({ width: siblingWidth, minWidth: siblingMinWidth } = getColumnWidthParams(siblingColumn))
 
-            window.addEventListener('mousemove', onMouseMove, passiveEv)
-            window.addEventListener('mouseup', onMouseUp, passiveEv)
+            addEventListener('mousemove', onMouseMove, passiveEv)
+            addEventListener('mouseup', onMouseUp, passiveEv)
         }
     }
 }

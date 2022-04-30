@@ -156,7 +156,7 @@ function applyVirtualization(params: UseVirtualizationParams) {
                 itemHeight,
                 preloadedItemsBySide = 20,
                 scrollUpdateInterval = 350,
-                tableHeight = window.innerHeight
+                tableHeight = innerHeight
             }
         }
     } = params as VirtualizationMergedProps

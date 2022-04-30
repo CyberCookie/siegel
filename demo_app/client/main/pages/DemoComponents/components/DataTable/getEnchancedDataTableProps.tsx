@@ -263,7 +263,7 @@ function getSelectCheckboxTableCell<T extends Parameters<NonNullable<DemoDataTab
 
 const gridDefaultState = getDefaultState()
 
-export default (props: DemoDataTableProps) => {
+function getExtendedDataTableProps(props: DemoDataTableProps) {
     const dataGridHookStore = useState(gridDefaultState)
     const postProcessStore: PostProcessStore = useState({
         selected: new Set(),
@@ -305,3 +305,6 @@ export default (props: DemoDataTableProps) => {
 
     return newProps
 }
+
+
+export default getExtendedDataTableProps

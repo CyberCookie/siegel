@@ -15,11 +15,9 @@
 - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils) - To help you to perform the most common tasks.
 
 
-<br /><br />
+
+<br /><hr />
 <details>
     <summary>TODO</summary>
-    - PWA<br />
     - Components low level configuration<br />
-    - More unit tests<br />
-    - Resolve TODOs
 </details>

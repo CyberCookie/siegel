@@ -1,12 +1,12 @@
 import React from 'react'
-import { SwitchProps, RouteComponentProps } from 'react-router-dom'
+import type { Layout as LayoutType } from 'siegel-router'
 
 import Header from './Header'
 
 import './styles.sass'
 
 
-const Layout = (props: SwitchProps & RouteComponentProps) => {
+const Layout: LayoutType = props => {
     return <>
         <Header />
         <main children={ props.children } />

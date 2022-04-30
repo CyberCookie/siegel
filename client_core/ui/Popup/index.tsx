@@ -51,6 +51,6 @@ Popup.defaults = {
 Popup.ID = componentID
 
 
-export { componentID }
 export default Popup
+export { componentID }
 export * from './types'

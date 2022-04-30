@@ -139,7 +139,7 @@ Content-type header values used in **request**.
 import createSocket from 'siegel-network/socket'
 
 const socket = createSocket({
-    url: window.location.hostname
+    url: location.hostname
     port: 9000
 }: CreateSocketParams)
 
@@ -164,7 +164,7 @@ socket.send('messageType', payload)
 
 <br />
 
-- `url` - **String** Default is **window.location.hostname**<br />
+- `url` - **String** Default is **location.hostname**<br />
     Socket connection URL<br/>
 
 - `port` - **Number**<br />

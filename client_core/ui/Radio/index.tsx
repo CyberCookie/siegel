@@ -60,6 +60,6 @@ Radio.defaults = {
 Radio.ID = componentID
 
 
-export { componentID }
 export default Radio
+export { componentID }
 export * from './types'

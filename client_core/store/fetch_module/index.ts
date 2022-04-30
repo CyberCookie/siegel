@@ -1,27 +1,10 @@
-import createStore, { HookStore } from './index'
-
-
-type State = {
-    requests: Record<string, number>
-    errRes: Record<string, any>
-    lastError: Record<string, any>
-}
-
-type Actions = {
-    addToReqQueue(store: StoreInitialized, ID: string): void
-    removeFromReqQueue(store: StoreInitialized, ID: string, cleanupErrors?: boolean): void
-    addToErrRes(store: StoreInitialized, res: any, ID: string): void
-    clearErrRes(store: StoreInitialized, ID: string): void
-    getLastErrorMsgByID(store: StoreInitialized, ID: string): string
-}
-
-type StoreInitialized = HookStore<State, Actions>
+import createStore from '../index'
+import type { State, Actions } from './types'
 
 
 const initState: State = {
     requests: {},
     errRes: {},
-
     lastError: {}
 }
 
@@ -86,5 +69,6 @@ const actions: Actions = {
 const { useStore, store, resetStore } = createStore(initState, actions)
 
 
-export { store, resetStore }
 export default useStore
+export { store, resetStore }
+export * from './types'

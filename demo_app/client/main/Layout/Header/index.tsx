@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import A from 'siegel-router/Link'
 
 import { Breadcrumbs } from 'app/components'
 import { pagePathMap } from 'app/Router'
@@ -21,7 +21,8 @@ const nav = ([
         label: 'Store + API'
     }
 ]).map(({ path, label }) => (
-    <Link key={ path } to={ '/' + path } children={ label } className={ styles.nav_link } />
+    <A key={ path } href={ `/${path}` } className={ styles.nav_link }
+        children={ label } />
 ))
 
 const Header = () => (

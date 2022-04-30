@@ -100,6 +100,6 @@ Clocks.defaults = {
 Clocks.ID = componentID
 
 
-export { componentID }
 export default Clocks
+export { componentID }
 export * from './types'

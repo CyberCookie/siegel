@@ -38,16 +38,13 @@ _Only one instance of this compoent can be present at the moment<br />
             More about working with dynmic crumbs read further
         - `children` - **props.config** - recursion<br /><br />
 
-- `history`
-    - **Required**
-    - Created with **history** module<br /><br />
-
 - `separator`
     - Separator between crumbs
     - **React.ReactNode**<br /><br />
 
 - `onChange`
-    - Rewrites default crumb click handler
+    - **Required**
+    - Triggered when crumb is being selected
     - **Funcion**. Has **3** arguments:
         - **path** - **String**. Full crumb path
         - **configPath** - **String**. pathname key from config 
@@ -71,7 +68,6 @@ To update dynamic props we should fire **custom event**:
 ```jsx
 
 import Breadcrumbs, { componentID as breadcumbsID } from 'siegel-ui/Breadcrumbs'
-import { CreateBrowserHistory } from 'history'
 
 // Define breadcrumbs config
 const breadcrumbsConfig = {
@@ -90,14 +86,12 @@ const breadcrumbsConfig = {
     }
 }
 
-const history = CreateBrowserHistory()
-
 
 // Top level component
 const Layout = props => {
     return (
         <div>
-            <Breadcrumbs config={ breadcrumbsConfig } history={ history } />
+            <Breadcrumbs config={ breadcrumbsConfig } />
             { props.children }
         </div>
     )
@@ -108,7 +102,7 @@ const Layout = props => {
 function getFruitDetails() {
     fetch( ... ).then(fruit => {
         // Changing dynamic crumbs state by firing custom event
-        window.dispatchEvent(
+        dispatchEvent(
             new CustomEvent(breadcumbsID, {
                 detail: {
                     fruit_name: fruit.name

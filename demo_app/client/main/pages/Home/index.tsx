@@ -15,7 +15,7 @@ const docsListConfig = [
         title: 'Client core',
         children: [
             { path: 'ui', title: 'Components' },
-            { path: 'router', title: 'Router' },
+            { path: 'Router', title: 'Router' },
             { path: 'store', title: 'Global store' },
             { path: 'hooks', title: 'Custom hooks' },
             { path: 'network', title: 'Network' },

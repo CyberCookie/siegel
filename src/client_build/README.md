@@ -274,7 +274,7 @@ const { loadersKeyMap, webpackModulesRegExp } = BUILD_CONSTANTS
             loadersOrder(defaultLoadersOrder) {
                 /* Remember that webpack' loaders executes starting from the end */
 
-                /* To add to the begining. */
+                /* To add to the beginning. */
                 defaultLoadersOrder.push('your_loader')
 
                 /* To add to the end. */
@@ -391,7 +391,7 @@ console.log(buildOutput) // [ 'index.js', 'assets/fonts/some_font.woff2' ]
 Require service worker file as you'd usually do:
 
 ```js
-window.navigator.serviceWorker?.register('/sw.js')
+navigator.serviceWorker?.register('/sw.js')
     .catch(console.error)
 ```
 
@@ -473,7 +473,6 @@ const config = {
 <details>
     <summary>TODO</summary>
     - ES modules<br />
-    - Add more typings<br />
     - Save font icon to a separate file<br />
     - Separate styles for different media queries<br />
     - Generate code documentation from TS

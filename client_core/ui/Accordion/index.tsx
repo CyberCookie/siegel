@@ -117,6 +117,6 @@ Accordion.defaults = {
 Accordion.ID = componentID
 
 
-export { componentID }
 export default Accordion
+export { componentID }
 export * from './types'

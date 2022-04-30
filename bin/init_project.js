@@ -107,10 +107,8 @@ function main(isGlobal) {
         }
 
         if (INIT_PATHS.siegelDemoAppPathShift) {
-            const tsConfigInclude = clientTSConfig.include
-            const lastIndex = tsConfigInclude.length - 1
-            //TODO: update with .at(-1) when drop old node support
-            tsConfigInclude[ lastIndex ] = tsConfigInclude[ lastIndex ]
+            const { include } = clientTSConfig
+            include[ include.length - 1 ] = include.at(-1)
                 .replace(`${INIT_PATHS.siegelDemoAppPathShift}/`, '')
         }
 

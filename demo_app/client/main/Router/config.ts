@@ -1,11 +1,8 @@
 import { lazy } from 'react'
-import { createBrowserHistory } from 'history'
 import seo from 'siegel-utils/seo'
-import type { RouterConfig } from 'siegel-router'
-import type { BreadcrumbConfig } from 'siegel-ui/Breadcrumbs/types'
+import type { RoutesConfig } from 'siegel-router'
+import type { BreadcrumbConfig } from 'siegel-ui/Breadcrumbs'
 
-
-const history = createBrowserHistory()
 
 const pagePathMap = {
     home: '',
@@ -19,22 +16,21 @@ const dynamicCrumbsMap = {
 
 
 
-const routesConfig: RouterConfig & BreadcrumbConfig = {
+const routesConfig: RoutesConfig & BreadcrumbConfig = {
     [ pagePathMap.home ]: {
-        beforeEnter(props) {
+        onEnter() {
             seo({
                 title: 'Siegel demo app',
                 keywords: 'demo app',
                 description: 'siegel demo app'
             })
-            return props
         },
         crumb: 'Home',
-        LazyPage: lazy(() => import('app/pages/Home'))
+        Page: lazy(() => import('app/pages/Home'))
     },
 
     [ pagePathMap.demo_components ]: {
-        beforeEnter() {
+        onEnter() {
             seo({
                 title: 'Siegel | Demo components',
                 keywords: 'components',
@@ -42,11 +38,11 @@ const routesConfig: RouterConfig & BreadcrumbConfig = {
             })
         },
         crumb: 'Demo coponents',
-        LazyPage: lazy(() => import('app/pages/DemoComponents'))
+        Page: lazy(() => import('app/pages/DemoComponents'))
     },
 
     [ pagePathMap.demo_api ]: {
-        beforeEnter() {
+        onEnter() {
             seo({
                 title: 'Siegel | Demo API',
                 keywords: 'api',
@@ -54,9 +50,9 @@ const routesConfig: RouterConfig & BreadcrumbConfig = {
             })
         },
         dynamicCrumb: dynamicCrumbsMap.demo_api,
-        LazyPage: lazy(() => import('app/pages/DemoApi'))
+        Page: lazy(() => import('app/pages/DemoApi'))
     }
 }
 
 
-export { history, routesConfig, pagePathMap, dynamicCrumbsMap }
+export { routesConfig, pagePathMap, dynamicCrumbsMap }

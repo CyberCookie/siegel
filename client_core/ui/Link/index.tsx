@@ -36,6 +36,6 @@ Link.defaults = {}
 Link.ID = componentID
 
 
-export { componentID }
 export default Link
+export { componentID }
 export * from './types'
