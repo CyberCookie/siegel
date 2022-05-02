@@ -47,7 +47,7 @@ All the fields are optional since many of them are already defined in the underl
 ```js
 {
     /* Output path */
-    staticDir: String,
+    publicDir: String,
 
     /* Build specific config */
     build: {
@@ -72,7 +72,7 @@ All the fields are optional since many of them are already defined in the underl
                 If specified as string then it will be transformed to
                 [{
                     from: copyFilesDir,
-                    to: join( staticDir, relative( dirname(input.html) copyFilesDir) )
+                    to: join( publicDir, relative( dirname(input.html) copyFilesDir) )
                 }]
             */
             copyFiles: String || CopyWebpackPlugin::options::patterns,

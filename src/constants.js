@@ -42,11 +42,12 @@ const PATHS = {
 
 
 const DEFAULT_CONFIG = {
-    staticDir: join(cwd, 'dist'),
+    publicDir: join(cwd, 'dist'),
 
     server: {
         host: 'localhost',
-        port: 3000
+        port: 3000,
+        compressionServingOrder: [ 'br', 'gzip' ]
     },
 
     build: {
@@ -69,8 +70,8 @@ const DEFAULT_CONFIG = {
                     js_chunk: '[contenthash].js',
                     styles: '[contenthash].css',
                     styles_chunk: '[contenthash].css',
-                    brotli: '[name].br',
-                    gzip: '[name].gz'
+                    brotli: '[base].br',
+                    gzip: '[base].gz'
                 },
                 DEV: {
                     assets: 'assets/[name][ext]',

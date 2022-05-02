@@ -11,7 +11,7 @@
 </a>
 
 <a href=''>
-    <img src='https://img.shields.io/badge/node%20v-%3E%3D%2014-brightgreen' alt='npm version' />
+    <img src='https://img.shields.io/badge/node%20v-%3E%3D%2016-brightgreen' alt='node version' />
 </a>
 
 <a href=''>
@@ -170,7 +170,7 @@ siegel('/path/to/js_entry.ts')
         and client_build(as webpack output folder).
         Default is: path.join(process.cwd(), 'dist')
     */
-    staticDir: String,
+    publicDir: String,
 
     /* Static server configuration. */
     server: Object,

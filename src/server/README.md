@@ -20,35 +20,35 @@ Receives **3** parameters:
 ```js
 {   
     /* Public directory */
-    staticDir: String,
+    publicDir: String,
 
     server: {
         /*
-            Path to a user defined server to extend the one created by siegel.
-            Server extender should be a function.
+            Path to a user defined server to extend the one created by siegel
+            Server extender should be a function
             Function receives an instance of the server as a first paramenter
-            and dependencies used to create this server along with internal server API as a second parameter.
+            and dependencies used to create this server along with internal server API as a second parameter
         */
         appServerLoc: String,
 
         /*
-            Static server host.
+            Static server host
             Default is: 'localhost'
         */
         host: String,
 
         /*
-            Static server port.
+            Static server port
             Default is: 3000
         */
         port: Number,
 
-        /* Whether to use HTTP2 protocol. */
+        /* Whether to use HTTP2 protocol */
         http2: Boolean,
 
         /*
-            You may pass SSL params to establish secure connection (HTTPS HTTP2S).
-            Use siegel's 'create_ssl' script to create localhost certificate.
+            You may pass SSL params to establish secure connection (HTTPS HTTP2S)
+            Use siegel's 'create_ssl' script to create localhost certificate
         */
         ssl: {
             /* Path to ssl private key. */
@@ -56,7 +56,14 @@ Receives **3** parameters:
 
             /* Path to signed certificate. */
             certPath: String
-        }
+        },
+
+        /*
+            Compressed files lookup order
+            If no compressed file is found - plain file will be returned 
+            Default is: [ 'br, 'gzip' ]
+        */
+        compressionServingOrder: String[]
     }
 }
 ```

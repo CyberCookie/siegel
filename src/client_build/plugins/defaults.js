@@ -75,7 +75,7 @@ function getDefaultPluginsConfig(CONFIG, RUN_PARAMS) {
                     ?   [{
                             from: input.copyFiles,
                             to: join(
-                                CONFIG.staticDir,
+                                CONFIG.publicDir,
                                 relative(
                                     dirname(input.html),
                                     input.copyFiles

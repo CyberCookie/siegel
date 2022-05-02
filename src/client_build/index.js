@@ -19,7 +19,7 @@ const statsOptions = {
 function clientBuilder(CONFIG, RUN_PARAMS) {
     const { isProd, _isDevServer, _isSelfDevelopment } = RUN_PARAMS
     const {
-        staticDir,
+        publicDir,
         build: {
             output: { target, publicPath, filenames },
             input, aliases, postProcessWebpackConfig//, outputESM = true
@@ -55,7 +55,7 @@ function clientBuilder(CONFIG, RUN_PARAMS) {
 
         output: {
             publicPath,
-            path: staticDir,
+            path: publicDir,
             pathinfo: false,
             chunkFilename: filenames.js_chunk,
             filename: filenames.js,

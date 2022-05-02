@@ -1,4 +1,7 @@
-import fs from 'fs'
+import mime from 'mime'
+
+import extractSSL from './extract_ssl_key.js'
+import getStaticServingData from './get_static_serving_data.js'
 
 
 const listen = (server, host, port) => (
@@ -9,42 +12,42 @@ const listen = (server, host, port) => (
     })
 )
 
-const extractSSL = ({ keyPath, certPath }) => ({
-    key: fs.readFileSync(keyPath),
-    cert: fs.readFileSync(certPath)
-})
-
 
 async function createHTTPServer(params) {
     const {
         devMiddlewares, appServer,
         CONFIG: {
-            staticDir,
-            server: { host, port, ssl }
+            publicDir,
+            server: { host, port, ssl, compressionServingOrder }
         }
     } = params
 
 
     const express = (await import('express')).default
-    const expressStatic = (await import('express-static-gzip')).default
-    const historyApiFallback = (await import('connect-history-api-fallback')).default
-
 
     let staticServer = express()
+    staticServer.disable('x-powered-by')
+
     appServer && await appServer(staticServer, { express })
 
-    staticServer
-        .disable('x-powered-by')
-        .use(historyApiFallback())
 
     devMiddlewares.length
         ?   devMiddlewares.forEach(m => {
                 staticServer.use(m)
             })
-        :   staticServer.use('/', expressStatic(staticDir, {
-                enableBrotli: true,
-                orderPreference: ['br', 'gzip']
-            }))
+
+        :   staticServer.use('/*', (req, res) => {
+                const { originalUrl, headers } = req
+
+                const {
+                    pathToFile, encoding, contentType
+                } = getStaticServingData(publicDir, originalUrl, headers, compressionServingOrder)
+
+                encoding && res.append('content-encoding', encoding)
+                contentType && res.append('content-type', contentType)
+                res.sendFile(pathToFile)
+            })
+
 
     if (ssl) {
         const { createServer } = await import('https')
@@ -60,10 +63,12 @@ async function createHTTP2Server(params) {
     const {
         devMiddlewares, appServer,
         CONFIG: {
-            staticDir,
-            server: { host, port, ssl }
+            publicDir,
+            server: { host, port, compressionServingOrder, ssl }
         }
     } = params
+
+    const http2 = await import('http2')
 
     const {
         HTTP2_HEADER_CONTENT_ENCODING,
@@ -73,11 +78,6 @@ async function createHTTP2Server(params) {
     } = http2.constants
 
 
-    const http2 = await import('http2')
-    const path = await import('path')
-    const mime = (await import('mime-types')).default
-
-
     const server = ssl
         ?   http2.createSecureServer(extractSSL(ssl))
         :   http2.createServer()
@@ -85,13 +85,39 @@ async function createHTTP2Server(params) {
     server.on('error', console.error)
 
     server.on('stream', (stream, headers, flags) => {
-        const reqFilePath = headers[HTTP2_HEADER_PATH]
 
-        const isRoot = reqFilePath == '/'
-        const isResourceRequested = reqFilePath.includes('.')
-        if (isRoot || isResourceRequested) {
-            devMiddlewares || handleRequestedFile({ reqFilePath, isRoot, stream })
-        } else onStreamCb?.(stream, headers, flags)
+        if (!devMiddlewares.length) {
+
+            const cancelFurtherPricessing = onStreamCb?.(stream, headers, flags)
+            if (!cancelFurtherPricessing) {
+                const reqFilePath = headers[HTTP2_HEADER_PATH]
+
+                const {
+                    pathToFile, encoding, contentType
+                } = getStaticServingData(publicDir, reqFilePath, headers, compressionServingOrder)
+
+
+                console.log(pathToFile, encoding, contentType)
+
+                stream.respondWithFile(
+                    pathToFile,
+                    {
+                        [ HTTP2_CONTENT_TYPE_KEY ]: contentType,
+                        [ HTTP2_HEADER_CONTENT_ENCODING ]: encoding
+                    },
+                    {
+                        onError(err) {
+                            console.log(err)
+                            stream.respond({
+                                [HTTP2_HEADER_STATUS]: err.code == 'ENOENT' ? 404 : 500
+                            })
+
+                            stream.end()
+                        }
+                    }
+                )
+            }
+        }
     })
 
 
@@ -102,51 +128,6 @@ async function createHTTP2Server(params) {
             onStreamCb = cb
         }
     })
-
-
-
-    function handleRequestedFile({ reqFilePath, isRoot, stream }) {
-        const { ext, name, dir } = isRoot
-            ?   {
-                    dir: '/',
-                    name: 'index',
-                    ext: '.html'
-                }
-            :   path.parse(reqFilePath)
-
-        const reponseHeaders = {
-            [HTTP2_CONTENT_TYPE_KEY]: mime.contentType(ext)
-        }
-
-        let filePathNoExt = path.join(staticDir, dir, name)
-
-        const encodingOrder = ['br', 'gzip']
-        let pathToCompressedFile
-
-        for (let i = 0, l = encodingOrder.length; i < l; i++) {
-            const encoding = encodingOrder[i]
-            const fileName = `${filePathNoExt}.${encoding}`
-
-            if (fs.existsSync(fileName)) {
-                pathToCompressedFile = fileName
-                reponseHeaders[HTTP2_HEADER_CONTENT_ENCODING] = encoding
-                break
-            }
-        }
-
-
-        const finalFileName = pathToCompressedFile || (filePathNoExt += ext)
-
-        stream.respondWithFile(finalFileName, reponseHeaders, {
-            onError(err) {
-                stream.respond({
-                    [HTTP2_HEADER_STATUS]: err.code == 'ENOENT' ? 404 : 500
-                })
-
-                stream.end()
-            }
-        })
-    }
 
 
     return listen(server, host, port)
