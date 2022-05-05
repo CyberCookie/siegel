@@ -17,8 +17,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <Pagination { ...props } />
 
@@ -30,6 +28,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Pagination'
 
 
 export default Demo

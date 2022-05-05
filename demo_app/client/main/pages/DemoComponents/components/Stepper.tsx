@@ -30,8 +30,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <Stepper value={ selectedOnePoint }
             options={ [
@@ -75,6 +73,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Stepper'
 
 
 export default Demo

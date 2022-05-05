@@ -17,8 +17,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <h3 children={ `counter: ${counter}` } />
         <Button { ...props } />
@@ -28,6 +26,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Button'
 
 
 export default Demo

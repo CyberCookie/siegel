@@ -20,7 +20,7 @@ Router is a React component, that can have the next props:
         - Function has **1** argument:
             - **URLParams** - **Object** with parsed url params
         - Returns **void | Object**
-    - `onLeave` - **Function** that is triggered before current component will be replaced with another one 
+    - `onLeave` - **Function** that is triggered before current component was replaced with another one 
     - `paramName` - **String**. URL parameter name in dynamic route
     - `redirectTo` - **String**. Path to redirect to if current route url was matched
     - `children` - **Object**. Nested routes - recursion.

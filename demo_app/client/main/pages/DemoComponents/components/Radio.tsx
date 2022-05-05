@@ -23,8 +23,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple single select' />
         <Radio { ...props } />
 
@@ -44,6 +42,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Radio'
 
 
 export default Demo

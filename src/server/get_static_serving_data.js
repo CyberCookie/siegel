@@ -5,14 +5,13 @@ import mime from 'mime'
 
 const STRIP_PATH_TRAVERSAL_REGEXP = /^(\.\.(\/|\\|$))+/
 
-function getFileResponseParams(publicDir, url, headers, encodingOrder) {
-    const urlNormalized = path.normalize(url)
+function getFileResponseParams(params) {
+    const { publicDir, reqUrl, acceptEncoding, serveCompressionsPriority } = params
+
+    const urlNormalized = path.normalize(reqUrl)
         .replace(STRIP_PATH_TRAVERSAL_REGEXP, '')
 
-    const pathAbsolute = path.join(
-        publicDir,
-        urlNormalized.includes('.') ? urlNormalized : '/index.html'
-    )
+    const pathAbsolute = path.join(publicDir, urlNormalized)
 
     let contentType = mime.lookup(pathAbsolute)
 
@@ -21,14 +20,14 @@ function getFileResponseParams(publicDir, url, headers, encodingOrder) {
 
 
     const browserEncodings = new Set(
-        (headers['accept-encoding'] || '').split(', ')
+        (acceptEncoding || '').split(', ')
     )
 
     let encoding = ''
     let pathToFile = pathAbsolute
 
-    for (let i = 0, l = encodingOrder.length; i < l; i++) {
-        const encodingPrefecence = encodingOrder[i]
+    for (let i = 0, l = serveCompressionsPriority.length; i < l; i++) {
+        const encodingPrefecence = serveCompressionsPriority[i]
         const compressedFilePath = `${pathAbsolute}.${encodingPrefecence}`
 
         if (browserEncodings.has(encodingPrefecence) && fs.existsSync(compressedFilePath)) {
@@ -39,7 +38,12 @@ function getFileResponseParams(publicDir, url, headers, encodingOrder) {
     }
 
 
-    return { pathToFile, encoding, contentType }
+    return {
+        pathToFile, encoding, contentType,
+        cacheControl: urlNormalized.includes('index.html')
+            ?   ''
+            :   'max-age=31536000, immutable'
+    }
 }
 
 

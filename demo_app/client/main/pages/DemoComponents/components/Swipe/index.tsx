@@ -23,8 +23,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple (swipe up / down)' />
         <Swipe { ...props } />
 

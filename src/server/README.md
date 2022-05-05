@@ -1,21 +1,22 @@
 # Server
 
-Server could be runned in HTTP / HTTP2 mode with or without secure layer depending on a server configuration you passed<br />
-Static server is already configured to serve brotli and gzip compressed files and always responses with index.html due to SPA<br />
-So far HTTP(ExpressJS) and HTTP2(NodeJS module) are incompatible
+Server could be runned in `HTTP1` / `HTTP2` mode with or without secure layer depending on a server configuration you passed<br />
+Static server is already configured to serve brotli and gzip compressed files and always responses with index.html as a SPA application.<br />
+Only `HTTP1` is suitable for development purposes.<br />
 
-<br/>
+<br/><br/>
 
-### Server exposes interface with the only method named **run**:
+
+### Server returns an object with the only method `run`:
 
 Receives **3** parameters:
 - **config** - Siegel config
-- **middlewares** - **Array of expressMiddleware** - ExpressJS middlewares. Thus affects only http(s) server
-- **serverExtend** - resolved server extender
+- **middlewares** - **ExpressMiddleware[]** - ExpressJS middlewares. Thus affects only http(s) server
+- **serverExtend** - function to extend this server
 
 <br/>
 
-### config
+## config
 
 ```js
 {   
@@ -24,10 +25,7 @@ Receives **3** parameters:
 
     server: {
         /*
-            Path to a user defined server to extend the one created by siegel
-            Server extender should be a function
-            Function receives an instance of the server as a first paramenter
-            and dependencies used to create this server along with internal server API as a second parameter
+            Path to a user defined server to extend the one created by Siegel
         */
         appServerLoc: String,
 
@@ -60,52 +58,65 @@ Receives **3** parameters:
 
         /*
             Compressed files lookup order
-            If no compressed file is found - plain file will be returned 
+            If no compressed file is found - plain file that was returned 
             Default is: [ 'br, 'gzip' ]
         */
-        compressionServingOrder: String[]
+        serveCompressionsPriority: String[]
     }
 }
 ```
+
 
 
 <br /><br />
 
-### serverExtend
+## Extend with own server
+
+To extend built in server you may use `server.appServerLock` config property 
 
 <br />
 
 ```js
-// siegel_config
+// ...siegel_config
 {
     server: {
-        appServerLoc: `${process.cwd()}/internal_server_extender.js`
+        appServerLoc: `${process.cwd()}/user_app.js`
     }
 }
 ```
 
+Here we define path to User App entrypoint file - **user_app.ts**<br />
+User App must be a **Function** in order to call it during Siegel server initialization<br />
+The **Function**, both for HTTP1 and HTTP2 receives almost the same **2**** arguments:
+- **Static server data** - **Object**. Static server protocol related data.<br />
+    - `HTTP1` static server made with `Express` has the next fields:
+        - `express` - **Express module**
+        - `staticServer` - **express()**. Static server created with express
+    - `HTTP2` static server made with `http2` node module, has the next fields:
+        - `onStream` - **Function** with the only argument - **http2.ServerHttp2Stream**
+        - `staticServer` - Static server created with `http2` module
+- **siegel config** - Siegel config
+
+The User App function is called right before static server features was applied.<br />
+
 
 ```js
-// internal_server_extender.js
-
-const { proxyReq } = (await import('../../src/index.js'))
-
-
-function appServer(app, { express, onStream }) {
-    if (onStream) { // if HTTP2
-        onStream(() => {
-            console.log('HTTP2 stream')
-        })
-    } else {
-        app
+// user_app.js
+function appServer({ express, staticServer, onStream }, CONFIG) {
+    if (express) {
+        staticServer
             .use(express.json())
 
-            .post('/api/some_post', ((req, res) => {
+            .post('/api/echo', ((req, res) => {
                 res.send(req.body)
             }))
+
+    } else if (onStream) {
+        onStream((stream, headers, flags) => {
+
+        })
     }
 }
-
 
 export default appServer
 ```
@@ -152,7 +163,7 @@ Proxy receives **1** parameter - **Object** with the next fields:
 - `changeOrigin` - **Boolean** - could be helpful for CORS requests
 - `postProcessReq` **Function** - Triggered before request to the next resource occurs. Has **2** arguments:
     - **client request** - **Object**. Request made by your client.
-    - **options** - **Object**. Options that will be passed to request to make a request to. Has the next fields:
+    - **options** - **Object**. Options that was passed to request to make a request to. Has the next fields:
         - `host` - **String**. Host to make request to
         - `port` - **Number**. Port to make request to
         - `headers` - **Object**. Final headers to make request to
@@ -165,6 +176,6 @@ Proxy receives **1** parameter - **Object** with the next fields:
     <summary>TODO</summary>
     - Compatible HTTP1 and HTTP2 static server<br />
     - SEO for crawlers (pages prebuild or build on the fly)<br />
-    - Add more typings<br />
+    - TS<br />
     - Isomorphic API?
 </details>

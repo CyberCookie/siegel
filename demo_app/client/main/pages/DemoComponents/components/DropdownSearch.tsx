@@ -27,8 +27,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <DropdownSearch { ...props } />
 
@@ -41,6 +39,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'DropdownSearch'
 
 
 export default Demo

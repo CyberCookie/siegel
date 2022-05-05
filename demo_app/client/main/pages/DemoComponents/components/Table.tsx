@@ -57,13 +57,13 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
+
         <Table { ...props } />
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Table'
 
 
 export default Demo

@@ -1,13 +1,13 @@
 import { proxyReq } from '../../src/index.js'
 
 
-function appServer(app, { express, onStream }) {
+function appServer({ express, onStream, staticServer }) {
     if (onStream) { // if HTTP2
         onStream(() => {
             console.log('HTTP2 stream')
         })
     } else {
-        app
+        staticServer
             .use(express.json())
 
             .post('/api/echo', (req, res) => {

@@ -1,14 +1,14 @@
 'use strict'
 
+process.on('warning', console.warn)
+process.on('uncaughtException', console.error)
+
 import * as utils from './utils/index.js'
 import proxyReq from './server/proxy.js'
 import * as BUILD_CONSTANTS from './client_build/constants.js'
-import { PATHS } from './constants.js'
 import normalizeConfigs from './normalize_configs.js'
-
-
-process.on('warning', console.warn)
-process.on('uncaughtException', console.error)
+import webpackBuilder from './client_build/index.js'
+import server from './server/index.js'
 
 
 async function main(_CONFIG, _RUN_PARAMS, performConfigNormalize = true) {
@@ -21,8 +21,7 @@ async function main(_CONFIG, _RUN_PARAMS, performConfigNormalize = true) {
 
     let devMiddlewares = []
     if (isBuild) {
-        const builder = (await import(PATHS.build)).default
-        const { run, getDevMiddlewares } = builder(CONFIG, RUN_PARAMS)
+        const { run, getDevMiddlewares } = webpackBuilder(CONFIG, RUN_PARAMS)
 
         await run()
 
@@ -33,8 +32,6 @@ async function main(_CONFIG, _RUN_PARAMS, performConfigNormalize = true) {
 
 
     if (isServer) {
-        const devServer = (await import(PATHS.staticServer)).default
-
         let appServer
         const { appServerLoc } = CONFIG.server
         if (appServerLoc) {
@@ -47,7 +44,7 @@ async function main(_CONFIG, _RUN_PARAMS, performConfigNormalize = true) {
             } catch(err) { console.error(err) }
         }
 
-        devServer.run({ CONFIG, devMiddlewares, appServer })
+        server.run({ CONFIG, devMiddlewares, appServer })
     }
 }
 

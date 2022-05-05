@@ -62,8 +62,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple [like table]' />
         <DataTable { ...props } />
 

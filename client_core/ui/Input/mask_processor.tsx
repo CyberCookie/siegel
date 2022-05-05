@@ -1,5 +1,4 @@
 //TODO?: process with mask applied
-//TODO: arrow left right caret positioning
 
 
 import { useState, useEffect } from 'react'
@@ -30,6 +29,10 @@ const DELETE_CUT = 'deleteByCut'
 
 const CODE_UNDO = 'KeyZ'
 const CODE_REDO = 'KeyY'
+const CODE_ARROW_LEFT = 'ArrowLeft'
+const CODE_ARROW_RIGHT = 'ArrowRight'
+const CODE_ARROW_UP = 'ArrowUp'
+const CODE_ARROW_DOWN = 'ArrowDown'
 
 const valuePlaceholderCharDefault = ' '
 
@@ -81,7 +84,7 @@ function extractMaskData(
     }
 
     const FIRST_PLACEHOLDER_INDEX = placeholderCharsOrdered[0]
-    const LAST_PLACEHOLDER_INDEX = placeholderCharsOrdered[ maxLength - 1 ]
+    const LAST_PLACEHOLDER_INDEX = placeholderCharsOrdered.at(-1)!
 
     let nextFilled, next
     for (let i = LAST_PLACEHOLDER_INDEX; i >= 0; i--) {
@@ -233,7 +236,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             }
 
             shiftNextChar && insertedCharsCount < insertDataLength && !placeholdersIndexesMap[ LAST_PLACEHOLDER_INDEX ].isFilled
-                ?   insert(e, nextCaretPos, data.substr(insertedCharsCount), valueArray)
+                ?   insert(e, nextCaretPos, data.substring(insertedCharsCount), valueArray)
                 :   updateInputData(e, valueArray, nextCaretPos)
         } else setCaretPos(ref as Ref, FIRST_PLACEHOLDER_INDEX)
     }
@@ -269,7 +272,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         }
 
         _inputAttr.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            const inputType = (e.nativeEvent as InputEvent).inputType
+            const { inputType } = e.nativeEvent as InputEvent
             if (inputType == INSERT_PASTE) return
 
             const { selectionStart, value: inputValue } = (e.target as typeof e.target & { selectionStart: number })
@@ -282,11 +285,11 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
 
             if (inputType == INSERT_TEXT) {
                 const prevCaretPos = selectionStart - 1
-                const data = (e.nativeEvent as InputEvent).data!
+                const { data } = e.nativeEvent as InputEvent
 
                 ++removedChars
-                    ?   replace(e, prevCaretPos, removedChars, data)
-                    :   insert(e, prevCaretPos, data)
+                    ?   replace(e, prevCaretPos, removedChars, data!)
+                    :   insert(e, prevCaretPos, data!)
             } else {
                 const isBackwardDelete = inputType == DELETE_BACKWARD || inputType == DELETE_CUT
 
@@ -353,10 +356,39 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                     newValue = history[ historyPos ]
                     maskState.historyPos--
                 }
-            } else if (code == CODE_REDO && historyPos < history.length - 2) {
-                newValue = history[ historyPos + 2 ]
-                maskState.historyPos++
+
+            } else if (code == CODE_REDO) {
+                if (historyPos < history.length - 2) {
+                    newValue = history[ historyPos + 2 ]
+                    maskState.historyPos++
+                }
+
+            } else {
+                const isLeft = code == CODE_ARROW_LEFT
+                const isUp = code == CODE_ARROW_UP
+                const isDown = code == CODE_ARROW_DOWN
+                if (isDown || isUp || isLeft || code == CODE_ARROW_RIGHT) {
+                    e.preventDefault()
+                    const { selectionStart, selectionEnd } = e.target as HTMLInputElement
+
+                    const newCarretPos = isUp
+                        ?   FIRST_PLACEHOLDER_INDEX
+
+                        :   isDown
+                            ?   LAST_FILLED_INDEX! + 1 || FIRST_PLACEHOLDER_INDEX
+
+                            :   isLeft
+                                ?   (selectionStart && placeholdersIndexesMap[ selectionStart! - 1 ].prevFilled! + 1)
+                                        ||  placeholderCharsOrdered[0]
+
+                                :   (selectionEnd! < pattern.length && placeholdersIndexesMap[ selectionEnd! ].nextFilled!)
+                                        ||  placeholderCharsOrdered.at(-1)! + 1
+
+                    maskState.caretPos = newCarretPos
+                    setCaretPos(ref as Ref, newCarretPos)
+                }
             }
+
 
             if (isExists(newValue)) {
                 (e.target as HTMLInputElement).value = newValue

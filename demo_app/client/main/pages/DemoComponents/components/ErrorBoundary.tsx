@@ -14,8 +14,6 @@ const Demo = () => {
     const [ isShowErrorComponent, setErrorComponentVisibility ] = useState(false)
 
     return <>
-        <h1 children={ ID } />
-
         <h2 onMouseDown={ () => { setErrorComponentVisibility(true) } }>
             click to render buggy component wrapped in ErrorBoundary
         </h2>
@@ -32,6 +30,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'ErrorBoundary'
 
 
 export default Demo

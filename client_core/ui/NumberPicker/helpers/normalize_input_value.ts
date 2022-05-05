@@ -23,7 +23,7 @@ function normalizeInputValue(value: string | undefined, precision: number | unde
     if (precision && indexOfDot > -1) {
         const maxLength = indexOfDot + precision + 1
         value = value.length > maxLength
-            ?   value.substr(0, maxLength)
+            ?   value.substring(0, maxLength)
             :   value.length < maxLength && !isFocused
                 ?   (+value).toFixed(precision)
                 :   value

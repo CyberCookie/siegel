@@ -15,8 +15,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <h3 children={ `toggled: ${ value + '' }` } />
         <Toggle { ...props } />
@@ -31,6 +29,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Toggle'
 
 
 export default Demo

@@ -17,8 +17,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <Slider { ...props } />
 
@@ -31,6 +29,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Slider'
 
 
 export default Demo

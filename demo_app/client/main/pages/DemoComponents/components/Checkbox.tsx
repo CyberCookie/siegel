@@ -15,8 +15,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <h3 children={ `checked: ${isChecked.toString()}` } />
         <Checkbox { ...{ ...props, icon: false } } />
@@ -32,6 +30,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Checkbox'
 
 
 export default Demo

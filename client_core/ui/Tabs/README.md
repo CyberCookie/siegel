@@ -33,7 +33,7 @@ Provides content distributed for each tab specified<br />
         - `label` - **React.ReactNode**. Tab label content
         - `content` - **React.ReactNode | (() => React.ReactNode)**<br />
             Tab content
-        - `payload` - **Any**. Data to be passed to **props.onChange** if this tab will be selected<br /><br />
+        - `payload` - **Any**. Data to be passed to **props.onChange** if this tab was selected<br /><br />
 
 - `activeTab`
     - ID of tab to show

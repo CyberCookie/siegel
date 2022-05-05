@@ -16,8 +16,6 @@ const Demo = () => {
     }
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <NumberPicker { ...props } />
 
@@ -32,6 +30,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'NumberPicker'
 
 
 export default Demo

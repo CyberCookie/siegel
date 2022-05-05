@@ -17,8 +17,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <Calendar { ...props } />
 
@@ -27,6 +25,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Calendar'
 
 
 export default Demo

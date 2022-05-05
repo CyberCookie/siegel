@@ -22,8 +22,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple (by default update every minute)' />
         <div className={ styles.clocks }>
             <Clocks initDate={ initDate } builder={ timeBuilder } />

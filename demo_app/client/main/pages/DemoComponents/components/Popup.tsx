@@ -17,8 +17,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple [click to trigger the popup]'
             onMouseDown={ () => { setActivePopup(true) } } />
 
@@ -26,6 +24,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Popup'
 
 
 export default Demo

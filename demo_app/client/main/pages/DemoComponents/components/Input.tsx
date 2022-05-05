@@ -19,8 +19,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <Input { ...props } />
 
@@ -37,7 +35,7 @@ const Demo = () => {
         <Input { ...props } regexp={ /^\d*$/ }
             mask={{
                 processor: maskProcessor,
-                pattern: '== (****) ** - ** - ** ==',
+                pattern: '== +* (****) *** - ** - ** ==',
                 patternValueChar: '*',
                 valuePlaceholderChar: '_'
             }} />
@@ -47,6 +45,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Input'
 
 
 export default Demo

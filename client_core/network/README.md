@@ -89,7 +89,7 @@ Content-type header values used in **request**.
     Request URL. Can include url params: _someurl/:param1/:param2_
 
 - `params` - **Object** where _key_ is parameter ID and _value_ is parameter value<br />
-    URL params that will be included to URL
+    URL params that was included to URL
 
 - `query` - **String | Object**<br />
     If object provided then _key_ is query ID and _value_ is query value<br />

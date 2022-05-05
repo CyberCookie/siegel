@@ -12,7 +12,8 @@ const iconNames = [
     'close',
     'more_vert',
     'search',
-    'edit'
+    'edit',
+    'git'
 ] as const
 
 const icons: Partial<Record<IconName, React.ReactElement>> = {}

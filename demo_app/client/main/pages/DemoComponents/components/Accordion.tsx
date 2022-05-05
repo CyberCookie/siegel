@@ -48,8 +48,6 @@ const customListAccordionProps: AccordionProps<(typeof customAccorionList)[numbe
 }
 
 const Demo = () => <>
-    <h1 children={ ID } />
-
     <h2 children='simple; soloOpen' />
     <Accordion { ...{ list } } soloOpen />
 
@@ -60,6 +58,7 @@ const Demo = () => <>
     <Accordion { ...customListAccordionProps } />
 </>
 Demo.id = ID
+Demo.coreSourcesPath = 'Accordion'
 
 
 export default Demo

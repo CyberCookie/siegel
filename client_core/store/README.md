@@ -7,7 +7,7 @@ Store creator receives **3** parameters:
 
 - `actions` - **Object**. Store actions, where _key_ is action name and _value_ is action **Function**
 
-- `withReset` - **Boolean**. Whether to create state reset function that will be returned along with **store** and **useStore** hook
+- `withReset` - **Boolean**. Whether to create state reset function that was returned along with **store** and **useStore** hook
 
 
 ```js

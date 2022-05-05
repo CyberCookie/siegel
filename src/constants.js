@@ -35,9 +35,7 @@ const PATHS = {
     clientCoreOutput:   join(root, LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME),
     srcOutput:          join(root, LOC_NAMES.SRC_OUTPUT),
     packageJSON:        join(root, LOC_NAMES.PACKAGE_JSON),
-    demoProject:        join(root, 'demo_app'),
-    build:              join(__dirname, 'client_build/index.js'),
-    staticServer:       join(__dirname, 'server/index.js')
+    demoProject:        join(root, 'demo_app')
 }
 
 
@@ -47,7 +45,7 @@ const DEFAULT_CONFIG = {
     server: {
         host: 'localhost',
         port: 3000,
-        compressionServingOrder: [ 'br', 'gzip' ]
+        serveCompressionsPriority: [ 'br', 'gzip' ]
     },
 
     build: {

@@ -32,8 +32,6 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
         <h3 children={ `value: ${valueSingle[0].toFixed(2)}` } />
         <Ranger { ...propsSingle } />
@@ -77,6 +75,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Ranger'
 
 
 export default Demo

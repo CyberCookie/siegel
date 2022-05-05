@@ -110,7 +110,7 @@ All the fields are optional since many of them are already defined in the underl
             /* Output files naming format */
             filenames: {
                 /*
-                    There will be PROD's or DEV's fields, depending on selected mode.
+                    In runtime there will only be PROD's or DEV's fields, depending on selected mode.
                 */ 
                 PROD: {
                     assets: String          // Default is: assets/[contenthash].[ext]

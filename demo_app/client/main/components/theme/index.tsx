@@ -10,6 +10,7 @@ import _DataTable, { Props as DataTableProps } from 'siegel-ui/DataTable'
 import _Accordion, { Props as AccordionProps } from 'siegel-ui/Accordion'
 import _DropdownSearch, { Props as DropdownSearchProps } from 'siegel-ui/DropdownSearch'
 import _Input, { Props as InputProps } from 'siegel-ui/Input'
+import _Link, { Props as LinkProps } from 'siegel-ui/Link'
 import _NumberPicker, { Props as NumberPickerProps } from 'siegel-ui/NumberPicker'
 import _Pagination, { Props as PaginationProps } from 'siegel-ui/Pagination'
 import _Popup, { Props as PopupProps } from 'siegel-ui/Popup'
@@ -106,6 +107,7 @@ const DropdownSearch = withDefaults(_DropdownSearch, {
 
 const Input = withDefaults(_Input, { theme: inputTheme })
 
+const Link = withDefaults(_Link, {})
 
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
@@ -186,6 +188,7 @@ export {
     accordionTheme, Accordion,
     dropdownSearchTheme, DropdownSearch,
     inputTheme, Input,
+    Link,
     numberPickerTheme, NumberPicker,
     paginationTheme, Pagination,
     popupTheme, Popup,
@@ -200,6 +203,7 @@ export {
 }
 export type {
     ButtonProps, BreadcrumbsProps, CalendarProps, CheckboxProps, ClocksProps, DataTableProps, SwipeProps,
-    AccordionProps, DropdownSearchProps, InputProps, NumberPickerProps, PaginationProps, PopupProps, RadioProps,
-    SelectProps, SliderProps, TableProps, ToggleProps, TabsProps, RangerProps, StepperProps
+    AccordionProps, DropdownSearchProps, InputProps, LinkProps, NumberPickerProps, PaginationProps,
+    PopupProps, RadioProps, SelectProps, SliderProps, TableProps, ToggleProps, TabsProps, RangerProps,
+    StepperProps
 }

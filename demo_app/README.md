@@ -34,7 +34,7 @@ Install dependencies with `npm i`.
 
 - `client` - clientside related code and assets.
     - `assets` - static files which doesn't requires any transformations.
-        - `copy` - assets in this folder will be copied by `WebpackCopyPlugin` to the output folder.
+        - `copy` - assets in this folder was copied by `WebpackCopyPlugin` to the output folder.
     - `main` - UI and business logic.
         - `network` - setup client-server networking.
         - `modules` - api calls and app state manager using siegel's `Request` and `Hook Store`.

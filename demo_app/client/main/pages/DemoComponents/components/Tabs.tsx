@@ -16,9 +16,8 @@ const Demo = () => {
 
 
     return <>
-        <h1 children={ ID } />
-
         <h2 children='simple' />
+
         <Tabs tabs={ tabsData } activeTab={ activeTab }
             onChange={ id => {
                 setActiveTab(id)
@@ -26,6 +25,7 @@ const Demo = () => {
     </>
 }
 Demo.id = ID
+Demo.coreSourcesPath = 'Tabs'
 
 
 export default Demo
