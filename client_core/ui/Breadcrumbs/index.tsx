@@ -5,7 +5,9 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
-import { Component, MergedProps, Store, Props } from './types'
+import type {
+    Component, MergedProps, Store, Props, BreadcrumbConfigPart
+} from './types'
 
 import styles from './styles.sass'
 
@@ -28,15 +30,16 @@ function getBreadcrumbs(
         locationArray[ locationArray.length - 1 ] = '/'
     }
 
+
     const breadcrumbsElements = []
     let loocupScope = config
     let path = ''
     for (let i = 0, l = locationArray.length; i < l; i++) {
         const loc = locationArray[i]
-        const data = loocupScope[loc] || Object.values(loocupScope)[0]
+        const data = loocupScope[loc] || loocupScope['*']
 
         if (isExists(data)) {
-            const { crumb, dynamicCrumb, children } = data
+            const { crumb, dynamicCrumb, children } = data as BreadcrumbConfigPart
 
             const newPath = `${path}${loc ? '/' : ''}${loc}`
 
@@ -72,7 +75,7 @@ function getBreadcrumbs(
 
 const checkHasDynamicCrumb: (config: Props['config']) => boolean | undefined = config => {
     for (const path in config) {
-        const { children, dynamicCrumb } = config[path]
+        const { children, dynamicCrumb } = config[path] as BreadcrumbConfigPart
         if (dynamicCrumb) return true
         else if (children) return checkHasDynamicCrumb(children)
     }

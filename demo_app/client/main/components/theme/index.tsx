@@ -36,6 +36,7 @@ import _dataTableTheme from './styles/data_table.sass'
 import accordionTheme from './styles/accordion.sass'
 import _dropdownSearchTheme from './styles/dropdown_search.sass'
 import inputTheme from './styles/input.sass'
+import linkTheme from './styles/link.sass'
 import numberPickerTheme from './styles/number_picker.sass'
 import paginationTheme from './styles/pagination.sass'
 import popupTheme from './styles/popup.sass'
@@ -107,7 +108,9 @@ const DropdownSearch = withDefaults(_DropdownSearch, {
 
 const Input = withDefaults(_Input, { theme: inputTheme })
 
-const Link = withDefaults(_Link, {})
+const Link = withDefaults(_Link, {
+    className: linkTheme.link
+})
 
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
@@ -188,7 +191,7 @@ export {
     accordionTheme, Accordion,
     dropdownSearchTheme, DropdownSearch,
     inputTheme, Input,
-    Link,
+    linkTheme, Link,
     numberPickerTheme, NumberPicker,
     paginationTheme, Pagination,
     popupTheme, Popup,

@@ -1,0 +1,35 @@
+@keyframes prevPage
+    from
+        left: 0
+    to
+        left: -100%
+
+@keyframes nextPage
+    from
+        left: 100%
+    to
+        left: 0
+
+    
+.pages_transition
+    display: flex
+    overflow-x: clip
+
+    &, & > div, & > div > *
+        width: 100%
+        height: 100%
+        position: relative
+
+    & > div
+        +absolute(0, '','', 0)
+        flex-grow: 1
+        animation-duration: var(--ui-route_transition_duration)
+        animation-fill-mode: forwards
+        animation-timing-function: ease-out
+
+        &:first-child
+            animation-name: prevPage
+
+        &:last-child
+            animation-name: nextPage
+            left: 100%

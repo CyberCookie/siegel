@@ -1,7 +1,7 @@
 import React from 'react'
-import A from 'siegel-router/Link'
+import NavLink from 'siegel-router/Link'
 
-import { Breadcrumbs } from 'app/components'
+import { Breadcrumbs, linkTheme } from 'app/components'
 import { pagePathMap } from 'app/Router'
 
 import styles from './styles.sass'
@@ -19,9 +19,13 @@ const nav = ([
     {
         path: pagePathMap.demo_api,
         label: 'Store + API'
+    },
+    {
+        path: pagePathMap.demo_router,
+        label: 'Router'
     }
 ]).map(({ path, label }) => (
-    <A key={ path } href={ `/${path}` } className={ styles.nav_link }
+    <NavLink key={ path } href={ `/${path}` } className={ linkTheme.link }
         children={ label } />
 ))
 

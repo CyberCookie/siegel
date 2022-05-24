@@ -1,0 +1,24 @@
+.link
+    --link_size: #{$gutter_lg}
+
+    +font(var(--link_size), calc(var(--link_size) * 1.5))
+    position: relative
+    padding: 0 $gutter $gutter
+    margin: 0 $gutter
+
+    &::before, &::after
+        +absolute('','', 0)
+        content: ''
+        width: 0
+        transition: width $transition
+    
+    &::before
+        left: 50%
+    
+    &::after
+        right: 50%
+
+    &:hover
+        &::before, &::after
+            width: 50%
+            border-bottom: 2px solid $grey_two

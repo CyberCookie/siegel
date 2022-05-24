@@ -1,7 +1,7 @@
 # Siegel demo project
 
 Requirements:
-- NodeJS >= 14
+- NodeJS >= 16
 - NPM => 7
 
 <br />

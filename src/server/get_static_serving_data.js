@@ -6,7 +6,11 @@ import mime from 'mime'
 const STRIP_PATH_TRAVERSAL_REGEXP = /^(\.\.(\/|\\|$))+/
 
 function getFileResponseParams(params) {
-    const { publicDir, reqUrl, acceptEncoding, serveCompressionsPriority } = params
+    const {
+        publicDir, reqUrl, serveCompressionsPriority,
+        cacheControl = '',
+        acceptEncoding = ''
+    } = params
 
     const urlNormalized = path.normalize(reqUrl)
         .replace(STRIP_PATH_TRAVERSAL_REGEXP, '')
@@ -40,7 +44,7 @@ function getFileResponseParams(params) {
 
     return {
         pathToFile, encoding, contentType,
-        cacheControl: urlNormalized.includes('index.html')
+        cacheControl: urlNormalized.includes('index.html') || cacheControl.includes('no-cache')
             ?   ''
             :   'max-age=31536000, immutable'
     }

@@ -1,3 +1,6 @@
+// TODO: component memo API (props.memo)
+
+
 type ComponentAttributes<
     E = HTMLElement,
     A = React.HTMLAttributes<E>

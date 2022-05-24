@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import updateURLQuery from 'siegel-utils/query_update'
-import type { Page } from 'siegel-router'
+import type { Page } from 'siegel-router/types'
 
 import { Link, icons } from 'app/components'
 import { GIT_PATHS } from 'app/_constants'

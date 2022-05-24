@@ -1,3 +1,6 @@
+// TODO: memo API extract (concat with defaults)
+
+
 import type { PropsComponentThemed } from './types'
 
 

@@ -23,6 +23,10 @@ type NarrowObjectToValueTypes<O extends Indexable, T> = {
     [k in keyof O as O[k] extends T ? k : never]: T
 }
 
+type Never<O extends Indexable> = {
+    [k in keyof O]?: never
+}
+
 type CSSWithVariables = {
     [key: string]: string | number
 } & React.CSSProperties

@@ -158,7 +158,7 @@ Each component receives optional ref params to provide better control over compo
     - **props** - component props
 - `getOnPropsUpdate` - **Function**. Defines prop dependencies to track for changes<br />
     If defined props are changed - **getRef** callback will be fired
-    - **Function** has 1 argument - component **props**
+    - **Function** has **1** argument - component **props**
     - **Function** returns **Array of props**
 
 ```jsx

@@ -1,5 +1,3 @@
-//TODO typing
-
 function populateURLParams(url, params) {
     for (const param in params) {
         url = url.replace(`:${param}`, params[param])

@@ -41,7 +41,8 @@ async function createHTTPServer(params) {
                 } = getStaticServingData({
                     publicDir, serveCompressionsPriority,
                     reqUrl: req.url,
-                    headers: req.headers['accept-encoding']
+                    acceptEncoding: req.headers['accept-encoding'],
+                    cacheControl: req.headers['cache-control']
                 })
 
 

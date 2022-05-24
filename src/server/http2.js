@@ -38,16 +38,17 @@ async function createHTTP2Server(params) {
                 pathToFile, encoding, contentType, cacheControl
             } = getStaticServingData({
                 publicDir, reqUrl, serveCompressionsPriority,
-                acceptEncoding: headers[ HTTP2_HEADER_ACCEPT_ENCODING ]
+                acceptEncoding: headers[ HTTP2_HEADER_ACCEPT_ENCODING ],
+                cacheControl: headers[ HTTP2_HEADER_CACHE_CONTROL ]
             })
 
 
-            const headers = {}
-            contentType && (headers[HTTP2_CONTENT_TYPE_KEY] = contentType)
-            encoding && (headers[HTTP2_HEADER_CONTENT_ENCODING] = encoding)
-            cacheControl && (headers[HTTP2_HEADER_CACHE_CONTROL] = cacheControl)
+            const resHeaders = {}
+            contentType && (resHeaders[HTTP2_CONTENT_TYPE_KEY] = contentType)
+            encoding && (resHeaders[HTTP2_HEADER_CONTENT_ENCODING] = encoding)
+            cacheControl && (resHeaders[HTTP2_HEADER_CACHE_CONTROL] = cacheControl)
 
-            stream.respondWithFile(pathToFile, headers, {
+            stream.respondWithFile(pathToFile, resHeaders, {
                 onError(err) {
                     console.log(err)
                     stream.respond({

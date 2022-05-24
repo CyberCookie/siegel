@@ -1,7 +1,7 @@
 # Router
 
 Siegel router allows you to construct site routing of any complexity<br />
-with such features as page wrapping with `Layout`, URL params support, dynamicaly changing path `basename` and more.
+including such features as page wrapping with `Layout`, URL params support, dynamicaly changing path `basename`, permissions check, redirects and more.
 
 <br />
 
@@ -10,7 +10,13 @@ Router is a React component, that can have the next props:
 - `Layout` - **React.ComponentType | React.LazyExoticComponent**.<br />
     React component to wrap all the children pages
 - `basename` - url path prefix
-- `children` - **Object**. Router config. Where _key_ is a route url and _value_ is **Object** that represents route config<br />
+- `transition` - **Object**. Defines global cross pages transition params<br />
+    **Object** has the next fields:
+    - `duration` - **Required** **Number**. Transition duration in ms.
+    - `wrapperClassName` - **String**. ClassName to be applied to a wrapper that wraps previous and next pages<br />
+        Pages itself are wrapped in `div` with no className applied
+    - `performOnHistoryStateChange` - **Boolean**. Whether to perform transition if same page but different history states
+- `children` - **Required** **Object**. Router config. Where _key_ is a route url and _value_ is **Object** that represents route config<br />
 **Object** has the next fields:
     - `Page` - **React.ComponentType | React.LazyExoticComponent**. Page to render
     - `Layout` - Same as Router props `Layout`
@@ -22,14 +28,25 @@ Router is a React component, that can have the next props:
         - Returns **void | Object**
     - `onLeave` - **Function** that is triggered before current component was replaced with another one 
     - `paramName` - **String**. URL parameter name in dynamic route
-    - `redirectTo` - **String**. Path to redirect to if current route url was matched
+    - `redirectTo` - **String** | **Object**. Path to redirect to if current route url was matched.<br />
+        You may also provide history state, if using **Object**. the **Object** has the next fields:
+        - `path` - **String**. Redirect path
+        - `state` - **Any** | **Function**. New history state.<br />
+            **Function** is triggered right before redirection occures and returns **Any** state
+    - `transition` - **False | Router props transition**. Same as global transition params, but applied to this routing level<br />
+        **False** prevents upper level transition params from being applied to this routing level
+    - `permissions`- **Boolean | Function**. Specify whether user has permissions to visit this page<br />
+        **Function** has **1** argument - urlParams<br />
+        Returns **Boolean**
     - `children` - **Object**. Nested routes - recursion.
 
 <br />
 
 Lets say you need to have *www.somesite.com/goods/fruits/orange* url on your site, where *orange* is URL parameter.<br />
 Also we need to have *contacts* page accessible by *www.somesite.com/contacts* url.<br />
-Sometimes users type incorrect url that is not present on site. For such cases we need to have 404 page users will be redirected to in a case user typed incorrect url.<br />
+We define 404 page as well for the cases when users type incorrect url.<br />
+And one more thing - we add restricted admin page with url *www.somesite.com/admin*. User will be redirected to home page if has no rights to visit the admin page.<br />
+
 Config:
 
 ```js
@@ -54,11 +71,24 @@ const routesConfig = {
     contacts: {
         Page: () => <div>contacts</div>
     },
+    admin: {
+        Page: () => <div>admin pannel</div>,
+        permissions() => {
+            // perform some checks
+            return false
+        },
+        redirectTo: '!'
+    },
     404: {
         Page: () => <div>page not found</div>
     },
     '*': {
-        redirectTo: '/404'
+        redirectTo: {
+            path: '/404',
+            state: () => ({
+                prevPath: location.pathname
+            })
+        }
     }
 }
 ```
@@ -68,7 +98,8 @@ We also applied pages that should be rendered if we type related urls in browser
 Defining `children` opens us the way to describe nested routes.<br />
 At the deepest path level we used wildcard ( * ) - this symbols means we match every route at this level<br />
 and any fruit we type in url eventually will fall down in this route, for example *www.somesite.com/goods/fruits/kiwi*<br />
-Finally, at the top level we defined *all routes* path ( * ) to match any route we didn't specify and, in this case, redirect to 404 page.<br />
+Finally, at the top level we defined *all routes* path ( * ) to match any route we didn't specify and, in this case, redirect to 404 page with state applied to history.<br />
+Admin page with permissions check is also here.<br />
 
 <br />
 
@@ -81,9 +112,52 @@ There are few symbols we can place at the beginning of redirection path string t
 - no symbol - redirecs relatively to the current path, adding new path piece
 
 For example, with url *www.somesite.com/goods/vegetables*<br />
-redirectTo **/contacts** will throw us on *www.somesite.com/**contacts***<br />
-redirectTo **!fruits** -> *www.somesite.com/goods/**fruits***<br />
-redirectTo **potato** -> *www.somesite.com/goods/vegetables/**potato***<br />
+`redirectTo: '/contacts'` will throw us on *www.somesite.com/**contacts***<br />
+`redirectTo: '!fruits'` -> *www.somesite.com/goods/**fruits***<br />
+`redirectTo: '!'` -> *www.somesite.com/goods*<br />
+`redirectTo: 'potato'` -> *www.somesite.com/goods/vegetables/**potato***<br />
+
+<br /><br />
+
+### 404 page not found
+
+You may define page to be rendered if required page url does not exists in your Router config.<br />
+To do so, first we need to define 404 page itself with it's own route.<br />
+Then we need to define redirect from any page to the 404 page:
+
+```js
+const routerConfig = {
+    '': {
+        Page: () => <div>home page</div>
+    },
+    contacts: {
+        Page: () => <div>contacts</div>,
+        children: {
+            contact_us: {
+                Page: () => <div>contact us</div>
+            },
+            404: {
+                Page: () => <div>special 404 page</div>
+            },
+            '*': {
+                redirectTo: '!404'
+            }
+        }
+    }
+    404: {
+        Page: () => <div>404 page</div>
+    },
+    '*': {
+        redirectTo: '/404'
+    }
+}
+```
+Here we defined global and path specific 404 pages.<br />
+So how it works - when we type addresses:<br />
+*somesite.com/unexisted_page* -> redirects us to -> *somesite.com/404*<br />
+*somesite.com/contacts/unexisted_page* -> redirects us to -> *somesite.com/contacts/404*<br />
+
+Redirects priority: specified 404 page at global level -> home page -> first path at root level.
 
 <br /><br />
 
@@ -92,8 +166,9 @@ redirectTo **potato** -> *www.somesite.com/goods/vegetables/**potato***<br />
 Router component patches `history` with own `push` method in order to intercept and react on location changes. Under the hood it uses `history.pushState` and `history.replaceState`.<br />
 Newly added method `history.push` receives **3** arguments:
 - **url** - **String**. url to change path to. Same as url in `history.pushState / replaceState`
-- **state** - **Any**. Same as `history.pushState / replaceState` state
-- **isReplace** - **Boolean | undefined**. Whether to use `history.replaceState` or `history.pushState`
+- **state** - **Optional** **Any**. Same as `history.pushState / replaceState` state
+- **replaceURL** - **Optional** **Boolean | String**. Use `history.replaceState`<br />
+    Provide **String** URL to use it as URL to be replaced
 
 URL strings in `push` method have the same behaviour as `redirectTo`, described above.
 
@@ -104,20 +179,29 @@ in the case you've provided `basename` prop to the Router.<br />
 `history.basename` holds actual basename, while `history.updateBasename` is here to update it.<br />
 `updateBasename` receives **1** argument - **newBasename** (**String**)
 
-<br />
+If you bootstrap your application without basename applied, but the application is capable to apply it at runtime - you should then provide **empty string** as a initial basename parameter.
 
+<br /><br />
 
 ## Site navigation
 
 Router exports component for inner site navigation. It's fully compatible with html `a` tag<br />
-but with `onCLick` handler included, that you may prevent of extend.<br />
-And new prop `activeClassName`, which defines class for this link if it points to currently active url.
+but with another few props:
+- `href` - **String**. pathname to perform navigation to<br />
+    Can be relative or absolute URL with no domain and protocol included<br />
+    Follow same string rules as redirect paths do
+- `state` - **Any**. History state to be applied when follow this link
+- `onCLick` - handler included, that you may prevent of extend
+- `activeClassName` - **String**. Defines className for this link tag if it points to currently active url
 
 ```js
 import A from 'siegel-router/Link'
 
-const link = <A href='/contacts' activeClassName='link_active'>
+const link = <A href='/contacts' activeClassName='link_active' />
 ```
+
+This component can be themed with help of `withDefaults` function as other UI components
+
 
 <br /><br />
 

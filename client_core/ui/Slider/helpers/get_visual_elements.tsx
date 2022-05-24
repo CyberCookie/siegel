@@ -1,3 +1,6 @@
+//TODO: Get slide cb
+
+
 import React from 'react'
 
 import Swipe from '../../Swipe'
