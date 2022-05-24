@@ -55,7 +55,7 @@ function transpileClientCoreTS() {
         if (fileNamePath.endsWith('.d.ts') || fileNamePath.endsWith('.sass')) {
             const destinationFileName = fileNamePath.replace(
                 LOC_NAMES.CLIENT_CORE_DIR_NAME,
-                `${LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME}/${LOC_NAMES.CLIENT_CORE_DIR_NAME}`
+                LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME
             )
 
             fs.createReadStream(fileNamePath)
