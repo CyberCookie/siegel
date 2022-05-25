@@ -44,7 +44,7 @@ function iterateFiles(dirPath, cb) {
 
 function transpileClientCoreTS() {
     console.log('Creating lib...')
-    const addExtensionToImportRegExp = /(import .* from\s+['"])(.*\/.*)(?<![.]\w*)(?=['"])/g
+    const addExtensionToImportRegExp = /(import|export .* from\s+['"])(.*\/.*)(?<![.]\w*)(?=['"])/g
 
     fs.existsSync(PATHS.clientCoreOutput)
         && fs.rmSync(PATHS.clientCoreOutput, { recursive: true })
