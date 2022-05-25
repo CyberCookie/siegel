@@ -44,7 +44,7 @@ function iterateFiles(dirPath, cb) {
 
 function transpileClientCoreTS() {
     console.log('Creating lib...')
-    const addExtensionToImportRegExp = /(import|export .* from\s+['"])(.*\/.*)(?<![.]\w*)(?=['"])/g
+    const addExtensionToImportRegExp = /((import|export) .* from\s+['"])((.*\/.*)(?<![.]\w*))(?=['"])/g
 
     fs.existsSync(PATHS.clientCoreOutput)
         && fs.rmSync(PATHS.clientCoreOutput, { recursive: true })
@@ -71,7 +71,7 @@ function transpileClientCoreTS() {
             const matchIterator = notMinifiedJSFile.matchAll(addExtensionToImportRegExp)
             for (const matchedGroups of matchIterator) {
 
-                const [ , _import, importPath ] = matchedGroups
+                const [ , _import, , importPath ] = matchedGroups
 
                 const importPathResolved = path.join(dirPath, importPath)
                 const isDirectory = fs.existsSync(importPathResolved) && fs.lstatSync(importPathResolved).isDirectory()
