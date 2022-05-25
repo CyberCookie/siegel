@@ -53,4 +53,4 @@ Popup.ID = componentID
 
 export default Popup
 export { componentID }
-export type { Component, Props } 
+export type { Component, Props }

@@ -17,7 +17,7 @@ import {
 import type { ComponentAttributes } from '../_internals/types'
 import type {
     Component, DataTableTableProps, State, MergedProps, Props,
-    ColumnsConfig
+    ColumnsConfig, SortState
 } from './types'
 
 import styles from './styles.sass'
@@ -113,4 +113,4 @@ DataTable.ID = componentID
 
 export default DataTable
 export { getDefaultState, componentID }
-export type { Component, Props, ColumnsConfig }
+export type { Component, Props, ColumnsConfig, SortState }
