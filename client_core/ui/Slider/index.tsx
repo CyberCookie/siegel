@@ -4,7 +4,7 @@ import isExists from '../../utils/is/exists'
 import extractProps from '../_internals/props_extract'
 import addChildren from '../_internals/children'
 import { getRootProps, getVisualElements } from './helpers'
-import type { Component, MergedProps, SwitchSlide } from './types'
+import type { Component, Props, MergedProps, SwitchSlide } from './types'
 
 
 const componentID = '-ui-slider'
@@ -105,4 +105,4 @@ Slider.ID = componentID
 
 export default Slider
 export { componentID }
-export * from './types'
+export type { Component, Props }

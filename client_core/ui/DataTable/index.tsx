@@ -15,7 +15,10 @@ import {
     GetPaginationFnProps
 } from './helpers'
 import type { ComponentAttributes } from '../_internals/types'
-import type { Component, DataTableTableProps, State, MergedProps } from './types'
+import type {
+    Component, DataTableTableProps, State, MergedProps, Props,
+    ColumnsConfig
+} from './types'
 
 import styles from './styles.sass'
 
@@ -110,4 +113,4 @@ DataTable.ID = componentID
 
 export default DataTable
 export { getDefaultState, componentID }
-export * from './types'
+export type { Component, Props, ColumnsConfig }

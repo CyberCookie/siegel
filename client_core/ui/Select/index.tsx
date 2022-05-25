@@ -8,7 +8,7 @@ import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import { getOptionWithKeyboard, getOptions } from './helpers'
 import type { ComponentAttributes } from '../_internals/types'
-import type { MergedProps, Component, Store, Option } from './types'
+import type { MergedProps, Component, Props, Store, Option } from './types'
 
 
 type OnSelect = (
@@ -187,4 +187,4 @@ Select.ID = componentID
 
 export default Select
 export { componentID, getDefaultState }
-export * from './types'
+export type { Props, Component }

@@ -179,4 +179,4 @@ DropdownSearch.ID = componentID
 
 export default DropdownSearch
 export { componentID, getDefaultState }
-export * from './types'
+export type { Component, Props }

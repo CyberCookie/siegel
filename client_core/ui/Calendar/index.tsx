@@ -5,7 +5,7 @@ import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 import { getMonths, getFirstMonthDate } from './helpers'
-import type { MergedProps, Component } from './types'
+import type { MergedProps, Component, Props } from './types'
 
 import styles from './styles.sass'
 
@@ -86,4 +86,4 @@ Calendar.ID = componentID
 
 export default Calendar
 export { componentID }
-export * from './types'
+export type { Component, Props }

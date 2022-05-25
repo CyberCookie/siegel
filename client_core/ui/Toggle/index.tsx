@@ -67,4 +67,4 @@ Toggle.ID = componentID
 
 export default Toggle
 export { componentID }
-export * from './types'
+export type { Component, Props }

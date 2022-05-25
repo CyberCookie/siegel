@@ -9,7 +9,7 @@ import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import { getRangeAreaElements, normalizeValue } from './helpers'
 import type {
-    State, RangeCrossTypeMap, Component, MergedProps
+    State, RangeCrossTypeMap, Component, Props, MergedProps
 } from './types'
 
 import styles from './styles.sass'
@@ -219,4 +219,4 @@ Ranger.ID = componentID
 
 export default Ranger
 export { componentID }
-export * from './types'
+export type { Component, Props }

@@ -4,7 +4,8 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import type {
-    Component, MergedProps, TableBodyRow, TableHeadRow, TableTH, TableTD
+    Component, MergedProps, Props,
+    TableBodyRow, TableHeadRow, TableTH, TableTD
 } from './types'
 
 
@@ -62,4 +63,7 @@ Table.ID = componentID
 
 export default Table
 export { componentID }
-export * from './types'
+export type {
+    Component, Props,
+    TableBodyRow, TableHeadRow, TableTH, TableTD
+}

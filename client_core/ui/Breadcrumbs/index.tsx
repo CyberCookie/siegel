@@ -6,7 +6,8 @@ import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 import type {
-    Component, MergedProps, Store, Props, BreadcrumbConfigPart
+    Component, MergedProps, Store, Props,
+    BreadcrumbConfig, BreadcrumbConfigPart
 } from './types'
 
 import styles from './styles.sass'
@@ -135,4 +136,4 @@ Breadcrumbs.ID = componentID
 
 export default Breadcrumbs
 export { componentID }
-export * from './types'
+export { Component, Props, BreadcrumbConfig }

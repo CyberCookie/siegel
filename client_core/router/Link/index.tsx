@@ -4,7 +4,7 @@ import isExists from '../../utils/is/exists'
 import extractProps from '../../ui/_internals/props_extract'
 import applyRefApi from '../../ui/_internals/ref_apply'
 import getFinalURL from '../get_final_url'
-import type { Component, MergedProps } from './types'
+import type { Component, Props, MergedProps } from './types'
 
 
 const componentID = '-ui-internal_link'
@@ -69,4 +69,4 @@ NavLink.ID = componentID
 
 export default NavLink
 export { componentID, BASENAME_UPDATE_EVENT_TYPE }
-export * from './types'
+export type { Component, Props }

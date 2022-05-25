@@ -8,10 +8,7 @@ import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getInputLabeled from '../_internals/label'
 import componentID from './id'
-import type {
-    Component, MergedProps, InnerInputAttributes,
-    Props
-} from './types'
+import type { Component, MergedProps, InnerInputAttributes, Props } from './types'
 
 
 type InputRef = React.MutableRefObject<HTMLInputElement>
@@ -148,4 +145,4 @@ Input.ID = componentID
 
 export default Input
 export { componentID, getDefaultState }
-export * from './types'
+export type { Component, Props }

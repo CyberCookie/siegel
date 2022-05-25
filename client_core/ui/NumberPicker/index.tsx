@@ -183,4 +183,4 @@ NumberPicker.ID = componentID
 
 export default NumberPicker
 export { componentID }
-export * from './types'
+export type { Component, Props }

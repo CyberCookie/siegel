@@ -102,7 +102,7 @@ function main(isGlobal) {
         for (const alias in paths) {
             paths[alias][0] = replaceDevPathWithSiegel(
                 paths[alias][0],
-                `${LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME}/${LOC_NAMES.CLIENT_CORE_DIR_NAME}`
+                LOC_NAMES.CLIENT_CORE_OUTPUT_DIR_NAME
             )
         }
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import extractProps from '../_internals/props_extract'
 import Ranger, { Props as RangerProps } from '../Ranger'
-import type { MergedProps, Component } from './types'
+import type { MergedProps, Props, Component } from './types'
 
 
 type State = {
@@ -171,4 +171,4 @@ Stepper.ID = componentID
 
 
 export default Stepper
-export * from './types'
+export type { Component, Props }

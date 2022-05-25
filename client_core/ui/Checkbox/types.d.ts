@@ -23,9 +23,9 @@ import type { PropsComponentThemed, NewComponentAttributes, CoreIUComponent } fr
 //     attributes?: ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 // }
 
-type CheckboxRootProps = NewComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
-type WithIconRootProps = NewComponentAttributes<HTMLDivElement>
-type WithLabelRootProps = NewComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+type CheckboxRootAttrs = NewComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+type WithIconRootAttrs = NewComponentAttributes<HTMLDivElement>
+type WithLabelRootAttrs = NewComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 
 
 type Theme = {
@@ -41,7 +41,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     value: boolean
     onChange?(checked: Props['value'], e: React.MouseEvent, payload: _Payload): void
     checkboxAttributes?: NewComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
-    rootTagAttributes?: WithIconRootProps | WithLabelRootProps
+    rootTagAttributes?: WithIconRootAttrs | WithLabelRootAttrs
     label?: React.ReactNode
     icon?: React.ReactNode
     disabled?: boolean
@@ -61,5 +61,5 @@ type Component = CoreIUComponent<Props, DefaultProps>
 
 export type {
     Props, DefaultProps, MergedProps, Component,
-    WithIconRootProps, WithLabelRootProps, CheckboxRootProps
+    WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs
 }

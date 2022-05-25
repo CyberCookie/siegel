@@ -108,4 +108,4 @@ Swipe.ID = componentID
 
 export default Swipe
 export { componentID }
-export * from './types'
+export type { Component, Props }

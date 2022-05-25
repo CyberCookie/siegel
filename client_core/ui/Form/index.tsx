@@ -7,7 +7,8 @@ import checkboxID from '../Checkbox/id'
 import type { Component as _Input, Props as InputProps } from '../Input/types'
 import type { Component as _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
 import type {
-    Component, ValueStateValue, Validator, FormStore, CommonChangeProps, MergedProps
+    Component, Props, MergedProps,
+    ValueStateValue, Validator, FormStore, CommonChangeProps
 } from './types'
 
 
@@ -129,4 +130,4 @@ Form.ID = componentID
 
 export default Form
 export { componentID }
-export * from './types'
+export type { Component, Props }

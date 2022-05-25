@@ -119,4 +119,4 @@ Accordion.ID = componentID
 
 export default Accordion
 export { componentID }
-export * from './types'
+export type { List, BuilderList, Component, Props }

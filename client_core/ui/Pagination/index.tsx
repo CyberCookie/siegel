@@ -3,7 +3,7 @@ import React from 'react'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
-import type { Component, MergedProps } from './types'
+import type { Component, Props, MergedProps } from './types'
 
 
 type GetPageElement = (page: number, props: MergedProps) => JSX.Element
@@ -160,4 +160,4 @@ Pagination.ID = componentID
 
 export default Pagination
 export { componentID }
-export * from './types'
+export type { Component, Props }

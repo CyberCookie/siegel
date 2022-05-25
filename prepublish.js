@@ -1,6 +1,7 @@
 'use strict'
 
 import fs from 'fs'
+import path from 'path'
 import { execSync as shell } from 'child_process'
 import esbuild from 'esbuild'
 
@@ -37,7 +38,7 @@ function iterateFiles(dirPath, cb) {
 
             dirent.isDirectory()
                 ?   iterateFiles(nextDirPath, cb)
-                :   cb(nextDirPath)
+                :   cb(nextDirPath, dirPath)
         })
 }
 
@@ -63,11 +64,22 @@ function transpileClientCoreTS() {
         }
     })
 
-    iterateFiles(PATHS.clientCoreOutput, fileNamePath => {
+    iterateFiles(PATHS.clientCoreOutput, (fileNamePath, dirPath) => {
         if (fileNamePath.endsWith('.js')) {
             let notMinifiedJSFile = fs.readFileSync(fileNamePath, 'utf8')
-            if (notMinifiedJSFile.includes('import')) {
-                notMinifiedJSFile = notMinifiedJSFile.replace(addExtensionToImportRegExp, '$1$2.js')
+
+            const matchIterator = notMinifiedJSFile.matchAll(addExtensionToImportRegExp)
+            for (const matchedGroups of matchIterator) {
+
+                const [ , _import, importPath ] = matchedGroups
+
+                const importPathResolved = path.join(dirPath, importPath)
+                const isDirectory = fs.existsSync(importPathResolved) && fs.lstatSync(importPathResolved).isDirectory()
+
+                const replace = _import + importPath
+                const replaceWith = replace + (isDirectory ? '/index.js' : '.js')
+
+                notMinifiedJSFile = notMinifiedJSFile.replace(replace, replaceWith)
             }
 
             const minified = esbuild.transformSync(notMinifiedJSFile, {

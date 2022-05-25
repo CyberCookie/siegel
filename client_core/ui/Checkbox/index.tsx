@@ -7,7 +7,8 @@ import getLabel from '../_internals/label'
 import componentID from './id'
 import type { ComponentAttributes } from '../_internals/types'
 import type {
-    Component, MergedProps, WithIconRootProps, WithLabelRootProps, CheckboxRootProps
+    Component, Props, MergedProps,
+    WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs
 } from './types'
 
 import styles from './styles.sass'
@@ -26,7 +27,7 @@ function _onChange(e: React.FormEvent<HTMLInputElement>) {
 function modifyRootProps<P extends CheckboxInnerProps | LabelInnerProps | IconWrapperInnerProps>(
     rootProps: P,
     mergedProps: MergedProps,
-    newAttributes?: CheckboxRootProps | WithLabelRootProps | WithIconRootProps
+    newAttributes?: CheckboxRootAttrs | WithLabelRootAttrs | WithIconRootAttrs
 ) {
 
     const { disabled, onChange, value, payload, className, refApi, theme } = mergedProps
@@ -120,4 +121,4 @@ Checkbox.ID = componentID
 
 export default Checkbox
 export { componentID }
-export * from './types'
+export { Component, Props, WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs }

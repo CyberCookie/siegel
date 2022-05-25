@@ -4,7 +4,7 @@ import useDidUpdate from '../../hooks/did_update'
 import dateParse from '../../utils/date/parse'
 import msIn from '../../utils/date/constants'
 import extractProps from '../_internals/props_extract'
-import type { Component, MergedProps } from './types'
+import type { Component, MergedProps, Props } from './types'
 
 
 const componentID = '-ui-clocks'
@@ -102,4 +102,4 @@ Clocks.ID = componentID
 
 export default Clocks
 export { componentID }
-export * from './types'
+export type { Component, Props }

@@ -65,4 +65,6 @@ type MergedProps = Props & DefaultProps
 type Component = CoreIUComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, List, BuilderList, Component }
+export type {
+    Props, DefaultProps, MergedProps, List, BuilderList, Component
+}

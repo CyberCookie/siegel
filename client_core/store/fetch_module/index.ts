@@ -1,5 +1,5 @@
 import createStore from '../index'
-import type { State, Actions } from './types'
+import type { State, Actions, StoreInitialized } from './types'
 
 
 const initState: State = {
@@ -71,4 +71,4 @@ const { useStore, store, resetStore } = createStore(initState, actions)
 
 export default useStore
 export { store, resetStore }
-export * from './types'
+export type { State, Actions, StoreInitialized }
