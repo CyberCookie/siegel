@@ -1,5 +1,5 @@
 import type { DateResolver } from '../../utils/date/constants'
-import type { PropsComponentThemed, CoreIUComponent, NewComponentAttributes } from '../_internals/types'
+import type { PropsComponentThemed, CoreUIComponent, NewComponentAttributes } from '../_internals/types'
 
 
 type PostProcessCalendarDayParams = {
@@ -96,8 +96,7 @@ type State = {
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
 
+type Component = CoreUIComponent<Props, DefaultProps>
 
-type Component = CoreIUComponent<Props, DefaultProps>
 
-
-export type { Component, Store, Props, DefaultProps, MergedProps }
+export type { Component, Store, Props, MergedProps }

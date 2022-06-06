@@ -1,10 +1,10 @@
 import React from 'react'
 
+import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
-import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import type {
-    Component, MergedProps, Props,
+    Component, Props,
     TableBodyRow, TableHeadRow, TableTH, TableTD
 } from './types'
 
@@ -33,32 +33,31 @@ function getTableSection(data: (TableHeadRow | TableBodyRow)[], SectionHTMLTag: 
     return <SectionHTMLTag children={ data.map(getTableRow) } />
 }
 
-const Table: Component = (props, noDefaults) => {
-    const mergedProps = noDefaults
-        ?   extractProps(Table.defaults, props, false)
-        :   (props as MergedProps)
+const Table: Component = component(
+    componentID,
+    {},
+    props => {
 
-    const { className, head, body, foot, rootTagAttributes, caption, refApi } = mergedProps
+        const { className, head, body, foot, rootTagAttributes, caption, refApi } = props
 
-    let tableRootProps = { className }
-    refApi && (applyRefApi(tableRootProps, mergedProps))
-    if (rootTagAttributes) {
-        tableRootProps = mergeTagAttributes(tableRootProps, rootTagAttributes)
+        let tableRootProps = { className }
+        refApi && (applyRefApi(tableRootProps, props))
+        if (rootTagAttributes) {
+            tableRootProps = mergeTagAttributes(tableRootProps, rootTagAttributes)
+        }
+
+
+        return (
+            <table { ...tableRootProps }>
+                { caption && <caption children={ caption } /> }
+
+                { head && getTableSection(head, 'thead') }
+                { body && getTableSection(body, 'tbody') }
+                { foot && getTableSection(foot, 'tfoot') }
+            </table>
+        )
     }
-
-
-    return (
-        <table { ...tableRootProps }>
-            { caption && <caption children={ caption } /> }
-
-            { head && getTableSection(head, 'thead') }
-            { body && getTableSection(body, 'tbody') }
-            { foot && getTableSection(foot, 'tfoot') }
-        </table>
-    )
-}
-Table.defaults = {}
-Table.ID = componentID
+)
 
 
 export default Table

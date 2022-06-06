@@ -9,10 +9,11 @@ import type {
 } from './types'
 
 
-type ConfigPermissions = RoutesConfig[string]['permissions']
-type ConfigRedirectTo = RoutesConfig[string]['redirectTo']
-type ConfigTransition = RoutesConfig[string]['transition']
-type ConfigChildren = RoutesConfig[string]['children']
+type RouteConfig = RoutesConfig[string]
+type ConfigPermissions = RouteConfig['permissions']
+type ConfigRedirectTo = RouteConfig['redirectTo']
+type ConfigTransition = RouteConfig['transition']
+type ConfigChildren = RouteConfig['children']
 
 
 const checkPermissions = (urlParams: URLparams, permissions: ConfigPermissions) => (
@@ -62,7 +63,7 @@ function handleNotFound(traversePath: string, pathname: string, children: Config
 const parsePathname: ParsePathname = (props, pathname, newHistoryState = null) => {
     const { Layout, children, basename, transition } = props
 
-    const { isRoot, pathArrayBasenameShift } = parseBasename(basename)
+    const { isRoot, pathArrayBasenameShift } = parseBasename(basename, pathname)
 
     const urlParams: URLparams = {}
     let newPathname = pathname

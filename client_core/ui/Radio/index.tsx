@@ -1,7 +1,7 @@
 import React from 'react'
 
+import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
-import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import type {
     Component, Props, MergedProps,
@@ -33,34 +33,33 @@ function getOptions(mergedProps: MergedProps) {
     })
 }
 
-const Radio: Component = (props, noDefaults) => {
-    const mergedProps = noDefaults
-        ?   extractProps(Radio.defaults, props, false)
-        :   (props as MergedProps)
+const Radio: Component = component(
+    componentID,
+    {
+        theme: {
+            root: '',
+            option: '',
+            option__selected: '',
+            _disabled: ''
+        }
+    },
+    props => {
 
-    const { disabled, theme, rootTagAttributes, refApi } = mergedProps
+        const { disabled, theme, rootTagAttributes, refApi } = props
 
 
-    let rootProps = {
-        className: mergedProps.className,
-        children: getOptions(mergedProps)
+        let rootProps = {
+            className: props.className,
+            children: getOptions(props)
+        }
+        disabled && (rootProps.className += ` ${theme._disabled}`)
+        refApi && (applyRefApi(rootProps, props))
+        rootTagAttributes && (rootProps = mergeTagAttributes(rootProps, rootTagAttributes))
+
+
+        return <div { ...rootProps } />
     }
-    disabled && (rootProps.className += ` ${theme._disabled}`)
-    refApi && (applyRefApi(rootProps, mergedProps))
-    rootTagAttributes && (rootProps = mergeTagAttributes(rootProps, rootTagAttributes))
-
-
-    return <div { ...rootProps } />
-}
-Radio.defaults = {
-    theme: {
-        root: '',
-        option: '',
-        option__selected: '',
-        _disabled: ''
-    }
-}
-Radio.ID = componentID
+)
 
 
 export default Radio

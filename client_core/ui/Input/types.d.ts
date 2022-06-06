@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, CoreIUComponent, NewComponentAttributes, ComponentAttributes
+    PropsComponentThemed, CoreUIComponent, NewComponentAttributes, ComponentAttributes
 } from '../_internals/types'
 
 
@@ -8,6 +8,9 @@ type onChangeEventType = React.ChangeEvent<HTMLInputElement> | React.KeyboardEve
 type InnerInputAttributes = {
     onChange?(e: onChangeEventType): void
 } & ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+
+type InputRef = React.MutableRefObject<HTMLInputElement>
+
 
 type InputState = {
     isTouched: boolean
@@ -66,11 +69,7 @@ type DefaultProps = NonNullableKeys<{
     theme: Required<Props['theme']>
 }>
 
-type MergedProps = Props & DefaultProps
-
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type {
-    Props, DefaultProps, MergedProps, Component, InnerInputAttributes
-}
+export type { Props, Component, InnerInputAttributes, InputRef }

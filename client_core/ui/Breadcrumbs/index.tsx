@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useLayoutEffect } from 'react'
 
 import isExists from '../../utils/is/exists'
+import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
-import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 import type {
@@ -82,56 +82,54 @@ const checkHasDynamicCrumb: (config: Props['config']) => boolean | undefined = c
     }
 }
 
-const Breadcrumbs: Component = (props, noDefaults) => {
-    const mergedProps = noDefaults
-        ?   extractProps(Breadcrumbs.defaults, props, false)
-        :   (props as MergedProps)
+const Breadcrumbs: Component = component(
+    componentID,
+    {
+        className: styles[`${componentID}_inner`],
+        separator: '',
+        theme: {
+            root: '',
+            crumb: ''
+        }
+    },
+    props => {
 
-    const { className, rootTagAttributes, refApi, config } = mergedProps
+        const { className, rootTagAttributes, refApi, config } = props
+
+        const hasDynamicCrumbs = useMemo(() => checkHasDynamicCrumb(config), [])
+
+        let dynamicCrumbsState: Store[0] | undefined
+        if (hasDynamicCrumbs) {
+            const [ state, setState ] = useState({})
+            dynamicCrumbsState = state
+
+            useLayoutEffect(() => {
+                const setDynamicCrumbsHandler = (function({ detail }: CustomEvent) {
+                    setState(
+                        Object.assign({}, state, detail)
+                    )
+                } as EventListener)
 
 
-    const hasDynamicCrumbs = useMemo(() => checkHasDynamicCrumb(config), [])
-
-    let dynamicCrumbsState: Store[0] | undefined
-    if (hasDynamicCrumbs) {
-        const [ state, setState ] = useState({})
-        dynamicCrumbsState = state
-
-        useLayoutEffect(() => {
-            const setDynamicCrumbsHandler = (function({ detail }: CustomEvent) {
-                setState(
-                    Object.assign({}, state, detail)
-                )
-            } as EventListener)
+                addEventListener(componentID, setDynamicCrumbsHandler)
+                return () => {
+                    removeEventListener(componentID, setDynamicCrumbsHandler)
+                }
+            }, [])
+        }
 
 
-            addEventListener(componentID, setDynamicCrumbsHandler)
-            return () => {
-                removeEventListener(componentID, setDynamicCrumbsHandler)
-            }
-        }, [])
+        let breadcrumbsRootProps: Props['rootTagAttributes'] = {
+            className,
+            children: getBreadcrumbs(props, dynamicCrumbsState!, hasDynamicCrumbs)
+        }
+        refApi && (applyRefApi(breadcrumbsRootProps, props))
+        rootTagAttributes && (breadcrumbsRootProps = mergeTagAttributes(breadcrumbsRootProps, rootTagAttributes))
+
+
+        return <div { ...breadcrumbsRootProps } />
     }
-
-
-    let breadcrumbsRootProps: Props['rootTagAttributes'] = {
-        className,
-        children: getBreadcrumbs(mergedProps, dynamicCrumbsState!, hasDynamicCrumbs)
-    }
-    refApi && (applyRefApi(breadcrumbsRootProps, mergedProps))
-    rootTagAttributes && (breadcrumbsRootProps = mergeTagAttributes(breadcrumbsRootProps, rootTagAttributes))
-
-
-    return <div { ...breadcrumbsRootProps } />
-}
-Breadcrumbs.defaults = {
-    className: styles[`${componentID}_inner`],
-    separator: '',
-    theme: {
-        root: '',
-        crumb: ''
-    }
-}
-Breadcrumbs.ID = componentID
+)
 
 
 export default Breadcrumbs

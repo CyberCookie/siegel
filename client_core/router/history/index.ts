@@ -41,7 +41,7 @@ function patchHistory(
 
 
     if (isExists(basename)) {
-        const { finalBasename } = parseBasename(basename)
+        const { finalBasename } = parseBasename(basename, pathname)
 
         history.basename = finalBasename
         if (!pathname.startsWith(finalBasename)) {
@@ -53,6 +53,7 @@ function patchHistory(
             const { basename } = history
             if (newBasename != basename) {
                 history.basename = newBasename
+
                 history.push!(
                     pathname.replace(basename!, '') || '/',
                     {

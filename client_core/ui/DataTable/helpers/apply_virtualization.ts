@@ -1,47 +1,10 @@
 import { useLayoutEffect, useState, useRef } from 'react'
 
 import isExists from '../../../utils/is/exists'
-import type { ComponentAttributes } from '../../_internals/types'
-import type { MergedProps, State } from '../types'
-
-
-type Ref = React.MutableRefObject<HTMLDivElement>
-
-type Virtualization = NonNullable<MergedProps['virtualization']>
-
-type ScrollTopState = {
-    scrollTop: number
-    prevScrollTop: number
-    timeoutID: number
-    prevHeadAdjustment: {
-        value: number | undefined
-        scrollTop: number | undefined
-        isScrollUp: boolean | undefined
-    }
-}
-
-type SlideWindowRange = {
-    from: number
-    to: number
-}
-type GetWindowSlideRanges = (params: {
-    scrollTop: number
-    itemHeight: Virtualization['itemHeight']
-    tableHeight: NonNullable<Virtualization['tableHeight']>
-    preloadedItemsBySide: NonNullable<Virtualization['preloadedItemsBySide']>
-    maxItemsCount: number
-}) => SlideWindowRange
-
-type UseVirtualizationParams = {
-    hookState: State
-    rootAttributes: ComponentAttributes<HTMLDivElement>
-    mergedProps: MergedProps
-}
-type VirtualizationMergedProps = {
-    mergedProps: {
-        virtualization: Virtualization
-    } & MergedProps
-} & UseVirtualizationParams
+import type {
+    Ref, ScrollTopState, SlideWindowRange, GetWindowSlideRanges,
+    UseVirtualizationParams, VirtualizationMergedProps
+} from './apply_virtualization_types'
 
 
 const getWindowSlideRanges: GetWindowSlideRanges = ({
@@ -150,7 +113,7 @@ function applyVirtualization(params: UseVirtualizationParams) {
     const {
         rootAttributes,
         hookState: { showPerPage },
-        mergedProps: {
+        props: {
             withFooter, entities,
             virtualization: {
                 itemHeight,

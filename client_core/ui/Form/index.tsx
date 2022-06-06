@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
+import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
-import extractProps from '../_internals/props_extract'
 import inputID from '../Input/id'
 import checkboxID from '../Checkbox/id'
 import type { Component as _Input, Props as InputProps } from '../Input/types'
 import type { Component as _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
 import type {
-    Component, Props, MergedProps,
+    Component, Props,
     ValueStateValue, Validator, FormStore, CommonChangeProps
 } from './types'
 
@@ -33,99 +33,99 @@ const onInputChange = (commonChangeProps: CommonChangeProps, value: string) => {
     setValues({ ...values })
 }
 
-const Form: Component = (props, noDefaults) => {
-    const { onSubmit, className, rootTagAttributes, inputs } = noDefaults
-        ?   extractProps(Form.defaults, props, false)
-        :   (props as MergedProps)
+const Form: Component = component(
+    componentID,
+    {},
+    props => {
 
+        const { onSubmit, className, rootTagAttributes, inputs } = props
 
-    const formStore: FormStore = useState({})
-    const [ values, setValues ] = formStore
+        const formStore: FormStore = useState({})
+        const [ values, setValues ] = formStore
 
-    let formProps = {
-        className,
-        onSubmit(e: React.FormEvent<HTMLFormElement>) {
-            e.stopPropagation()
-            e.preventDefault()
+        let formProps = {
+            className,
+            onSubmit(e: React.FormEvent<HTMLFormElement>) {
+                e.stopPropagation()
+                e.preventDefault()
 
-            onSubmit(values, e)
-        },
-        children: getFormElements()
-    }
-    rootTagAttributes && (formProps = mergeTagAttributes(formProps, rootTagAttributes))
+                onSubmit(values, e)
+            },
+            children: getFormElements()
+        }
+        rootTagAttributes && (formProps = mergeTagAttributes(formProps, rootTagAttributes))
 
-    const ifDisabledBy = (name: string) => {
-        const formElementData = inputs[name]
+        const ifDisabledBy = (name: string) => {
+            const formElementData = inputs[name]
 
-        return formElementData
-            ?   !!validate(
-                    values[name]?.value || '',
-                    formElementData.validators || []
-                )
-            :   false
-    }
-
-    function getFormElements() {
-        const result: JSX.Element[] = []
-
-        for (const name in inputs) {
-            const { Component, props, validators = [], disabledIf } = inputs[name]
-            const { value = '', errorMsg = '' } = values[name] || {}
-
-            let ComponentToPush: JSX.Element
-
-            const disabled = disabledIf
-                ?   typeof disabledIf == 'string'
-                    ?   ifDisabledBy(disabledIf)
-                    :   disabledIf.some(ifDisabledBy)
+            return formElementData
+                ?   !!validate(
+                        values[name]?.value || '',
+                        formElementData.validators || []
+                    )
                 :   false
+        }
+
+        function getFormElements() {
+            const result: JSX.Element[] = []
+
+            for (const name in inputs) {
+                const { Component, props, validators = [], disabledIf } = inputs[name]
+                const { value = '', errorMsg = '' } = values[name] || {}
+
+                let ComponentToPush: JSX.Element
+
+                const disabled = disabledIf
+                    ?   typeof disabledIf == 'string'
+                        ?   ifDisabledBy(disabledIf)
+                        :   disabledIf.some(ifDisabledBy)
+                    :   false
 
 
-            if (Component.ID == inputID) {
-                // const onChange = onInputChange.bind(null, validators, name)
+                if (Component.ID == inputID) {
+                    // const onChange = onInputChange.bind(null, validators, name)
 
-                const changeCommonParams = { validators, name, formStore }
+                    const changeCommonParams = { validators, name, formStore }
 
-                const extraProps = {
-                    value, name, disabled,
-                    errorMsg: (props as InputProps).errorMsg || errorMsg,
-                    onChange(value) {
-                        onInputChange(changeCommonParams, value)
-                    },
-                    onBlur(e) {
-                        onInputChange(changeCommonParams, (e.target as HTMLInputElement).value)
-                    }
-                } as InputProps
+                    const extraProps = {
+                        value, name, disabled,
+                        errorMsg: (props as InputProps).errorMsg || errorMsg,
+                        onChange(value) {
+                            onInputChange(changeCommonParams, value)
+                        },
+                        onBlur(e) {
+                            onInputChange(changeCommonParams, (e.target as HTMLInputElement).value)
+                        }
+                    } as InputProps
 
-                ComponentToPush = React.createElement(Component as _Input, Object.assign(extraProps, props))
-            } else if (Component.ID == checkboxID) {
-                const extraProps = {
-                    value, disabled,
-                    onChange(value) {
-                        values[name] = { value }
-                        setValues({ ...values })
-                    }
-                } as CheckboxProps
+                    ComponentToPush = React.createElement(Component as _Input, Object.assign(extraProps, props))
+                } else if (Component.ID == checkboxID) {
+                    const extraProps = {
+                        value, disabled,
+                        onChange(value) {
+                            values[name] = { value }
+                            setValues({ ...values })
+                        }
+                    } as CheckboxProps
 
-                ComponentToPush = React.createElement(Component as _Checkbox, Object.assign(extraProps, props))
+                    ComponentToPush = React.createElement(Component as _Checkbox, Object.assign(extraProps, props))
+                }
+
+
+                result.push(ComponentToPush!)
+
+                //TODO:
+                // result.push( <Component {...Object.assign(extraProps, props)} key={name} /> )
             }
 
 
-            result.push(ComponentToPush!)
-
-            //TODO:
-            // result.push( <Component {...Object.assign(extraProps, props)} key={name} /> )
+            return result
         }
 
 
-        return result
+        return <form { ...formProps } />
     }
-
-
-    return <form { ...formProps } />
-}
-Form.defaults = {}
-Form.ID = componentID
+)
 
 
 export default Form

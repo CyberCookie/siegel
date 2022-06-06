@@ -48,6 +48,8 @@ Simple slider built on top of **Ranger** component<br />
 
 - `rangerThene` - **Ranger.theme**
 
+- `rangerMemoDeps` - **Ranger.memoDeps**
+
 - `onRangePickStart` - **Ranger.onRangePickStart**
 
 - `onRangePickFinish` - **Ranger.onRangePickFinish**

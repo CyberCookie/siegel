@@ -108,6 +108,8 @@ Searchable input with select hints built on top of **Input** component<br />
 
 - `inputTagAttributes` - **Input.inputAttributes**
 
+- `inputMemoDeps` - **Input.memoDeps**
+
 - `errorMsg` - **Input.errorMsg**
 
 - `mask` - **Input.mask**

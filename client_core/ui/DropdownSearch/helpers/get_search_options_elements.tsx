@@ -1,10 +1,10 @@
 import React from 'react'
 
 import type { ComponentAttributes } from '../../_internals/types'
-import type { MergedProps, State } from '../types'
+import type { MergedProps, State, onSelectInner } from '../types'
 
 
-function getSearchOptions(params: MergedProps, state: State, onSelect: any) {
+function getSearchOptions(params: MergedProps, state: State, onSelect: onSelectInner) {
     const { showAll, searchOptions, theme, selected } = params
     const { searchString, arrowSelectIndex } = state
     const searchLower = searchString?.toLowerCase()

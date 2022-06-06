@@ -1,5 +1,5 @@
 import type {
-    PropsComponentBase, CoreIUComponent, NewComponentAttributes, ComponentAttributes
+    PropsComponentBase, CoreUIComponent, NewComponentAttributes, ComponentAttributes
 } from '../_internals/types'
 
 
@@ -17,9 +17,7 @@ type DefaultProps = NonNullableKeys<{
     type: Props['type']
 }>
 
-type MergedProps = Props & DefaultProps
-
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component }
+export type { Props, Component }

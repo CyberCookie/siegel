@@ -1,6 +1,3 @@
-// TODO: memo API extract (concat with defaults)
-
-
 import type { PropsComponentThemed } from './types'
 
 
@@ -15,8 +12,8 @@ function extractProps<
     U extends PropsComponentThemed
 >
 (
-    prevProps: T & Indexable,
-    newProps: U & Indexable,
+    prevProps: T,
+    newProps: U,
     withMergedDefaults: boolean
 ) {
 
@@ -25,7 +22,6 @@ function extractProps<
 
 
     const result = Object.assign({}, prevProps, newProps)
-
 
     result.className = prevClassName || ''
     nextClassName && (result.className += ` ${nextClassName}`)

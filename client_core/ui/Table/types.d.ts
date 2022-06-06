@@ -1,5 +1,5 @@
 import type {
-    PropsComponentBase, ComponentAttributes, NewComponentAttributes, CoreIUComponent
+    PropsComponentBase, ComponentAttributes, NewComponentAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -38,9 +38,10 @@ type Props = PropsComponentBase<{
 
 type DefaultProps = {}
 
-type MergedProps = Props & DefaultProps
-
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Component, Props, DefaultProps, MergedProps, TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow }
+export type {
+    Component, Props,
+    TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow
+}

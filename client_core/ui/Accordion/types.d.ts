@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+    PropsComponentThemed, NewComponentAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -32,7 +32,7 @@ type Theme = {
 }
 
 type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
-    theme,
+    Theme,
     {
         accordionIcon?: React.ReactNode
         soloOpen?: boolean
@@ -60,11 +60,7 @@ type DefaultProps = NonNullableKeys<{
     theme: Props['theme']
 }>
 
-type MergedProps = Props & DefaultProps
-
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type {
-    Props, DefaultProps, MergedProps, List, BuilderList, Component
-}
+export type { Props, List, BuilderList, Component }

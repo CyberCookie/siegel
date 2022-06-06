@@ -1,21 +1,6 @@
-import type { MergedProps } from '../../../types'
-import type { AllDaysData, ChildProps } from './types'
-
-
-type PrevNextDaysParams = {
-    beginOfMonth: ChildProps['beginOfMonth']
-    hideSiblingMonthsDays: MergedProps['hideSiblingMonthsDays']
-    weekStartsFrom: MergedProps['weekStartsFrom']
-    fixedHeight: MergedProps['fixedHeight']
-}
-
-type FillWithDateRangeParams = {
-    result: AllDaysData[]
-    dateFrom: number
-    dateTo: number
-    date: Date
-    hidden?: boolean
-}
+import type {
+    AllDaysData, PrevNextDaysParams, FillWithDateRangeParams
+} from './get_days_data_array_types'
 
 
 const DAYS_IN_WEEK = 7

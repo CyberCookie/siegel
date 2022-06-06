@@ -4,21 +4,7 @@
 import { useState, useEffect } from 'react'
 
 import isExists from '../../utils/is/exists'
-import type { Props } from './types'
-
-
-type Ref = React.MutableRefObject<HTMLInputElement>
-type ClipboardEvent = React.ClipboardEvent<HTMLInputElement>
-type ChangeEvent = React.ChangeEvent<HTMLInputElement>
-type MaskCharData = {
-    index?: number
-    prevFilled?: number
-    next?: number
-    nextFilled?: number
-    isFilled?: boolean
-}
-
-type MaskProcessor = NonNullable<Props['mask']>['processor']
+import type { Ref, ClipboardEvent, ChangeEvent, MaskCharData, MaskProcessor } from './mask_processor_types'
 
 
 const INSERT_TEXT = 'insertText'

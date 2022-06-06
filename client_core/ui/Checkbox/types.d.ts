@@ -1,4 +1,6 @@
-import type { PropsComponentThemed, NewComponentAttributes, CoreIUComponent } from '../_internals/types'
+import type {
+    PropsComponentThemed, NewComponentAttributes, ComponentAttributes, CoreUIComponent
+} from '../_internals/types'
 
 
 // TODO typing?: attributes type should depend on label <> icon presence
@@ -24,8 +26,13 @@ import type { PropsComponentThemed, NewComponentAttributes, CoreIUComponent } fr
 // }
 
 type CheckboxRootAttrs = NewComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+type CheckboxInnerProps = ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+
 type WithIconRootAttrs = NewComponentAttributes<HTMLDivElement>
+type IconWrapperInnerProps = ComponentAttributes<HTMLDivElement>
+
 type WithLabelRootAttrs = NewComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+type LabelInnerProps = ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 
 
 type Theme = {
@@ -56,10 +63,11 @@ type DefaultProps = NonNullableKeys<{
 
 type MergedProps = Props & DefaultProps
 
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, DefaultProps, MergedProps, Component,
-    WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs
+    Props, MergedProps, Component,
+    WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs,
+    CheckboxInnerProps, IconWrapperInnerProps, LabelInnerProps
 }

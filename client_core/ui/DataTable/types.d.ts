@@ -1,6 +1,6 @@
 import type { Entities } from '../../utils/entities_struct'
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreIUComponent, CoreIUComponentWithDefaults
+    PropsComponentThemed, NewComponentAttributes, CoreUIComponent, CoreUIComponentWithDefaults
 } from '../_internals/types'
 import type { TableTH, TableTD, TableBodyRow, TableHeadRow, Props as TableProps } from '../Table/types'
 import type { Props as SelectProps, Component as SelectComponent } from '../Select/types'
@@ -70,11 +70,11 @@ type Props<
         displayQuantity?(quantity: number): React.ReactNode
         select?: {
             props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps<number>>
-            component: CoreIUComponentWithDefaults<SelectComponent> | SelectComponent
+            component: CoreUIComponentWithDefaults<SelectComponent> | SelectComponent
         }
         pagination?: {
             props?: Partial<PaginationProps>
-            component: CoreIUComponentWithDefaults<PaginationComponent> | PaginationComponent
+            component: CoreUIComponentWithDefaults<PaginationComponent> | PaginationComponent
         }
     }
     virtualization?: {
@@ -103,10 +103,10 @@ type DefaultProps = NonNullableKeys<{
 
 type MergedProps = Props & DefaultProps
 
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    State, Props, DefaultProps, MergedProps, Component, DataTableTableProps, ColumnsConfig,
+    State, Props, MergedProps, Component, DataTableTableProps, ColumnsConfig,
     DisplayedEntityIDs, SortState
 }

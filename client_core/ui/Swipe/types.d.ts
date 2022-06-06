@@ -1,5 +1,5 @@
 import type {
-    PropsComponentBase, NewComponentAttributes, CoreIUComponent
+    PropsComponentBase, NewComponentAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -17,9 +17,7 @@ type DefaultProps = NonNullableKeys<{
     deltaPos: Props['deltaPos']
 }>
 
-type MergedProps = Props & DefaultProps
-
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, HTMLSwipeMouseEvent, Component }
+export type { Props, HTMLSwipeMouseEvent, Component }

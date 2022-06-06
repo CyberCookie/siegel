@@ -1,10 +1,12 @@
+import React from 'react'
+
 import extractProps from './_internals/props_extract'
-import type { CoreIUComponent } from './_internals/types'
+import type { CoreUIComponent } from './_internals/types'
 
 
 function withDefaults
 <
-    C extends CoreIUComponent<any, any>,
+    C extends CoreUIComponent<any, any>,
     Props extends Parameters<C>[0],
     NewDefaults extends Partial<Props>
 >
@@ -13,9 +15,7 @@ function withDefaults
     const mergedDefaults = extractProps(defaults, newDefaults, false)
 
     const componentWithDefaults = (props: PartialKeys<Props, keyof NewDefaults>) => (
-        Component(
-            extractProps(mergedDefaults, props, true)
-        )
+        <Component { ...extractProps(mergedDefaults, props, true) } __with_defaults />
     )
     componentWithDefaults.ID = ID
 

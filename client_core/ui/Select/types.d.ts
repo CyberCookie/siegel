@@ -1,6 +1,15 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreIUComponent
+    PropsComponentThemed, NewComponentAttributes, CoreUIComponent
 } from '../_internals/types'
+
+
+type OnSelect = (
+    value: Option['value'],
+    e: Parameters<MergedProps['onChange']>[1],
+    payload?: Option['payload']
+) => void
+
+type RootRef = React.MutableRefObject<HTMLDivElement>
 
 
 type State = {
@@ -62,7 +71,7 @@ type DefaultProps = NonNullableKeys<{
 
 type MergedProps = Props & DefaultProps
 
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, Store, Option }
+export type { Props, Component, Store, MergedProps, OnSelect, RootRef }

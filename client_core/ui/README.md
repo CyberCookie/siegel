@@ -179,6 +179,24 @@ import Button from 'siegel-ui/Button'
 
 <br />
 
+### Memoization
+
+You may pass `memoDeps` prop to any siegel component.<br />
+Property itself is just a second parameter of `React.memo` function.<br />
+Returns **true** if component should not update.
+
+```jsx
+import React from 'react'
+import Button from 'siegel-ui/Button'
+
+<Button value={Date.now()} disabled={false}
+    memoDeps={(prevProps, nextProps) => prevProps.value == nextProps.value}
+/>
+```
+
+
+<br />
+
 ## Another mechanics worth of mentioning
 
 <br />
@@ -199,7 +217,7 @@ Component function has field `ID` with this string too
 
 <br />
 
-### Store as component prop
+### Expose component inner store with props
 
 Store is creating with **React.useState** hook and provides state and action to update the state<br />
 

@@ -1,14 +1,15 @@
 import React from 'react'
 
-import type { PropsComponentThemed, CoreIUComponent } from '../_internals/types'
+import type { PropsComponentThemed, CoreUIComponent } from '../_internals/types'
 import type { Props as RangerProps } from '../Ranger'
 
 
 type State = {
-    anchorPos: number
-    anchorFraction: number
-    activeSlider: null | HTMLDivElement
-    activeSliderArrValueIndex: undefined | number
+    rangerValues: number[]
+    rangerValuesString: string
+    anchorPositionsSorted: number[]
+    anchorToOptionData: Indexable<{ value: string, index: number }>
+    valueToAnchorMap: Indexable<number>
 }
 
 type Option = {
@@ -37,6 +38,7 @@ type Props = PropsComponentThemed<Theme, {
         e: MouseEvent | React.MouseEvent
     ): void
     rangerTheme?: RangerProps['theme']
+    rangerMemoDeps?: RangerProps['memoDeps']
     onRangePickStart?: RangerProps['onRangePickStart']
     onRangePickFinish?: RangerProps['onRangePickFinish']
     rangersCrossBehavior?: RangerProps['rangersCrossBehavior']
@@ -51,11 +53,7 @@ type DefaultProps = NonNullableKeys<{
     theme: Required<Props['theme']>
 }>
 
-type MergedProps = Props & DefaultProps
-
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type {
-    Props, DefaultProps, MergedProps, Component, State
-}
+export type { Props, Component, State }

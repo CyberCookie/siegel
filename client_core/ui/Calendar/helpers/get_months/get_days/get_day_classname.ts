@@ -1,16 +1,4 @@
-import type { MergedProps, Store } from '../../../types'
-import type { AllDaysData } from './types'
-
-
-type State = Store[0]
-
-type GetDayClass = (params: {
-    dayObj: AllDaysData
-    theme: MergedProps['theme']
-    hideSiblingMonthsDays: MergedProps['hideSiblingMonthsDays']
-    innerRangeStart: State['innerRangeStart']
-    innerRangeEnd: State['innerRangeEnd']
-}) => string
+import type { GetDayClass } from './get_day_classname_types'
 
 
 const getDayClassName: GetDayClass = getDayClassParams => {

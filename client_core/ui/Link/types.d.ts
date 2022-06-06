@@ -1,5 +1,5 @@
 import type {
-    PropsComponentBase, NewComponentAttributes, CoreIUComponent
+    PropsComponentBase, NewComponentAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -9,11 +9,7 @@ type Props = PropsComponentBase<{
     rootTagAttributes?: NewComponentAttributes<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>
 }>
 
-type DefaultProps = {}
-
-type MergedProps = Props & DefaultProps
-
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component }
+export type { Props, Component }

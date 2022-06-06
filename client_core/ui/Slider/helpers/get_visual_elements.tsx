@@ -1,4 +1,5 @@
 //TODO: Get slide cb
+//TODO: visible slides count
 
 
 import React from 'react'
@@ -8,15 +9,17 @@ import type { MergedProps, SwitchSlide } from '../types'
 
 
 type GetSliderVisualsParams = {
-    mergedProps: MergedProps
+    props: MergedProps
     switchSlide: SwitchSlide
     curSlide: number
 }
 
 
 function getVisualElements(params: GetSliderVisualsParams) {
-    const { mergedProps, switchSlide, curSlide } = params
-    const { withControls, theme, swipeDelta, slides } = mergedProps
+    const {
+        switchSlide, curSlide,
+        props: { withControls, theme, swipeDelta, slides }
+    } = params
 
     const slidesLength = slides.length
 

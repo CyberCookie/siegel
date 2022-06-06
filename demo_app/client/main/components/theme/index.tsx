@@ -51,7 +51,9 @@ import stepperTheme from './styles/stepper.sass'
 
 
 
-const Button = withDefaults(_Button, { className: buttonTheme.button })
+const Button = withDefaults(_Button, {
+    className: buttonTheme.button
+})
 
 const Breadcrumbs = withDefaults(_Breadcrumbs, {
     theme: breadcrumbsTheme,
@@ -106,7 +108,9 @@ const DropdownSearch = withDefaults(_DropdownSearch, {
 })
 
 
-const Input = withDefaults(_Input, { theme: inputTheme })
+const Input = withDefaults(_Input, {
+    theme: inputTheme
+})
 
 const Link = withDefaults(_Link, {
     className: linkTheme.link
@@ -154,13 +158,21 @@ const Select = withDefaults(_Select, {
 })
 
 
-const Slider = withDefaults(_Slider, { theme: sliderTheme })
+const Slider = withDefaults(_Slider, {
+    theme: sliderTheme
+})
 
-const Table = withDefaults(_Table, { className: tableTheme.table })
+const Table = withDefaults(_Table, {
+    className: tableTheme.table
+})
 
-const Toggle = withDefaults(_Toggle, { theme: toggleTheme })
+const Toggle = withDefaults(_Toggle, {
+    theme: toggleTheme
+})
 
-const Tabs = withDefaults(_Tabs, { theme: tabsTheme })
+const Tabs = withDefaults(_Tabs, {
+    theme: tabsTheme
+})
 
 
 const Ranger = withDefaults(_Ranger, {

@@ -1,12 +1,10 @@
 import React from 'react'
 
+import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
-import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
-import type { Component, Props, MergedProps } from './types'
+import type { Component, Props, MergedProps, GetPageElement } from './types'
 
-
-type GetPageElement = (page: number, props: MergedProps) => JSX.Element
 
 const componentID = '-ui-pagination'
 
@@ -125,37 +123,36 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
     </>
 }
 
-const Pagination: Component = (props, noDefaults) => {
-    const mergedProps = noDefaults
-        ?   extractProps(Pagination.defaults, props, false)
-        :   (props as MergedProps)
-
-    const { listLength, showPerPage } = mergedProps
-
-    const numberOfPages = Math.ceil(listLength / showPerPage) || 1
-
-
-    return <div { ...getPaginatorRootProps(mergedProps, numberOfPages) } />
-}
-Pagination.defaults = {
-    theme: {
-        root: '',
-        _single: '',
-        separator: '',
-        icon_prev: '',
-        icon_next: '',
-        icon__disabled: '',
-        page: '',
-        page__active: ''
+const Pagination: Component = component(
+    componentID,
+    {
+        theme: {
+            root: '',
+            _single: '',
+            separator: '',
+            icon_prev: '',
+            icon_next: '',
+            icon__disabled: '',
+            page: '',
+            page__active: ''
+        },
+        iconPrev: '<',
+        iconNext: '>',
+        elementsBySide: 1,
+        elementsByMiddle : 1,
+        separator: '...',
+        fixedWidth: true
     },
-    iconPrev: '<',
-    iconNext: '>',
-    elementsBySide: 1,
-    elementsByMiddle : 1,
-    separator: '...',
-    fixedWidth: true
-}
-Pagination.ID = componentID
+    props => {
+
+        const { listLength, showPerPage } = props
+
+        const numberOfPages = Math.ceil(listLength / showPerPage) || 1
+
+
+        return <div { ...getPaginatorRootProps(props, numberOfPages) } />
+    }
+)
 
 
 export default Pagination

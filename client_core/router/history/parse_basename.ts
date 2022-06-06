@@ -2,15 +2,16 @@ import isExists from '../../utils/is/exists'
 import type { RouterProps } from '../types'
 
 
-const parseBasename = (basename: RouterProps['basename']) => {
+const parseBasename = (basename: RouterProps['basename'], pathname: Location['pathname']) => {
     const historyBasename = history.basename
     const actualBasename = isExists(historyBasename)
         ?   historyBasename
         :   basename
 
+
     return {
         finalBasename: actualBasename as string,
-        isRoot: location.pathname == '/' || actualBasename == location.pathname,
+        isRoot: pathname == '/' || pathname == actualBasename,
         pathArrayBasenameShift: actualBasename
             ?   actualBasename.split('/').length - 1
             :   0

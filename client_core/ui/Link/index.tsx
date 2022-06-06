@@ -1,36 +1,35 @@
 import React from 'react'
 
+import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
-import extractProps from '../_internals/props_extract'
 import applyRefApi from '../_internals/ref_apply'
-import type { Component, MergedProps, Props } from './types'
+import type { Component, Props } from './types'
 
 
 const componentID = '-ui-external_link'
 
-const Link: Component = (props, noDefaults) => {
-    const mergedProps = noDefaults
-        ?   extractProps(Link.defaults, props, false)
-        :   (props as MergedProps)
+const Link: Component = component(
+    componentID,
+    {},
+    props => {
 
-    const { className, path, title, rootTagAttributes, refApi } = mergedProps
+        const { className, path, title, rootTagAttributes, refApi } = props
 
-    let linkRootAttributes: Props['rootTagAttributes'] = {
-        className,
-        target: '_blank',
-        rel: 'noreferrer',
-        href: path.startsWith('http') ? path : ('https://' + path)
+        let linkRootAttributes: Props['rootTagAttributes'] = {
+            className,
+            target: '_blank',
+            rel: 'noreferrer',
+            href: path.startsWith('http') ? path : ('https://' + path)
+        }
+        title && (linkRootAttributes.children = title)
+
+        refApi && (applyRefApi(linkRootAttributes, props))
+        rootTagAttributes && (linkRootAttributes = mergeTagAttributes(linkRootAttributes, rootTagAttributes))
+
+
+        return <a { ...linkRootAttributes } />
     }
-    title && (linkRootAttributes.children = title)
-
-    refApi && (applyRefApi(linkRootAttributes, mergedProps))
-    rootTagAttributes && (linkRootAttributes = mergeTagAttributes(linkRootAttributes, rootTagAttributes))
-
-
-    return <a { ...linkRootAttributes } />
-}
-Link.defaults = {}
-Link.ID = componentID
+)
 
 
 export default Link

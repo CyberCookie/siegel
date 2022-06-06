@@ -1,12 +1,8 @@
 import React from 'react'
 
-import type { ComponentAttributes } from '../../_internals/types'
 import type { MergedProps, OnNumberPickerChange } from '../types'
+import type { BtnClickEv, BtnProps } from './get_step_buttons_types'
 
-
-type BtnClickEv = React.MouseEvent<HTMLButtonElement>
-
-type BtnProps = ComponentAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
 
 function getStepButtons(
     props: MergedProps,

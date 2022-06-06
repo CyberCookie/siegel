@@ -1,12 +1,9 @@
 import React from 'react'
 
 import type { MergedProps } from '../types'
+import type { GetRangeElement, GetRangePickerElement } from './get_range_area_elements_types'
 
 import styles from '../styles.sass'
-
-
-type GetRangeElement = (key: string, className: string, width: number) => JSX.Element
-type GetRangePickerElement = (key: string, props: MergedProps, width: number) => JSX.Element
 
 
 const getRange: GetRangeElement = (key, className, width) => (

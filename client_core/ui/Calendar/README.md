@@ -137,7 +137,7 @@ Flexible calendar to pick single or range of dates<br />
     - **Number**
     - Default is **0**<br /><br />
 
-- `weeStartsFrom`
+- `weekStartsFrom`
     - Select week start day
     - **Number**<br /><br />
 

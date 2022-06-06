@@ -1,4 +1,4 @@
-import type { PropsComponentBase, CoreIUComponent, NewComponentAttributes } from '../_internals/types'
+import type { PropsComponentBase, CoreUIComponent, NewComponentAttributes } from '../_internals/types'
 import type { Component as _Input, Props as InputProps } from '../Input/types'
 import type { Component as _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
 
@@ -46,12 +46,10 @@ type Props = PropsComponentBase<{
 
 type DefaultProps = {}
 
-type MergedProps = Props & DefaultProps
-
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, DefaultProps, MergedProps, Component,
+    Props, Component,
     ValueStateValue, FormStore, Validator, CommonChangeProps
 }

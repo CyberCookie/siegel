@@ -1,5 +1,5 @@
 import type { DateParse } from '../../utils/date/parse'
-import type { PropsComponentBase, CoreIUComponent } from '../_internals/types'
+import type { PropsComponentBase, CoreUIComponent } from '../_internals/types'
 
 
 type Props = Omit<
@@ -20,9 +20,7 @@ type DefaultProps = NonNullableKeys<{
     zeroing: Props['zeroing']
 }>
 
-type MergedProps = Props & DefaultProps
-
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component }
+export type { Props, Component }

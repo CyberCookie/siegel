@@ -1,6 +1,3 @@
-// TODO: component memo API (props.memo)
-
-
 type ComponentAttributes<
     E = HTMLElement,
     A = React.HTMLAttributes<E>
@@ -13,6 +10,7 @@ type NewComponentAttributes<
 > = CA | ((defAttributes: CA) => CA)
 
 
+
 type ComponentRefApi<Props> = {
     getRef(ref: HTMLElement, props: Props): void
     getOnPropsUpdate?(props: Props): any[]
@@ -20,23 +18,29 @@ type ComponentRefApi<Props> = {
 
 type PropsComponentBase<Props extends Indexable = Indexable> = {
     className?: string
-    refApi?: ComponentRefApi<Props>
+    refApi?: ComponentRefApi<PropsComponentBase<Props>>
+    memoDeps?(prevProps: PropsComponentBase<Props>, nextProps: PropsComponentBase<Props>): boolean
 } & Props
 
-type PropsComponentThemed<T extends Indexable = Indexable, Props extends Indexable = Indexable> = {
+type ThemeProps<T> = {
     theme?: {
         root?: string
     } & T
-} & PropsComponentBase<Props>
+}
+type PropsComponentThemed<
+    Theme extends Indexable = Indexable,
+    Props extends Indexable = Indexable,
+    _ThemeProps = ThemeProps<Theme>
+> = PropsComponentBase<Props & _ThemeProps>
 
 
-type CoreIUComponent<P extends PropsComponentThemed, D extends Partial<P>> = {
-    (props: P, withDefaults?: boolean): JSX.Element
+
+type CoreUIComponent<P extends PropsComponentThemed, D extends Partial<P>> = {
     defaults: D
     ID: string
-}
+} & React.MemoExoticComponent<(props: P) => JSX.Element>
 
-type CoreIUComponentWithDefaults<C extends CoreIUComponent<any, any>> = {
+type CoreUIComponentWithDefaults<C extends CoreUIComponent<any, any>> = {
     (...args: Parameters<C>): ReturnType<C>
     ID: C['ID']
 }
@@ -45,6 +49,6 @@ type CoreIUComponentWithDefaults<C extends CoreIUComponent<any, any>> = {
 export type {
     ComponentAttributes, NewComponentAttributes,
     ComponentRefApi,
-    CoreIUComponent, CoreIUComponentWithDefaults,
+    CoreUIComponent, CoreUIComponentWithDefaults,
     PropsComponentBase, PropsComponentThemed
 }

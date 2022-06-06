@@ -1,6 +1,8 @@
-import type { PropsComponentThemed, CoreIUComponent, NewComponentAttributes } from '../_internals/types'
+import type { PropsComponentThemed, CoreUIComponent, NewComponentAttributes } from '../_internals/types'
 import type { Props as InputProps } from '../Input/types'
 
+
+type onSelectInner = (option: Option, e: React.KeyboardEvent | React.MouseEvent) => void
 
 type State = {
     searchString: string | undefined
@@ -33,7 +35,7 @@ type Theme = {
 type Props<_Value = any> = PropsComponentThemed<Theme, {
     onChange(
         value: _Value | undefined,
-        e: React.MouseEvent | React.FocusEvent | React.KeyboardEvent
+        e: React.FocusEvent | Parameters<onSelectInner>[1]
     ): void
     searchOptions: Option[]
     onSearch?(
@@ -56,6 +58,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     autofocus?: InputProps['autofocus']
     placeholder?: InputProps['placeholder']
     inputTagAttributes?: InputProps['inputAttributes']
+    inputMemoDeps?: InputProps['memoDeps']
     errorMsg?: InputProps['errorMsg']
     regexp?: InputProps['regexp']
     mask?: InputProps['mask']
@@ -70,7 +73,9 @@ type DefaultProps = NonNullableKeys<{
 
 type MergedProps = Props & DefaultProps
 
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, Store, State, Option }
+export type {
+    Props, MergedProps, Component, Store, State, Option, onSelectInner
+}

@@ -3,101 +3,100 @@ import { useState, useLayoutEffect } from 'react'
 import useDidUpdate from '../../hooks/did_update'
 import dateParse from '../../utils/date/parse'
 import msIn from '../../utils/date/constants'
-import extractProps from '../_internals/props_extract'
-import type { Component, MergedProps, Props } from './types'
+import component from '../_internals/component'
+import type { Component, Props } from './types'
 
 
 const componentID = '-ui-clocks'
 
-const Clocks: Component = (props, noDefaults) => {
-    const mergedProps = noDefaults
-        ?   extractProps(Clocks.defaults, props, false)
-        :   (props as MergedProps)
+const Clocks: Component = component(
+    componentID,
+    {
+        speedCoef: 1,
+        tickEveryMinute: true,
+        zeroing: true
+    },
+    props => {
 
-    const {
-        builder, initDate, zeroing, tickEveryMinute, speedCoef, backward
-    } = mergedProps
+        const {
+            builder, initDate, zeroing, tickEveryMinute, speedCoef, backward
+        } = props
 
-    const [ date, setDate ] = useState(initDate ? new Date(initDate) : new Date())
+        const [ date, setDate ] = useState(initDate ? new Date(initDate) : new Date())
 
 
-    useDidUpdate(() => {
-        setDate(initDate)
-    }, [ initDate ])
+        useDidUpdate(() => {
+            setDate(initDate)
+        }, [ initDate ])
 
-    useLayoutEffect(() => {
-        function tick(timeChangeValueMS: number) {
-            const currentMS = date.getMilliseconds()
-            const newDate = new Date(
-                date.setMilliseconds(
-                    backward
-                        ?   currentMS - timeChangeValueMS
-                        :   currentMS + timeChangeValueMS
+        useLayoutEffect(() => {
+            function tick(timeChangeValueMS: number) {
+                const currentMS = date.getMilliseconds()
+                const newDate = new Date(
+                    date.setMilliseconds(
+                        backward
+                            ?   currentMS - timeChangeValueMS
+                            :   currentMS + timeChangeValueMS
+                    )
                 )
-            )
 
-            setDate(newDate)
-        }
+                setDate(newDate)
+            }
 
-        const isNotNormalSpeed = speedCoef != 1
-
-
-        let timeChangeValueMS: number
-        let deltaToFirstMinuteTick: number
-        if (tickEveryMinute) {
-            timeChangeValueMS = msIn.minute
-
-            deltaToFirstMinuteTick = date.getSeconds() * msIn.second
-            backward || (deltaToFirstMinuteTick *= -1)
-        } else {
-            timeChangeValueMS = msIn.second
-        }
-
-        const currentMS = date.getMilliseconds()
-        let deltaToFirstTick = backward
-            ?   currentMS
-            :   timeChangeValueMS - currentMS
-
-        deltaToFirstMinuteTick! && (deltaToFirstTick += deltaToFirstMinuteTick)
-
-        const firstTickChangeValue = deltaToFirstTick
-
-        let updateInterval = timeChangeValueMS
-        if (isNotNormalSpeed) {
-            deltaToFirstTick /= speedCoef
-            updateInterval /= speedCoef
-        }
+            const isNotNormalSpeed = speedCoef != 1
 
 
-        let intervalID: number
-        const deltaToFirstTickTimeoutID = setTimeout(() => {
-            tick(firstTickChangeValue)
+            let timeChangeValueMS: number
+            let deltaToFirstMinuteTick: number
+            if (tickEveryMinute) {
+                timeChangeValueMS = msIn.minute
 
-            intervalID = (setInterval as Window['setInterval'])(() => {
-                tick(timeChangeValueMS)
-            }, updateInterval)
-        }, deltaToFirstTick)
+                deltaToFirstMinuteTick = date.getSeconds() * msIn.second
+                backward || (deltaToFirstMinuteTick *= -1)
+            } else {
+                timeChangeValueMS = msIn.second
+            }
+
+            const currentMS = date.getMilliseconds()
+            let deltaToFirstTick = backward
+                ?   currentMS
+                :   timeChangeValueMS - currentMS
+
+            deltaToFirstMinuteTick! && (deltaToFirstTick += deltaToFirstMinuteTick)
+
+            const firstTickChangeValue = deltaToFirstTick
+
+            let updateInterval = timeChangeValueMS
+            if (isNotNormalSpeed) {
+                deltaToFirstTick /= speedCoef
+                updateInterval /= speedCoef
+            }
 
 
-        return () => {
-            clearTimeout(deltaToFirstTickTimeoutID)
-            clearInterval(intervalID)
-        }
-    }, [])
+            let intervalID: number
+            const deltaToFirstTickTimeoutID = setTimeout(() => {
+                tick(firstTickChangeValue)
+
+                intervalID = (setInterval as Window['setInterval'])(() => {
+                    tick(timeChangeValueMS)
+                }, updateInterval)
+            }, deltaToFirstTick)
 
 
-    return (
-        builder
-            ?   builder(dateParse(date, zeroing))
-            :   date.toISOString()
-    ) as React.ReactElement
-}
-Clocks.defaults = {
-    speedCoef: 1,
-    tickEveryMinute: true,
-    zeroing: true
-}
-Clocks.ID = componentID
+            return () => {
+                clearTimeout(deltaToFirstTickTimeoutID)
+                clearInterval(intervalID)
+            }
+        }, [])
+
+
+        return (
+            builder
+                ?   builder(dateParse(date, zeroing))
+                :   date.toISOString()
+        ) as React.ReactElement
+    }
+)
 
 
 export default Clocks

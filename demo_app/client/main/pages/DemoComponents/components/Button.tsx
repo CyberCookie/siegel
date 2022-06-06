@@ -19,6 +19,7 @@ const Demo = () => {
     return <>
         <h2 children='simple' />
         <h3 children={ `counter: ${counter}` } />
+
         <Button { ...props } />
 
         <h2 children='disabled' />

@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, CoreIUComponent, NewComponentAttributes
+    PropsComponentThemed, CoreUIComponent, NewComponentAttributes
 } from '../_internals/types'
 import type { Props as InputProps } from '../Input/types'
 
@@ -39,6 +39,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     disabledInput?: boolean
     inputTheme?: InputProps['theme']
     inputStore?: InputProps['store']
+    inputMemoDeps?: InputProps['memoDeps']
     inputRootAttributes?: InputProps['rootTagAttributes']
     onBlur?: InputProps['onBlur']
 }> & Omit<InputProps, 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store'>
@@ -54,7 +55,7 @@ type DefaultProps = NonNullableKeys<{
 
 type MergedProps = Props & DefaultProps
 
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, BtnClickEv, BtnProps, OnNumberPickerChange }
+export type { Props, MergedProps, Component, OnNumberPickerChange }

@@ -1,5 +1,5 @@
 import type {
-    PropsComponentBase, CoreIUComponent, ComponentAttributes
+    PropsComponentBase, CoreUIComponent, ComponentAttributes
 } from '../../ui/_internals/types'
 
 
@@ -18,7 +18,7 @@ type DefaultProps = {}
 
 type MergedProps = Props & DefaultProps
 
-type Component = CoreIUComponent<Props, DefaultProps>
+type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type { Props, MergedProps, Component }

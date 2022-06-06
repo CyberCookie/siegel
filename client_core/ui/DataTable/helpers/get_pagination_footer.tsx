@@ -1,11 +1,6 @@
 import React from 'react'
 
-import type { MergedProps } from '../types'
-
-
-type GetPaginationFnProps = {
-    withFooter: NonNullable<MergedProps['withFooter']>
-} & MergedProps
+import type { GetPaginationFnProps } from './get_pagination_footer_types'
 
 
 function getPaginationFooter(props: GetPaginationFnProps, resultIDs: string[]) {
