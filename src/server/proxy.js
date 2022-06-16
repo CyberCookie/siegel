@@ -1,11 +1,14 @@
 import http from 'http'
+import https from 'https'
 import querystring from 'querystring'
 
 import populateURLParams from '../../utils_cross_env/populate_url_params.js'
 
 
 const proxy = proxyParams => {
-    const { host, port, changeOrigin, postProcessReq } = proxyParams
+    const { host, port, changeOrigin, postProcessReq, secure } = proxyParams
+
+    const client = secure ? https : http
 
 
     return (clientReq, clientRes) => {
@@ -41,7 +44,7 @@ const proxy = proxyParams => {
         postProcessReq && postProcessReq(clientReq, options)
 
 
-        const proxyReq = http.request(options, proxyRes => {
+        const proxyReq = client.request(options, proxyRes => {
             const { statusCode, headers } = proxyRes
             if (statusCode !== 200) {
                 console.error(path, statusCode)

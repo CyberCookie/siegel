@@ -155,6 +155,7 @@ app.get('/api/proxy_get/:id', apiProxy)
 
 
 Proxy receives **1** parameter - **Object** with the next fields:
+- `secure` **Boolean** - makes requests over https
 - `host` **String** - destination host
 - `port` **Number** - destination port
 - `path` **String** - url path. Default is original request url path
