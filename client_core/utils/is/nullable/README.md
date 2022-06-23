@@ -8,7 +8,7 @@ Returns **Boolean**. **true** if value is **undefined** or **null**
 <br />
 
 ```js
-import isNullable from 'siegel-utils/is/nullable'
+import isNullable from 'siegel-ui-utils/is/nullable'
 
 isNullable(undefined)
 // true

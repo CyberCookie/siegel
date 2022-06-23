@@ -13,7 +13,8 @@
 			"siegel-ui/*": [ "../client_core/ui/*" ],
 			"siegel-ui-utils/*": [ "../client_core/utils/*" ],
 			"siegel-router/*": [ "../client_core/router/*" ]
-		}
+		},
+		"noEmit": true
 	},
 	"include": [ "client", "server", "dto", "../global.d.ts" ]
 }

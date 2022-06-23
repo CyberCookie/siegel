@@ -35,6 +35,7 @@ function main(isGlobal?: boolean) {
 
     const INIT_PATHS = {
         pathToSiegelRelative,
+        pathToSiegelAbsolute,
         siegelEsLint:                   join(isGlobal ? pathToSiegelAbsolute : pathToSiegelRelative, LOC_NAMES.ESLINT_JSON),
         siegelDemoAppServerPath:        join(PATHS.demoProject, 'server'),
         siegelDemoAppPathShift:         relative(PATHS.demoProject, PATHS.packageRoot),
@@ -58,7 +59,10 @@ function main(isGlobal?: boolean) {
         shell(`cp -r ${PATHS.demoProject}/. .`)
 
         // Create global.d.ts
-        writeFileSync(INIT_PATHS.userTSGlobal, `/// <reference types='${ isGlobal ? pathToSiegelAbsolute : siegelPackageName }' />`)
+        writeFileSync(
+            INIT_PATHS.userTSGlobal,
+            `import '${ isGlobal ? INIT_PATHS.pathToSiegelAbsolute : INIT_PATHS.pathToSiegelRelative }'`
+        )
 
         // Copy Eslint jsons
         shell(`cp ${ PATHS.packageRoot }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
@@ -91,10 +95,11 @@ function main(isGlobal?: boolean) {
     function modifyTSConfig() {
         const clientTSConfig = requireJSON(INIT_PATHS.userTSConfigPath)
 
-        clientTSConfig.extends = clientTSConfig.extends.replace(
+        const newExtendPath = clientTSConfig.extends.replace(
             INIT_PATHS.siegelDemoAppPathShift,
             INIT_PATHS.pathToSiegelRelative
         )
+        clientTSConfig.extends = `./${newExtendPath}`
 
         const paths = clientTSConfig.compilerOptions.paths
         for (const alias in paths) {

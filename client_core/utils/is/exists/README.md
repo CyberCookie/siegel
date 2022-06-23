@@ -8,7 +8,7 @@ Returns **Boolean**. **false** if value is **undefined**
 <br />
 
 ```js
-import isExists from 'siegel-utils/is/exists'
+import isExists from 'siegel-ui-utils/is/exists'
 
 isExists(undefined)
 // false

@@ -22,7 +22,7 @@ Receives **3** arguments:
 <br />
 
 ```js
-import diff, { SYMBOL__VALUES_EQUAL, SYMBOL__OBJECT_FIELD_REMOVED } from 'siegel-utils/deep/diff'
+import diff, { SYMBOL__VALUES_EQUAL, SYMBOL__OBJECT_FIELD_REMOVED } from 'siegel-ui-utils/deep/diff'
 
 
 diff(
@@ -105,7 +105,7 @@ diff(
 With options:
 
 ```js
-import diff from 'siegel-utils/deep/diff'
+import diff from 'siegel-ui-utils/deep/diff'
 
 diff(
     {

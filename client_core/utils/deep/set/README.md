@@ -12,7 +12,7 @@ Receives **3** parameters:
 <br />
 
 ```jsx
-import deepSet from 'siegel-utils/deep/set'
+import deepSet from 'siegel-ui-utils/deep/set'
 
 const someObject = {}
 
