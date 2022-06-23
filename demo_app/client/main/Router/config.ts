@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import seo from 'siegel-utils/seo'
+import seo from 'siegel-ui-utils/seo'
 import type { RoutesConfig } from 'siegel-router/types'
 import type { BreadcrumbConfig } from 'siegel-ui/Breadcrumbs'
 

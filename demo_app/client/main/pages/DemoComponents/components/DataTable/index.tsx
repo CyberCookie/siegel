@@ -1,6 +1,6 @@
 import React from 'react'
-import createEntitiesStruct from 'siegel-utils/entities_struct'
-import msIn from 'siegel-utils/date/constants'
+import createEntitiesStruct from 'siegel-ui-utils/entities_struct'
+import msIn from 'siegel-ui-utils/date/constants'
 
 import { DataTable, Checkbox } from 'app/components'
 import getEnchancedDataTableProps from './getEnchancedDataTableProps'
