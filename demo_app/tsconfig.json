@@ -1,0 +1,19 @@
+{
+	"extends": "../tsconfig.json",
+    "compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"app/*": [ "client/main/*" ],
+			"assets/*": [ "client/assets/*" ],
+			"dto/*": [ "dto/*" ],
+			"siegel-utils/*": [ "../common/*" ],
+			"siegel-network/*": [ "../client_core/network/*" ],
+			"siegel-store/*": [ "../client_core/store/*" ],
+			"siegel-hooks/*": [ "../client_core/hooks/*" ],
+			"siegel-ui/*": [ "../client_core/ui/*" ],
+			"siegel-ui-utils/*": [ "../client_core/utils/*" ],
+			"siegel-router/*": [ "../client_core/router/*" ]
+		}
+	},
+	"include": [ "client", "server", "dto", "../global.d.ts" ]
+}

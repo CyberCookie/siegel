@@ -1,4 +1,4 @@
-const floatMod = (a, b, precision) => {
+const floatMod = (a: number, b: number, precision: number) => {
     const multiply = Math.pow(10, precision)
 
     const a_multiplied = Math.round(a * multiply)

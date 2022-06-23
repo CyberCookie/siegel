@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import updateURLQuery from 'siegel-utils/query_update'
+import updateURLQuery from 'siegel-ui-utils/query_update'
 import type { Page } from 'siegel-router/types'
 
 import { Link, icons } from 'app/components'

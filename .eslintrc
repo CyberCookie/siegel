@@ -1,6 +1,6 @@
 {
     "ignorePatterns": [
-        "/dist/", "/cjs/", "/node_modules/", "/lib_client/"
+        "/dist/", "/node_modules/", "/lib/"
     ],
     "extends": [
         "eslint:recommended",
