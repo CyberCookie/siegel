@@ -10,7 +10,7 @@ Function receives **unlimited** parameters count:
 <br />
 
 ```js
-import floatMath from 'siegel-utils/float_math'
+import floatMath from 'siegel-ui-utils/float_math'
 
 floatMath(3, 0.09, -0.03, -0.16, 1.251) // ->> 1.151
 

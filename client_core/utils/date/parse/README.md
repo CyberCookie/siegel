@@ -21,7 +21,7 @@ Returns an `Object` with parsed date. Object has the next fields:
 <br />
 
 ```js
-import dateParse from 'siegel-utils/date/parse'
+import dateParse from 'siegel-ui-utils/date/parse'
 
 let {
     year, month, date, day, hours, minutes, seconds, milliseconds

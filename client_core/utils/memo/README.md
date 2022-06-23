@@ -16,7 +16,7 @@ To prevent memory leaks use `clearState` that accepts memoization id.
 <br />
 
 ```js
-import memo, { getUniqID, clearState } from 'siegel-utils/memo'
+import memo, { getUniqID, clearState } from 'siegel-ui-utils/memo'
 
 
 const expensiveCalculationID = getUniqID()

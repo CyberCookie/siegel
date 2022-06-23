@@ -12,7 +12,7 @@ Has **2** signatures:
 <br />
 
 ```js
-import updateURLQuery from 'siegel-utils/query_update'
+import updateURLQuery from 'siegel-ui-utils/query_update'
 
 updateURLQuery(history, 'somekey', 'someValue') 
 ```

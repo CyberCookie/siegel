@@ -7,7 +7,7 @@ Receives **1** parameter: **String**. JSON web token string
 <br />
 
 ```js
-import parseJWT from 'siegel-utils/parse_jwt'
+import parseJWT from 'siegel-ui-utils/parse_jwt'
 
 parseJWT(someString)
 /*

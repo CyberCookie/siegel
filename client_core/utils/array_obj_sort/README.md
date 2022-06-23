@@ -13,7 +13,7 @@ Receives **3** parameters:
 <br />
 
 ```js
-import objectsSort from 'siegel-utils/array_obj_sort'
+import objectsSort from 'siegel-ui-utils/array_obj_sort'
 
 const mock = [
     { id: 1, name: 'qwerty', birth: 2020 },

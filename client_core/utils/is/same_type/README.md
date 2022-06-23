@@ -11,7 +11,7 @@ Returns **Boolean**. **true** if values have the same type
 <br />
 
 ```js
-import isSameType from 'siegel-utils/is/same_type'
+import isSameType from 'siegel-ui-utils/is/same_type'
 
 isSameType(undefined, null)
 // false
