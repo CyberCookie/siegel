@@ -10,7 +10,7 @@ Function receives **3** parameters:
 <br />
 
 ```js
-import floatsMod from 'siegel-ui-utils/math/floats_mod'
+import floatsMod from 'siegel-utils/math/floats_mod'
 
 floatsMod(2.1, 0.4, 2) // ->> 0.1
 

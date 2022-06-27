@@ -46,7 +46,7 @@ Returns **Object** to perform CRUD operations with entities:
 <br />
 
 ```js
-import entitiesStruct from 'siegel-ui-utils/entities_struct'
+import entitiesStruct from 'siegel-utils/entities_struct'
 
 const entities = entitiesStruct('id')
 

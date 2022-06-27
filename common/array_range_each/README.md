@@ -19,7 +19,7 @@ Receives **4** parameters:
 <br />
 
 ```js
-import rangeEach from 'siegel-ui-utils/array_range_each'
+import rangeEach from 'siegel-utils/array_range_each'
 
 const mock = (new Array(10)).fill(1)
 

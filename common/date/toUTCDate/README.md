@@ -10,7 +10,7 @@ Receives **1** parameter:
 <br />
 
 ```js
-import toUTCDate from 'siegel-ui-utils/date/toUTCDate'
+import toUTCDate from 'siegel-utils/date/toUTCDate'
 
 const date = new Date() // Fri Jan 01 2020 04:00:00 GMT+0300 (Eastern European Summer Time)
 

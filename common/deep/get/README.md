@@ -10,7 +10,7 @@ Receives **3** arguments:
 <br />
 
 ```js
-import deepGet from 'siegel-ui-utils/deep/get'
+import deepGet from 'siegel-utils/deep/get'
 
 const someObject = {
     a: {

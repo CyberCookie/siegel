@@ -8,7 +8,7 @@ Returns **Boolean**. **true** if value is primitive
 <br />
 
 ```js
-import isPrimitive from 'siegel-ui-utils/is/primitive'
+import isPrimitive from 'siegel-utils/is/primitive'
 
 isPrimitive(undefined)
 // false

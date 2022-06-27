@@ -12,7 +12,7 @@ Receives **2** parameters:
 <br />
 
 ```js
-import getClassName from 'siegel-ui-utils/classname'
+import getClassName from 'siegel-utils/classname'
 
 
 getClassName('initial_class', {
