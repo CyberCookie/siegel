@@ -1,4 +1,4 @@
-import '../../../global'
+import '../../../global.d'
 import diff, { SYMBOL__OBJECT_FIELD_REMOVED, SYMBOL__VALUES_EQUAL } from './'
 
 
