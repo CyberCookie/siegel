@@ -1,7 +1,7 @@
 import React, { Suspense, useState, useLayoutEffect } from 'react'
 
-import isNullable from '../../utils/is/nullable'
-import deepEqual, { SYMBOL__VALUES_EQUAL } from '../../utils/deep/diff'
+import isNullable from 'siegel-utils/is/nullable'
+import deepEqual, { SYMBOL__VALUES_EQUAL } from 'siegel-utils/deep/diff'
 import patchHistory from '../history'
 import parsePathname from './get_children_array'
 import type {

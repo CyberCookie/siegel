@@ -1,4 +1,4 @@
-import isExists from '../../../utils/is/exists'
+import isExists from 'siegel-utils/is/exists'
 import type { MergedProps } from '../types'
 
 

@@ -6,8 +6,10 @@ const GIT_PATHS = {
         UI: 'ui'
     },
     SRC: {
-        ROOT: 'src'
-
+        ROOT: 'core'
+    },
+    COMMON: {
+        ROOT: 'common'
     }
 } as const
 

@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react'
 
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
-import isTouchScreen from '../../utils/is/touchscreen'
+import isTouchScreen from '../../utils/is_touchscreen'
 import applyRefApi from '../_internals/ref_apply'
 import type { HTMLSwipeMouseEvent, Component, Props } from './types'
 

@@ -4,9 +4,11 @@ import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { isRunDirectly, requireJSON, globalNodeModulesPath } from '../core/utils/index.js'
+import { nodeUtils } from '../core'
 import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../core/constants.js'
 
+
+const { isRunDirectly, requireJSON, globalNodeModulesPath } = nodeUtils
 
 const {
     name: siegelPackageName,

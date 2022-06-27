@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 
+import { utils } from './'
 import { DEFAULT_RUN_PARAMS, DEFAULT_CONFIG } from './constants.js'
 
 
@@ -9,10 +10,12 @@ function mergeConfigWithDefaults(CONFIG: any, DEFAULT_CONFIG: any) {
         const defaultValue = DEFAULT_CONFIG[key]
         const configValue = CONFIG[key]
 
-        if (configValue === undefined) {
+        if (!utils.is.isExists(configValue)) {
             CONFIG[key] = defaultValue
+
         } else if (Array.isArray(configValue) && Array.isArray(defaultValue)) {
             CONFIG[key] = Array.from(new Set( defaultValue.concat(configValue) ))
+
         } else if (typeof configValue == 'object' && typeof defaultValue == 'object') {
             mergeConfigWithDefaults(CONFIG[key], defaultValue)
         }

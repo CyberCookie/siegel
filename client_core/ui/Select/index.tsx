@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 
-import isExists from '../../utils/is/exists'
+import isExists from 'siegel-utils/is/exists'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'

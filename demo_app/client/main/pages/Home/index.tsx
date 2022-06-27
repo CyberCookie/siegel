@@ -18,13 +18,20 @@ const docsListConfig = [
             { path: 'Router', title: 'Router' },
             { path: 'store', title: 'Global store' },
             { path: 'hooks', title: 'Custom hooks' },
-            { path: 'network', title: 'Network' },
-            { path: 'utils', title: 'Utils' }
+            { path: 'network', title: 'Networking' },
+            { path: 'utils', title: 'Browser utils' }
         ]
     },
-    { path: `${GIT_PATHS.FILES_PREFIX}src/client_build`, title: 'Webpack build' },
-    { path: `${GIT_PATHS.FILES_PREFIX}src/server`, title: 'Server' },
-    { path: `${GIT_PATHS.FILES_PREFIX}src/utils`, title: 'Utils' }
+    {
+        path: GIT_PATHS.FILES_PREFIX + GIT_PATHS.CLIENT_CORE.ROOT,
+        title: 'Core',
+        children: [
+            { path: 'client_build', title: 'Webpack build' },
+            { path: 'server', title: 'Server modules' },
+            { path: 'utils', title: 'Node utils' }
+        ]
+    },
+    { path: `${GIT_PATHS.FILES_PREFIX}${GIT_PATHS.COMMON.ROOT}`, title: 'Cross env utils' }
 ]
 
 const createDocList = (list: typeof docsListConfig, pathPrefix = '') => (

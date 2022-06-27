@@ -1,9 +1,9 @@
 import { join } from 'path'
 
-import { utils } from '../../core/index.js'
+import { nodeUtils } from '../../core'
 
 
-const { requireJSON, cjs__dirname } = utils
+const { requireJSON, cjs__dirname } = nodeUtils
 
 const __dirname = cjs__dirname(import.meta)
 const rootPath = join(__dirname, '..')

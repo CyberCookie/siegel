@@ -1,4 +1,4 @@
-import isExists from '../../../utils/is/exists'
+import isExists from 'siegel-utils/is/exists'
 import type { TableBodyRow, TableTD } from '../../Table/types'
 import type { SlideWindowRange } from '../helpers/apply_virtualization'
 import type { MergedProps, State, SortState } from '../types'

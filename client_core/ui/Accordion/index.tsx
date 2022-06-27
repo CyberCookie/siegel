@@ -1,7 +1,7 @@
 import React from 'react'
 
+import isExists from 'siegel-utils/is/exists'
 import component from '../_internals/component'
-import isExists from '../../utils/is/exists'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import type { List, BuilderList, Component, Props } from './types'

@@ -2,7 +2,8 @@ import http from 'http'
 import https from 'https'
 import querystring from 'querystring'
 
-import populateURLParams from '../../common/populate_url_params.js'
+// import populateURLParams from 'siegel-utils/populate_url_params'
+import populateURLParams from '../../common/populate_url_params'
 
 
 const proxy = (proxyParams: any) => {
@@ -37,7 +38,8 @@ const proxy = (proxyParams: any) => {
 
 
         const options = {
-            host, port, headers,
+            host, headers,
+            port: !port && secure ? 443 : port,
             method: proxyParams.method || method,
             path: finalPath
         }

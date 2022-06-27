@@ -5,14 +5,14 @@
 
 import path from 'path'
 
-import { globalNodeModulesPath, requireJSON, parseCommandLineArgs } from '../core/utils/index.js'
 import { LOC_NAMES, PATHS, DEFAULT_CONFIG, DEFAULT_RUN_PARAMS } from '../core/constants.js'
 import normalizeConfig from '../core/normalize_configs.js'
-import siegel from '../core/index.js'
+import siegel, { nodeUtils, utils } from '../core'
 import initProject from './init_project.js'
 import createSSLCerts from './create_SSL.js'
 
 
+const { globalNodeModulesPath, requireJSON, parseCommandLineArgs } = nodeUtils
 
 const getColored = (color: any, str: string) => `\x1b[${color}m${str}\x1b[0m`
 const getColoredCommandStr = getColored.bind(null, 36)
@@ -241,7 +241,7 @@ if (commandConfig) {
 
             logString += ` - ${description}`
 
-            if (defaultValue !== undefined) {
+            if (utils.is.isExists(defaultValue)) {
                 logString += `\n\r\t\t${getColoredHighlightText(` Default value: ${defaultValue}`)}`
             }
 

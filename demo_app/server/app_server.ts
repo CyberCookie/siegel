@@ -1,4 +1,4 @@
-import { proxyReq } from '../../core/index.js'
+import { proxyReq } from '../../core'
 
 
 function appServer({ express, onStream, staticServer }: any) {

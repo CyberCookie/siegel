@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useLayoutEffect } from 'react'
 
-import isExists from '../../utils/is/exists'
+import isExists from 'siegel-utils/is/exists'
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'

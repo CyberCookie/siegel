@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 
-import isExists from '../../utils/is/exists'
+import isExists from 'siegel-utils/is/exists'
 import component from '../../ui/_internals/component'
 import applyRefApi from '../../ui/_internals/ref_apply'
 import getFinalURL from '../get_final_url'

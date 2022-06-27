@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react'
 
-import isExists from '../../utils/is/exists'
+import isExists from 'siegel-utils/is/exists'
 import type { Ref, ClipboardEvent, ChangeEvent, MaskCharData, MaskProcessor } from './mask_processor_types'
 
 

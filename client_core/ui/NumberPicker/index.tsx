@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import floatMath from '../../utils/math_float'
-import isExists from '../../utils/is/exists'
+import floatMath from 'siegel-utils/math/floats_arifmetic'
+import isExists from 'siegel-utils/is/exists'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
 import applyRefApi from '../_internals/ref_apply'

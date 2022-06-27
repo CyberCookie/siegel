@@ -3,13 +3,14 @@
 process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
-import * as utils from './utils/index.js'
+import * as utils from '../common'
+import * as nodeUtils from './utils'
 import normalizeConfigs from './normalize_configs.js'
-import webpackBuilder, { BUILD_CONSTANTS } from './client_build/index.js'
+import webpackBuilder, { BUILD_CONSTANTS } from './client_build'
 import {
     bootServer, getStaticServingData, http2Server, httpServer, proxyReq,
     extractSSL
-} from './server/index.js'
+} from './server'
 
 
 async function main(_CONFIG?: any, _RUN_PARAMS?: any, performConfigNormalize = true) {
@@ -49,7 +50,7 @@ async function main(_CONFIG?: any, _RUN_PARAMS?: any, performConfigNormalize = t
     }
 }
 
-utils.isRunDirectly(import.meta) && main()
+nodeUtils.isRunDirectly(import.meta) && main()
 
 
 export default main
@@ -57,5 +58,5 @@ export {
     webpackBuilder, BUILD_CONSTANTS,
     bootServer, getStaticServingData, http2Server, httpServer, proxyReq,
     extractSSL,
-    utils
+    nodeUtils, utils
 }

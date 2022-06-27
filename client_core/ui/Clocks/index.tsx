@@ -1,8 +1,8 @@
 import { useState, useLayoutEffect } from 'react'
 
+import dateParse from 'siegel-utils/date/parse'
+import msIn from 'siegel-utils/date/constants'
 import useDidUpdate from '../../hooks/did_update'
-import dateParse from '../../utils/date/parse'
-import msIn from '../../utils/date/constants'
 import component from '../_internals/component'
 import type { Component, Props } from './types'
 

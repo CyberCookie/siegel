@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState, useRef } from 'react'
 
-import isExists from '../../../utils/is/exists'
+import isExists from 'siegel-utils/is/exists'
 import type {
     Ref, ScrollTopState, SlideWindowRange, GetWindowSlideRanges,
     UseVirtualizationParams, VirtualizationMergedProps
