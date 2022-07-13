@@ -80,12 +80,14 @@ function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = tr
 
 shell('npx tsc -p .')
 
+
 copyTypes(PATHS.clientCore)
 normalizeImportPathsAndMinify(PATHS.clientCoreOutput)
 
+copyTypes(PATHS.sharedUtils)
 normalizeImportPathsAndMinify(PATHS.sharedUtilsOutput)
 
 copyTypes(PATHS.src)
-
 // normalizeImportPathsAndMinify(PATHS.srcOutput, false)
+
 // normalizeImportPathsAndMinify(PATHS.binOutput, false)
