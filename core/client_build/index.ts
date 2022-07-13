@@ -3,6 +3,9 @@ import * as BUILD_CONSTANTS from './constants.js'
 import defaultModulesResolve from './modules'
 import defaultPluginsResolve from './plugins'
 
+import type { Compiler, Configuration } from 'webpack'
+import type { ConfigFinal, RunParamsFinal } from '../types'
+
 
 const {
     DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, esBuildMinifyPlugin },
@@ -16,7 +19,7 @@ const statsOptions = {
 }
 
 
-function clientBuilder(CONFIG: any, RUN_PARAMS: any) {
+function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
     const { isProd, _isDevServer, _isSelfDevelopment } = RUN_PARAMS
     const {
         publicDir,
@@ -30,12 +33,12 @@ function clientBuilder(CONFIG: any, RUN_PARAMS: any) {
     _isSelfDevelopment || nodeModulesPaths.push(PATHS.cwdNodeModules)
 
 
-    let webpackCompiller: any
+    let webpackCompiller: Compiler
 
-    let webpackConfig: any = {
+    let webpackConfig: Configuration = {
         mode: isProd
             ?   'production'
-            :   process.env.NODE_ENV || 'development',
+            :   (process.env.NODE_ENV as Configuration['mode']) || 'development',
 
         cache: _isDevServer,
 
@@ -44,7 +47,7 @@ function clientBuilder(CONFIG: any, RUN_PARAMS: any) {
         resolve: {
             unsafeCache: true,
             alias: aliases,
-            extensions: ESLintExtensions.concat(['.sass', '.css', '.d.ts']),
+            extensions: [ ...ESLintExtensions, '.sass', '.css', '.d.ts' ],
             modules: nodeModulesPaths
         },
 
@@ -111,16 +114,16 @@ function clientBuilder(CONFIG: any, RUN_PARAMS: any) {
 
 
     return {
-        run: () => new Promise((resolve: any) => {
+        run: () => new Promise<void>(resolve => {
             webpackCompiller = webpack(webpackConfig)
 
             if (_isDevServer) resolve()
             else {
-                webpackCompiller.run((err: any, stats: any) => {
+                webpackCompiller.run((err, stats) => {
                     const message = err || (
-                        stats.hasErrors()
-                            ?   stats.compilation.errors
-                            :   stats.toString(statsOptions)
+                        stats!.hasErrors()
+                            ?   stats!.compilation.errors
+                            :   stats!.toString(statsOptions)
                     )
                     console.log(message)
 

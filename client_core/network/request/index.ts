@@ -1,4 +1,5 @@
 import populateURLParams from 'siegel-utils/populate_url_params'
+
 import type {
     FetchParams, ReqData, ReqError, RequestParams, Hooks
 } from './types'

@@ -3,13 +3,16 @@ import express from 'express'
 
 import { HEADER_ACCEPT_INDEX } from './constants.js'
 import extractSSL from './extract_ssl_key.js'
-import getStaticServingData from './get_static_serving_data.js'
+import getStaticServingData from './get_static_file_response_data'
+
+import type { Express, RequestHandler } from 'express'
+import type { ServerBootParams } from './types'
 
 
-function rewriteSPAUrl(req: any, _: any, next: any) {
+const rewriteSPAUrl: RequestHandler = (req, _, next) => {
     const { headers, method } = req
 
-    if (method == 'GET' && headers.accept.includes(HEADER_ACCEPT_INDEX)) {
+    if (method == 'GET' && headers.accept?.includes(HEADER_ACCEPT_INDEX)) {
         req.url = '/index.html'
     }
 
@@ -17,7 +20,7 @@ function rewriteSPAUrl(req: any, _: any, next: any) {
 }
 
 
-async function createHTTPServer(params: any) {
+async function createHTTPServer(params: ServerBootParams) {
     const { devMiddlewares, appServer, CONFIG } = params
     const {
         publicDir,
@@ -25,24 +28,28 @@ async function createHTTPServer(params: any) {
     } = CONFIG
 
 
-    let staticServer: any = express()
+    let staticServer: Express | https.Server = express()
 
     appServer && await appServer({ staticServer, express }, CONFIG)
 
     staticServer.disable('x-powered-by')
         .use(rewriteSPAUrl)
 
-    devMiddlewares.length
-        ?   devMiddlewares.forEach((m: any) => { staticServer.use(m) })
 
-        :   staticServer.use((req: any, res: any) => {
+    devMiddlewares.length
+        ?   devMiddlewares.forEach(m => {
+                (staticServer as Express).use(m)
+            })
+
+        :   staticServer.use((req, res) => {
+                const { url, headers } = req
                 const {
                     pathToFile, encoding, contentType, cacheControl
                 } = getStaticServingData({
                     publicDir, serveCompressionsPriority,
-                    reqUrl: req.url,
-                    acceptEncoding: req.headers['accept-encoding'],
-                    cacheControl: req.headers['cache-control']
+                    reqUrl: url,
+                    acceptEncoding: headers['accept-encoding']?.toString(),
+                    cacheControl: headers['cache-control']
                 })
 
 

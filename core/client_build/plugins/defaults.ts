@@ -1,8 +1,14 @@
-import { dirname, join, relative } from 'path'
+import path from 'path'
 
-import {
-    pluginInstancesKeyMap, pluginsKeysMap, COMMONS, DEPENDENCIES
-} from '../constants.js'
+import isExists from '../../../common/is/exists/index.js'
+import { COMMONS, DEPENDENCIES } from '../constants.js'
+
+import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
+import type { ConfigFinal, RunParamsFinal } from '../../types'
+import type { FilenamesProd } from '../types'
+import type {
+    CompressionInstanceCommonOptions, ResolvePluginDefaultOptions, DefaultPlugins
+} from './types'
 
 
 const {
@@ -16,7 +22,7 @@ const {
 const { ESLintExtensions } = COMMONS
 
 
-function resolvePluginDefaultOptions(defaultOptions: any, userOptions: any) {
+const resolvePluginDefaultOptions: ResolvePluginDefaultOptions = (defaultOptions, userOptions) => {
     const typeofUserOptions = typeof userOptions
 
     return typeofUserOptions == 'object'
@@ -27,7 +33,7 @@ function resolvePluginDefaultOptions(defaultOptions: any, userOptions: any) {
 }
 
 
-function getDefaultPluginsConfig(CONFIG: any, RUN_PARAMS: any) {
+function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
     const {
         eslint: eslintOptions,
         output: {
@@ -39,103 +45,108 @@ function getDefaultPluginsConfig(CONFIG: any, RUN_PARAMS: any) {
 
 
 
-    const compressionInstanceCommonOptions = {
+    const compressionInstanceCommonOptions: CompressionInstanceCommonOptions = {
         test: /\.*$/,
         threshold: 10240,
         deleteOriginalAssets: false
     }
 
-    const defaults = {
-        [ pluginsKeysMap.compression ]: {
+    const defaults: DefaultPlugins = {
+        compression: {
             plugin: compressionPlugin,
             enabled: isProd,
             instances: {
-                [ pluginInstancesKeyMap.compression_br ]: {
+                br: {
                     options: Object.assign({}, compressionInstanceCommonOptions, {
-                        filename: outputFilenames.brotli,
+                        filename: (outputFilenames as FilenamesProd).brotli!,
                         algorithm: 'brotliCompress',
                         compressionOptions: {
                             level: 11
                         }
                     })
                 },
-                [ pluginInstancesKeyMap.compression_gzip ]: {
+                gzip: {
                     options: Object.assign({}, compressionInstanceCommonOptions, {
-                        filename: outputFilenames.gzip
+                        filename: (outputFilenames as FilenamesProd).gzip!
                     })
                 }
             }
         },
 
-        [ pluginsKeysMap.copy ]: {
+        copy: {
             plugin: fileCopyPlugin,
             enabled: !!input.copyFiles,
             options: {
-                patterns: typeof input.copyFiles == 'string'
-                    ?   [{
-                            from: input.copyFiles,
-                            to: join(
-                                CONFIG.publicDir,
-                                relative(
-                                    dirname(input.html),
-                                    input.copyFiles
-                                )
-                            )
-                        }]
-                    :   input.copyFiles
+                patterns:
+                    typeof input.copyFiles == 'string'
+                    && (isExists((input.html as HTMLWebpackPluginOptions).template) || typeof input.html == 'string')
+                        ?   [{
+                                from: input.copyFiles,
+                                to: path.join(
+                                        CONFIG.publicDir,
+                                        path.relative(
+                                            path.dirname(
+                                                typeof input.html == 'string'
+                                                    ?   input.html
+                                                    :   (input.html as HTMLWebpackPluginOptions).template!
+                                            ),
+                                            input.copyFiles
+                                        )
+                                    )
+                            }]
+                        :   input.copyFiles!
             }
         },
 
-        [ pluginsKeysMap.sw ]: {
+        sw: {
             plugin: serviceWorkerPlugin,
             enabled: !!input.sw,
-            options: input.sw
+            options: input.sw!
         },
 
-        [ pluginsKeysMap.cssExtract ]: {
+        cssExtract: {
             plugin: miniCssExtract,
             enabled: isProd || !isServer,
             options: {
                 experimentalUseImportModule: true,
-                filename: outputFilenames.styles,
-                chunkFilename: outputFilenames.styles_chunk
+                filename: outputFilenames.styles!,
+                chunkFilename: outputFilenames.styles_chunk!
             }
         },
 
-        [ pluginsKeysMap.cssOptimize ]: {
+        cssOptimize: {
             plugin: optimizeCSS,
             enabled: isProd
         },
 
-        [ pluginsKeysMap.html ]: {
+        html: {
             plugin: HTMLPlugin,
             enabled: !!input.html,
             options: resolvePluginDefaultOptions({
                 // scriptLoading: 'defer',
-                template: input.html,
+                template: input.html as NonNullable<HTMLWebpackPluginOptions['template']>,
                 minify: {
                     collapseWhitespace: true
                 }
             }, input.html)
         },
 
-        [ pluginsKeysMap.hot ]: {
+        hot: {
             plugin: webpack.HotModuleReplacementPlugin,
             enabled: !isProd
         },
 
-        [ pluginsKeysMap.reactRefresh ]: {
+        reactRefresh: {
             plugin: reactRefresh,
             enabled: !isProd
         },
 
-        [ pluginsKeysMap.eslint ]: {
+        eslint: {
             plugin: eslint,
             enabled: eslintOptions,
             options: resolvePluginDefaultOptions({
                 extensions: ESLintExtensions,
                 emitWarning: true
-                // ,fix: true
             }, eslintOptions)
         }
     }

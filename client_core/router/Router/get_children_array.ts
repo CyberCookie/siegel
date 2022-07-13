@@ -1,6 +1,7 @@
 import isExists from 'siegel-utils/is/exists'
 import getFinalURL from '../get_final_url'
 import parseBasename from '../history/parse_basename'
+
 import type { URLparams, RoutesConfig } from '../types'
 import type {
     ChildrenArrayEl, ParsePathname,

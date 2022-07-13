@@ -1,6 +1,6 @@
 import { join } from 'path'
 
-import { nodeUtils } from '../../core'
+import { nodeUtils, Config } from '../../core'
 
 
 const { requireJSON, cjs__dirname } = nodeUtils
@@ -10,7 +10,7 @@ const rootPath = join(__dirname, '..')
 const APP = `${rootPath}/client`
 
 
-const siegelConfig = {
+const siegelConfig: Config = {
     server: {
         appServerLoc: join(rootPath, 'server', 'app_server.js')
     },

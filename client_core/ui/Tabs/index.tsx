@@ -6,6 +6,7 @@ import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
+
 import type { MergedProps, Component, Props, Tab } from './types'
 
 

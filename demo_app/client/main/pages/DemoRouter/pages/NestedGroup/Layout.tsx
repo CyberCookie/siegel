@@ -1,9 +1,10 @@
 import React from 'react'
-import type { Layout as LayoutType } from 'siegel-router/types'
 import NavLink from 'siegel-router/Link'
 
 import { pagePathMap } from 'app/Router'
 import { linkTheme } from 'app/components'
+
+import type { Layout as LayoutType } from 'siegel-router/types'
 
 import uplevelLayoutStyles from '../../styles.sass'
 import styles from './styles.sass'

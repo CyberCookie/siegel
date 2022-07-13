@@ -1,6 +1,12 @@
-function parseCommandLineArgs(args: any) {
-    const CLIParamsValues: any = {}
-    function addValueToCLIParams(key: any, value: any) {
+type CLIParamsValuesType = Indexable<{
+    resolved: boolean
+    value: boolean | string
+}>
+
+
+function parseCommandLineArgs(args: string[]) {
+    const CLIParamsValues: CLIParamsValuesType = {}
+    function addValueToCLIParams(key: string, value: CLIParamsValuesType[string]['value']) {
         if (CLIParamsValues[key]) {
             CLIParamsValues[key].value = value
 
@@ -33,7 +39,7 @@ function parseCommandLineArgs(args: any) {
 
         } else if (arg.length > 2) {
             arg.split('')
-                .forEach((flag: any, index: any) => (
+                .forEach((flag, index) => (
                     index && addValueToCLIParams(`-${flag}`, true)
                 ))
 
@@ -49,3 +55,4 @@ function parseCommandLineArgs(args: any) {
 
 
 export default parseCommandLineArgs
+export type { CLIParamsValuesType }

@@ -2,6 +2,7 @@ import { useRef } from 'react'
 
 import applyRefApi from '../../_internals/ref_apply'
 import mergeTagAttributes from '../../_internals/merge_tag_attributes'
+
 import type { MergedProps } from '../types'
 
 

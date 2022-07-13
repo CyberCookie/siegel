@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import fetchModule from 'siegel-store/fetch_module'
-import type { Page } from 'siegel-router/types'
 
 import { Button, Input } from 'app/components'
 import { demoApiModule } from 'app/modules'
+
+import type { Page } from 'siegel-router/types'
 
 import styles from './styles.sass'
 

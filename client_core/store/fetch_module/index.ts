@@ -1,4 +1,5 @@
 import createStore from '../index'
+
 import type { State, Actions, StoreInitialized } from './types'
 
 

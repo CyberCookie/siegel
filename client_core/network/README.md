@@ -200,7 +200,7 @@ socket.send('messageType', payload)
             Ping message payload of any type<br />
 
 - `parseIncommingMsg` - **(e: MessageEvent) => any**<br />
-    Socket incomming message parse function where you can apply your custom algorithm<br />
+    Socket incoming message parse function where you can apply your custom algorithm<br />
     Default message parser is **JSON.parse()**<br />
     Parsed message must contain **messageTypeKey** and **payloadKey** fields to maket it<br />
     possible to trigger message subscribe handlers<br /> 

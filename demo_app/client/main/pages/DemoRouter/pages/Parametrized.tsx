@@ -1,4 +1,5 @@
 import React from 'react'
+
 import type { Page as PageType } from 'siegel-router/types'
 
 

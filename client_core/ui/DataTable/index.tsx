@@ -14,6 +14,7 @@ import {
     getBody, getHead, getPaginationFooter, applyVirtualization,
     GetPaginationFnProps
 } from './helpers'
+
 import type { ComponentAttributes } from '../_internals/types'
 import type {
     Component, DataTableTableProps, State, Props,

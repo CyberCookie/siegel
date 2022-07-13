@@ -1,17 +1,6 @@
-type Entities<Entity extends Indexable = Indexable> = {
-    clear(): Entities<Entity>
-    addOrUpdate(entity: Entity): Entities<Entity>
-    addAll(entities: Entity[], postProcessEach?: (entity: Entity) => void): Entities<Entity>
-    remove(entityID: string): Entities<Entity>
-    sort(cb: (entity_a: Entity, entity_b: Entity) => number): Entities<Entity>
-    each(cb: (entity: Entity, index: number) => boolean | void): Entities<Entity>
-    get(id: string): Entity
-    len(): number
-    raw(): ({
-        byID: Indexable<Entity>,
-        sorted: string[]
-    })
-}
+import rangeEach from '../array_range_each'
+
+import type { Entities } from './types'
 
 
 function entities<E extends Indexable>(uniq: keyof E = 'id') {
@@ -65,9 +54,7 @@ function entities<E extends Indexable>(uniq: keyof E = 'id') {
         },
 
         each(cb, from = 0, to = sorted.length) {
-            for (let i = from; i < to; i++) {
-                if (cb(byID[sorted[i]], i)) break
-            }
+            rangeEach(sorted, from, to, (id, index) => cb(byID[id], index))
 
             return entityStruct
         },

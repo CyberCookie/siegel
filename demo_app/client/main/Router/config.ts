@@ -1,9 +1,10 @@
 import { lazy } from 'react'
 import seo from 'siegel-ui-utils/seo'
-import type { RoutesConfig } from 'siegel-router/types'
-import type { BreadcrumbConfig } from 'siegel-ui/Breadcrumbs'
 
 import demoRouterTransitionStyles from 'app/pages/DemoRouter/pages_transition.sass'
+
+import type { RoutesConfig } from 'siegel-router/types'
+import type { BreadcrumbConfig } from 'siegel-ui/Breadcrumbs'
 
 
 const pagePathMap = {

@@ -1,5 +1,5 @@
 import type { MergedProps } from '../../../types'
-import { ChildProps } from './types'
+import type { ChildProps } from './types'
 
 
 type AllDaysData = {

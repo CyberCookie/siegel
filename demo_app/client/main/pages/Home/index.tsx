@@ -1,8 +1,9 @@
 import React from 'react'
 import Link from 'siegel-ui/Link'
-import type { Page } from 'siegel-router/types'
 
 import { GIT_PATHS } from 'app/_constants'
+
+import type { Page } from 'siegel-router/types'
 
 import styles from './styles.sass'
 

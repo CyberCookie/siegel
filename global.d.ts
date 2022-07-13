@@ -3,6 +3,36 @@ declare module '*.jpg'
 declare module '*.sass'
 
 
+type DeepMerge<O1 extends Required<object>, O2 extends object> =
+    {
+        [K in keyof O1 & keyof O2]: O2[K] extends object
+            ?   O1[K] extends object
+                ?   DeepMerge<O1[K], O2[K]>
+                :   O2[K]
+            :   Extract<O2[K], undefined> extends never
+                ?   O2[K]
+                :   Extract<O1[K], undefined> extends never
+                    ?   O1[K]
+                    :   O2[K]
+    }
+    &
+    { [K in keyof Omit<O1, keyof O2>]: O1[K] }
+    &
+    { [K in keyof Omit<O2, keyof O1>]: O2[K] }
+
+
+type DeepExclude<O1 extends object, O2 extends object> =
+    {
+        [K in keyof O1 & keyof O2]?: O2[K] extends object
+            ?   O1[K] extends object
+                ?   DeepExclude<O1[K], O2[K]>
+                :   O2[K]
+            :   O2[K]
+    }
+    &
+    { [K in keyof Omit<O2, keyof O1>]: O2[K] }
+
+
 type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<T>
 
 type NonNullableKeys<T extends Indexable> = {

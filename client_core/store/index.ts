@@ -1,6 +1,7 @@
 import { useState, useLayoutEffect } from 'react'
 
 import deepClone from 'siegel-utils/deep/clone'
+
 import type {
     SetState, HookSetState,
     HookStore, InnerStore, StateWithUpdater,

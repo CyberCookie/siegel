@@ -1,9 +1,11 @@
-import httpServer from './http.js'
-import http2Server from './http2.js'
+import httpServer from './http'
+import http2Server from './http2'
+
+import type { ServerBootParams } from './types'
 
 
 const server = {
-    run: async (params: any) => {
+    async run(params: ServerBootParams) {
         const { http2, host, port } = params.CONFIG.server
 
         const server = http2
@@ -11,10 +13,13 @@ const server = {
             :   await httpServer(params)
 
 
-        return server.listen(port, host, (err: any) => {
-            err
-                ?   console.error(err)
-                :   console.info('Starting server on %s:%s.', host, port)
+        server.on('error', err => {
+            console.error(err)
+        })
+
+
+        return server.listen(port, host, () => {
+            console.info('Starting server on %s:%s.', host, port)
         })
     }
 }

@@ -7,6 +7,7 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import { getOptionWithKeyboard, getOptions } from './helpers'
+
 import type { ComponentAttributes } from '../_internals/types'
 import type { Component, Props, Store, OnSelect, RootRef } from './types'
 

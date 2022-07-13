@@ -1,5 +1,4 @@
 import type { Entities } from 'siegel-utils/entities_struct'
-
 import type { DataTableProps } from 'app/components'
 
 

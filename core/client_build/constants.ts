@@ -35,12 +35,12 @@ const DEPENDENCIES = {
         postCssAutoprefix:      resolve('autoprefixer'),
         postCssSVG2Font:        resolve('./modules/postcss_svg2icon_plugin/index.cjs')
     }
-}
+} as const
 
 
 const COMMONS = {
     ESLintExtensions: [ '.js', '.jsx', '.ts', '.tsx' ]
-}
+} as const
 
 const loadersKeyMap = {
     esbuild: 'esbuildLoader',
@@ -50,34 +50,16 @@ const loadersKeyMap = {
     postCssLoader: 'postCssLoader',
     sassLoader: 'sassLoader',
     sassResources: 'sassResources'
-}
+} as const
 
 const webpackModulesRegExp = {
     scripts: '\\.[tj]sx?$',
     styles: '\\.(c|sc|sa)ss$',
     files: '\\.(avif|webp|jpg|png|svg|woff2)?$'
-}
-
-const pluginsKeysMap = {
-    compression: 'compression',
-    copy: 'copy',
-    cssExtract: 'cssExtract',
-    sw: 'sw',
-    cssOptimize: 'cssOptimize',
-    hot: 'hot',
-    html: 'html',
-    reactRefresh: 'reactRefresh',
-    clean: 'clean',
-    eslint: 'eslint'
-}
-
-const pluginInstancesKeyMap = {
-    compression_br: 'br',
-    compression_gzip: 'gzip'
-}
+} as const
 
 
 export {
-    loadersKeyMap, pluginsKeysMap, pluginInstancesKeyMap, webpackModulesRegExp,
+    loadersKeyMap, webpackModulesRegExp,
     DEPENDENCIES, COMMONS
 }

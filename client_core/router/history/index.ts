@@ -2,6 +2,7 @@ import isExists from 'siegel-utils/is/exists'
 import getFinalURL from '../get_final_url'
 import { BASENAME_UPDATE_EVENT_TYPE } from '../Link'
 import parseBasename from './parse_basename'
+
 import type { RouterProps } from '../types'
 import type { ParsePathname } from '../Router/types'
 

@@ -1,25 +1,29 @@
 import http from 'http'
 import https from 'https'
-import querystring from 'querystring'
+import querystring, { ParsedUrlQueryInput } from 'querystring'
 
-// import populateURLParams from 'siegel-utils/populate_url_params'
-import populateURLParams from '../../common/populate_url_params'
+import populateURLParams from '../../../common/populate_url_params'
+
+import type { RequestHandler } from 'express'
+import type { Proxy } from './types'
 
 
-const proxy = (proxyParams: any) => {
-    const { host, port, changeOrigin, postProcessReq, secure } = proxyParams
+const proxy: Proxy = proxyParams => {
+    const {
+        host, port, changeOrigin, postProcessReq, secure
+    } = proxyParams
 
     const client = secure ? https : http
 
 
-    return (clientReq: any, clientRes: any) => {
+    const proxyRequest: RequestHandler = (clientReq, clientRes) => {
         const { path, method, headers, query, params, body } = clientReq
 
 
         const proxyQuery = proxyParams.query || query
         const proxyPath = proxyParams.path || path
         let finalPath = Object.keys(proxyQuery).length
-            ?   `${proxyPath}?${querystring.stringify(proxyQuery)}`
+            ?   `${proxyPath}?${querystring.stringify(proxyQuery as ParsedUrlQueryInput)}`
             :   proxyPath
 
         params && (finalPath = populateURLParams(finalPath, params))
@@ -28,7 +32,7 @@ const proxy = (proxyParams: any) => {
         const proxyHeaders = proxyParams.headers
         if (proxyHeaders) {
             proxyHeaders instanceof Function
-                ?   proxyParams.headers(headers)
+                ?   proxyHeaders(headers)
                 :   Object.assign(headers, proxyHeaders)
         }
         if (changeOrigin) {
@@ -53,8 +57,8 @@ const proxy = (proxyParams: any) => {
                 proxyRes.resume()
             }
 
-            clientRes.writeHead(statusCode, headers)
-            proxyRes.pipe(clientRes, { end: true })
+            clientRes.writeHead(statusCode!, headers)
+            proxyRes.pipe(clientRes)
         })
         body && proxyReq.write(
             body.constructor == Object
@@ -65,8 +69,11 @@ const proxy = (proxyParams: any) => {
         proxyReq.on('error', console.error)
 
 
-        clientReq.pipe(proxyReq, { end: true })
+        clientReq.pipe(proxyReq)
     }
+
+
+    return proxyRequest
 }
 
 

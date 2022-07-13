@@ -1,4 +1,4 @@
-const isRunDirectly = ({ url }: any) => (
+const isRunDirectly = ({ url }: ImportMeta) => (
     url.replace('file://', '') == process.argv[1]
 )
 

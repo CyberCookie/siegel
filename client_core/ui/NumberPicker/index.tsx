@@ -15,6 +15,7 @@ import {
     buildInputRegexp, normalizeInputValue, stringToNumberValue, getValuePrecision,
     getStepButtons
 } from './helpers'
+
 import type { Component, OnNumberPickerChange, Props } from './types'
 
 import styles from './styles.sass'

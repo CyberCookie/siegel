@@ -5,6 +5,7 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 import { getMonths, getFirstMonthDate } from './helpers'
+
 import type { Component, Props } from './types'
 
 import styles from './styles.sass'

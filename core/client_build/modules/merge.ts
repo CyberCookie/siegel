@@ -29,40 +29,41 @@ function mergeLoaders(userLoader: any, defaultLoader: any) {
 }
 
 
+function addRule(rules: any[], ruleParams: any) {
+    const {
+        regExpPart, ruleOptions,
+        loadersOrder = [],
+        loaders = {},
+        defaultLoaders = {}
+    } = ruleParams
+
+    const use: any = []
+    loadersOrder.forEach((loaderKey: any) => {
+        const userLoader = loaders[loaderKey]
+        if (userLoader !== false) {
+            const mergedLoaders = mergeLoaders(userLoader, defaultLoaders[loaderKey])
+            mergedLoaders && use.push(mergedLoaders)
+        }
+    })
+
+
+    rules.push({
+        test: new RegExp(regExpPart),
+        use,
+        ...ruleOptions
+    })
+}
+
 function merge(defaultModules: any, userModules: any = {}) {
     const rules: any = []
 
 
-    function addRule(ruleParams: any) {
-        const {
-            regExpPart, ruleOptions,
-            loadersOrder = [],
-            loaders = {},
-            defaultLoaders = {}
-        } = ruleParams
-
-        const use: any = []
-        loadersOrder.forEach((loaderKey: any) => {
-            const userLoader = loaders[loaderKey]
-            if (userLoader !== false) {
-                const mergedLoaders = mergeLoaders(userLoader, defaultLoaders[loaderKey])
-                mergedLoaders && use.push(mergedLoaders)
-            }
-        })
-
-
-        rules.push({
-            test: new RegExp(regExpPart),
-            use,
-            ...ruleOptions
-        })
-    }
-
     function addWithoutMerge(modules: any, regExpPart: any) {
         const { ruleOptions, enabled = true, loaders, loadersOrder } = modules[regExpPart]
-        enabled && addRule({
-            regExpPart, loaders, loadersOrder, ruleOptions
-        })
+        enabled && addRule(
+            rules,
+            { regExpPart, loaders, loadersOrder, ruleOptions }
+        )
     }
 
 
@@ -79,20 +80,23 @@ function merge(defaultModules: any, userModules: any = {}) {
                 } = defaultModules[regExpPart]
 
 
-                addRule({
-                    loaders, defaultLoaders,
-                    regExpPart: rewriteRegExp || regExpPart,
+                addRule(
+                    rules,
+                    {
+                        loaders, defaultLoaders,
+                        regExpPart: rewriteRegExp || regExpPart,
 
-                    loadersOrder: loadersOrder
-                        ?   typeof loadersOrder == 'function'
-                            ?   loadersOrder(defaultLoadersOrder)
-                            :   loadersOrder
-                        :   defaultLoadersOrder,
+                        loadersOrder: loadersOrder
+                            ?   typeof loadersOrder == 'function'
+                                ?   loadersOrder(defaultLoadersOrder)
+                                :   loadersOrder
+                            :   defaultLoadersOrder,
 
-                    ruleOptions: typeof ruleOptions == 'function'
-                        ?   ruleOptions(defaultRuleOptions)
-                        :   Object.assign({}, defaultRuleOptions, ruleOptions)
-                })
+                        ruleOptions: typeof ruleOptions == 'function'
+                            ?   ruleOptions(defaultRuleOptions)
+                            :   Object.assign({}, defaultRuleOptions, ruleOptions)
+                    }
+                )
             }
         } else addWithoutMerge(defaultModules, regExpPart)
     }

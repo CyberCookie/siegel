@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 //TODO?: console output: checkboxes, progress, timings
-'use strict'
 
 import path from 'path'
 
@@ -11,10 +10,17 @@ import siegel, { nodeUtils, utils } from '../core'
 import initProject from './init_project.js'
 import createSSLCerts from './create_SSL.js'
 
+import type { ServerConfig } from '../core/server/types'
+import type { BuildConfig } from '../core/client_build/types'
+import type {
+    FullCommand, CommanTree,
+    PrintHelpFlagsMap, CommandExampleFn
+} from './types'
+
 
 const { globalNodeModulesPath, requireJSON, parseCommandLineArgs } = nodeUtils
 
-const getColored = (color: any, str: string) => `\x1b[${color}m${str}\x1b[0m`
+const getColored = (color: number, str: string) => `\x1b[${color}m${str}\x1b[0m`
 const getColoredCommandStr = getColored.bind(null, 36)
 const getColoredCommandArgumentStr = getColored.bind(null, 32)
 const getColoredHighlightText = getColored.bind(null, 33)
@@ -23,19 +29,19 @@ const resolvePath = (_path: string) => path.isAbsolute(_path) ? _path : `${PATHS
 
 
 
-const COMMANDS_TREE: any = {
+const COMMANDS_TREE: CommanTree = {
     run: {
         description: 'Builds client and runs dev server with client watch mode enabled.',
-        example: (command: any, { client, server, port }: any) => (
-            `siegel ${command} ${client.flagLong} app.ts ${server.flagLong} server.js ${port.flagLong} 4000`
+        example: (command, { client, server, port }) => (
+            `siegel ${command} ${client.flagLong} app.ts ${server.flagLong} server.ts ${port.flagLong} 4000`
         ),
         prepareResult: () => ({
             config: DEFAULT_CONFIG,
             runParams: DEFAULT_RUN_PARAMS
         }),
-        commandAction({ result, CLIParamsValues }: any) {
-            const { config, runParams } = result
-            siegel(config, runParams, !CLIParamsValues['--config'])
+        commandAction({ result }) {
+            const { config, runParams, providedConfigNormalized } = result!
+            siegel(providedConfigNormalized || config, runParams, false)
         },
         params: [
             {
@@ -43,8 +49,8 @@ const COMMANDS_TREE: any = {
                 flag: '-p',
                 description: 'Production mode.',
                 defaultValue: DEFAULT_RUN_PARAMS.isProd,
-                paramAction({ value, result }: any) {
-                    result.runParams.isProd = value
+                paramAction({ result }) {
+                    result.runParams.isProd = true
                 }
             },
             {
@@ -52,7 +58,7 @@ const COMMANDS_TREE: any = {
                 flag: '-b',
                 description: 'Builds client with no static server enabled.',
                 defaultValue: false,
-                paramAction({ result }: any) {
+                paramAction({ result }) {
                     result.runParams.isServer = false
                 }
             },
@@ -61,21 +67,21 @@ const COMMANDS_TREE: any = {
                 flag: '-s',
                 description: 'Build client and run dev server with client watch mode enabled.',
                 defaultValue: false,
-                paramAction({ result }: any) {
+                paramAction({ result }) {
                     result.runParams.isBuild = false
                 }
             },
             {
                 flagLong: '--config',
                 description: 'Path to siegel config.',
-                async paramAction({ value, result }: any) {
-                    const resolvedPath = resolvePath(value)
+                async paramAction({ value, result }) {
+                    const resolvedPath = resolvePath(value as string)
 
-                    const config = value.endsWith('.json')
+                    const config = (value as string).endsWith('.json')
                         ?   requireJSON(resolvedPath)
                         :   (await import(resolvedPath)).default
 
-                    result.config = normalizeConfig(config, result.runParams)
+                    result.providedConfigNormalized = normalizeConfig(config, result.runParams).CONFIG
                 }
             },
             {
@@ -83,8 +89,8 @@ const COMMANDS_TREE: any = {
                 flag: '-l',
                 description: 'Enables lintng with ESLint.',
                 defaultValue: DEFAULT_CONFIG.build.eslint,
-                paramAction({ value, result }: any) {
-                    result.config.build.eslint = value
+                paramAction({ result }) {
+                    result.config.build.eslint = true
                 }
             },
             {
@@ -92,9 +98,9 @@ const COMMANDS_TREE: any = {
                 flag: '-g',
                 description: 'Enable resolve global node modules imports.',
                 defaultValue: false,
-                paramAction({ result }: any) {
-                    result.config.build.postProcessWebpackConfig = (webpackConfig: any) => {
-                        webpackConfig.resolve.modules.push(
+                paramAction({ result }) {
+                    (result.config.build as BuildConfig).postProcessWebpackConfig = webpackConfig => {
+                        webpackConfig.resolve!.modules!.push(
                             globalNodeModulesPath()
                         )
 
@@ -104,35 +110,33 @@ const COMMANDS_TREE: any = {
             },
             {
                 flagLong: '--client',
-                description: 'Path to client app entrypoint. [ js, ts, jsx, tsx ]',
+                description: 'Path to client app entrypoint.',
                 defaultValue: DEFAULT_CONFIG.build.input.js,
-                paramAction({ value, result }: any) {
-                    result.config.build.input = {
-                        js: resolvePath(value)
-                    }
+                paramAction({ value, result }) {
+                    result.config.build.input.js = resolvePath(value as string)
                 }
             },
             {
                 flagLong: '--server',
-                description: 'Path to server app entrypoint. [ js ]',
-                paramAction({ value, result }: any) {
-                    result.config.server.appServerLoc = resolvePath(value)
+                description: 'Path to server app entrypoint.',
+                paramAction({ value, result }) {
+                    (result.config.server as ServerConfig).appServerLoc = resolvePath(value as string)
                 }
             },
             {
                 flagLong: '--port',
                 description: 'Dev server port.',
                 defaultValue: DEFAULT_CONFIG.server.port,
-                paramAction({ value, result }: any) {
-                    result.config.server.port = value
+                paramAction({ value, result }) {
+                    result.config.server.port = +value
                 }
             },
             {
                 flagLong: '--host',
                 description: 'Dev server host.',
                 defaultValue: DEFAULT_CONFIG.server.host,
-                paramAction({ value, result }: any) {
-                    result.config.server.host = value
+                paramAction({ value, result }) {
+                    result.config.server.host = value as string
                 }
             }
         ]
@@ -142,16 +146,22 @@ const COMMANDS_TREE: any = {
     init: {
         description:    `Creates production ready project with predefined folder structure including already configured siegel.
                         \r\tModifies existing ${LOC_NAMES.PACKAGE_JSON} or creates new one.
-                        \r\tMore about demo project read here: ${getColoredHighlightText(`ttps://github.com/CyberCookie/siegel/tree/master/${LOC_NAMES.DEMO_APP_DIR_NAME}`)}`,
+                        \r\tMore about demo project read here: ${getColoredHighlightText(`https://github.com/CyberCookie/siegel/tree/master/${LOC_NAMES.DEMO_APP_DIR_NAME}`)}`,
         example: true,
-        commandAction({ CLIParamsValues }: any) {
-            initProject(CLIParamsValues.globalSiegel)
+        commandAction({ result }) {
+            initProject(result!.isGlobal)
         },
+        prepareResult: () => ({
+            isGlobal: false
+        }),
         params: [{
             flagLong: '--global',
             flag: '-g',
             defaultValue: false,
-            description: 'Updates Siegel related paths to global.'
+            description: 'Updates Siegel related paths to global.',
+            paramAction({ result }) {
+                result.isGlobal = true
+            }
         }]
     },
 
@@ -179,20 +189,21 @@ const COMMANDS_TREE: any = {
 
 const CLI_ARGS = process.argv.slice(2)
 
-const COMMAND: any = CLI_ARGS.shift()
-const commandConfig = COMMANDS_TREE[COMMAND]
+const COMMAND = CLI_ARGS.shift()!
+const commandConfig = COMMANDS_TREE[COMMAND as keyof typeof COMMANDS_TREE]
 if (commandConfig) {
-    const { params, commandAction, prepareResult } = commandConfig
+    const { params, commandAction, prepareResult } = commandConfig as unknown as FullCommand
     const result = prepareResult?.()
 
     const parseResult = parseCommandLineArgs(CLI_ARGS)
     const { CLIParamsValues } = parseResult
 
     let { unresolvedParamsCount } = parseResult
-    params && params.forEach((param: any) => {
+    params && params.forEach(param => {
         const { flag, flagLong, paramAction } = param
+
         if (paramAction) {
-            const paramValueData = CLIParamsValues[flagLong] || CLIParamsValues[flag]
+            const paramValueData = CLIParamsValues[flagLong!] || CLIParamsValues[flag!]
             if (paramValueData) {
                 paramValueData.resolved = true
                 unresolvedParamsCount--
@@ -221,16 +232,17 @@ if (commandConfig) {
 
 
     commandAction({ CLIParamsValues, result })
+
 } else {
     COMMAND && console.log(`Command ${getColoredCommandStr(COMMAND)} doesn't exist.\n`)
 
     for (const commandConfigKey in COMMANDS_TREE) {
-        const { description, example, params } = COMMANDS_TREE[commandConfigKey]
+        const { description, example, params } = COMMANDS_TREE[commandConfigKey as keyof CommanTree] as unknown as FullCommand
 
         console.log(`\n  ${getColoredCommandStr(commandConfigKey)} - ${description}`)
 
-        const flagsMap: any = {}
-        params && params.forEach((paramConfg: any) => {
+        const flagsMap: PrintHelpFlagsMap = {}
+        params && params.forEach(paramConfg => {
             const { description, defaultValue, flag, flagLong } = paramConfg
 
             let logString = '\n\t'
@@ -253,12 +265,12 @@ if (commandConfig) {
         if (example) {
             const exampleType = typeof example
             const logString = exampleType == 'function'
-                ?   example(commandConfigKey, flagsMap)
+                ?   (example as CommandExampleFn)(commandConfigKey, flagsMap)
                 :   exampleType == 'string'
                     ?   example
                     :   `siegel ${commandConfigKey}`
 
-            console.log(`\n\tExample: ${getColoredHighlightText(logString)}\n`)
+            console.log(`\n\tExample: ${getColoredHighlightText(logString as string)}\n`)
         }
     }
     console.log('\n')

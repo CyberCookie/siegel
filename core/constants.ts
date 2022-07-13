@@ -2,6 +2,8 @@ import { join } from 'path'
 
 import cjs__dirname from './utils/cjs__dirname.js'
 
+import type { RunParamsFinal, ConfigDefault } from './types'
+
 
 const { INIT_CWD, PWD } = process.env
 if (INIT_CWD && INIT_CWD != PWD) {
@@ -16,13 +18,14 @@ const LOC_NAMES = {
     NODE_MODULES: 'node_modules',
 
     ESLINT_JSON: '.eslintrc',
+    TS_ESLINT_JSON: 'tsconfig.eslint.json',
     TS_JSON: 'tsconfig.json',
     TS_GLOBAL_TYPES: 'global.d.ts',
-    TS_ESLINT_JSON: 'tsconfig.eslint.json',
 
     CLIENT_CORE_DIR_NAME: 'client_core',
     SRC_DIR_NAME: 'core',
     UTILS_DIR_NAME: 'common',
+    BIN_DIR_NAME: 'bin',
     LIB_OUTPUT_DIRNAME: 'lib',
 
     DEMO_APP_DIR_NAME: 'demo_app',
@@ -54,6 +57,7 @@ const PATHS = {
     clientCoreOutput:   join(libOutput, LOC_NAMES.CLIENT_CORE_DIR_NAME),
     src:                join(packageRoot, LOC_NAMES.SRC_DIR_NAME),
     srcOutput:          join(libOutput, LOC_NAMES.SRC_DIR_NAME),
+    binOutput:          join(libOutput, LOC_NAMES.BIN_DIR_NAME),
 
     demoProject:        join(packageRoot, LOC_NAMES.DEMO_APP_DIR_NAME),
     demoProjectOutput:  join(cwd, LOC_NAMES.DEMO_APP_OUTPUT_DIR_NAME)
@@ -65,7 +69,7 @@ const PATHS = {
 const _isSelfDevelopment = cwd == packageRoot
 
 
-const DEFAULT_CONFIG = {
+const DEFAULT_CONFIG: ConfigDefault = {
     publicDir: PATHS.demoProjectOutput,
 
     server: {
@@ -114,11 +118,13 @@ const DEFAULT_CONFIG = {
 } as const
 
 
-const DEFAULT_RUN_PARAMS = {
+
+const DEFAULT_RUN_PARAMS: RunParamsFinal = {
     isServer: true,
     isBuild: true,
     isProd: false,
 
+    _isDevServer: true,
     _isSelfDevelopment
 } as const
 

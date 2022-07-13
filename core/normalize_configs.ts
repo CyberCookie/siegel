@@ -4,11 +4,14 @@ import fs from 'fs'
 import { utils } from './'
 import { DEFAULT_RUN_PARAMS, DEFAULT_CONFIG } from './constants.js'
 
+import type { BuildConfigsMerged } from './client_build/types'
+import type { Config, ConfigFinal, RunParams, RunParamsFinal } from './types'
 
-function mergeConfigWithDefaults(CONFIG: any, DEFAULT_CONFIG: any) {
+
+function mergeConfigWithDefaults(CONFIG: Indexable, DEFAULT_CONFIG: Indexable) {
     for (const key in DEFAULT_CONFIG) {
-        const defaultValue = DEFAULT_CONFIG[key]
-        const configValue = CONFIG[key]
+        const defaultValue = DEFAULT_CONFIG[key as keyof Config]
+        const configValue = CONFIG[key as keyof Config]
 
         if (!utils.is.isExists(configValue)) {
             CONFIG[key] = defaultValue
@@ -22,12 +25,12 @@ function mergeConfigWithDefaults(CONFIG: any, DEFAULT_CONFIG: any) {
     }
 }
 
-function normalizeConfig(CONFIG: any = {}, RUN_PARAMS: any = {}) {
+function normalizeConfig(CONFIG: Config = {}, RUN_PARAMS: RunParams = {}) {
     if (RUN_PARAMS) mergeConfigWithDefaults(RUN_PARAMS, DEFAULT_RUN_PARAMS)
     else RUN_PARAMS = DEFAULT_RUN_PARAMS
 
-    const { isProd, isServer, isBuild } = RUN_PARAMS
-    RUN_PARAMS._isDevServer = !isProd && isServer
+    const { isProd, isServer, isBuild } = RUN_PARAMS as RunParamsFinal
+    ;(RUN_PARAMS as RunParamsFinal)._isDevServer = !isProd && isServer
 
 
 
@@ -38,12 +41,12 @@ function normalizeConfig(CONFIG: any = {}, RUN_PARAMS: any = {}) {
     }
 
     mergeConfigWithDefaults(CONFIG, DEFAULT_CONFIG)
+
     if (isBuild) {
-        const { input, output } = CONFIG.build
+        const { input, output } = CONFIG.build as BuildConfigsMerged
 
 
-        output.filenames = output.filenames[ isProd ? 'PROD' : 'DEV' ]
-
+        ;(output as ConfigFinal['build']['output']).filenames = output.filenames[ isProd ? 'PROD' : 'DEV' ]!
 
         stringConfig && (input.js = stringConfig)
 
@@ -52,11 +55,15 @@ function normalizeConfig(CONFIG: any = {}, RUN_PARAMS: any = {}) {
             input.include
                 ?   input.include.push( userJSEntryDirName )
                 :   (input.include = [ userJSEntryDirName ])
+
         } else throw `build.input.js ->> [${input.js}] file doesn't exists.`
     }
 
 
-    return { CONFIG, RUN_PARAMS }
+    return {
+        CONFIG: CONFIG as ConfigFinal,
+        RUN_PARAMS: RUN_PARAMS as RunParamsFinal
+    }
 }
 
 

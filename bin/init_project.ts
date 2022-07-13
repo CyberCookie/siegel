@@ -1,10 +1,8 @@
-'use strict'
-
 import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { nodeUtils } from '../core'
+import { nodeUtils } from '../core/index.js'
 import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../core/constants.js'
 
 
@@ -18,7 +16,7 @@ const {
 } = requireJSON(PATHS.packageJSON)
 
 
-const toJSON = (data: any) => JSON.stringify(data, null, 4)
+const toJSON = (data: Parameters<typeof JSON['stringify']>[0]) => JSON.stringify(data, null, 4)
 
 function main(isGlobal?: boolean) {
     if (DEFAULT_RUN_PARAMS._isSelfDevelopment) {

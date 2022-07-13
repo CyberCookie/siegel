@@ -5,6 +5,7 @@ import msIn from 'siegel-utils/date/constants'
 import { DataTable, Checkbox } from 'app/components'
 import getEnchancedDataTableProps from './getEnchancedDataTableProps'
 import columnsConfig from './grid_schema'
+
 import type { Entity, DemoDataTableProps } from './types'
 
 import styles from './styles.sass'

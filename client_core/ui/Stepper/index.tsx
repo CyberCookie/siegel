@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import component from '../_internals/component'
 import Ranger, { Props as RangerProps } from '../Ranger'
+
 import type { State, Props, Component } from './types'
 
 

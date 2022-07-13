@@ -1,6 +1,7 @@
 import { memo } from 'react'
 
 import extractProps from './props_extract'
+
 import type { CoreUIComponent } from './types'
 
 

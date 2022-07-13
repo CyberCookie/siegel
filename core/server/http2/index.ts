@@ -1,11 +1,14 @@
 import http2 from 'http2'
 
-import { HEADER_ACCEPT_INDEX } from './constants.js'
-import extractSSL from './extract_ssl_key.js'
-import getStaticServingData from './get_static_serving_data.js'
+import { HEADER_ACCEPT_INDEX } from '../constants.js'
+import extractSSL from '../extract_ssl_key.js'
+import getStaticServingData from '../get_static_file_response_data'
+
+import type { ServerBootParams } from '../types'
+import type { StreamCB } from './types'
 
 
-async function createHTTP2Server(params: any) {
+async function createHTTP2Server(params: ServerBootParams) {
     const { devMiddlewares, appServer, CONFIG } = params
     const {
         publicDir,
@@ -25,14 +28,14 @@ async function createHTTP2Server(params: any) {
 
     staticServer.on('error', console.error)
 
-    staticServer.on('stream', (stream, headers: any, flags) => {
+    staticServer.on('stream', (stream, headers, flags) => {
         const cancelFurtherPricessing = onStreamCb?.(stream, headers, flags)
 
         if (!(devMiddlewares.length || cancelFurtherPricessing)) {
             const reqUrl = headers[HTTP2_HEADER_METHOD] == HTTP2_METHOD_GET
-                && headers[HTTP2_HEADER_ACCEPT].includes(HEADER_ACCEPT_INDEX)
+                && headers[HTTP2_HEADER_ACCEPT]?.includes(HEADER_ACCEPT_INDEX)
                     ?   '/index.html'
-                    :   headers[HTTP2_HEADER_PATH]
+                    :   headers[HTTP2_HEADER_PATH]!
 
             const {
                 pathToFile, encoding, contentType, cacheControl
@@ -43,7 +46,7 @@ async function createHTTP2Server(params: any) {
             })
 
 
-            const resHeaders: any = {}
+            const resHeaders: http2.OutgoingHttpHeaders = {}
             contentType && (resHeaders[HTTP2_HEADER_CONTENT_TYPE] = contentType)
             encoding && (resHeaders[HTTP2_HEADER_CONTENT_ENCODING] = encoding)
             cacheControl && (resHeaders[HTTP2_HEADER_CACHE_CONTROL] = cacheControl)
@@ -62,10 +65,10 @@ async function createHTTP2Server(params: any) {
     })
 
 
-    let onStreamCb: any
+    let onStreamCb: StreamCB
     appServer && await appServer({
         staticServer,
-        onStream(cb: any) {
+        onStream(cb: StreamCB) {
             onStreamCb = cb
         }
     }, CONFIG)

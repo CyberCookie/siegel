@@ -5,6 +5,7 @@
 import React from 'react'
 
 import Swipe from '../../Swipe'
+
 import type { MergedProps, SwitchSlide } from '../types'
 
 

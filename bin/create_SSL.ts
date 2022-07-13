@@ -1,5 +1,3 @@
-'use strict'
-
 import fs from 'fs'
 import { execSync as shell } from 'child_process'
 

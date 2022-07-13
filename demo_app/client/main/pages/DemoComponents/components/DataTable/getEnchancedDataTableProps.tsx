@@ -5,6 +5,7 @@ import {
     icons, Pagination, Select, Checkbox, Input, Calendar,
     paginationTheme, selectTheme, checkboxTheme, inputTheme
 } from 'app/components'
+
 import type { DemoDataTableProps } from './types'
 
 import styles from './styles.sass'

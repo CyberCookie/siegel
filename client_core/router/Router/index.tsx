@@ -4,6 +4,7 @@ import isNullable from 'siegel-utils/is/nullable'
 import deepEqual, { SYMBOL__VALUES_EQUAL } from 'siegel-utils/deep/diff'
 import patchHistory from '../history'
 import parsePathname from './get_children_array'
+
 import type {
     LazyLayout, LazyPage, Page, Layout, RouterState,
     GetPageParams, RouterProps, RoutesConfig

@@ -187,27 +187,24 @@ Every plugin, that's already included, has its own `plugin key`
 To extend default plugins or instances you should use `plugin keys` or `instance keys`
 
 ```js
-import { BUILD_CONSTANTS } from 'siegel'
 import somePlugin from 'some_webpack_plugin'
 
 
-const { pluginsKeysMap, pluginInstancesKeyMap } = BUILD_CONSTANTS
-
 {
     plugins: {
-        [ pluginsKeysMap.compression ]: {
+        compression: {
             instances: {
-                [ pluginInstancesKeyMap.compression_br ]: {
+                br: {
                     options: { /* plugin instance options */ }
                 },
 
-                [ pluginInstancesKeyMap.compression_gzip ]: false // to disable the plugin instance
+                gzip: false // to disable plugin instance
             }
         },
 
-        [ pluginsKeysMap.sw ]: false, // to disable the plugin
+        sw: false, // to disable plugin
 
-        [ pluginsKeysMap.html ]: {
+        html: {
             options: { /* plugin options */ }
 
             /* could be a function with default options as a first parameter */
@@ -222,9 +219,8 @@ const { pluginsKeysMap, pluginInstancesKeyMap } = BUILD_CONSTANTS
             If you want to add additional plugin then no special key is required.
             At least it shouldn't overlap with existing ones.
         */
-        [ your_plugin_key ]: {
+        your_plugin_key: {
             plugin: somePlugin,
-            enabled: true,
             options: { /* plugin options */ }
         }
     }
@@ -364,17 +360,11 @@ The only purpose of this plugin is to place an array of build output assets into
 
 ```js
 // siegel config
-
-import { BUILD_CONSTANTS } from 'siegel'
-
-
-const { pluginsKeysMap } = BUILD_CONSTANTS
-
 {
     // ...client_build config,
 
     plugins: {
-        [pluginsKeysMap.sw]: {
+        sw: {
             options: 'path/to/source/sw.js'
         }
     }

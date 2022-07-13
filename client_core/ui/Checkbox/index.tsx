@@ -5,6 +5,7 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import getLabel from '../_internals/label'
 import componentID from './id'
+
 import type {
     Component, Props, MergedProps,
     WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs,

@@ -11,6 +11,7 @@ import Input, {
     Props as InputProps
 } from '../Input'
 import { getSearchOptionsElements } from './helpers'
+
 import type { Component, State, Option, Props, onSelectInner } from './types'
 
 import styles from './styles.sass'

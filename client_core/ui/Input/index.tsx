@@ -8,6 +8,7 @@ import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getInputLabeled from '../_internals/label'
 import componentID from './id'
+
 import type { Component, Props, InnerInputAttributes, InputRef } from './types'
 
 

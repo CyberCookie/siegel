@@ -4,6 +4,7 @@ import getWeekDaysShifted from './shift_week_days'
 import getControlIcon from './get_control_icon'
 import getDays from './get_days'
 import getWeekDaysRow from './get_week_days_row'
+
 import type { MergedProps, Store } from '../../types'
 
 import styles from '../../styles.sass'

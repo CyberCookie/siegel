@@ -4,6 +4,7 @@ import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import inputID from '../Input/id'
 import checkboxID from '../Checkbox/id'
+
 import type { Component as _Input, Props as InputProps } from '../Input/types'
 import type { Component as _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
 import type {

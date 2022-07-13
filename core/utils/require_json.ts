@@ -1,7 +1,7 @@
 import fs from 'fs'
 
 
-function requireJSON(path: any) {
+function requireJSON(path: string) {
     const jsonFileContent = fs.readFileSync(path, 'utf8')
     return JSON.parse(jsonFileContent)
 }
