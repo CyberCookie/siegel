@@ -2,7 +2,7 @@ import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { nodeUtils } from '../core/index.js'
+import { nodeUtils } from '../core'
 import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../core/constants.js'
 
 

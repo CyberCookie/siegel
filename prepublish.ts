@@ -55,7 +55,11 @@ function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = tr
                 const isDirectory = fs.existsSync(importPathResolved) && fs.lstatSync(importPathResolved).isDirectory()
 
                 const replace = _import + importPath
-                const replaceWith = replace + (isDirectory ? '/index.js' : '.js')
+                const replaceWith = replace + (
+                    isDirectory
+                        ?   `${replace.endsWith('/') ? '' : '/'}index.js`
+                        :   '.js'
+                )
 
                 notMinifiedJSFile = notMinifiedJSFile.replace(replace, replaceWith)
             }
@@ -86,6 +90,6 @@ copyTypes(PATHS.sharedUtils)
 normalizeImportPathsAndMinify(PATHS.sharedUtilsOutput)
 
 copyTypes(PATHS.src)
-// normalizeImportPathsAndMinify(PATHS.srcOutput, false)
+normalizeImportPathsAndMinify(PATHS.srcOutput, false)
 
-// normalizeImportPathsAndMinify(PATHS.binOutput, false)
+normalizeImportPathsAndMinify(PATHS.binOutput, false)

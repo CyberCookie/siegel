@@ -1,6 +1,6 @@
 import path from 'path'
 
-import isExists from '../../../common/is/exists/index.js'
+import isExists from '../../../common/is/exists'
 import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants.js'
 
 import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
