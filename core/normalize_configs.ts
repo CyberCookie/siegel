@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 
-import { utils } from './'
+import { utils } from './index.js'
 import { DEFAULT_RUN_PARAMS, DEFAULT_CONFIG } from './constants.js'
 
 import type { BuildConfigsMerged } from './client_build/types'

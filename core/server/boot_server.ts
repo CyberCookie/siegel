@@ -1,5 +1,5 @@
-import httpServer from './http'
-import http2Server from './http2'
+import httpServer from './http.js'
+import http2Server from './http2/index.js'
 
 import type { ServerBootParams } from './types'
 

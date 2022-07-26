@@ -1,10 +1,10 @@
 process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
-import * as utils from '../common'
-import * as nodeUtils from './utils'
-import normalizeConfigs from './normalize_configs'
-import webpackBuilder, { BUILD_CONSTANTS } from './client_build'
+import * as utils from '../common/index.js'
+import * as nodeUtils from './utils/index.js'
+import normalizeConfigs from './normalize_configs.js'
+import webpackBuilder, { BUILD_CONSTANTS } from './client_build/index.js'
 import {
     bootServer, getStaticServingData, http2Server, httpServer, proxyReq,
     extractSSL

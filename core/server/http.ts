@@ -3,7 +3,7 @@ import express from 'express'
 
 import { HEADER_ACCEPT_INDEX } from './constants.js'
 import extractSSL from './extract_ssl_key.js'
-import getStaticServingData from './get_static_file_response_data'
+import getStaticServingData from './get_static_file_response_data/index.js'
 
 import type { Express, RequestHandler } from 'express'
 import type { ServerBootParams } from './types'

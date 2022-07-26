@@ -2,7 +2,7 @@ import http2 from 'http2'
 
 import { HEADER_ACCEPT_INDEX } from '../constants.js'
 import extractSSL from '../extract_ssl_key.js'
-import getStaticServingData from '../get_static_file_response_data'
+import getStaticServingData from '../get_static_file_response_data/index.js'
 
 import type { ServerBootParams } from '../types'
 import type { StreamCB } from './types'

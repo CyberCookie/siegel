@@ -6,7 +6,7 @@ import path from 'path'
 
 import { LOC_NAMES, PATHS, DEFAULT_CONFIG, DEFAULT_RUN_PARAMS } from '../core/constants.js'
 import normalizeConfig from '../core/normalize_configs.js'
-import siegel, { nodeUtils, utils } from '../core'
+import siegel, { nodeUtils, utils } from '../core/index.js'
 import initProject from './init_project.js'
 import createSSLCerts from './create_SSL.js'
 
