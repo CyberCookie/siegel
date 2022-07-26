@@ -8,7 +8,7 @@ import webpackBuilder, { BUILD_CONSTANTS } from './client_build/index.js'
 import {
     bootServer, getStaticServingData, http2Server, httpServer, proxyReq,
     extractSSL
-} from './server'
+} from './server/index.js'
 
 import type { RequestHandler } from 'express'
 import type {
