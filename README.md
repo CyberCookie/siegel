@@ -57,9 +57,11 @@ Read more about each part following the links below:
     - [Custom hooks](https://github.com/CyberCookie/siegel/tree/master/client_core/hooks)
     - [Network](https://github.com/CyberCookie/siegel/tree/master/client_core/network)
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils)
-- [Build](https://github.com/CyberCookie/siegel/tree/master/src/client_build)
-- [Server](https://github.com/CyberCookie/siegel/tree/master/src/server)
-- [Utils](https://github.com/CyberCookie/siegel/tree/master/src/utils)
+- Core
+    - [Build](https://github.com/CyberCookie/siegel/tree/master/core/client_build)
+    - [Server](https://github.com/CyberCookie/siegel/tree/master/core/server)
+    - [Utils](https://github.com/CyberCookie/siegel/tree/master/core/utils)
+- [Cross env utils](https://github.com/CyberCookie/siegel/tree/master/common)
 - [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)
 
 <br /><br />
