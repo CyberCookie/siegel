@@ -3,9 +3,11 @@
 
 import { useState, useEffect } from 'react'
 
-import isExists from 'siegel-utils/is/exists'
+import isExists from '../../../common/is/exists'
 
-import type { Ref, ClipboardEvent, ChangeEvent, MaskCharData, MaskProcessor } from './mask_processor_types'
+import type {
+    Ref, ClipboardEvent, ChangeEvent, MaskCharData, MaskProcessor
+} from './mask_processor_types'
 
 
 const INSERT_TEXT = 'insertText'

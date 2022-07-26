@@ -61,7 +61,7 @@ function main(isGlobal?: boolean) {
         // Create global.d.ts
         writeFileSync(
             INIT_PATHS.userTSGlobal,
-            `import '${ isGlobal ? INIT_PATHS.pathToSiegelAbsolute : INIT_PATHS.pathToSiegelRelative }'`
+            `import '${ isGlobal ? INIT_PATHS.pathToSiegelAbsolute : INIT_PATHS.pathToSiegelRelative }/global'`
         )
 
         // Copy Eslint jsons
@@ -71,10 +71,7 @@ function main(isGlobal?: boolean) {
 
 
     function modifyDemoAppServerSiegelPaths() {
-        const replaceStringPart = relative(
-            INIT_PATHS.siegelDemoAppServerPath,
-            `${PATHS.src}/index.js`
-        )
+        const replaceStringPart = relative(INIT_PATHS.siegelDemoAppServerPath, PATHS.src)
 
         const siegelEntryPointPath = isGlobal
             ?   pathToSiegelAbsolute

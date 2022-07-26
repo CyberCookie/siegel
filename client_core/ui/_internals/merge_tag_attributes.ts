@@ -1,4 +1,4 @@
-import isNullable from 'siegel-utils/is/nullable'
+import isNullable from '../../../common/is/nullable'
 
 import type { ComponentAttributes, NewComponentAttributes } from '../_internals/types'
 

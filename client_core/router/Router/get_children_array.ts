@@ -1,4 +1,4 @@
-import isExists from 'siegel-utils/is/exists'
+import isExists from '../../../common/is/exists'
 import getFinalURL from '../get_final_url'
 import parseBasename from '../history/parse_basename'
 
