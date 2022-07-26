@@ -1,6 +1,9 @@
 import { PATHS } from '../../constants.js'
 import { loadersKeyMap, webpackModulesRegExp, DEPENDENCIES } from '../constants.js'
 
+import type { ConfigFinal, RunParamsFinal } from '../../types'
+import type { DefaultModules, DefaultsWithRuleOptions } from './types'
+
 
 const {
     plugins: { miniCssExtract },
@@ -11,7 +14,7 @@ const {
 } = DEPENDENCIES
 
 
-function getDefaultModulesConfig(CONFIG: any, RUN_PARAMS: any) {
+function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
     const {
         output: { target },
         input: { sassResources, include, exclude }
@@ -21,11 +24,12 @@ function getDefaultModulesConfig(CONFIG: any, RUN_PARAMS: any) {
     const isDev = !isProd
 
 
-    const defaults: any = {
+    const defaults: DefaultModules = {
         [ webpackModulesRegExp.scripts ]: {
             loadersOrder: [ loadersKeyMap.esbuild ],
             loaders: {
                 [ loadersKeyMap.esbuild ]: {
+                    ident: loadersKeyMap.esbuild,
                     loader: esbuild,
                     options: {
                         target,
@@ -41,12 +45,16 @@ function getDefaultModulesConfig(CONFIG: any, RUN_PARAMS: any) {
                 loadersKeyMap.sassLoader, loadersKeyMap.sassResources
             ],
             loaders: {
-                [ loadersKeyMap.cssFinal ]: isProd || !isServer
-                    ?   miniCssExtract.loader
-                    :   styleLoader,
+                [ loadersKeyMap.cssFinal ]: {
+                    ident: loadersKeyMap.cssFinal,
+                    loader: isProd || !isServer
+                        ?   miniCssExtract.loader
+                        :   styleLoader
+                },
 
                 [ loadersKeyMap.cssLoader ]: {
                     loader: cssLoader,
+                    ident: loadersKeyMap.cssLoader,
                     options: {
                         sourceMap: isDev,
                         // url: url => !url.endsWith('.svg'),
@@ -61,15 +69,13 @@ function getDefaultModulesConfig(CONFIG: any, RUN_PARAMS: any) {
 
                 [ loadersKeyMap.postCssLoader ]: {
                     loader: postCssLoader,
+                    ident: loadersKeyMap.postCssLoader,
                     options: {
                         sourceMap: isDev,
                         postcssOptions: {
                             plugins: [
-                                [ postCssAutoprefix, { overrideBrowserList: 'last 1 version' } ],
-                                [ postCssSVG2Font, {
-                                    woff2: isProd,
-                                    fontNamePrefix: ''
-                                }]
+                                postCssAutoprefix({ overrideBrowserslist: 'last 1 version' }),
+                                postCssSVG2Font({ isWoff2: isProd })
                             ]
                         }
                     }
@@ -77,17 +83,21 @@ function getDefaultModulesConfig(CONFIG: any, RUN_PARAMS: any) {
 
                 [ loadersKeyMap.sassLoader ]: {
                     loader: sassLoader,
+                    ident: loadersKeyMap.sassLoader,
                     options: {
                         sourceMap: isDev
                     }
                 },
 
-                [ loadersKeyMap.sassResources ]: {
-                    loader: sassResourcesLoader,
-                    options: {
-                        resources: sassResources
+                ...( sassResourcesLoader ? {
+                    [ loadersKeyMap.sassResources ]: {
+                        loader: sassResourcesLoader,
+                        ident: loadersKeyMap.sassResources,
+                        options: {
+                            resources: sassResources!
+                        }
                     }
-                }
+                } : {})
             },
 
             ...( !_isSelfDevelopment ? {
@@ -105,9 +115,9 @@ function getDefaultModulesConfig(CONFIG: any, RUN_PARAMS: any) {
     }
 
     for (const regexpPart in defaults) {
-        defaults[regexpPart].ruleOptions ||= {}
+        (defaults[regexpPart as keyof DefaultModules] as DefaultsWithRuleOptions).ruleOptions ||= {}
 
-        const { ruleOptions } = defaults[regexpPart]
+        const { ruleOptions } = defaults[regexpPart as keyof DefaultModules] as DefaultsWithRuleOptions
         const { include: _include, exclude: _exclude } = ruleOptions
 
         ruleOptions.include = _include && include

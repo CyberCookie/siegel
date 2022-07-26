@@ -1,7 +1,21 @@
-import { proxyReq } from '../../core'
+import { proxyReq, ServerExtenderFn } from '../../core'
+
+import type { Request, Response, NextFunction } from 'express'
+import type { EchoReqBody } from '../dto/demo_api'
 
 
-function appServer({ express, onStream, staticServer }: any) {
+type ReqHandler<ReqBody, ResBody> = (
+    req: {
+        body: ReqBody
+    } & Omit<Request<{}, ResBody, ReqBody>, 'body'>,
+    res: Response<ResBody>,
+    next: NextFunction
+) => void
+
+
+const appServer: ServerExtenderFn = params => {
+    const { express, onStream, staticServer } = params
+
     if (onStream) { // if HTTP2
         onStream(() => {
             console.log('HTTP2 stream')
@@ -11,9 +25,9 @@ function appServer({ express, onStream, staticServer }: any) {
         staticServer
             .use(express.json())
 
-            .post('/api/echo', (req: any, res: any) => {
+            .post('/api/echo', ((req, res) => {
                 res.send(req.body)
-            })
+            }) as ReqHandler<EchoReqBody, EchoReqBody>)
 
             .get('/api/proxy_get/:id', proxyReq({
                 host: 'jsonplaceholder.typicode.com',

@@ -31,7 +31,7 @@ const siegelConfig: Config = {
             const tsConfig = requireJSON(`${rootPath}/tsconfig.json`)
             const TSAliases = tsConfig.compilerOptions.paths
 
-            const aliases: any = {}
+            const aliases: Indexable = {}
             for (const alias in TSAliases) {
                 const WPAlias = alias.replace('/*', '')
                 const WPPath = TSAliases[alias][0].replace('/*', '')

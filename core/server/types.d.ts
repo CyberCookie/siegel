@@ -1,8 +1,5 @@
 import type { RequestHandler } from 'express'
-import type { ConfigFinal } from '../types'
-
-
-type ServerExtender = (...args: any[]) => any
+import type { ConfigFinal, ServerExtenderFn } from '../types'
 
 
 type ServerConfig = {
@@ -29,7 +26,7 @@ type ServerConfigFinal = ServerConfig & ServerConfigDefault
 type ServerBootParams = {
     CONFIG: ConfigFinal
     devMiddlewares: RequestHandler[]
-    appServer: ServerExtender
+    appServer: ServerExtenderFn | undefined
 }
 
 

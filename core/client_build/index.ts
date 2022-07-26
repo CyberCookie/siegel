@@ -109,7 +109,7 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
     }
 
     if (typeof postProcessWebpackConfig == 'function') {
-        webpackConfig = postProcessWebpackConfig.call(CONFIG, webpackConfig, BUILD_CONSTANTS)
+        webpackConfig = postProcessWebpackConfig(CONFIG, webpackConfig, BUILD_CONSTANTS)
     }
 
 

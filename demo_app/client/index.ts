@@ -16,5 +16,3 @@ if (rootComponent) {
     createRoot(rootComponent)
         .render(Router)
 }
-
-module.hot?.accept()

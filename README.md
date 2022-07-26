@@ -83,8 +83,6 @@ render(
     'Hello Siegel!',
     document.getElementById('root')
 )
-
-module.hot?.accept() // Webpack's hmr bug workaround
 ```
 
 
@@ -206,29 +204,27 @@ siegel('/path/to/js_entry.ts')
 
 <hr /><br />
 
-Demo project it's a quick way to start your development journey with everything you need right after project initialization.<br />
-There are two module resolution strategies that you may choose<br /><br >
-
-Having Siegel installed localy, run:<br />
+Quick way to start your development journey with everything you need right after project initialization is __Demo project__.<br />
+You may init the demo project having Siegel installed localy:<br />
 
 `npx siegel init`<br /><br />
 
 
 <br />
 
-The second one is to have Siegel installed globally and to use its node modules therefore to have a **single source of node modules for all your Siegel proejcts**<br />
+If you've installed Siegel globally then you should run:<br />
 
 ```sh
 siegel init -g
 ```
 
-> Keep in mind that Eslint is not working in projects initialized with `-g` flag<br />
+> Keep in mind that Eslint is not working in projects initialized with `-g` flag so far.<br />
 
 
 <br /><br />
 Here we initialize a demo project in a current dirrectory along with `package.json` (if not yet exists)<br />
 Now you have project skeleton with preconfigured Siegel in it!<br />
-Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production mode<br />
+Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production modes<br />
 Bootstrap newly created project with:<br />
 
 ```sh

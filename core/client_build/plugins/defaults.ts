@@ -1,7 +1,7 @@
 import path from 'path'
 
 import isExists from '../../../common/is/exists/index.js'
-import { COMMONS, DEPENDENCIES } from '../constants.js'
+import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants.js'
 
 import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
 import type { ConfigFinal, RunParamsFinal } from '../../types'
@@ -52,7 +52,7 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
     }
 
     const defaults: DefaultPlugins = {
-        compression: {
+        [ pluginsKeysMap.compression ]: {
             plugin: compressionPlugin,
             enabled: isProd,
             instances: {
@@ -73,7 +73,7 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             }
         },
 
-        copy: {
+        [ pluginsKeysMap.copy ]: {
             plugin: fileCopyPlugin,
             enabled: !!input.copyFiles,
             options: {
@@ -98,13 +98,13 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             }
         },
 
-        sw: {
+        [ pluginsKeysMap.sw ]: {
             plugin: serviceWorkerPlugin,
             enabled: !!input.sw,
             options: input.sw!
         },
 
-        cssExtract: {
+        [ pluginsKeysMap.cssExtract ]: {
             plugin: miniCssExtract,
             enabled: isProd || !isServer,
             options: {
@@ -114,12 +114,12 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             }
         },
 
-        cssOptimize: {
+        [ pluginsKeysMap.cssOptimize ]: {
             plugin: optimizeCSS,
             enabled: isProd
         },
 
-        html: {
+        [ pluginsKeysMap.html ]: {
             plugin: HTMLPlugin,
             enabled: !!input.html,
             options: resolvePluginDefaultOptions({
@@ -131,17 +131,17 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             }, input.html)
         },
 
-        hot: {
+        [ pluginsKeysMap.hot ]: {
             plugin: webpack.HotModuleReplacementPlugin,
             enabled: !isProd
         },
 
-        reactRefresh: {
+        [ pluginsKeysMap.reactRefresh ]: {
             plugin: reactRefresh,
             enabled: !isProd
         },
 
-        eslint: {
+        [ pluginsKeysMap.eslint ]: {
             plugin: eslint,
             enabled: eslintOptions,
             options: resolvePluginDefaultOptions({

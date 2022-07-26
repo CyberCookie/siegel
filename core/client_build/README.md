@@ -1,6 +1,6 @@
 # Client build
 
-<p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares that are used in express static server</p>
+<p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares thats could be used in express app</p>
 
 The build exports object with two methods:
 - `run` - **(config, runParams)**. Creates webpack compiller and runs it to produce a bundle<br />
@@ -14,20 +14,21 @@ The build exports object with two methods:
 
 <br />
 
-### What it can do out of the box?
+### Builder features
 
-<p>Config optimized to produce the smallest bundle and to build it as fast as possible</p>
+<br />
 
-Features:
-- Code splitting
-- All output files are minified and compressed
-- Sourcemaps
-- JS Lint
 - Transform React JSX and TypeScript files via ESBuild
-- SASS/SCSS processing; style autoprefixing; css modules
-- Transform SVG icons into woff(2) font
+- Code splitting
 - Service worker plugin to provide the best caching strategy
-- Hot relaod client js, styles and nodejs server when changes occurs
+- SASS/SCSS processing; style autoprefixing; css modules
+- Transform SVG icons into woff(2) icon font
+- Sourcemaps for styles and scripts
+- JS linting
+- Hot relaod client script and styles
+- All output files are minified and compressed
+- Static assets handle
+- Various tweaks and optimizations to make it fast
 
 
 <br /><br />
@@ -36,10 +37,12 @@ Features:
 
 <br />
 
+<p>Config is optimized to produce the smallest bundle as fast as possible</p>
+
 
 This config allows you to bring any changes to an underlying webpack configuration,<br />
-providing an easy to use api<br />
-All the fields are optional since many of them are already defined in the underlying default webpack configuration
+by providing an easy to use api<br />
+All the fields are optional since many of them are already defined in core  default configuration
 
 <br />
 
@@ -110,19 +113,19 @@ All the fields are optional since many of them are already defined in the underl
             /* Output files naming format */
             filenames: {
                 /*
-                    In runtime there will only be PROD's or DEV's fields, depending on selected mode.
+                    In runtime there will be only PROD or DEV fields, depending on selected mode.
                 */ 
                 PROD: {
-                    assets: String          // Default is: assets/[contenthash].[ext]
+                    assets: String          // Default is: assets/[contenthash][ext]
                     js: String              // Default is: [contenthash].js
                     js_chunk: String        // Default is: [contenthash].js
                     styles: String          // Default is: [contenthash].css
                     styles_chunk: String    // Default is: [contenthash].css
-                    brotli: String          // Default is: [name].br
-                    gzip: String            // Default is: [name].gz
+                    brotli: String          // Default is: [base].br
+                    gzip: String            // Default is: [base].gz
                 },
                 DEV: {
-                    assets: String          // Default is: assets/[name].[ext]
+                    assets: String          // Default is: assets/[name][ext]
                     js: String              // Default is: app.[contenthash].js
                     js_chunk: String        // Default is: chunk.[name][contenthash].js
                     styles: String          // Default is: styles.[name].css
@@ -143,20 +146,20 @@ All the fields are optional since many of them are already defined in the underl
 
         /*
             Webpack plugins config.
-            Read below the way to use it.
+            Plugins configuration topic is further
         */
         plugins: Object,
 
         /*
             Webpack loaders config.
-            Read below the way to use it.
+            Modules configuration topic is further
         */
         modules: Object,
 
         /*
-            Use it to post process a final webpack config before being passed to webpack.
+            Use it to postprocess the final webpack config before being passed to webpack.
             Receives siegel config as a first parameter, webpack config as a second and
-            build constants (build dependencies, plugin/loader keys ).
+            build constants (build dependencies, plugin/loader keys ) as third.
         */
         postProcessWebpackConfig: Function
     }
@@ -167,7 +170,7 @@ All the fields are optional since many of them are already defined in the underl
 
 ### Plugins
 
-Every plugin, that's already included, has its own `plugin key`
+Every default plugin has its own `plugin key`
 - compression-webpack-plugin ( `compression` ) - Enabled if **runParams.isProd == true**<br />
   May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`)
 - copy-webpack-plugin ( `copy` ) - enabled if **config.build.input.copyFiles** is specified
@@ -178,7 +181,7 @@ Every plugin, that's already included, has its own `plugin key`
 - EsLint ( `eslint` ) - Eslint plugin, Enabled if **config.build.esbuil == true**
 - webpack HHMR plugin (`hot`) - enabled if **runParams.isProd == false**
 - @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if **runParams.isProd == true**
-- <a href='#postcss_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if **config.build.input.sw** is specified
+- <a href='#sw_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if **config.build.input.sw** is specified
     - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces
 
 
@@ -228,29 +231,69 @@ import somePlugin from 'some_webpack_plugin'
 ```
 
 
+<br /><br />
+
+### <a id='sw_plugin'>Service worker plugin</a>
+
 <br />
+
+The only purpose of this plugin is to place an array of build output assets into a service worker thus enabling some tricks to use in caching strategies<br />
+**Plugin emits an output service worker file to the destination root**<br />
+
+
+```js
+const config = {
+    // ...build config,
+
+    plugins: {
+        sw: {
+            options: 'path/to/source/sw.js'
+        }
+    }
+}
+```
+
+```js
+// service worker file sw.js
+
+// Variable is put during the build phase.
+console.log(buildOutput) // [ 'index.js', 'assets/fonts/some_font.woff2' ]
+```
+
+Require service worker file as you'd usually do:
+
+```js
+navigator.serviceWorker?.register('/sw.js')
+    .catch(console.error)
+```
+
+
+<br /><br />
 
 ### Modules
 
 Each loader has its own `loader key` to make it easy to extend it<br />
-Loaders used by default together with `related file extensions` are described below
+Loaders used by default together with `file extensions regexp` are described below
 
 
-- ESBuild ( `esbuild` ) <br />
-RegExp string: **\\.[tj]sx?$** ( `scripts` )<br /><br />
+- Scripts <br />
+RegExp string: `\\.[tj]sx?$` (**scripts**)<br />
+Loaders:
+    - ESBuild ( `esbuildLoader` )<br /><br />
 
 - Styles<br />
-RegExp string: **\\.(c|sc|sa)ss$** ( `styles` )
+RegExp string: `\\.(c|sc|sa)ss$` (**styles**)<br />
+Loaders:
     - SASS ( `sassLoader` )
     - CSS ( `cssLoader` )
-    - MiniCSSExtractPlugin **if run params are isProd || !isServer, else** Style loader ( `cssFinal` )
+    - ( `cssFinal` ) MiniCSSExtractPlugin **if runParams.isProd || !runParams.isServer, else** Style loader
     - SASS resources ( `sassResources` )
     - PostCSS ( `postCssLoader` )
         - autoprefixer
-        - <a href='#sw_plugin'>(custom) svg to font plugin</a><br /><br />
+        - <a href='#postcss_plugin'>(custom) svg to font plugin</a><br /><br />
 
-- Webpack v5 assets loader<br />
-RegExp string: **\\.(avif|webp|jpg|png|svg|woff2)?$** (`files` )
+- Assets loader<br />
+RegExp string: `\\.(avif|webp|jpg|png|svg|woff2)?$` (**assets**)
 
 <br />
 
@@ -329,10 +372,7 @@ const { loadersKeyMap, webpackModulesRegExp } = BUILD_CONSTANTS
                     loader: String, // Resoved loader path
                     
                     /* Loader options */ 
-                    options: {},
-
-                    /* Any valid field you can pass into webpack's loader but `laoder` and `options`. */
-                    additionalLoaderOptions: {}
+                    options: {}
                 },
 
                 /* Can be a string with resolved module path  */
@@ -348,43 +388,6 @@ const { loadersKeyMap, webpackModulesRegExp } = BUILD_CONSTANTS
 }
 ```
 
-<br /><br />
-
-### <a id='sw_plugin'>Service worker plugin</a>
-
-<br />
-
-The only purpose of this plugin is to place an array of build output assets into a service worker thus enabling some tricks to use in caching strategies<br />
-**Plugin emits an output service worker file to the destination root**<br />
-
-
-```js
-// siegel config
-{
-    // ...client_build config,
-
-    plugins: {
-        sw: {
-            options: 'path/to/source/sw.js'
-        }
-    }
-}
-```
-
-```js
-// service worker file sw.js
-
-// Variable is put during the build phase.
-console.log(buildOutput) // [ 'index.js', 'assets/fonts/some_font.woff2' ]
-```
-
-Require service worker file as you'd usually do:
-
-```js
-navigator.serviceWorker?.register('/sw.js')
-    .catch(console.error)
-```
-
 
 <br /><br />
 
@@ -392,7 +395,11 @@ navigator.serviceWorker?.register('/sw.js')
 
 <br />
 
-Plugin that transforms svg icons paths in your css into font
+Plugin allows you to define paths to svg icons in your css classes.<br />
+During css transformation the paths are stripped and `::before` pseudoelement with icon declaration<br /> will be added to the class<br /><br />
+
+
+Example input:
 
 ```css
 .all_icons {
@@ -404,7 +411,10 @@ Plugin that transforms svg icons paths in your css into font
 }
 ```
 
-Output:
+Where `.all_icons` it's an example classname for every icon.<br />And `.some_icon` it's an example classname for particular icon you want to tie svg icon to.<br /><br />
+
+
+Example output:
 
 ```css
 @font-face {
@@ -430,24 +440,24 @@ There are two options you can pass to the plugin:
 import { BUILD_CONSTANTS } from 'siegel'
 
 
-const { loadersKeyMap, webpackModulesRegExp } = BUILD_CONSTANTS
+const {
+    loadersKeyMap, webpackModulesRegExp,
+    DEPENDENCIES: { loaders }
+} = BUILD_CONSTANTS
 
 const config = {
-    // ...client build config
+    // ...build config
 
     modules: {
         [webpackModulesRegExp.styles]: {
             loaders: {
                 [loadersKeyMap.postCssLoader]: {
                     options(defaultOptions) {
-                        // our plugin is a second in a postcss plugins row
-                        const svg2FontPlugin = defaultOptions.postcssOptions.plugins[1]
-
-                        // access options
-                        svg2FontPlugin[1] = {
+                        // our plugin is a second in a postcss plugins array
+                        defaultOptions.postcssOptions.plugins[1] = loaders.postCssSVG2Font({
                             fontNamePrefix: 'font_prefix',
-                            woff2: true
-                        }
+                            isWoff2: true
+                        })
 
                         return defaultOptions
                     }
@@ -458,11 +468,19 @@ const config = {
 }
 ```
 
+<br />
+
+> `Postcss loader` holds css `autoprefixer` and `svg to icon` plugins.<br />
+> Thus it is hard to rewrite the plugin options since `postcss` accepts functions as plugins.<br />
+> See example above of how to update `postcss` plugins configuration.<br />
+> Just keep in mind that by default <b>it has array of two plugins</b>, where first is `autoprefixer` and second one is `svg to icon` plugin
+
+
 
 <br /><hr />
 <details>
     <summary>TODO</summary>
-    - ES modules<br />
+    - Output pure ESM<br />
     - Save font icon to a separate file<br />
     - Separate styles for different media queries<br />
     - Generate code documentation from TS

@@ -1,4 +1,6 @@
 //TODO: add formatter mode
+//TODO: prefix / sufix
+//TODO: debounce
 
 import React, { useRef, useEffect, useState } from 'react'
 

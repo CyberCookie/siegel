@@ -1,74 +1,97 @@
-function mergeLoaders(userLoader: any, defaultLoader: any) {
-    if (!userLoader) return defaultLoader
-    if (typeof userLoader == 'string' || !defaultLoader) return userLoader
+import isExists from '../../../common/is/exists'
 
-    const {
-        enabled: deafultEnabled = true,
-        options: defaultOptions,
-        loader: _defaultLoader,
-        additionalLoaderOptions: deafultAdditionalLoaderOptions = {}
-    } = defaultLoader
-
-    const {
-        enabled = deafultEnabled,
-        options = defaultOptions,
-        loader = _defaultLoader,
-        additionalLoaderOptions = deafultAdditionalLoaderOptions
-    } = userLoader
+import type { RuleSetRule } from 'webpack'
+import type {
+    DefaultModules, Modules, UserModule, AddRuleFn, MergeLoadersFn,
+    LoadersOrder, RuleOptions, AnyDefaultLoader, LoaderObj, LoaderOptionsFn
+} from './types'
 
 
-    if (enabled) {
-        return {
-            loader,
-            options: typeof options == 'function' && defaultOptions && typeof defaultOptions != 'function'
-                ?   options(defaultOptions)
-                :   options,
-            ...additionalLoaderOptions
-        }
-    }
+const mergeLoaders: MergeLoadersFn = (userLoader, defaultLoader) => {
+    const result = typeof userLoader == 'string'
+        ?   userLoader
+
+        :   isExists(defaultLoader) && userLoader === true
+
+            ?   defaultLoader
+
+            :   (userLoader as LoaderObj).enabled !== false
+
+                ?   Object.assign({}, defaultLoader, userLoader as LoaderObj, {
+                        options: typeof (userLoader as LoaderObj).options == 'function'
+                            ?   ((userLoader as LoaderObj).options as LoaderOptionsFn)(defaultLoader!.options)
+                            :   (userLoader as LoaderObj).options
+                    })
+
+                :   undefined
+
+
+    if (isExists(result) && typeof result != 'string') delete result['enabled']
+
+
+    return result
 }
 
 
-function addRule(rules: any[], ruleParams: any) {
+const addRule: AddRuleFn = (rules, ruleParams) => {
     const {
-        regExpPart, ruleOptions,
-        loadersOrder = [],
+        regExpString, ruleOptions, loadersOrder,
         loaders = {},
         defaultLoaders = {}
     } = ruleParams
 
-    const use: any = []
-    loadersOrder.forEach((loaderKey: any) => {
+
+    const use: NonNullable<RuleSetRule['use']> = []
+    loadersOrder.forEach(loaderKey => {
         const userLoader = loaders[loaderKey]
         if (userLoader !== false) {
-            const mergedLoaders = mergeLoaders(userLoader, defaultLoaders[loaderKey])
+
+            const mergedLoaders = mergeLoaders(
+                userLoader,
+                defaultLoaders[loaderKey] as AnyDefaultLoader | undefined
+            )
             mergedLoaders && use.push(mergedLoaders)
         }
     })
 
 
     rules.push({
-        test: new RegExp(regExpPart),
+        test: new RegExp(regExpString),
         use,
         ...ruleOptions
     })
 }
 
-function merge(defaultModules: any, userModules: any = {}) {
-    const rules: any = []
+function addWithoutMerge(
+    rules: RuleSetRule[],
+    module: UserModule,
+    regExpString: string
+) {
+
+    const { ruleOptions, enabled = true, loaders, loadersOrder } = module
+    enabled && addRule(
+        rules,
+        {
+            regExpString, loaders,
+
+            loadersOrder: typeof loadersOrder == 'function'
+                ?   loadersOrder([])
+                :   loadersOrder || [],
+
+            ruleOptions: typeof ruleOptions == 'function'
+                ?   ruleOptions({})
+                :   ruleOptions || {}
+        }
+    )
+}
 
 
-    function addWithoutMerge(modules: any, regExpPart: any) {
-        const { ruleOptions, enabled = true, loaders, loadersOrder } = modules[regExpPart]
-        enabled && addRule(
-            rules,
-            { regExpPart, loaders, loadersOrder, ruleOptions }
-        )
-    }
+function merge(defaultModules: DefaultModules, userModules: Modules = {}) {
+    const rules: RuleSetRule[] = []
 
 
-    for (const regExpPart in defaultModules) {
-        const userModule = userModules[regExpPart]
+    for (const regExpString in defaultModules) {
+        const userModule = userModules[regExpString as keyof typeof userModules]
         if (userModule) {
 
             if (userModule.enabled != false) {
@@ -77,33 +100,37 @@ function merge(defaultModules: any, userModules: any = {}) {
                     ruleOptions: defaultRuleOptions = {},
                     loaders: defaultLoaders,
                     loadersOrder: defaultLoadersOrder
-                } = defaultModules[regExpPart]
+                } = defaultModules[regExpString as keyof DefaultModules] as UserModule
 
 
                 addRule(
                     rules,
                     {
                         loaders, defaultLoaders,
-                        regExpPart: rewriteRegExp || regExpPart,
+                        regExpString: rewriteRegExp || regExpString,
 
                         loadersOrder: loadersOrder
                             ?   typeof loadersOrder == 'function'
-                                ?   loadersOrder(defaultLoadersOrder)
+                                ?   loadersOrder(defaultLoadersOrder as LoadersOrder)
                                 :   loadersOrder
-                            :   defaultLoadersOrder,
+                            :   defaultLoadersOrder as LoadersOrder,
 
-                        ruleOptions: typeof ruleOptions == 'function'
-                            ?   ruleOptions(defaultRuleOptions)
-                            :   Object.assign({}, defaultRuleOptions, ruleOptions)
+                        ruleOptions: ruleOptions
+                            ?   typeof ruleOptions == 'function'
+                                ?   ruleOptions(defaultRuleOptions as RuleOptions)
+                                :   Object.assign({}, defaultRuleOptions, ruleOptions)
+                            :   defaultRuleOptions as RuleOptions
                     }
                 )
             }
-        } else addWithoutMerge(defaultModules, regExpPart)
+
+        } else addWithoutMerge(rules, defaultModules[regExpString as keyof DefaultModules], regExpString)
     }
 
 
-    for (const regExpPart in userModules) {
-        defaultModules[regExpPart] || addWithoutMerge(userModules, regExpPart)
+    for (const regExpString in userModules) {
+        defaultModules[regExpString as keyof typeof defaultModules]
+        ||  addWithoutMerge(rules, userModules[regExpString], regExpString)
     }
 
 

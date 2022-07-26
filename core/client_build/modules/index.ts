@@ -1,8 +1,10 @@
 import mergeModules from './merge.js'
 import getDefaultModules from './defaults.js'
 
+import type { ConfigFinal, RunParamsFinal } from '../../types'
 
-const merge = (CONFIG: any, RUN_PARAMS: any) => mergeModules(
+
+const merge = (CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) => mergeModules(
     getDefaultModules(CONFIG, RUN_PARAMS),
     CONFIG.build.modules
 )

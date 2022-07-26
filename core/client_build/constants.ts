@@ -10,8 +10,10 @@ import compressionPlugin from 'compression-webpack-plugin'
 import miniCssExtract from 'mini-css-extract-plugin'
 import reactRefresh from '@pmmmwh/react-refresh-webpack-plugin'
 import eslint from 'eslint-webpack-plugin'
+import postCssAutoprefix from 'autoprefixer'
 
 import serviceWorkerPlugin from './plugins/plugin_sw.js'
+import postCssSVG2Font from './modules/postcss_svg2icon_plugin'
 
 
 const { resolve } = createRequire(import.meta.url)
@@ -26,14 +28,14 @@ const DEPENDENCIES = {
     },
 
     loaders: {
+        postCssAutoprefix, postCssSVG2Font,
+
         esbuild:                resolve('esbuild-loader'),
         styleLoader:            resolve('style-loader'),
         cssLoader:              resolve('css-loader'),
         postCssLoader:          resolve('postcss-loader'),
         sassLoader:             resolve('sass-loader'),
-        sassResourcesLoader:    resolve('sass-resources-loader'),
-        postCssAutoprefix:      resolve('autoprefixer'),
-        postCssSVG2Font:        resolve('./modules/postcss_svg2icon_plugin/index.cjs')
+        sassResourcesLoader:    resolve('sass-resources-loader')
     }
 } as const
 
@@ -41,6 +43,21 @@ const DEPENDENCIES = {
 const COMMONS = {
     ESLintExtensions: [ '.js', '.jsx', '.ts', '.tsx' ]
 } as const
+
+
+const pluginsKeysMap = {
+    compression: 'compression',
+    copy: 'copy',
+    cssExtract: 'cssExtract',
+    sw: 'sw',
+    cssOptimize: 'cssOptimize',
+    hot: 'hot',
+    html: 'html',
+    reactRefresh: 'reactRefresh',
+    clean: 'clean',
+    eslint: 'eslint'
+} as const
+
 
 const loadersKeyMap = {
     esbuild: 'esbuildLoader',
@@ -55,11 +72,11 @@ const loadersKeyMap = {
 const webpackModulesRegExp = {
     scripts: '\\.[tj]sx?$',
     styles: '\\.(c|sc|sa)ss$',
-    files: '\\.(avif|webp|jpg|png|svg|woff2)?$'
+    files: '\\.(avif|webp|jpg|png|svg|woff2?)$'
 } as const
 
 
 export {
-    loadersKeyMap, webpackModulesRegExp,
+    loadersKeyMap, pluginsKeysMap, webpackModulesRegExp,
     DEPENDENCIES, COMMONS
 }

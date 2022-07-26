@@ -1,9 +1,10 @@
-const { dirname, join } = require('path')
-const { createHash } = require('crypto')
-const postcss = require('postcss')
+import path from 'path'
+import { createHash } from 'crypto'
+import postcss, { Declaration } from 'postcss'
 
-const iconToFont = require('./icons_to_font.cjs')
+import iconToFont from './icons_to_font.js'
 
+import type { Svg2FontConverterPlugin } from './types'
 
 
 // function addFontDeclaration({ fontName, postCssRoot, svgPaths }) {
@@ -27,32 +28,33 @@ const iconToFont = require('./icons_to_font.cjs')
 //     ))
 //   }
 
-const getUnresolvedIconPath = value => value.substr(1, value.length - 2)
+const getUnresolvedIconPath = (value: string) => value.substring(1, value.length - 1)
 
 const cssPropValueMap = {
     'text-rendering': 'optimizeSpeed',
     '-webkit-font-smoothing': 'antialiased',
     '-moz-osx-font-smoothing': 'grayscale',
     'font-weight': 'normal',
-    'font-style': 'normal'
+    'font-style': 'normal',
+    'font-family': ''
 }
 
 
-const svgToFontConvertPlugin = ({ fontNamePrefix, isWoff2 }) => ({
+const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix, isWoff2 }) => ({
     postcssPlugin: 'postcss-svg2icon',
     prepare(_result) {
-        const context = dirname(_result.opts.from)
+        const context = path.dirname(_result.opts.from!)
 
         const result = {
             // rootValue: '',
-            absolute: []
+            absolute: [] as string[]
         }
 
-        const absolutePathsIndex = {}
+        const absolutePathsIndex: Indexable<number> = {}
         // const cssValueToAbsolutePath = {}
-        const unresolved = []
+        const unresolved: string[] = []
 
-        let rootDecl
+        let rootDecl: Declaration
         let i = 0
 
         return {
@@ -65,7 +67,7 @@ const svgToFontConvertPlugin = ({ fontNamePrefix, isWoff2 }) => ({
                     // result.rootValue = getUnresolvedIconPath(value)
                 } else if (prop == 'font-icon') {
                     const unresolvedValue = getUnresolvedIconPath(value)
-                    const absolutePath = join(context, unresolvedValue)
+                    const absolutePath = path.join(context, unresolvedValue)
 
 
                     // cssValueToAbsolutePath[value] = absolutePath //TODO?: use absolute paths
@@ -89,21 +91,20 @@ const svgToFontConvertPlugin = ({ fontNamePrefix, isWoff2 }) => ({
                         .update(JSON.stringify(unresolved))
                         .digest('hex')
 
-                    const fontName = `${fontNamePrefix}Iconfont_${checkSum}`
+                    const fontName = `${fontNamePrefix || ''}Iconfont_${checkSum}`
 
                     cssPropValueMap['font-family'] = fontName
                     for (const prop in cssPropValueMap) {
                         rootDecl.cloneBefore({
                             prop,
-                            value: cssPropValueMap[prop]
+                            value: cssPropValueMap[prop as keyof typeof cssPropValueMap]
                         })
                     }
                     rootDecl.remove()
 
                     return iconToFont({
-                        fontName,
-                        svgs: result.absolute,
-                        woff2: isWoff2
+                        fontName, isWoff2,
+                        svgs: result.absolute
                     }).then(font => {
                         const base64Font = Buffer.from(font).toString('base64')
                         const fontURL = `src:url('data:application/x-font-woff;charset=utf-8;base64,${base64Font}')`
@@ -122,4 +123,4 @@ const svgToFontConvertPlugin = ({ fontNamePrefix, isWoff2 }) => ({
 })
 
 
-module.exports = svgToFontConvertPlugin
+export default svgToFontConvertPlugin

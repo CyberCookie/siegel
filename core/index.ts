@@ -11,7 +11,11 @@ import {
 } from './server'
 
 import type { RequestHandler } from 'express'
-import type { ConfigFinal, Config, RunParams, RunParamsFinal } from './types'
+import type {
+    ConfigFinal, Config, ConfigDefault,
+    RunParamsFinal, RunParams,
+    ServerExtenderFn
+} from './types'
 
 
 async function main(
@@ -19,7 +23,6 @@ async function main(
     RUN_PARAMS?: RunParams,
     performConfigNormalize = true
 ) {
-
 
     if (performConfigNormalize) {
         ({ CONFIG, RUN_PARAMS } = normalizeConfigs(CONFIG as Config, RUN_PARAMS))
@@ -75,4 +78,4 @@ export {
     bootServer, getStaticServingData, http2Server, httpServer, proxyReq, extractSSL,
     nodeUtils, utils
 }
-export type { Config, RunParams }
+export type { Config, ConfigDefault, RunParams, ServerExtenderFn }
