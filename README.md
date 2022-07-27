@@ -160,8 +160,8 @@ siegel('/path/to/js_entry.ts')
 
 <br />
 
-[Build configuration](https://github.com/CyberCookie/siegel/tree/master/src/client_build)<br />
-[Server configuration](https://github.com/CyberCookie/siegel/tree/master/src/server)
+[Build configuration](https://github.com/CyberCookie/siegel/tree/master/core/client_build)<br />
+[Server configuration](https://github.com/CyberCookie/siegel/tree/master/core/server)
 
 ```js
 {   
