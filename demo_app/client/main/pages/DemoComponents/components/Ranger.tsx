@@ -30,11 +30,17 @@ const Demo = () => {
         }
     }
 
+    const valueForSimple = `value: ${valueSingle[0].toFixed(2)}`
+
 
     return <>
         <h2 children='simple' />
-        <h3 children={ `value: ${valueSingle[0].toFixed(2)}` } />
+        <h3 children={ valueForSimple } />
         <Ranger { ...propsSingle } />
+
+        <h2 children='simple vertical' />
+        <h3 children={ valueForSimple } />
+        <Ranger { ...propsSingle } isVertical />
 
 
         <h2 children='double slide with label. Cross behavior: stop' />

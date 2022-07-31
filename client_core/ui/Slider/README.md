@@ -39,7 +39,7 @@ Simple slider built on top of **Swipe** component<br />
 - `slides`
     - **Required**
     - Slides elements
-    - **Array of React.ReactNode**<br /><br />
+    - **( ((slideIndex: number) => React.ReactNode) | React.ReactNode )[]**<br /><br />
 
 - `store`
     - Store, created with **React.useState** store, to be used in **Slider** component

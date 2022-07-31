@@ -5,7 +5,7 @@ Creates data structure to store server entities in and to easily work with them 
 <br />
 
 Receives **1** paremeter:
-- **uniq field** - **String**. Uniq field in each entity. Usually it's something like _id_
+- **uniq field (ID)** - **String**. Uniq field in each entity. Usually it's something like _id_
 
 <br />
 
@@ -15,7 +15,7 @@ Returns **Object** to perform CRUD operations with entities:
     Receives **1** paramenter:
         - **entity** - **Object**. Entity **Object** to add
 
-- `addAll` - **Function**. Same as `addOrUpdate`, but receives **Array of Objects** entities<br />
+- `addAll` - **Function**. Same as `addOrUpdate`, but receives **Object[]** entities<br />
     Returns **Entities** struct
 
 - `get` - **Function** to get an entity by given **uniq field**. Returns **Entity**
@@ -41,7 +41,7 @@ Returns **Object** to perform CRUD operations with entities:
 
 - `raw` - **Function** to receive all the entities. Returns **Object** with the next fields:
     - `byID` - **Object** where key is **Entity**'s **uniq field**'s value and value is **Entity itself**
-    - `sorted` - **Array of uniq field's values**
+    - `sorted` - **ID[]**
 
 <br />
 

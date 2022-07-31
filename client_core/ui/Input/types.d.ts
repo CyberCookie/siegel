@@ -3,6 +3,8 @@ import type {
 } from '../_internals/types'
 
 
+type ComponentFocusEvent = React.FocusEvent<HTMLDivElement>
+
 type onChangeEventType = React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>
 
 type InnerInputAttributes = {
@@ -17,6 +19,13 @@ type InputState = {
     isFocused: boolean
 }
 type InputStore = [ InputState, React.Dispatch<React.SetStateAction<InputState>> ]
+
+
+type DebounceState = {
+    debounceValue: string | undefined
+    debounceTimeoutID: number | undefined
+}
+type DebounceStore = [ DebounceState, React.Dispatch<React.SetStateAction<DebounceState>> ]
 
 
 type Theme = {
@@ -48,6 +57,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     type?: 'input' | 'textarea' | 'password' | 'color' | 'date' | 'week' | 'month' | 'time' | 'datetime-local'
     payload?: _Payload
     regexp?: RegExp
+    debounceMs?: number
     mask?: {
         pattern: string
         patternValueChar: string
@@ -59,9 +69,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
         shiftNextChar?: boolean
         copyMask?: boolean
     }
-    onBlur?(e: React.FocusEvent<HTMLDivElement>): void
-    onChange?(value: string, e: onChangeEventType, payload: _Payload): void
-    onFocus?(e: React.FocusEvent<HTMLDivElement>): void
+    onBlur?(e: ComponentFocusEvent): void
+    onChange?(value: string, e: onChangeEventType | ComponentFocusEvent, payload: _Payload): void
+    onFocus?(e: ComponentFocusEvent): void
 }>
 
 
@@ -72,4 +82,4 @@ type DefaultProps = NonNullableKeys<{
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, Component, InnerInputAttributes, InputRef }
+export type { Props, Component, InnerInputAttributes, InputRef, DebounceStore }

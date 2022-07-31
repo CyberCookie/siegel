@@ -1,15 +1,44 @@
+$padding: 48px
+
+
+.root
+    &._vertical
+        .ranger_children
+            position: relative
+
+        .ranger_content_wrapper
+            height: 100%
+
+        .anchors_wrapper
+            position: absolute
+            height: 300px
+            padding-left: $padding
+        
+        .anchor
+            height: max-content
+            top: calc(var(--ui-ranger_anchors_index) * var(--ui-ranger_percents_per_anchor))
+            transform: translateY(-50%)
+
+
+    &:not(._vertical)
+        .anchors_wrapper
+            width: 100%
+            padding-bottom: 48px
+        
+        .anchor
+            width: max-content
+            left: calc(var(--ui-ranger_anchors_index) * var(--ui-ranger_percents_per_anchor))
+            transform: translateX(-50%)
+
+
+
 .anchors_wrapper
     --ui-ranger_percents_per_anchor: calc(100% / (var(--ui-ranger_anchors_count) - 1))
     position: relative
-    width: 100%
-    padding-bottom: 48px
 
 .anchor
     position: absolute
-    width: max-content
     text-align: center
-    left: calc(var(--ui-ranger_anchors_index) * var(--ui-ranger_percents_per_anchor))
-    transform: translateX(-50%)
 
 .anchor__active
     color: $primary

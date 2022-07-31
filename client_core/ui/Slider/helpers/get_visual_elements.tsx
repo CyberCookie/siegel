@@ -1,12 +1,14 @@
-//TODO: Get slide cb
-//TODO: visible slides count
+//TODO?: visible slides count (???)
 
 
 import React from 'react'
 
 import Swipe from '../../Swipe'
 
-import type { MergedProps, SwitchSlide } from '../types'
+import type {
+    MergedProps, SwitchSlide,
+    Slide, SlideFn, SlideEl
+} from '../types'
 
 
 type GetSliderVisualsParams = {
@@ -15,6 +17,10 @@ type GetSliderVisualsParams = {
     curSlide: number
 }
 
+
+const getSideSlide = (slide: Slide) => (
+    slide instanceof Function ? undefined : slide
+)
 
 function getVisualElements(params: GetSliderVisualsParams) {
     const {
@@ -41,15 +47,24 @@ function getVisualElements(params: GetSliderVisualsParams) {
     let nextSlideIndex = curSlide + 1
     nextSlideIndex >= slidesLength && (nextSlideIndex = 0)
 
+
+    const prevSlideEl = getSideSlide(slides[prevSlideIndex])
+    const nextSlideEl = getSideSlide(slides[nextSlideIndex])
+
+    const curSlideEl = slides[curSlide] instanceof Function
+        ?   (slides[curSlide] as SlideFn)(curSlide)
+        :   slides[curSlide] as SlideEl
+
+
     const slidePages = [
-        <div key={ `${prevSlideIndex} p` } className={ `${theme.slide} ${theme.slide__prev}` }
-            children={ slides[prevSlideIndex] } />,
+        <div key={ `${prevSlideIndex}p` } className={ `${theme.slide} ${theme.slide__prev}` }
+            children={ prevSlideEl } />,
 
         <div key={ curSlide } className={ `${theme.slide} ${theme.slide__active}` }
-            children={ slides[curSlide] } />,
+            children={ curSlideEl } />,
 
-        <div key={ `${nextSlideIndex} n` } className={ `${theme.slide} ${theme.slide__next}` }
-            children={ slides[ nextSlideIndex ] } />
+        <div key={ `${nextSlideIndex}n` } className={ `${theme.slide} ${theme.slide__next}` }
+            children={ nextSlideEl } />
     ]
 
 

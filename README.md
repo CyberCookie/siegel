@@ -247,10 +247,10 @@ More about demo project read [here](https://github.com/CyberCookie/siegel/tree/m
 
 In case you've cloned this repo:<br />
 
-To build `client_core` run:
+To build `siegel` run:
 
 ```sh
-node prepublish.js
+npm run __transpile
 ```
 
 

@@ -148,8 +148,8 @@ Flexible calendar to pick single or range of dates<br />
 - `strings`
     - Month and week day names
     - **Object** with the next fields:
-        - `months` - **Array of strings**
-        - `weekDaysShort` - **Array of strings**
+        - `months` - **String[]**
+        - `weekDaysShort` - **String[]**
     - Default **Object** is:
         - `months` - **[ 'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december' ]**
         - `weekDaysShort` - **[ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ]**

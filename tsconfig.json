@@ -12,10 +12,7 @@
 		"skipLibCheck": true,
         "declaration": true,
         "allowSyntheticDefaultImports": true,
-        "isolatedModules": true,
-        "paths": {
-            "siegel-utils/*": [ "./common/*" ],
-        }
+        "isolatedModules": true
     },
     "ts-node": {
         "files": true

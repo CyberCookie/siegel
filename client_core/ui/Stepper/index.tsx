@@ -53,7 +53,7 @@ const Stepper: Component = component(
         const {
             className, options, onChange, value, theme, children, refApi,
             disabled, label, onRangePickFinish, onRangePickStart, rangePickIcon, rangersCrossBehavior,
-            rangerTheme, rangerMemoDeps
+            isVertical, rangerTheme, rangerMemoDeps
         } = props
 
         // To have fresh data within Ranger.onChange handler
@@ -122,7 +122,7 @@ const Stepper: Component = component(
 
 
         const _rangerProps: RangerProps = {
-            className, refApi, disabled, label, rangePickIcon, rangersCrossBehavior,
+            className, refApi, disabled, label, rangePickIcon, rangersCrossBehavior, isVertical,
             memoDeps: rangerMemoDeps,
             theme: rangerTheme,
             onRangePickFinish, onRangePickStart,

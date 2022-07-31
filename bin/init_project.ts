@@ -1,12 +1,12 @@
+//TODO: init global with ts and eslint
+
 import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { nodeUtils } from '../core/index.js'
+import { isRunDirectly, requireJSON, globalNodeModulesPath } from '../core/utils'
 import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../core/constants.js'
 
-
-const { isRunDirectly, requireJSON, globalNodeModulesPath } = nodeUtils
 
 const {
     name: siegelPackageName,
@@ -24,26 +24,36 @@ function main(isGlobal?: boolean) {
     }
 
 
-    const userServerPath = join(PATHS.cwd, 'server')
+    const INIT_LOC_NAMES = {
+        DEMO_APP_SERVER_DIR_NAME:   'server',
+        DEMO_APP_SERVER_EXTENDER:   'app_server.ts',
+        DEMO_APP_SIEGEL_CONFIG:     'siegel_config.ts'
+    } as const
+
+
+    const userServerPath = join(PATHS.cwd, INIT_LOC_NAMES.DEMO_APP_SERVER_DIR_NAME)
     const userServerEntryPath = join(userServerPath, 'index.ts')
 
     const pathToSiegelAbsolute = isGlobal
         ?   `${globalNodeModulesPath()}/${siegelPackageName}`
         :   PATHS.packageRoot
 
-    const pathToSiegelRelative = relative(PATHS.cwd, pathToSiegelAbsolute)
+    let pathToSiegelRelative = relative(PATHS.cwd, pathToSiegelAbsolute)
+    pathToSiegelRelative[0] != '.' && (pathToSiegelRelative = `./${pathToSiegelRelative}`)
+
 
     const INIT_PATHS = {
         pathToSiegelRelative,
         pathToSiegelAbsolute,
         siegelEsLint:                   join(isGlobal ? pathToSiegelAbsolute : pathToSiegelRelative, LOC_NAMES.ESLINT_JSON),
-        siegelDemoAppServerPath:        join(PATHS.demoProject, 'server'),
+        siegelDemoAppServerPath:        join(PATHS.demoProject, INIT_LOC_NAMES.DEMO_APP_SERVER_DIR_NAME),
         siegelDemoAppPathShift:         relative(PATHS.demoProject, PATHS.packageRoot),
         siegelLibPath:                  join(pathToSiegelRelative, LOC_NAMES.LIB_OUTPUT_DIRNAME),
 
         userServerEntryPath,
-        userServerExtenderPath:         join(userServerPath, 'app_server.ts'),
-        userServerSiegelConfigPath:     join(userServerPath, 'siegel_config.ts'),
+        userServerExtenderPath:         join(userServerPath, INIT_LOC_NAMES.DEMO_APP_SERVER_EXTENDER),
+        userServerSiegelConfigPath:     join(userServerPath, INIT_LOC_NAMES.DEMO_APP_SIEGEL_CONFIG),
+        userServerTSConfigPath:         join(userServerPath, LOC_NAMES.TS_JSON),
         userTSConfigPath:               join(PATHS.cwd, LOC_NAMES.TS_JSON),
         userTSGlobal:                   join(PATHS.cwd, LOC_NAMES.TS_GLOBAL_TYPES),
         userESLint:                     join(PATHS.cwd, LOC_NAMES.ESLINT_JSON),
@@ -74,7 +84,7 @@ function main(isGlobal?: boolean) {
         const replaceStringPart = relative(INIT_PATHS.siegelDemoAppServerPath, PATHS.src)
 
         const siegelEntryPointPath = isGlobal
-            ?   pathToSiegelAbsolute
+            ?   INIT_PATHS.pathToSiegelAbsolute
             :   siegelPackageName
 
 
@@ -89,7 +99,7 @@ function main(isGlobal?: boolean) {
 
 
 
-    function modifyTSConfig() {
+    function modifyTSConfigs() {
         const clientTSConfig = requireJSON(INIT_PATHS.userTSConfigPath)
 
         const newExtendPath = clientTSConfig.extends.replace(
@@ -113,6 +123,19 @@ function main(isGlobal?: boolean) {
         }
 
         writeFileSync(INIT_PATHS.userTSConfigPath, toJSON(clientTSConfig))
+
+
+
+        const serverTSConfig = requireJSON(INIT_PATHS.userServerTSConfigPath)
+
+        serverTSConfig.include.push(
+            relative(userServerPath, INIT_PATHS.userTSGlobal)
+        )
+
+        writeFileSync(INIT_PATHS.userServerTSConfigPath, toJSON(serverTSConfig))
+
+
+        return serverTSConfig.compilerOptions.outDir
     }
 
 
@@ -131,7 +154,7 @@ function main(isGlobal?: boolean) {
     }
 
 
-    function modifyPackageJson() {
+    function modifyPackageJson(demoAppServerOutputDir: string) {
         existsSync(INIT_PATHS.userPackageJson) || shell('npm init -y')
         const targetPackageJSON = requireJSON(INIT_PATHS.userPackageJson)
 
@@ -148,15 +171,41 @@ function main(isGlobal?: boolean) {
 
         const packageJsonConfigBootString = packageJsonConfigBootArgs.join(' ')
 
-        for (const command in siegelPackageJSONScripts) {
-            const siegelPackageJSONCommand = siegelPackageJSONScripts[command]
 
-            siegelPackageJSONScripts[command] = siegelPackageJSONCommand.replace(
-                '$npm_package_config_boot',
-                packageJsonConfigBootString
-            )
+        const npmConfigBootVarName = '$npm_package_config_boot'
+        const pm2Command = 'pm2'
+        const deployCommand = 'deploy'
+        const buildNodeCommand = 'build_node'
+
+        for (const command in siegelPackageJSONScripts) {
+            if (command != pm2Command) {
+                const siegelPackageJSONCommand = siegelPackageJSONScripts[command]
+
+                siegelPackageJSONScripts[command] = siegelPackageJSONCommand.replace(
+                    npmConfigBootVarName,
+                    packageJsonConfigBootString
+                )
+            }
         }
+
+        const userServerOutputRelativePath = relative(
+            PATHS.cwd,
+            join(userServerPath, demoAppServerOutputDir)
+        )
+        siegelPackageJSONScripts[pm2Command] = siegelPackageJSONScripts[pm2Command].replace(
+            npmConfigBootVarName,
+            `./${userServerOutputRelativePath}/index.js`
+        )
+
+        const pm2CommandRun = `npm run ${pm2Command}`
+        siegelPackageJSONScripts[deployCommand] = siegelPackageJSONScripts[deployCommand]
+            .replace(pm2CommandRun, `npm run ${buildNodeCommand} && ${pm2CommandRun}`)
+
+        siegelPackageJSONScripts[buildNodeCommand] = `npx tsc -p ./${INIT_LOC_NAMES.DEMO_APP_SERVER_DIR_NAME}`
+
+
         targetPackageJSON.scripts = siegelPackageJSONScripts
+
 
         writeFileSync(INIT_PATHS.userPackageJson, toJSON(targetPackageJSON))
     }
@@ -165,9 +214,10 @@ function main(isGlobal?: boolean) {
 
     createDemoApp()
     modifyDemoAppServerSiegelPaths()
-    modifyTSConfig()
     modifyESLintConfig()
-    modifyPackageJson()
+
+    const demoAppServerOutputDir = modifyTSConfigs()
+    modifyPackageJson(demoAppServerOutputDir)
 }
 
 isRunDirectly(import.meta) && main()

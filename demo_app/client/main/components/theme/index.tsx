@@ -183,8 +183,12 @@ const Ranger = withDefaults(_Ranger, {
 const Stepper = withDefaults(_Stepper, {
     theme: stepperTheme,
     rangerTheme: Object.assign(rangerTheme, {
-        range__selected: `${rangerTheme.range__selected} ${stepperTheme.range__selected}`,
-        _single_picker: stepperTheme.single_pick
+        root: `${rangerTheme.root} ${stepperTheme.root}`,
+        _vertical: `${rangerTheme._vertical} ${stepperTheme._vertical}`,
+        _single_picker: stepperTheme.single_pick,
+        ranger_content_wrapper: stepperTheme.ranger_content_wrapper,
+        children: stepperTheme.ranger_children,
+        range__selected: `${rangerTheme.range__selected} ${stepperTheme.range__selected}`
     }),
     rangePickIcon: ''
 })

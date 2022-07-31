@@ -7,7 +7,7 @@ const { ID } = Slider
 
 const slides = (new Array(4))
     .fill(0)
-    .map((_, i) => <>slide {i + 1}</>)
+    .map((_, i) => () => `slide ${i + 1}`)
 
 const Demo = () => {
     const storeForExample1 = useState(0)

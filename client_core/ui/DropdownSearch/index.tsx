@@ -47,7 +47,7 @@ const DropdownSearch: Component = component(
             theme, minInputLength, onSearch, className, showOnFocus, onChange, refApi, inputStore,
             selected, searchOptions, rootTagAttributes, disabled, store, label, resetIcon, children,
             inputTheme, inputChildren, autofocus, placeholder, inputTagAttributes, errorMsg, regexp, mask,
-            onBlur, onFocus, inputMemoDeps
+            debounceMs, onBlur, onFocus, inputMemoDeps
         } = props
 
         const innerStore = store || useState( getDefaultState() )
@@ -136,7 +136,7 @@ const DropdownSearch: Component = component(
 
         const inputInnerProps: InputProps = {
             disabled, label, mask, regexp, placeholder, errorMsg,
-            autofocus, onBlur, onFocus,
+            debounceMs, autofocus, onBlur, onFocus,
             theme: inputTheme,
             inputAttributes: inputTagAttributes,
             memoDeps: inputMemoDeps,

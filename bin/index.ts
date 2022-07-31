@@ -6,7 +6,7 @@ import path from 'path'
 
 import { LOC_NAMES, PATHS, DEFAULT_CONFIG, DEFAULT_RUN_PARAMS } from '../core/constants.js'
 import normalizeConfig from '../core/normalize_configs.js'
-import siegel, { nodeUtils, utils } from '../core/index.js'
+import siegel, { nodeUtils, utils } from '../core'
 import initProject from './init_project.js'
 import createSSLCerts from './create_SSL.js'
 
@@ -119,8 +119,9 @@ const COMMANDS_TREE: CommanTree = {
             {
                 flagLong: '--server',
                 description: 'Path to server app entrypoint.',
-                paramAction({ value, result }) {
-                    (result.config.server as ServerConfig).appServerLoc = resolvePath(value as string)
+                async paramAction({ value, result }) {
+                    const appServer = await import(resolvePath(value as string))
+                    ;(result.config.server as ServerConfig).appServer = appServer
                 }
             },
             {
@@ -259,7 +260,7 @@ if (commandConfig) {
 
             console.log(logString)
 
-            flagsMap[flagLong.substr(2)] = { flag, flagLong }
+            flagsMap[flagLong.substring(2)] = { flag, flagLong }
         })
 
         if (example) {

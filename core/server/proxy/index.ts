@@ -2,7 +2,7 @@ import http from 'http'
 import https from 'https'
 import querystring, { ParsedUrlQueryInput } from 'querystring'
 
-import populateURLParams from '../../../common/populate_url_params/index.js'
+import populateURLParams from '../../../common/populate_url_params'
 
 import type { RequestHandler } from 'express'
 import type { Proxy } from './types'

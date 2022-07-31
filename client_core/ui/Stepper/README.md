@@ -28,12 +28,12 @@ Simple slider built on top of **Ranger** component<br />
 - `value`
     - **Required**
     - Stepper anchors tied to specific option
-    - **Array of string**. Array of **props.options** values<br /><br />
+    - **String[]**. Array of **props.options** values<br /><br />
 
 - `options`
     - **Required**. Minimal options length is **3**
     - Stepper option labels on top of **Ranger** component
-    - **Array of Object** with the next fields:
+    - **Object[]** with the next fields:
         - `value` - **String**. Option value
         - `label` - **React.ReactNode**. Label text
         - `className` - **String**. Option label className
@@ -41,7 +41,7 @@ Simple slider built on top of **Ranger** component<br />
 
 - `onChange`
     - **Funtion** that is triggered when **Stepper** value is change. Has **2** arguments:
-        - **newValues** - **Array of Object** with the next fields:
+        - **newValues** - **Object[]** with the next fields:
             - `value` - value of selected **props.options**
             - `optionIndex` - selected option index
         - **event** - **MouseEvent | React.MouseEvent**<br /><br />
@@ -59,5 +59,7 @@ Simple slider built on top of **Ranger** component<br />
 - `rangePickIcon` - **Ranger.rangePickIcon**
 
 - `label` - **Ranger.label**
+
+- `isVertical` - **Ranger.isVertical**
 
 - `disabled` - **Ranger.disabled**

@@ -1,5 +1,3 @@
-'use strict'
-
 import siegel from '../../core'
 
 import siegelConfig from './siegel_config.js'

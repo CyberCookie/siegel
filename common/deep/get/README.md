@@ -4,7 +4,7 @@ To retrieve deeply nested value
 
 Receives **3** arguments:
 - **object** - **Object** to get value from
-- **path** - **Array of String** - Path to desired value within **object**
+- **path** - **String[]** - Path to desired value within **object**
 - **default value** - **Any**. Value to return if no value by with provided **path**
 
 <br />

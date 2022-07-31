@@ -2,17 +2,17 @@ import http2 from 'http2'
 
 import { HEADER_ACCEPT_INDEX } from '../constants.js'
 import extractSSL from '../extract_ssl_key.js'
-import getStaticServingData from '../get_static_file_response_data/index.js'
+import getStaticServingData from '../get_static_file_response_data'
 
 import type { ServerBootParams } from '../types'
 import type { StreamCB } from './types'
 
 
 async function createHTTP2Server(params: ServerBootParams) {
-    const { devMiddlewares, appServer, CONFIG } = params
+    const { devMiddlewares, CONFIG } = params
     const {
         publicDir,
-        server: { ssl, serveCompressionsPriority }
+        server: { ssl, serveCompressionsPriority, appServer }
     } = CONFIG
 
     const {

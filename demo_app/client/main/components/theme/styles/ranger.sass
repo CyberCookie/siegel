@@ -1,11 +1,47 @@
-$height: 16px
-$slider_size: $height * 2
+$size_long: 300px
+$size_short: 16px
+$slider_size: $size_short * 2
 $slider_size_scaled: $slider_size * 1.1
-$range_area_radius: math.div($height, 2)
+$range_area_radius: math.div($size_short, 2)
 
     
 .root
-    width: 300px
+    &._vertical
+        height: $size_long
+
+        .range_area
+            height: 100%
+            width: $size_short
+
+            & > div
+                &:first-child
+                    border-radius: $range_area_radius $range_area_radius 0 0 
+                
+                &:last-child
+                    border-radius: 0 0 $range_area_radius $range_area_radius
+
+        .range__selected, .range__unselected
+            width: 100%
+
+
+    &:not(._vertical)
+        width: $size_long
+
+        .range_area
+            height: $size_short
+            width: 100%
+
+            & > div
+                &:first-child
+                    border-radius: $range_area_radius 0 0 $range_area_radius
+                
+                &:last-child
+                    border-radius: 0 $range_area_radius $range_area_radius 0
+
+        .range__selected, .range__unselected
+            height: 100%
+
+
 
 .label
     +font(22px, 34px)
@@ -13,16 +49,7 @@ $range_area_radius: math.div($height, 2)
 
 .range_area
     align-items: center
-    height: $height
-    width: 100%
     cursor: pointer
-
-    & > div
-        &:first-child
-            border-radius: $range_area_radius 0 0 $range_area_radius
-        
-        &:last-child
-            border-radius: 0 $range_area_radius $range_area_radius 0
 
 .range_slider
     width: $slider_size
@@ -37,9 +64,6 @@ $range_area_radius: math.div($height, 2)
     &:hover
         background: $secondary
 
-
-.range__selected, .range__unselected
-    height: 100%
 
 .range__selected
     background: $primary

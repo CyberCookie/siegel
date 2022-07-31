@@ -39,7 +39,7 @@ Configurable and flexible data grid to manage big amount of data, built on top o
 - `columnsConfig`
     - **Required**
     - Data table columns config. Each array elelemt represents one column. Table column index mathches with column config index
-    - **Array of Object** with the next fields:
+    - **Object[]** with the next fields:
         - `ID` - **Required** **String**. Column ID used in store manipulations
         - `label` - Column label showiing in table header cell
         - `customParams` - **Any**. some data you may use in extended dataTable
@@ -50,10 +50,10 @@ Configurable and flexible data grid to manage big amount of data, built on top o
             - Returns **TableTD**
         - `onSort` - **Function**. Specify how this column should be sorted
             - Has **3** arguments:
-                - **IDs** - **Array of strings**. All entity IDs to be sorted
+                - **IDs** - **String[]**. All entity IDs to be sorted
                 - **byID** - **Object**. Where key is entity ID and value is **Entity**
                 - **value** - **Number**. Sort vakue
-            - Returns IDs: **Array of strings**
+            - Returns IDs: **String[]**
         - `onFilter` - **Function**. Specify how this column should be filtered
             - Has **3** arguments: Firts 2 arguments are the same as in **onSort**. 3d argument is:
                 - **search** - **Any**. Column filter value<br /><br />
@@ -104,18 +104,18 @@ Configurable and flexible data grid to manage big amount of data, built on top o
         - **dispayed entity IDs** - **Object**. Includes precise information about what entities was processed. Has the next fields:
             - `from` - **Number**. Index of entity **DataTable** starts from
             - `to` - **Number**. Index of entity **DataTable** ends with
-            - `allPagesIDs` - **Array of IDs**. All entity IDs left after filtering<br /><br />
+            - `allPagesIDs` - **ID[]**. All entity IDs left after filtering<br /><br />
 
 - `postProcessHeadRow`
     - Post process head row allowing to add new ones by mutating existing rows
     - **Function**. Has **2** arguments:
-        - **rows** - **Array of TableHeadRow**. Head rows
+        - **rows** - **TableHeadRow[]**. Head rows
         - **dispayedEntityIDs** - Same as **postProcessHeadCell**'s dispayedEntityIDs<br /><br />
 
 - `postProcessBodyRow`
     - Post process each body row by mutating it
     - **Function**. Has **3** arguments:
-        - **row** - **Array of TableBodyRow**. Represents table body row
+        - **row** - **TableBodyRow[]**. Represents table body row
         - **entity** - **Entity**. Entity displayed in this row
         - **index** - **Number**. Row index
 
@@ -145,8 +145,8 @@ Both are **Object** with the next fields:
 - `value` - **React.ReactNode**. Cell value
 
 **TableHeadRow** and **TableBodyRow** are types to represent table row of cells<br />
-Both are **Array of Object** with the next fields:
-- `children` - **Array of (TableTH | TableTD)** - Row cells
+Both are **Object[]** with the next fields:
+- `children` - **(TableTH | TableTD)[]** - Row cells
 - `attributes` - **tr** tag attributes
 
 ### Entities

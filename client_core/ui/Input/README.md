@@ -53,6 +53,7 @@ Input field to type text into<br />
     - **Boolean**<br /><br />
 
 - `autofocus`
+    - **Static**
     - Focuses input field on first render
     - **Boolean**<br /><br />
 
@@ -79,6 +80,11 @@ Input field to type text into<br />
 - `regexp`
     - Input field regexp validator
     - **RegExp**<br /><br />
+
+- `debounceMs`
+    - **Static**
+    - Set onChange debounce miliseconds
+    - **Number**<br /><br />
 
 - `mask`
     - Applies mask to input field

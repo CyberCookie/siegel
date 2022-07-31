@@ -35,7 +35,7 @@ Searchable input with select hints built on top of **Input** component<br />
 - `searchOptions`
     - **Required**
     - All options that may display as a hints
-    - **Array of Object** with the next fields:
+    - **Object[]** with the next fields:
         - `inputValue`
             - **Required**
             - String to search for in order to show this hint
@@ -111,6 +111,8 @@ Searchable input with select hints built on top of **Input** component<br />
 - `inputMemoDeps` - **Input.memoDeps**
 
 - `errorMsg` - **Input.errorMsg**
+
+- `debounceMs` - **Input.debounceMs**
 
 - `mask` - **Input.mask**
 

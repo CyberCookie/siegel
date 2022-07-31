@@ -1,14 +1,14 @@
 process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
-import * as utils from '../common/index.js'
-import * as nodeUtils from './utils/index.js'
+import * as utils from '../common'
+import * as nodeUtils from './utils'
 import normalizeConfigs from './normalize_configs.js'
-import webpackBuilder, { BUILD_CONSTANTS } from './client_build/index.js'
+import webpackBuilder, { BUILD_CONSTANTS } from './client_build'
 import {
     bootServer, getStaticServingData, http2Server, httpServer, proxyReq,
     extractSSL
-} from './server/index.js'
+} from './server'
 
 import type { RequestHandler } from 'express'
 import type {
@@ -47,25 +47,10 @@ async function main(
     }
 
 
-    if (isServer) {
-        let appServer
-        const { appServerLoc } = (CONFIG as ConfigFinal).server
-        if (appServerLoc) {
-            try {
-                appServer = (await import(appServerLoc)).default
-
-                //TODO: move to normalize_configs
-                if (!appServer || !(appServer instanceof Function || appServer instanceof Promise)) {
-                    throw '[config.server.appServerLoc] export type is not a function'
-                }
-            } catch(err) { console.error(err) }
-        }
-
-        bootServer.run({
-            devMiddlewares, appServer,
-            CONFIG: CONFIG as ConfigFinal
-        })
-    }
+    isServer && bootServer.run({
+        devMiddlewares,
+        CONFIG: CONFIG as ConfigFinal
+    })
 }
 
 nodeUtils.isRunDirectly(import.meta) && main()

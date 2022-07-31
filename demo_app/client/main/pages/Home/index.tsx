@@ -10,7 +10,7 @@ import styles from './styles.sass'
 
 const docsListConfig = [
     { path: '', title: 'Siegel' },
-    { path: `${GIT_PATHS.FILES_PREFIX}demo_app`, title: 'Demo app' },
+    { path: GIT_PATHS.FILES_PREFIX + 'demo_app', title: 'Demo app' },
     {
         path: GIT_PATHS.FILES_PREFIX + GIT_PATHS.CLIENT_CORE.ROOT,
         title: 'Client core',
@@ -24,7 +24,7 @@ const docsListConfig = [
         ]
     },
     {
-        path: GIT_PATHS.FILES_PREFIX + GIT_PATHS.CLIENT_CORE.ROOT,
+        path: GIT_PATHS.FILES_PREFIX + GIT_PATHS.SRC.ROOT,
         title: 'Core',
         children: [
             { path: 'client_build', title: 'Webpack build' },

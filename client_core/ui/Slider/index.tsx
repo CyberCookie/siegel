@@ -5,7 +5,10 @@ import component from '../_internals/component'
 import addChildren from '../_internals/children'
 import { getRootProps, getVisualElements } from './helpers'
 
-import type { Component, Props, SwitchSlide } from './types'
+import type {
+    Component, Props,
+    SwitchSlide, SlideEl, SlideFn
+} from './types'
 
 
 const componentID = '-ui-slider'
@@ -105,4 +108,4 @@ const Slider: Component = component(
 
 export default Slider
 export { componentID }
-export type { Component, Props }
+export type { Component, Props, SlideEl, SlideFn }

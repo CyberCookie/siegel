@@ -38,7 +38,7 @@ Dropdown options selector<br />
 - `options`
     - **Required**
     - Possible options to choose
-    - **Array of Object** with the next fields
+    - **Object[]** with the next fields
         - `value` - **Any**. Option's value
         - `title` - **React.ReactNode**. Option's text
         - `disabled` - **Boolean**. Disable this option

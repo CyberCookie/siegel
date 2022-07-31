@@ -46,7 +46,7 @@ const NumberPicker: Component = component(
         const {
             theme, disabled, onChange, onFocus, step, precision, min, max, disabledInput, className,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
-            refApi, rootTagAttributes, inputRootAttributes, children, onBlur,
+            refApi, rootTagAttributes, inputRootAttributes, children, onBlur, debounceMs,
             autofocus, mask, inputTheme, inputMemoDeps
         } = props
 
@@ -112,7 +112,8 @@ const NumberPicker: Component = component(
         theme.root = theme.input_root
 
         const inputFieldProps: InputProps = {
-            label, errorMsg, placeholder, inputAttributes, onFocus, mask, autofocus,
+            label, errorMsg, placeholder, inputAttributes, onFocus, mask,
+            debounceMs, autofocus,
             theme: inputTheme,
             memoDeps: inputMemoDeps,
             rootTagAttributes: inputRootAttributes,

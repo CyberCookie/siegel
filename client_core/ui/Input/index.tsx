@@ -1,9 +1,8 @@
 //TODO: add formatter mode
-//TODO: prefix / sufix
-//TODO: debounce
 
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useLayoutEffect, useState } from 'react'
 
+import isExists from '../../../common/is/exists'
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
@@ -11,13 +10,24 @@ import addChildren from '../_internals/children'
 import getInputLabeled from '../_internals/label'
 import componentID from './id'
 
-import type { Component, Props, InnerInputAttributes, InputRef } from './types'
+import type {
+    Component, Props, InnerInputAttributes, InputRef, DebounceStore
+} from './types'
+
+
+type DebounceState = DebounceStore[0]
 
 
 const getDefaultState = () => ({
     isTouched: false,
     isFocused: false
 })
+const getDefaultDebounceState = (state: Partial<DebounceState> = {}) => {
+    state.debounceValue = undefined,
+    state.debounceTimeoutID = undefined
+
+    return state as DebounceState
+}
 
 //[email, password, search, tel, text, url, (textarea)]
 const Input: Component = component(
@@ -44,7 +54,8 @@ const Input: Component = component(
         const {
             value = '',
             theme, label, errorMsg, type, disabled, onBlur, rootTagAttributes, inputAttributes,
-            onChange, onFocus, payload, store, autofocus, placeholder, regexp, mask, refApi, children
+            onChange, onFocus, payload, store, autofocus, placeholder, regexp, mask, refApi, children,
+            debounceMs
         } = props
 
         const innerStore = store || useState(getDefaultState())
@@ -52,9 +63,23 @@ const Input: Component = component(
         const { isFocused, isTouched } = state
 
 
+        let debounceStore: DebounceStore
+        if (debounceMs) {
+            debounceStore = useState<DebounceState>( getDefaultDebounceState() )
+            const { debounceTimeoutID } = debounceStore[0]
+
+            useLayoutEffect(() => {
+                return () => { clearTimeout(debounceTimeoutID) }
+            }, [ debounceTimeoutID ])
+        }
+
+
         let inputProps: InnerInputAttributes = {
-            disabled, value, placeholder,
-            className: theme.field
+            disabled, placeholder,
+            className: theme.field,
+            value: debounceStore! && isExists(debounceStore[0].debounceValue)
+                ?   debounceStore[0].debounceValue
+                :   value
         }
         if (autofocus || mask) {
             inputProps.ref = useRef() as InputRef
@@ -79,6 +104,18 @@ const Input: Component = component(
                     state.isFocused &&= false
 
                     onBlur?.(e)
+
+                    if (onChange && debounceStore) {
+                        const [{ debounceTimeoutID, debounceValue }, setDebounceState ] = debounceStore
+
+                        if (isExists(debounceValue)) {
+                            clearTimeout(debounceTimeoutID)
+                            setDebounceState( getDefaultDebounceState() )
+
+                            onChange(debounceValue, e, payload)
+                        }
+                    }
+
                     setState({ ...state })
                 }
             }
@@ -98,8 +135,24 @@ const Input: Component = component(
 
             inputProps.onChange = e => {
                 const value = (e.target as HTMLInputElement).value
-                ;(!regexp || regexp.test(value)) && onChange(value, e, payload)
+                if (!regexp || regexp.test(value)) {
+                    if (debounceStore) {
+                        const [{ debounceTimeoutID }, setDebounceState ] = debounceStore
+
+                        clearTimeout(debounceTimeoutID)
+
+                        setDebounceState({
+                            debounceValue: value,
+                            debounceTimeoutID: (setTimeout as Window['setTimeout'])(() => {
+                                setDebounceState( getDefaultDebounceState({}) )
+                                onChange(value, e, payload)
+                            }, debounceMs)
+                        })
+
+                    } else onChange(value, e, payload)
+                }
             }
+
         } else {
             inputRootProps.className += ` ${theme._readonly}`
             inputProps.readOnly = true

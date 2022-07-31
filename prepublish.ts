@@ -40,7 +40,7 @@ function copyTypes(iterateOverDirPath: string) {
 
 
 function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = true) {
-    const addExtensionToImportRegExp = /((import|export) .* from\s+['"])((.*\/.*)(?<![.]\w*))(?=['"])/g
+    const addExtensionToImportRegExp = /((import|export) .* from\s+['"])(?!@)((.*\/.*)(?<![.]\w*))(?=['"])/g
 
     iterateFiles(iterateOverDirPath, (fileNamePath, dirPath) => {
         if (fileNamePath.endsWith('.js')) {
@@ -54,7 +54,6 @@ function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = tr
                 const importPathResolved = path.join(dirPath, importPath)
                 const isDirectory = fs.existsSync(importPathResolved) && fs.lstatSync(importPathResolved).isDirectory()
 
-                //TODO: fix case with @pmmmwh/react-refresh-webpack-plugin.js
                 const replace = _import + importPath
                 const replaceWith = replace + (
                     isDirectory
@@ -90,7 +89,7 @@ normalizeImportPathsAndMinify(PATHS.clientCoreOutput)
 copyTypes(PATHS.sharedUtils)
 normalizeImportPathsAndMinify(PATHS.sharedUtilsOutput)
 
-// copyTypes(PATHS.src)
-// normalizeImportPathsAndMinify(PATHS.srcOutput, false)
+copyTypes(PATHS.src)
+normalizeImportPathsAndMinify(PATHS.srcOutput, false)
 
-// normalizeImportPathsAndMinify(PATHS.binOutput, false)
+normalizeImportPathsAndMinify(PATHS.binOutput, false)

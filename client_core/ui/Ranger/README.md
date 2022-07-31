@@ -37,7 +37,7 @@ Provides sliding point(s) to specify some range values from 0 to 1<br />
 
 - `value`
     - Range pick value
-    - **Array of numbers**. Number of elements should always be even. Special case is single mode<br />
+    - **Number[]**. Number of elements should always be even. Special case is single mode<br />
     Then there is only one element in the array<br /><br />
 
 - `onChange`
@@ -52,6 +52,10 @@ Provides sliding point(s) to specify some range values from 0 to 1<br />
 - `onRangePickFinish`
     - **Function** that is triggered when finish slide dragging. Has **1** arguments:
         - **event** - **MouseEvent**<br /><br />
+
+- `isVertical`
+    - Enables vertical mode
+    - **Boolean**<br /><br />
 
 - `rangersCrossBehavior`
     - Determined range pick behaviour when it 'bumps' another range pick<br />

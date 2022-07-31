@@ -1,10 +1,11 @@
 import path from 'path'
 import fs from 'fs'
 
-import { utils } from './index.js'
+import isExists from '../common/is/exists'
 import { DEFAULT_RUN_PARAMS, DEFAULT_CONFIG } from './constants.js'
 
 import type { BuildConfigsMerged } from './client_build/types'
+import type { ServerConfigFinal } from './server/types'
 import type { Config, ConfigFinal, RunParams, RunParamsFinal } from './types'
 
 
@@ -13,7 +14,7 @@ function mergeConfigWithDefaults(CONFIG: Indexable, DEFAULT_CONFIG: Indexable) {
         const defaultValue = DEFAULT_CONFIG[key as keyof Config]
         const configValue = CONFIG[key as keyof Config]
 
-        if (!utils.is.isExists(configValue)) {
+        if (!isExists(configValue)) {
             CONFIG[key] = defaultValue
 
         } else if (Array.isArray(configValue) && Array.isArray(defaultValue)) {
@@ -41,6 +42,16 @@ function normalizeConfig(CONFIG: Config = {}, RUN_PARAMS: RunParams = {}) {
     }
 
     mergeConfigWithDefaults(CONFIG, DEFAULT_CONFIG)
+
+
+    if (isServer) {
+        const { appServer } = CONFIG.server as ServerConfigFinal
+
+        if (isExists(appServer) && !(appServer instanceof Function)) {
+            throw '[config.server.appServer] export type is not a function'
+        }
+    }
+
 
     if (isBuild) {
         const { input, output } = CONFIG.build as BuildConfigsMerged

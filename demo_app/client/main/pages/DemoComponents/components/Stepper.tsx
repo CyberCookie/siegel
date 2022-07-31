@@ -43,6 +43,23 @@ const Demo = () => {
                 setState({ ...state })
             } } />
 
+
+        <br /><br />
+
+
+        <Stepper value={ selectedOnePoint } isVertical
+            options={ [
+                { value: stepIDsMap.first, label: 'First' },
+                { value: stepIDsMap.second, label: 'Second' },
+                { value: stepIDsMap.third, label: 'Third' }
+            ] }
+            onChange={ values => {
+                const [ selected ] = values
+                state.selectedOnePoint = [ selected.value ]
+                setState({ ...state })
+            } } />
+
+
         <h2 children='3 anchors' />
         <Stepper value={ selectedTwoPoints }
             options={ [

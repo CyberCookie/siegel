@@ -25,9 +25,9 @@ Receives **3** parameters:
 
     server: {
         /*
-            Path to a user defined server to extend the one created by Siegel
+            User defined server to extend the one created by Siegel
         */
-        appServerLoc: String,
+        appServer: Function,
 
         /*
             Static server host
@@ -72,15 +72,18 @@ Receives **3** parameters:
 
 ## Extend with own server
 
-To extend built in server you may use `server.appServerLock` config property 
+To extend built in server you may use `server.appServer` config property 
 
 <br />
 
 ```js
+import myServer from './my_server.ts'
+
+
 // ...siegel_config
 {
     server: {
-        appServerLoc: `${process.cwd()}/user_app.js`
+        appServer: myServer
     }
 }
 ```
@@ -180,8 +183,6 @@ Proxy receives **1** parameter - **Object** with the next fields:
 <br /><hr />
 <details>
     <summary>TODO</summary>
-    - Compatible HTTP1 and HTTP2 static server<br />
+    - Compatible HTTP1 and HTTP2 static servers<br />
     - SEO for crawlers (pages prebuild or build on the fly)<br />
-    - TS<br />
-    - Isomorphic API?
 </details>

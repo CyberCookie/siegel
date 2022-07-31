@@ -1,4 +1,4 @@
-import isExists from '../../../common/is/exists/index.js'
+import isExists from '../../../common/is/exists'
 
 import type { RuleSetRule } from 'webpack'
 import type {

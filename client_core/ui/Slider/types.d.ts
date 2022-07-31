@@ -9,6 +9,11 @@ type SwitchSlide = (
     isControlClick?: boolean
 ) => void
 
+type SlideEl = React.ReactNode
+type SlideFn = (slideIndex: number) => React.ReactNode
+type Slide = SlideEl | SlideFn
+
+
 
 type Theme = {
     _slided_forward?: string
@@ -25,7 +30,7 @@ type Theme = {
 }
 
 type Props = PropsComponentThemed<Theme, {
-    slides: React.ReactNode[]
+    slides: Slide[]
     store?: [ number, React.Dispatch<React.SetStateAction<number>> ]
     children?: React.ReactNode
     startFrom?: number
@@ -46,4 +51,7 @@ type MergedProps = Props & DefaultProps
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, MergedProps, Component, SwitchSlide }
+export type {
+    Props, MergedProps, Component,
+    Slide, SlideEl, SlideFn, SwitchSlide
+}

@@ -1,6 +1,3 @@
-//TODO: vertical mode
-
-
 import React, { useState, useLayoutEffect } from 'react'
 
 import component from '../_internals/component'
@@ -37,6 +34,7 @@ const Ranger: Component = component(
         rangePickIcon: '+',
         theme: {
             root: '',
+            _vertical: '',
             _single_picker: '',
             _disabled: '',
             _readonly: '',
@@ -54,7 +52,7 @@ const Ranger: Component = component(
 
         const {
             theme, className, refApi, rootTagAttributes, label, disabled, value, rangersCrossBehavior,
-            onChange, onRangePickStart, onRangePickFinish, children
+            onChange, onRangePickStart, onRangePickFinish, children, isVertical
         } = props
 
         const state = useState(toDefaultState())[0]
@@ -70,6 +68,7 @@ const Ranger: Component = component(
 
         let rootProps = { className }
         isSingle && (rootProps.className += ` ${theme._single_picker}`)
+        isVertical && (rootProps.className += ` ${theme._vertical} ${styles._vertical}`)
 
         const rangeAreaProps: { className: string, children: JSX.Element, onMouseDown?: typeof onSlideStart} = {
             className: `${theme.range_area} ${styles.range_area}`,
@@ -92,17 +91,27 @@ const Ranger: Component = component(
             const rangeAreaElement = e.currentTarget as HTMLDivElement
             const {
                 x: rangeAreaOffsetX,
-                width: rangeAreaWidth
+                y: rangeAreaOffsetY,
+                width: rangeAreaWidth,
+                height: rangeAreaHeight
             } = rangeAreaElement.getBoundingClientRect()
-            const { clientX, x: posX } = e.nativeEvent
+            const {
+                clientX, clientY,
+                x: posX,
+                y: posY
+            } = e.nativeEvent
 
-            const rangeAreaPosXFraction = +((clientX - rangeAreaOffsetX) / rangeAreaWidth).toFixed(2)
+            const rangeAreaPosFraction = +(
+                isVertical
+                    ?   (clientY - rangeAreaOffsetY) / rangeAreaHeight
+                    :   (clientX - rangeAreaOffsetX) / rangeAreaWidth
+            ).toFixed(2)
 
 
             let activeSlider: HTMLDivElement
             if (isSingle) {
                 activeSlider = rangeAreaElement.children[1] as HTMLDivElement
-                valueValidated[0] != rangeAreaPosXFraction && onChange!([ rangeAreaPosXFraction ], e)
+                valueValidated[0] != rangeAreaPosFraction && onChange!([ rangeAreaPosFraction ], e)
 
             } else {
                 let activeSliderArrValueIndex: number
@@ -110,17 +119,18 @@ const Ranger: Component = component(
 
                 for (let i = 0, l = valueValidated.length; i < l; i++) {
                     const rangeSliderPosFraction = valueValidated[i]
-                    const distanceToRangeSlider = Math.abs(rangeSliderPosFraction - rangeAreaPosXFraction)
+                    const distanceToRangeSlider = Math.abs(rangeSliderPosFraction - rangeAreaPosFraction)
 
                     if (distanceToRangeSlider < minimalDistanceToRangeSlider) {
                         activeSlider = rangeAreaElement.children[(i * 2) + 1] as HTMLDivElement
                         activeSliderArrValueIndex = i
                         minimalDistanceToRangeSlider = distanceToRangeSlider
+
                     } else break
                 }
 
-                if (valueValidated[activeSliderArrValueIndex!] != rangeAreaPosXFraction) {
-                    valueValidated[activeSliderArrValueIndex!] = rangeAreaPosXFraction
+                if (valueValidated[activeSliderArrValueIndex!] != rangeAreaPosFraction) {
+                    valueValidated[activeSliderArrValueIndex!] = rangeAreaPosFraction
                     onChange!(valueValidated, e)
                 }
 
@@ -129,8 +139,8 @@ const Ranger: Component = component(
 
             activeSlider!.classList.add(theme.range_slider__active)
 
-            state.anchorPos = posX
-            state.anchorFraction = rangeAreaPosXFraction
+            state.anchorPos = isVertical ? posY : posX
+            state.anchorFraction = rangeAreaPosFraction
             state.activeSlider = activeSlider!
 
 
@@ -141,10 +151,12 @@ const Ranger: Component = component(
         function onSlide(e: MouseEvent) {
             const { anchorPos, anchorFraction, activeSlider, activeSliderArrValueIndex } = state
 
-            const deltaPX = e.x - anchorPos
+            const deltaPX = (isVertical ? e.y : e.x) - anchorPos
             if (deltaPX) {
-                const parentWidth = ((activeSlider as HTMLDivElement).parentNode as HTMLDivElement).clientWidth
-                const newValue = normalizeValue(anchorFraction + deltaPX / parentWidth)
+                const { clientWidth, clientHeight } = ((activeSlider as HTMLDivElement).parentNode as HTMLDivElement)
+                const newValue = normalizeValue(
+                    anchorFraction + deltaPX / (isVertical ? clientHeight : clientWidth)
+                )
 
                 if (newValue != anchorFraction) {
                     if (isSingle) onChange!([ newValue ], e)
@@ -163,6 +175,7 @@ const Ranger: Component = component(
                                     valueValidated[activeSliderArrValueIndex!] = pairedArrValue
                                     onChange!(valueValidated, e)
                                     return
+
                                 } else {
                                     activeSlider!.classList.remove(theme.range_slider__active)
 

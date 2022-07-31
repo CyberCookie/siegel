@@ -61,6 +61,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     inputMemoDeps?: InputProps['memoDeps']
     errorMsg?: InputProps['errorMsg']
     regexp?: InputProps['regexp']
+    debounceMs?: InputProps['debounceMs']
     mask?: InputProps['mask']
     onBlur?: InputProps['onBlur']
     onFocus?: InputProps['onFocus']

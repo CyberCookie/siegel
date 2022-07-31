@@ -44,6 +44,7 @@ type Props = PropsComponentThemed<Theme, {
     rangersCrossBehavior?: RangerProps['rangersCrossBehavior']
     rangePickIcon?: RangerProps['rangePickIcon']
     refApi?: RangerProps['refApi']
+    isVertical?: RangerProps['isVertical']
     label?: RangerProps['label']
     disabled?: RangerProps['disabled']
     children?: React.ReactNode

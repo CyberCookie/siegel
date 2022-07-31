@@ -6,7 +6,7 @@ To set property deeply into an object
 
 Receives **3** parameters:
 - **object** - **Object** to set value to
-- **path** - **Array of String** - Path to to set value by
+- **path** - **String[]** - Path to to set value by
 - **value** - **Any**. Value to set by provided **path**
 
 <br />

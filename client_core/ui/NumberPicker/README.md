@@ -85,6 +85,8 @@ Input for numbers with various validations built on top of `Input` component<br 
 
 - `inputRootAttributes` - **Input.rootTagAttributes**
 
+- `debounceMs` - **Input.debounceMs**
+
 - `inputStore` - **Input.store**
 
 - `onFocus` - **Input.onFocus**

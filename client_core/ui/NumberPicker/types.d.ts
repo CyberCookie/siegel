@@ -41,6 +41,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     inputStore?: InputProps['store']
     inputMemoDeps?: InputProps['memoDeps']
     inputRootAttributes?: InputProps['rootTagAttributes']
+    debounceMs?: InputProps['debounceMs']
     onBlur?: InputProps['onBlur']
 }> & Omit<InputProps, 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store'>
 

@@ -21,6 +21,7 @@ type Theme = {
     _readonly?: string
     _disabled?: string
     _single_picker?: string
+    _vertical?: string
     children?: string
     label?: string
     ranger_content_wrapper?: string
@@ -36,6 +37,7 @@ type Props = PropsComponentThemed<Theme, {
     onChange?(value: Props['value'], e: MouseEvent | React.MouseEvent): void
     onRangePickStart?:(e: React.MouseEvent) => void
     onRangePickFinish?:(e?: MouseEvent) => void
+    isVertical?: boolean
     children?: React.ReactNode
     rangersCrossBehavior?: 'stop' | 'move' | 'cross'
     rangePickIcon?: React.ReactNode

@@ -28,7 +28,7 @@ Provides content distributed for each tab specified<br />
 
 - `tabs`
     - Represents each tab data
-    - **Array of Object**. Each **Object** has the next fields:
+    - **Object[]**. Each **Object** has the next fields:
         - `id` - **String**. Tab ID should match **props.activeTab** in order to render this tab content
         - `label` - **React.ReactNode**. Tab label content
         - `content` - **React.ReactNode | (() => React.ReactNode)**<br />

@@ -13,7 +13,7 @@ import eslint from 'eslint-webpack-plugin'
 import postCssAutoprefix from 'autoprefixer'
 
 import serviceWorkerPlugin from './plugins/plugin_sw.js'
-import postCssSVG2Font from './modules/postcss_svg2icon_plugin/index.js'
+import postCssSVG2Font from './modules/postcss_svg2icon_plugin'
 
 
 const { resolve } = createRequire(import.meta.url)

@@ -25,7 +25,7 @@ Recursively expandable list of items<br />
 - `list`
     - **Required**
     - List of items to render
-    - **Array of Object** with fields:
+    - **Object[]** with fields:
         - `title` - **React.ReactNode**
         - **expanded** - **Boolean** (default is false) 
         - **children** - **props.list** - recursion<br /><br />

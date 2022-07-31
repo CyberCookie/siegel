@@ -1,7 +1,7 @@
 import { PATHS } from '../constants.js'
 import * as BUILD_CONSTANTS from './constants.js'
-import defaultModulesResolve from './modules/index.js'
-import defaultPluginsResolve from './plugins/index.js'
+import defaultModulesResolve from './modules'
+import defaultPluginsResolve from './plugins'
 
 import type { Compiler, Configuration } from 'webpack'
 import type { ConfigFinal, RunParamsFinal } from '../types'

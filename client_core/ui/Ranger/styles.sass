@@ -2,6 +2,12 @@
     display: flex
     position: relative
 
+    ._vertical &
+        flex-direction: column
+
 .range_slider
     position: absolute
     transform: translateX(-50%)
+
+    ._vertical &
+        transform: translateY(-50%)
