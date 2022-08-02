@@ -158,7 +158,7 @@ All the fields are optional since many of them are already defined in core  defa
 
         /*
             Use it to postprocess the final webpack config before being passed to webpack.
-            Receives siegel config as a first parameter, webpack config as a second and
+            Receives webpack config as a first parameter, siegel config as a second and
             build constants (build dependencies, plugin/loader keys ) as third.
         */
         postProcessWebpackConfig: Function
@@ -205,7 +205,9 @@ import somePlugin from 'some_webpack_plugin'
             }
         },
 
-        sw: false, // to disable plugin
+        sw: {
+            enable: false // to disable plugin
+        },
 
         html: {
             options: { /* plugin options */ }
@@ -407,18 +409,30 @@ Example input:
 }
 
 .some_icon::before {
-    font-icon: './relative/path/to/svg_icon.svg';
+    font-icon: './relative/path/to/some_icon.svg';
+}
+.another_icon::after {
+    font-icon: './relative/path/to/another_icon.svg';
+}
+
+.some_icon-orphan::after {
+    font-icon-orphan: './relative/path/to/orphan_icon.svg';
 }
 ```
 
 Where `.all_icons` it's an example classname for every icon.<br />And `.some_icon` it's an example classname for particular icon you want to tie svg icon to.<br /><br />
+
+> So far only single `font-icon-root` declaration is allowed per project
 
 
 Example output:
 
 ```css
 @font-face {
-    font-family: Iconfont_e4e66c75c348e94b357d5545459817c3; src:url('data:application/x-font-woff;charset=utf-8;base64, _BASE64_FONT_ ') format('woff');
+    font-family: Iconfont_e4e66c75c348e94b357d5545459817c3; src:url('data:application/x-font-woff;charset=utf-8;base64, _BASE64_FONT_ ') format('woff2');
+}
+@font-face {
+    font-family: Iconfont_3738493040df8d5d9c9ad8e7er0fc9ad; src:url('data:application/x-font-woff;charset=utf-8;base64, _BASE64_FONT_ ') format('woff2');
 }
 
 .all_icons {
@@ -431,7 +445,21 @@ Example output:
 }
 
 .some_icon::before {
+    content: '\e001';
+}
+.another_icon::after {
+    content: '\e002'
+}
+
+
+.some_icon-orphan::after {
     content: '\e003';
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: normal;
+    font-style: normal;
+    font-family: Iconfont_3738493040df8d5d9c9ad8e7er0fc9ad;
 }
 ```
 

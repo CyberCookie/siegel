@@ -92,12 +92,7 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
             },
 
             ...( isProd ? {
-                minimizer: [
-                    new esBuildMinifyPlugin({
-                        target,
-                        css: true
-                    })
-                ]
+                minimizer: [ new esBuildMinifyPlugin({ target }) ]
             } : {})
         },
 
@@ -109,7 +104,7 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
     }
 
     if (typeof postProcessWebpackConfig == 'function') {
-        webpackConfig = postProcessWebpackConfig(CONFIG, webpackConfig, BUILD_CONSTANTS)
+        webpackConfig = postProcessWebpackConfig(webpackConfig, CONFIG, BUILD_CONSTANTS)
     }
 
 

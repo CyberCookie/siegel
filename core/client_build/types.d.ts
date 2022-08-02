@@ -46,8 +46,8 @@ type BuildConfig = {
     plugins?: Plugins
     modules?: Modules
     postProcessWebpackConfig?: (
-        config: ConfigFinal,
         webpackConfig: WebpackConfig,
+        config: ConfigFinal,
         buildConstants: BuildConstants
     ) => WebpackConfig
 }

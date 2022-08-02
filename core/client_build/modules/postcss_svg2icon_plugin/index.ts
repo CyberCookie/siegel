@@ -1,32 +1,43 @@
+//TODO: external font file
+//TODO: group orphans to share single selector
+
+
 import path from 'path'
 import { createHash } from 'crypto'
 import postcss, { Declaration } from 'postcss'
 
 import iconToFont from './icons_to_font.js'
 
-import type { Svg2FontConverterPlugin } from './types'
+import type { Svg2FontConverterPlugin, GetFontFaceNodeFn } from './types'
 
 
-// function addFontDeclaration({ fontName, postCssRoot, svgPaths }) {
-//     const options = {
-//         svgs: svgPaths.absolute,
-//         name: fontName
-//     }
+const getFontFaceNode: GetFontFaceNodeFn = (opts, handlers) => {
+    const { isWoff2, svgs, fontNamePrefix } = opts
+    const { onFontName, onFinish } = handlers
 
-//     const iconFontLoaderPath = join(__dirname, 'loader.js')
-//     const iconFontPlaceholderPath = join(__dirname, 'placeholder.svg')
+    const checksum = createHash('md5')
+        .update(JSON.stringify(svgs))
+        .digest('hex')
 
-//     // Use !! to tell webpack that we don't want any other loader to kick in
+    const fontName = `${fontNamePrefix}Iconfont_${checksum}`
 
-//     const loaderResult = '!!' + iconFontLoaderPath + '?' + JSON.stringify(options) + '!~' + iconFontPlaceholderPath;
-//     postCssRoot.prepend(postcss.parse(
-//         '@font-face { ' +
-//         'font-family: ' + fontName + '; src:url(\'' + loaderResult + '\') format(\'woff\');' +
-//         'font-weight: normal;' +
-//         'font-style: normal;' +
-//         '}'
-//     ))
-//   }
+    onFontName(fontName)
+
+
+    return iconToFont({ fontName, isWoff2, svgs })
+        .then(font => {
+            const base64Font = Buffer.from(font).toString('base64')
+            const fontURL = `src:url('data:application/x-font-woff;charset=utf-8;base64,${base64Font}')`
+            const fontFormat = `format('woff${isWoff2 ? 2 : ''}')`
+
+            onFinish(
+                postcss.parse(
+                    `@font-face{font-family:${fontName};${fontURL}${fontFormat}}`
+                )
+            )
+        })
+}
+
 
 const getUnresolvedIconPath = (value: string) => value.substring(1, value.length - 1)
 
@@ -40,82 +51,93 @@ const cssPropValueMap = {
 }
 
 
+const applyFontDeclarations = (decl: Declaration, fontName: string) => {
+    cssPropValueMap['font-family'] = fontName
+    for (const prop in cssPropValueMap) {
+        decl.cloneBefore({
+            prop,
+            value: cssPropValueMap[prop as keyof typeof cssPropValueMap]
+        })
+    }
+}
+
 const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix, isWoff2 }) => ({
     postcssPlugin: 'postcss-svg2icon',
     prepare(_result) {
+        cssPropValueMap['font-family'] = ''
         const context = path.dirname(_result.opts.from!)
 
         const result = {
             // rootValue: '',
-            absolute: [] as string[]
+            absolute: [] as string[],
+            orphansDecl: [] as Declaration[],
+            rootDecl: undefined as Declaration | undefined
         }
 
         const absolutePathsIndex: Indexable<number> = {}
         // const cssValueToAbsolutePath = {}
-        const unresolved: string[] = []
-
-        let rootDecl: Declaration
+        // const unresolved: string[] = []
         let i = 0
+
 
         return {
             Declaration(decl) {
                 const { prop, value } = decl
 
-                // TODO?: for the font to file extraction purposes (font-icon-dest: './assets/fonts/font_icon.')
                 if (prop == 'font-icon-dest') {
-                    rootDecl = decl
-                    // result.rootValue = getUnresolvedIconPath(value)
-                } else if (prop == 'font-icon') {
+                    result.rootDecl = decl
+                    // result.rootValue = f(value)
+
+                } else if (prop.startsWith('font-icon')) {
                     const unresolvedValue = getUnresolvedIconPath(value)
                     const absolutePath = path.join(context, unresolvedValue)
-
 
                     // cssValueToAbsolutePath[value] = absolutePath //TODO?: use absolute paths
 
                     if (!absolutePathsIndex[absolutePath]) {
                         absolutePathsIndex[absolutePath] = ++i
 
-                        unresolved.push(unresolvedValue)
+                        // unresolved.push(unresolvedValue)
                         result.absolute.push(absolutePath)
                     }
 
                     const iconIndex = (absolutePathsIndex[absolutePath] - 1).toString(16)
                     decl.prop = 'content'
                     decl.value = '\'\\e' + '0'.repeat(Math.max(0, 3 - iconIndex.length)) + iconIndex + '\''
+
+
+                    if (prop.endsWith('-orphan')) {
+                        result.orphansDecl.push(decl)
+                    }
                 }
             },
 
             OnceExit(postCssRoot) {
-                if (result.absolute.length && rootDecl) {
-                    const checkSum = createHash('md5')
-                        .update(JSON.stringify(unresolved))
-                        .digest('hex')
+                const { rootDecl, absolute, orphansDecl } = result
 
-                    const fontName = `${fontNamePrefix || ''}Iconfont_${checkSum}`
+                if (absolute.length) {
+                    return getFontFaceNode(
+                        {
+                            isWoff2, fontNamePrefix,
+                            svgs: absolute
+                        },
+                        {
+                            onFontName(fontName: any) {
+                                if (rootDecl) {
+                                    applyFontDeclarations(rootDecl, fontName)
+                                    rootDecl.remove()
 
-                    cssPropValueMap['font-family'] = fontName
-                    for (const prop in cssPropValueMap) {
-                        rootDecl.cloneBefore({
-                            prop,
-                            value: cssPropValueMap[prop as keyof typeof cssPropValueMap]
-                        })
-                    }
-                    rootDecl.remove()
-
-                    return iconToFont({
-                        fontName, isWoff2,
-                        svgs: result.absolute
-                    }).then(font => {
-                        const base64Font = Buffer.from(font).toString('base64')
-                        const fontURL = `src:url('data:application/x-font-woff;charset=utf-8;base64,${base64Font}')`
-                        const fontFormat = `format('woff${isWoff2 ? 2 : ''}')`
-
-                        postCssRoot.prepend(
-                            postcss.parse(
-                                `@font-face{font-family:${fontName};${fontURL}${fontFormat}}`
-                            )
-                        )
-                    })
+                                } else {
+                                    orphansDecl.forEach(decl => {
+                                        applyFontDeclarations(decl, fontName)
+                                    })
+                                }
+                            },
+                            onFinish(postcssNode: any) {
+                                postCssRoot.prepend(postcssNode)
+                            }
+                        }
+                    )
                 }
             }
         }

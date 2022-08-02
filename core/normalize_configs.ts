@@ -48,7 +48,7 @@ function normalizeConfig(CONFIG: Config = {}, RUN_PARAMS: RunParams = {}) {
         const { appServer } = CONFIG.server as ServerConfigFinal
 
         if (isExists(appServer) && !(appServer instanceof Function)) {
-            throw '[config.server.appServer] export type is not a function'
+            console.error('[config.server.appServer] ->> export type is not a function.')
         }
     }
 
@@ -67,7 +67,7 @@ function normalizeConfig(CONFIG: Config = {}, RUN_PARAMS: RunParams = {}) {
                 ?   input.include.push( userJSEntryDirName )
                 :   (input.include = [ userJSEntryDirName ])
 
-        } else throw `build.input.js ->> [${input.js}] file doesn't exists.`
+        } else throw `config.build.input.js ->> [${input.js}] file doesn't exists.`
     }
 
 

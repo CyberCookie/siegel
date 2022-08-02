@@ -1,4 +1,5 @@
-//TODO: init global with ts and eslint
+//TODO blocked by ts: init global with ts types resolve
+//TODO blocked by ts / eslint: zero config with ts / eslint
 
 import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
@@ -102,11 +103,10 @@ function main(isGlobal?: boolean) {
     function modifyTSConfigs() {
         const clientTSConfig = requireJSON(INIT_PATHS.userTSConfigPath)
 
-        const newExtendPath = clientTSConfig.extends.replace(
+        clientTSConfig.extends = clientTSConfig.extends.replace(
             INIT_PATHS.siegelDemoAppPathShift,
             INIT_PATHS.pathToSiegelRelative
         )
-        clientTSConfig.extends = `./${newExtendPath}`
 
         const paths = clientTSConfig.compilerOptions.paths
         for (const alias in paths) {
@@ -128,9 +128,8 @@ function main(isGlobal?: boolean) {
 
         const serverTSConfig = requireJSON(INIT_PATHS.userServerTSConfigPath)
 
-        serverTSConfig.include.push(
-            relative(userServerPath, INIT_PATHS.userTSGlobal)
-        )
+        serverTSConfig.include[ serverTSConfig.include.length - 1 ]
+            = relative(userServerPath, INIT_PATHS.userTSGlobal)
 
         writeFileSync(INIT_PATHS.userServerTSConfigPath, toJSON(serverTSConfig))
 
@@ -154,7 +153,7 @@ function main(isGlobal?: boolean) {
     }
 
 
-    function modifyPackageJson(demoAppServerOutputDir: string) {
+    function modifyPackageJson() {
         existsSync(INIT_PATHS.userPackageJson) || shell('npm init -y')
         const targetPackageJSON = requireJSON(INIT_PATHS.userPackageJson)
 
@@ -173,33 +172,21 @@ function main(isGlobal?: boolean) {
 
 
         const npmConfigBootVarName = '$npm_package_config_boot'
-        const pm2Command = 'pm2'
+        const servCommandRun = 'npm run serv'
         const deployCommand = 'deploy'
         const buildNodeCommand = 'build_node'
 
         for (const command in siegelPackageJSONScripts) {
-            if (command != pm2Command) {
-                const siegelPackageJSONCommand = siegelPackageJSONScripts[command]
+            const siegelPackageJSONCommand = siegelPackageJSONScripts[command]
 
-                siegelPackageJSONScripts[command] = siegelPackageJSONCommand.replace(
-                    npmConfigBootVarName,
-                    packageJsonConfigBootString
-                )
-            }
+            siegelPackageJSONScripts[command] = siegelPackageJSONCommand.replace(
+                npmConfigBootVarName,
+                packageJsonConfigBootString
+            )
         }
 
-        const userServerOutputRelativePath = relative(
-            PATHS.cwd,
-            join(userServerPath, demoAppServerOutputDir)
-        )
-        siegelPackageJSONScripts[pm2Command] = siegelPackageJSONScripts[pm2Command].replace(
-            npmConfigBootVarName,
-            `./${userServerOutputRelativePath}/index.js`
-        )
-
-        const pm2CommandRun = `npm run ${pm2Command}`
         siegelPackageJSONScripts[deployCommand] = siegelPackageJSONScripts[deployCommand]
-            .replace(pm2CommandRun, `npm run ${buildNodeCommand} && ${pm2CommandRun}`)
+            .replace(servCommandRun, `npm run ${buildNodeCommand} && ${servCommandRun}`)
 
         siegelPackageJSONScripts[buildNodeCommand] = `npx tsc -p ./${INIT_LOC_NAMES.DEMO_APP_SERVER_DIR_NAME}`
 
@@ -215,9 +202,8 @@ function main(isGlobal?: boolean) {
     createDemoApp()
     modifyDemoAppServerSiegelPaths()
     modifyESLintConfig()
-
-    const demoAppServerOutputDir = modifyTSConfigs()
-    modifyPackageJson(demoAppServerOutputDir)
+    modifyTSConfigs()
+    modifyPackageJson()
 }
 
 isRunDirectly(import.meta) && main()

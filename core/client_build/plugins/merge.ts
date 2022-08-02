@@ -28,7 +28,7 @@ function addWithoutMerge(result: WebpackPluginInstance[], pluginConfig: AllCaseU
     } else result.push( new (plugin as any)(options) )
 }
 
-const isEnabledByUserPlugin = (plugin: AllCaseUserPluginConfig) => plugin && plugin.enabled !== false
+const isEnabledByUserPlugin = (plugin: AllCaseUserPluginConfig) => plugin.enabled !== false
 
 
 function merge(defaultPlugins: DefaultPlugins, userPlugins: Plugins = {}) {
@@ -40,7 +40,7 @@ function merge(defaultPlugins: DefaultPlugins, userPlugins: Plugins = {}) {
 
         const userPluginConfig = userPlugins[pluginKey as keyof Plugins]
 
-        if (userPluginConfig !== false || isEnabledByUserPlugin(userPluginConfig)) {
+        if (!userPluginConfig || (userPluginConfig && isEnabledByUserPlugin(userPluginConfig))) {
             if (userPluginConfig) {
                 const {
                     rewrite,
@@ -79,15 +79,14 @@ function merge(defaultPlugins: DefaultPlugins, userPlugins: Plugins = {}) {
         }
     }
 
+
     for (const userPluginKey in userPlugins) {
         const userCustomPlugin = userPlugins[userPluginKey]
 
-        if (!defaultPlugins[userPluginKey as keyof DefaultPlugins]
-            &&  isEnabledByUserPlugin(userCustomPlugin)
-            &&  (userCustomPlugin as AllCaseUserPluginConfig).plugin
-        ) {
-
-            addWithoutMerge(result, userCustomPlugin as AllCaseUserPluginConfig)
+        if (!defaultPlugins[userPluginKey as keyof DefaultPlugins] && isEnabledByUserPlugin(userCustomPlugin)) {
+            (userCustomPlugin as AllCaseUserPluginConfig).plugin
+                ?   addWithoutMerge(result, userCustomPlugin as AllCaseUserPluginConfig)
+                :   console.error(`[config.build.plugins.${userPluginKey}] ->> property 'plugin' is missed.`)
         }
     }
 

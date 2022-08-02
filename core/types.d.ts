@@ -1,7 +1,7 @@
 import type { BuildConfig, BuildConfigDefault, BuildConfigFinal } from './client_build/types'
 import type {
     ServerConfig, ServerConfigDefault, ServerConfigFinal,
-    ServerExtenderFn
+    ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
 } from './server/types'
 
 
@@ -37,7 +37,7 @@ type RunParamsFinal = {
 
 
 export type {
-    ServerExtenderFn,
+    ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams,
     Config, ConfigDefault, ConfigFinal,
     RunParams, RunParamsFinal
 }

@@ -35,8 +35,7 @@ Features:
     - `SVG icons to font` converter<br /><br />
 
 - `ExpressJS` static server:
-    - `HTTP(S)1 / HTTP(S)2`. +Script that creates dev certificates to use in Chrome on localhost
-    - `PM2` deamon to wrap your application in production mode<br /><br />
+    - `HTTP(S)1 / HTTP(S)2`. +Script that creates dev certificates to use in Chrome on localhost<br /><br />
 
 - `Utils` and `modules` to use on client side:
     - Big set of `React components`
@@ -76,7 +75,7 @@ npm i siegel
 
 <br />
 
-Create **app.ts** file:<br /><br />
+Create **app.js** file:<br />
 
 ```js
 import { render } from 'react-dom'
@@ -89,16 +88,19 @@ render(
 
 
 <br />
-Bootstrap the app with the next command:<br />
+
+Bootstrap the app with the next command:
 
 ```sh
 npx siegel run
 ```
 
-Now your application is hosting on **localhost:3000** in watch mode and ready for development!<br /><br />
+Now your application is hosting on **localhost:3000** in watch mode and ready for development!
 
+<br />
 
-You may also define **NodeJS dev server** with `--server` flag:<br />
+You may also define **NodeJS dev server** with `--server` flag:
+
 
 ```js
 // server.js
@@ -110,15 +112,15 @@ function appServer(app, { express }) {
 module.exports = appServer
 ```
 
-In console run:<br />
+In console run:
 
 ```sh
 npx siegel run --server server.js 
 ```
 
-
 <br />
-To get more info about Siegel CLI commands run:<br />
+
+To get more info about Siegel CLI commands run:
 
 ```sh
 npx siegel
@@ -134,7 +136,7 @@ npx siegel
     Appart from calling Siegel from CLI you may also use it in the most straightforward and flexible way - as a NodeJS module!<br />
     Siegel itself is a function that accepts <a href='#config'>config</a> as a first argument and <a href='#runParams'>runParams</a> as a second<br />
     You may read about these parameters further
-</p>
+</p><br />
 
 
 ```js
@@ -145,7 +147,8 @@ siegel(config, runParams)
 
 
 <br />
-There is another signature when you only specify absolute path to js entry file:<br />
+
+There is another signature when you only specify absolute path to js entry file:
 
 ```js
 import siegel from 'siegel'
@@ -212,7 +215,7 @@ You may init the demo project having Siegel installed localy:<br />
 `npx siegel init`<br /><br />
 
 
-<br />
+<!-- <br />
 
 If you've installed Siegel globally then you should run:<br />
 
@@ -222,8 +225,8 @@ siegel init -g
 
 > Keep in mind that Eslint is not working in projects initialized with `-g` flag so far.<br />
 
+<br /><br /> -->
 
-<br /><br />
 Here we initialize a demo project in a current dirrectory along with `package.json` (if not yet exists)<br />
 Now you have project skeleton with preconfigured Siegel in it!<br />
 Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production modes<br />
@@ -245,14 +248,15 @@ More about demo project read [here](https://github.com/CyberCookie/siegel/tree/m
 
 <hr /><br />
 
-In case you've cloned this repo:<br />
+In case you've cloned this repo:
+
+<br />
 
 To build `siegel` run:
 
 ```sh
 npm run __transpile
 ```
-
 
 To start a local development with `demo_app` run:
 

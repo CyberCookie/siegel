@@ -99,7 +99,7 @@ const COMMANDS_TREE: CommanTree = {
                 description: 'Enable resolve global node modules imports.',
                 defaultValue: false,
                 paramAction({ result }) {
-                    (result.config.build as BuildConfig).postProcessWebpackConfig = (_, webpackConfig) => {
+                    (result.config.build as BuildConfig).postProcessWebpackConfig = webpackConfig => {
                         webpackConfig.resolve!.modules!.push(
                             globalNodeModulesPath()
                         )

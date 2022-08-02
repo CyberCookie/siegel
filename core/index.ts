@@ -14,7 +14,7 @@ import type { RequestHandler } from 'express'
 import type {
     ConfigFinal, Config, ConfigDefault,
     RunParamsFinal, RunParams,
-    ServerExtenderFn
+    ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
 } from './types'
 
 
@@ -63,4 +63,7 @@ export {
     bootServer, getStaticServingData, http2Server, httpServer, proxyReq, extractSSL,
     nodeUtils, utils
 }
-export type { Config, ConfigDefault, RunParams, ServerExtenderFn }
+export type {
+    Config, ConfigDefault, RunParams,
+    ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
+}

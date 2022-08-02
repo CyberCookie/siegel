@@ -1,4 +1,4 @@
-import type { Plugin } from 'postcss'
+import type { Plugin, Root } from 'postcss'
 
 
 type Svg2FontConverterPluginOptions = {
@@ -8,7 +8,6 @@ type Svg2FontConverterPluginOptions = {
 
 type Svg2FontConverterPlugin = (options: Svg2FontConverterPluginOptions) => Plugin
 
-
 type ConvertSvgToFontFn = (params: {
     fontName: string
     svgs: string[]
@@ -16,4 +15,18 @@ type ConvertSvgToFontFn = (params: {
 }) => Promise<ArrayBuffer>
 
 
-export type { Svg2FontConverterPlugin, ConvertSvgToFontFn }
+type GetFontFaceNodeFn = (
+    opts: {
+        svgs: string[]
+    } & Svg2FontConverterPluginOptions,
+    handlers: {
+        onFontName: (fontName: string) => any
+        onFinish: (root: Root) => any
+    }
+) => Promise<void>
+
+
+export type {
+    Svg2FontConverterPlugin, Svg2FontConverterPluginOptions,
+    GetFontFaceNodeFn, ConvertSvgToFontFn
+}

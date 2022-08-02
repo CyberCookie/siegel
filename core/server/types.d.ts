@@ -49,5 +49,5 @@ type ServerBootParams = {
 
 export type {
     ServerConfig, ServerConfigDefault, ServerConfigFinal,
-    ServerBootParams, ServerExtenderFn
+    ServerBootParams, ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
 }
