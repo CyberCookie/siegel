@@ -39,8 +39,6 @@ const getFontFaceNode: GetFontFaceNodeFn = (opts, handlers) => {
 }
 
 
-const getUnresolvedIconPath = (value: string) => value.substring(1, value.length - 1)
-
 const cssPropValueMap = {
     'text-rendering': 'optimizeSpeed',
     '-webkit-font-smoothing': 'antialiased',
@@ -61,22 +59,19 @@ const applyFontDeclarations = (decl: Declaration, fontName: string) => {
     }
 }
 
-const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix, isWoff2 }) => ({
+const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix = '', isWoff2, iconsRoot }) => ({
     postcssPlugin: 'postcss-svg2icon',
-    prepare(_result) {
+    prepare() {
         cssPropValueMap['font-family'] = ''
-        const context = path.dirname(_result.opts.from!)
 
         const result = {
-            // rootValue: '',
             absolute: [] as string[],
             orphansDecl: [] as Declaration[],
             rootDecl: undefined as Declaration | undefined
         }
 
         const absolutePathsIndex: Indexable<number> = {}
-        // const cssValueToAbsolutePath = {}
-        // const unresolved: string[] = []
+
         let i = 0
 
 
@@ -84,20 +79,14 @@ const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix, isWof
             Declaration(decl) {
                 const { prop, value } = decl
 
-                if (prop == 'font-icon-dest') {
+                if (prop == 'font-icon-dest') { //TODO:?
                     result.rootDecl = decl
-                    // result.rootValue = f(value)
 
                 } else if (prop.startsWith('font-icon')) {
-                    const unresolvedValue = getUnresolvedIconPath(value)
-                    const absolutePath = path.join(context, unresolvedValue)
-
-                    // cssValueToAbsolutePath[value] = absolutePath //TODO?: use absolute paths
+                    const absolutePath = path.join(iconsRoot, value)
 
                     if (!absolutePathsIndex[absolutePath]) {
                         absolutePathsIndex[absolutePath] = ++i
-
-                        // unresolved.push(unresolvedValue)
                         result.absolute.push(absolutePath)
                     }
 
@@ -122,7 +111,7 @@ const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix, isWof
                             svgs: absolute
                         },
                         {
-                            onFontName(fontName: any) {
+                            onFontName(fontName) {
                                 if (rootDecl) {
                                     applyFontDeclarations(rootDecl, fontName)
                                     rootDecl.remove()
@@ -133,7 +122,7 @@ const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix, isWof
                                     })
                                 }
                             },
-                            onFinish(postcssNode: any) {
+                            onFinish(postcssNode) {
                                 postCssRoot.prepend(postcssNode)
                             }
                         }

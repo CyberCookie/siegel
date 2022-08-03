@@ -19,11 +19,10 @@ Install dependencies with `npm i`.
 - To host the project locally run `npm run serv`<br />
     To use this command first ensure you built a client using `npm run build`
 - To transpile server ts to server js run `npm run build_node`
-- To build in prod mode and to host using `pm2` daemon - run `npm run pm2`
+- To build and host in prod mode using local static server run `npm run build_serv`
 - To validate the project code with eslint and typescript run `npm run validate`
-- To deploy the project from scratch run `npm run deploy`<br />
-    This script installs dependencies, perform client and server build<br/>
-    and executes `npm run pm2` command from above
+- To perform deploy actions run `npm run deploy`<br />
+    This includes clean install and client build
 
 
 <br />

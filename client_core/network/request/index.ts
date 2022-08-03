@@ -1,8 +1,6 @@
 import populateURLParams from '../../../common/populate_url_params'
 
-import type {
-    FetchParams, ReqData, ReqError, RequestParams, Hooks
-} from './types'
+import type { ReqData, ReqError, RequestParams, Hooks } from './types'
 
 
 const HEADERS = {
@@ -25,7 +23,7 @@ function extractRequestData(request: RequestParams) {
         url, query, params, method, headers, body, credentials, signal, json
     } = request
 
-    const options: RequestInit = { method }
+    const options: ReqData['options'] = { method }
 
     if (body) {
         options.body = body
@@ -162,4 +160,4 @@ const createApi = (hooks: Hooks = {}) => {
 
 export default createApi
 export { HEADERS, CONTENT_TYPE }
-export type { FetchParams, ReqData, ReqError, RequestParams, Hooks }
+export type { ReqData, ReqError, RequestParams, Hooks }

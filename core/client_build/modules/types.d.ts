@@ -130,7 +130,7 @@ type DefaultModules = {
                 options: {
                     sourceMap: boolean
                     postcssOptions: {
-                        plugins: [ PostCssPlugin, PostCssPlugin ]
+                        plugins: PostCssPlugin[]
                     }
                 }
             }

@@ -1,12 +1,9 @@
-type FetchParams = {
-    url: string
-    options: RequestInit
-}
-
 type ReqData = {
     initialURL: string
     url: string
-    options: RequestInit
+    options: {
+        headers?: RequestParams['headers']
+    } & Omit<RequestInit, 'headers'>
 }
 
 type ReqError = {
@@ -41,4 +38,4 @@ type Hooks = {
 }
 
 
-export type { FetchParams, ReqData, ReqError, RequestParams, Hooks }
+export type { ReqData, ReqError, RequestParams, Hooks }

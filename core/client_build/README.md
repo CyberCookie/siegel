@@ -57,7 +57,7 @@ All the fields are optional since many of them are already defined in core  defa
         input: {
             /*
                 Path to react application entrypoint.
-                Default is: path.join(process.cwd(), 'app.ts')
+                Default is: [cwd]/app.ts)
             */
             js: String,
 
@@ -66,7 +66,7 @@ All the fields are optional since many of them are already defined in core  defa
 
             /*
                 Path to site entrypoint.
-                Default is: demo_app/client/index.html ( App container div's id = root )
+                Default is: [cwd]/client/index.html ( App container div's id = root )
             */
             html: String || HTMLWebpackPlugin::options || (defaultConfig) => updatedConfig,
 
@@ -85,6 +85,12 @@ All the fields are optional since many of them are already defined in core  defa
                 (Usefull for variables / mixins).
             */
             sassResources: String,
+
+
+            /*
+                Enables svg2icon postcss plugin and set rootPath relatively to which icon paths will be resolved
+            */
+            iconsRoot:String
 
             /*
                 List of directories and/or files to be processed by webpack's loaders.
@@ -159,7 +165,7 @@ All the fields are optional since many of them are already defined in core  defa
         /*
             Use it to postprocess the final webpack config before being passed to webpack.
             Receives webpack config as a first parameter, siegel config as a second and
-            build constants (build dependencies, plugin/loader keys ) as third.
+            build constants (build dependencies, plugin/loader keys) as third.
         */
         postProcessWebpackConfig: Function
     }
@@ -409,10 +415,10 @@ Example input:
 }
 
 .some_icon::before {
-    font-icon: './relative/path/to/some_icon.svg';
+    font-icon: 'path/to/some_icon.svg';
 }
 .another_icon::after {
-    font-icon: './relative/path/to/another_icon.svg';
+    font-icon: 'path/to/another_icon.svg';
 }
 
 .some_icon-orphan::after {
@@ -420,7 +426,8 @@ Example input:
 }
 ```
 
-Where `.all_icons` it's an example classname for every icon.<br />And `.some_icon` it's an example classname for particular icon you want to tie svg icon to.<br /><br />
+Where `.all_icons` it's an example classname for every icon.<br />And `.some_icon` it's an example classname for particular icon you want to tie svg icon to.<br />
+Pathes are related to `iconsRoot` in build config<br /><br />
 
 > So far only single `font-icon-root` declaration is allowed per project
 

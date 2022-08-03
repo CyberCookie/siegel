@@ -258,7 +258,7 @@ To build `siegel` run:
 npm run __transpile
 ```
 
-To start a local development with `demo_app` run:
+To start a local development with provided `Demo Application` run:
 
 ```sh
 npm start

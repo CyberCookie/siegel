@@ -25,13 +25,16 @@ type FilenamesProd = {
 
 type BuildConfig = {
     input?: {
+        include?: string[]
+        exclude?: string[]
+
         js?: string
         sw?: string
         html?: HTMLWebpackPluginOptions | NonNullable<HTMLWebpackPluginOptions['template']>
         copyFiles?: CopyWebpackPluginOptions['patterns'] | string
+
+        iconsRoot?: string
         sassResources?: string
-        include?: string[]
-        exclude?: string[]
     }
     output?: {
         target?: string

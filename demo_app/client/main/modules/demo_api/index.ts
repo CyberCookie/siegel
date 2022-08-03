@@ -21,7 +21,10 @@ const actions: Actions = {
     api_echo({ state, setState }, body) {
         request<EchoReqBody, EchoReqBody>({
             body,
-            url: urls.echo
+            url: urls.echo,
+            headers: {
+                a: 'asd'
+            }
         }).then(({ res }) => {
             if (res) {
                 const { dataToSend } = res

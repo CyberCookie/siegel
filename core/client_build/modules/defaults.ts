@@ -17,7 +17,7 @@ const {
 function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
     const {
         output: { target },
-        input: { sassResources, include, exclude }
+        input: { sassResources, iconsRoot, include, exclude }
     } = CONFIG.build
     const { isProd, isServer, _isSelfDevelopment } = RUN_PARAMS
 
@@ -75,7 +75,13 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                         postcssOptions: {
                             plugins: [
                                 postCssAutoprefix({ overrideBrowserslist: 'last 1 version' }),
-                                postCssSVG2Font({ isWoff2: isProd })
+
+                                ...( iconsRoot ? [
+                                    postCssSVG2Font({
+                                        isWoff2: isProd,
+                                        iconsRoot
+                                    })
+                                ] : [])
                             ]
                         }
                     }

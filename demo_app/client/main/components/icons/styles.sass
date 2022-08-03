@@ -7,7 +7,7 @@
 
 =icon($icon)
     .#{$icon}::before
-        font-icon: './svg_sources/#{$icon}.svg'
+        font-icon: #{$icon} + '.svg'
         @content
 
 
