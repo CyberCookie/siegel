@@ -7,18 +7,29 @@ type State = Indexable<string>
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
 
+type CrumbConfig = {
+    crumb: string | ((fullPath: string, pathPart: string) => void)
+}
+type NeverCrumbConfig = Never<CrumbConfig>
+
+type DynamicCrumbConfig = {
+    dynamicCrumb: string
+}
+type NeverDynamicCrumbConfig = Never<DynamicCrumbConfig>
+
+type CrumbComposedConfig =
+    (CrumbConfig & NeverDynamicCrumbConfig)
+    |
+    (DynamicCrumbConfig & NeverCrumbConfig)
+    |
+    Never<CrumbConfig & DynamicCrumbConfig>
+
 type BreadcrumbConfigPart = {
     children?: BreadcrumbConfig
-    crumb?: string | ((fullPath: string, pathPart: string) => void)
-    dynamicCrumb?: string
-}
-
-type BreadcrumbConfigPartOptional = {}
-
-type BreadcrumbConfigPartComposed = BreadcrumbConfigPart | BreadcrumbConfigPartOptional
+} & CrumbComposedConfig
 
 type BreadcrumbConfig = {
-    [path: string]: BreadcrumbConfigPartComposed
+    [path: string]: BreadcrumbConfigPart
 }
 
 
@@ -46,5 +57,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 export type {
     Props, MergedProps, Component, Store,
-    BreadcrumbConfig, BreadcrumbConfigPart
+    BreadcrumbConfig, BreadcrumbConfigPart, CrumbComposedConfig
 }

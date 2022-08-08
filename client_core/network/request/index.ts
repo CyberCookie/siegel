@@ -139,11 +139,13 @@ const createApi = (hooks: Hooks = {}) => {
                     res: parsedRes as Res,
                     err: null
                 }
+
             } else throw {
                 status,
                 message: statusText,
                 res: parsedRes
             }
+
         } catch (err) {
             (err as ReqError).req = reqData
 

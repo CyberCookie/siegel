@@ -48,6 +48,10 @@ const cssPropValueMap = {
     'font-family': ''
 }
 
+const pluginCssDeclarationsSet = new Set([
+    'font-icon', 'font-icon-orphan', 'font-icon-common'
+])
+
 
 const applyFontDeclarations = (decl: Declaration, fontName: string) => {
     cssPropValueMap['font-family'] = fontName
@@ -79,24 +83,26 @@ const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix = '', 
             Declaration(decl) {
                 const { prop, value } = decl
 
-                if (prop == 'font-icon-dest') { //TODO:?
-                    result.rootDecl = decl
+                if (pluginCssDeclarationsSet.has(prop)) {
+                    if (prop.endsWith('-common')) { //TODO:?
+                        result.rootDecl = decl
 
-                } else if (prop.startsWith('font-icon')) {
-                    const absolutePath = path.join(iconsRoot, value)
+                    } else {
+                        const absolutePath = path.join(iconsRoot, value)
 
-                    if (!absolutePathsIndex[absolutePath]) {
-                        absolutePathsIndex[absolutePath] = ++i
-                        result.absolute.push(absolutePath)
-                    }
+                        if (!absolutePathsIndex[absolutePath]) {
+                            absolutePathsIndex[absolutePath] = ++i
+                            result.absolute.push(absolutePath)
+                        }
 
-                    const iconIndex = (absolutePathsIndex[absolutePath] - 1).toString(16)
-                    decl.prop = 'content'
-                    decl.value = '\'\\e' + '0'.repeat(Math.max(0, 3 - iconIndex.length)) + iconIndex + '\''
+                        const iconIndex = (absolutePathsIndex[absolutePath] - 1).toString(16)
+                        decl.prop = 'content'
+                        decl.value = '\'\\e' + '0'.repeat(Math.max(0, 3 - iconIndex.length)) + iconIndex + '\''
 
 
-                    if (prop.endsWith('-orphan')) {
-                        result.orphansDecl.push(decl)
+                        if (prop.endsWith('-orphan')) {
+                            result.orphansDecl.push(decl)
+                        }
                     }
                 }
             },

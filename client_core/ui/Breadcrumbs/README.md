@@ -61,7 +61,7 @@ _Products -> Fruits -> Orange_<br />
 In this case _Products_ and _Fruits_ are `crumb` since they represent static pathname parts<br />
 _Orange_, on the other hand, is `dynamicCrumb`, since it represents _:id_ in URL, and this ID can by any fruit ID<br />
 
-The fact we usually place **Breadcrumbs** in layout along with header and footer makes it diffucult to pass some deep level props, like current sele<br /><br />cted fruit, not violating _dependency inversion_ principle<br />
+The fact we usually place **Breadcrumbs** in layout along with header and footer makes it diffucult to pass some deep level props, like current selected fruit, not violating _dependency inversion_ principle<br />
 For this reasons **Breadcrumbs** component has it's special approach to update `dynamicCrumb` defined within config<br />
 To update dynamic props we should fire **custom event**:
 
@@ -118,4 +118,40 @@ const SomePage = () => {
     return <button onClick={ getFruitDetails }>
 }
 
+```
+
+
+
+### Using with Router
+
+Since both [Router](https://github.com/CyberCookie/siegel/tree/master/client_core/router) and breadcrumb configs are similar - you may use one config for both components as described below:<br />
+
+
+```js
+import type { RoutesConfig } from 'siegel-router/types'
+import type { CrumbComposedConfig } from 'siegel-ui/Breadcrumbs'
+
+
+const routesConfig: RoutesConfig<CrumbComposedConfig> = {
+    '': {
+        crumb: 'Home',
+        Page: <div />
+    },
+
+    user: {
+        dynamicCrumb: 'user',
+        Page: <div />
+    },
+
+    contacts: {
+        crumb: 'About',
+        Page: <div />,
+        children: {
+            contacts: {
+                crumb: 'Contacts',
+                Page: <div />
+            }
+        }
+    }
+}
 ```

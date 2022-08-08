@@ -8,7 +8,7 @@ import componentID from './id'
 
 import type {
     Component, MergedProps, Store, Props,
-    BreadcrumbConfig, BreadcrumbConfigPart
+    BreadcrumbConfig, BreadcrumbConfigPart, CrumbComposedConfig
 } from './types'
 
 import styles from './styles.sass'
@@ -135,4 +135,4 @@ const Breadcrumbs: Component = component(
 
 export default Breadcrumbs
 export { componentID }
-export { Component, Props, BreadcrumbConfig }
+export { Component, Props, BreadcrumbConfig, CrumbComposedConfig }

@@ -67,7 +67,7 @@ const actions: Actions = {
 }
 
 
-const { useStore, store, resetStore } = createStore(initState, actions)
+const { useStore, store, resetStore } = createStore(initState, actions, true)
 
 
 export default useStore

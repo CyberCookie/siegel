@@ -1,7 +1,7 @@
 import isPrimitive from '../../is/primitive'
 
 
-type Comparable = any[] | Record<string, any>
+type Comparable = any[] | Indexable
 
 type Options = {
     valueForEqualArrElement?: any

@@ -17,9 +17,9 @@ type RequestParams<_Body = any> = {
     url: string
     isFullRes?: boolean
     parseMethod?: string
-    params?: Record<string, string>
-    query?: string | Record<string, string> | URLSearchParams
-    headers?: Record<string, string>
+    params?: Indexable<string>
+    query?: string | Indexable<string> | URLSearchParams
+    headers?: Indexable<string>
     credentials?: RequestInit['credentials']
     method?: RequestInit['method']
     signal?: RequestInit['signal']

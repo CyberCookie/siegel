@@ -77,11 +77,14 @@ type RedirectToPathObj = {
     state?: any | (() => any)
 }
 
-type RouteConfigAllFields = {
+
+
+
+type RouteConfigAllFields<_WithPageExtend = {}> = {
     Page: Page | LazyPage
     paramName: string
     Layout: Layout | LazyLayout
-    children: RoutesConfig
+    children: RoutesConfig<_WithPageExtend>
     fallback: React.ReactNode
     onEnter: (URLparams: URLparams) => any
     onLeave: () => void
@@ -90,57 +93,82 @@ type RouteConfigAllFields = {
     redirectTo: RedirectToPathObj | RedirectToPathGetter | RedirectToPath
 }
 
-type RouteRedirectConfig = {
-    redirectTo: RouteConfigAllFields['redirectTo']
-}
 
-type RoutePermissionsConfig = {
-    permissions: RouteConfigAllFields['permissions']
-    redirectTo: RouteConfigAllFields['redirectTo']
-}
 
 type PageLayoutCommons = {
     onEnter?: RouteConfigAllFields['onEnter']
     onLeave?: RouteConfigAllFields['onLeave']
     fallback?: RouteConfigAllFields['fallback']
-} & ({
-        children: RouteConfigAllFields['children']
-        transition?: RouteConfigAllFields['transition']
-    }
-    | {
-        children?: never
-        transition?: never
-    })
+}
 
-type RouterPageConfig = {
+
+type RoutePageConfig<_WithPageExtend = {}> = {
     Page: RouteConfigAllFields['Page']
     paramName?: RouteConfigAllFields['paramName']
-}
+} & _WithPageExtend
+type NeverPageConfig = Never<RoutePageConfig>
+
 
 type RouteLayoutConfig = {
     Layout: RouteConfigAllFields['Layout']
 }
+type NeverLayoutConfig = Never<RouteLayoutConfig>
 
-type RouteLayoutExcludePage = RouteLayoutConfig & PageLayoutCommons & Never<RouterPageConfig>
 
-type RouteLayoutExclude = RouteLayoutConfig & PageLayoutCommons & Never<RouterPageConfig>
-    & Never<RouteRedirectConfig> & Never<RoutePermissionsConfig>
+type RouteChildrenConfig<_WithPageExtend = {}> = {
+    children: RouteConfigAllFields<_WithPageExtend>['children']
+    transition?: RouteConfigAllFields['transition']
+}
+type NeverChildrenConfig = Never<RouteChildrenConfig>
 
-type RoutePageExcludeLayout = RouterPageConfig & PageLayoutCommons & Never<RouteLayoutConfig>
 
-type RoutePageExclude = RouterPageConfig & PageLayoutCommons & Never<RouteLayoutConfig>
-    & Never<RouteRedirectConfig> & Never<RoutePermissionsConfig>
+type RouteRedirectConfig = {
+    redirectTo: RouteConfigAllFields['redirectTo']
+}
+type NeverRedirectConfig = Never<RouteRedirectConfig>
 
-type RoutePermissionsExclude = RoutePermissionsConfig
-    & (RoutePageExcludeLayout | RouteLayoutExcludePage)
 
-type RouterRedirectExclude = RouteRedirectConfig & Never<Omit<RoutePermissionsExclude, keyof RouteRedirectConfig>>
-    & Never<RouteLayoutExcludePage> & Never<RoutePageExcludeLayout>
+type RoutePermissionsConfig = {
+    permissions: RouteConfigAllFields['permissions']
+    redirectTo: RouteConfigAllFields['redirectTo']
+}
+type NeverPermissionsConfig = Never<RoutePermissionsConfig>
 
-type RoutesConfig = Record<
-    string,
-    RoutePermissionsExclude | RouterRedirectExclude | RouteLayoutExclude | RoutePageExclude
+
+
+
+type RouteWithPageLayoutCommon<_WithPageExtend = {}> = PageLayoutCommons
+    & (RouteChildrenConfig<_WithPageExtend> | NeverChildrenConfig)
+    & (RoutePermissionsConfig | NeverPermissionsConfig)
+
+type RouteWithPageConfig<_WithPageExtend = {}> = RouteWithPageLayoutCommon<_WithPageExtend>
+    & RoutePageConfig<_WithPageExtend>
+    & NeverLayoutConfig
+
+type RouteWithLayoutConfig = RouteWithPageLayoutCommon & RouteLayoutConfig
+    & NeverPageConfig
+
+type RouteWithChildrenConfig = RouteChildrenConfig
+    & (Never<PageLayoutCommons & RoutePageConfig & RouteLayoutConfig>)
+    & (RoutePermissionsConfig | NeverPermissionsConfig)
+
+type RouteWithPermissionsConfig = RoutePermissionsConfig
+    & (RouteWithPageConfig | RouteWithLayoutConfig | RouteWithChildrenConfig)
+
+type RouteWithRedirectConfig = RouteRedirectConfig
+    & Never<PageLayoutCommons & RoutePageConfig & RouteLayoutConfig & RouteChildrenConfig>
+    & Never<Omit<RoutePermissionsConfig, keyof RouteRedirectConfig>>
+
+
+
+type RoutesConfig<_WithPageExtend = {}> = Indexable<
+    RouteWithPageConfig<_WithPageExtend>
+    | RouteWithLayoutConfig
+    | RouteWithChildrenConfig
+    | RouteWithPermissionsConfig
+    | RouteWithRedirectConfig
 >
+
 
 
 type RouterProps = {

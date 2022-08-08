@@ -411,7 +411,7 @@ Example input:
 
 ```css
 .all_icons {
-    font-icon-root: ''; // empy string so far
+    font-icon-common: ''; // empy string so far
 }
 
 .some_icon::before {
@@ -429,7 +429,9 @@ Example input:
 Where `.all_icons` it's an example classname for every icon.<br />And `.some_icon` it's an example classname for particular icon you want to tie svg icon to.<br />
 Pathes are related to `iconsRoot` in build config<br /><br />
 
-> So far only single `font-icon-root` declaration is allowed per project
+You may declare empty `font-icon-common` property once per css file.<br />
+It's to declare `@font-face` and `font-family` rules once per all classes with `font-icon` declaration in this file,<br />
+thus reducing output css size.<br />
 
 
 Example output:
