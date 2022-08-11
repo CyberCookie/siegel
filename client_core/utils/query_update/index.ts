@@ -2,13 +2,13 @@ type QueryValue = string | number | boolean
 
 type UpdateURLQuery = {
     (
-        key: string | Indexable,
-        value: QueryValue
+        key: string | Indexable<QueryValue>,
+        value?: QueryValue
     ): URLSearchParams
 }
 
 
-function updateQuery(query: URLSearchParams, key: string, value: QueryValue) {
+function updateQuery(query: URLSearchParams, key: string, value: QueryValue | undefined) {
     value === '' ? query.delete(key) : query.set(key, (value as string))
 }
 

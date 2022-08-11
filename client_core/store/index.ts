@@ -5,7 +5,7 @@ import deepClone from '../../common/deep/clone'
 import type {
     SetState, HookSetState,
     HookStore, InnerStore, StateWithUpdater,
-    ActionsUnbinded, ActionsBinded
+    ActionsUnbinded, ActionsBinded, ActionBinded
 } from './types'
 
 
@@ -79,4 +79,4 @@ function createStore
 
 
 export default createStore
-export type { HookStore }
+export type { HookStore, ActionBinded }

@@ -74,7 +74,7 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
         contentType = res.headers.get(HEADERS.CONTENT_TYPE)
 
         if (contentType) {
-            if (req.json || contentType.startsWith(CONTENT_TYPE.JSON)) {
+            if (contentType.startsWith(CONTENT_TYPE.JSON)) {
                 parseMethod = 'json'
 
             } else if (contentType.startsWith(CONTENT_TYPE.FORM_DATA)

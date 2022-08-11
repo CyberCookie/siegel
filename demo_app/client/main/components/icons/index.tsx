@@ -22,5 +22,5 @@ iconNames.forEach(name => {
 })
 
 
-export default icons
+export default icons as Required<typeof icons>
 export type { IconName }

@@ -15,8 +15,10 @@ type InnerStore<State extends Indexable, A extends ActionsUnbinded<State>> = {
 }
 
 
+type ActionBinded<_Action> = (...args: Tail<Parameters<_Action>>) => ReturnType<_Action>
+
 type ActionsBinded<A extends ActionsUnbinded<any>> = {
-    [action in keyof A]: (...args: Tail<Parameters<A[action]>>) => ReturnType<A[action]>
+    [action in keyof A]: ActionBinded<A[action]>//(...args: Tail<Parameters<A[action]>>) => ReturnType<A[action]>
 }
 type ActionsUnbinded<State extends Indexable, Store = HookStore<State, any>> = {
     [actions: string]: (store: Store, ...args: any[]) => void
@@ -26,5 +28,5 @@ type ActionsUnbinded<State extends Indexable, Store = HookStore<State, any>> = {
 export type {
     SetState, HookSetState,
     HookStore, InnerStore, StateWithUpdater,
-    ActionsUnbinded, ActionsBinded
+    ActionsUnbinded, ActionsBinded, ActionBinded
 }
