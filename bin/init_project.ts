@@ -155,35 +155,21 @@ function main(isGlobal?: boolean) {
 
     function modifyPackageJson() {
         existsSync(INIT_PATHS.userPackageJson) || shell('npm init -y')
-        const targetPackageJSON = requireJSON(INIT_PATHS.userPackageJson)
 
 
-        targetPackageJSON.type = siegelPackageType
+        const packageJsonConfigBootArgs = packageJsonConfig.boot.split(' ')
+        packageJsonConfigBootArgs[ packageJsonConfigBootArgs.length - 1 ] = INIT_PATHS.cwdRelativeUserServer
+
 
         const internalPackageScripts = [ 'prepublishOnly', '__validate', '__transpile' ]
         internalPackageScripts.forEach(command => {
             delete siegelPackageJSONScripts[command]
         })
 
-        const packageJsonConfigBootArgs = packageJsonConfig.boot.split(' ')
-        packageJsonConfigBootArgs[ packageJsonConfigBootArgs.length - 1 ] = INIT_PATHS.cwdRelativeUserServer
 
-        const packageJsonConfigBootString = packageJsonConfigBootArgs.join(' ')
-
-
-        const npmConfigBootVarName = '$npm_package_config_boot'
         const servCommandRun = 'npm run serv'
         const deployCommand = 'deploy'
         const buildNodeCommand = 'build_node'
-
-        for (const command in siegelPackageJSONScripts) {
-            const siegelPackageJSONCommand = siegelPackageJSONScripts[command]
-
-            siegelPackageJSONScripts[command] = siegelPackageJSONCommand.replace(
-                npmConfigBootVarName,
-                packageJsonConfigBootString
-            )
-        }
 
         siegelPackageJSONScripts[deployCommand] = siegelPackageJSONScripts[deployCommand]
             .replace(servCommandRun, `npm run ${buildNodeCommand} && ${servCommandRun}`)
@@ -191,7 +177,14 @@ function main(isGlobal?: boolean) {
         siegelPackageJSONScripts[buildNodeCommand] = `npx tsc -p ./${INIT_LOC_NAMES.DEMO_APP_SERVER_DIR_NAME}`
 
 
+
+        const targetPackageJSON = requireJSON(INIT_PATHS.userPackageJson)
+
         targetPackageJSON.scripts = siegelPackageJSONScripts
+        targetPackageJSON.type = siegelPackageType
+
+        packageJsonConfig.boot = packageJsonConfigBootArgs.join(' ')
+        targetPackageJSON.config = packageJsonConfig
 
 
         writeFileSync(INIT_PATHS.userPackageJson, toJSON(targetPackageJSON))

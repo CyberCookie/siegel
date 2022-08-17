@@ -35,6 +35,7 @@ type Hooks = {
     afterRequest?(reqData: ReqData, parsedRes: any): void
     errorHandler?(error: ReqError): void
     json?: RequestParams['json']
+    preventSame?: boolean
 }
 
 

@@ -64,6 +64,10 @@ Receives **1** argument - **Object** wit the next fields:
 - `json` - **Boolean**. Default is **false**<br />
     Applies json content type to headers and parses response as json
 
+- `preventSame` - **Boolean**.
+    Prevents request if the same request is already processing<br />
+    Same request is a request with the same **url** **method** and **stringified body**
+
 
 <br /><br />
 
@@ -111,11 +115,9 @@ Content-type header values used in **request**.
 - `credentials` - **String**<br />
     Request credentials
 
-- `json` - Same as **beforeRequest** in **setupRequest Object**
+- `json` - Same as **beforeRequest** in **setupRequest Object** but for particular req
 
-- `preventSame` - **Boolean**. Default is **true**<br />
-    Prevents request if the same request is already processing<br />
-    Same request is a request with the same **url** **method** and **stringified body**
+- `preventSame` - Same as **preventSame** in **setupRequest Object** but for particular req
 
 - `signal` - **(new AbortController()).signal**<br />
     Terminates request and prevents browser from response handling

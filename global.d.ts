@@ -64,8 +64,8 @@ type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<T>
 type NarrowObjectToValueTypes<O extends Indexable, T> = {
     [k in keyof O as O[k] extends T ? k : never]: T
 }
-
 type Values<K extends Indexable> = K[keyof K]
+
 
 
 type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never

@@ -93,7 +93,10 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
 
 
 const createApi = (hooks: Hooks = {}) => {
-    const { beforeParse, beforeRequest, afterRequest, errorHandler, json } = hooks
+    const {
+        beforeParse, beforeRequest, afterRequest, errorHandler, json,
+        preventSame: preventSameGlobal
+    } = hooks
     const activeRequest = new Set()
 
 
@@ -103,17 +106,19 @@ const createApi = (hooks: Hooks = {}) => {
         const ifAsync = beforeParse?.(req)
         if (ifAsync) await ifAsync.then(_req => { req = _req })
 
-        const { isFullRes, preventSame = true } = req
+        const { isFullRes, preventSame } = req
         const reqData = extractRequestData(req)
 
+        const isSameReqPrevent = preventSame != false && (preventSame || preventSameGlobal)
+
         let reqKey
-        preventSame && (reqKey = `${reqData.url}_${reqData.options.method}_${reqData.options.body}`)
+        isSameReqPrevent && (reqKey = `${reqData.url}_${reqData.options.method}_${reqData.options.body}`)
 
 
         beforeRequest?.(reqData)
         req.beforeRequest?.(reqData)
         try {
-            if (preventSame) {
+            if (isSameReqPrevent) {
                 if (activeRequest.has(reqKey)) {
                     throw {
                         err: new Error('Same request is already processing...'),
@@ -126,13 +131,15 @@ const createApi = (hooks: Hooks = {}) => {
             const { headers, status, statusText, ok } = res
 
             let parsedRes = await extractResponseData(req, res)
+            isSameReqPrevent && activeRequest.delete(reqKey)
+
             isFullRes && (parsedRes = {
                 status, statusText, headers,
                 data: parsedRes
             })
 
+
             if (ok) {
-                preventSame && activeRequest.delete(reqKey)
                 afterRequest?.(reqData, parsedRes)
 
                 return {
@@ -147,7 +154,10 @@ const createApi = (hooks: Hooks = {}) => {
             }
 
         } catch (err) {
-            (err as ReqError).req = reqData
+            isSameReqPrevent && console.log(err)
+            isSameReqPrevent && activeRequest.delete(reqKey)
+
+            ;(err as ReqError).req = reqData
 
             errorHandler?.(err as ReqError)
 

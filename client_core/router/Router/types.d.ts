@@ -173,7 +173,7 @@ type RoutesConfig<_WithPageExtend = {}> = Indexable<
 
 type RouterProps = {
     children: RoutesConfig
-    Layout?: any
+    Layout?: Layout
     basename?: string
     transition?: Transition
 }
