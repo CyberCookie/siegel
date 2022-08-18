@@ -31,7 +31,7 @@ setup({
 
 ```js
 import React from 'react'
-import fetchModule from 'siegel-store/fetch_module'
+import fetchModule, { reset } from 'siegel-store/fetch_module'
 
 const trackURL = '/some_url/path'
 
@@ -46,6 +46,8 @@ const Component = () => {
             }
 
             <div>Error: { getLastErrorMsgByURL(trackURL).message }</div>
+
+            <button onClick={() => reset()}>Reset fetchStore</button>
         </div>
     )
 }

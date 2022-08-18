@@ -14,18 +14,24 @@ Install dependencies with `npm i`.
 
 ## package.json scripts:
 
-- To run the project in development mode: `npm start`
-- To build client for production run `npm run build`
-- To host the project locally run `npm run serv`<br />
-    To use this command first ensure you built a client using `npm run build`
-- To transpile server ts to server js run `npm run build_node`
-- To build and host in prod mode using local static server run `npm run build_serv`
-- To validate the project code with eslint and typescript run `npm run validate`
-- To perform deploy actions run `npm run deploy`<br />
-    This includes clean install and client build
+- `npm start` - run the project in `development mode` 
+
+- `npm run build` - build client for `production`
+
+- `npm run serv` - host the project `locally`<br />
+    To use this command `first ensure` you built your client with `npm run build`<br />
+
+- `npm run build_node` - transpile server `ts` to server `js`
+
+- `npm run build_serv` - build and host in `production` mode using `local static server` 
+
+- `npm run validate` - validate the project code with `eslint` and `typescript`
+
+- `npm run deploy` - perform deploy actions<br />
+    This includes `clean install` and `client build`
 
 
-<br />
+<br /><br />
 
 To run above commands on Windows, you should first set npm bash shell<br />
 by running the next command:<br />

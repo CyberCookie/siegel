@@ -1,7 +1,9 @@
 import isPrimitive from '../../is/primitive'
 
+import type { Options } from './types'
 
-function deepClone<T>(value: T): T {
+
+function deepClone<T>(value: T, opts: Options = {}): T {
     if (isPrimitive(value as unknown as object)) return value
 
     let result: Indexable
@@ -11,11 +13,16 @@ function deepClone<T>(value: T): T {
         for (let i = 0, l = value.length; i < l; i++) {
             result[i] = deepClone(value[i])
         }
+
     } else if ((value as Record<string, unknown>).constructor === Object) {
         result = {}
         for (const i in value) {
             result[i] = deepClone(value[i])
         }
+
+    } else if ((value as unknown as Function).constructor === Function) {
+        result = opts.funcClone?.(value as unknown as Function) || value
+
     } else result = new (value as any).constructor(value)
 
 
@@ -24,3 +31,4 @@ function deepClone<T>(value: T): T {
 
 
 export default deepClone
+export type { Options }

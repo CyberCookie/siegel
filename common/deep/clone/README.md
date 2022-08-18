@@ -4,8 +4,11 @@ Clones any object
 
 <br />
 
-Receives **1** argument:
-- **object** - **Object**. Object to clone
+Receives **2** arguments:
+- **value** - **Any**. Value to clone
+- **Options** - **Object** with the next fields:
+    - `funcClone` - **Function**. Custum function to clone functions.<br />
+    Default behavior is simply assigning old one value
 
 <br />
 

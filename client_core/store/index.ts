@@ -1,7 +1,5 @@
 import { useState, useLayoutEffect } from 'react'
 
-import deepClone from '../../common/deep/clone'
-
 import type {
     SetState, HookSetState,
     HookStore, InnerStore, StateWithUpdater,
@@ -43,37 +41,41 @@ function bindActions
     return actions as ActionsBinded<typeof actions>
 }
 
+const getInitialState = <S extends Indexable>(defaultStateResolve: () => S) => {
+    type State = StateWithUpdater<S>
+
+    const state = defaultStateResolve()
+    ;(state as State).__updated = 0
+
+    return state as State
+}
+
 
 function createStore
 <S extends Indexable, A extends ActionsUnbinded<S>>
-(initialState: S, actions: A, reset?: boolean) {
+(initialStateResolver: () => S, actions: A) {
     type State = StateWithUpdater<S>
-    ;(initialState as State).__updated = 0
-
 
     type StoreUninitialized = InnerStore<State, A>
     type Store = Required<StoreUninitialized>
 
 
     const store: StoreUninitialized = {
-        state: initialState as State,
-        listeners: []
+        listeners: [],
+        state: getInitialState(initialStateResolver)
     }
     store.setState = setState.bind(store)
     store.actions = (bindActions(store as Store, actions) as ActionsBinded<A>)
 
 
-    let resetStore
-    if (reset) {
-        const clonnedState = deepClone(initialState as State)
-        resetStore = () => { store.setState!(clonnedState) }
-    }
-
-
     return {
-        resetStore,
         store: (store as Store),
-        useStore: (useCustom.bind(store) as () => [ State, Store['actions'] ])
+        useStore: (useCustom.bind(store) as () => [ State, Store['actions'] ]),
+        reset() {
+            store.setState!(
+                getInitialState( initialStateResolver )
+            )
+        }
     }
 }
 

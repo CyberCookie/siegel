@@ -7,11 +7,11 @@ import { dynamicCrumbsMap } from 'app/Router'
 import type { State, Actions, EchoReqBody } from './types'
 
 
-const initState: State = {
+const getInitialState = () => ({
     received: '',
     counter: 0,
     proxyRes: {}
-}
+} as State)
 
 const urls = {
     echo: '/api/echo',
@@ -21,13 +21,16 @@ const actions: Actions = {
     api_echo({ state, setState }, body) {
         request<EchoReqBody, EchoReqBody>({
             body,
-            url: urls.echo,
-            headers: {
-                a: 'asd'
-            }
+            url: urls.echo
+
         }).then(({ res }) => {
             if (res) {
                 const { dataToSend } = res
+
+                /* 
+                    Send event to our the only breadcrumb component
+                    to update its crumbs state
+                */
                 dispatchEvent(
                     new CustomEvent(breadcrumbID, {
                         detail: {
@@ -46,6 +49,7 @@ const actions: Actions = {
         request<Indexable>({
             url: urls.proxy,
             params: { id }
+
         }).then(({ res }) => {
             if (res) {
                 state.proxyRes = res
@@ -62,9 +66,9 @@ const actions: Actions = {
 
 
 
-const { useStore, store } = createStore(initState, actions)
+const { useStore, store, reset } = createStore(getInitialState, actions)
 
 
 export default useStore
-export { store, urls }
+export { store, reset, urls }
 export * as DemoApiTypes from './types'

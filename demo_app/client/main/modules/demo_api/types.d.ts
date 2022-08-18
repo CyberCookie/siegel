@@ -11,7 +11,7 @@ type State = {
 type Actions = {
     api_echo(store: StoreInitialized, body: EchoReqBody): void
     api_proxyGet(store: StoreInitialized, id: string): void
-    updateCounter(store: StoreInitialized): void
+    updateCounter(store: StoreInitializedz, id: string): void
 }
 
 type StoreInitialized = HookStore<State, Actions>

@@ -3,11 +3,11 @@ import createStore from '../index'
 import type { State, Actions, StoreInitialized } from './types'
 
 
-const initState: State = {
+const getInitState = () => ({
     requests: {},
     errRes: {},
     lastError: {}
-}
+} as State)
 
 
 function decrementRequests({ requests }: State, ID: string) {
@@ -67,9 +67,9 @@ const actions: Actions = {
 }
 
 
-const { useStore, store, resetStore } = createStore(initState, actions, true)
+const { useStore, store, reset } = createStore(getInitState, actions)
 
 
 export default useStore
-export { store, resetStore }
+export { store, reset }
 export type { State, Actions, StoreInitialized }

@@ -40,6 +40,14 @@ describe('common/deep/clone', () => {
         expect(newValue).toEqual(origValue)
     })
 
+    test('clone func', () => {
+        const funcToClone = () => 42
+        const clonnedFunc = deepClone(funcToClone)
+
+        expect(clonnedFunc())
+            .toBe(funcToClone())
+    })
+
     test('clone undef', () => {
         expect( deepClone(undefined) ).toBeUndefined()
     })

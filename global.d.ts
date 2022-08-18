@@ -75,3 +75,8 @@ type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R
 type CSSWithVariables = {
     [key: string]: string | number
 } & React.CSSProperties
+
+
+type AttributesWithData = {
+    [key: string]: string | number
+} & React.HTMLAttributes<HTMLDivElement>
