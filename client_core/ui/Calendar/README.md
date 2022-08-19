@@ -147,7 +147,7 @@ Flexible calendar to pick single or range of dates<br />
 
 - `strings`
     - Month and week day names
-    - **Object** with the next fields:
+    - **Function** that returns **Object** or **Object** itself with the next fields:
         - `months` - **String[]**
         - `weekDaysShort` - **String[]**
     - Default **Object** is:

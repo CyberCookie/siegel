@@ -61,6 +61,7 @@ Dropdown options selector<br />
     - Default is **true**<br /><br />
 
 - `store`
+    - **Static**
     - Store, created with **React.useState** store, to be used in select component
     - State is an **Object** with the next fields:
         - `isActive` - **Boolean**. Whether select is in focus

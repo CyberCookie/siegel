@@ -42,6 +42,7 @@ Simple slider built on top of **Swipe** component<br />
     - **( ((slideIndex: number) => React.ReactNode) | React.ReactNode )[]**<br /><br />
 
 - `store`
+    - **Static**
     - Store, created with **React.useState** store, to be used in **Slider** component
     - State is an **Number** and represents currently selected slide index<br /><br />
 

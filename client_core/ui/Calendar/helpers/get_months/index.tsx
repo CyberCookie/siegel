@@ -17,10 +17,13 @@ function getMonths(mergedProps: MergedProps, store: Store) {
     } = mergedProps
     const state = store[0]
 
+    const stringValues = typeof strings == 'function'
+        ?   strings()
+        :   strings
 
     const weekDayNames = weekStartsFrom
-        ?   getWeekDaysShifted(weekStartsFrom, strings.weekDaysShort)
-        :   strings.weekDaysShort
+        ?   getWeekDaysShifted(weekStartsFrom, stringValues.weekDaysShort)
+        :   stringValues.weekDaysShort
     const weekdaysRow = getWeekDaysRow(weekDayNames, theme)
 
     let prevMonthIconEl, nextMonthIconEl, prevYearIconEl, nextYearIconEl
@@ -39,7 +42,7 @@ function getMonths(mergedProps: MergedProps, store: Store) {
     for (let i = 0, l = monthsBefore + monthsAfter + 1; i < l; i++) {
         const year = start.getFullYear()
         const month = start.getMonth()
-        const monthName = strings.months[month]
+        const monthName = stringValues.months[month]
 
         const monthWraperTitle = constructCalendarTitle?.({
             monthName, year, prevMonthIcon, nextMonthIcon, nextYearIcon, prevYearIcon

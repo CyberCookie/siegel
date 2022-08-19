@@ -1,4 +1,4 @@
-import type { Entities } from '../../utils/entities_struct'
+import type { Entities } from '../../../common/entities_struct'
 import type {
     PropsComponentThemed, NewComponentAttributes, CoreUIComponent, CoreUIComponentWithDefaults
 } from '../_internals/types'

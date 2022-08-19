@@ -43,6 +43,7 @@ Input field to type text into<br />
     - **String**<br /><br />
 
 - `store`
+    - **Static**
     - Store, created with **React.useState** store, to be used in data table
     - State is an **Object** with the next fields:
         - `isTouched` - if input has been focused at least one time

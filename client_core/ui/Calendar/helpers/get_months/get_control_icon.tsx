@@ -9,42 +9,48 @@ function getControlIcon(isMonth: boolean, isPrev: boolean, props: MergedProps, s
         prevMonthIcon, nextMonthIcon, prevYearIcon, nextYearIcon
     } = props
 
-    const [ state, setState ] = store
+    const icon = isMonth
+        ?   isPrev ? prevMonthIcon: nextMonthIcon
+        :   isPrev ? prevYearIcon : nextYearIcon
 
-    const value = isPrev ? -1 : 1
+    if (icon) {
+        const [ state, setState ] = store
 
-    let icon
-    let className = `${isPrev ? theme.icon_prev : theme.icon_next} `
-    let optionalHandler: MergedProps['onMonthSwitch'] | MergedProps['onYearSwitch']
-    let dateMethodGet: 'getMonth' | 'getFullYear'
-    let dateMethodSet: 'setMonth' | 'setFullYear'
-    if (isMonth) {
-        className += theme.icon_month
-        icon = isPrev ? prevMonthIcon : nextMonthIcon
-        dateMethodGet = 'getMonth'
-        dateMethodSet = 'setMonth'
-        optionalHandler = onMonthSwitch
-    } else {
-        className += theme.icon_year
-        icon = isPrev ? prevYearIcon : nextYearIcon
-        dateMethodGet = 'getFullYear'
-        dateMethodSet = 'setFullYear'
-        optionalHandler = onYearSwitch
-    }
+        const value = isPrev ? -1 : 1
 
-    function handler(e: React.MouseEvent) {
-        e.stopPropagation()
+        let className = `${isPrev ? theme.icon_prev : theme.icon_next} `
+        let optionalHandler: MergedProps['onMonthSwitch'] | MergedProps['onYearSwitch']
+        let dateMethodGet: 'getMonth' | 'getFullYear'
+        let dateMethodSet: 'setMonth' | 'setFullYear'
 
-        state.beginOfMonth[dateMethodSet](
-            state.beginOfMonth[dateMethodGet]() + value
-        )
-        setState({ ...state })
+        if (isMonth) {
+            className += theme.icon_month
+            dateMethodGet = 'getMonth'
+            dateMethodSet = 'setMonth'
+            optionalHandler = onMonthSwitch
 
-        optionalHandler?.(state.beginOfMonth, value, e)
-    }
+        } else {
+            className += theme.icon_year
+            dateMethodGet = 'getFullYear'
+            dateMethodSet = 'setFullYear'
+            optionalHandler = onYearSwitch
+        }
+
+        function handler(e: React.MouseEvent) {
+            e.stopPropagation()
+
+            state.beginOfMonth[dateMethodSet](
+                state.beginOfMonth[dateMethodGet]() + value
+            )
+            setState({ ...state })
+
+            optionalHandler?.(state.beginOfMonth, value, e)
+        }
 
 
-    return <div className={ className } children={ icon } onMouseDown={ handler } />
+        return <div className={ className } children={ icon } onMouseDown={ handler } />
+
+    } else return null
 }
 
 

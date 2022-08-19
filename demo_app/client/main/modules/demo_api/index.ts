@@ -27,7 +27,7 @@ const actions: Actions = {
             if (res) {
                 const { dataToSend } = res
 
-                /* 
+                /*
                     Send event to our the only breadcrumb component
                     to update its crumbs state
                 */

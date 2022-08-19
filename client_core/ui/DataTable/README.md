@@ -59,6 +59,7 @@ Configurable and flexible data grid to manage big amount of data, built on top o
                 - **search** - **Any**. Column filter value<br /><br />
 
 - `store`
+    - **Static**
     - Store, created with **React.useState** store, to be used in **DataTable**
     - State is an **Object** with the next fields:
         - `sortByField` - **Object**. Empty if no sorting applied otherwise has the next fields:

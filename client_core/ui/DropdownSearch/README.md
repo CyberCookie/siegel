@@ -69,6 +69,7 @@ Searchable input with select hints built on top of **Input** component<br />
         - **event** - Input component **props.onChange** event<br /><br />
 
 - `store`
+    - **Static**
     - Store, created with **React.useState** store, to be used in **DropdownSearch**
     - State is an **Object** with the next fields:
         - `searchString` - **String | undefined**. Input field text

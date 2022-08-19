@@ -48,12 +48,10 @@ const DataTable: Component = component(
 
         const {
             theme, className, rootTagAttributes, withFooter, tableAttributes, refApi,
-            virtualization, children
+            virtualization, children, store
         } = props
-        props.store ||= useState( getDefaultState() )
 
-
-        const hookState = props.store[0]
+        const [ hookState ] = store || useState( getDefaultState() )
 
         let rootAttributes: ComponentAttributes<HTMLDivElement> = { className }
 

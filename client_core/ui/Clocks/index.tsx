@@ -23,14 +23,19 @@ const Clocks: Component = component(
             builder, initDate, zeroing, tickEveryMinute, speedCoef, backward
         } = props
 
-        const [ date, setDate ] = useState(initDate ? new Date(initDate) : new Date())
-
+        const [ dateState, setDate ] = useState({
+            date: initDate ? new Date(initDate) : new Date()
+        })
+        const { date } = dateState
 
         useDidUpdate(() => {
-            setDate(initDate)
+            dateState.date = initDate
+            setDate({ ...dateState  })
         }, [ initDate ])
 
         useLayoutEffect(() => {
+            const { date } = dateState
+
             function tick(timeChangeValueMS: number) {
                 const currentMS = date.getMilliseconds()
                 const newDate = new Date(
@@ -41,7 +46,8 @@ const Clocks: Component = component(
                     )
                 )
 
-                setDate(newDate)
+                dateState.date = newDate
+                setDate({ ...dateState })
             }
 
             const isNotNormalSpeed = speedCoef != 1
@@ -88,7 +94,7 @@ const Clocks: Component = component(
                 clearTimeout(deltaToFirstTickTimeoutID)
                 clearInterval(intervalID)
             }
-        }, [])
+        }, [ initDate ])
 
 
         return (

@@ -1,4 +1,4 @@
-import type { DateParse } from '../../utils/date/parse'
+import type { DateParse } from '../../../common/date/parse'
 import type { PropsComponentBase, CoreUIComponent } from '../_internals/types'
 
 

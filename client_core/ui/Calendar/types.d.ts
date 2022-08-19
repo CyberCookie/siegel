@@ -1,10 +1,17 @@
-import type { DateResolver } from '../../utils/date/constants'
 import type { PropsComponentThemed, CoreUIComponent, NewComponentAttributes } from '../_internals/types'
 
 
 type PostProcessCalendarDayParams = {
     className: string
     children: React.ReactNode
+}
+
+type StringValues = {
+    months: [
+        string, string, string, string, string, string,
+        string, string, string, string, string, string
+    ]
+    weekDaysShort: [ string, string, string, string, string, string, string ]
 }
 
 
@@ -65,15 +72,12 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     payload?: _Payload
     rangePick?: boolean
     rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
-    strings?: {
-        months: ReturnType<DateResolver>['months']
-        weekDaysShort: ReturnType<DateResolver>['weekDaysShort']
-    }
+    strings?: StringValues | (() => StringValues)
 }>
 
 type DefaultProps = NonNullableKeys<{
     theme: Required<Props['theme']>
-    strings: Required<Props['strings']>
+    strings: StringValues
     prevMonthIcon: Props['prevMonthIcon']
     nextMonthIcon: Props['nextMonthIcon']
     prevYearIcon: Props['prevYearIcon']
