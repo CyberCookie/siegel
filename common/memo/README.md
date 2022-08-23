@@ -9,17 +9,17 @@ Receives **3** parameters:<br />
 - id - **Number**. Memoization ID <br />
 Returns **Any** - memoized result<br />
 
-You may import `getUniqID` to generate uniq ID to use in memoization function.<br />
 To prevent memory leaks use `clearState` that accepts memoization id.
 
 
 <br />
 
 ```js
-import memo, { getUniqID, clearState } from 'siegel-utils/memo'
+import getUniqId from 'siegel-utils/get_uniq_id'
+import memo, { clearState } from 'siegel-utils/memo'
 
 
-const expensiveCalculationID = getUniqID()
+const expensiveCalculationID = getUniqId()
 
 const expensiveCalculaton = () => {
     ///expensive calculations

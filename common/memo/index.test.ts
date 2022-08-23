@@ -1,8 +1,9 @@
-import memo, { getUniqID, clearState } from './'
+import getUniqId from '../get_uniq_id'
+import memo, { clearState } from './'
 
 
 describe('common/memo', () => {
-    const memoExecutionID = getUniqID()
+    const memoExecutionID = getUniqId()
 
     let calculationsCount = 0
     const calculationFunc = () => {

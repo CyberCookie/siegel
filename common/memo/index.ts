@@ -1,10 +1,6 @@
-let id = 0
-const getUniqID = () => id++
-
-
 const results: any = {}
 
-const clearState = (id: number) => { delete results[id] }
+const clearState = (id: string) => { delete results[id] }
 
 function memo(cb: Function, dependencyValue: number | string | boolean, id: number | string) {
     const resultData = results[id]
@@ -31,5 +27,5 @@ function memo(cb: Function, dependencyValue: number | string | boolean, id: numb
 }
 
 
-export { getUniqID, clearState }
+export { clearState }
 export default memo

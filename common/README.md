@@ -20,6 +20,7 @@ Utils list:
     - [Get](https://github.com/CyberCookie/siegel/tree/master/common/deep/get)
     - [Set](https://github.com/CyberCookie/siegel/tree/master/common/deep/set)
 - [Entities struct](https://github.com/CyberCookie/siegel/tree/master/common/entities_struct)
+- [Get uniq id](https://github.com/CyberCookie/siegel/tree/master/common/get_uniq_id)
 - Is
     - [EmptyObj](https://github.com/CyberCookie/siegel/tree/master/common/is/empty_obj)
     - [Exists](https://github.com/CyberCookie/siegel/tree/master/common/is/exists)
