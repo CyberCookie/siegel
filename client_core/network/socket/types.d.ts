@@ -38,7 +38,7 @@ type SocketState = {
         [key in string]: Set<Handler>
     }
     pendingDataToSend: any[]
-    reconnectIntervalID: number
+    reconnecting: boolean
 }
 
 type SocketInit = (params: {
@@ -49,7 +49,12 @@ type SocketInit = (params: {
     messageTypeKey: NonNullable<CreateSocketParams['messageTypeKey']>
     payloadKey: NonNullable<CreateSocketParams['payloadKey']>
     state: SocketState
+    intervalWorkerData: {
+        worker: Worker
+        pingMessageId: string
+    }
     onError(e?: Event): void
+    onClose(): void
     onReconnect(e: Event): void
     parseIncommingMsg: NonNullable<CreateSocketParams['parseIncommingMsg']>
 }) => WebSocket | null

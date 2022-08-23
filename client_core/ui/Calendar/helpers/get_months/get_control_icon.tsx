@@ -49,8 +49,7 @@ function getControlIcon(isMonth: boolean, isPrev: boolean, props: MergedProps, s
 
 
         return <div className={ className } children={ icon } onMouseDown={ handler } />
-
-    } else return null
+    }
 }
 
 

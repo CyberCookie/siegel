@@ -4,7 +4,7 @@ import type { PropsComponentBase, CoreUIComponent } from '../_internals/types'
 
 type Props = Omit<
     PropsComponentBase<{
-        initDate: Date
+        initDate?: Date
         zeroing?: boolean
         tickEveryMinute?: boolean
         speedCoef?: number

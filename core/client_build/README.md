@@ -278,13 +278,18 @@ navigator.serviceWorker?.register('/sw.js')
 
 <br /><br />
 
-### Modules
+### Module and Rules
 
 Each loader has its own `loader key` to make it easy to extend it<br />
 Loaders used by default together with `file extensions regexp` are described below
 
 
-- Scripts <br />
+- Workers<br />
+RegExp string: `\\.worker\\.[tj]s$` (**worker**)<br />
+Loaders:
+    - worker-loader ( `workers` )<br /><br />
+
+- Scripts<br />
 RegExp string: `\\.[tj]sx?$` (**scripts**)<br />
 Loaders:
     - ESBuild ( `esbuildLoader` )<br /><br />
@@ -309,87 +314,99 @@ RegExp string: `\\.(avif|webp|jpg|png|svg|woff2)?$` (**assets**)
 import { BUILD_CONSTANTS } from 'siegel'
 
 
-const { loadersKeyMap, webpackModulesRegExp } = BUILD_CONSTANTS
+const { loadersKeyMap, webpackModuleRulesRegExp } = BUILD_CONSTANTS
 
 {
-    modules: {
-        [ webpackModulesRegExp.styles ]: {
-            /*
-                This field can be a function in the case you extend one of the default rules.
-                The Function receives default laodersOrder and returns new one. 
-            */
-            loadersOrder(defaultLoadersOrder) {
-                /* Remember that webpack' loaders executes starting from the end */
+    // ...build config
 
-                /* To add to the beginning. */
-                defaultLoadersOrder.push('your_loader')
+    module: {
+        /* Add new moduleRule key to the rules order */
+        order(defaultOrder) {
+            return [ ...defaultOrder, 'png|ico' ]
+        },
 
-                /* To add to the end. */
-                defaultLoadersOrder.unshift('your_loader')
+        /* Pass some module options */
+        moduleOptions: {},
 
-                /* One of the ways to remove the loader. */
-                defaultLoadersOrder.splice(
-                    defaultLoadersOrder.indexOf(loadersKeyMap.sassResources),
-                    1
-                )
-
-                return defaultLoadersOrder
-            },
-
-            loaders: {
-                /* Annother way to disable loader */
-                [ loadersKeyMap.sassResources ]: false,
-
-                [ loadersKeyMap.cssLoader ]: {
-                    /*
-                        This field can be a function in case you extend one of the default loaders. 
-                    */
-                    options(defaultLoaderOptions) {
-                        delete defaultLoaderOptions.modules;
-                        return defaultLoaderOptions
+        rules: {
+            [ webpackModuleRulesRegExp.styles ]: {
+                /*
+                    This field can be a function in the case you extend one of the default rules.
+                    The Function receives default laodersOrder and returns new one. 
+                */
+                loadersOrder(defaultLoadersOrder) {
+                    /* Remember that webpack' loaders executes starting from the end */
+    
+                    /* To add to the beginning. */
+                    defaultLoadersOrder.push('your_loader')
+    
+                    /* To add to the end. */
+                    defaultLoadersOrder.unshift('your_loader')
+    
+                    /* One of the ways to remove the loader. */
+                    defaultLoadersOrder.splice(
+                        defaultLoadersOrder.indexOf(loadersKeyMap.sassResources),
+                        1
+                    )
+    
+                    return defaultLoadersOrder
+                },
+    
+                loaders: {
+                    /* Annother way to disable loader */
+                    [ loadersKeyMap.sassResources ]: false,
+    
+                    [ loadersKeyMap.cssLoader ]: {
+                        /*
+                            This field can be a function in case you extend one of the default loaders. 
+                        */
+                        options(defaultLoaderOptions) {
+                            delete defaultLoaderOptions.modules;
+                            return defaultLoaderOptions
+                        }
+                    },
+    
+                    your_loader: {
+                        loader: String,
+                        options: Object
                     }
-                },
-
-                your_loader: {
-                    loader: String,
-                    options: Object
                 }
-            }
-        },
-        
-        [ webpackModulesRegExp.files ]: {
-            /*
-                Provide new regexp for all loaders
-                that use [ webpackModulesRegExp.files ] regexp
-            */
-            rewriteRegExp: '(png|jpg|woff2?|svg)'
-        },
-
-        /* Custom extension handler */
-        'png|ico': {
-            /* You may ommit this field if only one loader is using. */
-            loadersOrder: [ 'loader_key_1', 'loader_key_2' ],
-
-            /*
-                Loaders hash with keys you specified in loadersOrder.
-                Loader can have any key if the loader is single.
-            */
-            loaders: {
-                /* can be an object when you specify loader and its options separately */
-                loader_key_1: {
-                    loader: String, // Resoved loader path
-                    
-                    /* Loader options */ 
-                    options: {}
-                },
-
-                /* Can be a string with resolved module path  */
-                loader_key_2: String
             },
-
-            /* Any valid field you can pass into webpack's Rule but `test` and `use`. */
-            ruleOptions: {
-                include: [ 'path_to_png_ico_files' ]
+            
+            [ webpackModuleRulesRegExp.files ]: {
+                /*
+                    Provide new regexp for all loaders
+                    that use [ webpackModuleRulesRegExp.files ] regexp
+                */
+                rewriteRegExp: '(png|jpg|woff2?|svg)'
+            },
+    
+            /* Custom extension handler */
+            'png|ico': {
+                /* You may ommit this field if only one loader is using. */
+                loadersOrder: [ 'loader_key_1', 'loader_key_2' ],
+    
+                /*
+                    Loaders hash with keys you specified in loadersOrder.
+                    Loader can have any key if the loader is single.
+                */
+                loaders: {
+                    /* can be an object when you specify loader and its options separately */
+                    loader_key_1: {
+                        loader: String, // Resoved loader path
+                        
+                        /* Loader options */ 
+                        options: {}
+                    },
+    
+                    /* Can be a string with resolved module path  */
+                    loader_key_2: String
+                },
+    
+                /* Any valid field you can pass into webpack's Rule but `test` and `use`. */
+                ruleOptions: {
+                    include: [ 'path_to_png_ico_files' ]
+                }
             }
         }
     }
@@ -478,25 +495,27 @@ import { BUILD_CONSTANTS } from 'siegel'
 
 
 const {
-    loadersKeyMap, webpackModulesRegExp,
+    loadersKeyMap, webpackModuleRulesRegExp,
     DEPENDENCIES: { loaders }
 } = BUILD_CONSTANTS
 
 const config = {
     // ...build config
 
-    modules: {
-        [webpackModulesRegExp.styles]: {
-            loaders: {
-                [loadersKeyMap.postCssLoader]: {
-                    options(defaultOptions) {
-                        // our plugin is a second in a postcss plugins array
-                        defaultOptions.postcssOptions.plugins[1] = loaders.postCssSVG2Font({
-                            fontNamePrefix: 'font_prefix',
-                            isWoff2: true
-                        })
-
-                        return defaultOptions
+    module : {
+        rules: {
+            [webpackModuleRulesRegExp.styles]: {
+                loaders: {
+                    [loadersKeyMap.postCssLoader]: {
+                        options(defaultOptions) {
+                            // our plugin is a second in a postcss plugins array
+                            defaultOptions.postcssOptions.plugins[1] = loaders.postCssSVG2Font({
+                                fontNamePrefix: 'font_prefix',
+                                isWoff2: true
+                            })
+    
+                            return defaultOptions
+                        }
                     }
                 }
             }

@@ -1,15 +1,15 @@
 import { PATHS } from '../../constants.js'
-import { loadersKeyMap, webpackModulesRegExp, DEPENDENCIES } from '../constants.js'
+import { loadersKeyMap, webpackModuleRulesRegExp, DEPENDENCIES } from '../constants.js'
 
 import type { ConfigFinal, RunParamsFinal } from '../../types'
-import type { DefaultModules, DefaultsWithRuleOptions } from './types'
+import type { DefaultRulesData, DefaultRulesKeys, DefaultsWithRuleOptions } from './types'
 
 
 const {
     plugins: { miniCssExtract },
     loaders: {
         esbuild, cssLoader, sassLoader, styleLoader, sassResourcesLoader,
-        postCssLoader, postCssAutoprefix, postCssSVG2Font
+        postCssLoader, postCssAutoprefix, postCssSVG2Font, workerLoader
     }
 } = DEPENDENCIES
 
@@ -24,8 +24,18 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
     const isDev = !isProd
 
 
-    const defaults: DefaultModules = {
-        [ webpackModulesRegExp.scripts ]: {
+    const defaultRules: DefaultRulesData['rules'] = {
+        [ webpackModuleRulesRegExp.worker ]: {
+            loadersOrder: [ loadersKeyMap.workers ],
+            loaders: {
+                [ loadersKeyMap.workers ]: {
+                    loader: workerLoader,
+                    ident: loadersKeyMap.workers
+                }
+            }
+        },
+
+        [ webpackModuleRulesRegExp.scripts ]: {
             loadersOrder: [ loadersKeyMap.esbuild ],
             loaders: {
                 [ loadersKeyMap.esbuild ]: {
@@ -39,7 +49,7 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             }
         },
 
-        [ webpackModulesRegExp.styles ]: {
+        [ webpackModuleRulesRegExp.styles ]: {
             loadersOrder: [
                 loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader,
                 loadersKeyMap.sassLoader, loadersKeyMap.sassResources
@@ -113,17 +123,17 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             }: {})
         },
 
-        [ webpackModulesRegExp.files ]: {
+        [ webpackModuleRulesRegExp.files ]: {
             ruleOptions: {
                 type: 'asset/resource'
             }
         }
     }
 
-    for (const regexpPart in defaults) {
-        (defaults[regexpPart as keyof DefaultModules] as DefaultsWithRuleOptions).ruleOptions ||= {}
+    for (const ruleRegExp in defaultRules) {
+        (defaultRules[ruleRegExp as DefaultRulesKeys] as DefaultsWithRuleOptions).ruleOptions ||= {}
 
-        const { ruleOptions } = defaults[regexpPart as keyof DefaultModules] as DefaultsWithRuleOptions
+        const { ruleOptions } = defaultRules[ruleRegExp as DefaultRulesKeys] as DefaultsWithRuleOptions
         const { include: _include, exclude: _exclude } = ruleOptions
 
         ruleOptions.include = _include && include
@@ -136,7 +146,18 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
     }
 
 
-    return defaults
+    const defaultRulesData: DefaultRulesData = {
+        order: [
+            webpackModuleRulesRegExp.worker,
+            webpackModuleRulesRegExp.scripts,
+            webpackModuleRulesRegExp.styles,
+            webpackModuleRulesRegExp.files
+        ],
+        rules: defaultRules
+    }
+
+
+    return defaultRulesData
 }
 
 

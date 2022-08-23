@@ -13,7 +13,7 @@ import eslint from 'eslint-webpack-plugin'
 import postCssAutoprefix from 'autoprefixer'
 
 import serviceWorkerPlugin from './plugins/plugin_sw.js'
-import postCssSVG2Font from './modules/postcss_svg2icon_plugin'
+import postCssSVG2Font from './module_rules/postcss_svg2icon_plugin'
 
 
 const { resolve } = createRequire(import.meta.url)
@@ -31,6 +31,7 @@ const DEPENDENCIES = {
         postCssAutoprefix, postCssSVG2Font,
 
         esbuild:                resolve('esbuild-loader'),
+        workerLoader:           resolve('worker-loader'),
         styleLoader:            resolve('style-loader'),
         cssLoader:              resolve('css-loader'),
         postCssLoader:          resolve('postcss-loader'),
@@ -61,6 +62,7 @@ const pluginsKeysMap = {
 
 const loadersKeyMap = {
     esbuild: 'esbuildLoader',
+    workers: 'workers',
     styleLoader: 'styleLoader',
     cssFinal: 'cssFinal',
     cssLoader: 'cssLoader',
@@ -69,14 +71,15 @@ const loadersKeyMap = {
     sassResources: 'sassResources'
 } as const
 
-const webpackModulesRegExp = {
+const webpackModuleRulesRegExp = {
     scripts: '\\.[tj]sx?$',
     styles: '\\.(c|sc|sa)ss$',
-    files: '\\.(avif|webp|jpg|png|svg|woff2?)$'
+    files: '\\.(avif|webp|jpg|png|svg|woff2?)$',
+    worker: '\\.worker\\.[tj]s$'
 } as const
 
 
 export {
-    loadersKeyMap, pluginsKeysMap, webpackModulesRegExp,
+    loadersKeyMap, pluginsKeysMap, webpackModuleRulesRegExp,
     DEPENDENCIES, COMMONS
 }

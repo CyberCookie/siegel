@@ -2,6 +2,7 @@ declare module '*.png'
 declare module '*.jpg'
 declare module '*.sass'
 
+
 declare function isNaN(value: any): boolean
 declare function isFinite(value: any): boolean
 declare function parseInt(value: any, radix?: string): number

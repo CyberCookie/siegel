@@ -1,6 +1,6 @@
 import { PATHS } from '../constants.js'
 import * as BUILD_CONSTANTS from './constants.js'
-import defaultModulesResolve from './modules'
+import defaultModuleRulesResolve from './module_rules'
 import defaultPluginsResolve from './plugins'
 
 import type { Compiler, Configuration } from 'webpack'
@@ -99,9 +99,13 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
         plugins: defaultPluginsResolve(CONFIG, RUN_PARAMS),
         module: {
             unsafeCache: true,
-            rules: defaultModulesResolve(CONFIG, RUN_PARAMS)
+            rules: defaultModuleRulesResolve(CONFIG, RUN_PARAMS)
         }
     }
+
+    const moduleOptions = CONFIG.build.module?.moduleOptions
+    moduleOptions && Object.assign(webpackConfig.module!, moduleOptions)
+
 
     if (typeof postProcessWebpackConfig == 'function') {
         webpackConfig = postProcessWebpackConfig(webpackConfig, CONFIG, BUILD_CONSTANTS)

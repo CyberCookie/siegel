@@ -2,8 +2,9 @@ import isExists from '../../../common/is/exists'
 
 import type { RuleSetRule } from 'webpack'
 import type {
-    DefaultModules, Modules, UserModule, AddRuleFn, MergeLoadersFn,
-    LoadersOrder, RuleOptions, AnyDefaultLoader, LoaderObj, LoaderOptionsFn
+    DefaultRulesData, UserRulesData, UserRule, AddRuleFn, MergeLoadersFn,
+    LoadersOrder, RuleOptions, AnyDefaultLoader, LoaderObj, LoaderOptionsFn,
+    DefaultRulesKeys
 } from './types'
 
 
@@ -64,7 +65,7 @@ const addRule: AddRuleFn = (rules, ruleParams) => {
 
 function addWithoutMerge(
     rules: RuleSetRule[],
-    module: UserModule,
+    module: UserRule,
     regExpString: string
 ) {
 
@@ -86,28 +87,47 @@ function addWithoutMerge(
 }
 
 
-function merge(defaultModules: DefaultModules, userModules: Modules = {}) {
+function merge(defaultModules: DefaultRulesData, userModules: UserRulesData = { rules: {} }) {
     const rules: RuleSetRule[] = []
 
+    const {
+        order: userRulesOrder,
+        rules: userRules = {}
+    } = userModules
 
-    for (const regExpString in defaultModules) {
-        const userModule = userModules[regExpString as keyof typeof userModules]
-        if (userModule) {
+    const {
+        order: defaultRulesOrder,
+        rules: defaultRules
+    } = defaultModules
 
-            if (userModule.enabled != false) {
-                const { ruleOptions, loaders, loadersOrder, rewriteRegExp } = userModule
+    const rulesOrder = userRulesOrder
+        ?   typeof userRulesOrder == 'function'
+            ?   userRulesOrder(defaultRulesOrder)
+            :   userRulesOrder
+        :   defaultRulesOrder
+
+
+
+    rulesOrder.forEach(regExpModuleKey => {
+        const defaultRule = defaultRules[regExpModuleKey as DefaultRulesKeys]
+        const userRule = userRules[regExpModuleKey]
+
+
+        if (userRule && defaultRule) {
+            if (userRule.enabled != false) {
+                const { ruleOptions, loaders, loadersOrder, rewriteRegExp } = userRule
                 const {
                     ruleOptions: defaultRuleOptions = {},
                     loaders: defaultLoaders,
                     loadersOrder: defaultLoadersOrder
-                } = defaultModules[regExpString as keyof DefaultModules] as UserModule
+                } = defaultRule as UserRule
 
 
                 addRule(
                     rules,
                     {
                         loaders, defaultLoaders,
-                        regExpString: rewriteRegExp || regExpString,
+                        regExpString: rewriteRegExp || regExpModuleKey,
 
                         loadersOrder: loadersOrder
                             ?   typeof loadersOrder == 'function'
@@ -124,14 +144,8 @@ function merge(defaultModules: DefaultModules, userModules: Modules = {}) {
                 )
             }
 
-        } else addWithoutMerge(rules, defaultModules[regExpString as keyof DefaultModules], regExpString)
-    }
-
-
-    for (const regExpString in userModules) {
-        defaultModules[regExpString as keyof typeof defaultModules]
-        ||  addWithoutMerge(rules, userModules[regExpString], regExpString)
-    }
+        } else addWithoutMerge(rules, defaultRule || userRule, regExpModuleKey)
+    })
 
 
     return rules

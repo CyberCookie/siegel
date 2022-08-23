@@ -3,7 +3,7 @@ import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
 import type { PluginOptions as CopyWebpackPluginOptions } from 'copy-webpack-plugin'
 import type { ConfigFinal } from '../types'
 import type { Plugins } from './plugins/types'
-import type { Modules } from './modules/types'
+import type { UserRulesData } from './module_rules/types'
 
 
 type BuildConstants = typeof import('./constants.js')
@@ -47,7 +47,7 @@ type BuildConfig = {
     eslint?: boolean
     aliases?: Indexable<string>
     plugins?: Plugins
-    modules?: Modules
+    module?: UserRulesData
     postProcessWebpackConfig?: (
         webpackConfig: WebpackConfig,
         config: ConfigFinal,
@@ -88,7 +88,7 @@ type BuildConfigFinal = {
     eslint: BuildConfigsMerged['eslint']
     aliases: BuildConfigsMerged['aliases']
     plugins?: BuildConfigsMerged['plugins']
-    modules?: BuildConfigsMerged['modules']
+    module?: BuildConfigsMerged['module']
     postProcessWebpackConfig?: BuildConfigsMerged['postProcessWebpackConfig']
 }
 

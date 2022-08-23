@@ -8,7 +8,6 @@ It returns string by default<br />
 ## Props:
 
 - `initDate`
-    - **Required**
     - **Date**
     - Time clocks start ticking from<br /><br />
 

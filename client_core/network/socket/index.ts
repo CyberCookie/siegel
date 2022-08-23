@@ -1,5 +1,13 @@
+import intervalWorker, {
+    MessageIncome as WorkerMessageIncome,
+    MessageOutcome as WorkerMessageOutcome
+} from '../../intervals.worker'
+import getUniqId from '../../../common/get_uniq_id'
+
 import type { CreateSocketParams, Handler, SocketState, SocketInit } from './types'
 
+
+const worker = intervalWorker()
 
 const STATE = {
     CONNECTING: 0,
@@ -25,19 +33,14 @@ const init: SocketInit = args => {
     if (connectionsInProgress.has(connectURL)) return null
     else connectionsInProgress.add(connectURL)
 
-
     const {
         events, messageTypeKey, payloadKey, state, serverTimeout, ping,
-        parseIncommingMsg, onError, onReconnect
+        parseIncommingMsg, onError, onClose, onReconnect,
+        intervalWorkerData: { worker, pingMessageId }
     } = args
-    const { messageHandlers, pendingDataToSend, reconnectIntervalID } = state
+    const { messageHandlers, pendingDataToSend, reconnecting } = state
 
     let keepAliveTimeoutId: number
-    let pingIntervalId: number
-    function clearAsyncTasks() {
-        clearTimeout(keepAliveTimeoutId)
-        clearInterval(pingIntervalId)
-    }
 
     function setServerTimeout() {
         if (serverTimeout) {
@@ -49,23 +52,18 @@ const init: SocketInit = args => {
         }
     }
 
-    function setPing() {
-        const { interval, payload } = ping!
-        pingIntervalId = (setInterval as Window['setInterval'])(() => {
-            socket.send(payload)
-        }, interval)
-    }
-
-
 
     const socket = new WebSocket(connectURL)
 
     socket.onopen = e => {
         connectionsInProgress.delete(connectURL)
-        reconnectIntervalID && onReconnect(e)
+        reconnecting && onReconnect(e)
 
         setServerTimeout()
-        ping && setPing()
+        ping && worker.postMessage({
+            id: pingMessageId,
+            ms: ping!.interval
+        } as WorkerMessageIncome)
 
         if (pendingDataToSend.length) {
             pendingDataToSend.forEach(data => {
@@ -74,7 +72,6 @@ const init: SocketInit = args => {
 
             pendingDataToSend.length = 0
         }
-
 
         events?.onopen?.(e)
     }
@@ -93,12 +90,14 @@ const init: SocketInit = args => {
         events?.onmessage?.(e, dataParsed)
     }
     socket.onclose = e => {
-        clearAsyncTasks()
+        clearTimeout(keepAliveTimeoutId)
+        onClose()
+
         events?.onclose?.(e)
     }
     socket.onerror = e => {
+        clearTimeout(keepAliveTimeoutId)
         connectionsInProgress.delete(connectURL)
-        clearAsyncTasks()
         onError(e)
     }
 
@@ -119,30 +118,57 @@ function createSocket(params: CreateSocketParams) {
     const state: SocketState = {
         messageHandlers: {},
         pendingDataToSend: [],
-        reconnectIntervalID: 0
+        reconnecting: false
     }
     const { messageHandlers, pendingDataToSend } = state
-
 
     let connectURL = `${wss ? 'wss' : 'ws'}://${url}`
     port && (connectURL += `:${port}`)
     path && (connectURL += `/${path}`)
 
+
+    const messageIdPrefix = `${connectURL}_${getUniqId()}`
+    const workerPingMessageId = `socket_ping_${messageIdPrefix}`
+    const workerReconnectMessageId = `socket_reconnect_${messageIdPrefix}`
+
+    worker.addEventListener('message', workerIntervalHandle)
+
+    function workerIntervalHandle({ data }: WorkerMessageOutcome) {
+        if (data == workerPingMessageId) {
+            socket.send(ping!.payload)
+
+        } else if (data == workerReconnectMessageId) {
+            socket = init(initParams) || socket
+        }
+    }
+
+
     const initParams: Parameters<SocketInit>[0] = {
-        connectURL, events, messageTypeKey, payloadKey, state, serverTimeout, ping,
-        parseIncommingMsg,
+        connectURL, events, messageTypeKey, payloadKey, state, serverTimeout,
+        ping, parseIncommingMsg,
+        intervalWorkerData: {
+            worker,
+            pingMessageId: workerPingMessageId
+        },
         onError(e) {
             if (reconnectInterval) {
-                state.reconnectIntervalID = (setInterval as Window['setInterval'])(() => {
-                    socket = init(initParams) || socket
-                }, reconnectInterval)
+                state.reconnecting = true
+
+                worker.postMessage({
+                    id: workerReconnectMessageId,
+                    ms: reconnectInterval
+                } as WorkerMessageIncome)
+                worker.postMessage({ id: workerPingMessageId } as WorkerMessageIncome)
             }
 
             events?.onerror?.(e)
         },
+        onClose() {
+            worker.postMessage({ id: workerPingMessageId } as WorkerMessageIncome)
+        },
         onReconnect(e) {
-            clearInterval(state.reconnectIntervalID)
-            state.reconnectIntervalID = 0
+            state.reconnecting = false
+            worker.postMessage({ id: workerReconnectMessageId } as WorkerMessageIncome)
 
             events?.onreconnect?.(e)
         }

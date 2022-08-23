@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.14.18",
+    "version": "0.14.19",
     "homepage": "https://github.com/CyberCookie/siegel",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -86,7 +86,8 @@
         "ttf2woff2": "4.0.5",
         "webpack": "5.74.0",
         "webpack-dev-middleware": "5.3.3",
-        "webpack-hot-middleware": "2.25.1"
+        "webpack-hot-middleware": "2.25.1",
+        "worker-loader": "^3.0.8"
     },
     "devDependencies": {
         "@types/jest": "28.1.6",
