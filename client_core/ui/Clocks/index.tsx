@@ -6,7 +6,7 @@ import msIn from '../../../common/date/constants'
 import intervalWorker, {
     MessageIncome as WorkerMessageIncome,
     MessageOutcome as WorkerMessageOutcome
-} from '../../intervals.worker'
+} from '../../intervals__worker'
 import useDidUpdate from '../../hooks/did_update'
 import component from '../_internals/component'
 

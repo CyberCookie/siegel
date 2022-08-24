@@ -39,9 +39,9 @@ function copyTypes(iterateOverDirPath: string) {
 }
 
 
-function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = true) {
-    const addExtensionToImportRegExp = /((import|export) .* from\s+['"])(?!@)((.*\/.*)(?<![.]\w*))(?=['"])/g
+const addExtensionToImportRegExp = /((import|export) .* from\s+['"])(?!@)((.*\/.*)(?<![.]\w*))(?=['"])/g
 
+function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = true) {
     iterateFiles(iterateOverDirPath, (fileNamePath, dirPath) => {
         if (fileNamePath.endsWith('.js')) {
             let notMinifiedJSFile = fs.readFileSync(fileNamePath, 'utf8')

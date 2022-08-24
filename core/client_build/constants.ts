@@ -31,7 +31,6 @@ const DEPENDENCIES = {
         postCssAutoprefix, postCssSVG2Font,
 
         esbuild:                resolve('esbuild-loader'),
-        workerLoader:           resolve('worker-loader'),
         styleLoader:            resolve('style-loader'),
         cssLoader:              resolve('css-loader'),
         postCssLoader:          resolve('postcss-loader'),
@@ -74,8 +73,7 @@ const loadersKeyMap = {
 const webpackModuleRulesRegExp = {
     scripts: '\\.[tj]sx?$',
     styles: '\\.(c|sc|sa)ss$',
-    files: '\\.(avif|webp|jpg|png|svg|woff2?)$',
-    worker: '\\.worker\\.[tj]s$'
+    files: '\\.(avif|webp|jpg|png|svg|woff2?)$'
 } as const
 
 

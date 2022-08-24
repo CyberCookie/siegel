@@ -1,4 +1,4 @@
-function parseFloat(precision: number, ...args: number[]) {
+function floatArifmetic(precision: number, ...args: number[]) {
     const base = Math.pow(10, precision)
     const sum = args.reduce((acc, el) => acc + Math.round(el * base), 0)
 
@@ -6,4 +6,4 @@ function parseFloat(precision: number, ...args: number[]) {
 }
 
 
-export default parseFloat
+export default floatArifmetic

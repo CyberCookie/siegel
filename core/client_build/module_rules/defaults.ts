@@ -9,7 +9,7 @@ const {
     plugins: { miniCssExtract },
     loaders: {
         esbuild, cssLoader, sassLoader, styleLoader, sassResourcesLoader,
-        postCssLoader, postCssAutoprefix, postCssSVG2Font, workerLoader
+        postCssLoader, postCssAutoprefix, postCssSVG2Font
     }
 } = DEPENDENCIES
 
@@ -25,16 +25,6 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
 
 
     const defaultRules: DefaultRulesData['rules'] = {
-        [ webpackModuleRulesRegExp.worker ]: {
-            loadersOrder: [ loadersKeyMap.workers ],
-            loaders: {
-                [ loadersKeyMap.workers ]: {
-                    loader: workerLoader,
-                    ident: loadersKeyMap.workers
-                }
-            }
-        },
-
         [ webpackModuleRulesRegExp.scripts ]: {
             loadersOrder: [ loadersKeyMap.esbuild ],
             loaders: {
@@ -148,7 +138,6 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
 
     const defaultRulesData: DefaultRulesData = {
         order: [
-            webpackModuleRulesRegExp.worker,
             webpackModuleRulesRegExp.scripts,
             webpackModuleRulesRegExp.styles,
             webpackModuleRulesRegExp.files

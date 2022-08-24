@@ -1,7 +1,7 @@
 import intervalWorker, {
     MessageIncome as WorkerMessageIncome,
     MessageOutcome as WorkerMessageOutcome
-} from '../../intervals.worker'
+} from '../../intervals__worker'
 import getUniqId from '../../../common/get_uniq_id'
 
 import type { CreateSocketParams, Handler, SocketState, SocketInit } from './types'
