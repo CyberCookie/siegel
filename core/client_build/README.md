@@ -284,6 +284,11 @@ Each loader has its own `loader key` to make it easy to extend it<br />
 Loaders used by default together with `file extensions regexp` are described below<br />
 
 
+- Workers<br />
+RegExp string: `_worker\\.[tj]s$` (**worker**)<br />
+Loaders:
+    - worker-loader ( `workers` )<br /><br />
+
 - Scripts<br />
 RegExp string: `\\.[tj]sx?$` (**scripts**)<br />
 Loaders:

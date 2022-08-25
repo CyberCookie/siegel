@@ -84,6 +84,7 @@ type UserRulesData = {
     order?: string[] | ((defaultOrder: DefaultRulesKeys[]) => string[])
 
     rules?: {
+        '_worker\\.[tj]s$'?: UserRule<DefaultRules['_worker\\.[tj]s$']>
         '\\.[tj]sx?$'?: UserRule<DefaultRules['\\.[tj]sx?$']>
         '\\.(c|sc|sa)ss$'?: UserRule<DefaultRules['\\.(c|sc|sa)ss$']>
         '\\.(avif|webp|jpg|png|svg|woff2?)$'?: UserRule
@@ -102,6 +103,16 @@ type DefaultRulesData = {
     order: DefaultRulesKeys[]
 
     rules: {
+        '_worker\\.[tj]s$': {
+            loadersOrder: (keyof DefaultRules['_worker\\.[tj]s$']['loaders'])[]
+            loaders: {
+                workers: {
+                    loader: string
+                    ident: string
+                }
+            }
+        }
+
         '\\.[tj]sx?$': {
             loadersOrder: (keyof DefaultRules['\\.[tj]sx?$']['loaders'])[]
             loaders: {

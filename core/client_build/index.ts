@@ -1,5 +1,3 @@
-import { createRequire } from 'module'
-
 import { PATHS } from '../constants.js'
 import * as BUILD_CONSTANTS from './constants.js'
 import defaultModuleRulesResolve from './module_rules'
@@ -20,8 +18,6 @@ const statsOptions = {
     children: false
 }
 
-const { resolve } = createRequire(import.meta.url)
-
 function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
     const { isProd, _isDevServer, _isSelfDevelopment } = RUN_PARAMS
     const {
@@ -31,6 +27,9 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
             input, aliases, postProcessWebpackConfig//, outputESM = true
         }
     } = CONFIG
+
+    const nodeModulesPaths = [ PATHS.nodeModules ]
+    _isSelfDevelopment || nodeModulesPaths.push(PATHS.cwdNodeModules)
 
     let webpackCompiller: Compiler
 
@@ -48,7 +47,7 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
             unsafeCache: true,
             alias: aliases,
             extensions: [ ...ESLintExtensions, '.sass', '.css', '.d.ts' ],
-            modules: [ PATHS.nodeModules ]
+            modules: nodeModulesPaths
         },
 
         entry: [
@@ -109,16 +108,6 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
     if (typeof postProcessWebpackConfig == 'function') {
         webpackConfig = postProcessWebpackConfig(webpackConfig, CONFIG, BUILD_CONSTANTS)
     }
-
-
-
-    if (_isSelfDevelopment) {
-        webpackConfig.module!.rules!.unshift({
-            test: /__worker\.[tj]s$/,
-            use: [ resolve('worker-loader') ]
-        })
-
-    } else webpackConfig.resolve!.modules!.push(PATHS.cwdNodeModules)
 
 
     return {
