@@ -32,6 +32,9 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                     loader: workerLoader,
                     ident: loadersKeyMap.workers
                 }
+            },
+            ruleOptions: {
+                include: [ PATHS.clientCoreOutput ]
             }
         },
 

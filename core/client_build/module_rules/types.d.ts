@@ -111,6 +111,9 @@ type DefaultRulesData = {
                     ident: string
                 }
             }
+            ruleOptions: {
+                include: string[]
+            }
         }
 
         '\\.[tj]sx?$': {
