@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { join, sep } from 'path'
 
 import cjs__dirname from './utils/cjs__dirname.js'
 
@@ -39,7 +39,7 @@ const __dirname = cjs__dirname(import.meta)
 const cwd = process.cwd()
 
 let packageRoot = join(__dirname, '..')
-if (packageRoot.endsWith(`/${LOC_NAMES.LIB_OUTPUT_DIRNAME}`)) {
+if (packageRoot.endsWith(`${sep}${LOC_NAMES.LIB_OUTPUT_DIRNAME}`)) {
     packageRoot = join(packageRoot, '..')
 }
 
