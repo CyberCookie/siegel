@@ -91,7 +91,12 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
             },
 
             ...( isProd ? {
-                minimizer: [ new esBuildMinifyPlugin({ target }) ]
+                minimizer: [
+                    new esBuildMinifyPlugin({
+                        legalComments: 'none',
+                        target
+                    })
+                ]
             } : {})
         },
 

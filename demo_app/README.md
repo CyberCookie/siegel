@@ -33,9 +33,9 @@ Install dependencies with `npm i`.
 
 <br /><br />
 
-To run above commands on Windows, you should first set npm bash shell<br />
-by running the next command:<br />
-`npm config set script-shell "C:\\Program Files\\Git\\bin\\bash.exe"`
+### To run above commands on `Windows`, you should first `download bash terminal` (git bash, for example)
+### and set it up by running the next command:<br />
+### `npm config set script-shell "C:\\Program Files\\Git\\bin\\bash.exe"`
 
 
 <br />

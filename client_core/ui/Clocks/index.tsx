@@ -21,8 +21,8 @@ const Clocks: Component = component(
     componentID,
     {
         speedCoef: 1,
-        tickEveryMinute: true,
-        zeroing: true
+        tickEveryMinute: true as boolean,
+        zeroing: true as boolean
     },
     props => {
 

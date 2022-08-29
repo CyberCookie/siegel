@@ -10,7 +10,7 @@ type State = {
 }
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-type Option = {
+type Option<_Value = any> = {
     inputValue: string
     value: _Value
     title?: React.ReactNode
@@ -37,7 +37,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
         value: _Value | undefined,
         e: React.FocusEvent | Parameters<onSelectInner>[1]
     ): void
-    searchOptions: Option[]
+    searchOptions: Option<_Value>[]
     onSearch?(
         searchValue: string,
         e: Parameters<NonNullable<InputProps['onChange']>>[1]

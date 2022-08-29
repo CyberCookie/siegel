@@ -18,7 +18,7 @@ type State = {
 }
 type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
 
-type Option = {
+type Option<_Value = any> = {
     value: _Value
     title: React.ReactNode
     disabled?: boolean
@@ -46,11 +46,11 @@ type Theme = {
 }
 
 type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
-    options: Option[],
+    options: Option<_Value>[],
     onChange(value: _Value, e: React.MouseEvent | React.KeyboardEvent, payload?: _Payload): void
     children?: React.ReactNode
     store?: Store
-    getDisplayValue?(selectedOption: Option): React.ReactNode
+    getDisplayValue?(selectedOption: Option<_Value>): React.ReactNode
     errorMsg?: React.ReactNode
     dropdownIcon?: React.ReactNode
     resetIcon?: React.ReactNode

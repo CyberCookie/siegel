@@ -30,7 +30,7 @@ function toDefaultState(state = {} as State) {
 const Ranger: Component = component(
     componentID,
     {
-        rangersCrossBehavior: rangerCrossTypesMap.stop,
+        rangersCrossBehavior: rangerCrossTypesMap.stop as Values<RangeCrossTypeMap>,
         rangePickIcon: '+',
         theme: {
             root: '',

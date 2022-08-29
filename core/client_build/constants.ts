@@ -73,7 +73,7 @@ const loadersKeyMap = {
 
 const webpackModuleRulesRegExp = {
     scripts: '\\.[tj]sx?$',
-    worker: '_worker\\.[tj]s$',
+    worker: '__worker\\.[tj]s$',
     styles: '\\.(c|sc|sa)ss$',
     files: '\\.(avif|webp|jpg|png|svg|woff2?)$'
 } as const

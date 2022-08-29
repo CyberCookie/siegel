@@ -6,7 +6,14 @@ import inputID from '../Input/id'
 import checkboxID from '../Checkbox/id'
 
 import type { Component as _Input, Props as InputProps } from '../Input/types'
+import type { Component as _NumberPicker, Props as NumberPickerProps } from '../NumberPicker/types'
+import type { Component as _DropdownSearch, Props as DropdownSearchProps } from '../DropdownSearch/types'
+import type { Component as _Select, Props as SelectProps } from '../Select/types'
+import type { Component as _Toggle, Props as ToggleProps } from '../Toggle/types'
 import type { Component as _Checkbox, Props as CheckboxProps } from '../Checkbox/types'
+import type { Component as _Calendar, Props as CalendarProps } from '../Calendar/types'
+import type { Component as _Ranger, Props as RangerProps } from '../Ranger/types'
+import type { Component as _Stepper, Props as StepperProps } from '../Stepper/types'
 import type {
     Component, Props,
     ValueStateValue, Validator, FormStore, CommonChangeProps
@@ -24,7 +31,7 @@ const validate = (value: ValueStateValue, validators: Validator[]) => {
     return ''
 }
 
-const onInputChange = (commonChangeProps: CommonChangeProps, value: string) => {
+const onFormElementChange = (commonChangeProps: CommonChangeProps, value: string) => {
     const { validators, name, formStore } = commonChangeProps
     const [ values, setValues ] = formStore
 
@@ -56,68 +63,66 @@ const Form: Component = component(
         }
         rootTagAttributes && (formProps = mergeTagAttributes(formProps, rootTagAttributes))
 
-        const ifDisabledBy = (name: string) => {
-            const formElementData = inputs[name]
+        // const ifDisabledBy = (name: string) => {
+        //     const formElementData = inputs[name]
 
-            return formElementData
-                ?   !!validate(
-                        values[name]?.value || '',
-                        formElementData.validators || []
-                    )
-                :   false
-        }
+        //     return formElementData
+        //         ?   !!validate(
+        //                 values[name]?.value || '',
+        //                 formElementData.validators || []
+        //             )
+        //         :   false
+        // }
 
         function getFormElements() {
             const result: JSX.Element[] = []
 
-            for (const name in inputs) {
-                const { Component, props, validators = [], disabledIf } = inputs[name]
-                const { value = '', errorMsg = '' } = values[name] || {}
+            // for (const name in inputs) {
+            //     const { Component, props, validators = [], disabledIf } = inputs[name]
+            //     const { value = '', errorMsg = '' } = values[name] || {}
 
-                let ComponentToPush: JSX.Element
+            //     const disabled = disabledIf
+            //         ?   typeof disabledIf == 'string'
+            //             ?   ifDisabledBy(disabledIf)
+            //             :   disabledIf.some(ifDisabledBy)
+            //         :   false
 
-                const disabled = disabledIf
-                    ?   typeof disabledIf == 'string'
-                        ?   ifDisabledBy(disabledIf)
-                        :   disabledIf.some(ifDisabledBy)
-                    :   false
+            //     const changeCommonParams = { validators, name, formStore }
 
+            //     let ComponentToPush: JSX.Element
+            //     if (Component.ID == inputID) {
+            //         // const onChange = onInputChange.bind(null, validators, name)
+            //         const extraProps = {
+            //             value, name, disabled,
+            //             errorMsg: (props as InputProps).errorMsg || errorMsg,
+            //             onChange(value) {
+            //                 onFormElementChange(changeCommonParams, value)
+            //             },
+            //             onBlur(e) {
+            //                 onFormElementChange(changeCommonParams, (e.target as HTMLInputElement).value)
+            //             }
+            //         } as InputProps
 
-                if (Component.ID == inputID) {
-                    // const onChange = onInputChange.bind(null, validators, name)
+            //         ComponentToPush = React.createElement(Component as _Input, Object.assign(extraProps, props))
 
-                    const changeCommonParams = { validators, name, formStore }
+            //     } else if (Component.ID == checkboxID) {
+            //         const extraProps = {
+            //             value, disabled,
+            //             onChange(value) {
+            //                 values[name] = { value }
+            //                 setValues({ ...values })
+            //             }
+            //         } as CheckboxProps
 
-                    const extraProps = {
-                        value, name, disabled,
-                        errorMsg: (props as InputProps).errorMsg || errorMsg,
-                        onChange(value) {
-                            onInputChange(changeCommonParams, value)
-                        },
-                        onBlur(e) {
-                            onInputChange(changeCommonParams, (e.target as HTMLInputElement).value)
-                        }
-                    } as InputProps
-
-                    ComponentToPush = React.createElement(Component as _Input, Object.assign(extraProps, props))
-                } else if (Component.ID == checkboxID) {
-                    const extraProps = {
-                        value, disabled,
-                        onChange(value) {
-                            values[name] = { value }
-                            setValues({ ...values })
-                        }
-                    } as CheckboxProps
-
-                    ComponentToPush = React.createElement(Component as _Checkbox, Object.assign(extraProps, props))
-                }
+            //         ComponentToPush = React.createElement(Component as _Checkbox, Object.assign(extraProps, props))
+            //     }
 
 
-                result.push(ComponentToPush!)
+            //     result.push(ComponentToPush!)
 
-                //TODO:
-                // result.push( <Component {...Object.assign(extraProps, props)} key={name} /> )
-            }
+            //     //TODO:
+            //     // result.push( <Component {...Object.assign(extraProps, props)} key={name} /> )
+            // }
 
 
             return result

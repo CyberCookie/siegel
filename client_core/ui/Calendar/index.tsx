@@ -45,14 +45,14 @@ const Calendar: Component = component(
             ],
             weekDaysShort: [ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ]
         },
-        triggerOnlyWhenFinished: true,
         prevMonthIcon: '<',
         nextMonthIcon: '>',
         prevYearIcon: '<<',
         nextYearIcon: '>>',
         monthsBefore: 0,
         monthsAfter: 0,
-        fixedHeight: true
+        triggerOnlyWhenFinished: true as boolean,
+        fixedHeight: true as boolean
     },
     props => {
 

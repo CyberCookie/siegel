@@ -26,7 +26,7 @@ const componentID = '-ui-number_picker'
 const NumberPicker: Component = component(
     componentID,
     {
-        className: styles[`${componentID}_inner`],
+        className: styles[`${componentID}_inner`] as string,
         theme: {
             root: '',
             children: '',

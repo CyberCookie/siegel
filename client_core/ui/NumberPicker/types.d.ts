@@ -46,7 +46,6 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 }> & Omit<InputProps, 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store'>
 
 type DefaultProps = NonNullableKeys<{
-    className: Props['className']
     theme: Required<Props['theme']>
     minusIcon: Props['minusIcon']
     plusIcon: Props['plusIcon']

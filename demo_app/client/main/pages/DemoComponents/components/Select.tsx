@@ -14,7 +14,7 @@ const { ID } = Select
 const getSelectDisplayValue = ({ title }: DemoSelectProps['options'][number]) => 'selected - ' + title
 
 const Demo = () => {
-    const [ selectedOption, setOption ] = useState(undefined) as DempSelectStore
+    const [ selectedOption, setOption ] = useState() as DempSelectStore
 
     const props: DemoSelectProps = {
         placeholder: 'placeholder',

@@ -5,7 +5,7 @@ import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { isRunDirectly, requireJSON, globalNodeModulesPath } from '../core/utils'
+import { isRunDirectly, requireJSON, globalNodeModulesPath, toPosixPath } from '../core/utils'
 import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../core/constants.js'
 
 
@@ -70,10 +70,10 @@ function main(isGlobal?: boolean) {
         shell(`cp -r ${PATHS.demoProject}/. .`)
 
         // Create global.d.ts
-        writeFileSync(
-            INIT_PATHS.userTSGlobal,
-            `import '${ isGlobal ? INIT_PATHS.pathToSiegelAbsolute : INIT_PATHS.pathToSiegelRelative }/global'`
-        )
+        const pathToSiegelGlobalTs = toPosixPath(
+            isGlobal ? INIT_PATHS.pathToSiegelAbsolute : INIT_PATHS.pathToSiegelRelative
+        ) + '/global'
+        writeFileSync(INIT_PATHS.userTSGlobal, `import '${pathToSiegelGlobalTs}'`)
 
         // Copy Eslint jsons
         shell(`cp ${ PATHS.packageRoot }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
@@ -82,7 +82,9 @@ function main(isGlobal?: boolean) {
 
 
     function modifyDemoAppServerSiegelPaths() {
-        const replaceStringPart = relative(INIT_PATHS.siegelDemoAppServerPath, PATHS.src)
+        const replaceStringPart = toPosixPath(
+            relative(INIT_PATHS.siegelDemoAppServerPath, PATHS.src)
+        )
 
         const siegelEntryPointPath = isGlobal
             ?   INIT_PATHS.pathToSiegelAbsolute

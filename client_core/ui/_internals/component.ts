@@ -22,14 +22,14 @@ function component
 
     const Component: Partial<ComponentType> = memo<Props>(
         props => {
-            // TODO typyng
+
             const mergedProps = props.__with_defaults
                 ?   props
                 :   extractProps(defaults, props, false)
 
             return cb(mergedProps) as Props & Defaults
-        }
-        ,(prevProps, nextProps) => nextProps.memoDeps?.(prevProps, nextProps)
+        },
+        (prevProps, nextProps) => nextProps.memoDeps?.(prevProps, nextProps)
     )
 
     Component.ID = ID

@@ -86,7 +86,7 @@ const checkHasDynamicCrumb: (config: Props['config']) => boolean | undefined = c
 const Breadcrumbs: Component = component(
     componentID,
     {
-        className: styles[`${componentID}_inner`],
+        className: styles[`${componentID}_inner`] as string,
         separator: '',
         theme: {
             root: '',

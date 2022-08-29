@@ -30,7 +30,8 @@ const Accordion: Component = component(
     props => {
 
         const {
-            className, theme, list, builder, accordionIcon, soloOpen, rootTagAttributes, autoExpand, refApi
+            className, theme, list, builder, accordionIcon, soloOpen, rootTagAttributes,
+            autoExpand, refApi
         } = props
 
 

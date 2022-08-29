@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 
-import Swipe, { Props } from 'siegel-ui/Swipe'
+import Swipe, { Props, componentID } from 'siegel-ui/Swipe'
 
 import theme from './styles.sass'
 
-
-const { ID } = Swipe
 
 const Demo = () => {
     const [ swiped, setSwiped ] = useState(false)
@@ -30,7 +28,7 @@ const Demo = () => {
         <Swipe { ...props } className={ horizaontalSwuipeClassName } deltaPos={ 30 } xAxis />
     </>
 }
-Demo.id = ID
+Demo.id = componentID
 
 
 export default Demo

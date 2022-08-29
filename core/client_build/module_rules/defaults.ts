@@ -29,8 +29,8 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             loadersOrder: [ loadersKeyMap.workers ],
             loaders: {
                 [ loadersKeyMap.workers ]: {
-                    loader: workerLoader,
-                    ident: loadersKeyMap.workers
+                    ident: loadersKeyMap.workers,
+                    loader: workerLoader
                 }
             },
             ruleOptions: {

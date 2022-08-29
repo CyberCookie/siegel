@@ -29,7 +29,9 @@ const siegelConfig: Config = {
         eslint: true,
 
         aliases: (() => {
-            const tsConfig = requireJSON(`${rootPath}/tsconfig.json`)
+            const tsConfig = requireJSON(
+                join(rootPath, 'tsconfig.json')
+            )
             const TSAliases = tsConfig.compilerOptions.paths
 
             const aliases: Indexable = {}

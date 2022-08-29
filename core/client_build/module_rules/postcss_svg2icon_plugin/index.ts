@@ -1,5 +1,4 @@
 //TODO: external font file
-//TODO: group orphans to share single selector
 
 
 import path from 'path'

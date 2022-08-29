@@ -40,8 +40,8 @@ const Select: Component = component(
             option__active: '',
             option__disabled: ''
         },
-        closeOnSelect: true,
-        filterSelected: true
+        closeOnSelect: true as boolean,
+        filterSelected: true as boolean
     },
     props => {
 

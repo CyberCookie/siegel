@@ -52,6 +52,18 @@ const parsed = utils.globalNodeModulesPath()
 ```
 
 <br/>
+<h3>To posix path</h3>
+Converts any OS path to posix path<br /> 
+<br/>
+
+```js
+import { utils } from 'siegel'
+
+const posixPath = utils.toPosixPath('some\\directory\\path')
+// 'some/directory/path'
+```
+
+<br/>
 <h3>Parse CLI args</h3>
 Returns parsed JSON by json file pathname<br /> 
 <br/>

@@ -58,7 +58,7 @@ const Checkbox: Component = component(
             label: '',
             label_wrapper: ''
         },
-        value: false
+        value: false as boolean
     },
     props => {
 
