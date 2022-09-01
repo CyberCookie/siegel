@@ -16,6 +16,14 @@ type ConfigTransition = RouteConfig['transition']
 type ConfigChildren = RouteConfig['children']
 
 
+function stripSearchParams(pathname: string) {
+    const indexOfQuery = pathname.indexOf('?')
+
+    return indexOfQuery >= 0
+        ?   pathname.substring(0, indexOfQuery)
+        :   pathname
+}
+
 const checkPermissions = (urlParams: URLparams, permissions: ConfigPermissions) => (
     typeof permissions == 'function'
         ?   permissions(urlParams)
@@ -45,7 +53,7 @@ const extractRedirectData = (redirecTo: NonNullable<ConfigRedirectTo>) => {
 }
 
 function handleNotFound(traversePath: string, pathname: string, children: ConfigChildren) {
-    const redirecTo = children?.['*'].redirectTo
+    const redirecTo = children?.['*']?.redirectTo
         || (children![''] ? '/' : `/${Object.keys(children!)[0]}`)
 
     const { path } = extractRedirectData(redirecTo)
@@ -77,7 +85,7 @@ const parsePathname: ParsePathname = (props, pathname, newHistoryState = null) =
         El: Layout
     })
 
-    const pathArray = pathname.split('/')
+    const pathArray = stripSearchParams(pathname).split('/')
     let i = 1
     if (history.basename && pathArrayBasenameShift) {
         i += pathArrayBasenameShift!

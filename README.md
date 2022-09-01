@@ -21,7 +21,7 @@
 
 <br />
 
-#### Siegel is a higly opiniated SPA development platform to build and host any scale projects in a simple way.
+#### Siegel is a higly opiniated SPA development platform to build and host any scale projects in a simple way
 
 <br />
 
@@ -31,19 +31,20 @@ Features:
     - Code linting with `ESLint`
     - `Hot Modules Replace` for **scripts** and **styles**
     - `SASS` with `CSS modules`
-    - Compress and serve site assets compressed with `Brotli` or `GZIP`
+    - Build and serve site assets compressed with `Brotli` or `GZIP`
     - `SVG icons to font` converter<br /><br />
 
 - `ExpressJS` static server:
-    - `HTTP(S)1 / HTTP(S)2`. +Script that creates dev certificates to use in Chrome on localhost<br /><br />
+    - `HTTP(S)1 / HTTP(S)2`. +Script to create dev certificates to use in Chrome on localhost<br /><br />
 
 - `Utils` and `modules` to use on client side:
     - Big set of `React components`
-    - React `global state manager` built on top of `react hooks` and optional fetch module to track requests with
     - Easy configurable `Router`
+    - React `global state manager` built on top of `react hooks`
+    - Optional `fetch module` to track requests statuses with
     - `Network` services to make requests and minimal client WebSocket implementation<br /><br />
 
-- `Demo project` with themed components, predefined folder structure and scalable architecture built on top of Siegel<br />
+- `Demo project` with already themed components, predefined folder structure and scalable architecture built on top of Siegel<br />
     It gives you a quick start right after initialization!
 
 <br />
@@ -65,6 +66,7 @@ Read more about each part following the links below:
 
 <br /><br />
 
+
 ## Simple usage
 
 <hr /><br />
@@ -85,7 +87,6 @@ render(
     document.getElementById('root')
 )
 ```
-
 
 <br />
 
@@ -127,6 +128,7 @@ npx siegel
 ```
 
 <br /><br />
+
 
 ## Usage
 
