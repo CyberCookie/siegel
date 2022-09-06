@@ -27,6 +27,20 @@ describe('common/deep/get', () => {
                 [ 'a', 'b', '1' ]
             )
         ).toBeUndefined()
+
+        expect(
+            deepGet(
+                { a: null },
+                [ 'a', 'b', '1' ]
+            )
+        ).toBeUndefined()
+
+        expect(
+            deepGet(
+                undefined,
+                [ 'a', 'b', '1' ]
+            )
+        ).toBeUndefined()
     })
 
     test('get undefined', () => {

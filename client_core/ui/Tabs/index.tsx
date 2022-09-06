@@ -25,17 +25,23 @@ function getTabsVisual(mergedProps: MergedProps) {
     const labels = tabs.map(tab => {
         const { label, id, payload, content } = tab
 
+        const isSelected = activeTab == id
         let labelClassName = theme.label
 
-        if (activeTab == id) {
-            labelClassName += ` ${theme.label__active}`
-            tabsContent.push( getContent(content) )
-        } else if (renderAll) {
-            tabsContent.push(
-                <div key={ id } style={{ display: 'none' }}
-                    children={ getContent(content) } />
-            )
+        if (renderAll || isSelected) {
+            let tabContent = getContent(content)
+
+            if (isSelected) labelClassName += ` ${theme.label__active}`
+            else {
+                tabContent = (
+                    <div key={ id } style={{ display: 'none' }}
+                        children={ tabContent } />
+                )
+            }
+
+            tabsContent.push(tabContent)
         }
+
 
         return (
             <div key={ id } className={ labelClassName } children={ label }
@@ -45,10 +51,10 @@ function getTabsVisual(mergedProps: MergedProps) {
 
 
     return {
-        activeTabContent: (showEmpty || tabsContent.length) && (
-            <div className={ theme.content }
-                children={ renderAll ? tabsContent : tabsContent[0] } />
-        ),
+        activeTabContent: (showEmpty || tabsContent.length)
+            ?   <div className={ theme.content }
+                    children={ renderAll ? tabsContent : tabsContent[0] } />
+            :   undefined,
         labels: <div className={ theme.labels_wrapper } children={ labels } />
     }
 }

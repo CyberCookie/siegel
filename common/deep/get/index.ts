@@ -1,15 +1,16 @@
-import isExists from '../../is/exists'
+import isNullable from '../../is/nullable'
 
 
-function deepGet(obj: Indexable, path: string[] | string, defaultVal?: any): any {
+function deepGet(obj: any, path: string[] | string, defaultVal?: any): any {
+    if (isNullable(obj)) return defaultVal
+
     const arrayPath = Array.isArray(path) ? path : [ path ]
     const deepLink = obj[arrayPath[0]]
 
-    return isExists(deepLink)
-        ?   arrayPath.length > 1
-            ?   deepGet(deepLink, arrayPath.slice(1), defaultVal)
-            :   deepLink
-        :   defaultVal
+
+    return arrayPath.length > 1
+        ?   deepGet(deepLink, arrayPath.slice(1), defaultVal)
+        :   deepLink
 }
 
 
