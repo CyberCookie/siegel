@@ -52,9 +52,9 @@ const Table: Component = component(
             <table { ...tableRootProps }>
                 { caption && <caption children={ caption } /> }
 
-                { head?.length && getTableSection(head, 'thead') }
-                { body?.length && getTableSection(body, 'tbody') }
-                { foot?.length && getTableSection(foot, 'tfoot') }
+                { head?.length ? getTableSection(head, 'thead') : undefined }
+                { body?.length ? getTableSection(body, 'tbody') : undefined }
+                { foot?.length ? getTableSection(foot, 'tfoot') : undefined }
             </table>
         )
     }

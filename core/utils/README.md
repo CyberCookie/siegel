@@ -97,3 +97,44 @@ const parsed = utils.parseCommandLineArgs(CLI_ARGS)
 
 You can mutate CLIParamsValues `resolved` and `unresolvedParamsCount` fields<br />
 while processing the result to perform some validation.
+
+
+<br/>
+<h3>TS to Webpack aliases</h3>
+Transforms TS compilation paths to webpack aliases<br /> 
+<br/>
+
+```js
+import { utils } from 'siegel'
+
+/*
+    Lets say we have tsconfig.json at the root level with the next content:
+
+    {
+        ...
+        "compilerOptions": {
+            "paths": {
+                "path_a/*": [ "./path_to_a/*" ],
+                "path_b/*": [ "path/to/b/*" ],
+                "path_c/*": [ "path_to_c/*" ],
+                "path_d/*": [ "../path_to_d/*" ]
+            }
+        }
+        ...
+}
+*/
+
+const webpackAliases = utils.tsToWebpackAliases(rootPath)
+
+/*
+    in this case webpackAliases will be:
+
+    {
+        path_a: "/absolute_path/project/path_to_a",
+        path_b: "/absolute_path/project/path/to/b",
+        path_c: "/absolute_path/project/path_to_c",
+        path_d: "/absolute_path/path_to_d",
+    }
+*/
+
+```

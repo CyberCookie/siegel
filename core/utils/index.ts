@@ -4,9 +4,10 @@ import requireJSON from './require_json.js'
 import globalNodeModulesPath from './global_modules_path.js'
 import toPosixPath from './to_posix_path'
 import parseCommandLineArgs from './parse_cli_args.js'
+import tsToWebpackAliases from './ts_to_webpack_aliases.js'
 
 
 export {
     cjs__dirname, toPosixPath, isRunDirectly, requireJSON, globalNodeModulesPath,
-    parseCommandLineArgs
+    parseCommandLineArgs, tsToWebpackAliases
 }

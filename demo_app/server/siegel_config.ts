@@ -4,7 +4,7 @@ import { nodeUtils, Config } from '../../core'
 import appServer from './app_server.js'
 
 
-const { requireJSON, cjs__dirname } = nodeUtils
+const { tsToWebpackAliases, cjs__dirname } = nodeUtils
 
 const __dirname = cjs__dirname(import.meta)
 const rootPath = join(__dirname, '..')
@@ -28,23 +28,7 @@ const siegelConfig: Config = {
 
         eslint: true,
 
-        aliases: (() => {
-            const tsConfig = requireJSON(
-                join(rootPath, 'tsconfig.json')
-            )
-            const TSAliases = tsConfig.compilerOptions.paths
-
-            const aliases: Indexable = {}
-            for (const alias in TSAliases) {
-                const WPAlias = alias.replace('/*', '')
-                const WPPath = TSAliases[alias][0].replace('/*', '')
-
-                aliases[WPAlias] = join(rootPath, WPPath)
-            }
-
-
-            return aliases
-        })()
+        aliases: tsToWebpackAliases(rootPath)
     }
 }
 
