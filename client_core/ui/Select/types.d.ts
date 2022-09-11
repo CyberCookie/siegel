@@ -12,11 +12,10 @@ type OnSelect = (
 type RootRef = React.MutableRefObject<HTMLDivElement>
 
 
-type State = {
+type Store = ReactStore<{
     isActive: boolean
     arrowSelectIndex: number | undefined
-}
-type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
+}>
 
 type Option<_Value = any> = {
     value: _Value
@@ -58,7 +57,8 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     label?: React.ReactNode
     placeholder?: React.ReactNode
     selected?: _Value
-    filterSelected?: boolean
+    listSelectedOption?: boolean
+    listDisabledOptions?: boolean
     disabled?: boolean
     rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
 }>
@@ -66,7 +66,8 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
 type DefaultProps = NonNullableKeys<{
     theme: Required<Props['theme']>
     closeOnSelect: Props['closeOnSelect']
-    filterSelected: Props['filterSelected']
+    listSelectedOption: Props['listSelectedOption']
+    listDisabledOptions: Props['listDisabledOptions']
 }>
 
 type MergedProps = Props & DefaultProps

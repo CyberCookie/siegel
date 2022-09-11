@@ -7,6 +7,7 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
 
+import type { ComponentAttributes } from '../_internals/types'
 import type { MergedProps, Component, Props, Tab } from './types'
 
 
@@ -29,14 +30,19 @@ function getTabsVisual(mergedProps: MergedProps) {
         let labelClassName = theme.label
 
         if (renderAll || isSelected) {
-            let tabContent = getContent(content)
+            isSelected && (labelClassName += ` ${theme.label__active}`)
 
-            if (isSelected) labelClassName += ` ${theme.label__active}`
-            else {
-                tabContent = (
-                    <div key={ id } style={{ display: 'none' }}
-                        children={ tabContent } />
-                )
+            let tabContent = getContent(content)
+            if (renderAll) {
+                const wrapperProps: ComponentAttributes<HTMLDivElement> = {
+                    children: tabContent,
+                    key: id
+                }
+                isSelected
+                    ?   (wrapperProps.className = theme.content)
+                    :   (wrapperProps.style = { display: 'none' })
+
+                tabContent = <div { ...wrapperProps } />
             }
 
             tabsContent.push(tabContent)
@@ -52,8 +58,9 @@ function getTabsVisual(mergedProps: MergedProps) {
 
     return {
         activeTabContent: (showEmpty || tabsContent.length)
-            ?   <div className={ theme.content }
-                    children={ renderAll ? tabsContent : tabsContent[0] } />
+            ?   renderAll
+                ?   tabsContent
+                :   <div className={ theme.content } children={ tabsContent[0] } />
             :   undefined,
         labels: <div className={ theme.labels_wrapper } children={ labels } />
     }

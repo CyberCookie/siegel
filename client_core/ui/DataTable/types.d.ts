@@ -64,7 +64,7 @@ type Props<
 > = PropsComponentThemed<Theme, {
     entities: _Entities
     columnsConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>[]
-    store?: [ State, React.Dispatch<React.SetStateAction<State>> ]
+    store?: ReactStore<State>
     rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
     withFooter?: {
         displayQuantity?(quantity: number): React.ReactNode

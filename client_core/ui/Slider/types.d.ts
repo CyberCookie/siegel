@@ -31,7 +31,7 @@ type Theme = {
 
 type Props = PropsComponentThemed<Theme, {
     slides: Slide[]
-    store?: [ number, React.Dispatch<React.SetStateAction<number>> ]
+    store?: ReactStore<number>
     children?: React.ReactNode
     startFrom?: number
     withControls?: boolean

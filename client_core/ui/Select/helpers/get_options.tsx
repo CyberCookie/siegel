@@ -14,28 +14,34 @@ function getOptions(
     arrowSelectIndex: Store[0]['arrowSelectIndex']
 ) {
 
-    const { options, selected, theme, filterSelected } = props
+    const { options, selected, theme, listSelectedOption, listDisabledOptions } = props
 
     const optionElements = []
-    let selectedOption
+    let selectedOption, selectedOptionIndex
     for (let i = 0; i < options.length; i++) {
         const option = options[i]
         const { disabled, title, value, payload, className } = option
 
+        if (!listDisabledOptions && disabled) continue
+
         const isSelected = value === selected
 
-        isSelected && (selectedOption = option)
-
-        let optionClassName = theme.option
-        if ((isSelected && !filterSelected) || arrowSelectIndex == i) {
-            optionClassName += ` ${theme.option__active}`
+        if (isSelected) {
+            selectedOption = option
+            selectedOptionIndex = i
+            if (listSelectedOption) continue
         }
 
+        let optionClassName = theme.option
+        if (isSelected || arrowSelectIndex == i) {
+            optionClassName += ` ${theme.option__active}`
+        }
         className && (optionClassName += ` ${className}`)
 
         const optionProps: ComponentAttributes<HTMLDivElement> = {
             children: title,
-            className: optionClassName
+            className: optionClassName,
+            key: value
         }
 
         disabled
@@ -45,12 +51,12 @@ function getOptions(
                 }
 
 
-        optionElements.push( <div { ...optionProps } key={ value as string } /> )
+        optionElements.push( <div { ...optionProps } /> )
     }
 
 
     return {
-        selectedOption,
+        selectedOption, selectedOptionIndex,
         optionsElement: (
             <div className={ theme.options } onMouseDown={ stopPropagationHandler }
                 children={ optionElements } />

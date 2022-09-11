@@ -3,8 +3,7 @@ import type {
 } from '../_internals/types'
 
 
-type State = Indexable<string>
-type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
+type Store = ReactStore<Indexable<string>>
 
 
 type CrumbConfig = {

@@ -13,19 +13,10 @@ type InnerInputAttributes = {
 
 type InputRef = React.MutableRefObject<HTMLInputElement>
 
-
-type InputState = {
-    isTouched: boolean
-    isFocused: boolean
-}
-type InputStore = [ InputState, React.Dispatch<React.SetStateAction<InputState>> ]
-
-
-type DebounceState = {
+type DebounceStore = ReactStore<{
     debounceValue: string | undefined
     debounceTimeoutID: number | undefined
-}
-type DebounceStore = [ DebounceState, React.Dispatch<React.SetStateAction<DebounceState>> ]
+}>
 
 
 type Theme = {
@@ -46,7 +37,10 @@ type Theme = {
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
     children?: React.ReactNode
     value?: string
-    store?: InputStore
+    store?: ReactStore<{
+        isTouched: boolean
+        isFocused: boolean
+    }>
     disabled?: boolean
     autofocus?: boolean
     placeholder?: string

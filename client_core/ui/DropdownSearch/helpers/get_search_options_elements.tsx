@@ -4,42 +4,54 @@ import type { ComponentAttributes } from '../../_internals/types'
 import type { MergedProps, State, onSelectInner } from '../types'
 
 
-function getSearchOptions(params: MergedProps, state: State, onSelect: onSelectInner) {
-    const { showAll, searchOptions, theme, selected } = params
+function getSearchOptions(props: MergedProps, state: State, onSelect: onSelectInner) {
+    const { showAll, searchOptions, theme, selected, listDisabledOptions } = props
     const { searchString, arrowSelectIndex } = state
     const searchLower = searchString?.toLowerCase()
 
     const options: JSX.Element[] = []
-    let selectedOption
-    searchOptions.forEach((option, i) => {
+    let selectedOption, selectedOptionIndex
+    for (let i = 0; i < searchOptions.length; i++) {
+        const option = searchOptions[i]
         const { title, inputValue, value, className, disabled, alwaysVisible } = option
 
-        const isSelected = value == selected
-        isSelected && (selectedOption = option)
+        if (!listDisabledOptions && disabled) continue
 
-        const canPush = alwaysVisible || showAll || (!searchLower || inputValue.toLowerCase().includes(searchLower))
+        const isSelected = value == selected
+        if (isSelected) {
+            selectedOption = option
+            selectedOptionIndex = i
+        }
+
+        const canPush = alwaysVisible || showAll
+            ||  (!searchLower || inputValue.toLowerCase().includes(searchLower))
+
         if (canPush) {
             const optionProps: ComponentAttributes<HTMLDivElement> = {
                 className: theme.option,
-                children: title || inputValue
+                children: title || inputValue,
+                key: value
             }
+
             className && (optionProps.className += ` ${className}`)
             if (isSelected || arrowSelectIndex == i) {
                 optionProps.className += ` ${theme.option__selected}`
             }
-            disabled || (optionProps.onMouseDown = e => {
-                onSelect(option, e)
-            })
+
+            if (disabled) optionProps.className += ` ${theme.option__disabled}`
+            else optionProps.onMouseDown = e => { onSelect(option, e) }
 
 
-            options.push( <div { ...optionProps } key={ value as string } /> )
+            options.push( <div { ...optionProps } /> )
         }
-    })
+    }
 
 
     return {
-        selectedOption,
-        optionsElement: <div children={ options } className={ theme.options } />
+        selectedOption, selectedOptionIndex,
+        optionsElement: options.length
+            ?   <div children={ options } className={ theme.options } />
+            :   undefined
     }
 }
 

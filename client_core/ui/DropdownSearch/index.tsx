@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 
 import isExists from '../../../common/is/exists'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
-import * as keyCodes from '../_internals/key_codes'
+import handleKeyboardSelect, {
+    Store as HandleKeyboardSelectStore
+} from '../_internals/handle_keyboard_selection'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
@@ -10,7 +12,7 @@ import Input, {
     getDefaultState as getDefaultInputStoreState,
     Props as InputProps
 } from '../Input'
-import { getSearchOptionsElements } from './helpers'
+import getSearchOptionsElements from './helpers/get_search_options_elements'
 
 import type { Component, State, Option, Props, onSelectInner } from './types'
 
@@ -37,8 +39,10 @@ const DropdownSearch: Component = component(
             children: '',
             options: '',
             option: '',
-            option__selected: ''
+            option__selected: '',
+            option__disabled: ''
         },
+        listDisabledOptions: true,
         minInputLength: 3
     },
     props => {
@@ -46,8 +50,8 @@ const DropdownSearch: Component = component(
         const {
             theme, minInputLength, onSearch, className, showOnFocus, onChange, refApi, inputStore,
             selected, searchOptions, rootTagAttributes, disabled, store, label, resetIcon, children,
-            inputTheme, inputChildren, autofocus, placeholder, inputTagAttributes, errorMsg, regexp, mask,
-            debounceMs, onBlur, onFocus, inputMemoDeps
+            inputTheme, inputChildren, autofocus, placeholder, inputTagAttributes, errorMsg, regexp,
+            mask, debounceMs, onBlur, onFocus, inputMemoDeps
         } = props
 
         const innerStore = store || useState( getDefaultState() )
@@ -77,60 +81,53 @@ const DropdownSearch: Component = component(
             onBlur(e) {
                 if (e.relatedTarget !== e.currentTarget) {
                     if (searchString == '') onChange(undefined, e)
-                    else innerStore[0] = getDefaultState()
+                    else setState( getDefaultState() )
                 }
             }
         }
-
-        if (isFocused) {
-            dropdownSearchRootProps.className += ` ${theme._focused}`
-            dropdownSearchRootProps.onKeyDown = e => {
-                const keyCode = e.nativeEvent.key
-                const isUp = keyCode == keyCodes.UP
-
-                const isArrowIndexExists = isExists(arrowSelectIndex)
-
-                if (isUp || keyCode == keyCodes.DOWN) {
-                    state.arrowSelectIndex = isArrowIndexExists
-                        ?   isUp
-                            ?   arrowSelectIndex <= 0
-                                    ?   searchOptions.length - 1
-                                    :   arrowSelectIndex - 1
-                            :   arrowSelectIndex >= searchOptions.length - 1
-                                ?   0
-                                :   arrowSelectIndex + 1
-                        :   0
-
-                    setState({ ...state })
-
-                } else if (keyCode == keyCodes.DELETE) {
-                    resetSelected(e)
-
-                } else if (isArrowIndexExists && keyCode == keyCodes.ENTER) {
-                    onSelect(searchOptions[arrowSelectIndex], e)
-                }
-            }
-        }
-
-        refApi && applyRefApi(dropdownSearchRootProps, props)
 
 
         const isShowOptions = isFocused
             && (showOnFocus || (searchString ? searchString.length : 0) >= minInputLength)
 
-
         let optionsElement: JSX.Element | undefined
         let selectedOption: Option | undefined
+        let selectedOptionIndex: number | undefined
         if (isShowOptions) {
-            ({ selectedOption, optionsElement } = getSearchOptionsElements(props, state, onSelect))
+            ({
+                selectedOption, optionsElement, selectedOptionIndex
+            } = getSearchOptionsElements(props, state, onSelect))
 
-            dropdownSearchRootProps.className += ` ${theme._with_suggestions}`
-        } else  if (selected) {
+            if (optionsElement) {
+                dropdownSearchRootProps.className += ` ${theme._with_suggestions}`
+            }
+
+        } else if (selected) {
             selectedOption = searchOptions.find(({ value }) => value == selected)
+        }
+
+        if (isFocused) {
+            dropdownSearchRootProps.className += ` ${theme._focused}`
+            dropdownSearchRootProps.onKeyDown = e => {
+                handleKeyboardSelect(
+                    {
+                        selectStore: innerStore as unknown as HandleKeyboardSelectStore,
+                        keyCode: e.nativeEvent.key,
+                        options: searchOptions,
+                        selectedOptionIndex
+                    },
+                    {
+                        onDelete() { resetSelected(e) },
+                        onEnter() { onSelect(searchOptions[arrowSelectIndex!], e) }
+                    }
+                )
+            }
         }
 
         errorMsg && (dropdownSearchRootProps.className += ` ${theme._error}`)
         disabled && (dropdownSearchRootProps.className += ` ${theme._disabled}`)
+
+        refApi && applyRefApi(dropdownSearchRootProps, props)
         rootTagAttributes && (dropdownSearchRootProps = mergeTagAttributes(dropdownSearchRootProps, rootTagAttributes))
 
 

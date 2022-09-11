@@ -43,7 +43,7 @@ type RouterState = {
     prevPathnameParseResult: null | ReturnType<ParsePathname>
     transitionTimeoutID: ReturnType<Window['setTimeout']> | undefined
 }
-type RouterStore = [ RouterState, React.Dispatch<React.SetStateAction<RouterState>> ]
+type RouterStore = ReactStore<RouterState>
 
 
 

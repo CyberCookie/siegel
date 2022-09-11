@@ -95,6 +95,7 @@ const dropdownSearchTheme: DropdownSearchProps['theme'] = {
     options: `${_selectTheme.options} ${_dropdownSearchTheme.options}`,
     option: _selectTheme.option,
     option__selected: _selectTheme.option__active,
+    option__disabled: _selectTheme.option__disabled,
     _disabled: _dropdownSearchTheme._disabled,
     _with_suggestions: _dropdownSearchTheme._with_suggestions,
     _error: _dropdownSearchTheme._error

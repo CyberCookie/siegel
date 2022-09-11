@@ -8,7 +8,7 @@ type State = {
     searchString: string | undefined
     arrowSelectIndex: number | undefined
 }
-type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
+type Store = ReactStore<State>
 
 type Option<_Value = any> = {
     inputValue: string
@@ -29,6 +29,7 @@ type Theme = {
     reset?: string
     options?: string
     option?: string
+    option__disabled?: string
     option__selected?: string
 }
 
@@ -47,6 +48,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
     minInputLength?: number
     showOnFocus?: boolean
+    listDisabledOptions?: boolean
     showAll?: boolean
     selected?: _Value | undefined
     resetIcon?: React.ReactNode

@@ -90,14 +90,13 @@ type DefaultProps = NonNullableKeys<{
 
 type MergedProps = Props & DefaultProps
 
-type State = {
+type Store = ReactStore<{
     innerRangeStart: Props['initDate']['rangeDateStart']
     innerRangeEnd: NonNullable<Props['initDate']['rangeDateEnd']>
     inProgress: boolean
     anchor: number
     beginOfMonth: Date
-}
-type Store = [ State, React.Dispatch<React.SetStateAction<State>> ]
+}>
 
 
 type Component = CoreUIComponent<Props, DefaultProps>

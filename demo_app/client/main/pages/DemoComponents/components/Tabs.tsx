@@ -8,7 +8,7 @@ const { ID } = Tabs
 const tabsData = ([1,2,3]).map(id => ({
     id: id.toString(),
     content: <div>content {id}</div>,
-    label: 'label ' + id
+    label: `label ${id}`
 }))
 
 const Demo = () => {

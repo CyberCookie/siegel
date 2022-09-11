@@ -30,7 +30,8 @@ Searchable input with select hints built on top of **Input** component<br />
     - `children`
     - `options`
     - `option`
-    - `option__selected`<br /><br />
+    - `option__selected`
+    - `option__disabled`<br /><br />
 
 - `searchOptions`
     - **Required**
@@ -84,6 +85,11 @@ Searchable input with select hints built on top of **Input** component<br />
 - `showOnFocus`
     - **Boolean**
     - Show all hints on input focus<br /><br />
+
+- `listDisabledOptions`
+    - Whether to show disabled options in a options list
+    - **Boolean**
+    - Default is **true**<br /><br />
 
 - `showAll`
     - **Boolean**

@@ -3,10 +3,13 @@ import React, { useState, useRef } from 'react'
 import isExists from '../../../common/is/exists'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
+import handleKeyboardSelect, {
+    Store as HandleKeyboardSelectStore
+} from '../_internals/handle_keyboard_selection'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
-import { getOptionWithKeyboard, getOptions } from './helpers'
+import getOptions from './helpers/get_options'
 
 import type { ComponentAttributes } from '../_internals/types'
 import type { Component, Props, Store, OnSelect, RootRef } from './types'
@@ -41,7 +44,8 @@ const Select: Component = component(
             option__disabled: ''
         },
         closeOnSelect: true as boolean,
-        filterSelected: true as boolean
+        listSelectedOption: true as boolean,
+        listDisabledOptions: true as boolean
     },
     props => {
 
@@ -51,7 +55,8 @@ const Select: Component = component(
             errorMsg
         } = props
 
-        const [ state, setState ] = store || useState(getDefaultState())
+        const selectStore = store || useState(getDefaultState())
+        const [ state, setState ] = selectStore
         const { isActive, arrowSelectIndex } = state
 
 
@@ -76,7 +81,9 @@ const Select: Component = component(
         }
         errorMsg && (selectRootProps.className += ` ${theme._error}`)
 
-        let optionsElement, selectedOption
+        let optionsElement: JSX.Element
+        let selectedOption: Props['options'][number] | undefined
+        let selectedOptionIndex: number | undefined
         if (disabled) {
             selectRootProps.className += ` ${theme._disabled}`
 
@@ -84,7 +91,9 @@ const Select: Component = component(
                 selectedOption = options.find(option => option.value == selected)
             }
         } else {
-            ({ optionsElement, selectedOption } = getOptions(props, onSelect, arrowSelectIndex))
+            ({
+                optionsElement, selectedOption, selectedOptionIndex
+            } = getOptions(props, onSelect, arrowSelectIndex))
 
             selectRootProps.tabIndex = 0
 
@@ -101,28 +110,23 @@ const Select: Component = component(
                 }
 
                 selectRootProps.onKeyDown = e => {
-                    e.preventDefault()
-
                     const keyCode = e.nativeEvent.key
-                    const isUp = keyCode == keyCodes.UP
+                    if (keyCode != keyCodes.TAB) {
+                        e.preventDefault()
 
-                    const isArrowIndexExists = isExists(arrowSelectIndex)
-
-                    if (isUp || keyCode == keyCodes.DOWN) {
-                        state.arrowSelectIndex = isArrowIndexExists
-                            ?   isUp
-                                ?   getOptionWithKeyboard(options, arrowSelectIndex, -1)
-                                :   getOptionWithKeyboard(options, arrowSelectIndex, 1)
-                            :   getOptionWithKeyboard(options, 0, 1)
-
-                        setState({ ...state })
-
-                    } else if (keyCode == keyCodes.DELETE) {
-                        onSelect(undefined, e)
-
-                    } else if (keyCode == keyCodes.ENTER && isArrowIndexExists) {
-                        const { value, payload } = options[arrowSelectIndex]
-                        onSelect(value, e, payload)
+                        handleKeyboardSelect(
+                            {
+                                selectStore: selectStore as unknown as HandleKeyboardSelectStore,
+                                keyCode, options, selectedOptionIndex
+                            },
+                            {
+                                onDelete() { onSelect(undefined, e) },
+                                onEnter() {
+                                    const { value, payload } = options[arrowSelectIndex!]
+                                    onSelect(value, e, payload)
+                                }
+                            }
+                        )
                     }
                 }
             }
@@ -154,7 +158,7 @@ const Select: Component = component(
 
             { errorMsg && <div className={ theme.error_text } children={ errorMsg } /> }
 
-            { optionsElement }
+            { optionsElement! }
         </>
 
 

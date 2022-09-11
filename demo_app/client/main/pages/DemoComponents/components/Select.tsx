@@ -4,7 +4,7 @@ import { Select, SelectProps, icons } from 'app/components'
 
 
 type DemoSelectState = number | undefined
-type DempSelectStore = [ DemoSelectState, React.Dispatch<React.SetStateAction<DemoSelectState>> ]
+type DemoSelectStore = ReactStore<DemoSelectState>
 
 type DemoSelectProps = SelectProps<DemoSelectState>
 
@@ -14,25 +14,17 @@ const { ID } = Select
 const getSelectDisplayValue = ({ title }: DemoSelectProps['options'][number]) => 'selected - ' + title
 
 const Demo = () => {
-    const [ selectedOption, setOption ] = useState() as DempSelectStore
+    const [ selectedOption, setOption ] = useState() as DemoSelectStore
 
     const props: DemoSelectProps = {
         placeholder: 'placeholder',
         selected: selectedOption,
         options: [
-            {
-                value: 1,
-                title: 'option 1'
-            },
-            {
-                value: 2,
-                title: 'option 2'
-            },
-            {
-                value: 3,
-                title: 'disabled option 3',
-                disabled: true
-            }
+            { value: 1, title: 'option 1' },
+            { value: 2, title: 'option option 2', disabled: true },
+            { value: 3, title: 'option 3' },
+            { value: 4, title: 'option 4' },
+            { value: 5, title: 'disabled option 5', disabled: true }
         ],
         onChange(value) { setOption(value) }
     }
@@ -46,7 +38,7 @@ const Demo = () => {
         <Select { ...props } label='some label' getDisplayValue={ getSelectDisplayValue } />
 
         <h2 children='filter selected: false; with reset' />
-        <Select { ...props } filterSelected={ false } resetIcon={ icons.close } />
+        <Select { ...props } listSelectedOption={ false } resetIcon={ icons.close } />
 
         <h2 children='disabled' />
         <Select { ...props } disabled />

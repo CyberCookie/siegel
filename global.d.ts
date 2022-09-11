@@ -13,6 +13,7 @@ interface URLSearchParams {
 
 
 
+
 type DeepMerge<O1 extends Required<object>, O2 extends object> =
     {
         [K in keyof O1 & keyof O2]: O2[K] extends object
@@ -44,6 +45,7 @@ type DeepExclude<O1 extends object, O2 extends object> =
 
 
 
+
 type Indexable<V = any> = {
     [key: string]: V
 }
@@ -69,7 +71,9 @@ type Values<K extends Indexable> = K[keyof K]
 
 
 
+
 type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never
+
 
 
 
@@ -77,7 +81,11 @@ type CSSWithVariables = {
     [key: string]: string | number
 } & React.CSSProperties
 
-
 type AttributesWithData = {
     [key: string]: string | number
 } & React.HTMLAttributes<HTMLDivElement>
+
+
+
+
+type ReactStore<State> = [ State, React.Dispatch<React.SetStateAction<State>> ]

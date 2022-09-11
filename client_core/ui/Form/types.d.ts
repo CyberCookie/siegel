@@ -24,7 +24,7 @@ type ValuesState = Indexable<{
     errorMsg?: string
 }>
 
-type FormStore = [ ValuesState, React.Dispatch<React.SetStateAction<ValuesState>> ]
+type FormStore = ReactStore<ValuesState>
 
 
 type InputData = {

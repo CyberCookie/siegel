@@ -47,6 +47,8 @@ Features:
 - `Demo project` with already themed components, predefined folder structure and scalable architecture built on top of Siegel<br />
     It gives you a quick start right after initialization!
 
+- `Global TS utility types` that you may import. They could be usefull while you are building your React project
+
 <br />
 
 Read more about each part following the links below:
@@ -63,6 +65,7 @@ Read more about each part following the links below:
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/core/utils)
 - [Cross env utils](https://github.com/CyberCookie/siegel/tree/master/common)
 - [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)
+- [TS utils](https://github.com/CyberCookie/siegel/tree/master/global.d.ts)
 
 <br /><br />
 

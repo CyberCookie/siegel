@@ -15,7 +15,7 @@ type PostProcessState = {
     selected: Set<string>,
     activeColID: string
 }
-type PostProcessStore = [ PostProcessState, React.Dispatch<React.SetStateAction<PostProcessState>> ]
+type PostProcessStore = ReactStore<PostProcessState>
 
 
 const dataTableSelectTheme = Object.assign({}, selectTheme, {

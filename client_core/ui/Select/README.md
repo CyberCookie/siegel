@@ -55,8 +55,13 @@ Dropdown options selector<br />
     - Selected option
     -  **Any**. Should be equal to **value** of some **props.opions** option<br /><br />
 
-- `filterSelected`
+- `listSelectedOption`
     - Whether to filter out selected option from the options list
+    - **Boolean**
+    - Default is **true**<br /><br />
+
+- `listDisabledOptions`
+    - Whether to show disabled options in a options list
     - **Boolean**
     - Default is **true**<br /><br />
 
