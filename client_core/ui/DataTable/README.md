@@ -125,11 +125,14 @@ Configurable and flexible data grid to manage big amount of data, built on top o
 
 ## Store mechanic
 
-Data table itself may only change 2 of 5 state fields:
+DataTable component may only change 2 of 5 state fields:
 - `showPerPage` - in the case **props.withFooter.select** is defined
 - `currentPage` - in the case **props.withFooter.pagination** is defined
 
-Other state fields `sortByField`, `searchByField` and `toggleColumns` are fully controled by a user,<br /> **DataTable** itself only perform some operations in a case above fields are filled
+Other state fields like `sortByField`, `searchByField` and `toggleColumns` are fully controled by a user,<br /> **DataTable** itself only perform some operations in a case above fields are filled<br />
+
+To init store with default state - you may use exported `getDefaultState` function
+
 
 
 <br /><br />

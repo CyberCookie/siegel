@@ -3,14 +3,11 @@ import type {
 } from '../_internals/types'
 
 
-type ListItemExpandedProps = {
-    expanded?: boolean
-}
-
-type List = ({
+type List = {
     title: React.ReactNode
+    id?: string
     children?: List
-} & ListItemExpandedProps)[]
+}[]
 
 type BuilderArgs<_BuilderListExtend> = {
     listItem: BuilderList<_BuilderListExtend>[number]
@@ -20,15 +17,17 @@ type BuilderArgs<_BuilderListExtend> = {
 }
 type BuilderList<_BuilderListExtend = Indexable<any>> = ({
     children?: BuilderList<_BuilderListExtend>
-} & ListItemExpandedProps & _BuilderListExtend)[]
+    id?: string
+} & _BuilderListExtend)[]
 
 
 type Theme = {
     item?: string
     item__empty?: string
+    item__expanded?: string
     item_title?: string
     item_title_wrapper?: string
-    item_children_wrapper?: string
+    nested_list?: string
 }
 
 type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
@@ -38,13 +37,14 @@ type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
         soloOpen?: boolean
         rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
         autoExpand?: boolean
+        store?: ReactStore<{
+            expandedPaths: Indexable
+        }>
     }
     &   ({
             builder(args: BuilderArgs<_BuilderListExtend>): ({
                 elem: React.ReactNode
                 acc?: any
-                replaceParentIfLast?: boolean
-                expanded?: boolean
             })
             list: BuilderList<_BuilderListExtend>
         }

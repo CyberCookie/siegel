@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 
 import isExists from '../../../common/is/exists'
 import component from '../_internals/component'
@@ -15,6 +15,33 @@ function onClickHandler(e: React.MouseEvent) {
     e.stopPropagation()
 }
 
+const getStringPath = (key: string | number, prefix: string | number | undefined) => (
+    isExists(prefix) ? `${prefix}.${key}` : key
+)
+
+function getExpandersPaths(list: List | BuilderList, pathPrefix?: string | number) {
+    const tree: Indexable = {}
+    list.forEach((item, i) => {
+        const { id, children } = item
+
+        if (children) {
+            const key = getStringPath(id || i, pathPrefix)
+            tree[key] = true
+
+            Object.assign(tree, getExpandersPaths(children, key))
+        }
+    })
+
+
+    return tree
+}
+
+const getDefaultState = (list?: List | BuilderList) => ({
+    expandedPaths: list
+        ?   useMemo(() => getExpandersPaths(list), [])
+        :   {} as Indexable
+})
+
 const Accordion: Component = component(
     componentID,
     {
@@ -22,34 +49,51 @@ const Accordion: Component = component(
             root: '',
             item: '',
             item__empty: '',
+            item__expanded: '',
             item_title_wrapper: '',
             item_title: '',
-            item_children_wrapper: ''
+            nested_list: ''
         }
     },
     props => {
 
         const {
             className, theme, list, builder, accordionIcon, soloOpen, rootTagAttributes,
-            autoExpand, refApi
+            autoExpand, refApi, store
         } = props
 
+        const [ state, setState ] = store || useState(
+            getDefaultState( autoExpand ? list : undefined )
+        )
+        const { expandedPaths } = state
 
-        function childrenMapper(listItem: (List | BuilderList)[number], i: number, _acc?: any) {
-            const { children, expanded } = listItem
+
+        function childrenMapper(
+            listItem: (List | BuilderList)[number],
+            i: number,
+            prefix?: string | number,
+            _acc?: any
+        ) {
+
+            const { children, id } = listItem
+
+            const path = getStringPath(id || i, prefix)
+            const isExpanded = expandedPaths[path]
+
+
             const listItemTheme: Parameters<NonNullable<Props['builder']>>[0]['listItemTheme'] = {
                 item: theme.item,
+                item__empty: theme.item__empty,
+                item__expanded: theme.item__expanded,
                 item_title_wrapper: theme.item_title_wrapper,
                 item_title: theme.item_title,
-                item_children_wrapper: theme.item_children_wrapper,
-                item__empty: theme.item__empty
+                nested_list: theme.nested_list
             }
 
-            let isExpanded = expanded
-            let { title } = listItem as List[number]
-            let isTitleAsItemEmpty
+
+            let title: List[number]['title']
             if (builder) {
-                const { elem, acc, replaceParentIfLast, expanded } = builder({
+                const { elem, acc } = builder({
                     listItemTheme,
                     listItem: listItem as BuilderList[number],
                     index: i,
@@ -58,51 +102,56 @@ const Accordion: Component = component(
 
                 _acc = acc
                 title = elem
-                isTitleAsItemEmpty = replaceParentIfLast
-                isExists(expanded) && (isExpanded = expanded)
-            }
 
-            return children
-                ?   <details key={ i } className={ listItemTheme.item } open={ isExpanded || autoExpand }
-                        onClick={ onClickHandler }>
+            } else title = listItem.title
 
-                        <summary className={ listItemTheme.item_title_wrapper }
-                            onMouseDown={ onAccordionToggle }>
 
-                            <div className={ listItemTheme.item_title } children={ title } />
-                            { accordionIcon }
-                        </summary>
+            if (children) {
+                const nestedChildrenElements = children.map((listItem, i) => (
+                    childrenMapper(listItem as List[number], i, path, _acc)
+                ))
 
-                        <div className={ listItemTheme.item_children_wrapper }
-                            children={ children.map((listItem, i) => childrenMapper(listItem as List[number], i, _acc)) } />
-                    </details>
+                let itemClassName = listItemTheme.item
+                isExpanded && (itemClassName += ` ${listItemTheme.item__expanded}`)
 
-                :   isTitleAsItemEmpty
-                        ?   title
-                        :   <div key={ i } className={ listItemTheme.item__empty } children={ title } />
-        }
-
-        function onAccordionToggle(e: React.MouseEvent<HTMLDivElement>) {
-            e.stopPropagation()
-            const parentDtailsEl = e.currentTarget.parentElement as HTMLDetailsElement
-
-            if (soloOpen) {
-                let sibling = parentDtailsEl.parentElement!.firstChild
-
-                while (sibling) {
-                    if (sibling != parentDtailsEl) {
-                        (sibling as HTMLDetailsElement).open = false
+                function onExpandToggle() {
+                    if (isExpanded) {
+                        for (const expandedPath in expandedPaths) {
+                            if (expandedPath.startsWith(path as string)) {
+                                delete expandedPaths[expandedPath]
+                            }
+                        }
+                    } else {
+                        if (soloOpen) {
+                            for (const expandedPath in expandedPaths) {
+                                if (!path.toString().startsWith(expandedPath)) {
+                                    delete expandedPaths[expandedPath]
+                                }
+                            }
+                        }
+                        expandedPaths[path] = true
                     }
 
-                    sibling = sibling.nextSibling
+                    setState({ expandedPaths })
                 }
-            }
 
-            parentDtailsEl.open = !parentDtailsEl.open
+
+                return (
+                    <li key={ path } className={ itemClassName } onClick={ onClickHandler }>
+                        <div className={ listItemTheme.item_title_wrapper } onMouseDown={ onExpandToggle }>
+                            <div className={ listItemTheme.item_title } children={ title } />
+                            { accordionIcon }
+                        </div>
+
+                        <ul className={ listItemTheme.nested_list } children={ nestedChildrenElements } />
+                    </li>
+                )
+
+            } else return <li key={ path } className={ listItemTheme.item__empty } children={ title } />
         }
 
 
-        let _className = theme.item_children_wrapper
+        let _className = theme.nested_list
         className && (_className += ` ${className}`)
 
         let accordionRootProps = {
@@ -113,11 +162,11 @@ const Accordion: Component = component(
         rootTagAttributes && (accordionRootProps = mergeTagAttributes(accordionRootProps, rootTagAttributes))
 
 
-        return <div { ...accordionRootProps } />
+        return <ul { ...accordionRootProps } />
     }
 )
 
 
 export default Accordion
-export { componentID }
+export { componentID, getDefaultState }
 export type { List, BuilderList, Component, Props }

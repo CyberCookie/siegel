@@ -205,7 +205,7 @@ import Button from 'siegel-ui/Button'
 
 Mostly everywhere inside Siegel components **onClick** handler is replaced with **onMosueDown**<br />
 This approach helps to speed up interaface by **~200ms**<br />
-In some rear cases it can, though, lead to some unexpected behaviours<br />
+In some rear cases it can, though, lead to some unexpected behaviors<br />
 But it can be easily handled with numerous technics, like wrapping a compoennt into another one or by preventing event bubling.
 
 <br />

@@ -1,51 +1,41 @@
 $item_height: 36px
 
-    
-@keyframes slide_down
-    0%
-        height: 0
-    
-    100%
-        height: $item_height
-
 
 .root
     display: inline-block
 
-    & > .item
-        .item, .item .item_title_wrapper, .item__empty
+    & > .item .nested_list
+        .item__empty, .item_title_wrapper
             height: 0
-            padding: 0 $gutter_sm
-    
-    i
-        font-size: 30px
-        transition: transform $transition
+            transition: height $transition
 
+
+.item__empty, .item_title_wrapper
+    overflow: hidden
 
 .item, .item__empty, .item_title
     +font(22px, $item_height)
 
-
-.item
-    &[open]
-        & > .item_title_wrapper
-            color: $primary
-
-            i
-                transform: rotate(90deg)
-
-        .item, .item .item_title_wrapper, .item__empty
-            animation: $transition forwards slide_down
-    
-    & > .item
-        padding-left: $gutter
-
-
-.item_title_wrapper, .item_title, .item__empty
-    overflow: hidden
-
 .item_title_wrapper
     +flex('', center)
 
+    i
+        font-size: 30px
+        transition: transform $transition
+
 .item_title
     padding-right: $gutter
+
+
+.nested_list .nested_list
+    padding-left: $gutter_sm
+    
+
+.item.item__expanded
+    & > .item_title_wrapper i
+        transform: rotate(90deg)
+
+    & > .nested_list
+        & > .item > .item_title_wrapper, & > .item__empty
+            height: $item_height
+            transition: height $transition

@@ -170,7 +170,7 @@ Newly added method `history.push` receives **3** arguments:
 - **replaceURL** - **Optional** **Boolean | String**. Use `history.replaceState`<br />
     Provide **String** URL to use it as URL to be replaced
 
-URL strings in `push` method have the same behaviour as `redirectTo`, described above.
+URL strings in `push` method have the same behavior as `redirectTo`, described above.
 
 <br />
 

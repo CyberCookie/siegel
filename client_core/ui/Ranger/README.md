@@ -58,7 +58,7 @@ Provides sliding point(s) to specify some range values from 0 to 1<br />
     - **Boolean**<br /><br />
 
 - `rangersCrossBehavior`
-    - Determined range pick behaviour when it 'bumps' another range pick<br />
+    - Determined range pick behavior when it 'bumps' another range pick<br />
         This is for the case when `props.value` has length > 1
     - **'stop' | 'move' | 'cross'**
         - **stop** - Range pick stops at another pick's position

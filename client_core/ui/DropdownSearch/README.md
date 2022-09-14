@@ -74,8 +74,10 @@ Searchable input with select hints built on top of **Input** component<br />
     - Store, created with **React.useState** store, to be used in **DropdownSearch**
     - State is an **Object** with the next fields:
         - `searchString` - **String | undefined**. Input field text
-        - `arrowSelectIndex` - **Number | undefined**. Hints can be selected with keyboard<br />
-        This fields specify currently selected hint with keyboard<br /><br />
+        - `arrowSelectIndex` - **Number | undefined**. Hint index choosen with keyboard arrows,<br />
+        before you press __Enter__ to select it<br />
+        This field specify currently selected hint index
+    - Component exports `getDefaultState` function to init outer store's state<br /><br />
 
 - `minINputLength`
     - **Number**

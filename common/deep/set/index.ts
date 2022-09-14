@@ -17,6 +17,7 @@ function deepSet(iterable: any[] | Indexable, path: Key[] | Key, value: any): vo
             if (!isExists(link[pathPart])) {
                 link[pathPart] = typeof pathSequence[i + 1] == 'number' ? [] : {}
             }
+
             link = link[pathPart]
         }
     }

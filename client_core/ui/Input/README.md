@@ -47,7 +47,8 @@ Input field to type text into<br />
     - Store, created with **React.useState** store, to be used in data table
     - State is an **Object** with the next fields:
         - `isTouched` - if input has been focused at least one time
-        - `isFocused` - if input is focused<br /><br />
+        - `isFocused` - if input is focused
+    - Component exports `getDefaultState` function to init outer store's state<br /><br />
 
 - `disabled`
     - Disables input field

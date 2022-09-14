@@ -70,7 +70,10 @@ Dropdown options selector<br />
     - Store, created with **React.useState** store, to be used in select component
     - State is an **Object** with the next fields:
         - `isActive` - **Boolean**. Whether select is in focus
-        - `arrowSelectIndex` - **Number**. Option index, choosen with keyboard arrows, before you press __Enter__ to select it<br /><br />
+        - `arrowSelectIndex` - **Number | undefined**. Option index, choosen with keyboard arrows,<br />
+        before you press __Enter__ to select it<br />
+        This field specify currently selected option index
+    - Component exports `getDefaultState` function to init outer store's state<br /><br />
 
 - `getDisplayValue`
     - **Function** to construct select component input title
