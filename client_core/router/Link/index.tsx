@@ -18,7 +18,7 @@ const NavLink: Component = component(
     props => {
 
         const {
-            href, activeClassName, refApi,
+            href, activeClassName, refApi, onClick,
             state = null
         } = props
 
@@ -43,7 +43,7 @@ const NavLink: Component = component(
 
         const finalProps = Object.assign({}, props, {
             onClick(e: React.MouseEvent) {
-                props.onClick?.(e)
+                onClick?.(e)
 
                 if (!e.defaultPrevented) {
                     e.preventDefault()

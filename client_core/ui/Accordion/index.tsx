@@ -10,11 +10,6 @@ import type { List, BuilderList, Component, Props } from './types'
 
 const componentID = '-ui-accordion'
 
-function onClickHandler(e: React.MouseEvent) {
-    e.preventDefault()
-    e.stopPropagation()
-}
-
 const getStringPath = (key: string | number, prefix: string | number | undefined) => (
     isExists(prefix) ? `${prefix}.${key}` : key
 )
@@ -137,7 +132,7 @@ const Accordion: Component = component(
 
 
                 return (
-                    <li key={ path } className={ itemClassName } onClick={ onClickHandler }>
+                    <li key={ path } className={ itemClassName }>
                         <div className={ listItemTheme.item_title_wrapper } onMouseDown={ onExpandToggle }>
                             <div className={ listItemTheme.item_title } children={ title } />
                             { accordionIcon }
