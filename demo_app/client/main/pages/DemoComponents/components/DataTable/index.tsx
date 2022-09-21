@@ -36,7 +36,7 @@ function getMockEntities(count: number) {
 const Demo = () => {
     const props: DemoDataTableProps = {
         columnsConfig,
-        entities: getMockEntities(300),
+        entities: getMockEntities(300).raw(),
         className: styles.demo_grid,
         postProcessHeadCell(cell, config) {
             cell.attributes = {
@@ -53,7 +53,7 @@ const Demo = () => {
     const virtualizationProps = Object.assign(
         getEnchancedDataTableProps(props),
         {
-            entities: getMockEntities(10000),
+            entities: getMockEntities(10000).raw(),
             virtualization: {
                 itemHeight: 68
             },

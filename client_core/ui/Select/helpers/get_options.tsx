@@ -29,7 +29,7 @@ function getOptions(
         if (isSelected) {
             selectedOption = option
             selectedOptionIndex = i
-            if (listSelectedOption) continue
+            if (!listSelectedOption) continue
         }
 
         let optionClassName = theme.option

@@ -1,4 +1,3 @@
-import type { Entities } from '../../../common/entities_struct'
 import type {
     PropsComponentThemed, NewComponentAttributes, CoreUIComponent, CoreUIComponentWithDefaults
 } from '../_internals/types'
@@ -15,10 +14,10 @@ type DataTableTableProps = {
     rootTagAttributes?: TableProps['rootTagAttributes']
 }
 
-type DisplayedEntityIDs<_Entities extends Entities = Entities> = {
+type DisplayedEntityIDs = {
     from: number
     to: number
-    allPagesIDs: ReturnType<_Entities['raw']>['sorted']
+    allPagesIDs: string[]
 } | undefined
 
 type SortState = {
@@ -35,16 +34,15 @@ type State = {
 
 
 type ColumnsConfig<
-    _Entities extends Entities,
+    _Entity extends Indexable,
     _ColumnParamsExtend = any,
-    Entity = ReturnType<_Entities['get']>,
-    ByID = ReturnType<_Entities['raw']>['byID'],
-    Sorted = ReturnType<_Entities['raw']>['sorted']
+    _ByID = Indexable<_Entity>,
+    _Sorted = string[]
 > = {
     ID: string
-    showValue(entity: Entity, index: number): TableTD
-    onSort?(IDs: Sorted, byID: ByID, value: number): Sorted
-    onFilter?(IDs: Sorted, byID: ByID, search: any): Sorted
+    showValue(entity: _Entity, index: number): TableTD
+    onSort?(IDs: _Sorted, byID: _ByID, value: number): Sorted
+    onFilter?(IDs: _Sorted, byID: _ByID, search: any): Sorted
     label?: React.ReactNode
     customParams?: _ColumnParamsExtend
 }
@@ -58,12 +56,12 @@ type Theme = {
     pagination_wrapper?: string
 }
 
-type Props<
-    _Entities extends Entities<Indexable> = Entities<Indexable>,
-    _ColumnParamsExtend = any
-> = PropsComponentThemed<Theme, {
-    entities: _Entities
-    columnsConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>[]
+type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentThemed<Theme, {
+    entities: {
+        byID: Indexable<_Entity>
+        sorted: string[]
+    }
+    columnsConfig: ColumnsConfig<_Entity, _ColumnParamsExtend>[]
     store?: ReactStore<State>
     rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
     withFooter?: {
@@ -93,7 +91,7 @@ type Props<
         displayedEntityIDs: DisplayedEntityIDs
     ): void
     postProcessHeadRow?(rows: TableHeadRow[], displayedEntityIDs: DisplayedEntityIDs): void
-    postProcessBodyRow?(row: TableBodyRow[], entity: ReturnType<_Entities['get']>, index: number): void
+    postProcessBodyRow?(row: TableBodyRow[], entity: _Entity, index: number): void
 }>
 
 

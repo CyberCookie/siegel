@@ -7,7 +7,7 @@ const { ID } = ErrorBoundary
 
 const ComponentWithError = () => {
     throw Error('component error')
-    return <></>
+    return <div />
 }
 
 const Demo = () => {

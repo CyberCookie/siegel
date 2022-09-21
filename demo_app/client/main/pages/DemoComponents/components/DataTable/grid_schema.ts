@@ -94,7 +94,7 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
         customParams: {
             type: 'text',
             valuePath: 'id',
-            className: styles.column_id
+            className: styles.column_id!
         }
     },
     {
@@ -111,7 +111,7 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
         customParams: {
             type: 'date',
             valuePath: 'date',
-            className: styles.column_date
+            className: styles.column_date!
         }
     },
     {
@@ -123,7 +123,7 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
         customParams: {
             type: 'text',
             valuePath: 'text',
-            className: styles.column_name
+            className: styles.column_name!
         }
     },
     {
@@ -135,7 +135,7 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
         customParams: {
             type: 'set',
             valuePath: 'num',
-            className: styles.column_number
+            className: styles.column_number!
         }
     },
     {
@@ -152,7 +152,7 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
         customParams: {
             type: 'set',
             valuePath: 'bool',
-            className: styles.column_boolean
+            className: styles.column_boolean!
         }
     }
 ]

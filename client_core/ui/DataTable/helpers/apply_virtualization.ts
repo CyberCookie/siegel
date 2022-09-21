@@ -115,7 +115,8 @@ function applyVirtualization(params: UseVirtualizationParams) {
         rootAttributes,
         hookState: { showPerPage },
         props: {
-            withFooter, entities,
+            withFooter,
+            entities: { sorted },
             virtualization: {
                 itemHeight,
                 preloadedItemsBySide = 20,
@@ -132,10 +133,9 @@ function applyVirtualization(params: UseVirtualizationParams) {
     const { scrollTop } = virtualizationState
 
 
-    const allEntitiesCount = entities.len()
     const maxItemsCount = withFooter
-        ?   Math.min(showPerPage, allEntitiesCount)
-        :   allEntitiesCount
+        ?   Math.min(showPerPage, sorted.length)
+        :   sorted.length
 
     const slideWindowRange = getWindowSlideRanges({
         scrollTop, itemHeight, tableHeight, preloadedItemsBySide, maxItemsCount

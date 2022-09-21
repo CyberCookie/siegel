@@ -14,7 +14,7 @@ const getRange: GetRangeElement = (key, className, width, isVertival) => (
         } />
 )
 const getRangePicker: GetRangePickerElement = (key, { theme, rangePickIcon, isVertical }, left) => (
-    <div  key={ key } children={ rangePickIcon } data-slider={ key[1] || '' }
+    <div key={ key } children={ rangePickIcon } data-slider={ key[1] || '' }
         style={ isVertical
             ?   { top: `${left}%` }
             :   { left: `${left}%` }
@@ -62,7 +62,7 @@ function getRangeAreaElements(
     }
 
 
-    return <>{ result }</>
+    return result
 }
 
 

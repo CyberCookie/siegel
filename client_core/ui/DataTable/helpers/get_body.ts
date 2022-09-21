@@ -11,8 +11,10 @@ function getBody(
     slideWindowRange: SlideWindowRange | undefined
 ) {
 
-    const { entities, columnsConfig, postProcessBodyRow, withFooter } = props
-    const { byID, sorted } = entities.raw()
+    const {
+        entities: { byID, sorted },
+        columnsConfig, postProcessBodyRow, withFooter
+    } = props
 
     const { searchByField, sortByField, toggledColumns, showPerPage, currentPage } = state
 

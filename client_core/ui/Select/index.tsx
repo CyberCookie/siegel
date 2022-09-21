@@ -44,7 +44,7 @@ const Select: Component = component(
             option__disabled: ''
         },
         closeOnSelect: true as boolean,
-        listSelectedOption: true as boolean,
+        listSelectedOption: false as boolean,
         listDisabledOptions: true as boolean
     },
     props => {
@@ -98,10 +98,8 @@ const Select: Component = component(
             selectRootProps.tabIndex = 0
 
             selectRootProps.onFocus = () => {
-                if (!isActive) {
-                    state.isActive = true
-                    setState({ ...state })
-                }
+                state.isActive = true
+                setState({ ...state })
             }
 
             if (isActive) {
@@ -143,7 +141,14 @@ const Select: Component = component(
             :   placeholder
 
         const selectInput = <>
-            <div className={ theme.title_wrapper }>
+            <div className={ theme.title_wrapper }
+                onMouseDown={ e => {
+                    if (isActive) {
+                        e.preventDefault()
+                        ;(selectRootProps.ref as RootRef).current.blur()
+                    }
+                } }>
+
                 <div className={ theme.title_text } children={ displayValue } />
 
                 { !disabled && resetIcon && (

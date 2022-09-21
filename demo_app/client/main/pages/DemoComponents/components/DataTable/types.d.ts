@@ -1,4 +1,3 @@
-import type { Entities } from 'siegel-utils/entities_struct'
 import type { DataTableProps } from 'app/components'
 
 
@@ -10,15 +9,13 @@ type Entity = {
     bool: boolean
 }
 
-type MockEntities = Entities<Entity>
-
 type ColumnCustomParams = {
     type: 'set' | 'text' | 'date'
     valuePath: keyof Entity
     className: string
 }
 
-type DemoDataTableProps = DataTableProps<MockEntities, ColumnCustomParams>
+type DemoDataTableProps = DataTableProps<Entity, ColumnCustomParams>
 
 
-export type { Entity, MockEntities, DemoDataTableProps }
+export type { Entity, DemoDataTableProps }

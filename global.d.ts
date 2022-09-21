@@ -1,6 +1,9 @@
 declare module '*.png'
 declare module '*.jpg'
-declare module '*.sass'
+declare module '*.sass' {
+    const styles: Indexable<string | undefined>
+    export default styles
+}
 
 
 declare function isNaN(value: any): boolean

@@ -84,15 +84,18 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
 
         function getSearch() {
             const searchByField = dataGridHookState.searchByField
-            let searchElement
+            let searchElement: JSX.Element | JSX.Element[]
 
             if (type == 'set') {
                 const resultCheckbox: JSX.Element[] = []
                 const searchSet = searchByField[ID] || new Set()
                 const uniqValues = new Set()
+                const { byID, sorted } = entities
 
-                entities.each((entity, i) => {
+                sorted.forEach((entityID, i) => {
+                    const entity = byID[entityID]
                     const setValue = entity[valuePath]
+
                     if (!uniqValues.has(setValue)) {
                         uniqValues.add(setValue)
 
@@ -112,8 +115,8 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
                     }
                 })
 
+                searchElement = resultCheckbox
 
-                searchElement = <>{resultCheckbox}</>
             } else if (type == 'date') {
                 const { dateStart, dateEnd } = searchByField[ID] || {}
                 const rangeDateStart = dateStart || nowTimestamp
@@ -132,6 +135,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
                             setDataGridHookState({ ...dataGridHookState })
                         } } />
                 )
+
             } else {
                 searchElement = (
                     <Input theme={ inputTheme } value={ searchByField[ID] || '' } autofocus

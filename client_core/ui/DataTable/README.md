@@ -33,8 +33,10 @@ Configurable and flexible data grid to manage big amount of data, built on top o
 
 - `entities`
     - **Required**
-    - **Entities**
-    - Data entities created with [entities struct](https://github.com/CyberCookie/siegel/blob/master/client_core/utils/entities_struct.ts)<br /><br />
+    - **Object** with the next fields:
+        - `byID` - **Object**. represents all the entities where key is an entity uniq ID<br />
+            and value as an entity itself
+        - `sorted` - **String[]**. Array of uniq IDs thats represent entities order within DataTable<br /><br />
 
 - `columnsConfig`
     - **Required**
@@ -45,13 +47,13 @@ Configurable and flexible data grid to manage big amount of data, built on top o
         - `customParams` - **Any**. some data you may use in extended dataTable
         - `showValue` - **Required** **Function**. Triggers for each entity to be displayed in a **DataTable**
             - Has **2** arguments:
-                - **entity** - **Entity**. Represents each entity stored in **Entities** struct
+                - **entity** - **Object**. Represents each entity stored in **props.entities.byID**
                 - **index** - Column index
             - Returns **TableTD**
         - `onSort` - **Function**. Specify how this column should be sorted
             - Has **3** arguments:
-                - **IDs** - **String[]**. All entity IDs to be sorted
-                - **byID** - **Object**. Where key is entity ID and value is **Entity**
+                - **IDs** - **props.entities.sorted**
+                - **byID** - **props.entities.byID**
                 - **value** - **Number**. Sort vakue
             - Returns IDs: **String[]**
         - `onFilter` - **Function**. Specify how this column should be filtered
@@ -66,8 +68,8 @@ Configurable and flexible data grid to manage big amount of data, built on top o
             - `ID` - **String** - column ID to apply sorting to
             - `value` - **Number** - sort value **-1 | 0 | 1**
         - `searchByField` - **Object** where key is column ID and value is **Any**
-        - `toggleColumns` - `Set of columns IDs`. Using to toggle specified columns
-        - `showPerPage` - `Number`. Quantity of items showing per one page
+        - `toggleColumns` - **Set<props.columnsConfig.ID>**. Using to toggle specified columns
+        - `showPerPage` - **Number**. Quantity of items showing per one page
         - `currentPage` - **Number**. Current selected page<br /><br />
 
 - `withFooter`
@@ -117,7 +119,7 @@ Configurable and flexible data grid to manage big amount of data, built on top o
     - Post process each body row by mutating it
     - **Function**. Has **3** arguments:
         - **row** - **TableBodyRow[]**. Represents table body row
-        - **entity** - **Entity**. Entity displayed in this row
+        - **entity** - **Object**. Entity displayed in this row
         - **index** - **Number**. Row index
 
 
@@ -152,8 +154,3 @@ Both are **Object** with the next fields:
 Both are **Object[]** with the next fields:
 - `children` - **(TableTH | TableTD)[]** - Row cells
 - `attributes` - **tr** tag attributes
-
-### Entities
-
-As mention above, **Entities** is a struct created with **entities_struct** util<br />
-**Entity** is every data **Object** within **Entities** struct
