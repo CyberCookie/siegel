@@ -85,7 +85,6 @@
         "ts-node": "10.9.1",
         "ttf2woff": "3.0.0",
         "ttf2woff2": "4.0.5",
-        "typescript-plugin-css-modules": "^3.4.0",
         "webpack": "5.74.0",
         "webpack-dev-middleware": "5.3.3",
         "webpack-hot-middleware": "2.25.1",
