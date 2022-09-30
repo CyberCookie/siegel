@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { ComponentAttributes } from './types'
+import { ReactTagAttributes } from './types'
 
 
 type WithLabel = (
     input: JSX.Element,
-    labelProps: ComponentAttributes<HTMLLabelElement>,
-    labelTextProps: ComponentAttributes<HTMLDivElement>
+    labelProps: ReactTagAttributes<HTMLLabelElement>,
+    labelTextProps: ReactTagAttributes<HTMLDivElement>
 ) => JSX.Element
 
 

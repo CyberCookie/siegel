@@ -3,8 +3,6 @@ import React from 'react'
 import { Table, TableProps } from 'app/components'
 
 
-const { ID } = Table
-
 const Demo = () => {
     const props: TableProps = {
         caption: 'Some table',
@@ -62,8 +60,7 @@ const Demo = () => {
         <Table { ...props } />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Table'
+Demo.coreSrcDirName = 'Table'
 
 
 export default Demo

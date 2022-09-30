@@ -1,6 +1,6 @@
 import React from 'react'
 
-import type { ComponentAttributes } from '../../_internals/types'
+import type { ReactTagAttributes } from '../../_internals/types'
 import type { MergedProps, State, onSelectInner } from '../types'
 
 
@@ -27,7 +27,7 @@ function getSearchOptions(props: MergedProps, state: State, onSelect: onSelectIn
             ||  (!searchLower || inputValue.toLowerCase().includes(searchLower))
 
         if (canPush) {
-            const optionProps: ComponentAttributes<HTMLDivElement> = {
+            const optionProps: ReactTagAttributes<HTMLDivElement> = {
                 className: theme.option,
                 children: title || inputValue,
                 key: value

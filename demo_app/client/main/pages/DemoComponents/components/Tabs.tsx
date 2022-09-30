@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Tabs } from 'app/components'
 
 
-const { ID } = Tabs
-
 const tabsData = ([1,2,3]).map(id => ({
     id: id.toString(),
     content: <div>content {id}</div>,
@@ -24,8 +22,7 @@ const Demo = () => {
             } } />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Tabs'
+Demo.coreSrcDirName = 'Tabs'
 
 
 export default Demo

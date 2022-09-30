@@ -1,6 +1,6 @@
 import React from 'react'
 
-import type { ComponentAttributes } from '../../_internals/types'
+import type { ReactTagAttributes } from '../../_internals/types'
 import type { MergedProps, Store } from '../types'
 
 
@@ -38,7 +38,7 @@ function getOptions(
         }
         className && (optionClassName += ` ${className}`)
 
-        const optionProps: ComponentAttributes<HTMLDivElement> = {
+        const optionProps: ReactTagAttributes<HTMLDivElement> = {
             children: title,
             className: optionClassName,
             key: value

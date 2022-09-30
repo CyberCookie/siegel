@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Slider, SliderProps } from 'app/components'
 
 
-const { ID } = Slider
-
 const slides = (new Array(4))
     .fill(0)
     .map((_, i) => () => `slide ${i + 1}`)
@@ -28,8 +26,7 @@ const Demo = () => {
             store={ storeForExample2 } />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Slider'
+Demo.coreSrcDirName = 'Slider'
 
 
 export default Demo

@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { ErrorBoundary } from 'app/components'
 
 
-const { ID } = ErrorBoundary
-
 const ComponentWithError = () => {
     throw Error('component error')
     return <div />
@@ -29,8 +27,7 @@ const Demo = () => {
         )}
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'ErrorBoundary'
+Demo.coreSrcDirName = 'ErrorBoundary'
 
 
 export default Demo

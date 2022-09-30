@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, CoreUIComponent, NewComponentAttributes, ComponentAttributes
+    PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes, ReactTagAttributes
 } from '../_internals/types'
 
 
@@ -9,7 +9,7 @@ type onChangeEventType = React.ChangeEvent<HTMLInputElement> | React.KeyboardEve
 
 type InnerInputAttributes = {
     onChange?(e: onChangeEventType): void
-} & ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+} & ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 
 type InputRef = React.MutableRefObject<HTMLInputElement>
 
@@ -44,11 +44,11 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     disabled?: boolean
     autofocus?: boolean
     placeholder?: string
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
-    inputAttributes?: NewComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
+    inputAttributes?: CoreUIReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
     label?: React.ReactNode
     errorMsg?: React.ReactNode
-    type?: 'input' | 'textarea' | 'password' | 'color' | 'date' | 'week' | 'month' | 'time' | 'datetime-local'
+    type?: 'text' | 'textarea' | 'password' | 'color' | 'date' | 'week' | 'month' | 'time' | 'datetime-local'
     payload?: _Payload
     regexp?: RegExp
     debounceMs?: number

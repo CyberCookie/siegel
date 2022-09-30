@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import Swipe, { Props, componentID } from 'siegel-ui/Swipe'
+import Swipe, { Props } from 'siegel-ui/Swipe'
 
 import theme from './styles.sass'
 
@@ -28,7 +28,7 @@ const Demo = () => {
         <Swipe { ...props } className={ horizaontalSwuipeClassName } deltaPos={ 30 } xAxis />
     </>
 }
-Demo.id = componentID
+Demo.coreSrcDirName = 'Swipe'
 
 
 export default Demo

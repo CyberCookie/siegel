@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { NumberPicker, NumberPickerProps } from 'app/components'
 
 
-const { ID } = NumberPicker
-
 const Demo = () => {
     const [ value, setValue ] = useState('')
     const props: NumberPickerProps = {
@@ -29,8 +27,7 @@ const Demo = () => {
         <NumberPicker { ...props } step={ 1 } disabled />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'NumberPicker'
+Demo.coreSrcDirName = 'NumberPicker'
 
 
 export default Demo

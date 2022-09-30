@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, CoreUIComponent, NewComponentAttributes
+    PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes
 } from '../_internals/types'
 import type { Props as InputProps } from '../Input/types'
 
@@ -28,7 +28,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
         payload: _Payload
     }): void
     children?: React.ReactNode
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
     step?: number
     min?: number
     max?: number

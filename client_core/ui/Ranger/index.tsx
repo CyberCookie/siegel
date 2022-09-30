@@ -6,7 +6,7 @@ import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import { getRangeAreaElements, normalizeValue } from './helpers'
 
-import type { ComponentAttributes } from '../_internals/types'
+import type { ReactTagAttributes } from '../_internals/types'
 import type { State, RangeCrossTypeMap, Component, Props } from './types'
 
 import styles from './styles.sass'
@@ -71,7 +71,7 @@ const Ranger: Component = component(
         isSingle && (rootProps.className += ` ${theme._single_picker}`)
         isVertical && (rootProps.className += ` ${theme._vertical} ${styles._vertical}`)
 
-        const rangeAreaProps: ComponentAttributes<HTMLDivElement> = {
+        const rangeAreaProps: ReactTagAttributes<HTMLDivElement> = {
             className: `${theme.range_area} ${styles.range_area}`,
             children: getRangeAreaElements(props, valueValidated, isSingle)
         }

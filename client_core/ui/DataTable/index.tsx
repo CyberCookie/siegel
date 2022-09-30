@@ -15,7 +15,7 @@ import {
     GetPaginationFnProps
 } from './helpers'
 
-import type { ComponentAttributes } from '../_internals/types'
+import type { ReactTagAttributes } from '../_internals/types'
 import type {
     Component, DataTableTableProps, State, Props,
     ColumnsConfig, SortState
@@ -53,7 +53,7 @@ const DataTable: Component = component(
 
         const [ hookState ] = store || useState( getDefaultState() )
 
-        let rootAttributes: ComponentAttributes<HTMLDivElement> = { className }
+        let rootAttributes: ReactTagAttributes<HTMLDivElement> = { className }
 
         if (withFooter) {
             if (!hookState.showPerPage && withFooter.select) {

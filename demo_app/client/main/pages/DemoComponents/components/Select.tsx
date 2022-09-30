@@ -9,8 +9,6 @@ type DemoSelectStore = ReactStore<DemoSelectState>
 type DemoSelectProps = SelectProps<DemoSelectState>
 
 
-const { ID } = Select
-
 const getSelectDisplayValue = ({ title }: DemoSelectProps['options'][number]) => 'selected - ' + title
 
 const Demo = () => {
@@ -44,8 +42,7 @@ const Demo = () => {
         <Select { ...props } disabled />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Select'
+Demo.coreSrcDirName = 'Select'
 
 
 export default Demo

@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreUIComponent
+    PropsComponentThemed, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -21,7 +21,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     payload?: _Payload
     disabled?: boolean
     onChange?(value: boolean, e: React.MouseEvent, payload: _Payload): void
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }>
 
 type DefaultProps = NonNullableKeys<{

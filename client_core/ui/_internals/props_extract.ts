@@ -8,17 +8,13 @@ const mergeThemes = (prevTheme: Indexable, nextTheme: Indexable | undefined) => 
 )
 
 function extractProps<
-    T extends PropsComponentThemed,
-    U extends PropsComponentThemed
+    _PrevProps extends PropsComponentThemed,
+    _NextProps extends PropsComponentThemed
 >
-(
-    prevProps: T,
-    newProps: U,
-    withMergedDefaults: boolean
-) {
+(prevProps: _PrevProps, newProps: _NextProps) {
 
     const { className: prevClassName, theme: prevTheme } = prevProps
-    const { className: nextClassName, theme: nextTheme } = newProps
+    const { className: nextClassName, theme: nextTheme, __with_defaults } = newProps
 
 
     const result = Object.assign({}, prevProps, newProps)
@@ -29,7 +25,7 @@ function extractProps<
     if (prevTheme) {
         result.theme = mergeThemes(prevTheme, nextTheme)
 
-        if(withMergedDefaults) {
+        if(__with_defaults) {
             if (nextTheme?.root) {
                 result.className = result.className.replace(prevTheme.root!, nextTheme.root)
             }

@@ -32,7 +32,7 @@ const DemoPage: Page = () => {
     for (const component in demoComponents) {
         const props: SidebarItemProps = {
             key: component,
-            children: _demoComponents[component].id,
+            children: _demoComponents[component].coreSrcDirName,
             onMouseDown() {
                 updateURLQuery(hashParam, component)
                 setActive(component)
@@ -54,11 +54,11 @@ const DemoPage: Page = () => {
                 { ActiveComponent &&
                     <>
                         <div className={ styles.component_title }>
-                            { ActiveComponent.id }
+                            { ActiveComponent.coreSrcDirName }
 
-                            { ActiveComponent.coreSourcesPath && (
+                            { ActiveComponent.coreSrcDirName[0] != '_' && (
                                 <Link title={ icons.git }
-                                    path={ `${GIT_CORE_UI_PREFIX}/${ActiveComponent.coreSourcesPath}` } />
+                                    path={ `${GIT_CORE_UI_PREFIX}/${ActiveComponent.coreSrcDirName}` } />
                             )}
                         </div>
 

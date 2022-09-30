@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Popup, PopupProps } from 'app/components'
 
 
-const { ID } = Popup
-
 const Demo = () => {
     const [ isActivePopup, setActivePopup ] = useState(false)
 
@@ -23,8 +21,7 @@ const Demo = () => {
         { isActivePopup && <Popup { ...props } /> }
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Popup'
+Demo.coreSrcDirName = 'Popup'
 
 
 export default Demo

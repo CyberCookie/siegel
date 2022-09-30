@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Radio, RadioProps } from 'app/components'
 
 
-const { ID } = Radio
-
 const options = ([1,2,3]).map(i => ({
     id: i.toString(),
     content: `option ${i}`
@@ -41,8 +39,7 @@ const Demo = () => {
         <Radio { ...props } disabled />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Radio'
+Demo.coreSrcDirName = 'Radio'
 
 
 export default Demo

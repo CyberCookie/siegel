@@ -1,5 +1,5 @@
 import type {
-    PropsComponentBase, NewComponentAttributes, CoreUIComponent
+    PropsComponentBase, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -10,7 +10,7 @@ type Props = PropsComponentBase<{
     children?: React.ReactNode
     xAxis?: boolean
     deltaPos?: number
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }>
 
 type DefaultProps = NonNullableKeys<{

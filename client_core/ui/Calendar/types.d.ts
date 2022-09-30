@@ -1,4 +1,4 @@
-import type { PropsComponentThemed, CoreUIComponent, NewComponentAttributes } from '../_internals/types'
+import type { PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes } from '../_internals/types'
 
 
 type PostProcessCalendarDayParams = {
@@ -71,7 +71,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     triggerOnlyWhenFinished?: boolean
     payload?: _Payload
     rangePick?: boolean
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
     strings?: StringValues | (() => StringValues)
 }>
 

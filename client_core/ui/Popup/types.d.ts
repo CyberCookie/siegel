@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreUIComponent
+    PropsComponentThemed, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -12,7 +12,7 @@ type Props = PropsComponentThemed<Theme, {
     onClose(e: React.MouseEvent): void
     closeIcon?: React.ReactNode
     content?: React.ReactNode
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }>
 
 type DefaultProps = NonNullableKeys<{

@@ -1,16 +1,16 @@
 import isNullable from '../../../common/is/nullable'
 
-import type { ComponentAttributes, NewComponentAttributes } from '../_internals/types'
+import type { ReactTagAttributes, CoreUIReactTagAttributes } from '../_internals/types'
 
 
 type MergeRecursive = (
-    defaultAttributes: ComponentAttributes & Indexable,
-    newAttributes: ComponentAttributes & Indexable
-) => ComponentAttributes
+    defaultAttributes: ReactTagAttributes & Indexable,
+    newAttributes: ReactTagAttributes & Indexable
+) => ReactTagAttributes
 
-type MergeTagAttributes = <
-    A extends ComponentAttributes<any>,
-    B extends NewComponentAttributes<any>
+type MergeReactTagAttributes = <
+    A extends ReactTagAttributes<any>,
+    B extends CoreUIReactTagAttributes<any>
 >(
     defaultAttributes: A,
     newAttributes: B
@@ -48,10 +48,10 @@ const mergeRecursive: MergeRecursive = (defaultAttributes, newAttributes) => {
     return defaultAttributes
 }
 
-const mergeTagAttributes: MergeTagAttributes = (defaultAttributes, newAttributes) => (
+const mergeTagAttributes: MergeReactTagAttributes = (defaultAttributes, newAttributes) => (
     newAttributes.constructor === Function
         ?   (newAttributes as Function)(defaultAttributes)
-        :   mergeRecursive(defaultAttributes, newAttributes as ComponentAttributes)
+        :   mergeRecursive(defaultAttributes, newAttributes as ReactTagAttributes)
 )
 
 

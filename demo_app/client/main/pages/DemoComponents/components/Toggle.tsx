@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Toggle, ToggleProps, icons } from 'app/components'
 
 
-const { ID } = Toggle
-
 const Demo = () => {
     const [ value, setToggle ] = useState(false)
 
@@ -28,8 +26,7 @@ const Demo = () => {
         <Toggle { ...props } disabled />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Toggle'
+Demo.coreSrcDirName = 'Toggle'
 
 
 export default Demo

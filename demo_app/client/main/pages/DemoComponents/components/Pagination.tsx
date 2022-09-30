@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Pagination, PaginationProps } from 'app/components'
 
 
-const { ID } = Pagination
-
 const Demo = () => {
     const [ curPage, setCur ] = useState(1)
 
@@ -27,8 +25,7 @@ const Demo = () => {
         <Pagination { ...props } elementsByMiddle={ 2 } elementsBySide={ 3 } fixedWidth={ false } />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Pagination'
+Demo.coreSrcDirName = 'Pagination'
 
 
 export default Demo

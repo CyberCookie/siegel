@@ -7,7 +7,7 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
 
-import type { ComponentAttributes } from '../_internals/types'
+import type { ReactTagAttributes } from '../_internals/types'
 import type { MergedProps, Component, Props, Tab } from './types'
 
 
@@ -34,7 +34,7 @@ function getTabsVisual(mergedProps: MergedProps) {
 
             let tabContent = getContent(content)
             if (renderAll) {
-                const wrapperProps: ComponentAttributes<HTMLDivElement> = {
+                const wrapperProps: ReactTagAttributes<HTMLDivElement> = {
                     children: tabContent,
                     key: id
                 }

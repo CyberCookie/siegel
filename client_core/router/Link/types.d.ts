@@ -1,17 +1,17 @@
 import type {
-    PropsComponentBase, CoreUIComponent, ComponentAttributes
+    PropsComponentBase, CoreUIComponent, ReactTagAttributes
 } from '../../ui/_internals/types'
 
 
-type LinkTagAttributes = ComponentAttributes<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>
+type LinkReactTagAttributes = ReactTagAttributes<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>
 
 type Props = PropsComponentBase<
     {
-        href: NonNullable<LinkTagAttributes['href']>
+        href: NonNullable<LinkReactTagAttributes['href']>
         state?: any
         activeClassName?: string
         onClick?: (e: React.MouseEvent) => void
-    } & LinkTagAttributes
+    } & LinkReactTagAttributes
 >
 
 type DefaultProps = {}

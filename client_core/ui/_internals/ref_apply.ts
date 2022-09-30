@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 
-import type { ComponentAttributes, PropsComponentBase } from './types'
+import type { ReactTagAttributes, PropsComponentBase } from './types'
 
 
 function applyRefApi<
-    A extends ComponentAttributes,
+    A extends ReactTagAttributes,
     P extends PropsComponentBase
 >(rootProps: A, mergedProps: P) {
 

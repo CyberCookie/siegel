@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, ComponentAttributes, CoreUIComponent
+    PropsComponentThemed, CoreUIReactTagAttributes, ReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -7,12 +7,12 @@ import type {
 // type WithLabelProps = {
 //     label: React.ReactNode
 //     icon?: never
-//     attributes?: ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+//     attributes?: ReactTagAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 // }
 // type WithIconProps = {
 //     icon: React.ReactNode
 //     label?: never
-//     attributes?: ComponentAttributes<HTMLDivElement>
+//     attributes?: ReactTagAttributes<HTMLDivElement>
 // }
 // type NoIconLabelProps = {
 //     attributes?: never
@@ -22,17 +22,17 @@ import type {
 // type WithLabelAndIconProps = {
 //     label: React.ReactNode
 //     icon: React.ReactNode
-//     attributes?: ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+//     attributes?: ReactTagAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 // }
 
-type CheckboxRootAttrs = NewComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
-type CheckboxInnerProps = ComponentAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+type CheckboxRootAttrs = CoreUIReactTagAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+type CheckboxInnerProps = ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 
-type WithIconRootAttrs = NewComponentAttributes<HTMLDivElement>
-type IconWrapperInnerProps = ComponentAttributes<HTMLDivElement>
+type WithIconRootAttrs = CoreUIReactTagAttributes<HTMLDivElement>
+type IconWrapperInnerProps = ReactTagAttributes<HTMLDivElement>
 
-type WithLabelRootAttrs = NewComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
-type LabelInnerProps = ComponentAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+type WithLabelRootAttrs = CoreUIReactTagAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+type LabelInnerProps = ReactTagAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 
 
 type Theme = {
@@ -47,7 +47,7 @@ type Theme = {
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
     value: boolean
     onChange?(checked: Props['value'], e: React.MouseEvent, payload: _Payload): void
-    checkboxAttributes?: NewComponentAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+    checkboxAttributes?: CoreUIReactTagAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
     rootTagAttributes?: WithIconRootAttrs | WithLabelRootAttrs
     label?: React.ReactNode
     icon?: React.ReactNode

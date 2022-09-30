@@ -4,7 +4,7 @@ import getFirstMonthDate from '../../get_first_month_date'
 import getDayClassName from './get_day_classname'
 import getCalendarMonthDays from './get_days_data_array'
 
-import type { ComponentAttributes } from '../../../../_internals/types'
+import type { ReactTagAttributes } from '../../../../_internals/types'
 import type { ChildProps } from './types'
 
 import styles from '../../../styles.sass'
@@ -67,7 +67,7 @@ const getDays = (props: ChildProps) => {
     }
 
 
-    const rootProps: ComponentAttributes<HTMLDivElement> = {
+    const rootProps: ReactTagAttributes<HTMLDivElement> = {
         className,
         children: rows,
         onMouseDown(e) {

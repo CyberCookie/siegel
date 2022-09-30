@@ -1,7 +1,7 @@
 import React from 'react'
 
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreUIComponent
+    PropsComponentThemed, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -42,7 +42,7 @@ type Props = PropsComponentThemed<Theme, {
     rangersCrossBehavior?: 'stop' | 'move' | 'cross'
     rangePickIcon?: React.ReactNode
     label?: React.ReactNode
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
     disabled?: boolean
 }>
 

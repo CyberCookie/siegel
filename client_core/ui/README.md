@@ -31,6 +31,7 @@ Components list:
 - [Tabs](https://github.com/CyberCookie/siegel/tree/master/client_core/ui/Tabs)
 - [Toggle](https://github.com/CyberCookie/siegel/tree/master/client_core/ui/Toggle)
 
+
 <br /><br />
 
 ## Theming
@@ -237,4 +238,139 @@ const SomeComponent = () => {
 
     return <Input store={ inputStore } />
 }
+```
+
+<br /><br /><br />
+
+## SASS Utils
+
+Siegel provides several sass utility functions to help you write less<br />
+
+You may include all the utils by importing them directly to your main css file:
+
+```sass
+@import '~siegel/lib/client_core/ui/utils'
+```
+
+<br /><br />
+
+## font
+
+```sass
+.class
+    +font(12px, 14px, grey, 600)
+```
+
+Produces
+```sass
+.class
+    font-size: 12px
+    line-height: 14px
+    color: grey
+    font-weight: 600
+```
+
+<br /><br />
+
+## flex
+
+```sass
+.class
+    +flex(space-between, center)
+```
+
+Produces
+```sass
+.class
+    display: flex
+    justify-content: space-between
+    align-items: center
+```
+
+<br /><br />
+
+## absolute
+
+```sass
+.class
+    +absolute(8px, 0px, 16px, 0px)
+```
+
+Produces
+```sass
+.class
+    position: absolute
+    top: 8px
+    right: 0
+    bottom: 16px
+    left: 0px
+```
+
+<br /><br />
+
+
+All the util parameters are optional:
+
+```sass
+.class_a
+    +absolute(5px)
+
+.class_b
+    +absolute('', '', '', 16px !important)
+
+.class_c
+    +font(16px, '', white)
+```
+
+Procuces
+```sass
+.class_a
+    position: absolute
+    top: 5px
+
+.class_b
+    position: absolute
+    bottom: 16px !important
+
+.class_c
+    font-size: 16px
+    color: white
+```
+
+
+You may use another utility function to easily build such mixins -  __if_not_empty__ :
+```sass
+=border_vertical($left_width: '', $right_width: '', $color: '')
+    +if_not_empty($left_width)
+        border-left-width: $left_width
+    
+    +if_not_empty($right_width)
+        border-right-width: $right_width
+    
+    +if_not_empty($color)
+        border-color: $color
+
+.class
+    +border('', 4px, red)
+```
+
+Will result into
+```sass
+.class
+    border-right-width: 4px
+    border-color: red
+```
+
+<br />
+
+Sintatic sugar to read variable with optional fallback:
+
+```sass
+    .class_a
+        --some_var: red
+        color: v(some_var, green)
+    
+    .class_a
+        --some_var: red
+        color: var(--some_var, green)
 ```

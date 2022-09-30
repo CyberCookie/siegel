@@ -3,8 +3,6 @@ import React from 'react'
 import { Calendar, CalendarProps } from 'app/components'
 
 
-const { ID } = Calendar
-
 const timestamp = Date.now()
 
 const Demo = () => {
@@ -24,8 +22,7 @@ const Demo = () => {
         <Calendar { ...props } monthsBefore={ 1 } monthsAfter={ 1 } rangePick />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Calendar'
+Demo.coreSrcDirName = 'Calendar'
 
 
 export default Demo

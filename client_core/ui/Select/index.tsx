@@ -11,7 +11,7 @@ import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getOptions from './helpers/get_options'
 
-import type { ComponentAttributes } from '../_internals/types'
+import type { ReactTagAttributes } from '../_internals/types'
 import type { Component, Props, Store, OnSelect, RootRef } from './types'
 
 
@@ -75,7 +75,7 @@ const Select: Component = component(
         isActive && (className += ` ${theme._active}`)
         isSelected && (className += ` ${theme._filled}`)
 
-        let selectRootProps: ComponentAttributes<HTMLDivElement> = {
+        let selectRootProps: ReactTagAttributes<HTMLDivElement> = {
             className,
             ref: useRef() as RootRef
         }

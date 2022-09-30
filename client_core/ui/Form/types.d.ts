@@ -1,4 +1,7 @@
-import type { PropsComponentBase, CoreUIComponent, NewComponentAttributes } from '../_internals/types'
+import type {
+    PropsComponentThemed, CoreUIComponent, CoreUIComponentWithDefaults,
+    CoreUIReactTagAttributes
+} from '../_internals/types'
 import type { Component as _Input, Props as InputProps } from '../Input/types'
 import type { Component as _NumberPicker, Props as NumberPickerProps } from '../NumberPicker/types'
 import type { Component as _DropdownSearch, Props as DropdownSearchProps } from '../DropdownSearch/types'
@@ -26,35 +29,50 @@ type ValuesState = Indexable<{
 
 type FormStore = ReactStore<ValuesState>
 
-
-type InputData = {
-    Component: _Input
-    props: InputProps
-}
-type CheckboxData = {
-    Component: _Checkbox
-    props: CheckboxProps
-}
 type Validator = {
     validate(value: ValueStateValue): boolean,
     msg: string
 }
 
+
+type AllProps = InputProps | CheckboxProps// | NumberPickerProps | DropdownSearchProps | SelectProps | ToggleProps
+    //| CheckboxProps | CalendarProps | RangerProps | StepperProps
+
+type InputFormData<
+    _CoreComponent extends CoreUIComponent<any, any>,
+    _Component = CoreUIComponentWithDefaults<_CoreComponent>,
+    _Props = Parameters<_Component>[0]
+> = {
+    Component: _Component
+    props?: Partial<_Props> & Never<Pick<
+        AllProps,
+        Exclude<keyof InputProps | keyof CheckboxProps, keyof _Props>
+    >>
+}
+
 type InputsData = {
-    disabledIf: string | string[]
+    name: string
+    disabledIf?: string | string[]
     validators?: Validator[]
-} & (InputData | CheckboxData)
+} & (InputFormData<_Input> | InputFormData<_Checkbox>)
 
 type InputsArray = (InputsData | (InputsData | InputsData[])[])[]
 
 
-type Props = PropsComponentBase<{
+type Theme = {
+    inputs_row?: string
+    rows_block?: string
+}
+
+type Props = PropsComponentThemed<Theme, {
     onSubmit(values: ValuesState, e: React.FormEvent<HTMLFormElement>): void
     inputs: InputsArray
-    rootTagAttributes?: NewComponentAttributes<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLFormElement, React.FormHTMLAttributes<HTMLFormElement>>
 }>
 
-type DefaultProps = {}
+type DefaultProps = {
+    theme: Required<Props['theme']>
+}
 
 type Component = CoreUIComponent<Props, DefaultProps>
 

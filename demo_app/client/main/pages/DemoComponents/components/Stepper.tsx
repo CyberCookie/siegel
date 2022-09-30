@@ -10,8 +10,6 @@ type State = {
 }
 
 
-const { ID } = Stepper
-
 const stepIDsMap = {
     first: 'first',
     second: 'second',
@@ -89,8 +87,7 @@ const Demo = () => {
             } } />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Stepper'
+Demo.coreSrcDirName = 'Stepper'
 
 
 export default Demo

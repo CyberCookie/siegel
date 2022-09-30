@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreUIComponent
+    PropsComponentThemed, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -40,7 +40,7 @@ type Props = PropsComponentThemed<Theme, {
     config: BreadcrumbConfig
     onChange(fullPath: string, pathPart: string, e: React.MouseEvent): void
     separator?: React.ReactNode
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }>
 
 type DefaultProps = NonNullableKeys<{

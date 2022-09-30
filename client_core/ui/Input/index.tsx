@@ -29,7 +29,6 @@ const getDefaultDebounceState = (state: Partial<DebounceState> = {}) => {
     return state as DebounceState
 }
 
-//[email, password, search, tel, text, url, (textarea)]
 const Input: Component = component(
     componentID,
     {

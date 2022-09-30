@@ -5,6 +5,7 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import inputID from '../Input/id'
 import checkboxID from '../Checkbox/id'
 
+import type { CoreUIComponentWithDefaults } from '../_internals/types'
 import type { Component as _Input, Props as InputProps } from '../Input/types'
 import type { Component as _NumberPicker, Props as NumberPickerProps } from '../NumberPicker/types'
 import type { Component as _DropdownSearch, Props as DropdownSearchProps } from '../DropdownSearch/types'
@@ -41,15 +42,54 @@ const onFormElementChange = (commonChangeProps: CommonChangeProps, value: string
     setValues({ ...values })
 }
 
+function parseInputs(inputs: Props['inputs']) {
+
+    const result: Indexable = {}
+
+    // return inputs.map(inputData => {
+    //     if (Array.isArray(inputData)) {
+    //         const elementsArray = getFormElements(inputData)
+    //     } else {
+    //         const {
+    //             Component, name, disabledIf, props, validators
+    //         } = inputData
+
+    //         switch(Component.ID) {
+    //             case inputID:
+    //                 const InputEl = Component as CoreUIComponentWithDefaults<_Input>
+    //                 const inputProps = props as InputProps
+    //                 return <InputEl key={ name } { ...inputProps } />
+
+    //             case checkboxID:
+    //                 return <CheckboxEl key={ name } { ...checkboxProps } />
+
+    //             default:
+    //                 return ''
+    //         }
+    //     }
+    // })
+
+
+    return result
+}
+
 const Form: Component = component(
     componentID,
-    {},
+    {
+        theme: {
+            root: '',
+            inputs_row: '',
+            rows_block: ''
+        }
+    },
     props => {
 
-        const { onSubmit, className, rootTagAttributes, inputs } = props
+        const { onSubmit, className, rootTagAttributes, theme, inputs } = props
 
         const formStore: FormStore = useState({})
         const [ values, setValues ] = formStore
+
+        const inputsParsedData = parseInputs(inputs)
 
         let formProps = {
             className,
@@ -59,7 +99,7 @@ const Form: Component = component(
 
                 onSubmit(values, e)
             },
-            children: getFormElements()
+            children: []
         }
         rootTagAttributes && (formProps = mergeTagAttributes(formProps, rootTagAttributes))
 
@@ -74,8 +114,8 @@ const Form: Component = component(
         //         :   false
         // }
 
-        function getFormElements() {
-            const result: JSX.Element[] = []
+        // function getFormElements() {
+        //     const result: JSX.Element[] = []
 
             // for (const name in inputs) {
             //     const { Component, props, validators = [], disabledIf } = inputs[name]
@@ -125,8 +165,8 @@ const Form: Component = component(
             // }
 
 
-            return result
-        }
+        //     return result
+        // }
 
 
         return <form { ...formProps } />

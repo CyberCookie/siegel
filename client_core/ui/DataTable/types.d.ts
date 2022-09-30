@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreUIComponent, CoreUIComponentWithDefaults
+    PropsComponentThemed, CoreUIReactTagAttributes, CoreUIComponent, CoreUIComponentWithDefaults
 } from '../_internals/types'
 import type { TableTH, TableTD, TableBodyRow, TableHeadRow, Props as TableProps } from '../Table/types'
 import type { Props as SelectProps, Component as SelectComponent } from '../Select/types'
@@ -63,7 +63,7 @@ type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentTheme
     }
     columnsConfig: ColumnsConfig<_Entity, _ColumnParamsExtend>[]
     store?: ReactStore<State>
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
     withFooter?: {
         displayQuantity?(quantity: number): React.ReactNode
         select?: {

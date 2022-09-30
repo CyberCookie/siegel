@@ -1,4 +1,4 @@
-import type { PropsComponentThemed, CoreUIComponent, NewComponentAttributes } from '../_internals/types'
+import type { PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes } from '../_internals/types'
 import type { Props as InputProps } from '../Input/types'
 
 
@@ -45,7 +45,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     ): void
     children?: React.ReactNode
     store?: Store
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
     minInputLength?: number
     showOnFocus?: boolean
     listDisabledOptions?: boolean

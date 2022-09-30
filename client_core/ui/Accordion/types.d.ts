@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreUIComponent
+    PropsComponentThemed, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -35,7 +35,7 @@ type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
     {
         accordionIcon?: React.ReactNode
         soloOpen?: boolean
-        rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+        rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
         autoExpand?: boolean
         store?: ReactStore<{
             expandedPaths: Indexable

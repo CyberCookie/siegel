@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Checkbox, CheckboxProps } from 'app/components'
 
 
-const { ID } = Checkbox
-
 const Demo = () => {
     const [ isChecked, setChecked ] = useState(false)
 
@@ -29,8 +27,7 @@ const Demo = () => {
         <Checkbox { ...props } disabled />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Checkbox'
+Demo.coreSrcDirName = 'Checkbox'
 
 
 export default Demo

@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Button, ButtonProps, icons } from 'app/components'
 
 
-const { ID } = Button
-
 const Demo = () => {
     const [ counter, setCounter ] = useState(0)
 
@@ -26,8 +24,7 @@ const Demo = () => {
         <Button { ...props } disabled />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Button'
+Demo.coewSrcDirName = 'Button'
 
 
 export default Demo

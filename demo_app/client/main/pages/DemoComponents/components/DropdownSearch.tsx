@@ -6,8 +6,6 @@ import { DropdownSearch, DropdownSearchProps, icons } from 'app/components'
 type DemoDropdownSearchProps = DropdownSearchProps<number>
 
 
-const { ID } = DropdownSearch
-
 const options: DemoDropdownSearchProps['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: number) => ({
     inputValue: 'option ' + i,
     value: i,
@@ -41,8 +39,7 @@ const Demo = () => {
         <DropdownSearch { ...props } disabled />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'DropdownSearch'
+Demo.coreSrcDirName = 'DropdownSearch'
 
 
 export default Demo

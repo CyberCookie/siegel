@@ -1,53 +1,53 @@
-type ComponentAttributes<
-    E = HTMLElement,
-    A = React.HTMLAttributes<E>
-> = A & React.RefAttributes<E>
-
-type NewComponentAttributes<
-    E = HTMLElement,
-    A = React.HTMLAttributes<E>,
-    CA = Partial<ComponentAttributes<E, A>>
-> = CA | ((defAttributes: CA) => CA)
-
-
-
-type ComponentRefApi<Props> = {
-    getRef(ref: HTMLElement, props: Props): void
-    getOnPropsUpdate?(props: Props): any[]
+type ComponentRefApi<_Props> = {
+    getRef(ref: HTMLElement, props: _Props): void
+    getOnPropsUpdate?(props: _Props): any[]
 }
 
-type PropsComponentBase<Props extends Indexable = Indexable> = {
+type PropsComponentBase<_Props extends Indexable = Indexable> = {
     className?: string
-    refApi?: ComponentRefApi<PropsComponentBase<Props>>
-    memoDeps?(prevProps: PropsComponentBase<Props>, nextProps: PropsComponentBase<Props>): boolean
-} & Props
+    refApi?: ComponentRefApi<PropsComponentBase<_Props>>
+    memoDeps?(
+        prevProps: PropsComponentBase<_Props>,
+        nextProps: PropsComponentBase<_Props>
+    ): boolean
+} & _Props
 
-type ThemeProps<T> = {
+type ThemeProps<_Theme> = {
     theme?: {
         root?: string
-    } & T
+    } & _Theme
 }
 type PropsComponentThemed<
-    Theme extends Indexable = Indexable,
-    Props extends Indexable = Indexable,
-    _ThemeProps = ThemeProps<Theme>
-> = PropsComponentBase<Props & _ThemeProps>
+    _Theme extends Indexable = Indexable,
+    _Props extends Indexable = Indexable,
+    _ThemeProps = ThemeProps<_Theme>
+> = PropsComponentBase<_Props & _ThemeProps>
 
 
 
-type CoreUIComponent<P extends PropsComponentThemed, D extends Partial<P>> = {
-    defaults: D
+type CoreUIReactTagAttributes<
+    _Elem = HTMLElement,
+    _ReactElemAttr = React.HTMLAttributes<_Elem>,
+    _ComponentAttr = Partial<ReactTagAttributes<_Elem, _ReactElemAttr>>
+> = _ComponentAttr | ((defAttributes: _ComponentAttr) => _ComponentAttr)
+
+type CoreUIComponent<
+    _Props extends PropsComponentThemed,
+    _Defaults extends Partial<P>
+> = {
+    defaults: _Defaults
     ID: string
-} & React.MemoExoticComponent<(props: P) => JSX.Element>
+} & React.MemoExoticComponent<(props: _Props) => JSX.Element>
 
-type CoreUIComponentWithDefaults<C extends CoreUIComponent<any, any>> = {
-    (...args: Parameters<C>): ReturnType<C>
-    ID: C['ID']
+type CoreUIComponentWithDefaults<_Component extends CoreUIComponent<any, any>> = {
+    (...args: Parameters<_Component>): ReturnType<_Component>
+    ID: _Component['ID']
+    defaults: _Component['defaults']
 }
 
 
 export type {
-    ComponentAttributes, NewComponentAttributes,
+    ReactTagAttributes, CoreUIReactTagAttributes,
     ComponentRefApi,
     CoreUIComponent, CoreUIComponentWithDefaults,
     PropsComponentBase, PropsComponentThemed

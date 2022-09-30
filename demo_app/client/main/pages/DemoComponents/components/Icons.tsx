@@ -3,8 +3,6 @@ import React from 'react'
 import { icons, IconName } from 'app/components'
 
 
-const ID = 'icon font'
-
 const iconWrapperStyles: React.CSSProperties = {
     fontSize: '32px',
     display: 'inline-flex',
@@ -36,7 +34,7 @@ const Demo = () => <>
 
     { getIcons() }
 </>
-Demo.id = ID
+Demo.coreSrcDirName = '_icons'
 
 
 export default Demo

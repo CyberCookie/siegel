@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreUIComponent
+    PropsComponentThemed, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -27,7 +27,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     iconNext?: React.ReactNode
     separator?: React.ReactNode
     payload?: _Payload
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
     fixedWidth?: boolean
 }>
 

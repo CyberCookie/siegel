@@ -84,11 +84,11 @@ type CSSWithVariables = {
     [key: string]: string | number
 } & React.CSSProperties
 
-type AttributesWithData = {
-    [key: string]: string | number
-} & React.HTMLAttributes<HTMLDivElement>
-
-
-
+type ReactTagAttributes<
+    E = HTMLElement,
+    A = React.HTMLAttributes<E>
+> = {
+    [key: `data-${string}`]: string | undefined
+} & A & React.RefAttributes<E>
 
 type ReactStore<State> = [ State, React.Dispatch<React.SetStateAction<State>> ]

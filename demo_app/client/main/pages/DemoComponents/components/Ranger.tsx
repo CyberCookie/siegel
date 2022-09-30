@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Ranger, RangerProps } from 'app/components'
 
 
-const { ID } = Ranger
-
 const Demo = () => {
     const [ state, setState ] = useState({
         valueSingle: [ 0.5 ],
@@ -80,8 +78,7 @@ const Demo = () => {
         <Ranger { ...propsSingle } disabled />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Ranger'
+Demo.coreSrcDirName = 'Ranger'
 
 
 export default Demo

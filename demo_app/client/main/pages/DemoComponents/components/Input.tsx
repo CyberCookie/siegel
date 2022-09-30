@@ -4,8 +4,6 @@ import maskProcessor from 'siegel-ui/Input/mask_processor'
 import { icons, Input, InputProps } from 'app/components'
 
 
-const { ID } = Input
-
 const Demo = () => {
     const [ inputValue, setInputValue ] = useState('')
 
@@ -19,7 +17,7 @@ const Demo = () => {
 
 
     return <>
-        <h2 children='simple' />
+        <h2 children='simple' color='20px' />
         <Input { ...props } />
 
         <h2 children='with error, label and extra content as icon, autofocus' />
@@ -44,8 +42,7 @@ const Demo = () => {
         <Input { ...props } disabled />
     </>
 }
-Demo.id = ID
-Demo.coreSourcesPath = 'Input'
+Demo.coreSrcDirName = 'Input'
 
 
 export default Demo

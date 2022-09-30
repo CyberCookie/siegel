@@ -152,12 +152,19 @@ const DropdownSearch: Component = component(
                     ?   selectedOption.inputValue
                     :   ''
         }
-        resetIcon && selected && (inputInnerProps.rootTagAttributes = {
-            children: (
+        if (resetIcon && selected) {
+            const resetIconElem = (
                 <div className={ theme.reset } children={ resetIcon }
                     onMouseDown={ resetSelected } />
             )
-        })
+
+            inputInnerProps.children = inputChildren
+                ?   <>
+                        { inputChildren }
+                        { resetIconElem }
+                    </>
+                :   resetIconElem
+        }
 
 
         return (

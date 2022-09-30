@@ -11,8 +11,6 @@ import type { Entity, DemoDataTableProps } from './types'
 import styles from './styles.sass'
 
 
-const { ID } = DataTable
-
 function getMockEntities(count: number) {
     const entitiesStruct = createEntitiesStruct<Entity>('id')
 
@@ -88,7 +86,7 @@ const Demo = () => {
         <DataTable { ...virtualizationProps } />
     </>
 }
-Demo.id = ID
+Demo.coreSrcDirName = 'DataTable'
 
 
 export default Demo

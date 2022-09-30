@@ -1,10 +1,10 @@
 import type {
-    PropsComponentBase, ComponentAttributes, NewComponentAttributes, CoreUIComponent
+    PropsComponentBase, ReactTagAttributes, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
 type TableRow = {
-    attributes?: ComponentAttributes<HTMLTableRowElement, React.TableHTMLAttributes<HTMLTableRowElement>>
+    attributes?: ReactTagAttributes<HTMLTableRowElement, React.TableHTMLAttributes<HTMLTableRowElement>>
 }
 
 type TableCell = {
@@ -13,14 +13,14 @@ type TableCell = {
 
 
 type TableTH = {
-    attributes?: ComponentAttributes<HTMLTableHeaderCellElement, React.ThHTMLAttributes<HTMLTableHeaderCellElement>>
+    attributes?: ReactTagAttributes<HTMLTableHeaderCellElement, React.ThHTMLAttributes<HTMLTableHeaderCellElement>>
 } & TableCell
 type TableHeadRow = {
     children: TableTH[]
 } & TableRow
 
 type TableTD = {
-    attributes?: ComponentAttributes<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>
+    attributes?: ReactTagAttributes<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>
 } & TableCell
 type TableBodyRow = {
     children: TableTD[]
@@ -33,7 +33,7 @@ type Props = PropsComponentBase<{
     body?: TableBodyRow[]
     foot?: TableBodyRow[]
     caption?: React.ReactNode
-    rootTagAttributes?: NewComponentAttributes<HTMLTableElement, React.TableHTMLAttributes<HTMLTableElement>>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLTableElement, React.TableHTMLAttributes<HTMLTableElement>>
 }>
 
 type DefaultProps = {}

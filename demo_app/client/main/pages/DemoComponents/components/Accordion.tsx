@@ -3,8 +3,6 @@ import React from 'react'
 import { Accordion, AccordionProps } from 'app/components'
 
 
-const { ID } = Accordion
-
 const list: AccordionProps['list'] = [
     { title: 'item 1' },
     {
@@ -57,8 +55,7 @@ const Demo = () => <>
     <h2 children='with custom list props and builder' />
     <Accordion { ...customListAccordionProps } />
 </>
-Demo.id = ID
-Demo.coreSourcesPath = 'Accordion'
+Demo.coreSrcDirName = 'Accordion'
 
 
 export default Demo

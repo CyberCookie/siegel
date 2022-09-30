@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, NewComponentAttributes, CoreUIComponent
+    PropsComponentThemed, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -28,7 +28,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
         payload?: _Payload
     }[]
     disabled?: boolean
-    rootTagAttributes?: NewComponentAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }> & (MultiSelectProps | SingleSelectProps)
 
 type DefaultProps = NonNullableKeys<{

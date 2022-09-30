@@ -1,4 +1,4 @@
-import type { ComponentAttributes } from '../../_internals/types'
+import type { ReactTagAttributes } from '../../_internals/types'
 import type { MergedProps, State } from '../types'
 
 
@@ -31,7 +31,7 @@ type GetWindowSlideRanges = (params: {
 
 type UseVirtualizationParams = {
     hookState: State
-    rootAttributes: ComponentAttributes<HTMLDivElement>
+    rootAttributes: ReactTagAttributes<HTMLDivElement>
     props: MergedProps
 }
 type VirtualizationMergedProps = {

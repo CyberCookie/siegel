@@ -5,8 +5,6 @@ import { Clocks, ClocksProps } from 'app/components'
 import styles from './styles.sass'
 
 
-const { ID } = Clocks
-
 const timeBuilder = ({ date, month, year, hours, minutes, seconds }: Parameters<NonNullable<ClocksProps['builder']>>[0]) => (
     `${date} . ${month} . ${year} | ${hours} : ${minutes} : ${seconds}`
 )
@@ -43,7 +41,7 @@ const Demo = () => {
         </div>
     </>
 }
-Demo.id = ID
+Demo.coreSrcDirName = 'Clocks'
 
 
 export default Demo
