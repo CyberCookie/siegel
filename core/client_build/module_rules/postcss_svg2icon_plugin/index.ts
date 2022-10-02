@@ -1,4 +1,4 @@
-//TODO: external font file
+//TODO: extract to separate font file
 
 
 import path from 'path'

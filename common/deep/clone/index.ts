@@ -21,7 +21,7 @@ function deepClone<T>(value: T, opts: Options = {}): T {
         }
 
     } else if ((value as unknown as Function).constructor === Function) {
-        result = opts.funcClone?.(value as unknown as Function) || value
+        result = opts.funcClone?.(value as unknown as Function) || value as Function
 
     } else result = new (value as any).constructor(value)
 

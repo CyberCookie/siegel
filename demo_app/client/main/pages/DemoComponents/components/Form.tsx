@@ -57,15 +57,13 @@ const inputs: FormProps['inputs'] = [
     }
 ]
 
-const Demo = () => {
-
-
-    return <>
+const Demo = () => (
+    <>
         <h2 children='simple' />
         <Form inputs={ inputs }
             onSubmit={ () => {console.log('submit')} }/>
     </>
-}
+)
 Demo.coreSrcDirName = 'Form'
 
 

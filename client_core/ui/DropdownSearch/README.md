@@ -21,6 +21,8 @@ Searchable input with select hints built on top of **Input** component<br />
     - `root`
     - `_with_suggestions`
         - Applied if suggestions are visible
+    - `_with_label`
+        - Applied if label is defined
     - `_disabled`
         - Applied if `props.disabled` is `true`
     - `_focused`
@@ -116,6 +118,8 @@ Searchable input with select hints built on top of **Input** component<br />
 - `placeholder` - **Input.placeholder**
 
 - `inputTagAttributes` - **Input.inputAttributes**
+
+- `inputRootTagAttributes` - **Input.rootTagAttributes**
 
 - `inputMemoDeps` - **Input.memoDeps**
 

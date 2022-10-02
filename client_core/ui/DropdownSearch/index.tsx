@@ -32,6 +32,7 @@ const DropdownSearch: Component = component(
         theme: {
             root: '',
             _with_suggestions: '',
+            _with_label: '',
             _disabled: '',
             _focused: '',
             _error: '',
@@ -51,7 +52,7 @@ const DropdownSearch: Component = component(
             theme, minInputLength, onSearch, className, showOnFocus, onChange, refApi, inputStore,
             selected, searchOptions, rootTagAttributes, disabled, store, label, resetIcon, children,
             inputTheme, inputChildren, autofocus, placeholder, inputTagAttributes, errorMsg, regexp,
-            mask, debounceMs, onBlur, onFocus, inputMemoDeps
+            mask, debounceMs, onBlur, onFocus, inputMemoDeps, inputRootTagAttributes
         } = props
 
         const innerStore = store || useState( getDefaultState() )
@@ -126,6 +127,7 @@ const DropdownSearch: Component = component(
 
         errorMsg && (dropdownSearchRootProps.className += ` ${theme._error}`)
         disabled && (dropdownSearchRootProps.className += ` ${theme._disabled}`)
+        label && (dropdownSearchRootProps.className += ` ${theme._with_label}`)
 
         refApi && applyRefApi(dropdownSearchRootProps, props)
         rootTagAttributes && (dropdownSearchRootProps = mergeTagAttributes(dropdownSearchRootProps, rootTagAttributes))
@@ -136,6 +138,7 @@ const DropdownSearch: Component = component(
             debounceMs, autofocus, onBlur, onFocus,
             theme: inputTheme,
             inputAttributes: inputTagAttributes,
+            rootTagAttributes: inputRootTagAttributes,
             memoDeps: inputMemoDeps,
             children: inputChildren,
             store: _inputStore,
@@ -160,8 +163,8 @@ const DropdownSearch: Component = component(
 
             inputInnerProps.children = inputChildren
                 ?   <>
-                        { inputChildren }
                         { resetIconElem }
+                        { inputChildren }
                     </>
                 :   resetIconElem
         }

@@ -17,24 +17,22 @@ const paths = {
     withParam: `${pathPrefix}/some_param`
 } as const
 
-const Layout: LayoutType = ({ children }) => {
-    return (
-        <div className={ styles.demo_router_layout }>
-            <div className={ styles.links }>
-                <NavLink className={ layoutLinkClassName } href={ paths.nested }
-                    children='Change basename' />
+const Layout: LayoutType = ({ children }) => (
+    <div className={ styles.demo_router_layout }>
+        <div className={ styles.links }>
+            <NavLink className={ layoutLinkClassName } href={ paths.nested }
+                children='Change basename' />
 
-                <NavLink className={ layoutLinkClassName } href={ paths.withParam }
-                    children='Parametrized page' />
+            <NavLink className={ layoutLinkClassName } href={ paths.withParam }
+                children='Parametrized page' />
 
-                <NavLink className={ layoutLinkClassName } href={ `${paths.withParam}/deep_nested` }
-                    children='Go to 3 level nested page' />
-            </div>
-
-            <div className={ styles.children } children={ children } />
+            <NavLink className={ layoutLinkClassName } href={ `${paths.withParam}/deep_nested` }
+                children='Go to 3 level nested page' />
         </div>
-    )
-}
+
+        <div className={ styles.children } children={ children } />
+    </div>
+)
 
 
 export default Layout

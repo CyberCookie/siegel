@@ -88,7 +88,7 @@ type ReactTagAttributes<
     E = HTMLElement,
     A = React.HTMLAttributes<E>
 > = {
-    [key: `data-${string}`]: string | undefined
+    [key: `data-${string}`]: string | boolean | number | undefined
 } & A & React.RefAttributes<E>
 
 type ReactStore<State> = [ State, React.Dispatch<React.SetStateAction<State>> ]

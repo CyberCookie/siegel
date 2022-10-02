@@ -58,9 +58,7 @@ const Ranger: Component = component(
 
         const state = useState(toDefaultState())[0]
 
-        useLayoutEffect(() => {
-            return () => { onSlideFinish() }
-        }, [])
+        useLayoutEffect(() => () => { onSlideFinish() }, [])
 
 
         const valueValidated = value.sort().map(normalizeValue)

@@ -320,6 +320,9 @@ All the util parameters are optional:
 
 .class_c
     +font(16px, '', white)
+
+.class_d
+    +flex()
 ```
 
 Procuces
@@ -335,6 +338,9 @@ Procuces
 .class_c
     font-size: 16px
     color: white
+
+.class_d
+display: flex
 ```
 
 

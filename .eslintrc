@@ -42,6 +42,8 @@
         "no-cond-assign": 0,
         "comma-dangle": 1,
         "no-case-declarations": 0,
+        "prefer-arrow-callback": 1,
+        "arrow-body-style": [1, "as-needed"],
         "react/display-name": 0,
         "react/jsx-no-bind": 0,
         "react/no-children-prop": 0,

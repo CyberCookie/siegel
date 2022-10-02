@@ -25,9 +25,7 @@ function getPageElement(pageParams: GetPageParams) {
 }
 
 function PageWrap(pageParams: GetPageParams) {
-    useLayoutEffect(() => {
-        return () => { pageParams.onLeave!() }
-    }, [])
+    useLayoutEffect(() => () => { pageParams.onLeave!() }, [])
 
     return getPageElement(pageParams)
 }

@@ -22,6 +22,7 @@ type Option<_Value = any> = {
 
 type Theme = {
     _with_suggestions?: string
+    _with_label?: string
     _disabled?: string
     _focused?: string
     _error?: string
@@ -60,6 +61,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     autofocus?: InputProps['autofocus']
     placeholder?: InputProps['placeholder']
     inputTagAttributes?: InputProps['inputAttributes']
+    inputRootTagAttributes?: InputProps['rootTagAttributes']
     inputMemoDeps?: InputProps['memoDeps']
     errorMsg?: InputProps['errorMsg']
     regexp?: InputProps['regexp']

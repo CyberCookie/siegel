@@ -67,9 +67,9 @@ const Input: Component = component(
             debounceStore = useState<DebounceState>( getDefaultDebounceState() )
             const { debounceTimeoutID } = debounceStore[0]
 
-            useLayoutEffect(() => {
-                return () => { clearTimeout(debounceTimeoutID) }
-            }, [ debounceTimeoutID ])
+            useLayoutEffect(() => () => { clearTimeout(debounceTimeoutID) }, [
+                debounceTimeoutID
+            ])
         }
 
 
