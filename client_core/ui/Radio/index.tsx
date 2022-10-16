@@ -1,6 +1,5 @@
 import React from 'react'
 
-import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'

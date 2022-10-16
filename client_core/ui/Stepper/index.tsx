@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import Ranger, { Props as RangerProps } from '../Ranger'

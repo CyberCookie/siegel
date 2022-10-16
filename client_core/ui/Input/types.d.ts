@@ -9,8 +9,7 @@ type onChangeEventType = React.ChangeEvent<HTMLInputElement> | React.KeyboardEve
 
 type InnerInputAttributes<> = {
     onChange?(e: onChangeEventType): void
-} & (ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
-    |   ReactTagAttributes<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>)
+} & ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 
 type InputRef = React.MutableRefObject<HTMLInputElement>
 

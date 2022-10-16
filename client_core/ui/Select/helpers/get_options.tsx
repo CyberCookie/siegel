@@ -1,6 +1,5 @@
 import React from 'react'
 
-import isExists from '../../../../common/is/exists'
 import applyClassName from '../../_internals/apply_classname'
 
 import type { ReactTagAttributes } from '../../_internals/types'
