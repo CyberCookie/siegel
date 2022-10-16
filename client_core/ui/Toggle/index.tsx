@@ -1,26 +1,28 @@
 import React from 'react'
 
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 
-import type { Component, Props } from './types'
+import type { Component, Props, DefaultProps } from './types'
 
 
+const _undef = undefined
 const componentID = '-ui-toggle'
 
-const Toggle: Component = component(
+const Toggle = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            _disabled: '',
-            _toggled: '',
-            children: '',
-            label: '',
-            toggle_area: '',
-            toggler: ''
+            root: _undef,
+            _disabled: _undef,
+            _toggled: _undef,
+            children: _undef,
+            label: _undef,
+            toggle_area: _undef,
+            toggler: _undef
         }
     },
     props => {
@@ -31,17 +33,16 @@ const Toggle: Component = component(
         } = props
 
 
-        let toggleRootProps: Props['rootTagAttributes'] = { className }
-
-        value && (toggleRootProps.className += ` ${theme._toggled}`)
-
-        if (disabled) {
-            toggleRootProps.className += ` ${theme._disabled}`
-        } else if (onChange) {
-            toggleRootProps.onMouseDown = (e: React.MouseEvent) => {
-                onChange(!value, e, payload)
-            }
+        let toggleRootProps: Props['rootTagAttributes'] = {
+            className: applyClassName(className, [
+                [ theme._toggled, value ],
+                [ theme._disabled, disabled ]
+            ]),
+            onMouseDown: !disabled && onChange
+                ?   e => { onChange(!value, e, payload) }
+                :   undefined
         }
+
         refApi && (applyRefApi(toggleRootProps, props))
         if (rootTagAttributes) {
             toggleRootProps = mergeTagAttributes(toggleRootProps, rootTagAttributes)

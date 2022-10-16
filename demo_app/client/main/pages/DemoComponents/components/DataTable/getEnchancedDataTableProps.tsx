@@ -18,14 +18,15 @@ type PostProcessState = {
 type PostProcessStore = ReactStore<PostProcessState>
 
 
-const dataTableSelectTheme = Object.assign({}, selectTheme, {
+const dataTableSelectTheme = {
+    ...selectTheme,
     root: `${selectTheme!.root} ${styles.paginator_select}`,
     title: `${selectTheme!.title_text} ${styles.paginator_select_title}`,
     label: `${selectTheme!.label} ${styles.paginator_select_label}`,
     input_wrapper: styles.paginator_select_input_wrapper,
     options: `${selectTheme!.options} ${styles.paginator_select_options}`,
     _active: `${selectTheme!._active} ${styles.paginator_select__active}`
-})
+}
 
 const dataTablePaginationTheme = Object.assign({}, paginationTheme, {
     _single: styles.pagination_single_page
@@ -275,7 +276,8 @@ function getExtendedDataTableProps(props: DemoDataTableProps) {
         activeColID: ''
     })
 
-    const newProps: DemoDataTableProps = Object.assign({}, props, {
+    const newProps: DemoDataTableProps = {
+        ...props,
         store: dataGridHookStore,
         resizable: true,
         withFooter: {
@@ -305,7 +307,7 @@ function getExtendedDataTableProps(props: DemoDataTableProps) {
             getSelectAllCheckboxTableCell({ row, displayedEntityIDs, postProcessStore }),
 
         postProcessBodyRow: (row, entity) => getSelectCheckboxTableCell({ row, entity, postProcessStore })
-    } as Partial<DemoDataTableProps>)
+    }
 
 
     return newProps

@@ -9,7 +9,7 @@ type GetDayClass = (params: {
     hideSiblingMonthsDays: MergedProps['hideSiblingMonthsDays']
     innerRangeStart: State['innerRangeStart']
     innerRangeEnd: State['innerRangeEnd']
-}) => string
+}) => string | undefined
 
 
 export type { GetDayClass }

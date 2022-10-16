@@ -1,9 +1,17 @@
 import React from 'react'
 
+import applyClassName from '../../../_internals/apply_classname'
+
 import type { MergedProps, Store } from '../../types'
 
 
-function getControlIcon(isMonth: boolean, isPrev: boolean, props: MergedProps, store: Store) {
+function getControlIcon(
+    isMonth: boolean,
+    isPrev: boolean,
+    props: MergedProps,
+    store: Store
+) {
+
     const {
         theme, onMonthSwitch, onYearSwitch,
         prevMonthIcon, nextMonthIcon, prevYearIcon, nextYearIcon
@@ -16,39 +24,51 @@ function getControlIcon(isMonth: boolean, isPrev: boolean, props: MergedProps, s
     if (icon) {
         const [ state, setState ] = store
 
-        const value = isPrev ? -1 : 1
+        let value: number
+        let directionIconClassName: string | undefined
+        if (isPrev) {
+            directionIconClassName = theme.icon_prev
+            value = -1
 
-        let className = `${isPrev ? theme.icon_prev : theme.icon_next} `
-        let optionalHandler: MergedProps['onMonthSwitch'] | MergedProps['onYearSwitch']
+        } else {
+            directionIconClassName = theme.icon_next
+            value = 1
+        }
+
+
         let dateMethodGet: 'getMonth' | 'getFullYear'
         let dateMethodSet: 'setMonth' | 'setFullYear'
-
+        let optionalHandler: MergedProps['onMonthSwitch'] | MergedProps['onYearSwitch']
         if (isMonth) {
-            className += theme.icon_month
             dateMethodGet = 'getMonth'
             dateMethodSet = 'setMonth'
             optionalHandler = onMonthSwitch
-
         } else {
-            className += theme.icon_year
             dateMethodGet = 'getFullYear'
             dateMethodSet = 'setFullYear'
             optionalHandler = onYearSwitch
         }
 
-        function handler(e: React.MouseEvent) {
-            e.stopPropagation()
 
-            state.beginOfMonth[dateMethodSet](
-                state.beginOfMonth[dateMethodGet]() + value
-            )
-            setState({ ...state })
+        return (
+            <div children={ icon }
+                className={
+                    applyClassName(
+                        isMonth ? theme.icon_month : theme.icon_year,
+                        [[ directionIconClassName, true ]]
+                    )
+                }
+                onMouseDown={ (e: React.MouseEvent) => {
+                    e.stopPropagation()
 
-            optionalHandler?.(state.beginOfMonth, value, e)
-        }
+                    state.beginOfMonth[dateMethodSet](
+                        state.beginOfMonth[dateMethodGet]() + value
+                    )
+                    setState({ ...state })
 
-
-        return <div className={ className } children={ icon } onMouseDown={ handler } />
+                    optionalHandler?.(state.beginOfMonth, value, e)
+                } } />
+        )
     }
 }
 

@@ -26,16 +26,23 @@ Input for numbers with various validations built on top of `Input` component<br 
     - All the theme keys from **Input** component, except:
         - _children_ , _textarea_<br /><br />
 
+- `value`
+    - Number picker value
+    - **String** | **Number**
+
 - `precision`
     - Number precission
     - **Number**<br /><br />
 
 - `onChange`
-    - **Function** that is triggeres when input changes or blur event occurs. Has **4** arguments:
-        - **value** - **String**. New value
-        - **event** - **FocusEvent | MouseEvent | KeyboardEvent | ChangeEvent**
-        - **is keyboard arrow up** - If **arrowUp** key was pressed while edit
-        - **payload** - **props.payload**<br /><br />
+    - **Function** that is triggeres when input changes or blur event occurs.<br />
+    Has **1** arguments - **Object** with the next props:
+        - `value` - **String**. New editable value
+        - `numberValue` - **Number** value. **NaN** if `value` is en empty **String**
+        - `isValid` - **Boolean**. **True** if `numberValue` is not **NaN** and lays between `props.min` and `props.max`
+        - `event` - **FocusEvent | MouseEvent | KeyboardEvent | ChangeEvent**
+        - `isKeyboardArrowUp` - **True** if **arrowUp** was pressed. **False** if **arrowUp** was. Othervice **undefined**
+        - `payload` - **props.payload**<br /><br />
 
 - `disabledInput`
     - Disable typing into input field

@@ -42,7 +42,7 @@ type Props = PropsComponentThemed<Theme, {
 }>
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
     swipeDelta: Props['swipeDelta']
 }>
 
@@ -52,6 +52,6 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, MergedProps, Component,
+    Props, DefaultProps, MergedProps, Component,
     Slide, SlideEl, SlideFn, SwitchSlide
 }

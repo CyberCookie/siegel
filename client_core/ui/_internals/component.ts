@@ -1,36 +1,42 @@
 import { memo } from 'react'
 
+import isExists from '../../../common/is/exists'
 import extractProps from './props_extract'
 
-import type { CoreUIComponent } from './types'
+import type { CoreUIComponent, PropsComponentThemed } from './types'
 
 
 function component
 <
-    _Component extends CoreUIComponent<any, any>,
-    _ID extends string,
-    _Defaults extends _Component['defaults'],
-    _Props extends Parameters<_Component['type']>[0]
+    _Props extends PropsComponentThemed,
+    _Defaults extends Partial<_Props>
 >
 (
-    ID: _ID,
+    ID: string,
     defaults: _Defaults,
-    cb: (props: _Props & _Defaults) => React.ReactNode
+    cb: (props: _Props & _Defaults) => React.ReactElement
 ) {
 
     type ComponentType = CoreUIComponent<_Props, _Defaults>
 
 
-    const Component: Partial<ComponentType> = memo<_Props>(
+    const Component: Partial<ComponentType> = memo<_Props & _Defaults>(
         props => {
 
-            const mergedProps = props.__with_defaults
+            const mergedProps = props._noMergeWithDefaults
                 ?   props
                 :   extractProps(defaults, props)
 
-            return cb(mergedProps) as _Props & _Defaults
+            for (const defaultProp in defaults) {
+                if (!isExists(mergedProps[defaultProp])) {
+                    mergedProps[defaultProp] = defaults[defaultProp]!
+                }
+            }
+
+
+            return cb(mergedProps)
         },
-        (prevProps, nextProps) => nextProps.memoDeps?.(prevProps, nextProps)
+        (prevProps, nextProps) => nextProps.memoDeps?.(prevProps, nextProps) || false
     )
 
     Component.ID = ID

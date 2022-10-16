@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useLayoutEffect, useState } from 'react'
 
 import isExists from '../../../common/is/exists'
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
@@ -11,41 +12,43 @@ import getInputLabeled from '../_internals/label'
 import componentID from './id'
 
 import type {
-    Component, Props, InnerInputAttributes, InputRef, DebounceStore
+    Component, Props, DefaultProps, InnerInputAttributes, InputRef, DebounceStore
 } from './types'
 
 
 type DebounceState = DebounceStore[0]
 
 
+const _undef = undefined
+
 const getDefaultState = () => ({
     isTouched: false,
     isFocused: false
 })
 const getDefaultDebounceState = (state: Partial<DebounceState> = {}) => {
-    state.debounceValue = undefined,
-    state.debounceTimeoutID = undefined
+    state.debounceValue = _undef,
+    state.debounceTimeoutID = _undef
 
     return state as DebounceState
 }
 
-const Input: Component = component(
+const Input = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            _filled: '',
-            _error: '',
-            _disabled: '',
-            _focused: '',
-            _touched: '',
-            _readonly: '',
-            children: '',
-            textarea: '',
-            label: '',
-            label_text: '',
-            field: '',
-            error_text: ''
+            root: _undef,
+            _filled: _undef,
+            _error: _undef,
+            _disabled: _undef,
+            _focused: _undef,
+            _touched: _undef,
+            _readonly: _undef,
+            children: _undef,
+            textarea: _undef,
+            label: _undef,
+            label_text: _undef,
+            field: _undef,
+            error_text: _undef
         }
     },
     props => {
@@ -54,7 +57,7 @@ const Input: Component = component(
             value = '',
             theme, label, errorMsg, type, disabled, onBlur, rootTagAttributes, inputAttributes,
             onChange, onFocus, payload, store, autofocus, placeholder, regexp, mask, refApi, children,
-            debounceMs
+            debounceMs, className
         } = props
 
         const innerStore = store || useState(getDefaultState())
@@ -72,10 +75,13 @@ const Input: Component = component(
             ])
         }
 
+        const isReadonly = !disabled && !onChange
+        const isTextarea = type == 'textarea'
 
         let inputProps: InnerInputAttributes = {
-            disabled, placeholder,
+            disabled, placeholder, type,
             className: theme.field,
+            readOnly: isReadonly,
             value: debounceStore! && isExists(debounceStore[0].debounceValue)
                 ?   debounceStore[0].debounceValue
                 :   value
@@ -89,14 +95,16 @@ const Input: Component = component(
         }
 
 
-        let { className } = props
-        errorMsg && (className += ` ${theme._error}`)
-        ;(value || mask?.pattern) && (className += ` ${theme._filled}`)
-        isFocused && (className += ` ${theme._focused}`)
-        isTouched && (className += ` ${theme._touched}`)
-
         let inputRootProps: Props['rootTagAttributes'] = {
-            className,
+            className: applyClassName(className, [
+                [ theme.textarea, isTextarea ],
+                [ theme._error, isExists(errorMsg) ],
+                [ theme._filled, value.length > 0 || isExists(mask?.pattern) ],
+                [ theme._focused, isFocused ],
+                [ theme._touched, isTouched ],
+                [ theme._disabled, disabled ],
+                [ theme._readonly, isReadonly ]
+            ]),
             onBlur(e) {
                 if (!isTouched || isFocused) {
                     state.isTouched ||= true
@@ -121,8 +129,7 @@ const Input: Component = component(
         }
 
 
-        if (disabled) inputRootProps.className += ` ${theme._disabled}`
-        else if (onChange) {
+        if (!disabled && onChange) {
             inputRootProps.onFocus = e => {
                 if (!isFocused) {
                     state.isFocused = true
@@ -151,20 +158,8 @@ const Input: Component = component(
                     } else onChange(value, e, payload)
                 }
             }
-
-        } else {
-            inputRootProps.className += ` ${theme._readonly}`
-            inputProps.readOnly = true
         }
 
-
-        let InputTag = 'input'
-        if (type) {
-            if (type == 'textarea') {
-                InputTag = type
-                inputRootProps.className += ` ${theme.textarea}`
-            } else inputProps.type = type
-        }
 
         refApi && (applyRefApi(inputRootProps, props))
         rootTagAttributes && (inputRootProps = mergeTagAttributes(inputRootProps, rootTagAttributes))
@@ -173,6 +168,7 @@ const Input: Component = component(
 
         mask?.processor(mask, inputProps as Parameters<typeof mask['processor']>[1])
 
+        const InputTag: string = isTextarea ? type : 'input'
         let inputElement = <InputTag { ...inputProps } />
         label && (inputElement = getInputLabeled(
             inputElement,

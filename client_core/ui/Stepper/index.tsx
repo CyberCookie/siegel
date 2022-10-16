@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 
+import isExists from '../../../common/is/exists'
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import Ranger, { Props as RangerProps } from '../Ranger'
 
-import type { State, Props, Component } from './types'
+import type { State, Props, DefaultProps, Component } from './types'
 
 
+const _undef = undefined
 const componentID = '-ui-stepper'
 
 function getClosestNumberFromArray(sortedValuesArray: number[], value: number) {
@@ -37,23 +40,23 @@ function toDefaultState(state: Partial<State>) {
     return state as State
 }
 
-const Stepper: Component = component(
+const Stepper = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            anchors_wrapper: '',
-            children_wrapper: '',
-            anchor: '',
-            anchor__active: ''
+            root: _undef,
+            anchors_wrapper: _undef,
+            children_wrapper: _undef,
+            anchor: _undef,
+            anchor__active: _undef
         }
     },
     props => {
 
         const {
             className, options, onChange, value, theme, children, refApi,
-            disabled, label, onRangePickFinish, onRangePickStart, rangePickIcon, rangersCrossBehavior,
-            isVertical, rangerTheme, rangerMemoDeps
+            disabled, label, onRangePickFinish, onRangePickStart, rangePickIcon,
+            rangersCrossBehavior, isVertical, rangerTheme, rangerMemoDeps
         } = props
 
         // To have fresh data within Ranger.onChange handler
@@ -86,8 +89,6 @@ const Stepper: Component = component(
                 state.valueToAnchorMap[value] = anchorPosition
 
 
-                let _className = theme.anchor
-                className && (_className += ` ${className}`)
 
                 let isAnchorActive
                 const valuesCount = valuesCounter[value]
@@ -96,9 +97,10 @@ const Stepper: Component = component(
                     anchorInRange = !(isSingle || anchorInRange || (valuesCount == 2))
                 }
 
-                if (anchorInRange || isAnchorActive) {
-                    _className += ` ${theme.anchor__active}`
-                }
+                const _className = applyClassName(theme.anchor, [
+                    [ className, true ],
+                    [ theme.anchor__active, anchorInRange || isAnchorActive ]
+                ])
 
 
                 return (

@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react'
 
+import applyClassName from '../_internals/apply_classname'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import component from '../_internals/component'
 import addChildren from '../_internals/children'
@@ -17,12 +18,14 @@ import {
 
 import type { ReactTagAttributes } from '../_internals/types'
 import type {
-    Component, DataTableTableProps, State, Props,
+    Component, DataTableTableProps, State, Props, DefaultProps,
     ColumnsConfig, SortState
 } from './types'
 
 import styles from './styles.sass'
 
+
+const _undef = undefined
 
 const getDefaultState: () => State = () => ({
     sortByField: {},
@@ -32,16 +35,16 @@ const getDefaultState: () => State = () => ({
     currentPage: 1
 })
 
-const DataTable: Component = component(
+const DataTable = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            children: '',
-            table: '',
-            table_resizer: '',
-            pagination_wrapper: '',
-            _with_footer: ''
+            root: _undef,
+            children: _undef,
+            table: _undef,
+            table_resizer: _undef,
+            pagination_wrapper: _undef,
+            _with_footer: _undef
         }
     },
     props => {
@@ -60,7 +63,10 @@ const DataTable: Component = component(
                 hookState.showPerPage = withFooter.select.props.options[0].value
             }
 
-            rootAttributes.className += ` ${theme._with_footer}`
+            rootAttributes.className = applyClassName(
+                rootAttributes.className,
+                [[ theme._with_footer, true ]]
+            )
         }
 
 
@@ -84,10 +90,13 @@ const DataTable: Component = component(
         )
 
 
+        let tableRootClassName = styles.table!
+        theme.table && (tableRootClassName += ` ${theme.table}`)
+
         const dataTableTableProps: DataTableTableProps = {
             body,
             head: getHead(props, hookState, resultIDs, from, to),
-            className: `${styles.table} ${theme.table}`
+            className: tableRootClassName
         }
         withFooter && (dataTableTableProps.foot = [{
             children: [{

@@ -44,7 +44,7 @@ const onFormElementChange = (commonChangeProps: CommonChangeProps, value: string
 
 function parseInputs(inputs: Props['inputs']) {
 
-    const result: Indexable = {}
+    const result: any[] = []
 
     // return inputs.map(inputData => {
     //     if (Array.isArray(inputData)) {

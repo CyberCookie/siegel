@@ -7,13 +7,15 @@ import getLabel from '../_internals/label'
 import componentID from './id'
 
 import type {
-    Component, Props, MergedProps,
+    Component, Props, DefaultProps, MergedProps,
     WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs,
     CheckboxInnerProps, IconWrapperInnerProps, LabelInnerProps
 } from './types'
 
 import styles from './styles.sass'
 
+
+const _undef = undefined
 
 function _onChange(e: React.FormEvent<HTMLInputElement>) {
     e.stopPropagation()
@@ -46,19 +48,19 @@ function modifyRootProps<P extends CheckboxInnerProps | LabelInnerProps | IconWr
         :   rootProps as P
 }
 
-const Checkbox: Component = component(
+const Checkbox = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            _checked: '',
-            _disabled: '',
-            checkbox: '',
-            with_icon_wrapper: '',
-            label: '',
-            label_wrapper: ''
+            root: _undef,
+            _checked: _undef,
+            _disabled: _undef,
+            checkbox: _undef,
+            with_icon_wrapper: _undef,
+            label: _undef,
+            label_wrapper: _undef
         },
-        value: false as boolean
+        value: false
     },
     props => {
 
@@ -66,11 +68,15 @@ const Checkbox: Component = component(
             theme, onChange, label, value, disabled, icon, checkboxAttributes, rootTagAttributes
         } = props
 
+
+        let _className = styles.checkbox
+        theme.checkbox && (_className += ` ${theme.checkbox}`)
+
         let checkboxInputProps: CheckboxInnerProps = {
             disabled,
             checked: value,
             type: 'checkbox',
-            className: `${styles.checkbox} ${theme.checkbox}`,
+            className: _className,
             onChange: _onChange
         }
         onChange || (checkboxInputProps.readOnly = true)

@@ -1,3 +1,5 @@
+import applyClassName from '../../../../_internals/apply_classname'
+
 import type { GetDayClass } from './get_day_classname_types'
 
 
@@ -8,22 +10,22 @@ const getDayClassName: GetDayClass = getDayClassParams => {
     } = getDayClassParams
 
 
-    let className = theme.day
+    let className = applyClassName(theme.day, [
+        [ theme.day__today, isToday ],
+        [ theme.month__sibling, isSiblingMonth ],
+        [ theme.day__first, hideSiblingMonthsDays && isFirst ],
+        [ theme.day__last, hideSiblingMonthsDays && isLast ]
+    ])
 
-    isToday && (className += ` ${theme.day__today}`)
-    isSiblingMonth && (className += ` ${theme.month__sibling}`)
-
-    if (hideSiblingMonthsDays) {
-        isFirst && (className += ` ${theme.day__first}`)
-        isLast && (className += ` ${theme.day__last}`)
-    }
 
     if (innerRangeStart != innerRangeEnd) {
         const rangeEndZero = (new Date(innerRangeEnd)).setHours(0,0,0,0)
-        innerRangeStart <= timestamp && timestamp <= rangeEndZero && (className += ` ${theme.day__selected}`)
 
-        timestamp == innerRangeStart && (className += ` ${theme.day__range_from}`)
-        timestamp == rangeEndZero && (className += ` ${theme.day__range_to}`)
+        className = applyClassName(className, [
+            [ theme.day__selected, innerRangeStart <= timestamp && timestamp <= rangeEndZero ],
+            [ theme.day__range_from, timestamp == innerRangeStart ],
+            [ theme.day__range_to, timestamp == rangeEndZero ]
+        ])
     }
 
 

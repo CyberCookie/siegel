@@ -5,7 +5,7 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import isTouchScreen from '../../utils/is_touchscreen'
 import applyRefApi from '../_internals/ref_apply'
 
-import type { HTMLSwipeMouseEvent, Component, Props } from './types'
+import type { HTMLSwipeMouseEvent, Component, DefaultProps, Props } from './types'
 
 
 const componentID = '-ui-swipe'
@@ -21,7 +21,7 @@ function getMousePos(e: HTMLSwipeMouseEvent, xAxis: Props['xAxis']) {
         :   (xAxis ? x : y)
 }
 
-const Swipe: Component = component(
+const Swipe = component<Props, DefaultProps>(
     componentID,
     { deltaPos: 60 },
     props => {

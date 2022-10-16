@@ -1,25 +1,24 @@
 import React from 'react'
 
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 
-import type { Component, Props, MergedProps, GetPageElement } from './types'
+import type { Component, Props, DefaultProps, MergedProps, GetPageElement } from './types'
 
 
+const _undef = undefined
 const componentID = '-ui-pagination'
 
 const tokenPrevPage = 'p'
 const tokenNextPage = 'n'
 
 function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) {
-    const { rootTagAttributes, curPage, onChange, payload, theme, refApi } = mergedProps
-
-    let className = mergedProps.className
-    numberOfPages == 1 && (className += ` ${theme._single}`)
+    const { rootTagAttributes, curPage, onChange, payload, theme, refApi, className } = mergedProps
 
     let result = {
-        className,
+        className: applyClassName(className, [[ theme._single, numberOfPages == 1 ]]),
         onMouseDown(e: React.MouseEvent) {
             const page = (e.target as HTMLDivElement).dataset.page
 
@@ -46,7 +45,7 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) 
 }
 
 const getPageElement: GetPageElement = (page: number, { curPage, theme }) => (
-    <div className={ `${theme.page} ${page == curPage ? theme.page__active : ''}` }
+    <div className={ applyClassName(theme.page, [[ theme.page__active, page == curPage ]]) }
         key={ page } data-page={ page } children={ page } />
 )
 
@@ -115,33 +114,30 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
 
     return <>
         <div children={ iconPrev } data-page={ tokenPrevPage }
-            className={ `${theme.icon_prev} ${curPage == 1 ? theme.icon__disabled : ''}` } />
+            className={ applyClassName(theme.icon_prev, [[ theme.icon__disabled, curPage == 1 ]]) } />
 
         { result }
 
         <div children={ iconNext } data-page={ tokenNextPage }
-            className={ `${theme.icon_next} ${curPage == numberOfPages ? theme.icon__disabled : ''}` } />
+            className={ applyClassName(theme.icon_next, [[ theme.icon__disabled, curPage == numberOfPages ]]) } />
     </>
 }
 
-const Pagination: Component = component(
+const Pagination = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            _single: '',
-            separator: '',
-            icon_prev: '',
-            icon_next: '',
-            icon__disabled: '',
-            page: '',
-            page__active: ''
+            root: _undef,
+            _single: _undef,
+            separator: _undef,
+            icon_prev: _undef,
+            icon_next: _undef,
+            icon__disabled: _undef,
+            page: _undef,
+            page__active: _undef
         },
-        iconPrev: '<',
-        iconNext: '>',
         elementsBySide: 1,
         elementsByMiddle : 1,
-        separator: '...',
         fixedWidth: true
     },
     props => {

@@ -6,37 +6,39 @@ import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 import { getMonths, getFirstMonthDate } from './helpers'
 
-import type { Component, Props } from './types'
+import type { Component, Props, DefaultProps } from './types'
 
 import styles from './styles.sass'
 
 
-const Calendar: Component = component(
+const _undef = undefined
+
+const Calendar = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            _in_progress: '',
-            icon_prev: '',
-            icon_next: '',
-            icon_month: '',
-            icon_year: '',
-            month_wrapper: '',
-            month_title: '',
-            month_days_wrapper: '',
-            month_title_wrapper: '',
-            month__sibling: '',
-            week: '',
-            week_day: '',
-            row: '',
-            day: '',
-            day__selected: '',
-            day__first: '',
-            day__last: '',
-            day__today: '',
-            day__hidden: '',
-            day__range_from: '',
-            day__range_to: ''
+            root: _undef,
+            _in_progress: _undef,
+            icon_prev: _undef,
+            icon_next: _undef,
+            icon_month: _undef,
+            icon_year: _undef,
+            month_wrapper: _undef,
+            month_title: _undef,
+            month_days_wrapper: _undef,
+            month_title_wrapper: _undef,
+            month__sibling: _undef,
+            week: _undef,
+            week_day: _undef,
+            row: _undef,
+            day: _undef,
+            day__selected: _undef,
+            day__first: _undef,
+            day__last: _undef,
+            day__today: _undef,
+            day__hidden: _undef,
+            day__range_from: _undef,
+            day__range_to: _undef
         },
         strings: {
             months: [
@@ -45,14 +47,10 @@ const Calendar: Component = component(
             ],
             weekDaysShort: [ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ]
         },
-        prevMonthIcon: '<',
-        nextMonthIcon: '>',
-        prevYearIcon: '<<',
-        nextYearIcon: '>>',
         monthsBefore: 0,
         monthsAfter: 0,
-        triggerOnlyWhenFinished: true as boolean,
-        fixedHeight: true as boolean
+        triggerOnlyWhenFinished: true,
+        fixedHeight: true
     },
     props => {
 
@@ -69,9 +67,11 @@ const Calendar: Component = component(
             beginOfMonth: getFirstMonthDate(rangeDateStart, monthsBefore)
         })
 
+        let _className = styles.root!
+        className && (_className += ` ${_className}`)
 
         let rootAttributes = {
-            className: `${className} ${styles.root}`,
+            className: _className,
             children: getMonths(props, store)
         }
         refApi && (applyRefApi(rootAttributes, props))

@@ -1,8 +1,8 @@
 import getUniqId from './'
 
 
-describe('common/classNames', () => {
-    test('with default class', () => {
+describe('common/getUniqId', () => {
+    test('get uniq ID', () => {
         expect( getUniqId() )
             .not.toBe( getUniqId() )
     })

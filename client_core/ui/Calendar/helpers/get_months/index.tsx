@@ -36,7 +36,8 @@ function getMonths(mergedProps: MergedProps, store: Store) {
 
     const start = new Date(state.beginOfMonth)
 
-    const monthTitleWrapper = `${theme.month_title_wrapper} ${styles.month_title_wrapper}`
+    let monthTitleWrapper = styles.month_title_wrapper
+    theme.month_title_wrapper && (monthTitleWrapper += ` ${theme.month_title_wrapper}`)
 
     const months = []
     for (let i = 0, l = monthsBefore + monthsAfter + 1; i < l; i++) {

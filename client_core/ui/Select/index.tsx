@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 
 import isExists from '../../../common/is/exists'
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
 import handleKeyboardSelect, {
@@ -12,47 +13,47 @@ import addChildren from '../_internals/children'
 import getOptions from './helpers/get_options'
 
 import type { ReactTagAttributes } from '../_internals/types'
-import type { Component, Props, Store, OnSelect, RootRef } from './types'
+import type { Component, Props, DefaultProps,  Store, OnSelect, RootRef } from './types'
 
 
+const _undef = undefined
 const componentID = '-ui-select'
 
 const getDefaultState = () => ({
     isActive: false,
-    arrowSelectIndex: undefined
+    arrowSelectIndex: _undef
 } as Store[0])
 
-const Select: Component = component(
+const Select = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            _filled: '',
-            _active: '',
-            _disabled: '',
-            _error: '',
-            children: '',
-            label: '',
-            reset: '',
-            title_wrapper: '',
-            title_text: '',
-            error_text: '',
-            input_wrapper: '',
-            options: '',
-            option: '',
-            option__active: '',
-            option__disabled: ''
+            root: _undef,
+            _filled: _undef,
+            _active: _undef,
+            _disabled: _undef,
+            _error: _undef,
+            children: _undef,
+            label: _undef,
+            reset: _undef,
+            title_wrapper: _undef,
+            title_text: _undef,
+            error_text: _undef,
+            input_wrapper: _undef,
+            options: _undef,
+            option: _undef,
+            option__active: _undef,
+            option__disabled: _undef
         },
-        closeOnSelect: true as boolean,
-        listSelectedOption: false as boolean,
-        listDisabledOptions: true as boolean
+        closeOnSelect: true,
+        listDisabledOptions: true
     },
     props => {
 
         const {
             theme, rootTagAttributes, options, getDisplayValue, selected, dropdownIcon, label,
             disabled, placeholder, refApi, store, resetIcon, onChange, closeOnSelect, children,
-            errorMsg
+            errorMsg, className
         } = props
 
         const selectStore = store || useState(getDefaultState())
@@ -69,27 +70,27 @@ const Select: Component = component(
             closeOnSelect && (selectRootProps.ref as RootRef).current.blur()
         }
 
+
         const isSelected = isExists(selected)
 
-        let { className } = props
-        isActive && (className += ` ${theme._active}`)
-        isSelected && (className += ` ${theme._filled}`)
-
         let selectRootProps: ReactTagAttributes<HTMLDivElement> = {
-            className,
+            className: applyClassName(className, [
+                [ theme._active, isActive ],
+                [ theme._filled, isSelected ],
+                [ theme._error, isExists(errorMsg) ],
+                [ theme._disabled, disabled ]
+            ]),
             ref: useRef() as RootRef
         }
-        errorMsg && (selectRootProps.className += ` ${theme._error}`)
+
 
         let optionsElement: JSX.Element
         let selectedOption: Props['options'][number] | undefined
         let selectedOptionIndex: number | undefined
-        if (disabled) {
-            selectRootProps.className += ` ${theme._disabled}`
 
-            if (isSelected) {
-                selectedOption = options.find(option => option.value == selected)
-            }
+        if (disabled) {
+            isSelected && (selectedOption = options.find(option => option.value == selected))
+
         } else {
             ({
                 optionsElement, selectedOption, selectedOptionIndex
@@ -118,7 +119,7 @@ const Select: Component = component(
                                 keyCode, options, selectedOptionIndex
                             },
                             {
-                                onDelete() { onSelect(undefined, e) },
+                                onDelete() { onSelect(_undef, e) },
                                 onEnter() {
                                     const { value, payload } = options[arrowSelectIndex!]
                                     onSelect(value, e, payload)
@@ -154,7 +155,7 @@ const Select: Component = component(
                 { !disabled && resetIcon && (
                     <div children={ resetIcon } className={ theme.reset }
                         onMouseDown={ e => {
-                            onSelect(undefined, e)
+                            onSelect(_undef, e)
                         } } />
                 )}
 

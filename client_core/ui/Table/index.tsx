@@ -5,7 +5,7 @@ import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 
 import type {
-    Component, Props,
+    Component, Props, DefaultProps,
     TableBodyRow, TableHeadRow, TableTH, TableTD
 } from './types'
 
@@ -34,7 +34,7 @@ function getTableSection(data: (TableHeadRow | TableBodyRow)[], SectionHTMLTag: 
     return <SectionHTMLTag children={ data.map(getTableRow) } />
 }
 
-const Table: Component = component(
+const Table = component<Props, DefaultProps>(
     componentID,
     {},
     props => {

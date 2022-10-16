@@ -3,7 +3,12 @@ import isExists from '../../../../common/is/exists'
 import type { MergedProps } from '../types'
 
 
-function buildInputRegexp(min: MergedProps['min'], max: MergedProps['max'], precision: MergedProps['precision']): RegExp {
+function buildInputRegexp(
+    min: MergedProps['min'],
+    max: MergedProps['max'],
+    precision: MergedProps['precision']
+) {
+
     let regexpTemplate = '^'
 
     if (min < 0) {
@@ -11,7 +16,7 @@ function buildInputRegexp(min: MergedProps['min'], max: MergedProps['max'], prec
         max >= 0 && (regexpTemplate += '?')
     }
 
-    regexpTemplate += '(?!00)\\d'
+    regexpTemplate += '(?!0\\d)\\d'
 
     if (isFinite(min) || isFinite(max)) {
         const maxNumberAllowed = Math.max( Math.abs(min), Math.abs(max) )

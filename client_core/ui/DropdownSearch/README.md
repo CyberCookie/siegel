@@ -21,14 +21,17 @@ Searchable input with select hints built on top of **Input** component<br />
     - `root`
     - `_with_suggestions`
         - Applied if suggestions are visible
-    - `_with_label`
-        - Applied if label is defined
     - `_disabled`
         - Applied if `props.disabled` is `true`
     - `_focused`
         - Applied if component is focused
     - `_error`
         - Applied if `props.errorMsg` is defined
+    - `reset`
+        - Applied to reset btn if defined
+    - `input_wrapper`
+        - Wrapps input and options elements if label is defined
+    - `label`
     - `children`
     - `options`
     - `option`
@@ -106,6 +109,8 @@ Searchable input with select hints built on top of **Input** component<br />
 - `resetIcon`
     - **React.ReactNode**
     - Icon to reset selection. There is no reset control if icon is not specified<br /><br />
+
+- `inputClassName` - **Input.className**
 
 - `inputTheme` - **Input.theme**
 

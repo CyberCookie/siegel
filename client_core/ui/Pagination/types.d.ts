@@ -32,12 +32,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 }>
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
     elementsBySide: Props['elementsBySide']
     elementsByMiddle: Props['elementsByMiddle']
-    iconPrev: Props['iconPrev']
-    iconNext: Props['iconNext']
-    separator: Props['separator']
     fixedWidth: Props['fixedWidth']
 }>
 
@@ -46,4 +43,4 @@ type MergedProps = Props & DefaultProps
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, MergedProps, Component, GetPageElement }
+export type { Props, DefaultProps, MergedProps, Component, GetPageElement }

@@ -57,7 +57,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     // & ( WithLabelProps | WithIconProps | NoIconLabelProps /*| WithLabelAndIconProps*/ )
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
     value: Props['value']
 }>
 
@@ -67,7 +67,7 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, MergedProps, Component,
+    Props, DefaultProps, MergedProps, Component,
     WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs,
     CheckboxInnerProps, IconWrapperInnerProps, LabelInnerProps
 }

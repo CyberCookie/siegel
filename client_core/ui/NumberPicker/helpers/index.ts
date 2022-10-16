@@ -1,5 +1,5 @@
 export { default as buildInputRegexp } from './build_input_regexp'
-export { default as normalizeInputValue } from './normalize_input_value'
-export { default as stringToNumberValue } from './string_to_number_value'
+export { default as getInputString } from './normalize_input_value'
 export { default as getValuePrecision } from './get_value_precision'
 export { default as getStepButtons } from './get_step_buttons'
+export { default as checkRanges } from './check_ranges'

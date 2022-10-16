@@ -32,7 +32,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 }> & (MultiSelectProps | SingleSelectProps)
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
 }>
 
 type MergedProps = Props & DefaultProps
@@ -40,4 +40,6 @@ type MergedProps = Props & DefaultProps
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, MergedProps, Component, MultiSelectProps, SingleSelectProps }
+export type {
+    Props, DefaultProps, MergedProps, Component, MultiSelectProps, SingleSelectProps
+}

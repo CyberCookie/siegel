@@ -1,37 +1,30 @@
 import isExists from '../../../../common/is/exists'
 
-
-const CHAR_ZERO = '0'
-
-function normalizeInputValue(value: string | undefined, precision: number | undefined, isFocused: boolean) {
-    if(!isExists(value)) return
-
-    const indexOfDot = value.indexOf('.')
-
-    const firstNumberPos = value[0] == '-' ? 1 : 0
-    let zeroesCount = 0
-    if (value.length > (firstNumberPos + 1) && value[firstNumberPos] == CHAR_ZERO) {
-        for (let i = firstNumberPos, l = indexOfDot >= 0 ? indexOfDot : value.length; i < l; i++) {
-            if (value[i] == CHAR_ZERO && value[i + 1] != '.') zeroesCount++
-            else break
-        }
-
-        zeroesCount && (value = value.replace(CHAR_ZERO.repeat(zeroesCount), ''))
-    }
+import type { MergedProps } from '../types'
 
 
-    if (precision && indexOfDot > -1) {
-        const maxLength = indexOfDot + precision + 1
-        value = value.length > maxLength
-            ?   value.substring(0, maxLength)
-            :   value.length < maxLength && !isFocused
-                ?   (+value).toFixed(precision)
-                :   value
-    }
-
-
-    return value
+type Params = {
+    value: MergedProps['value']
+    precision: MergedProps['precision']
+    isFocused: boolean
+    numberValue: number
+    numberMask: RegExp
 }
 
 
-export default normalizeInputValue
+function getInputString(params: Params) {
+    if(isExists(params.value)) {
+        const { value, precision, isFocused, numberValue, numberMask } = params
+
+        const isValueNaN = isNaN(numberValue)
+
+        return precision && !isFocused
+            ?   isValueNaN ? '' : numberValue.toFixed(2)
+            :   typeof value == 'string' && numberMask.test(value)
+                ?   value
+                :   isValueNaN ? '' : `${numberValue}`
+    }
+}
+
+
+export default getInputString

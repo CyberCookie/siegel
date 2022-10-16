@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react'
 
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
@@ -7,11 +8,12 @@ import addChildren from '../_internals/children'
 import { getRangeAreaElements, normalizeValue } from './helpers'
 
 import type { ReactTagAttributes } from '../_internals/types'
-import type { State, RangeCrossTypeMap, Component, Props } from './types'
+import type { State, RangeCrossTypeMap, Component, Props, DefaultProps } from './types'
 
 import styles from './styles.sass'
 
 
+const _undef = undefined
 const componentID = '-ui-ranger'
 
 const rangerCrossTypesMap: RangeCrossTypeMap = {
@@ -23,30 +25,29 @@ const rangerCrossTypesMap: RangeCrossTypeMap = {
 function toDefaultState(state = {} as State) {
     state.anchorPos = state.anchorFraction = 0
     state.activeSlider = null
-    state.activeSliderArrValueIndex = undefined
+    state.activeSliderArrValueIndex = _undef
 
     return state
 }
 
-const Ranger: Component = component(
+const Ranger = component<Props, DefaultProps>(
     componentID,
     {
-        rangersCrossBehavior: rangerCrossTypesMap.stop as Values<RangeCrossTypeMap>,
-        rangePickIcon: '+',
+        rangersCrossBehavior: rangerCrossTypesMap.stop,
         theme: {
-            root: '',
-            _vertical: '',
-            _single_picker: '',
-            _disabled: '',
-            _readonly: '',
-            children: '',
-            ranger_content_wrapper: '',
-            range_area: '',
-            label: '',
-            range_slider: '',
-            range_slider__active: '',
-            range__selected: '',
-            range__unselected: ''
+            root: _undef,
+            _vertical: _undef,
+            _single_picker: _undef,
+            _disabled: _undef,
+            _readonly: _undef,
+            children: _undef,
+            ranger_content_wrapper: _undef,
+            range_area: _undef,
+            label: _undef,
+            range_slider: _undef,
+            range_slider__active: _undef,
+            range__selected: _undef,
+            range__unselected: _undef
         }
     },
     props => {
@@ -64,22 +65,23 @@ const Ranger: Component = component(
         const valueValidated = value.sort().map(normalizeValue)
 
         const isSingle = value.length == 1
+        const isReadonly = !disabled && !onChange
 
-        let rootProps = { className }
-        isSingle && (rootProps.className += ` ${theme._single_picker}`)
-        isVertical && (rootProps.className += ` ${theme._vertical} ${styles._vertical}`)
-
-        const rangeAreaProps: ReactTagAttributes<HTMLDivElement> = {
-            className: `${theme.range_area} ${styles.range_area}`,
-            children: getRangeAreaElements(props, valueValidated, isSingle)
+        let rootProps = {
+            className: applyClassName(className, [
+                [ theme._single_picker, isSingle ],
+                [ theme._vertical, isVertical ],
+                [ styles._vertical, isVertical ],
+                [ theme._disabled, disabled ],
+                [ theme._readonly, isReadonly ]
+            ])
         }
 
-        disabled
-            ?   (rootProps.className += ` ${theme._disabled}`)
-            :   onChange
-                ?   (rangeAreaProps.onMouseDown = onSlideStart)
-                :   (rootProps.className += ` ${theme._readonly}`)
-
+        const rangeAreaProps: ReactTagAttributes<HTMLDivElement> = {
+            className: applyClassName(styles.range_area, [[ theme.range_area, true ]]),
+            children: getRangeAreaElements(props, valueValidated, isSingle),
+            onMouseDown: !disabled && onChange ? onSlideStart : undefined
+        }
         refApi && applyRefApi(rootProps, props)
         rootTagAttributes && (rootProps = mergeTagAttributes(rootProps, rootTagAttributes))
 
@@ -136,7 +138,7 @@ const Ranger: Component = component(
                 state.activeSliderArrValueIndex = activeSliderArrValueIndex!
             }
 
-            activeSlider!.classList.add(theme.range_slider__active)
+            theme.range_slider__active && activeSlider!.classList.add(theme.range_slider__active)
 
             state.anchorPos = isVertical ? posY : posX
             state.anchorFraction = rangeAreaPosFraction
@@ -176,13 +178,15 @@ const Ranger: Component = component(
                                     return
 
                                 } else {
-                                    activeSlider!.classList.remove(theme.range_slider__active)
+                                    theme.range_slider__active && activeSlider!.classList.remove(theme.range_slider__active)
 
                                     state.activeSliderArrValueIndex = pairedArrValueIndex
 
                                     state.activeSlider = (activeSlider!.parentNode as HTMLDivElement)
                                         .querySelector(`[data-slider='${pairedArrValueIndex}']`)
-                                    ;(state.activeSlider as HTMLDivElement).classList.add(theme.range_slider__active)
+
+                                    theme.range_slider__active
+                                        &&  (state.activeSlider as HTMLDivElement).classList.add(theme.range_slider__active)
                                 }
                             }
                         }
@@ -197,7 +201,7 @@ const Ranger: Component = component(
         function onSlideFinish(e?: MouseEvent) {
             onRangePickFinish?.(e)
 
-            state.activeSlider?.classList.remove(theme.range_slider__active)
+            theme.range_slider__active && state.activeSlider?.classList.remove(theme.range_slider__active)
 
             toDefaultState(state)
 

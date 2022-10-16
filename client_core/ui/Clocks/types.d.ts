@@ -23,4 +23,4 @@ type DefaultProps = NonNullableKeys<{
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, Component }
+export type { Props, DefaultProps, Component }

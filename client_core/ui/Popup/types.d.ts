@@ -17,11 +17,10 @@ type Props = PropsComponentThemed<Theme, {
 
 type DefaultProps = NonNullableKeys<{
     className: Props['className']
-    theme: Required<Props['theme']>
-    closeIcon: Props['closeIcon']
+    theme: Props['theme']
 }>
 
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, Component }
+export type { Props, DefaultProps, Component }

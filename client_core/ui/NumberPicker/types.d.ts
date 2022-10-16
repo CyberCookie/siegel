@@ -17,16 +17,18 @@ type Theme = {
     controls?: string
     button_minus?: string
     button_plus?: string
-    input_root?: string
 }
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
     onChange(changeParams: {
         value: string
+        numberValue: number
+        isValid: boolean
         event: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>
         isKeyboardArrowUp: boolean | undefined
         payload: _Payload
     }): void
+    value?: string | number
     children?: React.ReactNode
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
     step?: number
@@ -43,10 +45,11 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     inputRootAttributes?: InputProps['rootTagAttributes']
     debounceMs?: InputProps['debounceMs']
     onBlur?: InputProps['onBlur']
-}> & Omit<InputProps, 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store'>
+}> & Omit<InputProps, 'value' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store'>
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    className: Props['className']
+    theme: Props['theme']
     minusIcon: Props['minusIcon']
     plusIcon: Props['plusIcon']
     min: Props['min']
@@ -58,4 +61,4 @@ type MergedProps = Props & DefaultProps
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, MergedProps, Component, OnNumberPickerChange }
+export type { Props, DefaultProps, MergedProps, Component, OnNumberPickerChange }

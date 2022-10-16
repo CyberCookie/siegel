@@ -1,34 +1,36 @@
 import React, { useState, useLayoutEffect } from 'react'
 
 import isExists from '../../../common/is/exists'
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import addChildren from '../_internals/children'
 import { getRootProps, getVisualElements } from './helpers'
 
 import type {
-    Component, Props,
+    Component, Props, DefaultProps,
     SwitchSlide, SlideEl, SlideFn
 } from './types'
 
 
+const _undef = undefined
 const componentID = '-ui-slider'
 
-const Slider: Component = component(
+const Slider: Component = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            children: '',
-            slides_wrapper: '',
-            slide: '',
-            slide__active: '',
-            slide__prev: '',
-            slide__next: '',
-            controls_wrapper: '',
-            control: '',
-            control__active: '',
-            _slided_forward: '',
-            _slided_backward: ''
+            root: _undef,
+            children: _undef,
+            slides_wrapper: _undef,
+            slide: _undef,
+            slide__active: _undef,
+            slide__prev: _undef,
+            slide__next: _undef,
+            controls_wrapper: _undef,
+            control: _undef,
+            control__active: _undef,
+            _slided_forward: _undef,
+            _slided_backward: _undef
         },
         swipeDelta: 30
     },
@@ -40,15 +42,14 @@ const Slider: Component = component(
 
         const [ curSlide, setSlide ] = store || useState(0)
         const slideDirectionState = useState({
-            isLastDirectionForward: undefined as boolean | undefined
+            isLastDirectionForward: _undef as boolean | undefined
         })[0]
         const { isLastDirectionForward } = slideDirectionState
 
         const sliderRootProps = getRootProps(props)
-
-        if (isExists(isLastDirectionForward)) {
-            sliderRootProps.className += ` ${isLastDirectionForward ? theme._slided_forward : theme._slided_backward}`
-        }
+        sliderRootProps.className = applyClassName(sliderRootProps.className, [
+            [ isLastDirectionForward ? theme._slided_forward : theme._slided_backward, isExists(isLastDirectionForward) ]
+        ])
 
 
         useLayoutEffect(() => {

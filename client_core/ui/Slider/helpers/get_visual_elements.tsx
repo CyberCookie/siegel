@@ -1,8 +1,8 @@
 //TODO?: visible slides count (???)
 
-
 import React from 'react'
 
+import applyClassName from '../../_internals/apply_classname'
 import Swipe from '../../Swipe'
 
 import type {
@@ -33,10 +33,8 @@ function getVisualElements(params: GetSliderVisualsParams) {
     const controls = []
     if (withControls) {
         for (let i = 0; i < slidesLength; i++) {
-            controls.push(
-                <div key={ i } data-page={ i }
-                    className={ `${theme.control} ${i == curSlide ? theme.control__active : ''}` } />
-            )
+            const className = applyClassName(theme.control, [[ theme.control__active, i == curSlide ]])
+            controls.push( <div key={ i } data-page={ i } className={ className } /> )
         }
     }
 
@@ -48,23 +46,22 @@ function getVisualElements(params: GetSliderVisualsParams) {
     nextSlideIndex >= slidesLength && (nextSlideIndex = 0)
 
 
-    const prevSlideEl = getSideSlide(slides[prevSlideIndex])
-    const nextSlideEl = getSideSlide(slides[nextSlideIndex])
-
-    const curSlideEl = slides[curSlide] instanceof Function
-        ?   (slides[curSlide] as SlideFn)(curSlide)
-        :   slides[curSlide] as SlideEl
-
-
     const slidePages = [
-        <div key={ `${prevSlideIndex}p` } className={ `${theme.slide} ${theme.slide__prev}` }
-            children={ prevSlideEl } />,
+        <div key={ `${prevSlideIndex}p` }
+            children={ getSideSlide(slides[prevSlideIndex]) }
+            className={ applyClassName(theme.slide, [[ theme.slide__prev, true ]]) } />,
 
-        <div key={ curSlide } className={ `${theme.slide} ${theme.slide__active}` }
-            children={ curSlideEl } />,
+        <div key={ curSlide }
+            children={
+                slides[curSlide] instanceof Function
+                ?   (slides[curSlide] as SlideFn)(curSlide)
+                :   slides[curSlide] as SlideEl
+            }
+            className={ applyClassName(theme.slide, [[ theme.slide__active, true ]]) } />,
 
-        <div key={ `${nextSlideIndex}n` } className={ `${theme.slide} ${theme.slide__next}` }
-            children={ nextSlideEl } />
+        <div key={ `${nextSlideIndex}n` }
+            children={ getSideSlide(slides[nextSlideIndex]) }
+            className={ applyClassName(theme.slide, [[ theme.slide__next, true ]]) } />
     ]
 
 

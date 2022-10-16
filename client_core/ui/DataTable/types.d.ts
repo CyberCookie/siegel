@@ -96,7 +96,7 @@ type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentTheme
 
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props<any>['theme']>
+    theme: Props['theme']
 }>
 
 type MergedProps = Props & DefaultProps
@@ -105,6 +105,6 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    State, Props, MergedProps, Component, DataTableTableProps, ColumnsConfig,
-    DisplayedEntityIDs, SortState
+    State, Props, DefaultProps, MergedProps, Component, DataTableTableProps,
+    ColumnsConfig, DisplayedEntityIDs, SortState
 }

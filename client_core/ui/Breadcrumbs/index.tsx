@@ -86,7 +86,7 @@ const checkHasDynamicCrumb: (config: Props['config']) => boolean | undefined = c
 const Breadcrumbs: Component = component(
     componentID,
     {
-        className: styles[`${componentID}_inner`] as string,
+        className: styles.root!,
         separator: '',
         theme: {
             root: '',
@@ -106,9 +106,7 @@ const Breadcrumbs: Component = component(
 
             useLayoutEffect(() => {
                 const setDynamicCrumbsHandler = (function({ detail }: CustomEvent) {
-                    setState(
-                        Object.assign({}, state, detail)
-                    )
+                    setState({ ...state, ...detail })
                 } as EventListener)
 
 

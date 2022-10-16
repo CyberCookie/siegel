@@ -41,7 +41,8 @@ const NavLink: Component = component(
         const { pathname } = location
         const finalHref = getFinalURL(pathname, href)
 
-        const finalProps = Object.assign({}, props, {
+        const finalProps = {
+            ...props,
             onClick(e: React.MouseEvent) {
                 onClick?.(e)
 
@@ -51,7 +52,7 @@ const NavLink: Component = component(
                 }
             },
             href: finalHref
-        })
+        }
         if (activeClassName && pathname == finalHref) {
             finalProps.className
                 ?   (finalProps.className += ` ${activeClassName}`)

@@ -35,7 +35,7 @@ const inputs: FormProps['inputs'] = [
     //     }
     // }]
     {
-        name: 'second',
+        name: 'first',
         Component: Input,
         props: {
             value: ''
@@ -49,7 +49,7 @@ const inputs: FormProps['inputs'] = [
         }
     },
     {
-        name: 'second',
+        name: 'check',
         Component: Checkbox,
         props: {
             value: true

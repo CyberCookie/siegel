@@ -22,12 +22,13 @@ type Option<_Value = any> = {
 
 type Theme = {
     _with_suggestions?: string
-    _with_label?: string
     _disabled?: string
     _focused?: string
     _error?: string
     children?: string
     reset?: string
+    label?: string
+    input_wrapper?: string
     options?: string
     option?: string
     option__disabled?: string
@@ -60,6 +61,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     inputStore?: InputProps['store']
     autofocus?: InputProps['autofocus']
     placeholder?: InputProps['placeholder']
+    inputClassName?: InputProps['className']
     inputTagAttributes?: InputProps['inputAttributes']
     inputRootTagAttributes?: InputProps['rootTagAttributes']
     inputMemoDeps?: InputProps['memoDeps']
@@ -72,8 +74,9 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
 }>
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
     minInputLength: Props['minInputLength']
+    listDisabledOptions: Props['listDisabledOptions']
 }>
 
 type MergedProps = Props & DefaultProps
@@ -82,5 +85,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, MergedProps, Component, Store, State, Option, onSelectInner
+    Props, DefaultProps, MergedProps, Component, Store, State, Option, onSelectInner
 }

@@ -162,16 +162,16 @@ Proxy receives **1** parameter - **Object** with the next fields:
 - `host` **String** - destination host
 - `port` **Number** - destination port
 - `path` **String** - url path. Default is original request url path
-- `query` **String | Object** - url query params. Default is original request query params.<br />
+- `query` **Object** - url query params. Default is original request query params<br />
     If **Object** provided then **Object** _key_ is query key and **Object** _value_ is query value
 - `method` **String** - request method. Default is original request method
-- `headers` **Object | Function** - request headers.<br />
+- `headers` **Object | Function** - request headers<br />
     If **Object** provided then **Object** _key_ is header key and **Object** _value_ is header value. Given **Object** will be merged with **Request headers**<br />
     If **Function** provided then it has **1** argument:
         - **headers** - **Mutable request headers**
 - `changeOrigin` - **Boolean** - could be helpful for CORS requests
 - `postProcessReq` **Function** - Triggered before request to the next resource occurs. Has **2** arguments:
-    - **client request** - **Object**. Request made by your client.
+    - **client request** - **Object**. Request made by your client
     - **options** - **Object**. Options that was passed to request to make a request to. Has the next fields:
         - `host` - **String**. Host to make request to
         - `port` - **Number**. Port to make request to

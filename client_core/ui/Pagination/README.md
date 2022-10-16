@@ -18,12 +18,16 @@ Creates paging controls<br />
     - `_single`
         - Applied to the root tag if there is only one page to select
     - `separator`
-    - `control`
-        - Applied to page change controls and to pages itselfs
-    - `control__active`
-        - Applied to currently selected page
-    - `control__disable`
-        - Applied to page change control if there is no pages before or next<br /><br />
+    - `icon_prev`
+        - Applied to _go to previous page_ switcher
+    - `icon_next`
+        - Applied to _go to next page_ switcher
+    - `icon__disable`
+        - Applied to page change switcher if there is no pages before or next
+    - `page`
+        - Applied to every page change switcher but icons next / prev
+    - `page__active`
+        - Applied to currently selected page<br /><br />
 
 - `listLength`
     - **Required**

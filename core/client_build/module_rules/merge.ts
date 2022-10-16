@@ -18,11 +18,13 @@ const mergeLoaders: MergeLoadersFn = (userLoader, defaultLoader) => {
 
             :   (userLoader as LoaderObj).enabled !== false
 
-                ?   Object.assign({}, defaultLoader, userLoader as LoaderObj, {
+                ?   {
+                        ...defaultLoader,
+                        ...userLoader as LoaderObj,
                         options: typeof (userLoader as LoaderObj).options == 'function'
                             ?   ((userLoader as LoaderObj).options as LoaderOptionsFn)(defaultLoader!.options)
                             :   (userLoader as LoaderObj).options
-                    })
+                    }
 
                 :   undefined
 
@@ -138,7 +140,7 @@ function merge(defaultModules: DefaultRulesData, userModules: UserRulesData = { 
                         ruleOptions: ruleOptions
                             ?   typeof ruleOptions == 'function'
                                 ?   ruleOptions(defaultRuleOptions as RuleOptions)
-                                :   Object.assign({}, defaultRuleOptions, ruleOptions)
+                                :   { ...defaultRuleOptions, ...ruleOptions }
                             :   defaultRuleOptions as RuleOptions
                     }
                 )

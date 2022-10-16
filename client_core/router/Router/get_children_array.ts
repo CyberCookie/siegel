@@ -136,7 +136,7 @@ const parsePathname: ParsePathname = (props, pathname, newHistoryState = null) =
                 if (children) {
                     if (isExists(transition)) {
                         transitionData = transition
-                            ?   Object.assign({}, transitionData, transition)
+                            ?   { ...transitionData, ...transition }
                             :   transition
                     }
 

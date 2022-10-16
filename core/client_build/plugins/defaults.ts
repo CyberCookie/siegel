@@ -57,18 +57,20 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             enabled: isProd,
             instances: {
                 br: {
-                    options: Object.assign({}, compressionInstanceCommonOptions, {
+                    options: {
+                        ...compressionInstanceCommonOptions,
                         filename: (outputFilenames as FilenamesProd).brotli!,
                         algorithm: 'brotliCompress',
                         compressionOptions: {
                             level: 11
                         }
-                    })
+                    }
                 },
                 gzip: {
-                    options: Object.assign({}, compressionInstanceCommonOptions, {
+                    options: {
+                        ...compressionInstanceCommonOptions,
                         filename: (outputFilenames as FilenamesProd).gzip!
-                    })
+                    }
                 }
             }
         },

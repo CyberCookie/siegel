@@ -47,9 +47,8 @@ type Props = PropsComponentThemed<Theme, {
 }>
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
     rangersCrossBehavior: Props['rangersCrossBehavior']
-    rangePickIcon: Props['rangePickIcon']
 }>
 
 type MergedProps = Props & DefaultProps
@@ -58,5 +57,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, MergedProps, Component, State, RangeCrossTypeMap
+    Props, DefaultProps, MergedProps, Component, State, RangeCrossTypeMap
 }

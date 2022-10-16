@@ -2,7 +2,7 @@ import React from 'react'
 
 
 type ThemeWithChildren = {
-    children: string
+    children?: string
 }
 
 

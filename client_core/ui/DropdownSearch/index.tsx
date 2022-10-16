@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import isExists from '../../../common/is/exists'
+import applyClassName from '../_internals/apply_classname'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import handleKeyboardSelect, {
     Store as HandleKeyboardSelectStore
@@ -14,34 +15,36 @@ import Input, {
 } from '../Input'
 import getSearchOptionsElements from './helpers/get_search_options_elements'
 
-import type { Component, State, Option, Props, onSelectInner } from './types'
+import type { DefaultProps, Component, State, Option, Props, onSelectInner } from './types'
 
 import styles from './styles.sass'
 
 
+const _undef = undefined
 const componentID = '-ui-dropdown_search'
 
 const getDefaultState: () => State = () => ({
-    searchString: undefined,
-    arrowSelectIndex: undefined
+    searchString: _undef,
+    arrowSelectIndex: _undef
 })
 
-const DropdownSearch: Component = component(
+const DropdownSearch = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            _with_suggestions: '',
-            _with_label: '',
-            _disabled: '',
-            _focused: '',
-            _error: '',
-            reset: '',
-            children: '',
-            options: '',
-            option: '',
-            option__selected: '',
-            option__disabled: ''
+            root: _undef,
+            _with_suggestions: _undef,
+            _disabled: _undef,
+            _focused: _undef,
+            _error: _undef,
+            reset: _undef,
+            input_wrapper: _undef,
+            label: _undef,
+            children: _undef,
+            options: _undef,
+            option: _undef,
+            option__selected: _undef,
+            option__disabled: _undef
         },
         listDisabledOptions: true,
         minInputLength: 3
@@ -49,10 +52,10 @@ const DropdownSearch: Component = component(
     props => {
 
         const {
-            theme, minInputLength, onSearch, className, showOnFocus, onChange, refApi, inputStore,
+            minInputLength, theme, onSearch, className, showOnFocus, onChange, refApi, inputStore,
             selected, searchOptions, rootTagAttributes, disabled, store, label, resetIcon, children,
             inputTheme, inputChildren, autofocus, placeholder, inputTagAttributes, errorMsg, regexp,
-            mask, debounceMs, onBlur, onFocus, inputMemoDeps, inputRootTagAttributes
+            mask, debounceMs, onBlur, onFocus, inputMemoDeps, inputRootTagAttributes, inputClassName
         } = props
 
         const innerStore = store || useState( getDefaultState() )
@@ -70,23 +73,12 @@ const DropdownSearch: Component = component(
 
         function resetSelected(e: React.KeyboardEvent | React.MouseEvent) {
             setState( getDefaultState() )
-            onChange(undefined, e)
+            onChange(_undef, e)
         }
 
 
         const _inputStore = inputStore || useState( getDefaultInputStoreState() )
         const { isFocused } = _inputStore[0]
-
-        let dropdownSearchRootProps: Props['rootTagAttributes'] = {
-            className,
-            onBlur(e) {
-                if (e.relatedTarget !== e.currentTarget) {
-                    if (searchString == '') onChange(undefined, e)
-                    else setState( getDefaultState() )
-                }
-            }
-        }
-
 
         const isShowOptions = isFocused
             && (showOnFocus || (searchString ? searchString.length : 0) >= minInputLength)
@@ -99,42 +91,46 @@ const DropdownSearch: Component = component(
                 selectedOption, optionsElement, selectedOptionIndex
             } = getSearchOptionsElements(props, state, onSelect))
 
-            if (optionsElement) {
-                dropdownSearchRootProps.className += ` ${theme._with_suggestions}`
-            }
-
         } else if (selected) {
             selectedOption = searchOptions.find(({ value }) => value == selected)
         }
 
-        if (isFocused) {
-            dropdownSearchRootProps.className += ` ${theme._focused}`
-            dropdownSearchRootProps.onKeyDown = e => {
-                handleKeyboardSelect(
-                    {
-                        selectStore: innerStore as unknown as HandleKeyboardSelectStore,
-                        keyCode: e.nativeEvent.key,
-                        options: searchOptions,
-                        selectedOptionIndex
-                    },
-                    {
-                        onDelete() { resetSelected(e) },
-                        onEnter() { onSelect(searchOptions[arrowSelectIndex!], e) }
-                    }
-                )
+
+        let dropdownSearchRootProps: Props['rootTagAttributes'] = {
+            className: applyClassName(className, [
+                [ theme._with_suggestions, isExists(optionsElement) ],
+                [ theme._focused, isFocused ],
+                [ theme._error, isExists(errorMsg) ],
+                [ theme._disabled, disabled ]
+            ]),
+            onBlur(e) {
+                if (e.relatedTarget !== e.currentTarget) {
+                    if (searchString == '') onChange(_undef, e)
+                    else setState( getDefaultState() )
+                }
             }
         }
-
-        errorMsg && (dropdownSearchRootProps.className += ` ${theme._error}`)
-        disabled && (dropdownSearchRootProps.className += ` ${theme._disabled}`)
-        label && (dropdownSearchRootProps.className += ` ${theme._with_label}`)
+        isFocused && (dropdownSearchRootProps.onKeyDown = e => {
+            handleKeyboardSelect(
+                {
+                    selectStore: innerStore as unknown as HandleKeyboardSelectStore,
+                    keyCode: e.nativeEvent.key,
+                    options: searchOptions,
+                    selectedOptionIndex
+                },
+                {
+                    onDelete() { resetSelected(e) },
+                    onEnter() { onSelect(searchOptions[arrowSelectIndex!], e) }
+                }
+            )
+        })
 
         refApi && applyRefApi(dropdownSearchRootProps, props)
         rootTagAttributes && (dropdownSearchRootProps = mergeTagAttributes(dropdownSearchRootProps, rootTagAttributes))
 
 
         const inputInnerProps: InputProps = {
-            disabled, label, mask, regexp, placeholder, errorMsg,
+            disabled, mask, regexp, placeholder, errorMsg,
             debounceMs, autofocus, onBlur, onFocus,
             theme: inputTheme,
             inputAttributes: inputTagAttributes,
@@ -155,6 +151,8 @@ const DropdownSearch: Component = component(
                     ?   selectedOption.inputValue
                     :   ''
         }
+        inputClassName && (inputInnerProps.className += ` ${inputClassName}`)
+
         if (resetIcon && selected) {
             const resetIconElem = (
                 <div className={ theme.reset } children={ resetIcon }
@@ -169,12 +167,25 @@ const DropdownSearch: Component = component(
                 :   resetIconElem
         }
 
+        const inputElement = <Input { ...inputInnerProps } />
+
 
         return (
             <div { ...dropdownSearchRootProps }>
-                <Input { ...inputInnerProps } />
+                { label
+                    ?   <>
+                            <div className={ theme.label } children={ label } />
 
-                { optionsElement }
+                            <div className={ theme.input_wrapper }>
+                                { inputElement }
+                                { optionsElement }
+                            </div>
+                        </>
+                    :   <>
+                            { inputElement }
+                            { optionsElement }
+                        </>
+                }
 
                 { children && addChildren(children, theme) }
             </div>

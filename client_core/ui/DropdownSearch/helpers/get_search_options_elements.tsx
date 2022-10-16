@@ -1,5 +1,7 @@
 import React from 'react'
 
+import applyClassName from '../../_internals/apply_classname'
+
 import type { ReactTagAttributes } from '../../_internals/types'
 import type { MergedProps, State, onSelectInner } from '../types'
 
@@ -28,19 +30,15 @@ function getSearchOptions(props: MergedProps, state: State, onSelect: onSelectIn
 
         if (canPush) {
             const optionProps: ReactTagAttributes<HTMLDivElement> = {
-                className: theme.option,
+                className: applyClassName(theme.option, [
+                    [ className, true ],
+                    [ theme.option__selected, isSelected || arrowSelectIndex == i ],
+                    [ theme.option__disabled, disabled ]
+                ]),
                 children: title || inputValue,
                 key: value
             }
-
-            className && (optionProps.className += ` ${className}`)
-            if (isSelected || arrowSelectIndex == i) {
-                optionProps.className += ` ${theme.option__selected}`
-            }
-
-            if (disabled) optionProps.className += ` ${theme.option__disabled}`
-            else optionProps.onMouseDown = e => { onSelect(option, e) }
-
+            disabled || (optionProps.onMouseDown = e => { onSelect(option, e) })
 
             options.push( <div { ...optionProps } /> )
         }

@@ -10,19 +10,19 @@ import intervalWorker, {
 import useDidUpdate from '../../hooks/did_update'
 import component from '../_internals/component'
 
-import type { Component, Props } from './types'
+import type { Component, Props, DefaultProps } from './types'
 
 
 const worker = intervalWorker()
 
 const componentID = '-ui-clocks'
 
-const Clocks: Component = component(
+const Clocks = component<Props, DefaultProps>(
     componentID,
     {
         speedCoef: 1,
-        tickEveryMinute: true as boolean,
-        zeroing: true as boolean
+        tickEveryMinute: true,
+        zeroing: true
     },
     props => {
 

@@ -1,5 +1,8 @@
 import React from 'react'
 
+import isExists from '../../../../common/is/exists'
+import applyClassName from '../../_internals/apply_classname'
+
 import type { ReactTagAttributes } from '../../_internals/types'
 import type { MergedProps, Store } from '../types'
 
@@ -32,23 +35,18 @@ function getOptions(
             if (!listSelectedOption) continue
         }
 
-        let optionClassName = theme.option
-        if (isSelected || arrowSelectIndex == i) {
-            optionClassName += ` ${theme.option__active}`
-        }
-        className && (optionClassName += ` ${className}`)
-
         const optionProps: ReactTagAttributes<HTMLDivElement> = {
             children: title,
-            className: optionClassName,
+            className: applyClassName(theme.option, [
+                [ theme.option__active, isSelected || arrowSelectIndex == i ],
+                [ theme.option__disabled, disabled ],
+                [ className, true ]
+            ]),
+            onMouseDown: disabled
+                ?   undefined
+                :   e => { onSelect(value, e, payload) },
             key: value
         }
-
-        disabled
-            ?   optionProps.className += ` ${theme.option__disabled}`
-            :   optionProps.onMouseDown = (e: React.MouseEvent) => {
-                    onSelect(value, e, payload)
-                }
 
 
         optionElements.push( <div { ...optionProps } /> )

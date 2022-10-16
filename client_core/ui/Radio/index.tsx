@@ -1,15 +1,18 @@
 import React from 'react'
 
+import isExists from '../../../common/is/exists'
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 
 import type {
-    Component, Props, MergedProps,
+    Component, Props, DefaultProps, MergedProps,
     MultiSelectProps, SingleSelectProps
 } from './types'
 
 
+const _undef = undefined
 const componentID = '-ui-radio'
 
 function getOptions(mergedProps: MergedProps) {
@@ -19,41 +22,38 @@ function getOptions(mergedProps: MergedProps) {
     return options.map((option: MergedProps['options'][number]) => {
         const { id, content, className, payload } = option
 
-        let optionClassName = theme.option
-        className && (optionClassName += ` ${className}`)
-
-        if ((multiple && (selected as Set<string>).has(id)) || (!multiple && selected == id)) {
-            optionClassName += ` ${theme.option__selected}`
-        }
+        const optionClassName = applyClassName(theme.option, [
+            [ className, true ],
+            [ theme.option__selected, multiple ? selected.has(id) : selected == id ]
+        ])
 
 
         return (
             <div key={ id } className={ optionClassName } children={ content }
-                onMouseDown={ (e: React.MouseEvent) => { disabled || onChange(id, e, payload) } } />
+                onMouseDown={ disabled ? undefined : (e: React.MouseEvent) => { onChange(id, e, payload) } } />
         )
     })
 }
 
-const Radio: Component = component(
+const Radio = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            option: '',
-            option__selected: '',
-            _disabled: ''
+            root: _undef,
+            option: _undef,
+            option__selected: _undef,
+            _disabled: _undef
         }
     },
     props => {
 
-        const { disabled, theme, rootTagAttributes, refApi } = props
+        const { disabled, theme, className, rootTagAttributes, refApi } = props
 
 
         let rootProps = {
-            className: props.className,
+            className: applyClassName(className, [[ theme._disabled, disabled ]]),
             children: getOptions(props)
         }
-        disabled && (rootProps.className += ` ${theme._disabled}`)
         refApi && (applyRefApi(rootProps, props))
         rootTagAttributes && (rootProps = mergeTagAttributes(rootProps, rootTagAttributes))
 

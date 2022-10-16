@@ -7,9 +7,10 @@ type ComponentFocusEvent = React.FocusEvent<HTMLDivElement>
 
 type onChangeEventType = React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>
 
-type InnerInputAttributes = {
+type InnerInputAttributes<> = {
     onChange?(e: onChangeEventType): void
-} & ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+} & (ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+    |   ReactTagAttributes<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>)
 
 type InputRef = React.MutableRefObject<HTMLInputElement>
 
@@ -70,10 +71,12 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
 }>
 
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, Component, InnerInputAttributes, InputRef, DebounceStore }
+export type {
+    Props, DefaultProps, Component, InnerInputAttributes, InputRef, DebounceStore
+}

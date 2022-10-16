@@ -3,7 +3,7 @@ import type { MergedProps } from '../types'
 
 type GetRangeElement = (
     key: string,
-    className: string,
+    className: string | undefined,
     width: number,
     isVertical: MergedProps['isVertical']
 ) => JSX.Element

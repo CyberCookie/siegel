@@ -64,9 +64,8 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
 }>
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
     closeOnSelect: Props['closeOnSelect']
-    listSelectedOption: Props['listSelectedOption']
     listDisabledOptions: Props['listDisabledOptions']
 }>
 
@@ -75,4 +74,4 @@ type MergedProps = Props & DefaultProps
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, Component, Store, MergedProps, OnSelect, RootRef }
+export type { Props, DefaultProps, Component, Store, MergedProps, OnSelect, RootRef }

@@ -25,9 +25,10 @@ Dropdown options selector<br />
         - Applied if `props.errorMsg` is not empty
     - `children`
     - `label`
-    - `title`
+    - `title_wrapper`
     - `title_text`
     - `input_wrapper`
+        - Wrapps `title_wrapper`, `options` and `error_text`, if label is applied
     - `reset`
     - `error_text`
     - `options`

@@ -2,7 +2,7 @@ import type { PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes } 
 
 
 type PostProcessCalendarDayParams = {
-    className: string
+    className: string | undefined
     children: React.ReactNode
 }
 
@@ -76,12 +76,8 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 }>
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
     strings: StringValues
-    prevMonthIcon: Props['prevMonthIcon']
-    nextMonthIcon: Props['nextMonthIcon']
-    prevYearIcon: Props['prevYearIcon']
-    nextYearIcon: Props['nextYearIcon']
     monthsBefore: Props['monthsBefore']
     monthsAfter: Props['monthsAfter']
     fixedHeight: Props['fixedHeight']
@@ -102,4 +98,4 @@ type Store = ReactStore<{
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Component, Store, Props, MergedProps }
+export type { Component, Store, Props, DefaultProps, MergedProps }

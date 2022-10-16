@@ -42,6 +42,6 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Component, Props,
+    Component, Props, DefaultProps,
     TableCell, TableRow, TableTH, TableTD, TableBodyRow, TableHeadRow
 }

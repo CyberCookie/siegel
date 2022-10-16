@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import floatMath from '../../../common/math/floats_arifmetic'
 import isExists from '../../../common/is/exists'
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
 import applyRefApi from '../_internals/ref_apply'
@@ -12,29 +13,28 @@ import Input, {
     Props as InputProps
 } from '../Input/index'
 import {
-    buildInputRegexp, normalizeInputValue, stringToNumberValue, getValuePrecision,
-    getStepButtons
+    buildInputRegexp, getInputString, getValuePrecision, getStepButtons, checkRanges
 } from './helpers'
 
-import type { Component, OnNumberPickerChange, Props } from './types'
+import type { OnNumberPickerChange, Props, Component, DefaultProps } from './types'
 
 import styles from './styles.sass'
 
 
+const _undef = undefined
 const componentID = '-ui-number_picker'
 
-const NumberPicker: Component = component(
+const NumberPicker = component<Props, DefaultProps>(
     componentID,
     {
-        className: styles[`${componentID}_inner`] as string,
+        className: styles.root!,
         theme: {
-            root: '',
-            children: '',
-            controls: '',
-            button_minus: '',
-            button_plus: '',
-            input_root: '',
-            _disabled_all: ''
+            root: _undef,
+            children: _undef,
+            controls: _undef,
+            button_minus: _undef,
+            button_plus: _undef,
+            _disabled_all: _undef
         },
         minusIcon: '-',
         plusIcon: '+',
@@ -55,10 +55,14 @@ const NumberPicker: Component = component(
         const { isFocused } = _inputStore[0]
 
         const numberMask = regexp || buildInputRegexp(min, max, precision)
-        const numberValue = stringToNumberValue(value, min, max)
+        const numberValue = typeof value == 'number'
+            ?   value
+            :   parseFloat(value)
 
 
-        let numberpickerRootProps: Props['rootTagAttributes'] = { className }
+        let numberpickerRootProps: Props['rootTagAttributes'] = {
+            className: applyClassName(className, [[ theme._disabled_all, disabled ]])
+        }
         if (disabledInput && !disabled) {
             const [ inputState, setInputState ] = _inputStore
 
@@ -74,7 +78,7 @@ const NumberPicker: Component = component(
                 setInputState({ ...inputState })
             })
         }
-        disabled && (numberpickerRootProps.className += ` ${theme._disabled_all}`)
+
         refApi && (applyRefApi(numberpickerRootProps, props))
 
 
@@ -86,30 +90,41 @@ const NumberPicker: Component = component(
 
             let result: string | number
             if (step) {
-                const stepPrecision = getValuePrecision(step)
-                const indexOfNumberValuePrecision = getValuePrecision(numberValue)
+                if (isNaN(numberValue)) {
+                    result = step < 0
+                        ?   isFinite(max)
+                            ?   max
+                            :   isFinite(min) ? min : 0
+                        :   isFinite(min)
+                            ?   min
+                            :   isFinite(max) ? max : 0
 
-                if (stepPrecision || indexOfNumberValuePrecision) {
-                    const presision = Math.max(stepPrecision, indexOfNumberValuePrecision)
-                    result = floatMath(presision, numberValue, step)
+                } else {
+                    result = checkRanges(numberValue, min, max)
 
-                } else result = numberValue + step
-            } else result = numberValue
+                    const stepPrecision = getValuePrecision(step)
+                    const indexOfNumberValuePrecision = getValuePrecision(numberValue)
 
-            result < min
-                ?   (result = min)
-                :   result > max && (result = max)
+                    if (stepPrecision || indexOfNumberValuePrecision) {
+                        const presision = Math.max(stepPrecision, indexOfNumberValuePrecision)
+                        result = floatMath(presision, numberValue, step)
+
+                    } else result = numberValue + step
+                }
+
+            } else result = checkRanges(numberValue, min, max)
+
 
             precision && (result = result.toFixed(precision))
 
             result === value || onChange({
                 value: `${result}`,
+                isValid: true,
+                numberValue: +result,
                 event, isKeyboardArrowUp, payload
             })
         }
 
-
-        theme.root = theme.input_root
 
         const inputFieldProps: InputProps = {
             label, errorMsg, placeholder, inputAttributes, onFocus, mask,
@@ -118,15 +133,19 @@ const NumberPicker: Component = component(
             memoDeps: inputMemoDeps,
             rootTagAttributes: inputRootAttributes,
             regexp: numberMask,
-            value: normalizeInputValue(value, precision, isFocused),
+            value: getInputString({ value, precision, numberValue, numberMask, isFocused }),
             store: _inputStore,
             disabled: disabled || disabledInput,
             onBlur: onNumberPickerChange,
             onChange(value, event) {
+                const valueString = value.replace(',', '.')
+                const numberValue = parseFloat(valueString)
+
                 onChange({
-                    event, payload,
-                    isKeyboardArrowUp: undefined,
-                    value: value.replace(',', '.')
+                    event, payload, numberValue,
+                    isValid: !isNaN(numberValue) && numberValue == checkRanges(numberValue, min, max),
+                    isKeyboardArrowUp: _undef,
+                    value: valueString
                 })
             }
         }
@@ -141,15 +160,14 @@ const NumberPicker: Component = component(
                     const keyCode = event.nativeEvent.key
 
                     if (keyCode == keyCodes.DELETE) {
-                        const newValue = inputFieldProps.disabled
-                            ?   `${isFinite(min) ? min : 0}`
-                            :   ''
-
-                        onChange({
-                            value: newValue,
-                            isKeyboardArrowUp: undefined,
+                        inputFieldProps.disabled || onChange({
+                            numberValue: NaN,
+                            value: '',
+                            isValid: false,
+                            isKeyboardArrowUp: _undef,
                             event, payload
                         })
+
                     } else {
                         const isKeyUp = keyCode == keyCodes.UP
 

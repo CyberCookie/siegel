@@ -4,6 +4,7 @@ type ComponentRefApi<_Props> = {
 }
 
 type PropsComponentBase<_Props extends Indexable = Indexable> = {
+    _noMergeWithDefaults?: boolean
     className?: string
     refApi?: ComponentRefApi<PropsComponentBase<_Props>>
     memoDeps?(

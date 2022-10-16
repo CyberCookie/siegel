@@ -9,6 +9,7 @@ declare module '*.sass' {
 declare function isNaN(value: any): boolean
 declare function isFinite(value: any): boolean
 declare function parseInt(value: any, radix?: string): number
+declare function parseFloat(value: any): number
 
 interface URLSearchParams {
     append(key: string, value: any): void

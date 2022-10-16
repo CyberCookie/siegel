@@ -1,5 +1,6 @@
 import React from 'react'
 
+import applyClassName from '../../../../_internals/apply_classname'
 import getFirstMonthDate from '../../get_first_month_date'
 import getDayClassName from './get_day_classname'
 import getCalendarMonthDays from './get_days_data_array'
@@ -28,11 +29,15 @@ const getDays = (props: ChildProps) => {
         beginOfMonth, hideSiblingMonthsDays, weekStartsFrom, fixedHeight
     })
 
-    let className = theme.month_days_wrapper
-    inProgress && (className += ` ${theme._in_progress}`)
+    const className = applyClassName(theme.month_days_wrapper, [[ theme._in_progress, inProgress ]])
 
-    const rowClassName = `${theme.row} ${styles.row}`
-    const hiddenDateClassName = `${theme.day} ${theme.day__hidden} ${styles.day__hidden}`
+    let rowClassName = styles.row
+    theme.row && (rowClassName += ` ${rowClassName}`)
+
+    const hiddenDateClassName = applyClassName(styles.day__hidden, [
+        [ theme.day, true ],
+        [ theme.day__hidden, true ]
+    ])
 
     const rows = []
     for (let i = 0, day = 0; i <= allDays.length / DAYS_IN_WEEK && day < allDays.length; i++) {
@@ -41,7 +46,7 @@ const getDays = (props: ChildProps) => {
         for (let dayInWeek = 0; dayInWeek < DAYS_IN_WEEK; dayInWeek++, day++) {
             const { timestamp, date, hidden, isSiblingMonth } = allDays[day]
 
-            let children, className
+            let children, className: string | undefined
             if (hidden) {
                 className = hiddenDateClassName
             } else {

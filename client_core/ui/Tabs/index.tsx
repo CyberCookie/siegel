@@ -2,15 +2,17 @@
 
 import React from 'react'
 
+import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
 
 import type { ReactTagAttributes } from '../_internals/types'
-import type { MergedProps, Component, Props, Tab } from './types'
+import type { MergedProps, Component, Props, DefaultProps, Tab } from './types'
 
 
+const _undef = undefined
 const componentID = '-ui-tabs'
 
 const getContent = (content: Tab['content']) => (
@@ -27,11 +29,8 @@ function getTabsVisual(mergedProps: MergedProps) {
         const { label, id, payload, content } = tab
 
         const isSelected = activeTab == id
-        let labelClassName = theme.label
 
         if (renderAll || isSelected) {
-            isSelected && (labelClassName += ` ${theme.label__active}`)
-
             let tabContent = getContent(content)
             if (renderAll) {
                 const wrapperProps: ReactTagAttributes<HTMLDivElement> = {
@@ -50,7 +49,12 @@ function getTabsVisual(mergedProps: MergedProps) {
 
 
         return (
-            <div key={ id } className={ labelClassName } children={ label }
+            <div key={ id } children={ label }
+                className={
+                    applyClassName(theme.label, [
+                        [ theme.label__active, isSelected ]
+                    ])
+                }
                 onMouseDown={ e => { onChange(id, e, payload) } } />
         )
     })
@@ -61,7 +65,7 @@ function getTabsVisual(mergedProps: MergedProps) {
             ?   renderAll
                 ?   tabsContent
                 :   <div className={ theme.content } children={ tabsContent[0] } />
-            :   undefined,
+            :   _undef,
         labels: <div className={ theme.labels_wrapper } children={ labels } />
     }
 }
@@ -69,9 +73,11 @@ function getTabsVisual(mergedProps: MergedProps) {
 function getTabRootProps(mergedProps: MergedProps, activeTabContent: React.ReactNode) {
     const { theme, rootTagAttributes, refApi, className } = mergedProps
 
-    let tabsRootProps = { className }
-
-    activeTabContent || (tabsRootProps.className += ` ${theme.content__empty}`)
+    let tabsRootProps = {
+        className: applyClassName(className, [
+            [ theme.content__empty, !activeTabContent ]
+        ])
+    }
 
     refApi && applyRefApi(tabsRootProps, mergedProps)
 
@@ -83,17 +89,17 @@ function getTabRootProps(mergedProps: MergedProps, activeTabContent: React.React
     return tabsRootProps
 }
 
-const Tabs: Component = component(
+const Tabs = component<Props, DefaultProps>(
     componentID,
     {
         theme: {
-            root: '',
-            children: '',
-            labels_wrapper: '',
-            label: '',
-            label__active: '',
-            content: '',
-            content__empty: ''
+            root: _undef,
+            children: _undef,
+            labels_wrapper: _undef,
+            label: _undef,
+            label__active: _undef,
+            content: _undef,
+            content__empty: _undef
         }
     },
     props => {

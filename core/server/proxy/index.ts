@@ -1,7 +1,7 @@
 import http from 'http'
 import https from 'https'
-import querystring, { ParsedUrlQueryInput } from 'querystring'
 
+import isEmptyObject from '../../../common/is/empty_obj'
 import populateURLParams from '../../../common/populate_url_params'
 
 import type { RequestHandler } from 'express'
@@ -22,9 +22,9 @@ const proxy: Proxy = proxyParams => {
 
         const proxyQuery = proxyParams.query || query
         const proxyPath = proxyParams.path || path
-        let finalPath = Object.keys(proxyQuery).length
-            ?   `${proxyPath}?${querystring.stringify(proxyQuery as ParsedUrlQueryInput)}`
-            :   proxyPath
+        let finalPath = isEmptyObject(proxyQuery)
+            ?   proxyPath
+            :   `${proxyPath}?${new URLSearchParams(proxyQuery as Indexable<string>).toString()}`
 
         params && (finalPath = populateURLParams(finalPath, params))
 

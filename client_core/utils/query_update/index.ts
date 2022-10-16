@@ -1,3 +1,6 @@
+import isExists from '../../../common/is/exists'
+
+
 type QueryValue = string | number | boolean
 
 type UpdateURLQuery = {
@@ -9,7 +12,9 @@ type UpdateURLQuery = {
 
 
 function updateQuery(query: URLSearchParams, key: string, value: QueryValue | undefined) {
-    value === '' ? query.delete(key) : query.set(key, (value as string))
+    value === '' || !isExists(value)
+        ?   query.delete(key)
+        :   query.set(key, (value as string))
 }
 
 const updateURLQuery: UpdateURLQuery = function(key, value) {

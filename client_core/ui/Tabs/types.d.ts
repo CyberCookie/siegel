@@ -30,7 +30,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 }>
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
 }>
 
 type MergedProps = Props & DefaultProps
@@ -38,4 +38,4 @@ type MergedProps = Props & DefaultProps
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, MergedProps, Component, Tab }
+export type { Props, DefaultProps, MergedProps, Component, Tab }

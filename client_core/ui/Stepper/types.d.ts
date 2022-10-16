@@ -51,10 +51,10 @@ type Props = PropsComponentThemed<Theme, {
 }>
 
 type DefaultProps = NonNullableKeys<{
-    theme: Required<Props['theme']>
+    theme: Props['theme']
 }>
 
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, Component, State }
+export type { Props, DefaultProps, Component, State }

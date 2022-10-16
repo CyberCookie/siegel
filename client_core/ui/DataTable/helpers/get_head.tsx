@@ -81,7 +81,8 @@ function getHead(props: MergedProps, state: State, resultIDs: string[], from: nu
     const { columnsConfig, resizable, theme, postProcessHeadRow, postProcessHeadCell } = props
     const { toggledColumns } = state
 
-    const resizerClassName = `${styles.table_resizer} ${theme.table_resizer}`
+    let resizerClassName = styles.table_resizer
+    theme.table_resizer && (resizerClassName += ` ${theme.table_resizer}`)
 
 
     let displayedEntityIDs: DisplayedEntityIDs

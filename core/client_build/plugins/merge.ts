@@ -12,7 +12,7 @@ const mergeOptions = (
         ?   userOptions(defaultOptions)
 
         :   !rewrite && typeof defaultOptions == 'object' && !Array.isArray(defaultOptions)
-            ?   Object.assign({}, defaultOptions, userOptions)
+            ?   { ...defaultOptions, ...userOptions }
             :   userOptions
 )
 
