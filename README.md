@@ -103,7 +103,7 @@ Now your application is hosting on **localhost:3000** in watch mode and ready fo
 
 <br />
 
-You may also define **NodeJS dev server** with `--server` flag:
+You may also define **NodeJS dev server** using `--server` flag:
 
 
 ```js
@@ -124,11 +124,7 @@ npx siegel run --server server.js
 
 <br />
 
-To get more info about Siegel CLI commands run:
-
-```sh
-npx siegel
-```
+Run `npx siegel` To get list of Siegel CLI commands
 
 <br /><br />
 
@@ -138,9 +134,9 @@ npx siegel
 <hr /><br />
 
 <p>
-    Appart from calling Siegel from CLI you may also use it in the most straightforward and flexible way - as a NodeJS module!<br />
-    Siegel itself is a function that accepts <a href='#config'>config</a> as a first argument and <a href='#runParams'>runParams</a> as a second<br />
-    You may read about these parameters further
+    Siegel it's just a bunch of client / server side modules you may use together or appart.<br />
+    To launch siegel you just import and call it passing<br />
+    <a href='#config'>config</a> as a first argument and <a href='#runParams'>runParams</a> as a second
 </p><br />
 
 
@@ -153,7 +149,7 @@ siegel(config, runParams)
 
 <br />
 
-There is another signature when you only specify absolute path to js entry file:
+Or just pass an entry point to __react app__ and it will do everything else for you:
 
 ```js
 import siegel from 'siegel'
