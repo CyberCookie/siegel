@@ -110,11 +110,11 @@ Searchable input with select hints built on top of **Input** component<br />
     - **React.ReactNode**
     - Icon to reset selection. There is no reset control if icon is not specified<br /><br />
 
+- `children`- **Input.children**
+
 - `inputClassName` - **Input.className**
 
 - `inputTheme` - **Input.theme**
-
-- `inputChildren` - **Input.children**
 
 - `inputStore` - **Input.store**
 

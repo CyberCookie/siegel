@@ -6,14 +6,14 @@ import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
 import applyRefApi from '../_internals/ref_apply'
-import addChildren from '../_internals/children'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import Input, {
     getDefaultState as getDefaultInputStoreState,
     Props as InputProps
-} from '../Input/index'
+} from '../Input'
 import {
-    buildInputRegexp, getInputString, getValuePrecision, getStepButtons, checkRanges
+    buildInputRegexp, getInputString, getValuePrecision, getStepButtons,
+    checkRanges, pretifyInputString
 } from './helpers'
 
 import type { OnNumberPickerChange, Props, Component, DefaultProps } from './types'
@@ -30,7 +30,6 @@ const NumberPicker = component<Props, DefaultProps>(
         className: styles.root!,
         theme: {
             root: _undef,
-            children: _undef,
             controls: _undef,
             button_minus: _undef,
             button_plus: _undef,
@@ -47,7 +46,7 @@ const NumberPicker = component<Props, DefaultProps>(
             theme, disabled, onChange, onFocus, step, precision, min, max, disabledInput, className,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
             refApi, rootTagAttributes, inputRootAttributes, children, onBlur, debounceMs,
-            autofocus, mask, inputTheme, inputMemoDeps
+            autofocus, mask, inputTheme, inputMemoDeps, inputClassName
         } = props
 
 
@@ -126,26 +125,29 @@ const NumberPicker = component<Props, DefaultProps>(
         }
 
 
+        const inputValue = getInputString({ value, precision, numberValue, numberMask, isFocused })
+
         const inputFieldProps: InputProps = {
-            label, errorMsg, placeholder, inputAttributes, onFocus, mask,
+            children, errorMsg, placeholder, inputAttributes, onFocus, mask,
             debounceMs, autofocus,
             theme: inputTheme,
             memoDeps: inputMemoDeps,
+            className: inputClassName,
             rootTagAttributes: inputRootAttributes,
             regexp: numberMask,
-            value: getInputString({ value, precision, numberValue, numberMask, isFocused }),
+            value: inputValue,
             store: _inputStore,
             disabled: disabled || disabledInput,
             onBlur: onNumberPickerChange,
             onChange(value, event) {
-                const valueString = value.replace(',', '.')
-                const numberValue = parseFloat(valueString)
+                const newValueString = pretifyInputString(value)
+                const numberValue = parseFloat(value)
 
-                onChange({
+                inputValue != newValueString && onChange({
                     event, payload, numberValue,
+                    value: newValueString,
                     isValid: !isNaN(numberValue) && numberValue == checkRanges(numberValue, min, max),
-                    isKeyboardArrowUp: _undef,
-                    value: valueString
+                    isKeyboardArrowUp: _undef
                 })
             }
         }
@@ -188,14 +190,24 @@ const NumberPicker = component<Props, DefaultProps>(
             numberpickerRootProps = mergeTagAttributes(numberpickerRootProps, rootTagAttributes)
         }
 
+        const inputElement = <Input { ...inputFieldProps } />
+
 
         return (
             <div { ...numberpickerRootProps }>
-                <Input { ...inputFieldProps } />
-
-                { stepper }
-
-                { children && addChildren(children, theme) }
+                { label
+                    ?   <>
+                            <div className={ theme.label } children={ label } />
+                            <div className={ theme.input_wrapper }>
+                                { inputElement }
+                                { stepper }
+                            </div>
+                        </>
+                    :   <>
+                            { inputElement }
+                            { stepper }
+                        </>
+                }
             </div>
         )
     }

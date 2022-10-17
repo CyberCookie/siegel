@@ -8,7 +8,6 @@ import handleKeyboardSelect, {
 } from '../_internals/handle_keyboard_selection'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
-import addChildren from '../_internals/children'
 import Input, {
     getDefaultState as getDefaultInputStoreState,
     Props as InputProps
@@ -40,7 +39,6 @@ const DropdownSearch = component<Props, DefaultProps>(
             reset: _undef,
             input_wrapper: _undef,
             label: _undef,
-            children: _undef,
             options: _undef,
             option: _undef,
             option__selected: _undef,
@@ -130,13 +128,12 @@ const DropdownSearch = component<Props, DefaultProps>(
 
 
         const inputInnerProps: InputProps = {
-            disabled, mask, regexp, placeholder, errorMsg,
+            children, disabled, mask, regexp, placeholder, errorMsg,
             debounceMs, autofocus, onBlur, onFocus,
             theme: inputTheme,
             inputAttributes: inputTagAttributes,
             rootTagAttributes: inputRootTagAttributes,
             memoDeps: inputMemoDeps,
-            children: inputChildren,
             store: _inputStore,
             className: styles.input,
             onChange(value, e) {
@@ -186,8 +183,6 @@ const DropdownSearch = component<Props, DefaultProps>(
                             { optionsElement }
                         </>
                 }
-
-                { children && addChildren(children, theme) }
             </div>
         )
     }

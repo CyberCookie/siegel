@@ -98,7 +98,7 @@ const Input = component<Props, DefaultProps>(
         let inputRootProps: Props['rootTagAttributes'] = {
             className: applyClassName(className, [
                 [ theme.textarea, isTextarea ],
-                [ theme._error, isExists(errorMsg) ],
+                [ theme._error, !!errorMsg ],
                 [ theme._filled, value.length > 0 || isExists(mask?.pattern) ],
                 [ theme._focused, isFocused ],
                 [ theme._touched, isTouched ],

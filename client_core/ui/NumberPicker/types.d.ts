@@ -13,7 +13,8 @@ type OnNumberPickerChange = (
 
 type Theme = {
     _disabled_all?: string
-    children?: string
+    label?: string
+    input_wrapper?: string
     controls?: string
     button_minus?: string
     button_plus?: string
@@ -31,6 +32,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     value?: string | number
     children?: React.ReactNode
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
+    label?: React.ReactNode
     step?: number
     min?: number
     max?: number
@@ -39,13 +41,14 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     payload?: _Payload
     precision?: number
     disabledInput?: boolean
+    inputClassName?: InputProps['className']
     inputTheme?: InputProps['theme']
     inputStore?: InputProps['store']
     inputMemoDeps?: InputProps['memoDeps']
     inputRootAttributes?: InputProps['rootTagAttributes']
     debounceMs?: InputProps['debounceMs']
     onBlur?: InputProps['onBlur']
-}> & Omit<InputProps, 'value' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store'>
+}> & Omit<InputProps, 'value' | 'label' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store'>
 
 type DefaultProps = NonNullableKeys<{
     className: Props['className']

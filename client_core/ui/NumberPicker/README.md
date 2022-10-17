@@ -78,11 +78,15 @@ Input for numbers with various validations built on top of `Input` component<br 
     - Data to be passed to **props.onChange** handler
     - **Any**<br /><br />
 
-- `inputTheme` - **Input.theme**
+- `children`- **Input.children**
+
+- `inputClassName` - **Input.className**
 
 - `label` - **Input.label**
 
 - `errorMsg` - **Input.errorMsg**
+
+- `inputTheme` - **Input.theme**
 
 - `placeholder` - **Input.placeholder**
 

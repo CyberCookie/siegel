@@ -16,7 +16,7 @@ function buildInputRegexp(
         max >= 0 && (regexpTemplate += '?')
     }
 
-    regexpTemplate += '(?!0\\d)\\d'
+    regexpTemplate += '\\d'
 
     if (isFinite(min) || isFinite(max)) {
         const maxNumberAllowed = Math.max( Math.abs(min), Math.abs(max) )
