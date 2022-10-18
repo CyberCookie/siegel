@@ -146,7 +146,9 @@ const NumberPicker = component<Props, DefaultProps>(
                 inputValue != newValueString && onChange({
                     event, payload, numberValue,
                     value: newValueString,
-                    isValid: !isNaN(numberValue) && numberValue == checkRanges(numberValue, min, max),
+                    isValid: !isNaN(numberValue)
+                        &&  newValueString[ newValueString[0] == '-' ? 1 : 0 ] != '.'
+                        &&  numberValue == checkRanges(numberValue, min, max),
                     isKeyboardArrowUp: _undef
                 })
             }
