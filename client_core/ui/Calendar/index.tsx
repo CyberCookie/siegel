@@ -68,7 +68,7 @@ const Calendar = component<Props, DefaultProps>(
         })
 
         let _className = styles.root!
-        className && (_className += ` ${_className}`)
+        className && (_className += ` ${className}`)
 
         let rootAttributes = {
             className: _className,

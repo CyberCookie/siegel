@@ -28,7 +28,7 @@ function modifyRootProps<P extends CheckboxInnerProps | LabelInnerProps | IconWr
     newAttributes?: CheckboxRootAttrs | WithLabelRootAttrs | WithIconRootAttrs
 ) {
 
-    const { disabled, onChange, value, payload, className, refApi, theme } = mergedProps
+    const { value, disabled, onChange, payload, className, refApi, theme } = mergedProps
 
     let modClass = value ? theme._checked : ''
 

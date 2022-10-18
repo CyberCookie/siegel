@@ -8,7 +8,9 @@ const Demo = () => {
 
     const props: CheckboxProps = {
         value: isChecked,
-        onChange(value) { setChecked(value) }
+        onChange(value) {
+            setChecked(value)
+        }
     }
 
 

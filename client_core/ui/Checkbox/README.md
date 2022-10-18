@@ -26,7 +26,6 @@ Customizable checkbox<br />
     - `label_wrapper`<br /><br />
 
 - `value`
-    - **Required**
     - Checkbox state
     - **Boolean**
     - Default is **false**<br /><br />

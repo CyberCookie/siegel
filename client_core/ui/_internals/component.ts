@@ -1,6 +1,7 @@
 import { memo } from 'react'
 
 import isExists from '../../../common/is/exists'
+import isEmptyObj from '../../../common/is/empty_obj'
 import extractProps from './props_extract'
 
 import type { CoreUIComponent, PropsComponentThemed } from './types'
@@ -27,14 +28,20 @@ function component
                 ?   props
                 :   extractProps(defaults, props)
 
+
+            const defaultProps: Partial<_Props & _Defaults> = {}
             for (const defaultProp in defaults) {
                 if (!isExists(mergedProps[defaultProp])) {
-                    mergedProps[defaultProp] = defaults[defaultProp]!
+                    defaultProps[defaultProp] = defaults[defaultProp]!
                 }
             }
 
 
-            return cb(mergedProps)
+            return cb(
+                isEmptyObj(defaultProps)
+                ?   mergedProps
+                :   { ...mergedProps, ...defaultProps }
+            )
         },
         (prevProps, nextProps) => nextProps.memoDeps?.(prevProps, nextProps) || false
     )

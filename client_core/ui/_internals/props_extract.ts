@@ -16,8 +16,8 @@ function extractProps<
 
     const result = { ...prevProps, ...newProps }
 
-    result.className = prevClassName || ''
-    nextClassName && (result.className += ` ${nextClassName}`)
+    let className = prevClassName || ''
+    nextClassName && (className += ` ${nextClassName}`)
 
     if (prevTheme) {
         result.theme = nextTheme
@@ -26,13 +26,17 @@ function extractProps<
 
         if(_noMergeWithDefaults) {
             if (nextTheme?.root) {
-                result.className = result.className.replace(prevTheme.root!, nextTheme.root)
+                className = prevTheme.root
+                    ?   className.replace(prevTheme.root, nextTheme.root)
+                    :   `${className} ${nextTheme.root}`
             }
 
         } else if (result.theme.root) {
-            result.className += ` ${result.theme.root}`
+            className += ` ${result.theme.root}`
         }
     }
+
+    result.className = className
 
 
     return result

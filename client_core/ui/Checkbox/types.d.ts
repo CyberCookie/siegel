@@ -45,8 +45,8 @@ type Theme = {
 }
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
-    value: boolean
-    onChange?(checked: Props['value'], e: React.MouseEvent, payload: _Payload): void
+    value?: boolean
+    onChange?(checked: NonNullable<Props['value']>, e: React.MouseEvent, payload: _Payload): void
     checkboxAttributes?: CoreUIReactTagAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
     rootTagAttributes?: WithIconRootAttrs | WithLabelRootAttrs
     label?: React.ReactNode
