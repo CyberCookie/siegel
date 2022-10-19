@@ -85,44 +85,35 @@ const NumberPicker = component<Props, DefaultProps>(
         refApi && (applyRefApi(numberpickerRootProps, props))
 
 
-        const onNumberPickerChange: OnNumberPickerChange = (event, isKeyboardArrowUp, step) => {
-            if (event.type == 'blur') {
-                onBlur?.(event as React.FocusEvent<HTMLDivElement>)
-                if (!isExists(value) || value === '') return
+        const onStepChange: OnNumberPickerChange = (event, isKeyboardArrowUp, step) => {
+            let result: number | string
+            if (isNaN(numberValue)) {
+                result = step < 0
+                    ?   isFinite(max)
+                        ?   max
+                        :   isFinite(min) ? min : 0
+                    :   isFinite(min)
+                        ?   min
+                        :   isFinite(max) ? max : 0
+
+            } else {
+                const stepPrecision = getValuePrecision(step)
+                const numberValuePrecision = getValuePrecision(numberValue)
+
+                if (stepPrecision || numberValuePrecision) {
+                    const presision = Math.max(stepPrecision, numberValuePrecision)
+                    result = floatMath(presision, numberValue, step)
+
+                } else result = numberValue + step
+
+                result = adjustWithRanges(result, min, max)
             }
 
-            let result: string | number | undefined
-            if (step) {
-                if (isNaN(numberValue)) {
-                    result = step < 0
-                        ?   isFinite(max)
-                            ?   max
-                            :   isFinite(min) ? min : 0
-                        :   isFinite(min)
-                            ?   min
-                            :   isFinite(max) ? max : 0
-
-                } else {
-                    const stepPrecision = getValuePrecision(step)
-                    const numberValuePrecision = getValuePrecision(numberValue)
-
-                    if (stepPrecision || numberValuePrecision) {
-                        const presision = Math.max(stepPrecision, numberValuePrecision)
-                        result = floatMath(presision, numberValue, step)
-
-                    } else result = numberValue + step
-                }
-            }
-
-            result = adjustWithRanges(
-                isExists(result) ? result as number : numberValue,
-                min, max
-            )
             precision && (result = result.toFixed(precision))
 
-            result === value || onChange({
+            onChange({
                 value: `${result}`,
-                isValid: true,
+                isValidNumberString: true,
                 numberValue: +result,
                 event, isKeyboardArrowUp, payload
             })
@@ -132,7 +123,7 @@ const NumberPicker = component<Props, DefaultProps>(
         const inputValue = getInputString({ props, numberValue, numberMask, isFocused })
 
         const inputFieldProps: InputProps = {
-            children, errorMsg, placeholder, inputAttributes, onFocus, mask,
+            children, errorMsg, placeholder, inputAttributes, onFocus, onBlur, mask,
             debounceMs, autofocus,
             theme: inputTheme,
             memoDeps: inputMemoDeps,
@@ -142,17 +133,16 @@ const NumberPicker = component<Props, DefaultProps>(
             value: inputValue,
             store: _inputStore,
             disabled: disabled || disabledInput,
-            onBlur: onNumberPickerChange,
             onChange(value, event) {
                 let newValueString = pretifyInputString(value)
                 if (inputValue != newValueString) {
                     let numberValue = parseFloat(value)
 
-                    const isValid = !isNaN(numberValue)
+                    const isValidNumberString = !isNaN(numberValue)
                         &&  newValueString[ newValueString[0] == '-' ? 1 : 0 ] != '.'
                         &&  newValueString.at(-1) != '.'
 
-                    if (isValid) {
+                    if (isValidNumberString) {
                         const numberValueRangeLimited = adjustWithRanges(numberValue, min, max)
                         if (numberValueRangeLimited != numberValue) {
                             newValueString = `${numberValueRangeLimited}`
@@ -161,7 +151,7 @@ const NumberPicker = component<Props, DefaultProps>(
                     }
 
                     onChange({
-                        event, payload, numberValue, isValid,
+                        event, payload, numberValue, isValidNumberString,
                         value: newValueString,
                         isKeyboardArrowUp: _undef
                     })
@@ -174,7 +164,7 @@ const NumberPicker = component<Props, DefaultProps>(
         if (step) {
             const {
                 isDisabledDown, isDisabledUp, stepperElement
-            } = getStepButtons(props, numberValue, onNumberPickerChange)
+            } = getStepButtons(props, numberValue, onStepChange)
 
             stepper = stepperElement
 
@@ -186,7 +176,7 @@ const NumberPicker = component<Props, DefaultProps>(
                         inputFieldProps.disabled || onChange({
                             numberValue: NaN,
                             value: '',
-                            isValid: false,
+                            isValidNumberString: false,
                             isKeyboardArrowUp: _undef,
                             event, payload
                         })
@@ -204,7 +194,7 @@ const NumberPicker = component<Props, DefaultProps>(
                             let _step = step
                             isKeyUp || (_step *= -1)
 
-                            onNumberPickerChange(event, isKeyUp, _step)
+                            onStepChange(event, isKeyUp, _step)
                         }
                     }
                 }

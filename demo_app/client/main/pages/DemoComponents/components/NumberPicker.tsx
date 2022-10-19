@@ -4,7 +4,7 @@ import { NumberPicker, NumberPickerProps } from 'app/components'
 
 
 const Demo = () => {
-    const [ value, setValue ] = useState<string | number>('99')
+    const [ value, setValue ] = useState<string | number>('')
     const props: NumberPickerProps = {
         value,
         placeholder: 'placeholder',

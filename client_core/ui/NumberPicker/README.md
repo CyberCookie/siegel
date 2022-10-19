@@ -40,9 +40,9 @@ Input for numbers with various validations built on top of `Input` component<br 
     Has **1** arguments - **Object** with the next props:
         - `value` - **String**. New editable value
         - `numberValue` - **Number** value. **NaN** if `value` is en empty **String**
-        - `isValid` - **Boolean**. **True** if `numberValue` is not **NaN**<br />
+        - `isValidNumberString` - **Boolean**. **True** if `numberValue` is not **NaN**<br />
             and `numberValue` lays between `props.min` and `props.max`<br />
-            and `value` is valid number
+            and `value` is valid number string without open comma '.'
         - `event` - **FocusEvent | MouseEvent | KeyboardEvent | ChangeEvent**
         - `isKeyboardArrowUp` - **True** if **arrowUp** was pressed. **False** if **arrowUp** was. Othervice **undefined**
         - `payload` - **props.payload**<br /><br />

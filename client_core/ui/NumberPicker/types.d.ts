@@ -5,9 +5,9 @@ import type { Props as InputProps } from '../Input/types'
 
 
 type OnNumberPickerChange = (
-    e: React.FocusEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>,
-    isButtonClick?: boolean,
-    step?: number
+    e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>,
+    isButtonClick: boolean,
+    step: number
 ) => void
 
 
@@ -25,8 +25,8 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     onChange(changeParams: {
         value: string
         numberValue: number
-        isValid: boolean
-        event: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>
+        isValidNumberString: boolean
+        event: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLDivElement>
         isKeyboardArrowUp: boolean | undefined
         payload: _Payload
     }): void

@@ -22,7 +22,7 @@ function getStepButtons(
         plusProps.disabled = isDisabledUp = true
     } else {
         plusProps.onMouseDown = (e: BtnClickEv) => {
-            onNumberPickerChange(e, true, step)
+            onNumberPickerChange(e, true, step!)
         }
     }
 
