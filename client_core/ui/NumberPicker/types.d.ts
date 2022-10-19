@@ -18,6 +18,7 @@ type Theme = {
     controls?: string
     button_minus?: string
     button_plus?: string
+    _focused?: string
 }
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
@@ -40,6 +41,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     plusIcon?: React.ReactNode
     payload?: _Payload
     precision?: number
+    zeroesPadLeft?: number
     disabledInput?: boolean
     inputClassName?: InputProps['className']
     inputTheme?: InputProps['theme']

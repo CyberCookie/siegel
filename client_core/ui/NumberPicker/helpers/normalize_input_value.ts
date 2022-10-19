@@ -6,8 +6,7 @@ import type { MergedProps } from '../types'
 
 
 type Params = {
-    value: MergedProps['value']
-    precision: MergedProps['precision']
+    props: MergedProps
     isFocused: boolean
     numberValue: number
     numberMask: RegExp
@@ -15,25 +14,52 @@ type Params = {
 
 
 function getInputString(params: Params) {
-    if (isExists(params.value)) {
-        const { value, precision, isFocused, numberValue, numberMask } = params
+    if (isExists(params.props.value)) {
+        const {
+            props: { value, precision, zeroesPadLeft },
+            isFocused, numberValue, numberMask
+        } = params
 
-        const isValueNaN = isNaN(numberValue)
-        const notFocused = !isFocused
 
-        if (precision && notFocused) {
-            return isValueNaN ? '' : numberValue.toFixed(2)
+        const isNumberNaN = isNaN(numberValue)
 
-        } else if (typeof value == 'string' && numberMask.test(value)) {
-            const valueZeroesStripped = pretifyInputString(value)
-            const lastChar = valueZeroesStripped.at(-1)
+        let result = typeof value == 'string' && numberMask.test(value)
+            ?   pretifyInputString(value)
+            :   isNumberNaN ? '' : `${numberValue}`
 
-            return notFocused && lastChar == '.'
-                ?   valueZeroesStripped.replace(lastChar, '')
-                :   valueZeroesStripped
+
+        if (result && !isFocused) {
+            const lastChar = result.at(-1)
+            lastChar == '.' && (result = result.replace(lastChar, ''))
+
+            !isNumberNaN && precision && (result = numberValue.toFixed(precision))
+            if (zeroesPadLeft) {
+
+                const firstChar = result[0]
+                const indexOfDot = result.indexOf('.')
+                const isNegative = firstChar == '-'
+
+                const padStartIndex = isNegative ? 1 : 0
+                const padEndIndex = indexOfDot >= 0
+                    ?   indexOfDot
+                    :   result.length
+
+                const curPadLength = padEndIndex - padStartIndex
+
+                if (curPadLength < zeroesPadLeft) {
+                    const extraZeroes = ('0').repeat(zeroesPadLeft - curPadLength)
+                    result = result.replace(
+                        firstChar,
+                        isNegative
+                            ?   `${firstChar}${extraZeroes}`
+                            :   `${extraZeroes}${firstChar}`
+                    )
+                }
+            }
         }
 
-        return isValueNaN ? '' : `${numberValue}`
+
+        return result
     }
 }
 

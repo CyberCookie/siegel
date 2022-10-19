@@ -19,6 +19,7 @@ Input for numbers with various validations built on top of `Input` component<br 
     - `root`
     - `childtren`
     - `_disabled_all`
+    - `_focused`
     - `children`
     - `controls`
     - `button_minus`

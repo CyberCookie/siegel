@@ -1,7 +1,7 @@
 import type { MergedProps } from '../types'
 
 
-const checkRanges = (
+const adjustWithRanges = (
     value: number,
     min: MergedProps['min'],
     max: MergedProps['max']
@@ -13,4 +13,4 @@ const checkRanges = (
 )
 
 
-export default checkRanges
+export default adjustWithRanges

@@ -12,25 +12,28 @@ function getStepButtons(
 
     const { theme, disabled, step, plusIcon, minusIcon, min, max } = props
 
+
+    let isDisabledUp = false
     const plusProps: BtnProps = {
         className: theme.button_plus,
         children: plusIcon
     }
     if (disabled || (numberValue >= max)) {
-        plusProps.disabled = true
+        plusProps.disabled = isDisabledUp = true
     } else {
         plusProps.onMouseDown = (e: BtnClickEv) => {
             onNumberPickerChange(e, true, step)
         }
     }
 
+
+    let isDisabledDown = false
     const minusProps: BtnProps = {
         className: theme.button_minus,
         children: minusIcon
     }
-
     if (disabled || (numberValue <= min)) {
-        minusProps.disabled = true
+        minusProps.disabled = isDisabledDown = true
     } else {
         minusProps.onMouseDown = (e: BtnClickEv) => {
             onNumberPickerChange(e, false, -step!)
@@ -40,12 +43,15 @@ function getStepButtons(
     minusProps.tabIndex = plusProps.tabIndex = -1
 
 
-    return (
+    const stepperElement = (
         <div className={ theme.controls }>
             <button { ...minusProps } />
             <button { ...plusProps } />
         </div>
     )
+
+
+    return { stepperElement, isDisabledUp, isDisabledDown }
 }
 
 
