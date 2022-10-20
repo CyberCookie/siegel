@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import floatMath from '../../../common/math/floats_arifmetic'
 import isExists from '../../../common/is/exists'
+import floatMath from '../../../common/math/floats_arifmetic'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
@@ -13,7 +13,7 @@ import Input, {
 } from '../Input'
 import {
     buildInputRegexp, getInputString, getValuePrecision, getStepButtons,
-    adjustWithRanges, pretifyInputString
+    adjustWithRanges, pretifyInputString, isValidNumberString
 } from './helpers'
 
 import type { OnNumberPickerChange, Props, Component, DefaultProps } from './types'
@@ -44,12 +44,14 @@ const NumberPicker = component<Props, DefaultProps>(
     props => {
 
         const {
-            theme, disabled, onChange, onFocus, step, precision, min, max, disabledInput, className,
+            theme, disabled, onChange, onFocus, step, precision, disabledInput, className, min, max,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
             refApi, rootTagAttributes, inputRootAttributes, children, onBlur, debounceMs,
             autofocus, mask, inputTheme, inputMemoDeps, inputClassName
         } = props
 
+        // let { min, max } = props
+        // min > max && ([ min, max ] = [ max, min ])
 
         const _inputStore = inputStore || useState( getDefaultInputStoreState() )
         const { isFocused } = _inputStore[0]
@@ -123,7 +125,7 @@ const NumberPicker = component<Props, DefaultProps>(
         const inputValue = getInputString({ props, numberValue, numberMask, isFocused })
 
         const inputFieldProps: InputProps = {
-            children, errorMsg, placeholder, inputAttributes, onFocus, onBlur, mask,
+            children, errorMsg, placeholder, inputAttributes, onFocus, mask,
             debounceMs, autofocus,
             theme: inputTheme,
             memoDeps: inputMemoDeps,
@@ -133,16 +135,36 @@ const NumberPicker = component<Props, DefaultProps>(
             value: inputValue,
             store: _inputStore,
             disabled: disabled || disabledInput,
+            onBlur(event) {
+                onBlur?.(event)
+                if (!event.defaultPrevented) {
+                    const _isValidNumberStrig = isValidNumberString(
+                        isExists(value) ? `${value}` : '',
+                        numberValue
+                    )
+
+                    if (!_isValidNumberStrig) {
+                        const newNumberValue = min <= 0 && 0 <= max
+                            ?   0
+                            :   Math.abs(min) > Math.abs(max) ? max : min
+
+                        onChange({
+                            event, payload,
+                            isValidNumberString: true,
+                            numberValue: newNumberValue,
+                            value: `${newNumberValue}`
+                        })
+                    }
+                }
+            },
             onChange(value, event) {
                 let newValueString = pretifyInputString(value)
                 if (inputValue != newValueString) {
                     let numberValue = parseFloat(value)
 
-                    const isValidNumberString = !isNaN(numberValue)
-                        &&  newValueString[ newValueString[0] == '-' ? 1 : 0 ] != '.'
-                        &&  newValueString.at(-1) != '.'
+                    const isValidNewNumberString = isValidNumberString(newValueString, numberValue)
 
-                    if (isValidNumberString) {
+                    if (isValidNewNumberString) {
                         const numberValueRangeLimited = adjustWithRanges(numberValue, min, max)
                         if (numberValueRangeLimited != numberValue) {
                             newValueString = `${numberValueRangeLimited}`
@@ -151,9 +173,9 @@ const NumberPicker = component<Props, DefaultProps>(
                     }
 
                     onChange({
-                        event, payload, numberValue, isValidNumberString,
-                        value: newValueString,
-                        isKeyboardArrowUp: _undef
+                        event, payload, numberValue,
+                        isValidNumberString: isValidNewNumberString,
+                        value: newValueString
                     })
                 }
             }
@@ -177,7 +199,6 @@ const NumberPicker = component<Props, DefaultProps>(
                             numberValue: NaN,
                             value: '',
                             isValidNumberString: false,
-                            isKeyboardArrowUp: _undef,
                             event, payload
                         })
 
