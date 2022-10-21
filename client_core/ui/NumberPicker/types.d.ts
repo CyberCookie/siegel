@@ -26,6 +26,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
         value: string
         numberValue: number
         isValidNumberString: boolean
+        prevValidNumerString: string | undefined
         event: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>
             |   React.FocusEvent<HTMLDivElement>
         isKeyboardArrowUp?: boolean

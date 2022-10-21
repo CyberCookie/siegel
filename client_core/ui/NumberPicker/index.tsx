@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import isExists from '../../../common/is/exists'
 import floatMath from '../../../common/math/floats_arifmetic'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
@@ -53,13 +52,24 @@ const NumberPicker = component<Props, DefaultProps>(
         // let { min, max } = props
         // min > max && ([ min, max ] = [ max, min ])
 
-        const _inputStore = inputStore || useState( getDefaultInputStoreState() )
-        const { isFocused } = _inputStore[0]
-
-        const numberMask = regexp || buildInputRegexp(min, max, precision)
         const numberValue = typeof value == 'number'
             ?   value
             :   parseFloat(value)
+
+
+        const _inputStore = inputStore || useState(getDefaultInputStoreState())
+        const { isFocused } = _inputStore[0]
+
+        const editStore = useState({
+            prevValidNumerString: isValidNumberString(value, numberValue)
+                ?   `${numberValue}`
+                :   undefined
+        })
+        const editState = editStore[0]
+        const { prevValidNumerString } = editState
+
+        const numberMask = regexp || buildInputRegexp(min, max, precision)
+
 
 
         let numberpickerRootProps: Props['rootTagAttributes'] = {
@@ -113,11 +123,14 @@ const NumberPicker = component<Props, DefaultProps>(
 
             precision && (result = result.toFixed(precision))
 
+            const newStringValue = `${result}`
+            editState.prevValidNumerString = newStringValue
+
             onChange({
-                value: `${result}`,
+                value: newStringValue,
                 isValidNumberString: true,
                 numberValue: +result,
-                event, isKeyboardArrowUp, payload
+                event, isKeyboardArrowUp, payload, prevValidNumerString
             })
         }
 
@@ -138,21 +151,32 @@ const NumberPicker = component<Props, DefaultProps>(
             onBlur(event) {
                 onBlur?.(event)
                 if (!event.defaultPrevented) {
-                    const _isValidNumberStrig = isValidNumberString(
-                        isExists(value) ? `${value}` : '',
-                        numberValue
-                    )
+                    let newValueString: string | undefined, newNumberValue: number | undefined
+                    let shouldTriggerOnChange = true
 
-                    if (!_isValidNumberStrig) {
-                        const newNumberValue = min <= 0 && 0 <= max
+                    if (isValidNumberString(value, numberValue)) {
+                        const newNumberValueRangeLimited = adjustWithRanges(numberValue, min, max)
+                        if (newNumberValueRangeLimited != numberValue) {
+                            newValueString = `${newNumberValueRangeLimited}`
+                            newNumberValue = newNumberValueRangeLimited
+
+                        } else shouldTriggerOnChange = false
+
+                    } else {
+                        newNumberValue = min <= 0 && 0 <= max
                             ?   0
                             :   Math.abs(min) > Math.abs(max) ? max : min
+                        newValueString = `${newNumberValue}`
+                    }
+
+                    if (shouldTriggerOnChange) {
+                        editState.prevValidNumerString = newValueString!
 
                         onChange({
-                            event, payload,
+                            event, payload, prevValidNumerString,
                             isValidNumberString: true,
-                            numberValue: newNumberValue,
-                            value: `${newNumberValue}`
+                            numberValue: newNumberValue!,
+                            value: newValueString!
                         })
                     }
                 }
@@ -160,20 +184,24 @@ const NumberPicker = component<Props, DefaultProps>(
             onChange(value, event) {
                 let newValueString = pretifyInputString(value)
                 if (inputValue != newValueString) {
-                    let numberValue = parseFloat(value)
+                    let newNumberValue = parseFloat(value)
 
-                    const isValidNewNumberString = isValidNumberString(newValueString, numberValue)
+                    const isValidNewNumberString = isValidNumberString(newValueString, newNumberValue)
 
                     if (isValidNewNumberString) {
-                        const numberValueRangeLimited = adjustWithRanges(numberValue, min, max)
-                        if (numberValueRangeLimited != numberValue) {
-                            newValueString = `${numberValueRangeLimited}`
-                            numberValue = numberValueRangeLimited
+                        const newNumberValueRangeLimited = adjustWithRanges(newNumberValue, min, max)
+                        if (newNumberValueRangeLimited != newNumberValue) {
+                            newValueString = `${newNumberValueRangeLimited}`
+                            newNumberValue = newNumberValueRangeLimited
                         }
                     }
 
+                    if (isValidNewNumberString) {
+                        editState.prevValidNumerString = newValueString
+                    }
+
                     onChange({
-                        event, payload, numberValue,
+                        event, payload, numberValue, prevValidNumerString,
                         isValidNumberString: isValidNewNumberString,
                         value: newValueString
                     })
@@ -199,7 +227,7 @@ const NumberPicker = component<Props, DefaultProps>(
                             numberValue: NaN,
                             value: '',
                             isValidNumberString: false,
-                            event, payload
+                            event, payload, prevValidNumerString
                         })
 
                     } else {
