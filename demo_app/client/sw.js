@@ -7,7 +7,7 @@ buildOutput.forEach(asset => {
 })
 
 
-const cacheURLRegExp = /\.(woff2|png|jpg|ico|css|js|json)/
+const cacheURLRegExp = /^http.*\.(woff2|png|jpg|ico|css|js|json)/
 const cacheMethod = 'GET'
 const isCachable = req => {
     const { url, method } = req

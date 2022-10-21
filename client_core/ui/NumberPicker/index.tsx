@@ -61,12 +61,12 @@ const NumberPicker = component<Props, DefaultProps>(
         const { isFocused } = _inputStore[0]
 
         const editStore = useState({
-            prevValidNumerString: isValidNumberString(value, numberValue)
-                ?   `${numberValue}`
+            prevValidNumer: isValidNumberString(value, numberValue)
+                ?   numberValue
                 :   undefined
         })
         const editState = editStore[0]
-        const { prevValidNumerString } = editState
+        const { prevValidNumer } = editState
 
         const numberMask = regexp || buildInputRegexp(min, max, precision)
 
@@ -123,14 +123,14 @@ const NumberPicker = component<Props, DefaultProps>(
 
             precision && (result = result.toFixed(precision))
 
-            const newStringValue = `${result}`
-            editState.prevValidNumerString = newStringValue
+            const newNumberValue = +result
+            editState.prevValidNumer = newNumberValue
 
             onChange({
-                value: newStringValue,
+                value: `${result}`,
                 isValidNumberString: true,
-                numberValue: +result,
-                event, isKeyboardArrowUp, payload, prevValidNumerString
+                numberValue: newNumberValue,
+                event, isKeyboardArrowUp, payload, prevValidNumer
             })
         }
 
@@ -170,10 +170,10 @@ const NumberPicker = component<Props, DefaultProps>(
                     }
 
                     if (shouldTriggerOnChange) {
-                        editState.prevValidNumerString = newValueString!
+                        editState.prevValidNumer = newNumberValue!
 
                         onChange({
-                            event, payload, prevValidNumerString,
+                            event, payload, prevValidNumer,
                             isValidNumberString: true,
                             numberValue: newNumberValue!,
                             value: newValueString!
@@ -197,11 +197,11 @@ const NumberPicker = component<Props, DefaultProps>(
                     }
 
                     if (isValidNewNumberString) {
-                        editState.prevValidNumerString = newValueString
+                        editState.prevValidNumer = newNumberValue
                     }
 
                     onChange({
-                        event, payload, numberValue, prevValidNumerString,
+                        event, payload, numberValue, prevValidNumer,
                         isValidNumberString: isValidNewNumberString,
                         value: newValueString
                     })
@@ -227,7 +227,7 @@ const NumberPicker = component<Props, DefaultProps>(
                             numberValue: NaN,
                             value: '',
                             isValidNumberString: false,
-                            event, payload, prevValidNumerString
+                            event, payload, prevValidNumer
                         })
 
                     } else {

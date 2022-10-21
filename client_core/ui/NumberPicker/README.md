@@ -43,7 +43,7 @@ Input for numbers with various validations built on top of `Input` component<br 
         - `isValidNumberString` - **Boolean**. **True** if `numberValue` is not **NaN**<br />
             and `numberValue` lays between `props.min` and `props.max`<br />
             and `value` is valid number string without open comma '.'
-        - `prevValidNumerString` - **String | undefined**. Last valid `valie`<br />
+        - `prevValidNumer` - **Number | undefined**. Last valid `numberValue`<br />
         - `event` - **FocusEvent | MouseEvent | KeyboardEvent | ChangeEvent**
         - `isKeyboardArrowUp` - **True** if **arrowUp** was pressed. **False** if **arrowUp** was. Othervice **undefined**
         - `payload` - **props.payload**<br /><br />

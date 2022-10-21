@@ -69,7 +69,9 @@ const Breadcrumbs = withDefaults(_Breadcrumbs, {
 const Calendar = withDefaults(_Calendar, {
     theme: calendarTheme,
     prevMonthIcon: icons.chevron,
-    nextMonthIcon: icons.chevron
+    nextMonthIcon: icons.chevron,
+    prevYearIcon: '<<',
+    nextYearIcon: '>>'
 })
 
 
