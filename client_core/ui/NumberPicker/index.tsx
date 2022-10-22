@@ -187,7 +187,6 @@ const NumberPicker = component<Props, DefaultProps>(
                     let newNumberValue = parseFloat(value)
 
                     const isValidNewNumberString = isValidNumberString(newValueString, newNumberValue)
-
                     if (isValidNewNumberString) {
                         const newNumberValueRangeLimited = adjustWithRanges(newNumberValue, min, max)
                         if (newNumberValueRangeLimited != newNumberValue) {
@@ -201,7 +200,8 @@ const NumberPicker = component<Props, DefaultProps>(
                     }
 
                     onChange({
-                        event, payload, numberValue, prevValidNumer,
+                        event, payload, prevValidNumer,
+                        numberValue: newNumberValue,
                         isValidNumberString: isValidNewNumberString,
                         value: newValueString
                     })
