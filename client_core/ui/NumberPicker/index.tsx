@@ -193,9 +193,7 @@ const NumberPicker = component<Props, DefaultProps>(
                             newValueString = `${newNumberValueRangeLimited}`
                             newNumberValue = newNumberValueRangeLimited
                         }
-                    }
 
-                    if (isValidNewNumberString) {
                         editState.prevValidNumer = newNumberValue
                     }
 

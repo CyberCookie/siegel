@@ -45,8 +45,8 @@ function getStepButtons(
 
     const stepperElement = (
         <div className={ theme.controls }>
-            <button { ...minusProps } />
             <button { ...plusProps } />
+            <button { ...minusProps } />
         </div>
     )
 
