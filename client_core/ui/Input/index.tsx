@@ -104,40 +104,41 @@ const Input = component<Props, DefaultProps>(
                 [ theme._touched, isTouched ],
                 [ theme._disabled, disabled ],
                 [ theme._readonly, isReadonly ]
-            ]),
-            onBlur(e) {
-                if (!isTouched || isFocused) {
-                    state.isTouched ||= true
-                    state.isFocused &&= false
-
-                    onBlur?.(e)
-
-                    if (onChange && debounceStore) {
-                        const [{ debounceTimeoutID, debounceValue }, setDebounceState ] = debounceStore
-
-                        if (isExists(debounceValue)) {
-                            clearTimeout(debounceTimeoutID)
-                            setDebounceState( getDefaultDebounceState() )
-
-                            onChange(debounceValue, e, payload)
-                        }
-                    }
-
-                    setState({ ...state })
-                }
-            }
+            ])
         }
 
+        isFocused && (inputRootProps.onBlur = e => {
+            onBlur?.(e)
+            if (!e.defaultPrevented) {
+                if (onChange && debounceStore) {
+                    const [{ debounceTimeoutID, debounceValue }, setDebounceState ] = debounceStore
+
+                    if (isExists(debounceValue)) {
+                        clearTimeout(debounceTimeoutID)
+                        setDebounceState( getDefaultDebounceState() )
+
+                        onChange(debounceValue, e, payload)
+                    }
+                }
+
+                setState({
+                    isFocused: false,
+                    isTouched: true
+                })
+            }
+        })
 
         if (!disabled && onChange) {
-            inputRootProps.onFocus = e => {
-                if (!isFocused) {
-                    state.isFocused = true
+            isFocused || (inputRootProps.onFocus = e => {
+                onFocus?.(e)
 
-                    onFocus?.(e)
-                    setState({ ...state })
-                }
-            }
+                e.defaultPrevented || (
+                    setState({
+                        isFocused: true,
+                        isTouched: true
+                    })
+                )
+            })
 
             inputProps.onChange = e => {
                 const value = (e.target as HTMLInputElement).value

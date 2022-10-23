@@ -39,7 +39,7 @@ import _dropdownSearchTheme from './styles/dropdown_search.sass'
 import formTheme from './styles/form.sass'
 import inputTheme from './styles/input.sass'
 import linkTheme from './styles/link.sass'
-import numberPickerTheme from './styles/number_picker.sass'
+import _numberPickerTheme from './styles/number_picker.sass'
 import paginationTheme from './styles/pagination.sass'
 import popupTheme from './styles/popup.sass'
 import radioTheme from './styles/radio.sass'
@@ -74,11 +74,11 @@ const Calendar = withDefaults(_Calendar, {
     nextYearIcon: '>>'
 })
 
-
 const Checkbox = withDefaults(_Checkbox, {
     theme: checkboxTheme,
     icon: icons.check
 })
+
 
 
 const dataTableTheme: DataTableProps<any>['theme'] = Object.assign(_dataTableTheme, {
@@ -87,6 +87,7 @@ const dataTableTheme: DataTableProps<any>['theme'] = Object.assign(_dataTableThe
 const DataTable = withDefaults(_DataTable, {
     theme: dataTableTheme
 })
+
 
 
 const Accordion = withDefaults(_Accordion, {
@@ -126,13 +127,17 @@ const Link = withDefaults(_Link, {
     className: linkTheme.link
 })
 
+
+const numberPickerTheme = Object.assign(_numberPickerTheme, {
+    label_text: inputTheme.label_text
+})
+
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
     inputTheme: {
         _focused: numberPickerTheme._focused,
         _disabled: numberPickerTheme._disabled,
-        field: `${inputTheme.field} ${numberPickerTheme.field}`,
-        label_text: inputTheme.label_text
+        field: `${inputTheme.field} ${numberPickerTheme.field}`
     },
     minusIcon: icons.chevron,
     plusIcon: icons.chevron
@@ -183,7 +188,6 @@ const Toggle = withDefaults(_Toggle, {
 const Tabs = withDefaults(_Tabs, {
     theme: tabsTheme
 })
-
 
 const Ranger = withDefaults(_Ranger, {
     theme: rangerTheme,

@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import floatMath from '../../../common/math/floats_arifmetic'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
 import applyRefApi from '../_internals/ref_apply'
+import getInputLabeled from '../_internals/label'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import Input, {
     getDefaultState as getDefaultInputStoreState,
@@ -15,7 +16,9 @@ import {
     adjustWithRanges, pretifyInputString, isValidNumberString
 } from './helpers'
 
-import type { OnNumberPickerChange, Props, Component, DefaultProps } from './types'
+import type {
+    OnFocusEventHandler, OnNumberPickerChange, Props, Component, DefaultProps
+} from './types'
 
 import styles from './styles.sass'
 
@@ -29,6 +32,8 @@ const NumberPicker = component<Props, DefaultProps>(
         className: styles.root!,
         theme: {
             root: _undef,
+            label_wrapper: _undef,
+            label_text: _undef,
             controls: _undef,
             button_minus: _undef,
             button_plus: _undef,
@@ -43,22 +48,26 @@ const NumberPicker = component<Props, DefaultProps>(
     props => {
 
         const {
-            theme, disabled, onChange, onFocus, step, precision, disabledInput, className, min, max,
+            theme, disabled, onChange, onFocus, step, precision, disabledInput, className,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
             refApi, rootTagAttributes, inputRootAttributes, children, onBlur, debounceMs,
             autofocus, mask, inputTheme, inputMemoDeps, inputClassName
         } = props
 
-        // let { min, max } = props
-        // min > max && ([ min, max ] = [ max, min ])
+        let { min, max } = props
+        min > max && ([ min, max ] = [ max, min ])
 
         const numberValue = typeof value == 'number'
             ?   value
             :   parseFloat(value)
 
+        const numberMask = regexp || buildInputRegexp(min, max, precision)
+
+
+        const ref = useRef() as React.MutableRefObject<HTMLDivElement>
 
         const _inputStore = inputStore || useState(getDefaultInputStoreState())
-        const { isFocused } = _inputStore[0]
+        const [{ isFocused }, setInputState ] = _inputStore
 
         const editStore = useState({
             prevValidNumer: isValidNumberString(value, numberValue)
@@ -68,30 +77,61 @@ const NumberPicker = component<Props, DefaultProps>(
         const editState = editStore[0]
         const { prevValidNumer } = editState
 
-        const numberMask = regexp || buildInputRegexp(min, max, precision)
 
+
+        let onPickerFocus: OnFocusEventHandler | undefined
+        let onPickerBlur: OnFocusEventHandler | undefined
+        if (!disabled) {
+            isFocused
+                ?   (onPickerBlur = e => {
+                        console.log('onPickerBlur')
+                        const { relatedTarget } = e.nativeEvent
+                        if (!relatedTarget || !(ref.current.contains(relatedTarget as Node))) {
+                            setInputState({
+                                isFocused: false,
+                                isTouched: true
+                            })
+                        }
+                    })
+
+                :   (onPickerFocus = () => {
+                        setInputState({
+                            isFocused: true,
+                            isTouched: true
+                        })
+                    })
+        }
 
 
         let numberpickerRootProps: Props['rootTagAttributes'] = {
+            ref,
+            onFocus: onPickerFocus,
+            onBlur: onPickerBlur,
             className: applyClassName(className, [
                 [ theme._disabled_all, disabled ],
                 [ theme._focused, isFocused ]
             ])
         }
         if (disabledInput && !disabled) {
-            const [ inputState, setInputState ] = _inputStore
-
             numberpickerRootProps.tabIndex = 0
-            numberpickerRootProps.onFocus = () => {
-                setInputState({
-                    isFocused: true,
-                    isTouched: true
-                })
-            }
-            isFocused && (numberpickerRootProps.onBlur = () => {
-                inputState.isFocused = false
-                setInputState({ ...inputState })
-            })
+
+            isFocused
+                ?   (numberpickerRootProps.onBlur = e => {
+                        const { relatedTarget } = e.nativeEvent
+                        if (!relatedTarget || !(ref.current.contains(relatedTarget as Node))) {
+                            setInputState({
+                                isFocused: false,
+                                isTouched: true
+                            })
+                        }
+                    })
+
+                :   (numberpickerRootProps.onFocus = () => {
+                        setInputState({
+                            isFocused: true,
+                            isTouched: true
+                        })
+                    })
         }
 
         refApi && (applyRefApi(numberpickerRootProps, props))
@@ -149,36 +189,45 @@ const NumberPicker = component<Props, DefaultProps>(
             store: _inputStore,
             disabled: disabled || disabledInput,
             onBlur(event) {
-                onBlur?.(event)
-                if (!event.defaultPrevented) {
-                    let newValueString: string | undefined, newNumberValue: number | undefined
-                    let shouldTriggerOnChange = true
+                const { relatedTarget } = event.nativeEvent
+                if (!relatedTarget || !ref.current.contains(relatedTarget as Node)) {
 
-                    if (isValidNumberString(value, numberValue)) {
-                        const newNumberValueRangeLimited = adjustWithRanges(numberValue, min, max)
-                        if (newNumberValueRangeLimited != numberValue) {
-                            newValueString = `${newNumberValueRangeLimited}`
-                            newNumberValue = newNumberValueRangeLimited
+                    onBlur?.(event)
+                    if (!event.defaultPrevented) {
 
-                        } else shouldTriggerOnChange = false
+                        let newValueString: string | undefined, newNumberValue: number | undefined
+                        let shouldTriggerOnChange = true
 
-                    } else {
-                        newNumberValue = min <= 0 && 0 <= max
-                            ?   0
-                            :   Math.abs(min) > Math.abs(max) ? max : min
-                        newValueString = `${newNumberValue}`
+                        if (isValidNumberString(value, numberValue)) {
+                            const newNumberValueRangeLimited = adjustWithRanges(numberValue, min, max)
+                            if (newNumberValueRangeLimited != numberValue) {
+                                newValueString = `${newNumberValueRangeLimited}`
+                                newNumberValue = newNumberValueRangeLimited
+
+                            } else shouldTriggerOnChange = false
+
+                        } else {
+                            newNumberValue = min <= 0 && 0 <= max
+                                ?   0
+                                :   Math.abs(min) > Math.abs(max) ? max : min
+                            newValueString = `${newNumberValue}`
+                        }
+
+                        if (shouldTriggerOnChange) {
+                            editState.prevValidNumer = newNumberValue!
+
+                            onChange({
+                                event, payload, prevValidNumer,
+                                isValidNumberString: true,
+                                numberValue: newNumberValue!,
+                                value: newValueString!
+                            })
+                        }
                     }
 
-                    if (shouldTriggerOnChange) {
-                        editState.prevValidNumer = newNumberValue!
-
-                        onChange({
-                            event, payload, prevValidNumer,
-                            isValidNumberString: true,
-                            numberValue: newNumberValue!,
-                            value: newValueString!
-                        })
-                    }
+                } else {
+                    event.stopPropagation()
+                    event.preventDefault()
                 }
             },
             onChange(value, event) {
@@ -212,7 +261,10 @@ const NumberPicker = component<Props, DefaultProps>(
         if (step) {
             const {
                 isDisabledDown, isDisabledUp, stepperElement
-            } = getStepButtons(props, numberValue, onStepChange)
+            } = getStepButtons({
+                props, min, max,
+                numberValue, onStepChange, onPickerBlur, onPickerFocus
+            })
 
             stepper = stepperElement
 
@@ -232,10 +284,10 @@ const NumberPicker = component<Props, DefaultProps>(
                         const isKeyUp = keyCode == keyCodes.UP
                         const isKeyDown = keyCode == keyCodes.DOWN
 
-                        const isAllowedACtion = isKeyUp && !isDisabledUp
+                        const isAllowedAction = isKeyUp && !isDisabledUp
                             ||  (isKeyDown && !isDisabledDown)
 
-                        if (isAllowedACtion) {
+                        if (isAllowedAction) {
                             event.preventDefault()
 
                             let _step = step
@@ -258,13 +310,14 @@ const NumberPicker = component<Props, DefaultProps>(
         return (
             <div { ...numberpickerRootProps }>
                 { label
-                    ?   <>
-                            <div className={ theme.label } children={ label } />
+                    ?   getInputLabeled(
                             <div className={ theme.input_wrapper }>
                                 { inputElement }
                                 { stepper }
-                            </div>
-                        </>
+                            </div>,
+                            { className: theme.label_wrapper },
+                            { className: theme.label_text, children: label }
+                        )
                     :   <>
                             { inputElement }
                             { stepper }

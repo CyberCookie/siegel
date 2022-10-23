@@ -9,7 +9,7 @@ function applyRefApi<
 >(rootProps: A, mergedProps: P) {
 
     const { getRef, getOnPropsUpdate } = mergedProps.refApi!
-    rootProps.ref = useRef(null)
+    rootProps.ref ||= useRef(null)
 
     const trackDependencies = getOnPropsUpdate
         ?   getOnPropsUpdate(mergedProps)

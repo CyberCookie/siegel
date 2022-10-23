@@ -10,10 +10,13 @@ type OnNumberPickerChange = (
     step: number
 ) => void
 
+type OnFocusEventHandler = React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>
+
 
 type Theme = {
     _disabled_all?: string
-    label?: string
+    label_wrapper?: string
+    label_text?: string
     input_wrapper?: string
     controls?: string
     button_minus?: string
@@ -68,4 +71,6 @@ type MergedProps = Props & DefaultProps
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, OnNumberPickerChange }
+export type {
+    Props, DefaultProps, MergedProps, Component, OnNumberPickerChange, OnFocusEventHandler
+}

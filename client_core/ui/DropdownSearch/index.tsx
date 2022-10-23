@@ -137,10 +137,12 @@ const DropdownSearch = component<Props, DefaultProps>(
             store: _inputStore,
             className: styles.input,
             onChange(value, e) {
-                state.searchString = value
-                setState({ ...state })
-
                 onSearch?.(value, e)
+
+                if (!e.defaultPrevented) {
+                    state.searchString = value
+                    setState({ ...state })
+                }
             },
             value: isExists(searchString)
                 ?   searchString

@@ -1,16 +1,17 @@
 import React from 'react'
 
-import type { MergedProps, OnNumberPickerChange } from '../types'
-import type { BtnClickEv, BtnProps } from './get_step_buttons_types'
+import type { BtnClickEv, BtnProps, GetStepperButtons } from './get_step_buttons_types'
 
 
-function getStepButtons(
-    props: MergedProps,
-    numberValue: number,
-    onNumberPickerChange: OnNumberPickerChange
-) {
-
-    const { theme, disabled, step, plusIcon, minusIcon, min, max } = props
+const getStepButtons: GetStepperButtons = params => {
+    const {
+        props: {
+            theme, disabled, step, plusIcon, minusIcon,
+            disabledInput
+        },
+        min, max,
+        onStepChange, numberValue, onPickerBlur, onPickerFocus
+    } = params
 
 
     let isDisabledUp = false
@@ -21,8 +22,8 @@ function getStepButtons(
     if (disabled || (numberValue >= max)) {
         plusProps.disabled = isDisabledUp = true
     } else {
-        plusProps.onMouseDown = (e: BtnClickEv) => {
-            onNumberPickerChange(e, true, step!)
+        plusProps.onClick = (e: BtnClickEv) => {
+            onStepChange(e, true, step!)
         }
     }
 
@@ -35,12 +36,17 @@ function getStepButtons(
     if (disabled || (numberValue <= min)) {
         minusProps.disabled = isDisabledDown = true
     } else {
-        minusProps.onMouseDown = (e: BtnClickEv) => {
-            onNumberPickerChange(e, false, -step!)
+        minusProps.onClick = (e: BtnClickEv) => {
+            onStepChange(e, false, -step!)
         }
     }
 
     minusProps.tabIndex = plusProps.tabIndex = -1
+
+    if (!disabledInput) {
+        minusProps.onBlur = plusProps.onBlur = onPickerBlur
+        minusProps.onFocus = plusProps.onFocus = onPickerFocus
+    }
 
 
     const stepperElement = (
