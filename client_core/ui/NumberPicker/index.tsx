@@ -84,7 +84,6 @@ const NumberPicker = component<Props, DefaultProps>(
         if (!disabled) {
             isFocused
                 ?   (onPickerBlur = e => {
-                        console.log('onPickerBlur')
                         const { relatedTarget } = e.nativeEvent
                         if (!relatedTarget || !(ref.current.contains(relatedTarget as Node))) {
                             setInputState({

@@ -28,32 +28,48 @@ function getInputString(params: Params) {
             :   isNumberNaN ? '' : `${numberValue}`
 
 
-        if (result && !isFocused) {
-            const lastChar = result.at(-1)
-            lastChar == '.' && (result = result.replace(lastChar, ''))
+        if (result) {
+            let indexOfDot: number | undefined
+            if (!isNumberNaN && isExists(precision)) {
+                let isPrecisionAdjust = true
+                if (isFocused) {
+                    indexOfDot = result.indexOf('.')
+                    isPrecisionAdjust = ((result.length - 1) - indexOfDot) > precision
+                }
 
-            !isNumberNaN && precision && (result = numberValue.toFixed(precision))
-            if (zeroesPadLeft) {
+                isPrecisionAdjust && (result = numberValue.toFixed(precision))
+            }
 
-                const firstChar = result[0]
-                const indexOfDot = result.indexOf('.')
-                const isNegative = firstChar == '-'
 
-                const padStartIndex = isNegative ? 1 : 0
-                const padEndIndex = indexOfDot >= 0
-                    ?   indexOfDot
-                    :   result.length
+            if (!isFocused) {
+                const lastChar = result.at(-1)
+                lastChar == '.' && (result = result.replace(lastChar, ''))
 
-                const curPadLength = padEndIndex - padStartIndex
 
-                if (curPadLength < zeroesPadLeft) {
-                    const extraZeroes = ('0').repeat(zeroesPadLeft - curPadLength)
-                    result = result.replace(
-                        firstChar,
-                        isNegative
-                            ?   `${firstChar}${extraZeroes}`
-                            :   `${extraZeroes}${firstChar}`
-                    )
+                if (isExists(zeroesPadLeft) && zeroesPadLeft > 0) {
+                    const firstChar = result[0]
+                    const isNegative = firstChar == '-'
+
+                    const zeroPadIndexOfDot = isExists(indexOfDot)
+                        ?   indexOfDot
+                        :   result.indexOf('.')
+
+                    const padStartIndex = isNegative ? 1 : 0
+                    const padEndIndex = zeroPadIndexOfDot! >= 0
+                        ?   zeroPadIndexOfDot
+                        :   result.length
+
+                    const curPadLength = padEndIndex! - padStartIndex
+
+                    if (curPadLength < zeroesPadLeft) {
+                        const extraZeroes = ('0').repeat(zeroesPadLeft - curPadLength)
+                        result = result.replace(
+                            firstChar,
+                            isNegative
+                                ?   `${firstChar}${extraZeroes}`
+                                :   `${extraZeroes}${firstChar}`
+                        )
+                    }
                 }
             }
         }

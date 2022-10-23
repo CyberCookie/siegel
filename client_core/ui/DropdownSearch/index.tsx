@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import mergeTagAttributes from '../_internals/merge_tag_attributes'
+import getInputLabeled from '../_internals/label'
 import handleKeyboardSelect, {
     Store as HandleKeyboardSelectStore
 } from '../_internals/handle_keyboard_selection'
@@ -38,7 +39,8 @@ const DropdownSearch = component<Props, DefaultProps>(
             _error: _undef,
             reset: _undef,
             input_wrapper: _undef,
-            label: _undef,
+            label_wrapper: _undef,
+            label_text: _undef,
             options: _undef,
             option: _undef,
             option__selected: _undef,
@@ -172,14 +174,14 @@ const DropdownSearch = component<Props, DefaultProps>(
         return (
             <div { ...dropdownSearchRootProps }>
                 { label
-                    ?   <>
-                            <div className={ theme.label } children={ label } />
-
+                    ?   getInputLabeled(
                             <div className={ theme.input_wrapper }>
                                 { inputElement }
                                 { optionsElement }
-                            </div>
-                        </>
+                            </div>,
+                            { className: theme.label_wrapper },
+                            { className: theme.label_text, children: label }
+                        )
                     :   <>
                             { inputElement }
                             { optionsElement }

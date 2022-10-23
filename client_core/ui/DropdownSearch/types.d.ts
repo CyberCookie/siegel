@@ -26,7 +26,8 @@ type Theme = {
     _focused?: string
     _error?: string
     reset?: string
-    label?: string
+    label_wrapper?: string
+    label_text?: string
     input_wrapper?: string
     options?: string
     option?: string

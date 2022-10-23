@@ -97,15 +97,16 @@ const Accordion = withDefaults(_Accordion, {
 
 
 const dropdownSearchTheme: DropdownSearchProps['theme'] = {
-    root: _dropdownSearchTheme.dropdown_search,
-    label: inputTheme.label_text,
+    root: _dropdownSearchTheme.root,
+    _disabled: _dropdownSearchTheme._disabled,
+    _with_suggestions: _dropdownSearchTheme._with_suggestions,
+    _error: _dropdownSearchTheme._error,
+    _focused: _selectTheme._active,
+    label_text: _selectTheme.label,
     options: `${_selectTheme.options} ${_dropdownSearchTheme.options}`,
     option: _selectTheme.option,
     option__selected: _selectTheme.option__active,
-    option__disabled: _selectTheme.option__disabled,
-    _disabled: _dropdownSearchTheme._disabled,
-    _with_suggestions: _dropdownSearchTheme._with_suggestions,
-    _error: _dropdownSearchTheme._error
+    option__disabled: _selectTheme.option__disabled
 }
 const DropdownSearch = withDefaults(_DropdownSearch, {
     theme: dropdownSearchTheme,
@@ -165,7 +166,7 @@ const selectTheme: SelectProps['theme'] = Object.assign(_selectTheme, {
     _error: `${inputTheme._error} ${_selectTheme._error}`,
     title_wrapper: `${inputTheme.field} ${_selectTheme.title_wrapper}`,
     error_text: inputTheme.error_text,
-    label: inputTheme.label_text
+    label: `${inputTheme.label_text} ${_selectTheme.label_text}`
 })
 const Select = withDefaults(_Select, {
     theme: selectTheme,
