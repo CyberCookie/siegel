@@ -57,7 +57,7 @@ const Input = component<Props, DefaultProps>(
             value = '',
             theme, label, errorMsg, type, disabled, onBlur, rootTagAttributes, inputAttributes,
             onChange, onFocus, payload, store, autofocus, placeholder, regexp, mask, refApi, children,
-            debounceMs, className
+            debounceMs, className, prefix, suffix
         } = props
 
         const innerStore = store || useState(getDefaultState())
@@ -107,26 +107,32 @@ const Input = component<Props, DefaultProps>(
             ])
         }
 
-        isFocused && (inputRootProps.onBlur = e => {
-            onBlur?.(e)
-            if (!e.defaultPrevented) {
-                if (onChange && debounceStore) {
-                    const [{ debounceTimeoutID, debounceValue }, setDebounceState ] = debounceStore
+        if (isFocused) {
+            inputRootProps.onBlur = e => {
+                onBlur?.(e)
+                if (!e.defaultPrevented) {
+                    if (onChange && debounceStore) {
+                        const [{ debounceTimeoutID, debounceValue }, setDebounceState ] = debounceStore
 
-                    if (isExists(debounceValue)) {
-                        clearTimeout(debounceTimeoutID)
-                        setDebounceState( getDefaultDebounceState() )
+                        if (isExists(debounceValue)) {
+                            clearTimeout(debounceTimeoutID)
+                            setDebounceState( getDefaultDebounceState() )
 
-                        onChange(debounceValue, e, payload)
+                            onChange(debounceValue, e, payload)
+                        }
                     }
-                }
 
-                setState({
-                    isFocused: false,
-                    isTouched: true
-                })
+                    setState({
+                        isFocused: false,
+                        isTouched: true
+                    })
+                }
             }
-        })
+        } else if ((suffix || prefix) && inputProps.value) {
+            suffix && (inputProps.value = `${suffix}${inputProps.value}`)
+            prefix && (inputProps.value += `${prefix}`)
+        }
+
 
         if (!disabled && onChange) {
             isFocused || (inputRootProps.onFocus = e => {

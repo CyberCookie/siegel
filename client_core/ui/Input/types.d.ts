@@ -52,6 +52,8 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     payload?: _Payload
     regexp?: RegExp
     debounceMs?: number
+    prefix?: string
+    suffix?: string
     mask?: {
         pattern: string
         patternValueChar: string

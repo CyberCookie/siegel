@@ -86,6 +86,10 @@ Input for numbers with various validations built on top of `Input` component<br 
 
 - `inputClassName` - **Input.className**
 
+- `suffix` - **Input.suffix**
+
+- `prefix` - **Input.prefix**
+
 - `label` - **Input.label**
 
 - `errorMsg` - **Input.errorMsg**

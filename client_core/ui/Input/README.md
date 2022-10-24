@@ -88,6 +88,14 @@ Input field to type text into<br />
     - Set onChange debounce miliseconds
     - **Number**<br /><br />
 
+- `prefix`
+    - **String**
+    - Value to be applied to input string before if input is not in focus
+
+- `suffix`
+    - **String**
+    - Value to be applied to input string after if input is not in focus
+
 - `mask`
     - Applies mask to input field
     - **Object** with the next fields:

@@ -51,7 +51,7 @@ const NumberPicker = component<Props, DefaultProps>(
             theme, disabled, onChange, onFocus, step, precision, disabledInput, className,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
             refApi, rootTagAttributes, inputRootAttributes, children, onBlur, debounceMs,
-            autofocus, mask, inputTheme, inputMemoDeps, inputClassName
+            autofocus, mask, inputTheme, inputMemoDeps, inputClassName, suffix, prefix
         } = props
 
         let { min, max } = props
@@ -177,8 +177,8 @@ const NumberPicker = component<Props, DefaultProps>(
         const inputValue = getInputString({ props, numberValue, numberMask, isFocused })
 
         const inputFieldProps: InputProps = {
-            children, errorMsg, placeholder, inputAttributes, onFocus, mask,
-            debounceMs, autofocus,
+            children, errorMsg, placeholder, inputAttributes, onFocus, mask, suffix,
+            prefix, debounceMs, autofocus,
             theme: inputTheme,
             memoDeps: inputMemoDeps,
             className: inputClassName,
@@ -194,7 +194,8 @@ const NumberPicker = component<Props, DefaultProps>(
                     onBlur?.(event)
                     if (!event.defaultPrevented) {
 
-                        let newValueString: string | undefined, newNumberValue: number | undefined
+                        let newValueString: string | undefined
+                        let newNumberValue: number | undefined
                         let shouldTriggerOnChange = true
 
                         if (isValidNumberString(value, numberValue)) {
