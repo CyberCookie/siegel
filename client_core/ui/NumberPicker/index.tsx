@@ -231,20 +231,15 @@ const NumberPicker = component<Props, DefaultProps>(
                 }
             },
             onChange(value, event) {
-                let newValueString = pretifyInputString(value)
+                const newValueString = pretifyInputString(value)
                 if (inputValue != newValueString) {
-                    let newNumberValue = parseFloat(value)
+                    const newNumberValue = parseFloat(value)
 
                     const isValidNewNumberString = isValidNumberString(newValueString, newNumberValue)
-                    if (isValidNewNumberString) {
-                        const newNumberValueRangeLimited = adjustWithRanges(newNumberValue, min, max)
-                        if (newNumberValueRangeLimited != newNumberValue) {
-                            newValueString = `${newNumberValueRangeLimited}`
-                            newNumberValue = newNumberValueRangeLimited
-                        }
+                        &&  newNumberValue == adjustWithRanges(newNumberValue, min, max)
 
-                        editState.prevValidNumer = newNumberValue
-                    }
+                    isValidNewNumberString && (editState.prevValidNumer = newNumberValue)
+
 
                     onChange({
                         event, payload, prevValidNumer,

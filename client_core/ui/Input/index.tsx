@@ -128,9 +128,10 @@ const Input = component<Props, DefaultProps>(
                     })
                 }
             }
+
         } else if ((suffix || prefix) && inputProps.value) {
-            suffix && (inputProps.value = `${suffix}${inputProps.value}`)
-            prefix && (inputProps.value += `${prefix}`)
+            prefix && (inputProps.value = `${prefix}${inputProps.value}`)
+            suffix && (inputProps.value += `${suffix}`)
         }
 
 
