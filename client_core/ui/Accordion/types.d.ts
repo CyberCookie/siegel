@@ -4,53 +4,106 @@ import type {
 
 
 type List = {
+    /** List item title element */
     title: React.ReactNode
+
+    /** List item optional id */
     id?: string
+
+    /** List item nested list */
     children?: List
 }[]
 
-type BuilderArgs<_BuilderListExtend> = {
-    listItem: BuilderList<_BuilderListExtend>[number]
-    listItemTheme: NonNullable<Props['theme']>
-    index: number
-    acc: any
-}
 type BuilderList<_BuilderListExtend = Indexable<any>> = ({
+    /** List item nested list */
     children?: BuilderList<_BuilderListExtend>
+
+    /** List item optional id */
     id?: string
 } & _BuilderListExtend)[]
 
 
 type Theme = {
+    /** List item wrapper */
     item?: string
+
+    /** List item wrapper state when it has no nested list */
     item__empty?: string
+
+    /** List item wrapper state when its nested list is expanded */
     item__expanded?: string
-    item_title?: string
+
+    /** List item title wrapper */
     item_title_wrapper?: string
+
+    /** List item title */
+    item_title?: string
+
+    /** List item nested list */
     nested_list?: string
 }
 
 type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
     Theme,
     {
+        /** Icon to place next to item title */
         accordionIcon?: React.ReactNode
+
+        /** Forces only one expanded list to be at the moment */
         soloOpen?: boolean
+
+        /** div tag wrapper attributes */
         rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
+
+        /** Render list with all the nested lists already expanded */
         autoExpand?: boolean
+
+        /** External store, created with React.useState, to controll expanding of nested lists */
         store?: ReactStore<{
-            expandedPaths: Indexable
+            /**
+             * Expanded lists paths, where key is dot separeted nested lists ids,
+             * and value is boolean
+             */
+            expandedPaths: Indexable<boolean>
         }>
     }
     &   ({
-            builder(args: BuilderArgs<_BuilderListExtend>): ({
+            /**
+             * Allows you to provide list items with custom properties
+             * and construct the output list elements using this function
+             *
+             * @param params Current list item params
+             */
+            builder(
+                params: {
+                    /** List item object with custom properties */
+                    listItem: BuilderList<_BuilderListExtend>[number]
+
+                    /** Mutable list item theme to be applied to the current list item */
+                    listItemTheme: NonNullable<Props['theme']>
+
+                    /** List item index */
+                    index: number
+
+                    /** Accumulated value in the scope of mutual parent */
+                    acc: any
+                }
+            ): ({
+                /** List item element */
                 elem: React.ReactNode
+
+                /** Optioanl accumulator value */
                 acc?: any
             })
+
+            /** List items data with custom item properties if builder is provided; */
             list: BuilderList<_BuilderListExtend>
         }
         |
         {
             builder?: never
+
+            /** List items data when no builder provided; */
             list: List
         })
 >

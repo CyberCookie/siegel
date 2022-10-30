@@ -17,7 +17,6 @@ Utils list:
 - Deep
     - [Clone](https://github.com/CyberCookie/siegel/tree/master/common/deep/clone)
     - [Diff](https://github.com/CyberCookie/siegel/tree/master/common/deep/diff)
-    - [Get](https://github.com/CyberCookie/siegel/tree/master/common/deep/get)
     - [Set](https://github.com/CyberCookie/siegel/tree/master/common/deep/set)
 - [Entities struct](https://github.com/CyberCookie/siegel/tree/master/common/entities_struct)
 - [Get uniq id](https://github.com/CyberCookie/siegel/tree/master/common/get_uniq_id)

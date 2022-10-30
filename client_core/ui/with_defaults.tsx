@@ -5,6 +5,14 @@ import extractProps from './_internals/props_extract'
 import type { CoreUIComponent, CoreUIComponentWithDefaults } from './_internals/types'
 
 
+/**
+ * Applies default props to a given Siegel component function,
+ * so you don't need to apply them every time you use the component
+ *
+ * @param Component Siegel component function
+ * @param newDefaults default props to apply
+ * @returns Siegel component function with applied default props
+ */
 function withDefaults
 <
     _ComponentWithDefaults extends CoreUIComponentWithDefaults<CoreUIComponent<any, any>>,

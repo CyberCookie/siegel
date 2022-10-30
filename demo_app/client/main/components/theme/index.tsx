@@ -53,8 +53,9 @@ import stepperTheme from './styles/stepper.sass'
 
 
 
-const Button = withDefaults(_Button, {
-    className: buttonTheme.button
+const Accordion = withDefaults(_Accordion, {
+    theme: accordionTheme,
+    accordionIcon: icons.chevron
 })
 
 const Breadcrumbs = withDefaults(_Breadcrumbs, {
@@ -64,6 +65,10 @@ const Breadcrumbs = withDefaults(_Breadcrumbs, {
     onChange(newPath) {
         history.push!(newPath)
     }
+})
+
+const Button = withDefaults(_Button, {
+    className: buttonTheme.button
 })
 
 const Calendar = withDefaults(_Calendar, {
@@ -80,19 +85,11 @@ const Checkbox = withDefaults(_Checkbox, {
 })
 
 
-
 const dataTableTheme: DataTableProps<any>['theme'] = Object.assign(_dataTableTheme, {
     table: `${tableTheme.table} ${_dataTableTheme.table}`
 })
 const DataTable = withDefaults(_DataTable, {
     theme: dataTableTheme
-})
-
-
-
-const Accordion = withDefaults(_Accordion, {
-    theme: accordionTheme,
-    accordionIcon: icons.chevron
 })
 
 
@@ -132,7 +129,6 @@ const Link = withDefaults(_Link, {
 const numberPickerTheme = Object.assign(_numberPickerTheme, {
     label_text: inputTheme.label_text
 })
-
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
     inputTheme: {
@@ -161,6 +157,11 @@ const Radio = withDefaults(_Radio, {
     theme: radioTheme
 })
 
+const Ranger = withDefaults(_Ranger, {
+    theme: rangerTheme,
+    rangePickIcon: ''
+})
+
 
 const selectTheme: SelectProps['theme'] = Object.assign(_selectTheme, {
     _error: `${inputTheme._error} ${_selectTheme._error}`,
@@ -178,23 +179,6 @@ const Slider = withDefaults(_Slider, {
     theme: sliderTheme
 })
 
-const Table = withDefaults(_Table, {
-    className: tableTheme.table
-})
-
-const Toggle = withDefaults(_Toggle, {
-    theme: toggleTheme
-})
-
-const Tabs = withDefaults(_Tabs, {
-    theme: tabsTheme
-})
-
-const Ranger = withDefaults(_Ranger, {
-    theme: rangerTheme,
-    rangePickIcon: ''
-})
-
 const Stepper = withDefaults(_Stepper, {
     theme: stepperTheme,
     rangerTheme: Object.assign(rangerTheme, {
@@ -206,6 +190,19 @@ const Stepper = withDefaults(_Stepper, {
         range__selected: `${rangerTheme.range__selected} ${stepperTheme.range__selected}`
     }),
     rangePickIcon: ''
+})
+
+
+const Table = withDefaults(_Table, {
+    className: tableTheme.table
+})
+
+const Tabs = withDefaults(_Tabs, {
+    theme: tabsTheme
+})
+
+const Toggle = withDefaults(_Toggle, {
+    theme: toggleTheme
 })
 
 

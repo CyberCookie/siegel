@@ -24,8 +24,8 @@ const mergeRecursive: MergeRecursive = (defaultAttributes, newAttributes) => {
 
         if (
             key in defaultAttributes
-            && !isNullable(defaultValue) && !isNullable(newValue)
-            && defaultValue.constructor === newValue.constructor
+            &&  !isNullable(defaultValue) && !isNullable(newValue)
+            &&  defaultValue.constructor === newValue.constructor
         ) {
 
             if (defaultValue.constructor === Object) {
@@ -37,12 +37,9 @@ const mergeRecursive: MergeRecursive = (defaultAttributes, newAttributes) => {
                     newFuncResult && defaultValue(...args)
                 }
 
-            } else {
-                defaultAttributes[key] = newValue
-            }
-        } else {
-            defaultAttributes[key] = newValue
-        }
+            } else defaultAttributes[key] = newValue
+
+        } else defaultAttributes[key] = newValue
     }
 
     return defaultAttributes

@@ -61,7 +61,7 @@ const NumberPicker = component<Props, DefaultProps>(
             ?   value
             :   parseFloat(value)
 
-        const numberMask = regexp || buildInputRegexp(min, max, precision)
+        const numberMask = buildInputRegexp(min, max, precision, regexp)
 
 
         const ref = useRef() as React.MutableRefObject<HTMLDivElement>

@@ -38,6 +38,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     value?: string | number
     children?: React.ReactNode
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
+    regexp?: RegExp | ((defaultRegExp: string) => RegExp)
     label?: React.ReactNode
     step?: number
     min?: number
@@ -55,7 +56,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     inputRootAttributes?: InputProps['rootTagAttributes']
     debounceMs?: InputProps['debounceMs']
     onBlur?: InputProps['onBlur']
-}> & Omit<InputProps, 'value' | 'label' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store'>
+}> & Omit<InputProps, 'value' | 'label' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store' | 'regexp'>
 
 type DefaultProps = NonNullableKeys<{
     className: Props['className']

@@ -54,7 +54,7 @@ Recursively expandable list of items<br />
         To achieve `autoExpand` behavior - you should pass `list` to `getDefaultState` function<br /><br />
 
 - `builder`
-    - Postprocess callback that executes during an iteration over provided list
+    - Postprocess callback that executes during an iteration over provided list items
     - **Function**
         - Has **1** argument:
             - **Object** with the next fields:
@@ -73,5 +73,5 @@ Recursively expandable list of items<br />
             - `acc` - **Any**. Updated accumulator
 
 - `accordionIcon`
-    - Icon to place next from item title
+    - Icon to place next to item title
     - **React.ReactNode**

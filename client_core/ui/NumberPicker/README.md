@@ -78,6 +78,10 @@ Input for numbers with various validations built on top of `Input` component<br 
     - **Number**
     - Default is **Infinity**<br /><br />
 
+- `regexp`
+    - Input field regexp
+    - **RegExp | ((defaultRegExp: string) => RegExp**
+
 - `payload`
     - Data to be passed to **props.onChange** handler
     - **Any**<br /><br />

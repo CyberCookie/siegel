@@ -1,12 +1,42 @@
 type ComponentRefApi<_Props> = {
+    /**
+     * Callback to retrieve a ref.
+     * By default triggers only once after the first render
+     *
+     * @param ref component root tag ref
+     * @param props passed component props
+     */
     getRef(ref: HTMLElement, props: _Props): void
+
+    /**
+     * Provides array of values to compare during each rerender.
+     * Triggers getRef if some values have changed
+     *
+     * @param props passed component props
+     * @return array of values to compare after each render
+     */
     getOnPropsUpdate?(props: _Props): any[]
 }
 
 type PropsComponentBase<_Props extends Indexable = Indexable> = {
+    /**
+     * Internal Siegel property.
+     * Using to indicate whether to merge provided component props with default ones
+     */
     _noMergeWithDefaults?: boolean
+
+    /** Root tag class name */
     className?: string
+
+    /** Provides access to root tag DOM element once it was rendered */
     refApi?: ComponentRefApi<PropsComponentBase<_Props>>
+
+    /**
+     * Works the same way as React.memo
+     *
+     * @param prevProps old component props
+     * @param nextProps new component props
+     */
     memoDeps?(
         prevProps: PropsComponentBase<_Props>,
         nextProps: PropsComponentBase<_Props>
@@ -14,7 +44,9 @@ type PropsComponentBase<_Props extends Indexable = Indexable> = {
 } & _Props
 
 type ThemeProps<_Theme> = {
+    /** Class names to be applied to a component elements */
     theme?: {
+        /** Root tag class name */
         root?: string
     } & _Theme
 }

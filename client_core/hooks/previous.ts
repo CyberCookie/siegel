@@ -1,15 +1,28 @@
 import { useRef, useLayoutEffect } from 'react'
 
 
-function usePrevious(value: any, ref = useRef(), storeKey = '_prevValue') {
-    type StoreKey = keyof typeof ref
+type ExtendedRef = {
+    [key in typeof symbolPrevValue]: any
+} & React.MutableRefObject<undefined>
 
+
+const symbolPrevValue = Symbol('prev_value')
+
+/**
+ * Memoize given value to retrieve it at the next component render
+ *
+ * @param value Value to retrieve at the next render
+ * @param ref Optional reusable ref created with React.useRef
+ * @returns previous value or undefined if it's first render
+ */
+function usePrevious(value: any, ref = useRef()) {
     useLayoutEffect(() => {
-        ref[storeKey as StoreKey] = value
+        (ref as ExtendedRef)[symbolPrevValue] = value
     }, [ value ])
 
-    return ref[storeKey as StoreKey]
+    return (ref as ExtendedRef)[symbolPrevValue]
 }
 
 
+export { symbolPrevValue }
 export default usePrevious

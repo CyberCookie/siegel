@@ -34,7 +34,7 @@ function getInputString(params: Params) {
                 let isPrecisionAdjust = true
                 if (isFocused) {
                     indexOfDot = result.indexOf('.')
-                    isPrecisionAdjust = ((result.length - 1) - indexOfDot) > precision
+                    isPrecisionAdjust = indexOfDot >= 0 && ((result.length - 1) - indexOfDot) > precision
                 }
 
                 isPrecisionAdjust && (result = numberValue.toFixed(precision))
