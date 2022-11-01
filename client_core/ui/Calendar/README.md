@@ -25,11 +25,11 @@ Flexible calendar to pick single or range of dates<br />
     - `icon_prev`
     - `icon_next`
     - `month_days_wrapper`
-    - `month_sibling`
     - `week`
     - `week_day`
     - `row`
     - `day`
+    - `day_month_sibling`
     - `day__selected`
         - Applied to selected days
     - `day__first`
@@ -149,7 +149,7 @@ Flexible calendar to pick single or range of dates<br />
     - Month and week day names
     - **Function** that returns **Object** or **Object** itself with the next fields:
         - `months` - **String[]**
-        - `weekDaysShort` - **String[]**
+        - `weekDays` - **String[]**
     - Default **Object** is:
         - `months` - **[ 'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december' ]**
-        - `weekDaysShort` - **[ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ]**
+        - `weekDays` - **[ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ]**

@@ -29,5 +29,5 @@ function useDidUpdate(fn: EffectCB, dependencies: React.DependencyList, ref = us
 }
 
 
-export { symbolIsRendered }
 export default useDidUpdate
+export { symbolIsRendered }

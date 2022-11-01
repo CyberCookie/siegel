@@ -264,7 +264,7 @@ const config = {
 ```js
 // service worker file sw.js
 
-// Variable is put during the build phase.
+// Variable is put during a build phase.
 console.log(buildOutput) // [ 'index.js', 'assets/fonts/some_font.woff2' ]
 ```
 
@@ -331,7 +331,7 @@ const { loadersKeyMap, webpackModuleRulesRegExp } = BUILD_CONSTANTS
         rules: {
             [ webpackModuleRulesRegExp.styles ]: {
                 /*
-                    This field can be a function in the case you extend one of the default rules.
+                    This field can be a function in the case you extend one of default rules.
                     The Function receives default laodersOrder and returns new one. 
                 */
                 loadersOrder(defaultLoadersOrder) {
@@ -358,7 +358,7 @@ const { loadersKeyMap, webpackModuleRulesRegExp } = BUILD_CONSTANTS
     
                     [ loadersKeyMap.cssLoader ]: {
                         /*
-                            This field can be a function in case you extend one of the default loaders. 
+                            This field can be a function in case you extend one of default loaders. 
                         */
                         options(defaultLoaderOptions) {
                             delete defaultLoaderOptions.modules;

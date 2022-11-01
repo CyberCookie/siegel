@@ -7,8 +7,9 @@ import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 
 import type {
-    Component, MergedProps, Store, Props,
-    BreadcrumbConfig, BreadcrumbConfigPart, CrumbComposedConfig
+    Component, MergedProps, DynamicCrumbsStore, Props,
+    BreadcrumbConfig, BreadcrumbConfigPart, CrumbComposedConfig,
+    DynamicCrumbsCustomEventPayload
 } from './types'
 
 import styles from './styles.sass'
@@ -20,7 +21,7 @@ function linkClickPreventDefault(e: React.MouseEvent) {
 
 function getBreadcrumbs(
     props: MergedProps,
-    dynamicCrumbsState: Store[0] | undefined,
+    dynamicCrumbsState: DynamicCrumbsStore[0] | undefined,
     hasDynamicCrumbs: boolean | undefined
 ) {
 
@@ -95,18 +96,24 @@ const Breadcrumbs: Component = component(
     },
     props => {
 
-        const { className, rootTagAttributes, refApi, config } = props
+        const {
+            dynamicCrumbsID = componentID,
+            className, rootTagAttributes, refApi, config
+        } = props
 
         const hasDynamicCrumbs = useMemo(() => checkHasDynamicCrumb(config), [])
 
-        let dynamicCrumbsState: Store[0] | undefined
+        let dynamicCrumbsState: DynamicCrumbsStore[0] | undefined
         if (hasDynamicCrumbs) {
             const [ state, setState ] = useState({})
             dynamicCrumbsState = state
 
             useLayoutEffect(() => {
-                const setDynamicCrumbsHandler = (function({ detail }: CustomEvent) {
-                    setState({ ...state, ...detail })
+                const setDynamicCrumbsHandler = (function({ detail }: CustomEvent<DynamicCrumbsCustomEventPayload>) {
+                    const { crumbs, componentDynamicCrumbsID = componentID } = detail
+
+                    dynamicCrumbsID == componentDynamicCrumbsID
+                        &&  setState({ ...state, ...crumbs })
                 } as EventListener)
 
 
@@ -133,4 +140,7 @@ const Breadcrumbs: Component = component(
 
 export default Breadcrumbs
 export { componentID }
-export { Component, Props, BreadcrumbConfig, CrumbComposedConfig }
+export {
+    Component, Props, BreadcrumbConfig, CrumbComposedConfig,
+    DynamicCrumbsCustomEventPayload
+}

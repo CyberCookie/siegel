@@ -27,7 +27,7 @@ const Calendar = component<Props, DefaultProps>(
             month_title: _undef,
             month_days_wrapper: _undef,
             month_title_wrapper: _undef,
-            month__sibling: _undef,
+            day_month_sibling: _undef,
             week: _undef,
             week_day: _undef,
             row: _undef,
@@ -45,7 +45,7 @@ const Calendar = component<Props, DefaultProps>(
                 'january', 'february', 'march', 'april', 'may', 'june',
                 'july', 'august', 'september', 'october', 'november', 'december'
             ],
-            weekDaysShort: [ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ]
+            weekDays: [ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ]
         },
         monthsBefore: 0,
         monthsAfter: 0,

@@ -22,8 +22,8 @@ function getMonths(mergedProps: MergedProps, store: Store) {
         :   strings
 
     const weekDayNames = weekStartsFrom
-        ?   getWeekDaysShifted(weekStartsFrom, stringValues.weekDaysShort)
-        :   stringValues.weekDaysShort
+        ?   getWeekDaysShifted(weekStartsFrom, stringValues.weekDays)
+        :   stringValues.weekDays
     const weekdaysRow = getWeekDaysRow(weekDayNames, theme)
 
     let prevMonthIconEl, nextMonthIconEl, prevYearIconEl, nextYearIconEl

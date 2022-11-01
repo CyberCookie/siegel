@@ -90,7 +90,7 @@ type UserPlugin<
 type AllCaseUserPluginConfig = Exclude<UserPlugin<AnyPlugin, {}, {}, {}, {}>, boolean>
 
 
-//TODO typing: required custom plugin an never predefined
+//TODO typing: required custom plugin and never predefined
 type Plugins = {
     compression?: UserPlugin<CompressionPlugin, null, null, DefaultPlugins['compression']['instances']>
 

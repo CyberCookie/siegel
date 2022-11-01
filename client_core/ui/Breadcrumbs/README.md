@@ -26,7 +26,7 @@ _Only one instance of this compoent can be present at the moment<br />
     - **Object** where key is **pathname** part and value is **Object** with the next fields:
         - `crumb`
             - crumb value for this **pathname**
-            - **String**
+            - **React.ReactNode**
             - **Function**
                 - has **2** arguments:
                     - **path** - **String**. Full crumb path
@@ -61,13 +61,10 @@ _Products -> Fruits -> Orange_<br />
 In this case _Products_ and _Fruits_ are `crumb` since they represent static pathname parts<br />
 _Orange_, on the other hand, is `dynamicCrumb`, since it represents _:id_ in URL, and this ID can by any fruit ID<br />
 
-The fact we usually place **Breadcrumbs** in layout along with header and footer makes it diffucult to pass some deep level props, like current selected fruit, not violating _dependency inversion_ principle<br />
-For this reasons **Breadcrumbs** component has it's special approach to update `dynamicCrumb` defined within config<br />
-To update dynamic props we should fire **custom event**:
+**Breadcrumbs** component has its special approach to update `dynamicCrumb` you may defined in config - by firing a **custom event**:<br />
 
 ```jsx
-
-import Breadcrumbs, { componentID as breadcumbsID } from 'siegel-ui/Breadcrumbs'
+import Breadcrumbs, { componentID as breadcumbsComponentID } from 'siegel-ui/Breadcrumbs'
 
 // Define breadcrumbs config
 const breadcrumbsConfig = {
@@ -103,9 +100,11 @@ function getFruitDetails() {
     fetch( ... ).then(fruit => {
         // Changing dynamic crumbs state by firing custom event
         dispatchEvent(
-            new CustomEvent(breadcumbsID, {
+            new CustomEvent(breadcumbsComponentID, {
                 detail: {
-                    fruit_name: fruit.name
+                    crumbs: {
+                        fruit_name: fruit.name
+                    }
                 }
             })
         )

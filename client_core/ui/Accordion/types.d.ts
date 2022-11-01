@@ -52,7 +52,7 @@ type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
         /** Forces only one expanded list to be at the moment */
         soloOpen?: boolean
 
-        /** div tag wrapper attributes */
+        /** Root tag [<div>] attributes */
         rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 
         /** Render list with all the nested lists already expanded */

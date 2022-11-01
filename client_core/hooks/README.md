@@ -7,11 +7,12 @@
 <br />
 
 Checks whether some props have been changed<br />
-It has the same signature as **React.useEffect** hook
+It has the same signature as **React.useEffect** hook<br />
+Exports **Symbol** used for inner ref mutation  
 
 ``` js
 import React from 'react'
-import useDidUpdate from 'siegel-hooks/did_update'
+import useDidUpdate, { symbolIsRendered } from 'siegel-hooks/did_update'
 
 
 const Component = props => {
@@ -41,11 +42,13 @@ Receives **3** arguments:
 - **reusableRef** - **React.useRef()**. If ypu already have an initialized ref - you may pass it to this hook
 - **key** - **String**. Key to store a value in ref the provided **reusableRef**
 
+Exports **Symbol** used for inner ref mutation  
+
 <br />
 
 ``` js
 import React, { useRef } from 'react'
-import usePrevious from 'siegel-hooks/previous'
+import usePrevious, { symbolPrevValue } from 'siegel-hooks/previous'
 
 
 const Component = props => {

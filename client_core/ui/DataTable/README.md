@@ -87,14 +87,14 @@ Configurable and flexible data grid to manage big amount of data, built on top o
             - `component` - **Pagination component itself**<br /><br />
 
 - `resizable`
-    - Makes columns resizable by dragging sides of the columns
+    - Makes columns resizable by dragging sides of columns
     - **Boolean**<br /><br />
 
 - `virtualization`
     - Used to speed up performance if you want to display all entities without pagination paging
     - **Object** with the next fields:
-        - `itemHeight` - **Required** **Number**. Minimal height of the row
-        - `tableHeight` - **Number**. Default is **innerHeight**, Height of the table. Specifying this prop can precise item loading quantity
+        - `itemHeight` - **Required** **Number**. Minimal row height
+        - `tableHeight` - **Number**. Default is **innerHeight**, Table height . Specifying this prop can precise item loading quantity
         - `preloadedItemsBySide` - **Number**. Default is **20**. Quantity of items to preload above and below of visible area
         - `scrollUpdateInterval` - **Number**. Default is **350**ms. Specify how frequent displayed range of items is updating by scrolling<br /><br />
 
@@ -103,7 +103,7 @@ Configurable and flexible data grid to manage big amount of data, built on top o
     - **Function**. Has **4** arguments:
         - **head cell** - **TableTH**. Represents head column
         - **column config** - **props.columnsConfig[number**. This head cell's column config
-        - **index** - **Number**. Index of the column.
+        - **index** - **Number**. Column index
         - **dispayed entity IDs** - **Object**. Includes precise information about what entities was processed. Has the next fields:
             - `from` - **Number**. Index of entity **DataTable** starts from
             - `to` - **Number**. Index of entity **DataTable** ends with

@@ -1,5 +1,8 @@
 import createStore from 'siegel-store/index'
-import breadcrumbID from 'siegel-ui/Breadcrumbs/id'
+import {
+    componentID as breadcrumbsComponentID,
+    DynamicCrumbsCustomEventPayload
+} from 'siegel-ui/Breadcrumbs'
 
 import request from 'app/network'
 import { dynamicCrumbsMap } from 'app/Router'
@@ -28,13 +31,15 @@ const actions: Actions = {
                 const { dataToSend } = res
 
                 /*
-                    Send event to our the only breadcrumb component
-                    to update its crumbs state
+                    Send event to breadcrumb component
+                    to update its dynamic crumbs state
                 */
                 dispatchEvent(
-                    new CustomEvent(breadcrumbID, {
+                    new CustomEvent<DynamicCrumbsCustomEventPayload>(breadcrumbsComponentID, {
                         detail: {
-                            [dynamicCrumbsMap.demo_api]: dataToSend
+                            crumbs: {
+                                [dynamicCrumbsMap.demo_api]: dataToSend
+                            }
                         }
                     })
                 )

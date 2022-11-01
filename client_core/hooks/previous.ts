@@ -24,5 +24,5 @@ function usePrevious(value: any, ref = useRef()) {
 }
 
 
-export { symbolPrevValue }
 export default usePrevious
+export { symbolPrevValue }

@@ -47,9 +47,8 @@ const getDays = (props: ChildProps) => {
             const { timestamp, date, hidden, isSiblingMonth } = allDays[day]
 
             let children, className: string | undefined
-            if (hidden) {
-                className = hiddenDateClassName
-            } else {
+            if (hidden) className = hiddenDateClassName
+            else {
                 children = date
                 className = getDayClassName({
                     theme, hideSiblingMonthsDays, innerRangeStart, innerRangeEnd,

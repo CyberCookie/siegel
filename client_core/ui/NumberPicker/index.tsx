@@ -253,7 +253,7 @@ const NumberPicker = component<Props, DefaultProps>(
 
 
         let stepper
-        if (step) {
+        if (!disabled && step) {
             const {
                 isDisabledDown, isDisabledUp, stepperElement
             } = getStepButtons({

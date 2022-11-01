@@ -12,7 +12,7 @@ const getDayClassName: GetDayClass = getDayClassParams => {
 
     let className = applyClassName(theme.day, [
         [ theme.day__today, isToday ],
-        [ theme.month__sibling, isSiblingMonth ],
+        [ theme.day_month_sibling, isSiblingMonth ],
         [ theme.day__first, hideSiblingMonthsDays && isFirst ],
         [ theme.day__last, hideSiblingMonthsDays && isLast ]
     ])
