@@ -42,7 +42,7 @@ Features:
     - Easy configurable `Router`
     - React `global state manager` built on top of `react hooks`
     - Optional `fetch module` to track requests statuses with
-    - `Network` services to make requests and minimal client WebSocket implementation<br /><br />
+    - `Network` services to make `requests` and minimal client `WebSocket` implementation<br /><br />
 
 - `Demo project` with already themed components, predefined folder structure and scalable architecture built on top of Siegel<br />
     It gives you a quick start right after initialization!
