@@ -114,7 +114,7 @@ const Tabs = component<Props, DefaultProps>(
                 { labels }
                 { activeTabContent }
 
-                { children && addChildren(children, theme) }
+                { addChildren(children, theme) }
             </div>
         )
     }

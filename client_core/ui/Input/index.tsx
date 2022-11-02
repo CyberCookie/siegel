@@ -189,7 +189,7 @@ const Input = component<Props, DefaultProps>(
             <div { ...inputRootProps }>
                 { inputElement }
 
-                { children && addChildren(children, theme) }
+                { addChildren(children, theme) }
 
                 { errorMsg && <div className={ theme.error_text } children={ errorMsg } /> }
             </div>

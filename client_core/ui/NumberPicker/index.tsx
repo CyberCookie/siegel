@@ -40,10 +40,9 @@ const NumberPicker = component<Props, DefaultProps>(
             _disabled_all: _undef,
             _focused: _undef
         },
-        minusIcon: '-',
-        plusIcon: '+',
         min: -Infinity,
-        max: Infinity
+        max: Infinity,
+        precisionKeepZeroes: true
     },
     props => {
 
@@ -51,7 +50,8 @@ const NumberPicker = component<Props, DefaultProps>(
             theme, disabled, onChange, onFocus, step, precision, disabledInput, className,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
             refApi, rootTagAttributes, inputRootAttributes, children, onBlur, debounceMs,
-            autofocus, mask, inputTheme, inputMemoDeps, inputClassName, suffix, prefix
+            autofocus, mask, inputTheme, inputMemoDeps, inputClassName, suffix, prefix,
+            precisionKeepZeroes
         } = props
 
         let { min, max } = props
@@ -78,27 +78,29 @@ const NumberPicker = component<Props, DefaultProps>(
         const { prevValidNumer } = editState
 
 
+        function _onBlur(e: React.FocusEvent) {
+            const { relatedTarget } = e.nativeEvent
+            if (!relatedTarget || !(ref.current.contains(relatedTarget as Node))) {
+                setInputState({
+                    isFocused: false,
+                    isTouched: true
+                })
+            }
+        }
+        function _onFocus() {
+            setInputState({
+                isFocused: true,
+                isTouched: true
+            })
+        }
+
 
         let onPickerFocus: OnFocusEventHandler | undefined
         let onPickerBlur: OnFocusEventHandler | undefined
         if (!disabled) {
             isFocused
-                ?   (onPickerBlur = e => {
-                        const { relatedTarget } = e.nativeEvent
-                        if (!relatedTarget || !(ref.current.contains(relatedTarget as Node))) {
-                            setInputState({
-                                isFocused: false,
-                                isTouched: true
-                            })
-                        }
-                    })
-
-                :   (onPickerFocus = () => {
-                        setInputState({
-                            isFocused: true,
-                            isTouched: true
-                        })
-                    })
+                ?   (onPickerBlur = _onBlur)
+                :   (onPickerFocus = _onFocus)
         }
 
 
@@ -115,22 +117,8 @@ const NumberPicker = component<Props, DefaultProps>(
             numberpickerRootProps.tabIndex = 0
 
             isFocused
-                ?   (numberpickerRootProps.onBlur = e => {
-                        const { relatedTarget } = e.nativeEvent
-                        if (!relatedTarget || !(ref.current.contains(relatedTarget as Node))) {
-                            setInputState({
-                                isFocused: false,
-                                isTouched: true
-                            })
-                        }
-                    })
-
-                :   (numberpickerRootProps.onFocus = () => {
-                        setInputState({
-                            isFocused: true,
-                            isTouched: true
-                        })
-                    })
+                ?   (numberpickerRootProps.onBlur = _onBlur)
+                :   (numberpickerRootProps.onFocus = _onFocus)
         }
 
         refApi && (applyRefApi(numberpickerRootProps, props))
@@ -166,7 +154,7 @@ const NumberPicker = component<Props, DefaultProps>(
             editState.prevValidNumer = newNumberValue
 
             onChange({
-                value: `${result}`,
+                value: `${precisionKeepZeroes ? result : newNumberValue}`,
                 isValidNumberString: true,
                 numberValue: newNumberValue,
                 event, isKeyboardArrowUp, payload, prevValidNumer
@@ -233,13 +221,13 @@ const NumberPicker = component<Props, DefaultProps>(
             onChange(value, event) {
                 const newValueString = pretifyInputString(value)
                 if (inputValue != newValueString) {
+
                     const newNumberValue = parseFloat(value)
 
                     const isValidNewNumberString = isValidNumberString(newValueString, newNumberValue)
                         &&  newNumberValue == adjustWithRanges(newNumberValue, min, max)
 
                     isValidNewNumberString && (editState.prevValidNumer = newNumberValue)
-
 
                     onChange({
                         event, payload, prevValidNumer,

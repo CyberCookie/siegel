@@ -16,7 +16,7 @@ type Params = {
 function getInputString(params: Params) {
     if (isExists(params.props.value)) {
         const {
-            props: { value, precision, zeroesPadLeft },
+            props: { value, precision, zeroesPadLeft, precisionKeepZeroes },
             isFocused, numberValue, numberMask
         } = params
 
@@ -38,6 +38,10 @@ function getInputString(params: Params) {
                 }
 
                 isPrecisionAdjust && (result = numberValue.toFixed(precision))
+
+                if (!(isFocused || precisionKeepZeroes)) {
+                    result = `${numberValue}`
+                }
             }
 
 
@@ -46,7 +50,7 @@ function getInputString(params: Params) {
                 lastChar == '.' && (result = result.replace(lastChar, ''))
 
 
-                if (isExists(zeroesPadLeft) && zeroesPadLeft > 0) {
+                if (zeroesPadLeft! > 0) {
                     const firstChar = result[0]
                     const isNegative = firstChar == '-'
 
@@ -61,8 +65,8 @@ function getInputString(params: Params) {
 
                     const curPadLength = padEndIndex! - padStartIndex
 
-                    if (curPadLength < zeroesPadLeft) {
-                        const extraZeroes = ('0').repeat(zeroesPadLeft - curPadLength)
+                    if (curPadLength < zeroesPadLeft!) {
+                        const extraZeroes = ('0').repeat(zeroesPadLeft! - curPadLength)
                         result = result.replace(
                             firstChar,
                             isNegative

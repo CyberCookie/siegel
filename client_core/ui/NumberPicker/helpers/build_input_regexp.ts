@@ -32,9 +32,9 @@ function buildInputRegexp(
         } else regexpTemplate += '*'
 
         if (precision != 0) {
-            regexpTemplate += '[.,]\\d'
-                +   ( isExists(precision) ? `{0,${precision}}` : '*' )
-                +   '?'
+            regexpTemplate += '([.,]\\d'
+                +   (isExists(precision) ? `{0,${precision}}` : '*')
+                +   ')?'
         }
 
         regexpTemplate += '$'

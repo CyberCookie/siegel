@@ -47,6 +47,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     plusIcon?: React.ReactNode
     payload?: _Payload
     precision?: number
+    precisionKeepZeroes?: boolean
     zeroesPadLeft?: number
     disabledInput?: boolean
     inputClassName?: InputProps['className']
@@ -61,10 +62,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 type DefaultProps = NonNullableKeys<{
     className: Props['className']
     theme: Props['theme']
-    minusIcon: Props['minusIcon']
-    plusIcon: Props['plusIcon']
     min: Props['min']
     max: Props['max']
+    precisionKeepZeroes: Props['precisionKeepZeroes']
 }>
 
 type MergedProps = Props & DefaultProps

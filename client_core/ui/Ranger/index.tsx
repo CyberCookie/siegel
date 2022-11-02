@@ -211,7 +211,7 @@ const Ranger = component<Props, DefaultProps>(
 
 
         const rangerElement = <div { ...rangeAreaProps } />
-        const _children = children && addChildren(children, theme)
+        const _children = addChildren(children, theme)
 
 
         return (

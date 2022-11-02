@@ -59,7 +59,7 @@ const Toggle = component<Props, DefaultProps>(
 
                 { labelRight && <div className={ theme.label } children={ labelRight } /> }
 
-                { children && addChildren(children, theme) }
+                { addChildren(children, theme) }
             </div>
         )
     }

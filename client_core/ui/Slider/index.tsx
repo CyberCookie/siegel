@@ -100,7 +100,7 @@ const Slider: Component = component<Props, DefaultProps>(
                 { pageControls }
                 { slidePages }
 
-                { children && addChildren(children, theme) }
+                { addChildren(children, theme) }
             </div>
         )
     }

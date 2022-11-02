@@ -35,6 +35,11 @@ Input for numbers with various validations built on top of `Input` component<br 
     - Number precission
     - **Number**<br /><br />
 
+- `precisionKeepZeroes`
+    - Keeps fractional ending zeroes
+    - **Boolean**
+    - Default is **true**<br /><br />
+
 - `onChange`
     - **Function** that is triggeres when input changes or blur event occurs.<br />
     Has **1** arguments - **Object** with the next props:
@@ -58,12 +63,10 @@ Input for numbers with various validations built on top of `Input` component<br 
 - `minusIcon`
     - Icon for value decrement control
     - **React.ReactNode**
-    - Default is **'-'**<br /><br />
 
 - `plusIcon`
     - Icon for value increment control
     - **React.ReactNode**
-    - Default is **'+'**<br /><br />
 
 - `step`
     - Value change step if you change with _plus_ / _minus_ controls<br /><br />

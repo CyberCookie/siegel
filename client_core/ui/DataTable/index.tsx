@@ -111,7 +111,7 @@ const DataTable = component<Props, DefaultProps>(
             <div { ...rootAttributes }>
                 <Table { ...dataTableTableProps } />
 
-                { children && addChildren(children, theme) }
+                { addChildren(children, theme) }
             </div>
         )
     }

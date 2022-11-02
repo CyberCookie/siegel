@@ -179,7 +179,7 @@ const Select = component<Props, DefaultProps>(
                     :   selectInput
                 }
 
-                { children && addChildren(children, theme) }
+                { addChildren(children, theme) }
             </div>
         )
     }

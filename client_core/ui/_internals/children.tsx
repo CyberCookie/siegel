@@ -1,5 +1,7 @@
 import React from 'react'
 
+import isExists from '../../../common/is/exists'
+
 
 type ThemeWithChildren = {
     children?: string
@@ -7,7 +9,7 @@ type ThemeWithChildren = {
 
 
 const addChildren = (children: React.ReactNode, theme: ThemeWithChildren) => (
-    <div className={ theme.children } children={ children } />
+    isExists(children) && <div className={ theme.children } children={ children } />
 )
 
 

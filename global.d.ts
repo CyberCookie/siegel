@@ -35,7 +35,6 @@ type DeepMerge<O1 extends Required<object>, O2 extends object> =
     &
     { [K in keyof Omit<O2, keyof O1>]: O2[K] }
 
-
 type DeepExclude<O1 extends object, O2 extends object> =
     {
         [K in keyof O1 & keyof O2]?: O2[K] extends object
@@ -46,7 +45,6 @@ type DeepExclude<O1 extends object, O2 extends object> =
     }
     &
     { [K in keyof Omit<O2, keyof O1>]: O2[K] }
-
 
 
 
@@ -71,8 +69,8 @@ type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<T>
 type NarrowObjectToValueTypes<O extends Indexable, T> = {
     [k in keyof O as O[k] extends T ? k : never]: T
 }
-type Values<K extends Indexable> = K[keyof K]
 
+type Values<K extends Indexable> = K[keyof K]
 
 
 
@@ -82,8 +80,9 @@ type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R
 
 
 type CSSWithVariables = {
-    [key: string]: string | number
+    [key: `--${string}`]: string | number
 } & React.CSSProperties
+
 
 type ReactTagAttributes<
     E = HTMLElement,
