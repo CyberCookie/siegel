@@ -9,8 +9,7 @@ const getStepButtons: GetStepperButtons = params => {
             theme, disabled, step, plusIcon, minusIcon,
             disabledInput
         },
-        min, max,
-        onStepChange, numberValue, onPickerBlur, onPickerFocus
+        min, max, onStepChange, numberValue, onPickerBlur, onPickerFocus
     } = params
 
 

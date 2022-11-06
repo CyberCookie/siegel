@@ -53,6 +53,12 @@ Input for numbers with various validations built on top of `Input` component<br 
         - `isKeyboardArrowUp` - **True** if **arrowUp** was pressed. **False** if **arrowUp** was. Othervice **undefined**
         - `payload` - **props.payload**<br /><br />
 
+- `onFocus`
+    - **Input.onFocus**
+
+- `onBlur`
+    - **Input.onFocus**
+
 - `disabledInput`
     - Disable typing into input field
     - **Boolean**<br /><br />
@@ -114,5 +120,3 @@ Input for numbers with various validations built on top of `Input` component<br 
 - `debounceMs` - **Input.debounceMs**
 
 - `inputStore` - **Input.store**
-
-- `onFocus` - **Input.onFocus**

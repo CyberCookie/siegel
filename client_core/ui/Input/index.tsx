@@ -111,6 +111,7 @@ const Input = component<Props, DefaultProps>(
             inputRootProps.onBlur = e => {
                 onBlur?.(e)
                 if (!e.defaultPrevented) {
+
                     if (onChange && debounceStore) {
                         const [{ debounceTimeoutID, debounceValue }, setDebounceState ] = debounceStore
 

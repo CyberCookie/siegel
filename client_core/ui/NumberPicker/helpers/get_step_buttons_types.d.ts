@@ -1,6 +1,6 @@
 import type { ReactTagAttributes } from '../../_internals/types'
 
-import { MergedProps, OnNumberPickerChange, OnFocusEventHandler } from '../types'
+import { MergedProps, OnNumberPickerChange, ComponentFocusEvent } from '../types'
 
 
 type BtnClickEv = React.MouseEvent<HTMLButtonElement>
@@ -14,8 +14,8 @@ type GetStepperButtons = (
         max: MergedProps['max']
         numberValue: number
         onStepChange: OnNumberPickerChange
-        onPickerBlur: OnFocusEventHandler | undefined
-        onPickerFocus: OnFocusEventHandler | undefined
+        onPickerBlur: ComponentFocusEvent | undefined
+        onPickerFocus: ComponentFocusEvent | undefined
     }
 ) => {
     stepperElement: JSX.Element

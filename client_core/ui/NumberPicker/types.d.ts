@@ -4,13 +4,13 @@ import type {
 import type { Props as InputProps } from '../Input/types'
 
 
+type ComponentFocusEventHandler = React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>
+
 type OnNumberPickerChange = (
     e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLDivElement>,
     isButtonClick: boolean,
     step: number
 ) => void
-
-type OnFocusEventHandler = React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>
 
 
 type Theme = {
@@ -56,8 +56,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     inputMemoDeps?: InputProps['memoDeps']
     inputRootAttributes?: InputProps['rootTagAttributes']
     debounceMs?: InputProps['debounceMs']
-    onBlur?: InputProps['onBlur']
-}> & Omit<InputProps, 'value' | 'label' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onChange' | 'store' | 'regexp'>
+    onBlur?: ComponentFocusEventHandler
+    onFocus?: ComponentFocusEventHandler
+}> & Omit<InputProps, 'value' | 'label' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange' | 'store' | 'regexp'>
 
 type DefaultProps = NonNullableKeys<{
     className: Props['className']
@@ -73,5 +74,6 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, DefaultProps, MergedProps, Component, OnNumberPickerChange, OnFocusEventHandler
+    Props, DefaultProps, MergedProps, Component, OnNumberPickerChange,
+    ComponentFocusEventHandler
 }

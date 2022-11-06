@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 
 import floatMath from '../../../common/math/floats_arifmetic'
+import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
@@ -17,7 +18,7 @@ import {
 } from './helpers'
 
 import type {
-    OnFocusEventHandler, OnNumberPickerChange, Props, Component, DefaultProps
+    ComponentFocusEventHandler, OnNumberPickerChange, Props, Component, DefaultProps
 } from './types'
 
 import styles from './styles.sass'
@@ -78,25 +79,31 @@ const NumberPicker = component<Props, DefaultProps>(
         const { prevValidNumer } = editState
 
 
-        function _onBlur(e: React.FocusEvent) {
+        const _onBlur: ComponentFocusEventHandler = e => {
+            e.stopPropagation()
+
             const { relatedTarget } = e.nativeEvent
             if (!relatedTarget || !(ref.current.contains(relatedTarget as Node))) {
-                setInputState({
+
+                onBlur?.(e)
+                e.defaultPrevented || setInputState({
                     isFocused: false,
                     isTouched: true
                 })
             }
         }
-        function _onFocus() {
-            setInputState({
+        const _onFocus: ComponentFocusEventHandler = e => {
+            e.stopPropagation()
+            onFocus?.(e)
+            e.defaultPrevented || setInputState({
                 isFocused: true,
                 isTouched: true
             })
         }
 
 
-        let onPickerFocus: OnFocusEventHandler | undefined
-        let onPickerBlur: OnFocusEventHandler | undefined
+        let onPickerFocus: ComponentFocusEventHandler | undefined
+        let onPickerBlur: ComponentFocusEventHandler | undefined
         if (!disabled) {
             isFocused
                 ?   (onPickerBlur = _onBlur)
@@ -148,7 +155,7 @@ const NumberPicker = component<Props, DefaultProps>(
                 result = adjustWithRanges(result, min, max)
             }
 
-            precision && (result = result.toFixed(precision))
+            isExists(precision) && (result = result.toFixed(precision))
 
             const newNumberValue = +result
             editState.prevValidNumer = newNumberValue
@@ -165,7 +172,7 @@ const NumberPicker = component<Props, DefaultProps>(
         const inputValue = getInputString({ props, numberValue, numberMask, isFocused })
 
         const inputFieldProps: InputProps = {
-            children, errorMsg, placeholder, inputAttributes, onFocus, mask, suffix,
+            children, errorMsg, placeholder, inputAttributes, mask, suffix,// onFocus,
             prefix, debounceMs, autofocus,
             theme: inputTheme,
             memoDeps: inputMemoDeps,
@@ -178,18 +185,16 @@ const NumberPicker = component<Props, DefaultProps>(
             onBlur(event) {
                 const { relatedTarget } = event.nativeEvent
                 if (!relatedTarget || !ref.current.contains(relatedTarget as Node)) {
-
-                    onBlur?.(event)
                     if (!event.defaultPrevented) {
 
-                        let newValueString: string | undefined
+                        let newStringValue: string | undefined
                         let newNumberValue: number | undefined
                         let shouldTriggerOnChange = true
 
                         if (isValidNumberString(value, numberValue)) {
                             const newNumberValueRangeLimited = adjustWithRanges(numberValue, min, max)
                             if (newNumberValueRangeLimited != numberValue) {
-                                newValueString = `${newNumberValueRangeLimited}`
+                                newStringValue = `${newNumberValueRangeLimited}`
                                 newNumberValue = newNumberValueRangeLimited
 
                             } else shouldTriggerOnChange = false
@@ -198,7 +203,7 @@ const NumberPicker = component<Props, DefaultProps>(
                             newNumberValue = min <= 0 && 0 <= max
                                 ?   0
                                 :   Math.abs(min) > Math.abs(max) ? max : min
-                            newValueString = `${newNumberValue}`
+                            newStringValue = `${newNumberValue}`
                         }
 
                         if (shouldTriggerOnChange) {
@@ -208,7 +213,7 @@ const NumberPicker = component<Props, DefaultProps>(
                                 event, payload, prevValidNumer,
                                 isValidNumberString: true,
                                 numberValue: newNumberValue!,
-                                value: newValueString!
+                                value: newStringValue!
                             })
                         }
                     }
