@@ -1,11 +1,14 @@
 import React from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 
-import type { Component, Props, DefaultProps, MergedProps, GetPageElement } from './types'
+import type {
+    Component, Props, DefaultProps, MergedProps,
+    GetPageElement, RootTagInnerProps
+} from './types'
 
 
 const _undef = undefined
@@ -15,30 +18,36 @@ const tokenPrevPage = 'p'
 const tokenNextPage = 'n'
 
 function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) {
-    const { rootTagAttributes, curPage, onChange, payload, theme, refApi, className } = mergedProps
+    const {
+        rootTagAttributes, curPage, payload, theme, className,
+        onChange, onMouseDown
+    } = mergedProps
 
-    let result = {
+    let result: RootTagInnerProps = {
         className: applyClassName(className, [[ theme._single, numberOfPages == 1 ]]),
         onMouseDown(e: React.MouseEvent) {
-            const page = (e.target as HTMLDivElement).dataset.page
+            onMouseDown?.(e)
+            if (!e.defaultPrevented) {
 
-            if (page) {
-                let newPage = curPage
-                if (page == tokenPrevPage && curPage != 1) {
-                    newPage--
-                } else if (page == tokenNextPage && curPage != numberOfPages) {
-                    newPage++
-                } else if (0 < +page && +page <= numberOfPages) {
-                    newPage = +page
+                const page = (e.target as HTMLDivElement).dataset.page
+                if (page) {
+                    let newPage = curPage
+                    if (page == tokenPrevPage && curPage != 1) {
+                        newPage--
+                    } else if (page == tokenNextPage && curPage != numberOfPages) {
+                        newPage++
+                    } else if (0 < +page && +page <= numberOfPages) {
+                        newPage = +page
+                    }
+
+                    curPage != newPage && onChange(newPage, e, payload)
                 }
-
-                curPage != newPage && onChange(newPage, e, payload)
             }
         },
         children: getPaginationVisuals(mergedProps, numberOfPages)
     }
-    refApi && (applyRefApi(result, mergedProps))
-    rootTagAttributes && (result = mergeTagAttributes(result, rootTagAttributes))
+    applyRefApi(result, mergedProps)
+    result = resolveTagAttributes(result, rootTagAttributes)
 
 
     return result

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 import { getMonths, getFirstMonthDate } from './helpers'
@@ -55,7 +55,7 @@ const Calendar = component<Props, DefaultProps>(
     props => {
 
         const {
-            monthsBefore, refApi, rootTagAttributes, className,
+            monthsBefore, rootTagAttributes, className,
             initDate: { rangeDateStart, rangeDateEnd }
         } = props
 
@@ -70,12 +70,12 @@ const Calendar = component<Props, DefaultProps>(
         let _className = styles.root!
         className && (_className += ` ${className}`)
 
-        let rootAttributes = {
+        let rootAttributes: Props['rootTagAttributes'] = {
             className: _className,
             children: getMonths(props, store)
         }
-        refApi && (applyRefApi(rootAttributes, props))
-        rootTagAttributes && (rootAttributes = mergeTagAttributes(rootAttributes, rootTagAttributes))
+        applyRefApi(rootAttributes, props)
+        rootAttributes = resolveTagAttributes(rootAttributes, rootTagAttributes)
 
 
         return <div { ...rootAttributes } />

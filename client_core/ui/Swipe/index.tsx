@@ -1,11 +1,14 @@
 import React, { useLayoutEffect } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import isTouchScreen from '../../utils/is_touchscreen'
 import applyRefApi from '../_internals/ref_apply'
 
-import type { HTMLSwipeMouseEvent, Component, DefaultProps, Props } from './types'
+import type {
+    Component, DefaultProps, Props,
+    HTMLSwipeMouseEvent, RootTagInnerProps
+} from './types'
 
 
 const componentID = '-ui-swipe'
@@ -27,22 +30,20 @@ const Swipe = component<Props, DefaultProps>(
     props => {
 
         const {
-            className, children, xAxis, deltaPos, onSwipe, rootTagAttributes, refApi
+            className, children, xAxis, deltaPos, rootTagAttributes,
+            onSwipe, onTouchStart, onMouseDown
         } = props
 
-        let swipeRootAttributes: Props['rootTagAttributes'] = {
+        let swipeRootAttributes: RootTagInnerProps = {
             className,
             children
         }
         _isTouchScreen
-            ?   (swipeRootAttributes.onTouchStart = onMouseDown)
-            :   (swipeRootAttributes.onMouseDown = onMouseDown)
+            ?   (swipeRootAttributes.onTouchStart = onMouseDownInner)
+            :   (swipeRootAttributes.onMouseDown = onMouseDownInner)
 
-        refApi && (applyRefApi(swipeRootAttributes, props))
-
-        if (rootTagAttributes) {
-            swipeRootAttributes = mergeTagAttributes(swipeRootAttributes, rootTagAttributes)
-        }
+        applyRefApi(swipeRootAttributes, props)
+        swipeRootAttributes = resolveTagAttributes(swipeRootAttributes, rootTagAttributes)
 
 
         useLayoutEffect(() => { removeTouchEvents?.() }, [])
@@ -50,48 +51,54 @@ const Swipe = component<Props, DefaultProps>(
         let removeTouchEvents: () => void
 
 
-        function onMouseDown(e: React.MouseEvent | React.TouchEvent) {
-            e.stopPropagation()
+        function onMouseDownInner(e: React.MouseEvent | React.TouchEvent) {
+            _isTouchScreen
+                ?   onTouchStart?.(e as React.TouchEvent)
+                :   onMouseDown?.(e as React.MouseEvent)
 
-            const mouseDownPos = getMousePos(e.nativeEvent, xAxis)
-            let swipeStart = true
-            let isBlocked = false
-
-
-            if (_isTouchScreen) {
-                addEventListener('touchend', onMouseUp, passiveEv)
-                addEventListener('touchmove', onMouseMove, passiveEv)
-            } else {
-                addEventListener('mouseup', onMouseUp, passiveEv)
-                addEventListener('mousemove', onMouseMove, passiveEv)
-            }
-
-            function onMouseUp(e: HTMLSwipeMouseEvent) {
+            if (!e.defaultPrevented) {
                 e.stopPropagation()
 
-                swipeStart = false
-                isBlocked = false
-                removeTouchEvents()
-            }
+                const mouseDownPos = getMousePos(e.nativeEvent, xAxis)
+                let swipeStart = true
+                let isBlocked = false
 
-            function onMouseMove(e: HTMLSwipeMouseEvent) {
-                if (mouseDownPos && swipeStart && !isBlocked) {
-                    const deltaPosition = getMousePos(e, xAxis) - mouseDownPos
 
-                    if (Math.abs(deltaPosition) > deltaPos!) {
-                        onSwipe(deltaPosition < 0, e)
-                        isBlocked = true
+                if (_isTouchScreen) {
+                    addEventListener('touchend', onMouseUp, passiveEv)
+                    addEventListener('touchmove', onMouseMove, passiveEv)
+                } else {
+                    addEventListener('mouseup', onMouseUp, passiveEv)
+                    addEventListener('mousemove', onMouseMove, passiveEv)
+                }
+
+                function onMouseUp(e: HTMLSwipeMouseEvent) {
+                    e.stopPropagation()
+
+                    swipeStart = false
+                    isBlocked = false
+                    removeTouchEvents()
+                }
+
+                function onMouseMove(e: HTMLSwipeMouseEvent) {
+                    if (mouseDownPos && swipeStart && !isBlocked) {
+                        const deltaPosition = getMousePos(e, xAxis) - mouseDownPos
+
+                        if (Math.abs(deltaPosition) > deltaPos!) {
+                            onSwipe(deltaPosition < 0, e)
+                            isBlocked = true
+                        }
                     }
                 }
-            }
 
-            removeTouchEvents = () => {
-                if (_isTouchScreen) {
-                    removeEventListener('touchend', onMouseUp)
-                    removeEventListener('touchmove', onMouseMove)
-                } else {
-                    removeEventListener('mouseup', onMouseUp)
-                    removeEventListener('mousemove', onMouseMove)
+                removeTouchEvents = () => {
+                    if (_isTouchScreen) {
+                        removeEventListener('touchend', onMouseUp)
+                        removeEventListener('touchmove', onMouseMove)
+                    } else {
+                        removeEventListener('mouseup', onMouseUp)
+                        removeEventListener('mousemove', onMouseMove)
+                    }
                 }
             }
         }

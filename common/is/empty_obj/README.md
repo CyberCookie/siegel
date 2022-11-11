@@ -8,7 +8,7 @@ Returns **Boolean**. **true** if object is empty
 <br />
 
 ```js
-import isEmpty from 'siegel-utils/is/empty_obj'
+import isEmpty from 'siegel/lib/common/is/empty_obj'
 
 isEmpty({})
 // true

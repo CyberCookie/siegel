@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import getInputLabeled from '../_internals/label'
 import handleKeyboardSelect, {
     Store as HandleKeyboardSelectStore
@@ -15,7 +15,10 @@ import Input, {
 } from '../Input'
 import getSearchOptionsElements from './helpers/get_search_options_elements'
 
-import type { DefaultProps, Component, State, Option, Props, onSelectInner } from './types'
+import type {
+    DefaultProps, Component, State, Option, Props, onSelectInner,
+    RootTagInnerProps
+} from './types'
 
 import styles from './styles.sass'
 
@@ -52,10 +55,11 @@ const DropdownSearch = component<Props, DefaultProps>(
     props => {
 
         const {
-            minInputLength, theme, onSearch, className, showOnFocus, onChange, refApi, inputStore,
-            selected, searchOptions, rootTagAttributes, disabled, store, label, resetIcon, children,
-            inputTheme, inputChildren, autofocus, placeholder, inputTagAttributes, errorMsg, regexp,
-            mask, debounceMs, onBlur, onFocus, inputMemoDeps, inputRootTagAttributes, inputClassName
+            onChange, onSearch, onBlur, onFocus, onKeyDown, onRootBlur,
+            minInputLength, theme, className, showOnFocus, inputStore, selected,
+            searchOptions, rootTagAttributes, disabled, store, label, resetIcon, children,
+            inputTheme, inputChildren, autofocus, placeholder, inputTagAttributes, errorMsg,
+            mask, debounceMs, inputMemoDeps, inputRootTagAttributes, inputClassName, regexp
         } = props
 
         const innerStore = store || useState( getDefaultState() )
@@ -96,25 +100,30 @@ const DropdownSearch = component<Props, DefaultProps>(
         }
 
 
-        let dropdownSearchRootProps: Props['rootTagAttributes'] = {
+        let dropdownSearchRootProps: RootTagInnerProps = {
+            onKeyDown,
             className: applyClassName(className, [
-                [ theme._with_suggestions, isExists(optionsElement) ],
+                [ theme._with_suggestions, optionsElement ],
                 [ theme._focused, isFocused ],
                 [ theme._error, isExists(errorMsg) ],
                 [ theme._disabled, disabled ]
             ]),
             onBlur(e) {
-                if (e.relatedTarget !== e.currentTarget) {
+                onRootBlur?.(e)
+
+                if (!e.defaultPrevented && e.relatedTarget !== e.currentTarget) {
                     if (searchString == '') onChange(_undef, e)
                     else setState( getDefaultState() )
                 }
             }
         }
         isFocused && (dropdownSearchRootProps.onKeyDown = e => {
-            handleKeyboardSelect(
+            onKeyDown?.(e)
+
+            e.defaultPrevented || handleKeyboardSelect(
                 {
                     selectStore: innerStore as unknown as HandleKeyboardSelectStore,
-                    keyCode: e.nativeEvent.key,
+                    keyCode: e.key,
                     options: searchOptions,
                     selectedOptionIndex
                 },
@@ -124,9 +133,8 @@ const DropdownSearch = component<Props, DefaultProps>(
                 }
             )
         })
-
-        refApi && applyRefApi(dropdownSearchRootProps, props)
-        rootTagAttributes && (dropdownSearchRootProps = mergeTagAttributes(dropdownSearchRootProps, rootTagAttributes))
+        applyRefApi(dropdownSearchRootProps, props)
+        dropdownSearchRootProps = resolveTagAttributes(dropdownSearchRootProps, rootTagAttributes)
 
 
         const inputInnerProps: InputProps = {
@@ -140,7 +148,6 @@ const DropdownSearch = component<Props, DefaultProps>(
             className: styles.input,
             onChange(value, e) {
                 onSearch?.(value, e)
-
                 if (!e.defaultPrevented) {
                     state.searchString = value
                     setState({ ...state })

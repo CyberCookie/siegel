@@ -1,6 +1,6 @@
 const applyClassName = (
     className: string | undefined = '',
-    classNames: [ string | undefined, boolean | undefined ][]
+    classNames: [ string | undefined, any ][]
 
 ) => (
     classNames.reduce((acc, [ conditionalClassName, condition ]) => (

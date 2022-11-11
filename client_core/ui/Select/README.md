@@ -52,6 +52,18 @@ Dropdown options selector<br />
         - **event** - **React.KeyboardEvent | React.MouseEvent**
         - **payload** - **props.options[number].payload**. Option's payload<br /><br />
 
+- `onFocus`
+    - On root tag focus event. May prevent inner default onFocus event
+    - **Function** with the only argument: **event** - **React.FocusEvent**
+
+- `onBlur`
+    - On root tag blur event. May prevent inner default onBlur event
+    - **Function** with the only argument: **event** - **React.FocusEvent**
+
+- `onKeyDown`
+    - On root tag keydown event. May prevent inner default onKeyDown event
+    - **Function** with the only argument: **event** - **React.KeyboardEvent**
+
 - `selected`
     - Selected option
     -  **Any**. Should be equal to **value** of some **props.opions** option<br /><br />

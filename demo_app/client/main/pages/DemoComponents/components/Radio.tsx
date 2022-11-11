@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Radio, RadioProps } from 'app/components'
 
 
-const options = ([1,2,3]).map(i => ({
+const options = ([ 1, 2, 3 ]).map(i => ({
     id: i.toString(),
     content: `option ${i}`
 }))

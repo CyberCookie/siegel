@@ -1,10 +1,10 @@
-//TODO?: no rendr labels when only one
+//TODO?: no render labels when only one
 
 import React from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
 
@@ -71,19 +71,13 @@ function getTabsVisual(mergedProps: MergedProps) {
 }
 
 function getTabRootProps(mergedProps: MergedProps, activeTabContent: React.ReactNode) {
-    const { theme, rootTagAttributes, refApi, className } = mergedProps
+    const { theme, rootTagAttributes, className } = mergedProps
 
     let tabsRootProps = {
-        className: applyClassName(className, [
-            [ theme.content__empty, !activeTabContent ]
-        ])
+        className: applyClassName(className, [[ theme.content__empty, !activeTabContent ]])
     }
-
-    refApi && applyRefApi(tabsRootProps, mergedProps)
-
-    if (rootTagAttributes) {
-        tabsRootProps = mergeTagAttributes(tabsRootProps, rootTagAttributes)
-    }
+    applyRefApi(tabsRootProps, mergedProps)
+    tabsRootProps = resolveTagAttributes(tabsRootProps, rootTagAttributes)
 
 
     return tabsRootProps

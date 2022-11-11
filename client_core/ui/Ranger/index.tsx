@@ -1,8 +1,8 @@
 import React, { useState, useLayoutEffect } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import { getRangeAreaElements, normalizeValue } from './helpers'
@@ -53,7 +53,7 @@ const Ranger = component<Props, DefaultProps>(
     props => {
 
         const {
-            theme, className, refApi, rootTagAttributes, label, disabled, value, rangersCrossBehavior,
+            theme, className, rootTagAttributes, label, disabled, value, rangersCrossBehavior,
             onChange, onRangePickStart, onRangePickFinish, children, isVertical
         } = props
 
@@ -76,15 +76,15 @@ const Ranger = component<Props, DefaultProps>(
                 [ theme._readonly, isReadonly ]
             ])
         }
+        applyRefApi(rootProps, props)
+        rootProps = resolveTagAttributes(rootProps, rootTagAttributes)
+
 
         const rangeAreaProps: ReactTagAttributes<HTMLDivElement> = {
             className: applyClassName(styles.range_area, [[ theme.range_area, true ]]),
             children: getRangeAreaElements(props, valueValidated, isSingle),
             onMouseDown: !disabled && onChange ? onSlideStart : undefined
         }
-        refApi && applyRefApi(rootProps, props)
-        rootTagAttributes && (rootProps = mergeTagAttributes(rootProps, rootTagAttributes))
-
 
         function onSlideStart(e: React.MouseEvent) {
             onRangePickStart?.(e)

@@ -99,7 +99,7 @@ const dropdownSearchTheme: DropdownSearchProps['theme'] = {
     _with_suggestions: _dropdownSearchTheme._with_suggestions,
     _error: _dropdownSearchTheme._error,
     _focused: _selectTheme._active,
-    label_text: _selectTheme.label,
+    label_text: `${inputTheme.label_text} ${_selectTheme.label_text}`,
     options: `${_selectTheme.options} ${_dropdownSearchTheme.options}`,
     option: _selectTheme.option,
     option__selected: _selectTheme.option__active,
@@ -127,15 +127,17 @@ const Link = withDefaults(_Link, {
 
 
 const numberPickerTheme = Object.assign(_numberPickerTheme, {
+    _focused: inputTheme._focused,
     label_text: inputTheme.label_text
 })
+const numberPickerInputTheme: NonNullable<InputProps['theme']> = {
+    ...inputTheme,
+    root: `${inputTheme.root} ${numberPickerTheme.root}`,
+    field: `${inputTheme.field} ${numberPickerTheme.field}`
+}
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
-    inputTheme: {
-        _focused: numberPickerTheme._focused,
-        _disabled: numberPickerTheme._disabled,
-        field: `${inputTheme.field} ${numberPickerTheme.field}`
-    },
+    inputTheme: numberPickerInputTheme,
     minusIcon: icons.chevron,
     plusIcon: icons.chevron
 })

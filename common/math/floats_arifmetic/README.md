@@ -10,7 +10,7 @@ Function receives **unlimited** parameters count:
 <br />
 
 ```js
-import floatsArifmetic from 'siegel-utils/math/floats_arifmetic'
+import floatsArifmetic from 'siegel/lib/common/math/floats_arifmetic'
 
 floatsArifmetic(3, 0.09, -0.03, -0.16, 1.251) // ->> 1.151
 

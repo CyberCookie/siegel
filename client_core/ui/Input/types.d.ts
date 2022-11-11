@@ -7,9 +7,11 @@ type ComponentFocusEvent = React.FocusEvent<HTMLDivElement>
 
 type onChangeEventType = React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>
 
-type InnerInputAttributes<> = {
+type InnerInputAttributes = {
     onChange?(e: onChangeEventType): void
 } & ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+
+type InnerRootAttributes = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
 
 type InputRef = React.MutableRefObject<HTMLInputElement>
 
@@ -44,8 +46,14 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     disabled?: boolean
     autofocus?: boolean
     placeholder?: string
-    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
-    inputAttributes?: CoreUIReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
+    rootTagAttributes?: CoreUIReactTagAttributes<
+        HTMLDivElement,
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'onBlur' | 'onFocus'>
+    >
+    inputAttributes?: CoreUIReactTagAttributes<
+        HTMLInputElement,
+        Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>
+    >
     label?: React.ReactNode
     errorMsg?: React.ReactNode
     type?: 'text' | 'textarea' | 'password' | 'color' | 'date' | 'week' | 'month' | 'time' | 'datetime-local'
@@ -79,5 +87,6 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, DefaultProps, Component, InnerInputAttributes, InputRef, DebounceStore
+    Props, DefaultProps, Component, InputRef, DebounceStore,
+    InnerRootAttributes, InnerInputAttributes
 }

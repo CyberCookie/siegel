@@ -1,8 +1,8 @@
 import React from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 
 import type {
@@ -46,15 +46,15 @@ const Radio = component<Props, DefaultProps>(
     },
     props => {
 
-        const { disabled, theme, className, rootTagAttributes, refApi } = props
+        const { disabled, theme, className, rootTagAttributes } = props
 
 
         let rootProps = {
             className: applyClassName(className, [[ theme._disabled, disabled ]]),
             children: getOptions(props)
         }
-        refApi && (applyRefApi(rootProps, props))
-        rootTagAttributes && (rootProps = mergeTagAttributes(rootProps, rootTagAttributes))
+        applyRefApi(rootProps, props)
+        rootProps = resolveTagAttributes(rootProps, rootTagAttributes)
 
 
         return <div { ...rootProps } />

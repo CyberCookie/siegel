@@ -10,7 +10,7 @@ Store creator receives **2** parameters:
 
 ```js
 import React, { useLayoutEffect } from 'react'
-import createStore from 'siegel-store'
+import createStore from 'siegel/lib/client_core/store'
 
 
 const getInitialState = () => ({
@@ -60,8 +60,8 @@ It can help you to avoid unnecessary rerenders in combinations with such hooks a
 
 ```js
 import React, { useMemo } from 'react'
-import createStore from 'siegel-store'
-import useDidUpdate from 'siegel-hooks/did_update'
+import createStore from 'siegel/lib/client_core/store'
+import useDidUpdate from 'siegel/lib/client_core/hooks/did_update'
 
 import someHookStore from './module_a'
 import anotherHookStore from './module_b'

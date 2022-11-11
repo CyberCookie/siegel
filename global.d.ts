@@ -72,6 +72,10 @@ type NarrowObjectToValueTypes<O extends Indexable, T> = {
 
 type Values<K extends Indexable> = K[keyof K]
 
+// type PathsOf<T, R = Required<T>> = Values<{
+//     [P in keyof R]: [P] | [P, ...PathsOf<R[P]>]
+// }>
+
 
 
 type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never

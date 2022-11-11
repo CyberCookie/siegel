@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Tabs } from 'app/components'
 
 
-const tabsData = ([1,2,3]).map(id => ({
+const tabsData = ([ 1, 2, 3 ]).map(id => ({
     id: id.toString(),
     content: <div>content {id}</div>,
     label: `label ${id}`

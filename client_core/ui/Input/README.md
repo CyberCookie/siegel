@@ -139,8 +139,8 @@ Example of mask usage:
 
 ```jsx
 import React from 'react'
-import Input from 'siegel-ui/Input'
-import maskProcessor from 'siegel-ui/Input/mask_processor'
+import Input from 'siegel/lib/client_core/ui/Input'
+import maskProcessor from 'siegel/lib/client_core/ui/Input/mask_processor'
 
 
 const mask = {

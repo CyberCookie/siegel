@@ -42,7 +42,7 @@ Input for numbers with various validations built on top of `Input` component<br 
 
 - `onChange`
     - **Function** that is triggeres when input changes or blur event occurs.<br />
-    Has **1** arguments - **Object** with the next props:
+    Has **1** argument - **Object** with the next props:
         - `value` - **String**. New editable value
         - `numberValue` - **Number** value. **NaN** if `value` is en empty **String**
         - `isValidNumberString` - **Boolean**. **True** if `numberValue` is not **NaN**<br />
@@ -58,6 +58,10 @@ Input for numbers with various validations built on top of `Input` component<br 
 
 - `onBlur`
     - **Input.onFocus**
+
+- `onKeyDown`
+    - On root tag keydown event. May prevent inner default onKeyDown event
+    - **Function** with the only argument: **event** - **React.KeyboardEvent**
 
 - `disabledInput`
     - Disable typing into input field

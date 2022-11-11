@@ -1,6 +1,5 @@
 import React, { useState, useLayoutEffect } from 'react'
 
-import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import addChildren from '../_internals/children'
@@ -48,7 +47,7 @@ const Slider: Component = component<Props, DefaultProps>(
 
         const sliderRootProps = getRootProps(props)
         sliderRootProps.className = applyClassName(sliderRootProps.className, [
-            [ isLastDirectionForward ? theme._slided_forward : theme._slided_backward, isExists(isLastDirectionForward) ]
+            [ isLastDirectionForward ? theme._slided_forward : theme._slided_backward, isLastDirectionForward ]
         ])
 
 

@@ -22,7 +22,7 @@ describe('common/deep/diff', () => {
                         }
                     },
 
-                    will_be_changeed_obj: {
+                    will_be_changed_obj: {
                         will_be_changed: 'some_str',
                         will_be_same_array: [ 1, {} ]
                     },
@@ -43,7 +43,7 @@ describe('common/deep/diff', () => {
                             will_be_same: 'same'
                         }
                     },
-                    will_be_changeed_obj: {
+                    will_be_changed_obj: {
                         will_be_changed: 'changed',
                         will_be_same_array: [ 1, {} ]
                     },
@@ -60,7 +60,7 @@ describe('common/deep/diff', () => {
             will_be_changed: 'changed',
             will_be_undef: undefined,
             will_be_null: null,
-            will_be_changeed_obj: {
+            will_be_changed_obj: {
                 will_be_changed: 'changed'
             },
             will_be_changed_array: [

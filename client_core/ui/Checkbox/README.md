@@ -36,6 +36,10 @@ Customizable checkbox<br />
         - **event** - **React.MouseEvent**
         - **payload** - **props.payload**<br /><br />
 
+- `onMouseDown`
+    - On root tag mousedown event. May prevent inner default onMouseDown event
+    - **Function** with the only argument: **event** - **React.MouseEvent**
+
 - `onYearSwitch`
     - Same signature as **props.onMonthSwitch**<br /><br />
 

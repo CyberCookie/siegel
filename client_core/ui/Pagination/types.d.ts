@@ -5,6 +5,8 @@ import type {
 
 type GetPageElement = (page: number, props: MergedProps) => JSX.Element
 
+type RootTagInnerProps = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
+
 
 type Theme = {
     _single?: string
@@ -21,13 +23,17 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     curPage: number
     showPerPage: number
     onChange(nextPage: number, e: React.MouseEvent, payload: _Payload): void
+    onMouseDown?(e: React.MouseEvent): void
     elementsBySide?: number
     elementsByMiddle?: number
     iconPrev?: React.ReactNode
     iconNext?: React.ReactNode
     separator?: React.ReactNode
     payload?: _Payload
-    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<
+        HTMLDivElement,
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'onMouseDown'>
+    >
     fixedWidth?: boolean
 }>
 
@@ -43,4 +49,7 @@ type MergedProps = Props & DefaultProps
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, MergedProps, Component, GetPageElement }
+export type {
+    Props, DefaultProps, MergedProps, Component,
+    GetPageElement, RootTagInnerProps
+}

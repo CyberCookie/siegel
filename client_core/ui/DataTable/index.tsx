@@ -1,11 +1,10 @@
-//TODO?: recursive merge select and pagination props
 //TODO?: resize with %
 
 
 import React, { useState } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import component from '../_internals/component'
 import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
@@ -16,10 +15,9 @@ import {
     GetPaginationFnProps
 } from './helpers'
 
-import type { ReactTagAttributes } from '../_internals/types'
 import type {
     Component, DataTableTableProps, State, Props, DefaultProps,
-    ColumnsConfig, SortState
+    ColumnsConfig, SortState, RootTagInnerProps
 } from './types'
 
 import styles from './styles.sass'
@@ -50,23 +48,19 @@ const DataTable = component<Props, DefaultProps>(
     props => {
 
         const {
-            theme, className, rootTagAttributes, withFooter, tableAttributes, refApi,
-            virtualization, children, store
+            theme, className, rootTagAttributes, withFooter, tableAttributes,
+            virtualization, children, store, onScroll
         } = props
 
         const [ hookState ] = store || useState( getDefaultState() )
 
-        let rootAttributes: ReactTagAttributes<HTMLDivElement> = { className }
+        let rootAttributes: RootTagInnerProps = {
+            onScroll,
+            className: applyClassName(className, [[ theme._with_footer, withFooter ]])
+        }
 
-        if (withFooter) {
-            if (!hookState.showPerPage && withFooter.select) {
-                hookState.showPerPage = withFooter.select.props.options[0].value
-            }
-
-            rootAttributes.className = applyClassName(
-                rootAttributes.className,
-                [[ theme._with_footer, true ]]
-            )
+        if (withFooter && !hookState.showPerPage && withFooter.select) {
+            hookState.showPerPage = withFooter.select.props.options[0].value
         }
 
 
@@ -76,9 +70,8 @@ const DataTable = component<Props, DefaultProps>(
             rootAttributes.onScroll = virtualizationParams.onScrollHandler
         }
 
-
-        refApi && (applyRefApi(rootAttributes, props))
-        rootTagAttributes && (rootAttributes = mergeTagAttributes(rootAttributes, rootTagAttributes))
+        applyRefApi(rootAttributes, props)
+        rootAttributes = resolveTagAttributes(rootAttributes, rootTagAttributes)
 
 
         const {
@@ -90,13 +83,13 @@ const DataTable = component<Props, DefaultProps>(
         )
 
 
-        let tableRootClassName = styles.table!
-        theme.table && (tableRootClassName += ` ${theme.table}`)
-
-        const dataTableTableProps: DataTableTableProps = {
+        let dataTableTableProps: DataTableTableProps = {
             body,
             head: getHead(props, hookState, resultIDs, from, to),
-            className: tableRootClassName
+            className: applyClassName(
+                styles.table!,
+                [[ theme.table, true ]]
+            )!
         }
         withFooter && (dataTableTableProps.foot = [{
             children: [{
@@ -104,7 +97,7 @@ const DataTable = component<Props, DefaultProps>(
                 attributes: { colSpan: 100 }
             }]
         }])
-        tableAttributes && (dataTableTableProps.rootTagAttributes = tableAttributes)
+        dataTableTableProps = resolveTagAttributes(dataTableTableProps, tableAttributes)
 
 
         return (

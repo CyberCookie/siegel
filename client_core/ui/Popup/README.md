@@ -23,6 +23,10 @@ Site popup implementation<br />
     - **Function** that is triggered when you close **Popup**. Has **1** argument:
         - **event** - **React.MouseEvent**<br /><br />
 
+- `onMouseDown`
+    - On root tag mousedown event. May prevent inner default onMouseDown event
+    - **Function** with the only argument: **event** - **React.MouseEvent**
+
 - `closeIcon`
     - Icon to put in close control element
     - **React.ReactNode**<br /><br />

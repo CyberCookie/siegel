@@ -7,7 +7,7 @@ function getFirstMonthDate(
 ) {
 
     const date = new Date(rangeDateStart)
-    date.setHours(0,0,0,0)
+    date.setHours(0, 0, 0, 0)
     date.setDate(1)
 
     monthsBefore && (date.setMonth(date.getMonth() - monthsBefore))

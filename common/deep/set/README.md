@@ -6,13 +6,13 @@ To set property deeply into an object
 
 Receives **3** parameters:
 - **object** - **Object** to set value to
-- **path** - **String[]** - Path to to set value by
+- **path** - **String[]**. Path to to set value by
 - **value** - **Any**. Value to set by provided **path**
 
 <br />
 
 ```jsx
-import deepSet from 'siegel-utils/deep/set'
+import deepSet from 'siegel/lib/common/deep/set'
 
 const someObject = {}
 

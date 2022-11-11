@@ -27,13 +27,12 @@ async function processRequest(req) {
 
             return res
         }
-    } catch(e) { console.error(e) }
+    } catch (e) { console.error(e) }
 }
 
 
 addEventListener('fetch', e => {
     const req = e.request
-    req.url.includes('statuses') && console.log('REQ fetch: ', e)
     isCachable(req) && e.respondWith( processRequest(req) )
 })
 

@@ -13,6 +13,7 @@ const Demo = () => {
         }
     }
 
+
     return <>
         <h2 children='simple' />
         <NumberPicker { ...props } />

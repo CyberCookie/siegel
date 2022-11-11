@@ -5,8 +5,8 @@ Hook store provides `fetch module` which is usefull to track requests status
 
 
 ```js
-import { setup } from 'siegel-network/request'
-import fetchModule from 'siegel-store/fetch_module'
+import { setup } from 'siegel/lib/client_core/network/request'
+import fetchModule from 'siegel/lib/client_core/store/fetch_module'
 
 const { addToReqQueue, removeFromReqQueue, addToErrRes } = fetchModule.store.actions
 
@@ -31,7 +31,7 @@ setup({
 
 ```js
 import React from 'react'
-import fetchModule, { reset } from 'siegel-store/fetch_module'
+import fetchModule, { reset } from 'siegel/lib/client_core/store/fetch_module'
 
 const trackURL = '/some_url/path'
 

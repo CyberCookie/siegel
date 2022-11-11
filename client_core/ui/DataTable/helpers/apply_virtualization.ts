@@ -115,7 +115,7 @@ function applyVirtualization(params: UseVirtualizationParams) {
         rootAttributes,
         hookState: { showPerPage },
         props: {
-            withFooter,
+            withFooter, onScroll,
             entities: { sorted },
             virtualization: {
                 itemHeight,
@@ -143,20 +143,24 @@ function applyVirtualization(params: UseVirtualizationParams) {
 
 
     function onScrollHandler(e: React.UIEvent<HTMLDivElement, UIEvent>) {
-        const rootElement = e.target as HTMLDivElement
-        const tableElement = rootElement.firstChild as HTMLTableElement
+        onScroll?.(e)
 
-        const isStickyHeader = getComputedStyle(tableElement.tHead!.rows[0].cells[0])
-            .position == 'sticky'
-        isStickyHeader && adjustHeaderTopPositon(rootElement, virtualizationState)
+        if (!e.defaultPrevented) {
+            const rootElement = e.target as HTMLDivElement
+            const tableElement = rootElement.firstChild as HTMLTableElement
 
-        if (!virtualizationState.timeoutID) {
-            virtualizationState.timeoutID = (setTimeout as Window['setTimeout'])(() => {
-                const newScrollTopState = getDefaultState()
-                newScrollTopState.scrollTop = newScrollTopState.prevScrollTop = rootElement.scrollTop
+            const isStickyHeader = getComputedStyle(tableElement.tHead!.rows[0].cells[0])
+                .position == 'sticky'
+            isStickyHeader && adjustHeaderTopPositon(rootElement, virtualizationState)
 
-                setVirtualizationState(newScrollTopState)
-            }, scrollUpdateInterval)
+            if (!virtualizationState.timeoutID) {
+                virtualizationState.timeoutID = (setTimeout as Window['setTimeout'])(() => {
+                    const newScrollTopState = getDefaultState()
+                    newScrollTopState.scrollTop = newScrollTopState.prevScrollTop = rootElement.scrollTop
+
+                    setVirtualizationState(newScrollTopState)
+                }, scrollUpdateInterval)
+            }
         }
     }
 

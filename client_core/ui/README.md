@@ -43,8 +43,8 @@ Moreover, you can do this many times with single component wraping it in the new
 
 ```jsx
 import React from 'react'
-import withDefaults from 'siegel-ui/with_defaults'
-import Button from 'siegel-ui/Button'
+import withDefaults from 'siegel/lib/client_core/ui/with_defaults'
+import Button from 'siegel/lib/client_core/ui/Button'
 
 const ThemedButton = withDefaults(Button, {
     className: 'some_class',
@@ -70,8 +70,8 @@ Every property passed into a new theme rewrites the same property from a previou
 `className` propery concatenates with previous one:
 
 ```jsx
-import withDefaults from 'siegel-ui/with_defaults'
-import Checkbox from 'siegel-ui/Checkbox'
+import withDefaults from 'siegel/lib/client_core/ui/with_defaults'
+import Checkbox from 'siegel/lib/client_core/ui/Checkbox'
 
 const ThemedCheckbox = withDefaults(Checkbox, {
     className: 'some_class',
@@ -110,7 +110,7 @@ All the components are unstyled by default. In some components only required sty
 
 ```jsx
 import React from 'react'
-import Toggle from 'siegel-ui/Toggle'
+import Toggle from 'siegel/lib/client_core/ui/Toggle'
 import styles from './styles.sass'
 
 <Toggle value={true}
@@ -130,7 +130,7 @@ Almost every component receives `rootTagAttributes` prop, which defines all the 
 
 ```jsx
 import React from 'react'
-import Table from 'siegel-ui/Table'
+import Table from 'siegel/lib/client_core/ui/Table'
 
 <Table
     rootTagAttributes={{
@@ -164,7 +164,7 @@ Each component receives optional ref params to provide better control over compo
 
 ```jsx
 import React from 'react'
-import Button from 'siegel-ui/Button'
+import Button from 'siegel/lib/client_core/ui/Button'
 
 <Button value={42} disabled={false}
     refApi={{
@@ -188,7 +188,7 @@ Returns **true** if component should not update.
 
 ```jsx
 import React from 'react'
-import Button from 'siegel-ui/Button'
+import Button from 'siegel/lib/client_core/ui/Button'
 
 <Button value={Date.now()} disabled={false}
     memoDeps={(prevProps, nextProps) => prevProps.value == nextProps.value}
@@ -227,7 +227,7 @@ Components, that accepts store, exports `getDefaultState` function to help initi
 
 ```jsx
 import React, { useState } from 'react'
-import Input, { getDefaultState } from 'siegel-ui/Input'
+import Input, { getDefaultState } from 'siegel/lib/client_core/ui/Input'
 
 
 const SomeComponent = () => {

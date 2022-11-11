@@ -1,7 +1,7 @@
 import React from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import getLabel from '../_internals/label'
 import componentID from './id'
@@ -28,24 +28,26 @@ function modifyRootProps<P extends CheckboxInnerProps | LabelInnerProps | IconWr
     newAttributes?: CheckboxRootAttrs | WithLabelRootAttrs | WithIconRootAttrs
 ) {
 
-    const { value, disabled, onChange, payload, className, refApi, theme } = mergedProps
+    const {
+        value, disabled, payload, className, theme,
+        onChange, onMouseDown
+    } = mergedProps
 
     let modClass = value ? theme._checked : ''
 
     if (disabled) modClass += ` ${theme._disabled}`
     else if (onChange) {
         rootProps.onMouseDown = (e: React.MouseEvent) => {
-            onChange(!value, e, payload)
+            onMouseDown?.(e)
+            e.defaultPrevented || onChange(!value, e, payload)
         }
     }
 
     rootProps.className += ` ${className} ${modClass}`
-    refApi && applyRefApi(rootProps, mergedProps)
+    applyRefApi(rootProps, mergedProps)
 
 
-    return newAttributes
-        ?   mergeTagAttributes(rootProps, newAttributes)
-        :   rootProps as P
+    return resolveTagAttributes(rootProps, newAttributes)
 }
 
 const Checkbox = component<Props, DefaultProps>(
@@ -65,7 +67,8 @@ const Checkbox = component<Props, DefaultProps>(
     props => {
 
         const {
-            theme, onChange, label, value, disabled, icon, checkboxAttributes, rootTagAttributes
+            theme, onChange, label, value, disabled, icon,
+            checkboxAttributes, rootTagAttributes
         } = props
 
 
@@ -77,10 +80,10 @@ const Checkbox = component<Props, DefaultProps>(
             checked: value,
             type: 'checkbox',
             className: _className,
-            onChange: _onChange
+            onChange: _onChange,
+            readOnly: !onChange
         }
-        onChange || (checkboxInputProps.readOnly = true)
-        if (!label && !icon) {
+        if (!(label || icon)) {
             checkboxInputProps = modifyRootProps(checkboxInputProps, props, checkboxAttributes)
         }
 
@@ -107,7 +110,8 @@ const Checkbox = component<Props, DefaultProps>(
                     CheckboxElement,
                     modifyRootProps(
                         { className: theme.label_wrapper },
-                        props, rootTagAttributes
+                        props,
+                        rootTagAttributes
                     ),
                     {
                         className: theme.label,

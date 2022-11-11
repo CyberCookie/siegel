@@ -13,7 +13,7 @@ Receives **2** arguments:
 <br />
 
 ```js
-import clone from 'siegel-utils/deep/clone'
+import clone from 'siegel/lib/common/deep/clone'
 
 const someObject = {
     someProp: 22,

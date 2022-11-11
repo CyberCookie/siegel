@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import inputID from '../Input/id'
 import checkboxID from '../Checkbox/id'
 
@@ -101,7 +101,7 @@ const Form: Component = component(
             },
             children: []
         }
-        rootTagAttributes && (formProps = mergeTagAttributes(formProps, rootTagAttributes))
+        formProps = resolveTagAttributes(formProps, rootTagAttributes)
 
         // const ifDisabledBy = (name: string) => {
         //     const formElementData = inputs[name]

@@ -11,7 +11,7 @@ Receives **1** parameter: **Objec** with the next fields:
 <br />
 
 ```js
-import seo from 'siegel-ui-utils/seo'
+import seo from 'siegel/lib/client_core/ui/utils/seo'
 
 seo({
     title: 'new title',

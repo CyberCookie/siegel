@@ -98,6 +98,10 @@ Configurable and flexible data grid to manage big amount of data, built on top o
         - `preloadedItemsBySide` - **Number**. Default is **20**. Quantity of items to preload above and below of visible area
         - `scrollUpdateInterval` - **Number**. Default is **350**ms. Specify how frequent displayed range of items is updating by scrolling<br /><br />
 
+- `onScroll`
+    - On root tag scroll event. May prevent inner default onScroll event
+    - **Function** with the only argument: **event** - **React.UIEvent**
+
 - `postProcessHeadCell`
     - Post process each head cell and mutates it
     - **Function**. Has **4** arguments:

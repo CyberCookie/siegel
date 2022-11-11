@@ -26,7 +26,10 @@ function withDefaults
 
     const { ID, defaults } = Component
 
-    const mergedDefaults = extractProps(defaults as _ComponentWithDefaults['defaults'], newDefaults)
+    const mergedDefaults = extractProps(
+        defaults as _ComponentWithDefaults['defaults'],
+        newDefaults
+    )
     mergedDefaults._noMergeWithDefaults = true
 
     const componentWithDefaults = (props: PartialKeys<_Props, keyof _NewDefaults>) => (

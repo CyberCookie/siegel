@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
@@ -7,13 +8,14 @@ import * as keyCodes from '../_internals/key_codes'
 import handleKeyboardSelect, {
     Store as HandleKeyboardSelectStore
 } from '../_internals/handle_keyboard_selection'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getOptions from './helpers/get_options'
 
-import type { ReactTagAttributes } from '../_internals/types'
-import type { Component, Props, DefaultProps,  Store, OnSelect, RootRef } from './types'
+import type {
+    Component, Props, DefaultProps,  Store,
+    OnSelect, RootRef, RootTagInnerProps
+} from './types'
 
 
 const _undef = undefined
@@ -51,9 +53,10 @@ const Select = component<Props, DefaultProps>(
     props => {
 
         const {
-            theme, rootTagAttributes, options, getDisplayValue, selected, dropdownIcon, label,
-            disabled, placeholder, refApi, store, resetIcon, onChange, closeOnSelect, children,
-            errorMsg, className
+            theme, rootTagAttributes, options, getDisplayValue, selected, dropdownIcon,
+            disabled, placeholder, store, resetIcon, closeOnSelect, children, label,
+            errorMsg, className,
+            onChange, onFocus, onBlur, onKeyDown
         } = props
 
         const selectStore = store || useState(getDefaultState())
@@ -72,12 +75,13 @@ const Select = component<Props, DefaultProps>(
 
 
         const isSelected = isExists(selected)
+        const isError = isExists(errorMsg)
 
-        let selectRootProps: ReactTagAttributes<HTMLDivElement> = {
+        let selectRootProps: RootTagInnerProps = {
             className: applyClassName(className, [
                 [ theme._active, isActive ],
                 [ theme._filled, isSelected ],
-                [ theme._error, isExists(errorMsg) ],
+                [ theme._error, isError ],
                 [ theme._disabled, disabled ]
             ]),
             ref: useRef() as RootRef
@@ -98,41 +102,49 @@ const Select = component<Props, DefaultProps>(
 
             selectRootProps.tabIndex = 0
 
-            selectRootProps.onFocus = () => {
-                state.isActive = true
-                setState({ ...state })
+            selectRootProps.onFocus = e => {
+                onFocus?.(e)
+                if (!e.defaultPrevented) {
+                    state.isActive = true
+                    setState({ ...state })
+                }
             }
 
             if (isActive) {
-                selectRootProps.onBlur = () => {
-                    setState( getDefaultState() )
+                selectRootProps.onBlur = e => {
+                    onBlur?.(e)
+                    e.defaultPrevented || setState( getDefaultState() )
                 }
 
                 selectRootProps.onKeyDown = e => {
-                    const keyCode = e.nativeEvent.key
-                    if (keyCode != keyCodes.TAB) {
-                        e.preventDefault()
+                    onKeyDown?.(e)
 
-                        handleKeyboardSelect(
-                            {
-                                selectStore: selectStore as unknown as HandleKeyboardSelectStore,
-                                keyCode, options, selectedOptionIndex
-                            },
-                            {
-                                onDelete() { onSelect(_undef, e) },
-                                onEnter() {
-                                    const { value, payload } = options[arrowSelectIndex!]
-                                    onSelect(value, e, payload)
+                    if (!e.defaultPrevented) {
+                        const keyCode = e.key
+                        if (keyCode != keyCodes.TAB) {
+                            e.preventDefault()
+
+                            handleKeyboardSelect(
+                                {
+                                    selectStore: selectStore as unknown as HandleKeyboardSelectStore,
+                                    keyCode, options, selectedOptionIndex
+                                },
+                                {
+                                    onDelete() { onSelect(_undef, e) },
+                                    onEnter() {
+                                        const { value, payload } = options[arrowSelectIndex!]
+                                        onSelect(value, e, payload)
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
         }
 
-        refApi && (applyRefApi(selectRootProps, props))
-        rootTagAttributes && (selectRootProps = mergeTagAttributes(selectRootProps, rootTagAttributes))
+        applyRefApi(selectRootProps, props)
+        selectRootProps = resolveTagAttributes(selectRootProps, rootTagAttributes)
 
 
         const displayValue = selectedOption
@@ -162,7 +174,7 @@ const Select = component<Props, DefaultProps>(
                 { dropdownIcon }
             </div>
 
-            { errorMsg && <div className={ theme.error_text } children={ errorMsg } /> }
+            { isError && <div className={ theme.error_text } children={ errorMsg } /> }
 
             { optionsElement! }
         </>

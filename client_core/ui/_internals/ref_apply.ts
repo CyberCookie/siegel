@@ -8,16 +8,20 @@ function applyRefApi<
     P extends PropsComponentBase
 >(rootProps: A, mergedProps: P) {
 
-    const { getRef, getOnPropsUpdate } = mergedProps.refApi!
-    rootProps.ref ||= useRef(null)
+    const { refApi } = mergedProps
 
-    const trackDependencies = getOnPropsUpdate
-        ?   getOnPropsUpdate(mergedProps)
-        :   undefined
+    if (refApi) {
+        const { getRef, getOnPropsUpdate } = refApi
+        rootProps.ref ||= useRef(null)
 
-    useEffect(() => {
-        getRef((rootProps.ref as React.MutableRefObject<HTMLElement>).current, mergedProps)
-    }, trackDependencies)
+        const trackDependencies = getOnPropsUpdate
+            ?   getOnPropsUpdate(mergedProps)
+            :   undefined
+
+        useEffect(() => {
+            getRef((rootProps.ref as React.MutableRefObject<HTMLElement>).current, mergedProps)
+        }, trackDependencies)
+    }
 }
 
 

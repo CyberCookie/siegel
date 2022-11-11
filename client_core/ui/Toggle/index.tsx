@@ -1,12 +1,15 @@
 import React from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 
-import type { Component, Props, DefaultProps } from './types'
+import type {
+    Component, Props, DefaultProps,
+    RootTagInnerProps
+} from './types'
 
 
 const _undef = undefined
@@ -28,25 +31,26 @@ const Toggle = component<Props, DefaultProps>(
     props => {
 
         const {
-            theme, labelLeft, labelRight, value, onChange, toggleIcon, rootTagAttributes,
-            payload, disabled, className, refApi, children
+            theme, labelLeft, labelRight, value, toggleIcon, rootTagAttributes,
+            payload, disabled, className, children,
+            onChange, onMouseDown
         } = props
 
 
-        let toggleRootProps: Props['rootTagAttributes'] = {
+        let toggleRootProps: RootTagInnerProps = {
             className: applyClassName(className, [
                 [ theme._toggled, value ],
                 [ theme._disabled, disabled ]
             ]),
             onMouseDown: !disabled && onChange
-                ?   e => { onChange(!value, e, payload) }
+                ?   e => {
+                        onMouseDown?.(e)
+                        e.defaultPrevented || onChange(!value, e, payload)
+                    }
                 :   undefined
         }
-
-        refApi && (applyRefApi(toggleRootProps, props))
-        if (rootTagAttributes) {
-            toggleRootProps = mergeTagAttributes(toggleRootProps, rootTagAttributes)
-        }
+        applyRefApi(toggleRootProps, props)
+        toggleRootProps = resolveTagAttributes(toggleRootProps, rootTagAttributes)
 
 
         return (

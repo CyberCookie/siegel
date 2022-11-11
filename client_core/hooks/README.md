@@ -12,7 +12,7 @@ Exports **Symbol** used for inner ref mutation
 
 ``` js
 import React from 'react'
-import useDidUpdate, { symbolIsRendered } from 'siegel-hooks/did_update'
+import useDidUpdate, { symbolIsRendered } from 'siegel/lib/client_core/hooks/did_update'
 
 
 const Component = props => {
@@ -48,7 +48,7 @@ Exports **Symbol** used for inner ref mutation
 
 ``` js
 import React, { useRef } from 'react'
-import usePrevious, { symbolPrevValue } from 'siegel-hooks/previous'
+import usePrevious, { symbolPrevValue } from 'siegel/lib/client_core/hooks/previous'
 
 
 const Component = props => {

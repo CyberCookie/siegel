@@ -11,6 +11,7 @@ type OnSelect = (
 
 type RootRef = React.MutableRefObject<HTMLDivElement>
 
+type RootTagInnerProps = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
 
 type Store = ReactStore<{
     isActive: boolean
@@ -47,6 +48,9 @@ type Theme = {
 type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     options: Option<_Value>[],
     onChange(value: _Value, e: React.MouseEvent | React.KeyboardEvent, payload?: _Payload): void
+    onFocus?(e: React.FocusEvent): void
+    onBlur?(e: React.FocusEvent): void
+    onKeyDown?(e: React.KeyboardEvent): void
     children?: React.ReactNode
     store?: Store
     getDisplayValue?(selectedOption: Option<_Value>): React.ReactNode
@@ -60,7 +64,10 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     listSelectedOption?: boolean
     listDisabledOptions?: boolean
     disabled?: boolean
-    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<
+        HTMLDivElement,
+        Omit<React.HTMLAttributes<Element>, 'onKeyDown' | 'onFocus' | 'onBlur'>
+    >
 }>
 
 type DefaultProps = NonNullableKeys<{
@@ -74,4 +81,7 @@ type MergedProps = Props & DefaultProps
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, Component, Store, MergedProps, OnSelect, RootRef }
+export type {
+    Props, DefaultProps, Component, Store, MergedProps,
+    OnSelect, RootRef, RootTagInnerProps
+}

@@ -25,13 +25,19 @@ import type {
 //     attributes?: ReactTagAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 // }
 
-type CheckboxRootAttrs = CoreUIReactTagAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+
+type AttributesExcluded<Element> = CoreUIReactTagAttributes<
+    Element,
+    Omit<React.HTMLAttributes<Element>, 'onMouseDown'>
+>
+
+type CheckboxRootAttrs = AttributesExcluded<HTMLInputElement>
 type CheckboxInnerProps = ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 
-type WithIconRootAttrs = CoreUIReactTagAttributes<HTMLDivElement>
+type WithIconRootAttrs = AttributesExcluded<HTMLDivElement>
 type IconWrapperInnerProps = ReactTagAttributes<HTMLDivElement>
 
-type WithLabelRootAttrs = CoreUIReactTagAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
+type WithLabelRootAttrs = AttributesExcluded<HTMLLabelElement>
 type LabelInnerProps = ReactTagAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 
 
@@ -47,7 +53,8 @@ type Theme = {
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
     value?: boolean
     onChange?(checked: NonNullable<Props['value']>, e: React.MouseEvent, payload: _Payload): void
-    checkboxAttributes?: CoreUIReactTagAttributes<HTMLInputElement, React.HTMLAttributes<HTMLInputElement>>
+    onMouseDown?(e: React.MouseEvent)
+    checkboxAttributes?: CheckboxRootAttrs
     rootTagAttributes?: WithIconRootAttrs | WithLabelRootAttrs
     label?: React.ReactNode
     icon?: React.ReactNode

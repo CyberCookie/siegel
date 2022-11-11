@@ -8,7 +8,7 @@
 <br />
 
 ```js
-import setupRequest, { HEADERS, CONTENT_TYPE } from 'siegel-network/request'
+import setupRequest, { HEADERS, CONTENT_TYPE } from 'siegel/lib/client_core/network/request'
 
 const request = setupRequest(config: ReqSetup)
 
@@ -138,7 +138,7 @@ Content-type header values used in **request**.
 <br />
 
 ```js
-import createSocket from 'siegel-network/socket'
+import createSocket from 'siegel/lib/client_core/network/socket'
 
 const socket = createSocket({
     url: location.hostname

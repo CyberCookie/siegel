@@ -1,5 +1,5 @@
-// TODO: merge nested components theme property
-
+import { isValidElement } from 'react'
+import deepMerge from '../../../common/deep/merge'
 
 import type { PropsComponentThemed } from './types'
 
@@ -13,28 +13,39 @@ function extractProps<
     const { className: prevClassName, theme: prevTheme, _noMergeWithDefaults } = prevProps
     const { className: nextClassName, theme: nextTheme } = newProps
 
-
-    const result = { ...prevProps, ...newProps }
+    // const result = { ...prevProps, ...newProps }
+    const result = deepMerge(
+        prevProps,
+        newProps,
+        {
+            resolveObject: (obj_a, obj_b) => (
+                isValidElement(obj_a) && isValidElement(obj_b)
+                    ?   obj_b
+                    :   undefined
+            )
+        }
+    )
 
     let className = prevClassName || ''
     nextClassName && (className += ` ${nextClassName}`)
 
     if (prevTheme) {
-        result.theme = nextTheme
-            ?   { ...prevTheme, ...nextTheme }
-            :   prevTheme
+        // result.theme = nextTheme
+        //     ?   { ...prevTheme, ...nextTheme }
+        //     :   prevTheme
 
-        if(_noMergeWithDefaults) {
+        if (_noMergeWithDefaults) {
             if (nextTheme?.root) {
                 className = prevTheme.root
                     ?   className.replace(prevTheme.root, nextTheme.root)
                     :   `${className} ${nextTheme.root}`
             }
 
-        } else if (result.theme.root) {
-            className += ` ${result.theme.root}`
+        } else if (result.theme!.root) {
+            className += ` ${result.theme!.root}`
         }
     }
+
 
     result.className = className
 

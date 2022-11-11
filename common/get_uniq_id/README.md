@@ -4,7 +4,7 @@ Returns incremental uniq number
 
 
 ```js
-import getUniqId from 'siegel-utils/get_uniq_id'
+import getUniqId from 'siegel/lib/common/get_uniq_id'
 
 
 getUniqId() // '1'

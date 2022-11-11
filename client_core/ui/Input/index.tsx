@@ -2,17 +2,18 @@
 
 import React, { useRef, useEffect, useLayoutEffect, useState } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getInputLabeled from '../_internals/label'
 import componentID from './id'
 
 import type {
-    Component, Props, DefaultProps, InnerInputAttributes, InputRef, DebounceStore
+    Component, Props, DefaultProps, InputRef, DebounceStore,
+    InnerRootAttributes, InnerInputAttributes
 } from './types'
 
 
@@ -56,7 +57,7 @@ const Input = component<Props, DefaultProps>(
         const {
             value = '',
             theme, label, errorMsg, type, disabled, onBlur, rootTagAttributes, inputAttributes,
-            onChange, onFocus, payload, store, autofocus, placeholder, regexp, mask, refApi, children,
+            onChange, onFocus, payload, store, autofocus, placeholder, regexp, mask, children,
             debounceMs, className, prefix, suffix
         } = props
 
@@ -77,6 +78,7 @@ const Input = component<Props, DefaultProps>(
 
         const isReadonly = !disabled && !onChange
         const isTextarea = type == 'textarea'
+        const isError = isExists(errorMsg)
 
         let inputProps: InnerInputAttributes = {
             disabled, placeholder, type,
@@ -95,10 +97,10 @@ const Input = component<Props, DefaultProps>(
         }
 
 
-        let inputRootProps: Props['rootTagAttributes'] = {
+        let inputRootProps: InnerRootAttributes = {
             className: applyClassName(className, [
                 [ theme.textarea, isTextarea ],
-                [ theme._error, !!errorMsg ],
+                [ theme._error, isError ],
                 [ theme._filled, value.length > 0 || isExists(mask?.pattern) ],
                 [ theme._focused, isFocused ],
                 [ theme._touched, isTouched ],
@@ -139,7 +141,6 @@ const Input = component<Props, DefaultProps>(
         if (!disabled && onChange) {
             isFocused || (inputRootProps.onFocus = e => {
                 onFocus?.(e)
-
                 e.defaultPrevented || (
                     setState({
                         isFocused: true,
@@ -170,10 +171,11 @@ const Input = component<Props, DefaultProps>(
         }
 
 
-        refApi && (applyRefApi(inputRootProps, props))
-        rootTagAttributes && (inputRootProps = mergeTagAttributes(inputRootProps, rootTagAttributes))
+        applyRefApi(inputRootProps, props)
+        inputRootProps = resolveTagAttributes(inputRootProps, rootTagAttributes)
 
-        inputAttributes && (inputProps = mergeTagAttributes(inputProps, inputAttributes))
+
+        inputProps = resolveTagAttributes(inputProps, inputAttributes)
 
         mask?.processor(mask, inputProps as Parameters<typeof mask['processor']>[1])
 
@@ -192,7 +194,7 @@ const Input = component<Props, DefaultProps>(
 
                 { addChildren(children, theme) }
 
-                { errorMsg && <div className={ theme.error_text } children={ errorMsg } /> }
+                { isError && <div className={ theme.error_text } children={ errorMsg } /> }
             </div>
         )
     }

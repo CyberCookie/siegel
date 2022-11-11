@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import floatMath from '../../../common/math/floats_arifmetic'
 import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
@@ -7,7 +8,6 @@ import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
 import applyRefApi from '../_internals/ref_apply'
 import getInputLabeled from '../_internals/label'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import Input, {
     getDefaultState as getDefaultInputStoreState,
     Props as InputProps
@@ -18,7 +18,8 @@ import {
 } from './helpers'
 
 import type {
-    ComponentFocusEventHandler, OnNumberPickerChange, Props, Component, DefaultProps
+    ComponentFocusEventHandler, OnNumberPickerChange, Props, Component,
+    DefaultProps, InnerRootTagAttributes
 } from './types'
 
 import styles from './styles.sass'
@@ -38,6 +39,7 @@ const NumberPicker = component<Props, DefaultProps>(
             controls: _undef,
             button_minus: _undef,
             button_plus: _undef,
+            _error: _undef,
             _disabled_all: _undef,
             _focused: _undef
         },
@@ -48,11 +50,11 @@ const NumberPicker = component<Props, DefaultProps>(
     props => {
 
         const {
-            theme, disabled, onChange, onFocus, step, precision, disabledInput, className,
+            theme, disabled, step, precision, disabledInput, className, precisionKeepZeroes,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
-            refApi, rootTagAttributes, inputRootAttributes, children, onBlur, debounceMs,
-            autofocus, mask, inputTheme, inputMemoDeps, inputClassName, suffix, prefix,
-            precisionKeepZeroes
+            rootTagAttributes, inputRootAttributes, children, debounceMs, suffix, prefix,
+            autofocus, mask, inputTheme, inputMemoDeps, inputClassName,
+            onChange, onFocus, onBlur, onKeyDown
         } = props
 
         let { min, max } = props
@@ -111,13 +113,14 @@ const NumberPicker = component<Props, DefaultProps>(
         }
 
 
-        let numberpickerRootProps: Props['rootTagAttributes'] = {
-            ref,
+        let numberpickerRootProps: InnerRootTagAttributes = {
+            ref, onKeyDown,
             onFocus: onPickerFocus,
             onBlur: onPickerBlur,
             className: applyClassName(className, [
                 [ theme._disabled_all, disabled ],
-                [ theme._focused, isFocused ]
+                [ theme._focused, isFocused ],
+                [ theme._error, isExists(errorMsg) ]
             ])
         }
         if (disabledInput && !disabled) {
@@ -128,7 +131,7 @@ const NumberPicker = component<Props, DefaultProps>(
                 :   (numberpickerRootProps.onFocus = _onFocus)
         }
 
-        refApi && (applyRefApi(numberpickerRootProps, props))
+        applyRefApi(numberpickerRootProps, props)
 
 
         const onStepChange: OnNumberPickerChange = (event, isKeyboardArrowUp, step) => {
@@ -172,7 +175,7 @@ const NumberPicker = component<Props, DefaultProps>(
         const inputValue = getInputString({ props, numberValue, numberMask, isFocused })
 
         const inputFieldProps: InputProps = {
-            children, errorMsg, placeholder, inputAttributes, mask, suffix,// onFocus,
+            children, errorMsg, placeholder, inputAttributes, mask, suffix,
             prefix, debounceMs, autofocus,
             theme: inputTheme,
             memoDeps: inputMemoDeps,
@@ -256,12 +259,14 @@ const NumberPicker = component<Props, DefaultProps>(
 
             stepper = stepperElement
 
-            if (isFocused) {
-                numberpickerRootProps.onKeyDown = event => {
-                    const keyCode = event.nativeEvent.key
+            isFocused && (numberpickerRootProps.onKeyDown = event => {
+                onKeyDown?.(event)
+
+                if (!event.defaultPrevented) {
+                    const keyCode = event.key
 
                     if (keyCode == keyCodes.DELETE) {
-                        inputFieldProps.disabled || onChange({
+                        onChange({
                             numberValue: NaN,
                             value: '',
                             isValidNumberString: false,
@@ -285,12 +290,10 @@ const NumberPicker = component<Props, DefaultProps>(
                         }
                     }
                 }
-            }
+            })
         }
 
-        if (rootTagAttributes) {
-            numberpickerRootProps = mergeTagAttributes(numberpickerRootProps, rootTagAttributes)
-        }
+        numberpickerRootProps = resolveTagAttributes(numberpickerRootProps, rootTagAttributes)
 
         const inputElement = <Input { ...inputFieldProps } />
 

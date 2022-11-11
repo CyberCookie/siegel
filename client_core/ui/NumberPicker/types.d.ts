@@ -12,16 +12,19 @@ type OnNumberPickerChange = (
     step: number
 ) => void
 
+type InnerRootTagAttributes = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
+
 
 type Theme = {
     _disabled_all?: string
+    _focused?: string
+    _error?: string
     label_wrapper?: string
     label_text?: string
     input_wrapper?: string
     controls?: string
     button_minus?: string
     button_plus?: string
-    _focused?: string
 }
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
@@ -37,7 +40,10 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     }): void
     value?: string | number
     children?: React.ReactNode
-    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<
+        HTMLDivElement,
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'onBlur' | 'onFocus' | 'onKeyDown'>
+    >
     regexp?: RegExp | ((defaultRegExp: string) => RegExp)
     label?: React.ReactNode
     step?: number
@@ -58,6 +64,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     debounceMs?: InputProps['debounceMs']
     onBlur?: ComponentFocusEventHandler
     onFocus?: ComponentFocusEventHandler
+    onKeyDown?(e: React.KeyboardEvent<HTMLDivElement>): void
 }> & Omit<InputProps, 'value' | 'label' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange' | 'store' | 'regexp'>
 
 type DefaultProps = NonNullableKeys<{
@@ -75,5 +82,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 export type {
     Props, DefaultProps, MergedProps, Component, OnNumberPickerChange,
-    ComponentFocusEventHandler
+    ComponentFocusEventHandler, InnerRootTagAttributes
 }

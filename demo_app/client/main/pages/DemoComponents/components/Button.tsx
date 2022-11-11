@@ -24,7 +24,7 @@ const Demo = () => {
         <Button { ...props } disabled />
     </>
 }
-Demo.coewSrcDirName = 'Button'
+Demo.coreSrcDirName = 'Button'
 
 
 export default Demo

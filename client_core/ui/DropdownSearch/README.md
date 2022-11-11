@@ -74,6 +74,14 @@ Searchable input with select hints built on top of **Input** component<br />
         - **SearchValue** - **String**. Input field text
         - **event** - Input component **props.onChange** event<br /><br />
 
+- `onKeyDown`
+    - On root tag keydown event. May prevent inner default onKeyDown event
+    - **Function** with the only argument: **event** - **React.KeyboardEvent**
+
+- `onRootBlur`
+    - On root tag blur event. May prevent inner default onBlur event
+    - **Function** with the only argument: **event** - **React.FocusEvent**
+
 - `store`
     - **Static**
     - Store, created with **React.useState** store, to be used in **DropdownSearch**
@@ -84,7 +92,7 @@ Searchable input with select hints built on top of **Input** component<br />
         This field specify currently selected hint index
     - Component exports `getDefaultState` function to init outer store's state<br /><br />
 
-- `minINputLength`
+- `minInputLength`
     - **Number**
     - Minimal search length to display hints
     - Default is **3**<br /><br />

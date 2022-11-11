@@ -6,13 +6,14 @@ import { DropdownSearch, DropdownSearchProps, icons } from 'app/components'
 type DemoDropdownSearchProps = DropdownSearchProps<number>
 
 
-const options: DemoDropdownSearchProps['searchOptions'] = ([1, 2, 3, 4, 5]).map((i: number) => ({
-    inputValue: 'option ' + i,
-    value: i,
-    ...( i == 2 ? {
-        disabled: true
-    } : {})
-}))
+const options: DemoDropdownSearchProps['searchOptions'] = ([ 1, 2, 3, 4, 5 ])
+    .map((i: number) => ({
+        inputValue: 'option ' + i,
+        value: i,
+        ...( i == 2 ? {
+            disabled: true
+        } : {})
+    }))
 
 const Demo = () => {
     const [ selected, setSelected ] = useState(0)

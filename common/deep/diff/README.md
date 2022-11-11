@@ -13,7 +13,7 @@ Receives **3** arguments:
         Default is **Symbol.for('equal')**
     - `valueForRemovedObjField` - **Any**. Value used as a placeholder to mark removed object fields in comparable objects<br />
     Default is **Symbol.for('removed')** 
-    - **complexTypesIsEqual** - **Funcion** comparator that is triggered when both comparable types are not a type of js primitive, array or plain object
+    - **complexTypesIsEqual** - **Optional**. **Funcion** comparator that is triggered when both comparable types are not a type of js primitive, array or plain object
         - Has **2** arguments:
             - **value_a** - **Object**. Comparable object
             - **value_b** - **Object**. Object to compare with
@@ -22,7 +22,7 @@ Receives **3** arguments:
 <br />
 
 ```js
-import diff, { SYMBOL__VALUES_EQUAL, SYMBOL__OBJECT_FIELD_REMOVED } from 'siegel-utils/deep/diff'
+import diff, { SYMBOL__VALUES_EQUAL, SYMBOL__OBJECT_FIELD_REMOVED } from 'siegel/lib/common/deep/diff'
 
 
 diff(
@@ -105,7 +105,7 @@ diff(
 With options:
 
 ```js
-import diff from 'siegel-utils/deep/diff'
+import diff from 'siegel/lib/common/deep/diff'
 
 diff(
     {

@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useLayoutEffect } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import isExists from '../../../common/is/exists'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 
@@ -28,7 +28,7 @@ function getBreadcrumbs(
     const { theme, separator, config, onChange } = props
 
     const { pathname } = location
-    const locationArray = pathname == '/' ? [''] : pathname.split('/')
+    const locationArray = pathname == '/' ? [ '' ] : pathname.split('/')
     if (locationArray.at(-1) == '') {
         locationArray[ locationArray.length - 1 ] = '/'
     }
@@ -98,7 +98,7 @@ const Breadcrumbs: Component = component(
 
         const {
             dynamicCrumbsID = componentID,
-            className, rootTagAttributes, refApi, config
+            className, rootTagAttributes, config
         } = props
 
         const hasDynamicCrumbs = useMemo(() => checkHasDynamicCrumb(config), [])
@@ -129,8 +129,8 @@ const Breadcrumbs: Component = component(
             className,
             children: getBreadcrumbs(props, dynamicCrumbsState!, hasDynamicCrumbs)
         }
-        refApi && (applyRefApi(breadcrumbsRootProps, props))
-        rootTagAttributes && (breadcrumbsRootProps = mergeTagAttributes(breadcrumbsRootProps, rootTagAttributes))
+        applyRefApi(breadcrumbsRootProps, props)
+        breadcrumbsRootProps = resolveTagAttributes(breadcrumbsRootProps, rootTagAttributes)
 
 
         return <div { ...breadcrumbsRootProps } />

@@ -1,7 +1,7 @@
 import React from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 
 import type { Component, Props, DefaultProps } from './types'
@@ -25,17 +25,21 @@ const Popup = component<Props, DefaultProps>(
     props => {
 
         const {
-            theme, closeIcon, content, onClose, rootTagAttributes, className, refApi
+            theme, closeIcon, content, rootTagAttributes, className,
+            onClose, onMouseDown
         } = props
 
         let popupRootAttributes = {
             className,
             onMouseDown(e: React.MouseEvent) {
-                e.target === e.currentTarget && onClose(e)
+                onMouseDown?.(e)
+                if (!e.defaultPrevented && e.target === e.currentTarget) {
+                    onClose(e)
+                }
             }
         }
-        refApi && (applyRefApi(popupRootAttributes, props))
-        rootTagAttributes && (popupRootAttributes = mergeTagAttributes(popupRootAttributes, rootTagAttributes))
+        applyRefApi(popupRootAttributes, props)
+        popupRootAttributes = resolveTagAttributes(popupRootAttributes, rootTagAttributes)
 
         let closeElemClassName = styles.close
         theme.close && (closeElemClassName += ` ${theme.close}`)

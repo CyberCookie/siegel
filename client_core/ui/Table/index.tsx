@@ -1,7 +1,7 @@
 import React from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 
 import type {
@@ -39,13 +39,11 @@ const Table = component<Props, DefaultProps>(
     {},
     props => {
 
-        const { className, head, body, foot, rootTagAttributes, caption, refApi } = props
+        const { className, head, body, foot, rootTagAttributes, caption } = props
 
         let tableRootProps = { className }
-        refApi && (applyRefApi(tableRootProps, props))
-        if (rootTagAttributes) {
-            tableRootProps = mergeTagAttributes(tableRootProps, rootTagAttributes)
-        }
+        applyRefApi(tableRootProps, props)
+        tableRootProps = resolveTagAttributes(tableRootProps, rootTagAttributes)
 
 
         return (

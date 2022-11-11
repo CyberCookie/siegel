@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react'
 
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
-import mergeTagAttributes from '../_internals/merge_tag_attributes'
 import applyRefApi from '../_internals/ref_apply'
 
 import type { List, BuilderList, Component, DefaultProps, Props } from './types'
@@ -56,7 +56,7 @@ const Accordion = component<Props, DefaultProps>(
 
         const {
             className, theme, list, builder, accordionIcon, soloOpen, rootTagAttributes,
-            autoExpand, refApi, store
+            autoExpand, store
         } = props
 
         const [ state, setState ] = store || useState(
@@ -149,12 +149,12 @@ const Accordion = component<Props, DefaultProps>(
         }
 
 
-        let accordionRootProps = {
+        let accordionRootProps: Props['rootTagAttributes'] = {
             className: applyClassName(theme.nested_list, [[ className, true ]]),
             children: list.map((listItem, i) => childrenMapper(listItem, i))
         }
-        refApi && (applyRefApi(accordionRootProps, props))
-        rootTagAttributes && (accordionRootProps = mergeTagAttributes(accordionRootProps, rootTagAttributes))
+        applyRefApi(accordionRootProps, props)
+        accordionRootProps = resolveTagAttributes(accordionRootProps, rootTagAttributes)
 
 
         return <ul { ...accordionRootProps } />

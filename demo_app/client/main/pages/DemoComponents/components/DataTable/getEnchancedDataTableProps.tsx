@@ -32,7 +32,7 @@ const dataTablePaginationTheme = Object.assign({}, paginationTheme, {
     _single: styles.pagination_single_page
 })
 
-const paginatorSelectOptions = ([1,2,3, 30]).map(num => {
+const paginatorSelectOptions = ([ 1, 2, 3, 30 ]).map(num => {
     const value = num * 10
     return { value, title: value }
 })
@@ -190,7 +190,9 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
     }
 }
 
-const displayQuantity = (count: number) => <div className={ styles.paginator_count } children={ 'Total items: ' + count } />
+const displayQuantity = (count: number) => (
+    <div className={ styles.paginator_count } children={ `Total items: ${count}` } />
+)
 
 function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DemoDataTableProps['postProcessHeadRow']>>>(
 { row, displayedEntityIDs, postProcessStore }:

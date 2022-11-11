@@ -20,7 +20,7 @@ type ComparsionCallBacks = {
 const SYMBOL__VALUES_EQUAL = Symbol.for('equal')
 const SYMBOL__OBJECT_FIELD_REMOVED = Symbol.for('removed')
 
-const isIterable = (val: Comparable) => Array.isArray(val) || val.constructor === Object
+const isIterable = (val: Comparable) => Array.isArray(val) || val.constructor == Object
 
 function comparsionCallBacks(
     a_val: any,
@@ -39,7 +39,7 @@ function comparsionCallBacks(
                 :   valuesNotEqual()
             :   valuesNotEqual()
 
-    } else if (b_val.constructor === a_val.constructor) {
+    } else if (b_val.constructor == a_val.constructor) {
         if (isIterable(a_val)) {
             valuesIterable( compare(a_val, b_val, options) )
 
@@ -138,7 +138,7 @@ const compare = (a: Comparable, b: Comparable, options: Options) => (
 
 
 function diff(a: Comparable, b: Comparable, options = {} as Options) {
-    if (a.constructor === b.constructor) {
+    if (a.constructor == b.constructor) {
         if (isIterable(a)) {
             options.valueForEqualArrElement ||= SYMBOL__VALUES_EQUAL
             options.valueForRemovedObjField ||= SYMBOL__OBJECT_FIELD_REMOVED

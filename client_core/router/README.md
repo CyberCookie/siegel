@@ -195,7 +195,7 @@ but with another few props:
 - `activeClassName` - **String**. Defines className for this link tag if it points to currently active url
 
 ```js
-import A from 'siegel-router/Link'
+import A from 'siegel/lib/client_core/router/Link'
 
 const link = <A href='/contacts' activeClassName='link_active' />
 ```
@@ -211,8 +211,8 @@ Another example with all the features included:
 ```js
 import React, { lazy } from 'react'
 import { render } from 'react-dom'
-import Router from 'siegel-router'
-import A from 'siegel-router/Link'
+import Router from 'siegel/lib/client_core/router'
+import A from 'siegel/lib/client_core/router/Link'
 
 
 const routesConfig = {

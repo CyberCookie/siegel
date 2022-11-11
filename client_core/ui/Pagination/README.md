@@ -51,6 +51,10 @@ Creates paging controls<br />
         - **event** - **React.MouseEvent**
         - **payload** - **props.payload**
 
+- `onMouseDown`
+    - On root tag mousedown event. May prevent inner default onMouseDown event
+    - **Function** with the only argument: **event** - **React.MouseEvent**
+
 - `elementsBySide`
     - Minimum count of pages in the beginnig and in the end of pages row
     - **Number**
