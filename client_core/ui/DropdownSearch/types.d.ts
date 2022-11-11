@@ -1,10 +1,13 @@
-import type { PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes } from '../_internals/types'
+import type {
+    PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes
+} from '../_internals/types'
 import type { Props as InputProps } from '../Input/types'
 
 
-type RootTagInnerProps = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
-
-type onSelectInner = (option: Option, e: React.KeyboardEvent | React.MouseEvent) => void
+type onSelectInner = (
+    option: Option,
+    event: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>
+) => void
 
 type State = {
     searchString: string | undefined
@@ -40,15 +43,15 @@ type Theme = {
 type Props<_Value = any> = PropsComponentThemed<Theme, {
     onChange(
         value: _Value | undefined,
-        e: React.FocusEvent | Parameters<onSelectInner>[1]
+        event: React.FocusEvent | Parameters<onSelectInner>[1]
     ): void
     searchOptions: Option<_Value>[]
     onSearch?(
         searchValue: string,
-        e: Parameters<NonNullable<InputProps['onChange']>>[1]
+        event: Parameters<NonNullable<InputProps['onChange']>>[1]
     ): void
-    onRootBlur?(e: React.FocusEvent<HTMLDivElement>): void
-    onKeyDown?(e: React.KeyboardEvent): void
+    onRootBlur?(event: React.FocusEvent<HTMLDivElement>): void
+    onKeyDown?(event: React.KeyboardEvent<HTMLDivElement>): void
     children?: React.ReactNode
     store?: Store
     rootTagAttributes?: CoreUIReactTagAttributes<
@@ -93,5 +96,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 export type {
     Props, DefaultProps, MergedProps, Component, Store, State, Option,
-    onSelectInner, RootTagInnerProps
+    onSelectInner
 }

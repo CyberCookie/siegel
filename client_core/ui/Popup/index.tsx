@@ -4,6 +4,7 @@ import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 
+import type { DivTagAttributes } from '../_internals/types'
 import type { Component, Props, DefaultProps } from './types'
 
 import styles from './styles.sass'
@@ -29,9 +30,9 @@ const Popup = component<Props, DefaultProps>(
             onClose, onMouseDown
         } = props
 
-        let popupRootAttributes = {
+        let popupRootAttributes: DivTagAttributes = {
             className,
-            onMouseDown(e: React.MouseEvent) {
+            onMouseDown(e) {
                 onMouseDown?.(e)
                 if (!e.defaultPrevented && e.target === e.currentTarget) {
                     onClose(e)

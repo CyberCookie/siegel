@@ -58,7 +58,7 @@ function getControlIcon(
                         [[ directionIconClassName, true ]]
                     )
                 }
-                onMouseDown={ (e: React.MouseEvent) => {
+                onMouseDown={ e => {
                     e.stopPropagation()
 
                     state.beginOfMonth[dateMethodSet](

@@ -11,8 +11,6 @@ type InnerInputAttributes = {
     onChange?(e: onChangeEventType): void
 } & ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 
-type InnerRootAttributes = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
-
 type InputRef = React.MutableRefObject<HTMLInputElement>
 
 type DebounceStore = ReactStore<{
@@ -88,5 +86,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 export type {
     Props, DefaultProps, Component, InputRef, DebounceStore,
-    InnerRootAttributes, InnerInputAttributes
+    InnerInputAttributes
 }

@@ -57,8 +57,18 @@ type Props = PropsComponentThemed<Theme, {
     /** Breadcrumbs config */
     config: BreadcrumbConfig
 
-    /** Triggers when crumb link beem clicked */
-    onChange(fullPath: string, pathPart: string, e: React.MouseEvent): void
+    /**
+     * Triggers when crumb link beem clicked
+     *
+     * @param fullPath Full crumb path
+     * @param pathPart Pathname key from config
+     * @param event Crumb click event
+     */
+    onChange(
+        fullPath: string,
+        pathPart: string,
+        event: React.MouseEvent<HTMLAnchorElement>
+    ): void
 
     /** Crumbs separator element */
     separator?: React.ReactNode

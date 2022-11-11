@@ -22,7 +22,8 @@ const Demo = () => {
         <Slider { ...props } store={ storeForExample1 } />
 
         <h2 children='with controls; loop; autoslide' />
-        <Slider { ...props } withControls loop autoslideInterval={ 2000 }
+        <Slider { ...props } withControls loop
+            autoslideInterval={ 2000 }
             store={ storeForExample2 } />
     </>
 }

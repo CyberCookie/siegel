@@ -54,14 +54,16 @@ Input for numbers with various validations built on top of `Input` component<br 
         - `payload` - **props.payload**<br /><br />
 
 - `onFocus`
-    - **Input.onFocus**
+    - Triggered when component become focused
+    - **Function** with the only argument: **event** - **React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>**
 
 - `onBlur`
-    - **Input.onFocus**
+    - Triggered when component lose its focus
+    - **Function** with the only argument: **event** - **React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>**
 
 - `onKeyDown`
     - On root tag keydown event. May prevent inner default onKeyDown event
-    - **Function** with the only argument: **event** - **React.KeyboardEvent**
+    - **Function** with the only argument: **event** - **React.KeyboardEvent<HTMLDivElement>**
 
 - `disabledInput`
     - Disable typing into input field

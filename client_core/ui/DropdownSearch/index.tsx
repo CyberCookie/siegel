@@ -15,10 +15,8 @@ import Input, {
 } from '../Input'
 import getSearchOptionsElements from './helpers/get_search_options_elements'
 
-import type {
-    DefaultProps, Component, State, Option, Props, onSelectInner,
-    RootTagInnerProps
-} from './types'
+import type { DivTagAttributes } from '../_internals/types'
+import type { DefaultProps, Component, State, Option, Props, onSelectInner } from './types'
 
 import styles from './styles.sass'
 
@@ -75,7 +73,7 @@ const DropdownSearch = component<Props, DefaultProps>(
             }
         }
 
-        function resetSelected(e: React.KeyboardEvent | React.MouseEvent) {
+        function resetSelected(e: Parameters<onSelectInner>[1]) {
             setState( getDefaultState() )
             onChange(_undef, e)
         }
@@ -100,7 +98,7 @@ const DropdownSearch = component<Props, DefaultProps>(
         }
 
 
-        let dropdownSearchRootProps: RootTagInnerProps = {
+        let dropdownSearchRootProps: DivTagAttributes = {
             onKeyDown,
             className: applyClassName(className, [
                 [ theme._with_suggestions, optionsElement ],

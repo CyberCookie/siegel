@@ -26,11 +26,11 @@ Renders element to catch swipe gesture<br />
 
 - `onMouseDown`
     - On root tag mousedown event. May prevent inner default onMouseDown event
-    - **Function** with the only argument: **event** - **React.MouseEvent**
+    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLDivElement>**
 
 - `onTouchStart`
     - On root tag touchstart event. May prevent inner default onTouchStart event
-    - **Function** with the only argument: **event** - **React.TouchEvent**
+    - **Function** with the only argument: **event** - **React.TouchEvent<HTMLDivElement>**
 
 - `onSwipe`
     - **Function** that is triggered when swipe gesture occurs. Has **2** arguments:

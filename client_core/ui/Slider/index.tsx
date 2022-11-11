@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react'
 
+import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import addChildren from '../_internals/children'
@@ -36,7 +37,8 @@ const Slider: Component = component<Props, DefaultProps>(
     props => {
 
         const {
-            store, theme, autoslideInterval, loop, withControls, children, slides
+            store, theme, autoslideInterval, loop, withControls, children, slides,
+            onChange
         } = props
 
         const [ curSlide, setSlide ] = store || useState(0)
@@ -46,9 +48,10 @@ const Slider: Component = component<Props, DefaultProps>(
         const { isLastDirectionForward } = slideDirectionState
 
         const sliderRootProps = getRootProps(props)
-        sliderRootProps.className = applyClassName(sliderRootProps.className, [
-            [ isLastDirectionForward ? theme._slided_forward : theme._slided_backward, isLastDirectionForward ]
-        ])
+        sliderRootProps.className = applyClassName(sliderRootProps.className, [[
+            isLastDirectionForward ? theme._slided_forward : theme._slided_backward,
+            isExists(isLastDirectionForward)
+        ]])
 
 
         useLayoutEffect(() => {
@@ -88,6 +91,7 @@ const Slider: Component = component<Props, DefaultProps>(
 
 
             setSlide(nextSlide)
+            onChange?.(nextSlide, curSlide)
         }
 
 

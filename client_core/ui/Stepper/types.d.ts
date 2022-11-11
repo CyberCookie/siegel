@@ -35,7 +35,7 @@ type Props = PropsComponentThemed<Theme, {
             value: Option['value']
             optionIndex: number
         }[],
-        e: MouseEvent | React.MouseEvent
+        event: Parameters<RangerProps['onChange']>[1]
     ): void
     rangerTheme?: RangerProps['theme']
     rangerMemoDeps?: RangerProps['memoDeps']

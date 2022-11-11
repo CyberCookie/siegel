@@ -58,6 +58,9 @@ type PropsComponentThemed<
 
 
 
+type DivTagAttributes = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
+
+
 type CoreUIReactTagAttributes<
     _Elem = HTMLElement,
     _ReactElemAttr = React.HTMLAttributes<_Elem>,
@@ -80,7 +83,7 @@ type CoreUIComponentWithDefaults<_Component extends CoreUIComponent<any, any>> =
 
 
 export type {
-    ReactTagAttributes, CoreUIReactTagAttributes,
+    DivTagAttributes, ReactTagAttributes, CoreUIReactTagAttributes,
     ComponentRefApi,
     CoreUIComponent, CoreUIComponentWithDefaults,
     PropsComponentBase, PropsComponentThemed

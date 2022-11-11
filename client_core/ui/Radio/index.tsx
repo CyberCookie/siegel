@@ -5,6 +5,7 @@ import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 
+import type { DivTagAttributes } from '../_internals/types'
 import type {
     Component, Props, DefaultProps, MergedProps,
     MultiSelectProps, SingleSelectProps
@@ -29,7 +30,7 @@ function getOptions(mergedProps: MergedProps) {
 
         return (
             <div key={ id } className={ optionClassName } children={ content }
-                onMouseDown={ disabled ? undefined : (e: React.MouseEvent) => { onChange(id, e, payload) } } />
+                onMouseDown={ disabled ? undefined : e => { onChange(id, e, payload) } } />
         )
     })
 }
@@ -49,7 +50,7 @@ const Radio = component<Props, DefaultProps>(
         const { disabled, theme, className, rootTagAttributes } = props
 
 
-        let rootProps = {
+        let rootProps: DivTagAttributes = {
             className: applyClassName(className, [[ theme._disabled, disabled ]]),
             children: getOptions(props)
         }

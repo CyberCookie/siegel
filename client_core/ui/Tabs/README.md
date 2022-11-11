@@ -42,7 +42,7 @@ Provides content distributed for each tab specified<br />
 - `onChange`
     - **Function** that is triggered when tab is selected. Has **3** arguments:
         - **id** - **String**. Selected tab ID
-        - **event** - **React.MouseEvent**
+        - **event** - **React.MouseEvent<HTMLDivElement>**
         - **payload** - **Any**. Selected tab payload<br /><br />
 
 - `renderAll`

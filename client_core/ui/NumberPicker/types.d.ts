@@ -12,8 +12,6 @@ type OnNumberPickerChange = (
     step: number
 ) => void
 
-type InnerRootTagAttributes = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
-
 
 type Theme = {
     _disabled_all?: string
@@ -82,5 +80,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 export type {
     Props, DefaultProps, MergedProps, Component, OnNumberPickerChange,
-    ComponentFocusEventHandler, InnerRootTagAttributes
+    ComponentFocusEventHandler
 }

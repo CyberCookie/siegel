@@ -21,7 +21,11 @@ type Theme = {
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
     tabs: Tab[],
-    onChange(id: string, e: React.MouseEvent, payload: _Payload): void
+    onChange(
+        id: string,
+        event: React.MouseEvent<HTMLDivElement>,
+        payload: _Payload
+    ): void
     children?: React.ReactNode
     renderAll?: boolean
     showEmpty?: boolean

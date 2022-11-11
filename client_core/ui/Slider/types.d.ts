@@ -31,6 +31,7 @@ type Theme = {
 
 type Props = PropsComponentThemed<Theme, {
     slides: Slide[]
+    onChange?(newSlideIndex: number, prevSlideIndex: number): void
     store?: ReactStore<number>
     children?: React.ReactNode
     startFrom?: number

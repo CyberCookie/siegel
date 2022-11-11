@@ -66,13 +66,15 @@ Flexible calendar to pick single or range of dates<br />
     - Triggers **props.onChange** only when date selection is finished<br /><br />
 
 - `onMonthSwitch`
+    - Triggers when current monts is changed 
     - **Function**. Has **3** arguments:
         - **date** - **Date**. First day of newly selected current month
         - **value** - **1 | -1**. Increment value
-        - **event** - **React.MouseEvent**<br /><br />
+        - **event** - **React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `onYearSwitch`
-    - Same signature as **props.onMonthSwitch**<br /><br />
+    - Triggers when current year is changed
+    - Same signature as **React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `postProcessCalendarDay`
     - Postprocesses calendar day element

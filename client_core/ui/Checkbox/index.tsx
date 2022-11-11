@@ -9,7 +9,8 @@ import componentID from './id'
 import type {
     Component, Props, DefaultProps, MergedProps,
     WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs,
-    CheckboxInnerProps, IconWrapperInnerProps, LabelInnerProps
+    CheckboxInnerProps, IconWrapperInnerProps, LabelInnerProps,
+    HandlerEvent
 } from './types'
 
 import styles from './styles.sass'
@@ -37,7 +38,7 @@ function modifyRootProps<P extends CheckboxInnerProps | LabelInnerProps | IconWr
 
     if (disabled) modClass += ` ${theme._disabled}`
     else if (onChange) {
-        rootProps.onMouseDown = (e: React.MouseEvent) => {
+        rootProps.onMouseDown = (e: HandlerEvent) => {
             onMouseDown?.(e)
             e.defaultPrevented || onChange(!value, e, payload)
         }
@@ -100,6 +101,7 @@ const Checkbox = component<Props, DefaultProps>(
                 <div { ...iconWrapperProps }>
                     { CheckboxElement }
                     { icon }
+                    <label />
                 </div>
             )
         }

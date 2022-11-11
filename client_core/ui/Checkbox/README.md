@@ -33,12 +33,13 @@ Customizable checkbox<br />
 - `onChange`
     - **Function**. Has **3** arguments:
         - **checked** - **Boolean**
-        - **event** - **React.MouseEvent**
+        - **event** - **React.MouseEvent<HTMLDivElement | HTMLLabelElement | HTMLInputElement>**
         - **payload** - **props.payload**<br /><br />
 
 - `onMouseDown`
     - On root tag mousedown event. May prevent inner default onMouseDown event
-    - **Function** with the only argument: **event** - **React.MouseEvent**
+    - **Function** with the only argument:
+        -   **event** - **React.MouseEvent<HTMLDivElement | HTMLLabelElement | HTMLInputElement>**
 
 - `onYearSwitch`
     - Same signature as **props.onMonthSwitch**<br /><br />

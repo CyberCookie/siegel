@@ -9,11 +9,14 @@ type Theme = {
 }
 
 type Props = PropsComponentThemed<Theme, {
-    onClose(e: React.MouseEvent): void
-    onMouseDown?(e: React.MouseEvent): void
+    onClose(event: React.MouseEvent<HTMLDivElement>): void
+    onMouseDown?(event: React.MouseEvent<HTMLDivElement>): void
     closeIcon?: React.ReactNode
     content?: React.ReactNode
-    rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
+    rootTagAttributes?: CoreUIReactTagAttributes<
+        HTMLDivElement,
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'onMouseDown'>
+    >
 }>
 
 type DefaultProps = NonNullableKeys<{

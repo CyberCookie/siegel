@@ -6,8 +6,6 @@ import type { Props as SelectProps, Component as SelectComponent } from '../Sele
 import type { Props as PaginationProps, Component as PaginationComponent } from '../Pagination/types'
 
 
-type RootTagInnerProps = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
-
 type DataTableTableProps = {
     head: NonNullable<TableProps['head']>
     body: NonNullable<TableProps['body']>
@@ -86,7 +84,7 @@ type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentTheme
         preloadedItemsBySide?: number
         scrollUpdateInterval?: number
     }
-    onScroll?(event: React.UIEvent<HTMLDivElement, UIEvent>): void
+    onScroll?(event: React.UIEvent<HTMLDivElement>): void
     children?: React.ReactNode
     tableAttributes?: TableProps['rootTagAttributes']
     resizable?: boolean
@@ -112,5 +110,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 export type {
     State, Props, DefaultProps, MergedProps, Component, DataTableTableProps,
-    ColumnsConfig, DisplayedEntityIDs, SortState, RootTagInnerProps
+    ColumnsConfig, DisplayedEntityIDs, SortState
 }

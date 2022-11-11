@@ -29,7 +29,7 @@ Radio buttons allows you to select one or few options out of given group<br />
     - **Required**
     - **Function** that is triggered when you pick an option. Has **3** arguments:
         - **id** - Option ID
-        - **event** - **React.MouseEvent**
+        - **event** - **React.MouseEvent<HTMLDivElement>**
         - **payload** - Option payload<br /><br />
 
 - `multiple`

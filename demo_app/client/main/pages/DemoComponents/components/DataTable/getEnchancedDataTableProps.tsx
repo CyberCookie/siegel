@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { getDefaultState, SortState } from 'siegel-ui/DataTable'
 
 import {
-    icons, Pagination, Select, Checkbox, Input, Calendar,
+    icons, Pagination, Select, Checkbox, Input, Calendar, SelectProps,
     paginationTheme, selectTheme, checkboxTheme, inputTheme
 } from 'app/components'
 
@@ -18,10 +18,10 @@ type PostProcessState = {
 type PostProcessStore = ReactStore<PostProcessState>
 
 
-const dataTableSelectTheme = {
+const dataTableSelectTheme: SelectProps['theme'] = {
     ...selectTheme,
     root: `${selectTheme!.root} ${styles.paginator_select}`,
-    title: `${selectTheme!.title_text} ${styles.paginator_select_title}`,
+    title_wrapper: `${selectTheme!.title_wrapper} ${styles.paginator_select_title_wrapper}`,
     label: `${selectTheme!.label} ${styles.paginator_select_label}`,
     input_wrapper: styles.paginator_select_input_wrapper,
     options: `${selectTheme!.options} ${styles.paginator_select_options}`,

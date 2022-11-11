@@ -100,7 +100,7 @@ Configurable and flexible data grid to manage big amount of data, built on top o
 
 - `onScroll`
     - On root tag scroll event. May prevent inner default onScroll event
-    - **Function** with the only argument: **event** - **React.UIEvent**
+    - **Function** with the only argument: **event** - **React.UIEvent<HTMLDivElement>**
 
 - `postProcessHeadCell`
     - Post process each head cell and mutates it

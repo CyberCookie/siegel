@@ -34,9 +34,9 @@ type Theme = {
 
 type Props = PropsComponentThemed<Theme, {
     value: number[]
-    onChange?(value: Props['value'], e: MouseEvent | React.MouseEvent): void
-    onRangePickStart?:(e: React.MouseEvent) => void
-    onRangePickFinish?:(e?: MouseEvent) => void
+    onChange?(value: Props['value'], event: MouseEvent | React.MouseEvent<HTMLDivElement>): void
+    onRangePickStart?:(event: React.MouseEvent<HTMLDivElement>) => void
+    onRangePickFinish?:(event: MouseEvent | undefined) => void
     isVertical?: boolean
     children?: React.ReactNode
     rangersCrossBehavior?: 'stop' | 'move' | 'cross'

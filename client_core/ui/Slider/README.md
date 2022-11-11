@@ -41,6 +41,11 @@ Simple slider built on top of **Swipe** component<br />
     - Slides elements
     - **( ((slideIndex: number) => React.ReactNode) | React.ReactNode )[]**<br /><br />
 
+- `onChange`
+    - Triggered whenever current slide changes. Has **2** arguments:
+        - **mewSlideIndex** - **Number**. New slide index
+        - **prevSlideIndex** - **Number**. Previous slide index
+
 - `store`
     - **Static**
     - Store, created with **React.useState** store, to be used in **Slider** component

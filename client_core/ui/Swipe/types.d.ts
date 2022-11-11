@@ -5,12 +5,10 @@ import type {
 
 type HTMLSwipeMouseEvent = MouseEvent | TouchEvent
 
-type RootTagInnerProps = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
-
 type Props = PropsComponentBase<{
     onSwipe(dirrection: boolean, e: HTMLSwipeMouseEvent): void
-    onTouchStart?(e: React.TouchEvent): void
-    onMouseDown?(e: React.MouseEvent): void
+    onTouchStart?(event: React.TouchEvent<HTMLDivElement>): void
+    onMouseDown?(event: React.MouseEvent<HTMLDivElement>): void
     children?: React.ReactNode
     xAxis?: boolean
     deltaPos?: number
@@ -27,7 +25,4 @@ type DefaultProps = NonNullableKeys<{
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type {
-    Props, DefaultProps, Component,
-    HTMLSwipeMouseEvent, RootTagInnerProps
-}
+export type { Props, DefaultProps, Component, HTMLSwipeMouseEvent }

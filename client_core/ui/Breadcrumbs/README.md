@@ -47,8 +47,8 @@ _Only one instance of this compoent can be present at the moment<br />
     - Triggered when crumb is being selected
     - **Funcion**. Has **3** arguments:
         - **path** - **String**. Full crumb path
-        - **configPath** - **String**. pathname key from config 
-        - **event** - **React.MouseEvent**
+        - **configPath** - **String**. Pathname key from config 
+        - **event** - **React.MouseEvent<HTMLAnchorElement>**
 
 
 

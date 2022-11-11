@@ -50,10 +50,10 @@ Simple two positioned toggle<br />
 
 - `onMouseDown`
     - On root tag mousedown event. May prevent inner default onMouseDown event
-    - **Function** with the only argument: **event** - **React.MouseEvent**
+    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLDivElement>**
 
 - `onChange`
     - **Function** that is triggered when **Toggle** change it's value. Has **3** arguments:
         - **value** - **Boolean**. New **Toggle** value
-        - **event** - **React.MouseEvent**
+        - **event** - **React.MouseEvent<HTMLDivElement>**
         - **payload** - **Any**. **props.payload**

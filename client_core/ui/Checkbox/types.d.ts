@@ -41,6 +41,8 @@ type WithLabelRootAttrs = AttributesExcluded<HTMLLabelElement>
 type LabelInnerProps = ReactTagAttributes<HTMLLabelElement, React.HTMLAttributes<HTMLLabelElement>>
 
 
+type HandlerEvent = React.MouseEvent<HTMLDivElement | HTMLLabelElement | HTMLInputElement>
+
 type Theme = {
     _checked?: string
     _disabled?: string
@@ -52,8 +54,12 @@ type Theme = {
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
     value?: boolean
-    onChange?(checked: NonNullable<Props['value']>, e: React.MouseEvent, payload: _Payload): void
-    onMouseDown?(e: React.MouseEvent)
+    onChange?(
+        checked: NonNullable<Props['value']>,
+        event: HandlerEvent,
+        payload: _Payload
+    ): void
+    onMouseDown?(event: HandlerEvent)
     checkboxAttributes?: CheckboxRootAttrs
     rootTagAttributes?: WithIconRootAttrs | WithLabelRootAttrs
     label?: React.ReactNode
@@ -76,5 +82,6 @@ type Component = CoreUIComponent<Props, DefaultProps>
 export type {
     Props, DefaultProps, MergedProps, Component,
     WithIconRootAttrs, WithLabelRootAttrs, CheckboxRootAttrs,
-    CheckboxInnerProps, IconWrapperInnerProps, LabelInnerProps
+    CheckboxInnerProps, IconWrapperInnerProps, LabelInnerProps,
+    HandlerEvent
 }

@@ -86,7 +86,7 @@ const Ranger = component<Props, DefaultProps>(
             onMouseDown: !disabled && onChange ? onSlideStart : undefined
         }
 
-        function onSlideStart(e: React.MouseEvent) {
+        function onSlideStart(e: React.MouseEvent<HTMLDivElement>) {
             onRangePickStart?.(e)
 
             const rangeAreaElement = e.currentTarget as HTMLDivElement

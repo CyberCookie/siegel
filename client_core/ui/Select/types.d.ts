@@ -11,8 +11,6 @@ type OnSelect = (
 
 type RootRef = React.MutableRefObject<HTMLDivElement>
 
-type RootTagInnerProps = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
-
 type Store = ReactStore<{
     isActive: boolean
     arrowSelectIndex: number | undefined
@@ -47,10 +45,14 @@ type Theme = {
 
 type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     options: Option<_Value>[],
-    onChange(value: _Value, e: React.MouseEvent | React.KeyboardEvent, payload?: _Payload): void
-    onFocus?(e: React.FocusEvent): void
-    onBlur?(e: React.FocusEvent): void
-    onKeyDown?(e: React.KeyboardEvent): void
+    onChange(
+        value: _Value,
+        event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>,
+        payload?: _Payload
+    ): void
+    onFocus?(event: React.FocusEvent<HTMLDivElement>): void
+    onBlur?(event: React.FocusEvent<HTMLDivElement>): void
+    onKeyDown?(event: React.KeyboardEvent<HTMLDivElement>): void
     children?: React.ReactNode
     store?: Store
     getDisplayValue?(selectedOption: Option<_Value>): React.ReactNode
@@ -83,5 +85,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 export type {
     Props, DefaultProps, Component, Store, MergedProps,
-    OnSelect, RootRef, RootTagInnerProps
+    OnSelect, RootRef
 }

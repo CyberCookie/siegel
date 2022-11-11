@@ -6,10 +6,8 @@ import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 
-import type {
-    Component, Props, DefaultProps,
-    RootTagInnerProps
-} from './types'
+import type { DivTagAttributes } from '../_internals/types'
+import type { Component, Props, DefaultProps } from './types'
 
 
 const _undef = undefined
@@ -37,7 +35,7 @@ const Toggle = component<Props, DefaultProps>(
         } = props
 
 
-        let toggleRootProps: RootTagInnerProps = {
+        let toggleRootProps: DivTagAttributes = {
             className: applyClassName(className, [
                 [ theme._toggled, value ],
                 [ theme._disabled, disabled ]

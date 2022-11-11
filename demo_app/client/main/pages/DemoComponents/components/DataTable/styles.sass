@@ -28,28 +28,31 @@
     order: 1
     margin: 0 $gutter
 
-    &_label
-        padding-bottom: 0
-        padding-right: $gutter
+.paginator_select_label
+    padding-bottom: 0
+    padding-right: $gutter
 
-    &_input_wrapper
-        position: relative
+.paginator_select_input_wrapper
+    position: relative
 
-    &_options
-        flex-direction: column-reverse
-        bottom: 0
-        border-bottom: 0
-        border-top: 1px solid $primary
-        border-radius: $radius $radius 0 0
-        bottom:  40px
-        padding: $gutter_sm $gutter 0
+.paginator_select_options
+    flex-direction: column-reverse
+    bottom: 0
+    border-bottom: 0
+    border-top: 1px solid $primary
+    border-radius: $radius $radius 0 0
+    bottom:  40px
+    padding: $gutter_sm $gutter 0
     
-    &__active
-        display: flex
+.paginator_select__active
+    display: flex
 
-        .paginator_select_title
-            border-radius: 0 0 $radius $radius !important
-            border-top: 0
+    .paginator_select_title_wrapper
+        border-radius: 0 0 $radius $radius !important
+        border-top: 0
+    
+    .paginator_select_label
+        color: $black
 
 
 .row_selector

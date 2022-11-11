@@ -43,11 +43,11 @@ Provides sliding point(s) to specify some range values from 0 to 1<br />
 - `onChange`
     - **Function** that is triggered when you change selected range. Has **2** arguments:
         - **value** - new range value
-        - **event** - **MouseEvent | React.MouseEvent**<br /><br />
+        - **event** - **MouseEvent | React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `onRangePickStart`
     - **Function** that is triggered when start slide dragging. Has **1** argument:
-        - **event** - **React.MouseEvent**<br /><br />
+        - **event** - **React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `onRangePickFinish`
     - **Function** that is triggered when finish slide dragging. Has **1** argument:

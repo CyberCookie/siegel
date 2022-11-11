@@ -33,6 +33,6 @@ It returns string by default<br />
 - `builder`
     - Allows to build result string
     - **Function**
-        - Has 1 argument:
+        - Has **1** argument:
             - **dateParsed** - result of [dateParse](https://github.com/CyberCookie/siegel/blob/master/client_core/utils/date/parse.ts) util function
         - Returns **React.ReactNode**

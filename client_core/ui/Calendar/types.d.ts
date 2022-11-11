@@ -113,18 +113,26 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
      *
      * @param date New current month first day timestamp
      * @param value New current month index, starting from 0
-     * @param e Click event
+     * @param event Click event
      */
-    onMonthSwitch?(date: Date, value: number, e: React.MouseEvent): void
+    onMonthSwitch?(
+        date: Date,
+        value: number,
+        event: React.MouseEvent<HTMLDivElement>
+    ): void
 
     /**
      * Triggered on year switch
      *
      * @param date New current year first day timestamp
      * @param value New current year
-     * @param e Click event
+     * @param event Click event
      */
-    onYearSwitch?(date: Date, value: number, e: React.MouseEvent): void
+    onYearSwitch?(
+        date: Date,
+        value: number,
+        event: React.MouseEvent<HTMLDivElement>
+    ): void
 
     /**
      * Allows you to return a custom date element

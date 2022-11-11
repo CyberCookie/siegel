@@ -15,9 +15,10 @@ import {
     GetPaginationFnProps
 } from './helpers'
 
+import type { DivTagAttributes } from '../_internals/types'
 import type {
     Component, DataTableTableProps, State, Props, DefaultProps,
-    ColumnsConfig, SortState, RootTagInnerProps
+    ColumnsConfig, SortState
 } from './types'
 
 import styles from './styles.sass'
@@ -54,7 +55,7 @@ const DataTable = component<Props, DefaultProps>(
 
         const [ hookState ] = store || useState( getDefaultState() )
 
-        let rootAttributes: RootTagInnerProps = {
+        let rootAttributes: DivTagAttributes = {
             onScroll,
             className: applyClassName(className, [[ theme._with_footer, withFooter ]])
         }

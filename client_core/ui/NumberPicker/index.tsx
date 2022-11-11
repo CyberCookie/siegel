@@ -17,9 +17,10 @@ import {
     adjustWithRanges, pretifyInputString, isValidNumberString
 } from './helpers'
 
+import type { DivTagAttributes } from '../_internals/types'
 import type {
     ComponentFocusEventHandler, OnNumberPickerChange, Props, Component,
-    DefaultProps, InnerRootTagAttributes
+    DefaultProps
 } from './types'
 
 import styles from './styles.sass'
@@ -113,7 +114,7 @@ const NumberPicker = component<Props, DefaultProps>(
         }
 
 
-        let numberpickerRootProps: InnerRootTagAttributes = {
+        let numberpickerRootProps: DivTagAttributes = {
             ref, onKeyDown,
             onFocus: onPickerFocus,
             onBlur: onPickerBlur,

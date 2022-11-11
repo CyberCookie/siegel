@@ -3,8 +3,6 @@ import type {
 } from '../_internals/types'
 
 
-type RootTagInnerProps = ReactTagAttributes<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>
-
 type Theme = {
     _toggled?: string
     _disabled?: string
@@ -22,8 +20,12 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     toggleIcon?: React.ReactNode
     payload?: _Payload
     disabled?: boolean
-    onChange?(value: boolean, e: React.MouseEvent, payload: _Payload): void
-    onMouseDown?(e: React.MouseEvent): void
+    onChange?(
+        value: boolean,
+        event: React.MouseEvent<HTMLDivElement>,
+        payload: _Payload
+    ): void
+    onMouseDown?(event: React.MouseEvent<HTMLDivElement>): void
     rootTagAttributes?: CoreUIReactTagAttributes<
         HTMLDivElement,
         Omit<React.HTMLAttributes<HTMLDivElement>, 'onMouseDown'>
@@ -37,7 +39,4 @@ type DefaultProps = NonNullableKeys<{
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type {
-    Props, DefaultProps, Component,
-    RootTagInnerProps
-}
+export type { Props, DefaultProps, Component }

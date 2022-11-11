@@ -5,9 +5,9 @@ import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 
+import type { DivTagAttributes } from '../_internals/types'
 import type {
-    Component, Props, DefaultProps, MergedProps,
-    GetPageElement, RootTagInnerProps
+    Component, Props, DefaultProps, MergedProps, GetPageElement
 } from './types'
 
 
@@ -23,9 +23,9 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) 
         onChange, onMouseDown
     } = mergedProps
 
-    let result: RootTagInnerProps = {
+    let result: DivTagAttributes = {
         className: applyClassName(className, [[ theme._single, numberOfPages == 1 ]]),
-        onMouseDown(e: React.MouseEvent) {
+        onMouseDown(e) {
             onMouseDown?.(e)
             if (!e.defaultPrevented) {
 

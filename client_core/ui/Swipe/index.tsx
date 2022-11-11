@@ -5,10 +5,8 @@ import component from '../_internals/component'
 import isTouchScreen from '../../utils/is_touchscreen'
 import applyRefApi from '../_internals/ref_apply'
 
-import type {
-    Component, DefaultProps, Props,
-    HTMLSwipeMouseEvent, RootTagInnerProps
-} from './types'
+import type { DivTagAttributes } from '../_internals/types'
+import type { Component, DefaultProps, Props, HTMLSwipeMouseEvent } from './types'
 
 
 const componentID = '-ui-swipe'
@@ -34,7 +32,7 @@ const Swipe = component<Props, DefaultProps>(
             onSwipe, onTouchStart, onMouseDown
         } = props
 
-        let swipeRootAttributes: RootTagInnerProps = {
+        let swipeRootAttributes: DivTagAttributes = {
             className,
             children
         }
@@ -50,11 +48,14 @@ const Swipe = component<Props, DefaultProps>(
 
         let removeTouchEvents: () => void
 
+        type InnerMouseEvent = Parameters<NonNullable<Props['onMouseDown']>>[0]
+        type InnerTouchEvent = Parameters<NonNullable<Props['onTouchStart']>>[0]
 
-        function onMouseDownInner(e: React.MouseEvent | React.TouchEvent) {
+
+        function onMouseDownInner(e: InnerMouseEvent | InnerTouchEvent) {
             _isTouchScreen
-                ?   onTouchStart?.(e as React.TouchEvent)
-                :   onMouseDown?.(e as React.MouseEvent)
+                ?   onTouchStart?.(e as InnerTouchEvent)
+                :   onMouseDown?.(e as InnerMouseEvent)
 
             if (!e.defaultPrevented) {
                 e.stopPropagation()

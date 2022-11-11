@@ -13,7 +13,7 @@ function extractProps<
     const { className: prevClassName, theme: prevTheme, _noMergeWithDefaults } = prevProps
     const { className: nextClassName, theme: nextTheme } = newProps
 
-    // const result = { ...prevProps, ...newProps }
+
     const result = deepMerge(
         prevProps,
         newProps,
@@ -30,10 +30,6 @@ function extractProps<
     nextClassName && (className += ` ${nextClassName}`)
 
     if (prevTheme) {
-        // result.theme = nextTheme
-        //     ?   { ...prevTheme, ...nextTheme }
-        //     :   prevTheme
-
         if (_noMergeWithDefaults) {
             if (nextTheme?.root) {
                 className = prevTheme.root

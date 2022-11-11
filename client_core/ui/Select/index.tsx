@@ -12,9 +12,10 @@ import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getOptions from './helpers/get_options'
 
+import type { DivTagAttributes } from '../_internals/types'
 import type {
     Component, Props, DefaultProps,  Store,
-    OnSelect, RootRef, RootTagInnerProps
+    OnSelect, RootRef
 } from './types'
 
 
@@ -77,7 +78,7 @@ const Select = component<Props, DefaultProps>(
         const isSelected = isExists(selected)
         const isError = isExists(errorMsg)
 
-        let selectRootProps: RootTagInnerProps = {
+        let selectRootProps: DivTagAttributes = {
             className: applyClassName(className, [
                 [ theme._active, isActive ],
                 [ theme._filled, isSelected ],

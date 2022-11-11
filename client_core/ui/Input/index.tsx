@@ -11,9 +11,10 @@ import addChildren from '../_internals/children'
 import getInputLabeled from '../_internals/label'
 import componentID from './id'
 
+import type { DivTagAttributes } from '../_internals/types'
 import type {
     Component, Props, DefaultProps, InputRef, DebounceStore,
-    InnerRootAttributes, InnerInputAttributes
+    InnerInputAttributes
 } from './types'
 
 
@@ -97,7 +98,7 @@ const Input = component<Props, DefaultProps>(
         }
 
 
-        let inputRootProps: InnerRootAttributes = {
+        let inputRootProps: DivTagAttributes = {
             className: applyClassName(className, [
                 [ theme.textarea, isTextarea ],
                 [ theme._error, isError ],

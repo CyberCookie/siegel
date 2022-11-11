@@ -49,20 +49,20 @@ Dropdown options selector<br />
 - `onChange`
     - **Function** that is triggered when you change selected range. Has **3** arguments:
         - **value** - **Any**. Option's value
-        - **event** - **React.KeyboardEvent | React.MouseEvent**
+        - **event** - **React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>**
         - **payload** - **props.options[number].payload**. Option's payload<br /><br />
 
 - `onFocus`
     - On root tag focus event. May prevent inner default onFocus event
-    - **Function** with the only argument: **event** - **React.FocusEvent**
+    - **Function** with the only argument: **event** - **React.FocusEvent<HTMLDivElement>**
 
 - `onBlur`
     - On root tag blur event. May prevent inner default onBlur event
-    - **Function** with the only argument: **event** - **React.FocusEvent**
+    - **Function** with the only argument: **event** - **React.FocusEvent<HTMLDivElement>**
 
 - `onKeyDown`
     - On root tag keydown event. May prevent inner default onKeyDown event
-    - **Function** with the only argument: **event** - **React.KeyboardEvent**
+    - **Function** with the only argument: **event** - **React.KeyboardEvent<HTMLDivElement>**
 
 - `selected`
     - Selected option

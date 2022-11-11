@@ -48,12 +48,12 @@ Creates paging controls<br />
     - **Required**
     - **Function** that is triggered when page change occurs. Has **3** arguments:
         - **nextPage** - **Number**. next page to be selected
-        - **event** - **React.MouseEvent**
+        - **event** - **React.MouseEvent<HTMLDivElement>**
         - **payload** - **props.payload**
 
 - `onMouseDown`
     - On root tag mousedown event. May prevent inner default onMouseDown event
-    - **Function** with the only argument: **event** - **React.MouseEvent**
+    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLDivElement>**
 
 - `elementsBySide`
     - Minimum count of pages in the beginnig and in the end of pages row
