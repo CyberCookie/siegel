@@ -7,10 +7,10 @@ import type { Props as PaginationProps, Component as PaginationComponent } from 
 
 
 type DataTableTableProps = {
+    className: NonNullable<TableProps['className']>
     head: NonNullable<TableProps['head']>
     body: NonNullable<TableProps['body']>
     foot?: NonNullable<TableProps['foot']>
-    className: NonNullable<TableProps['className']>
     rootTagAttributes?: TableProps['rootTagAttributes']
 }
 
@@ -40,7 +40,7 @@ type ColumnsConfig<
     _Sorted = string[]
 > = {
     ID: string
-    showValue(entity: _Entity, index: number): TableTD
+    showValue(entity: _Entity): TableTD
     onSort?(IDs: _Sorted, byID: _ByID, value: number): Sorted
     onFilter?(IDs: _Sorted, byID: _ByID, search: any): Sorted
     label?: React.ReactNode
@@ -54,6 +54,7 @@ type Theme = {
     children?: string
     table_resizer?: string
     pagination_wrapper?: string
+    pagination_single_page?: string
 }
 
 type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentThemed<Theme, {
@@ -68,14 +69,16 @@ type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentTheme
         Omit<React.HTMLAttributes<HTMLDivElement>, 'onScroll'>
     >
     withFooter?: {
+        defaultShowPerPage: number
         displayQuantity?(quantity: number): React.ReactNode
         select?: {
-            props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps<number>>
             component: CoreUIComponentWithDefaults<SelectComponent> | SelectComponent
+            props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps<number>>
         }
         pagination?: {
-            props?: Partial<PaginationProps>
             component: CoreUIComponentWithDefaults<PaginationComponent> | PaginationComponent
+            props?: Partial<PaginationProps>
+            isRenderForSinglePage?: boolean
         }
     }
     virtualization?: {
@@ -91,11 +94,10 @@ type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentTheme
     postProcessHeadCell?(
         headCell: TableTH,
         columnsConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>,
-        index: number,
-        displayedEntityIDs: DisplayedEntityIDs
+        displayedEntityIDs: NonNullable<DisplayedEntityIDs>
     ): void
-    postProcessHeadRow?(rows: TableHeadRow[], displayedEntityIDs: DisplayedEntityIDs): void
-    postProcessBodyRow?(row: TableBodyRow[], entity: _Entity, index: number): void
+    postProcessHeadRow?(rows: TableHeadRow[], displayedEntityIDs: NonNullable<DisplayedEntityIDs>): void
+    postProcessBodyRow?(row: Required<TableBodyRow>[], entity: _Entity, index: number): void
 }>
 
 

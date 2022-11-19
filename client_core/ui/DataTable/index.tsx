@@ -39,11 +39,12 @@ const DataTable = component<Props, DefaultProps>(
     {
         theme: {
             root: _undef,
+            _with_footer: _undef,
             children: _undef,
             table: _undef,
             table_resizer: _undef,
             pagination_wrapper: _undef,
-            _with_footer: _undef
+            pagination_single_page: _undef
         }
     },
     props => {
@@ -53,21 +54,22 @@ const DataTable = component<Props, DefaultProps>(
             virtualization, children, store, onScroll
         } = props
 
-        const [ hookState ] = store || useState( getDefaultState() )
+        const innerStore = store || useState( getDefaultState() )
+        const [ state ] = innerStore
 
         let rootAttributes: DivTagAttributes = {
             onScroll,
             className: applyClassName(className, [[ theme._with_footer, withFooter ]])
         }
 
-        if (withFooter && !hookState.showPerPage && withFooter.select) {
-            hookState.showPerPage = withFooter.select.props.options[0].value
+        if (withFooter && !state.showPerPage) {
+            state.showPerPage = withFooter.defaultShowPerPage
         }
 
 
         let virtualizationParams
         if (virtualization) {
-            virtualizationParams = applyVirtualization({ hookState, rootAttributes, props })
+            virtualizationParams = applyVirtualization({ state, rootAttributes, props })
             rootAttributes.onScroll = virtualizationParams.onScrollHandler
         }
 
@@ -77,7 +79,7 @@ const DataTable = component<Props, DefaultProps>(
 
         const {
             body, resultIDs, from, to
-        } = getBody(props, hookState, virtualizationParams?.slideWindowRange)
+        } = getBody(props, state, virtualizationParams?.slideWindowRange)
 
         virtualizationParams?.useVirtualizationScrolling(
             Math.min(virtualizationParams.maxItemsCount, resultIDs.length)
@@ -86,7 +88,7 @@ const DataTable = component<Props, DefaultProps>(
 
         let dataTableTableProps: DataTableTableProps = {
             body,
-            head: getHead(props, hookState, resultIDs, from, to),
+            head: getHead(props, state, resultIDs, from, to),
             className: applyClassName(
                 styles.table!,
                 [[ theme.table, true ]]
@@ -94,7 +96,7 @@ const DataTable = component<Props, DefaultProps>(
         }
         withFooter && (dataTableTableProps.foot = [{
             children: [{
-                value: getPaginationFooter(props as GetPaginationFnProps, resultIDs),
+                value: getPaginationFooter(props as GetPaginationFnProps, innerStore, resultIDs),
                 attributes: { colSpan: 100 }
             }]
         }])

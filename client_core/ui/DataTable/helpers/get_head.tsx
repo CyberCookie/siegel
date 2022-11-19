@@ -31,7 +31,8 @@ function getResizeHandler() {
 
 
     function onMouseUp() {
-        mouseXAnchor = targetColumn = currentWidth = siblingColumn = siblingWidth = isLeftSide = currentMinWidth = siblingMinWidth = null
+        mouseXAnchor = targetColumn = currentWidth = siblingColumn = siblingWidth
+            = isLeftSide = currentMinWidth = siblingMinWidth = null
 
         removeEventListener('mousemove', onMouseMove)
         removeEventListener('mouseup', onMouseUp)
@@ -51,7 +52,7 @@ function getResizeHandler() {
     }
 
 
-    return function(e: React.MouseEvent<HTMLDivElement>) {
+    return (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault()
         e.stopPropagation()
 
@@ -92,12 +93,12 @@ function getHead(props: MergedProps, state: State, resultIDs: string[], from: nu
     })
 
     const children: TableTH[] = []
-    columnsConfig.forEach((columnConfig, configurationIndex: number) => {
+    columnsConfig.forEach(columnConfig => {
         const { label, ID } = columnConfig
 
         if (!toggledColumns.has(ID)) {
             const tableHeadCellToPush: TableTH = { value: label }
-            postProcessHeadCell?.(tableHeadCellToPush, columnConfig, configurationIndex, displayedEntityIDs)
+            postProcessHeadCell?.(tableHeadCellToPush, columnConfig, displayedEntityIDs!)
 
             if (resizable) {
                 const resizeHandler = getResizeHandler()
@@ -116,7 +117,7 @@ function getHead(props: MergedProps, state: State, resultIDs: string[], from: nu
     })
 
     const result = [{ children }]
-    postProcessHeadRow?.(result, displayedEntityIDs)
+    postProcessHeadRow?.(result, displayedEntityIDs!)
 
 
     return result

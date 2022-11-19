@@ -24,9 +24,9 @@ describe('common/deep/diff', () => {
 
                     will_be_changed_obj: {
                         will_be_changed: 'some_str',
-                        will_be_same_array: [ 1, {} ]
+                        will_be_same_array: [ 1, {}]
                     },
-                    will_be_same_array: [ [], [], undefined, null ],
+                    will_be_same_array: [[], [], undefined, null ],
                     will_be_changed_array: [
                         1, { will_be_changed: 12 }, [], null, undefined
                     ]
@@ -45,9 +45,9 @@ describe('common/deep/diff', () => {
                     },
                     will_be_changed_obj: {
                         will_be_changed: 'changed',
-                        will_be_same_array: [ 1, {} ]
+                        will_be_same_array: [ 1, {}]
                     },
-                    will_be_same_array: [ [], [], undefined, null ],
+                    will_be_same_array: [[], [], undefined, null ],
                     will_be_changed_array: [
                         1, { will_be_changed: 120 }, [], undefined, false, null, []
                     ],
@@ -91,10 +91,10 @@ describe('common/deep/diff', () => {
         expect(
             diff(
                 [ 1, 2, false ],
-                [ 1, 4, false, {} ]
+                [ 1, 4, false, {}]
             )
         ).toEqual(
-            [ SYMBOL__VALUES_EQUAL, 4, SYMBOL__VALUES_EQUAL, {} ]
+            [ SYMBOL__VALUES_EQUAL, 4, SYMBOL__VALUES_EQUAL, {}]
         )
     })
     test('array change nested iterables', () => {
@@ -103,7 +103,7 @@ describe('common/deep/diff', () => {
                 [{ a: 1 }, { b: 0 }],
                 [{ a: 2 }, { b: 0 }]
             )
-        ).toEqual([{ a: 2 }, SYMBOL__VALUES_EQUAL])
+        ).toEqual([{ a: 2 }, SYMBOL__VALUES_EQUAL ])
     })
 
 

@@ -1,4 +1,4 @@
-import get from './get' 
+import get from './get'
 import set from './set'
 import merge from './merge'
 import clone from './clone'

@@ -113,7 +113,7 @@ function adjustHeaderTopPositon(rootElement: HTMLDivElement, virtualizationState
 function applyVirtualization(params: UseVirtualizationParams) {
     const {
         rootAttributes,
-        hookState: { showPerPage },
+        state: { showPerPage },
         props: {
             withFooter, onScroll,
             entities: { sorted },

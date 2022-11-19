@@ -89,7 +89,8 @@ const dataTableTheme: DataTableProps<any>['theme'] = Object.assign(_dataTableThe
     table: `${tableTheme.table} ${_dataTableTheme.table}`
 })
 const DataTable = withDefaults(_DataTable, {
-    theme: dataTableTheme
+    theme: dataTableTheme,
+    resizable: true
 })
 
 

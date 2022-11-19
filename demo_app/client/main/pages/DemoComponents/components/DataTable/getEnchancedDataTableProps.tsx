@@ -3,7 +3,7 @@ import { getDefaultState, SortState } from 'siegel-ui/DataTable'
 
 import {
     icons, Pagination, Select, Checkbox, Input, Calendar, SelectProps,
-    paginationTheme, selectTheme, checkboxTheme, inputTheme
+    selectTheme, checkboxTheme, inputTheme
 } from 'app/components'
 
 import type { DemoDataTableProps } from './types'
@@ -27,10 +27,6 @@ const dataTableSelectTheme: SelectProps['theme'] = {
     options: `${selectTheme!.options} ${styles.paginator_select_options}`,
     _active: `${selectTheme!._active} ${styles.paginator_select__active}`
 }
-
-const dataTablePaginationTheme = Object.assign({}, paginationTheme, {
-    _single: styles.pagination_single_page
-})
 
 const paginatorSelectOptions = ([ 1, 2, 3, 30 ]).map(num => {
     const value = num * 10
@@ -93,7 +89,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
                 const uniqValues = new Set()
                 const { byID, sorted } = entities
 
-                sorted.forEach((entityID, i) => {
+                sorted.forEach(entityID => {
                     const entity = byID[entityID]
                     const setValue = entity[valuePath]
 
@@ -102,7 +98,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
 
                         resultCheckbox.push(
                             <Checkbox key={ setValue as string } theme={ checkboxTheme } value={ !searchSet.has(setValue) }
-                                className={ styles.set_checkbox } label={ `${config.showValue!(entity, i).value}` }
+                                className={ styles.set_checkbox } label={ `${config.showValue!(entity).value}` }
                                 icon={ icons.check }
                                 onChange={ (checkboxValue, e) => {
                                     e.stopPropagation()
@@ -205,7 +201,7 @@ function getSelectAllCheckboxTableCell<T extends Parameters<NonNullable<DemoData
 
     const [ postProcessData, setPostprocessData ] = postProcessStore
     const selected = postProcessData.selected
-    const { allPagesIDs, from, to } = displayedEntityIDs as NonNullable<typeof displayedEntityIDs>
+    const { allPagesIDs, from, to } = displayedEntityIDs
 
     let checkboxValue = true
     for (let i = from; i < to; i++) {
@@ -280,10 +276,11 @@ function getExtendedDataTableProps(props: DemoDataTableProps) {
 
     const newProps: DemoDataTableProps = {
         ...props,
-        store: dataGridHookStore,
+        // store: dataGridHookStore,
         resizable: true,
         withFooter: {
             displayQuantity,
+            defaultShowPerPage: paginatorSelectOptions[0].value,
             select: {
                 component: Select,
                 props: {
@@ -293,22 +290,19 @@ function getExtendedDataTableProps(props: DemoDataTableProps) {
                 }
             },
             pagination: {
-                component: Pagination,
-                props: {
-                    theme: dataTablePaginationTheme
-                }
+                component: Pagination
             }
         },
-        postProcessHeadCell: (headCell, config, index) => getHeadLabelMenuTableCell({
-            headCell, config, index,
-            dataGridHookStore, postProcessStore,
-            entities: props.entities
-        }),
+        // postProcessHeadCell: (headCell, config, index) => getHeadLabelMenuTableCell({
+        //     headCell, config, index,
+        //     dataGridHookStore, postProcessStore,
+        //     entities: props.entities
+        // }),
 
-        postProcessHeadRow: (row, displayedEntityIDs) =>
-            getSelectAllCheckboxTableCell({ row, displayedEntityIDs, postProcessStore }),
+        // postProcessHeadRow: (row, displayedEntityIDs) =>
+        //     getSelectAllCheckboxTableCell({ row, displayedEntityIDs, postProcessStore }),
 
-        postProcessBodyRow: (row, entity) => getSelectCheckboxTableCell({ row, entity, postProcessStore })
+        // postProcessBodyRow: (row, entity) => getSelectCheckboxTableCell({ row, entity, postProcessStore })
     }
 
 

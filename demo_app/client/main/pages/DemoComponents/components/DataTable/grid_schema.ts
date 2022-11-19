@@ -15,6 +15,7 @@ type DateSearchFilter = {
 }
 
 
+
 function getTextValue(this: GridColumnConfig, entity: Entity) {
     const { className, valuePath } = this.customParams!
     return {
@@ -24,7 +25,7 @@ function getTextValue(this: GridColumnConfig, entity: Entity) {
 }
 
 function filterValue(
-    this: DemoDataTableProps['columnsConfig'][number],
+    this: GridColumnConfig,
     sorted: GridOnFilterParams[0],
     byID: GridOnFilterParams[1],
     search: string | Set<string> | DateSearchFilter
@@ -37,14 +38,14 @@ function filterValue(
     let searchLowerCase: string
     isTextColumn && (searchLowerCase = (search as string).toLowerCase())
 
-    const textFilterFunc: OnFilterCompareFunc = (ID, i) => {
-        const { value } = this.showValue(byID[ID], i)
+    const textFilterFunc: OnFilterCompareFunc = ID => {
+        const { value } = this.showValue(byID[ID])
         return value!.toString().toLowerCase().includes(searchLowerCase)
     }
 
-    const dateFilterFunc: OnFilterCompareFunc = (ID, i) => {
+    const dateFilterFunc: OnFilterCompareFunc = ID => {
         const { dateStart, dateEnd } = search as DateSearchFilter
-        const { value } = this.showValue(byID[ID], i)
+        const { value } = this.showValue(byID[ID])
         const timestamp = value
             ?   (new Date(value as string)).getTime()
             :   Date.now()
@@ -76,8 +77,8 @@ function sortValue(
 ) {
 
     return sorted.sort((ID_a, ID_b) => {
-        const value_a = this.showValue(byID[ID_a], -1).value!
-        const value_b = this.showValue(byID[ID_b], -1).value!
+        const value_a = this.showValue(byID[ID_a]).value!
+        const value_b = this.showValue(byID[ID_b]).value!
 
         return value_a < value_b ? sortValue : -sortValue
     })

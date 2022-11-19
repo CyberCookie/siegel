@@ -30,7 +30,7 @@ describe('common/deep/clone', () => {
                     a: 20,
                     c: [{}],
                     d: new Date()
-                } ]
+                }]
             },
             c: 3
         }

@@ -1,7 +1,6 @@
 # Breadcrumbs
 
 Site URL breadcrumbs<br />
-_Only one instance of this compoent can be present at the moment<br />
 
 
 <br />

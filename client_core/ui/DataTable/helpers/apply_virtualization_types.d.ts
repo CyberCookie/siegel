@@ -30,7 +30,7 @@ type GetWindowSlideRanges = (params: {
 }) => SlideWindowRange
 
 type UseVirtualizationParams = {
-    hookState: State
+    state: State
     rootAttributes: ReactTagAttributes<HTMLDivElement>
     props: MergedProps
 }

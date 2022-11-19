@@ -1,6 +1,6 @@
 # Stepper
 
-Simple slider built on top of **Ranger** component<br />
+Steps slider built on top of **Ranger** component<br />
 
 [Ranger](https://github.com/CyberCookie/siegel/tree/master/client_core/ui/Ranger)
 

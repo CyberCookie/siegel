@@ -29,6 +29,7 @@ Configurable and flexible data grid to manage big amount of data, built on top o
     - `children`
     - `table`
     - `table_resizer`
+    - `pagination_single_page`
     - `pagination_wrapper`<br /><br />
 
 - `entities`
@@ -46,9 +47,8 @@ Configurable and flexible data grid to manage big amount of data, built on top o
         - `label` - Column label showiing in table header cell
         - `customParams` - **Any**. some data you may use in extended dataTable
         - `showValue` - **Required** **Function**. Triggers for each entity to be displayed in a **DataTable**
-            - Has **2** arguments:
+            - Has **1** argument:
                 - **entity** - **Object**. Represents each entity stored in **props.entities.byID**
-                - **index** - Column index
             - Returns **TableTD**
         - `onSort` - **Function**. Specify how this column should be sorted
             - Has **3** arguments:
@@ -57,7 +57,9 @@ Configurable and flexible data grid to manage big amount of data, built on top o
                 - **value** - **Number**. Sort vakue
             - Returns IDs: **String[]**
         - `onFilter` - **Function**. Specify how this column should be filtered
-            - Has **3** arguments: Firts 2 arguments are the same as in **onSort**. 3d argument is:
+            - Has **3** arguments:
+                - **IDs** - **props.entities.sorted**
+                - **byID** - **props.entities.byID**
                 - **search** - **Any**. Column filter value<br /><br />
 
 - `store`
@@ -76,6 +78,7 @@ Configurable and flexible data grid to manage big amount of data, built on top o
     - Describes footer props. Footer uses **Select** and **Pagination** components<br />
          You should explicitly pass these components. It was made to reduce dependency tree
     - **Object** with the next fields:
+        - `defaultShowPerPage` - **Required** **Number**. Number of items to show per page by default
         - `displayQuantity` - **Function**. To show items count
             - Has **1** argument - quantity: **Number**
             - Returns **React.ReactNode**
@@ -84,7 +87,8 @@ Configurable and flexible data grid to manage big amount of data, built on top o
             - `component` - **Select component** itself
         - `pagination` - **Object**. Pagination component scope. Has the next fields:
             - `props` - **Pagination component props**. All props are optional
-            - `component` - **Pagination component itself**<br /><br />
+            - `component` - **Pagination component itself**
+            - `isRenderForSinglePage` - **Boolean**. Renders pagination even if there is only one page<br /><br />
 
 - `resizable`
     - Makes columns resizable by dragging sides of columns

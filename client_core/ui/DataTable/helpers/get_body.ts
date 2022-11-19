@@ -30,10 +30,9 @@ function getBody(
         }
 
         const config = columnsConfig[ idToIndexMap[configurationID] ]
-        const { onFilter } = config
-
-        if (isExists(onFilter)) {
-            processedList = config.onFilter!(processedList, byID, searchByField[configurationID]) // must not deattach onFilter to keep `this`
+        if (isExists(config.onFilter)) {
+            // leave attached to config to keep 'this'
+            processedList = config.onFilter(processedList, byID, searchByField[configurationID])
         }
     }
 
@@ -45,10 +44,9 @@ function getBody(
             :   columnsConfig.findIndex(config => config.ID == ID)
 
         const config = columnsConfig[columnIndex]
-        const { onSort } = config
-
-        if (isExists(onSort)) {
-            processedList = config.onSort!(processedList.slice(), byID, value) // must not deattach onSort to keep `this`
+        if (isExists(config.onSort)) {
+            // leave attached to config to keep 'this'
+            processedList = config.onSort(processedList.slice(), byID, value)
         }
     }
 
@@ -60,7 +58,7 @@ function getBody(
         const maxPages = Math.ceil(maxLength / showPerPage) || 1
         currentPage > maxPages && (state.currentPage = maxPages)
 
-        from = (currentPage - 1) * showPerPage
+        from = (state.currentPage - 1) * showPerPage
         to = Math.min(from + showPerPage, maxLength)
         if (slideWindowRange) {
             from += slideWindowRange.from
@@ -83,12 +81,11 @@ function getBody(
         const entity = byID[entityID]
 
         const rowChildren: TableTD[] = []
-        columnsConfig.forEach(configurationModel => {
-            if (!toggledColumns.has(configurationModel.ID)) {
-                rowChildren.push(
-                    configurationModel.showValue(entity, i) // must not deattach showValue to keep `this`
-                )
-            }
+        columnsConfig.forEach(config => {
+            toggledColumns.has(config.ID) || rowChildren.push(
+                // leave attached to config to keep 'this'
+                config.showValue(entity)
+            )
         })
 
         const itemToPush = [{
