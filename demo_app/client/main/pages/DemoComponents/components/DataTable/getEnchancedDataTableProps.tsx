@@ -276,7 +276,7 @@ function getExtendedDataTableProps(props: DemoDataTableProps) {
 
     const newProps: DemoDataTableProps = {
         ...props,
-        // store: dataGridHookStore,
+        store: dataGridHookStore,
         resizable: true,
         withFooter: {
             displayQuantity,
@@ -293,16 +293,16 @@ function getExtendedDataTableProps(props: DemoDataTableProps) {
                 component: Pagination
             }
         },
-        // postProcessHeadCell: (headCell, config, index) => getHeadLabelMenuTableCell({
-        //     headCell, config, index,
-        //     dataGridHookStore, postProcessStore,
-        //     entities: props.entities
-        // }),
+        postProcessHeadCell: (headCell, config, index) => getHeadLabelMenuTableCell({
+            headCell, config, index,
+            dataGridHookStore, postProcessStore,
+            entities: props.entities
+        }),
 
-        // postProcessHeadRow: (row, displayedEntityIDs) =>
-        //     getSelectAllCheckboxTableCell({ row, displayedEntityIDs, postProcessStore }),
+        postProcessHeadRow: (row, displayedEntityIDs) =>
+            getSelectAllCheckboxTableCell({ row, displayedEntityIDs, postProcessStore }),
 
-        // postProcessBodyRow: (row, entity) => getSelectCheckboxTableCell({ row, entity, postProcessStore })
+        postProcessBodyRow: (row, entity) => getSelectCheckboxTableCell({ row, entity, postProcessStore })
     }
 
 

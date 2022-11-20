@@ -54,9 +54,9 @@ const DropdownSearch = component<Props, DefaultProps>(
 
         const {
             onChange, onSearch, onBlur, onFocus, onKeyDown, onRootBlur,
-            minInputLength, theme, className, showOnFocus, inputStore, selected,
+            minInputLength, theme, className, showOnFocus, inputStore, selected, errorMsg,
             searchOptions, rootTagAttributes, disabled, store, label, resetIcon, children,
-            inputTheme, inputChildren, autofocus, placeholder, inputTagAttributes, errorMsg,
+            inputTheme, resetIconKeepChildren, autofocus, placeholder, inputTagAttributes,
             mask, debounceMs, inputMemoDeps, inputRootTagAttributes, inputClassName, regexp
         } = props
 
@@ -165,10 +165,10 @@ const DropdownSearch = component<Props, DefaultProps>(
                     onMouseDown={ resetSelected } />
             )
 
-            inputInnerProps.children = inputChildren
+            inputInnerProps.children = resetIconKeepChildren
                 ?   <>
                         { resetIconElem }
-                        { inputChildren }
+                        { children }
                     </>
                 :   resetIconElem
         }

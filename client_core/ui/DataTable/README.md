@@ -34,6 +34,7 @@ Configurable and flexible data grid to manage big amount of data, built on top o
 
 - `entities`
     - **Required**
+    - Data table entities
     - **Object** with the next fields:
         - `byID` - **Object**. represents all the entities where key is an entity uniq ID<br />
             and value as an entity itself
@@ -61,6 +62,12 @@ Configurable and flexible data grid to manage big amount of data, built on top o
                 - **IDs** - **props.entities.sorted**
                 - **byID** - **props.entities.byID**
                 - **search** - **Any**. Column filter value<br /><br />
+
+- `pinnedEntities`
+    - Data table pinned entities are pinned to the top of rendered entity list<br />
+    Pinned entities can't be filtered and they are always present on any paginator page<br />
+    Number of entities showed per paginator page is increaed by the number of pinned entities
+    - **Object** - same structure as `props.entities`
 
 - `store`
     - **Static**

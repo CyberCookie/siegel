@@ -13,7 +13,7 @@ function getBody(
 
     const {
         entities: { byID, sorted },
-        columnsConfig, postProcessBodyRow, withFooter
+        pinnedEntities, columnsConfig, postProcessBodyRow, withFooter
     } = props
 
     const { searchByField, sortByField, toggledColumns, showPerPage, currentPage } = state
@@ -37,6 +37,8 @@ function getBody(
     }
 
 
+    let pinnedEntitiesSorted = pinnedEntities?.sorted
+
     if ((sortByField as SortState).value) {
         const { value, ID } = sortByField as SortState
         const columnIndex = idToIndexMap!
@@ -47,8 +49,15 @@ function getBody(
         if (isExists(config.onSort)) {
             // leave attached to config to keep 'this'
             processedList = config.onSort(processedList.slice(), byID, value)
+
+            pinnedEntitiesSorted &&= config.onSort(
+                pinnedEntitiesSorted.slice(),
+                pinnedEntities!.byID,
+                value
+            )
         }
     }
+
 
 
     const maxLength = processedList.length
@@ -63,6 +72,7 @@ function getBody(
         if (slideWindowRange) {
             from += slideWindowRange.from
             to = Math.min(to, from + (slideWindowRange.to - slideWindowRange.from))
+
         }
     } else {
         if (slideWindowRange) {
@@ -75,9 +85,27 @@ function getBody(
     }
 
 
+
+    if (pinnedEntities) {
+        const processedListBeforePinned = processedList.splice(0, from)
+        processedList = processedListBeforePinned
+            .concat(pinnedEntitiesSorted!, processedList)
+
+        withFooter && (to += pinnedEntitiesSorted!.length)
+    }
+
+
+    const processedIDs = new Set<string>()
     const resultList: TableBodyRow[] = []
     for (let i = from; i < to; i++) {
+
         const entityID = processedList[i]
+        if (processedIDs.has(entityID)) {
+            to++
+            continue
+        } else processedIDs.add(entityID)
+
+
         const entity = byID[entityID]
 
         const rowChildren: TableTD[] = []
@@ -103,7 +131,9 @@ function getBody(
 
     return {
         from, to,
-        resultIDs: processedList,
+        resultIDs: pinnedEntities
+            ?   Array.from(new Set(processedList))
+            :   processedList,
         body: resultList
     }
 }

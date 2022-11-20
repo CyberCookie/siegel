@@ -31,7 +31,7 @@ function filterValue(
     search: string | Set<string> | DateSearchFilter
 ) {
 
-    const type = this.customParams!.valuePath
+    const { type } = this.customParams!
 
     const isTextColumn = type == 'text'
 

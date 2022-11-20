@@ -64,10 +64,10 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     showAll?: boolean
     selected?: _Value | undefined
     resetIcon?: React.ReactNode
+    resetIconKeepChildren?: boolean
     disabled?: InputProps['disabled']
     inputTheme?: InputProps['theme']
     label?: InputProps['label']
-    inputChildren?: InputProps['children']
     inputStore?: InputProps['store']
     autofocus?: InputProps['autofocus']
     placeholder?: InputProps['placeholder']

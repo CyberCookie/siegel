@@ -63,6 +63,10 @@ type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentTheme
         sorted: string[]
     }
     columnsConfig: ColumnsConfig<_Entity, _ColumnParamsExtend>[]
+    pinnedEntities?: {
+        byID: Indexable<_Entity>
+        sorted: string[]
+    }
     store?: ReactStore<State>
     rootTagAttributes?: CoreUIReactTagAttributes<
         HTMLDivElement,
