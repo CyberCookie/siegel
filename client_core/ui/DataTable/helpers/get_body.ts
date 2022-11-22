@@ -15,6 +15,7 @@ function getBody(
         entities: { byID, sorted },
         pinnedEntities, columnsConfig, postProcessBodyRow, withFooter
     } = props
+    let pinnedEntitiesSorted = pinnedEntities?.sorted
 
     const { searchByField, sortByField, toggledColumns, showPerPage, currentPage } = state
 
@@ -36,8 +37,6 @@ function getBody(
         }
     }
 
-
-    let pinnedEntitiesSorted = pinnedEntities?.sorted
 
     if ((sortByField as SortState).value) {
         const { value, ID } = sortByField as SortState
@@ -85,14 +84,17 @@ function getBody(
     }
 
 
-
-    if (pinnedEntities) {
-        const processedListBeforePinned = processedList.splice(0, from)
-        processedList = processedListBeforePinned
+    let resultIDs: string[]
+    if (pinnedEntitiesSorted?.length! > 0) {
+        processedList = processedList
+            .splice(0, from)
             .concat(pinnedEntitiesSorted!, processedList)
 
+        resultIDs = Array.from(new Set(processedList))
+
         withFooter && (to += pinnedEntitiesSorted!.length)
-    }
+
+    } else resultIDs = processedList
 
 
     const processedIDs = new Set<string>()
@@ -101,8 +103,9 @@ function getBody(
 
         const entityID = processedList[i]
         if (processedIDs.has(entityID)) {
-            to++
+            to = Math.min(processedList.length, to + 1)
             continue
+
         } else processedIDs.add(entityID)
 
 
@@ -130,10 +133,7 @@ function getBody(
 
 
     return {
-        from, to,
-        resultIDs: pinnedEntities
-            ?   Array.from(new Set(processedList))
-            :   processedList,
+        from, to, resultIDs,
         body: resultList
     }
 }

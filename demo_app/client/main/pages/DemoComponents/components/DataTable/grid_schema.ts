@@ -77,8 +77,8 @@ function sortValue(
 ) {
 
     return sorted.sort((ID_a, ID_b) => {
-        const value_a = this.showValue(byID[ID_a]).value!
-        const value_b = this.showValue(byID[ID_b]).value!
+        const value_a = +this.showValue(byID[ID_a]).value!
+        const value_b = +this.showValue(byID[ID_b]).value!
 
         return value_a < value_b ? sortValue : -sortValue
     })
