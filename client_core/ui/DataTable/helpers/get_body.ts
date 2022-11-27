@@ -2,7 +2,7 @@ import isExists from '../../../../common/is/exists'
 
 import type { TableBodyRow, TableTD } from '../../Table/types'
 import type { SlideWindowRange } from '../helpers/apply_virtualization'
-import type { MergedProps, State, SortState } from '../types'
+import type { MergedProps, State } from '../types'
 
 
 function getBody(
@@ -38,8 +38,8 @@ function getBody(
     }
 
 
-    if ((sortByField as SortState).value) {
-        const { value, ID } = sortByField as SortState
+    if (isExists(sortByField.ID)) {
+        const { value, ID } = sortByField
         const columnIndex = idToIndexMap!
             ?   idToIndexMap[ ID ]
             :   columnsConfig.findIndex(config => config.ID == ID)

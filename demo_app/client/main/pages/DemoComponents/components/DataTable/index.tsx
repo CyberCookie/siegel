@@ -36,9 +36,9 @@ const Demo = () => {
         columnsConfig,
         entities: getMockEntities(300).raw(),
         className: styles.demo_grid,
-        postProcessHeadCell(cell, config) {
+        postProcessHeadCell(cell, { customParams }) {
             cell.attributes = {
-                className: config.customParams!.className
+                className: customParams!.className
             }
         }
     }

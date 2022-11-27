@@ -117,4 +117,7 @@
 
 .column_toggles_wrapper
     +flex(space-between)
-    margin: $gutter
+    flex-direction: column
+
+    &, & > label
+        margin-bottom: $gutter

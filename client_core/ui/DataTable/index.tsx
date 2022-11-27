@@ -18,7 +18,7 @@ import {
 import type { DivTagAttributes } from '../_internals/types'
 import type {
     Component, DataTableTableProps, State, Props, DefaultProps,
-    ColumnsConfig, SortState
+    ColumnsConfig, StateSortValues
 } from './types'
 
 import styles from './styles.sass'
@@ -27,7 +27,10 @@ import styles from './styles.sass'
 const _undef = undefined
 
 const getDefaultState: () => State = () => ({
-    sortByField: {},
+    sortByField: {
+        ID: _undef,
+        value: 1
+    },
     searchByField: {},
     toggledColumns: new Set(),
     showPerPage: 0,
@@ -116,4 +119,4 @@ const DataTable = component<Props, DefaultProps>(
 
 export default DataTable
 export { getDefaultState, componentID }
-export type { Component, Props, ColumnsConfig, SortState }
+export type { Component, Props, ColumnsConfig, StateSortValues }

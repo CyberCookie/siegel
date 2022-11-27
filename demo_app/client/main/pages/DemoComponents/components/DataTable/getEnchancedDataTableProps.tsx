@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { getDefaultState, SortState } from 'siegel-ui/DataTable'
+import { getDefaultState, StateSortValues } from 'siegel-ui/DataTable'
 
 import {
     icons, Pagination, Select, Checkbox, Input, Calendar, SelectProps,
@@ -66,15 +66,13 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
             e.stopPropagation()
             const { sortvalue, sortid } = (e.currentTarget as HTMLDivElement).dataset
 
-            const { value: value, ID: curID } = dataGridHookState.sortByField as SortState
+            const { value: value, ID: curID } = dataGridHookState.sortByField
             const intValue = +sortvalue!
 
-            dataGridHookState.sortByField = curID == sortid && value == intValue
-                ?   {}
-                :   {
-                        ID: sortid,
-                        value: sortvalue
-                    }
+            dataGridHookState.sortByField = {
+                ID: curID == sortid && value == intValue ? undefined : sortid,
+                value: intValue as StateSortValues
+            }
 
             setDataGridHookState({ ...dataGridHookState })
         }

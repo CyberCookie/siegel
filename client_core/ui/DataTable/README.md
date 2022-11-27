@@ -73,8 +73,8 @@ Configurable and flexible data grid to manage big amount of data, built on top o
     - **Static**
     - Store, created with **React.useState** store, to be used in **DataTable**
     - State is an **Object** with the next fields:
-        - `sortByField` - **Object**. Empty if no sorting applied otherwise has the next fields:
-            - `ID` - **String** - column ID to apply sorting to
+        - `sortByField` - **Object** with the next fields:
+            - `ID` - **String | undefined** - column ID to apply sorting to
             - `value` - **Number** - sort value **-1 | 0 | 1**
         - `searchByField` - **Object** where key is column ID and value is **Any**
         - `toggleColumns` - **Set<props.columnsConfig.ID>**. Using to toggle specified columns

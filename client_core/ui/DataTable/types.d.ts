@@ -20,14 +20,14 @@ type DisplayedEntityIDs = {
     allPagesIDs: string[]
 } | undefined
 
-type SortState = {
-    ID: string
-    value: number
-}
-type State = {
-    sortByField: SortState | {}
-    searchByField: Indexable
-    toggledColumns: Set<SortState['ID']>
+type StateSortValues = -1 | 1
+type State<_SearchState = any> = {
+    sortByField: {
+        ID: string | undefined
+        value: StateSortValues
+    }
+    searchByField: Indexable<_SearchState>
+    toggledColumns: Set<string>
     showPerPage: number
     currentPage: number
 }
@@ -57,7 +57,11 @@ type Theme = {
     pagination_single_page?: string
 }
 
-type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentThemed<Theme, {
+type Props<
+    _Entity = Indexable,
+    _ColumnParamsExtend = any,
+    _SearchState = any
+> = PropsComponentThemed<Theme, {
     entities: {
         byID: Indexable<_Entity>
         sorted: string[]
@@ -67,7 +71,7 @@ type Props<_Entity = Indexable, _ColumnParamsExtend = any> = PropsComponentTheme
         byID: Indexable<_Entity>
         sorted: string[]
     }
-    store?: ReactStore<State>
+    store?: ReactStore<State<_SearchState>>
     rootTagAttributes?: CoreUIReactTagAttributes<
         HTMLDivElement,
         Omit<React.HTMLAttributes<HTMLDivElement>, 'onScroll'>
@@ -116,5 +120,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 export type {
     State, Props, DefaultProps, MergedProps, Component, DataTableTableProps,
-    ColumnsConfig, DisplayedEntityIDs, SortState
+    ColumnsConfig, DisplayedEntityIDs, StateSortValues
 }
