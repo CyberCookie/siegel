@@ -101,7 +101,6 @@ const Checkbox = component<Props, DefaultProps>(
                 <div { ...iconWrapperProps }>
                     { CheckboxElement }
                     { icon }
-                    <label />
                 </div>
             )
         }
@@ -111,7 +110,7 @@ const Checkbox = component<Props, DefaultProps>(
             ?   getLabel(
                     CheckboxElement,
                     modifyRootProps(
-                        { className: theme.label_wrapper },
+                        { className: theme.label_wrapper || '' },
                         props,
                         rootTagAttributes
                     ),
