@@ -54,7 +54,7 @@ Flexible calendar to pick single or range of dates<br />
 
 - `onChange`
     - **Function**. Has **3** arguments:
-        - **range** - **initDate** like
+        - **range** - **Required<props.initDate>**
         - **isFinished** - **Boolean**. Whether date selection is in progress or has just finished
         - **payload** - **props.payload**<br /><br />
 

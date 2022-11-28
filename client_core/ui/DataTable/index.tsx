@@ -119,4 +119,4 @@ const DataTable = component<Props, DefaultProps>(
 
 export default DataTable
 export { getDefaultState, componentID }
-export type { Component, Props, ColumnsConfig, StateSortValues }
+export type { Component, Props, State, ColumnsConfig, StateSortValues }

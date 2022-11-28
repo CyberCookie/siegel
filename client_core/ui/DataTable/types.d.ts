@@ -26,7 +26,7 @@ type State<_SearchState = any> = {
         ID: string | undefined
         value: StateSortValues
     }
-    searchByField: Indexable<_SearchState>
+    searchByField: Indexable<_SearchState | undefined>
     toggledColumns: Set<string>
     showPerPage: number
     currentPage: number
@@ -36,13 +36,14 @@ type State<_SearchState = any> = {
 type ColumnsConfig<
     _Entity extends Indexable,
     _ColumnParamsExtend = any,
+    _SearchState = any,
     _ByID = Indexable<_Entity>,
     _Sorted = string[]
 > = {
     ID: string
     showValue(entity: _Entity): TableTD
     onSort?(IDs: _Sorted, byID: _ByID, value: number): Sorted
-    onFilter?(IDs: _Sorted, byID: _ByID, search: any): Sorted
+    onFilter?(IDs: _Sorted, byID: _ByID, search: _SearchState): Sorted
     label?: React.ReactNode
     customParams?: _ColumnParamsExtend
 }
@@ -66,7 +67,7 @@ type Props<
         byID: Indexable<_Entity>
         sorted: string[]
     }
-    columnsConfig: ColumnsConfig<_Entity, _ColumnParamsExtend>[]
+    columnsConfig: ColumnsConfig<_Entity, _ColumnParamsExtend, _SearchState>[]
     pinnedEntities?: {
         byID: Indexable<_Entity>
         sorted: string[]

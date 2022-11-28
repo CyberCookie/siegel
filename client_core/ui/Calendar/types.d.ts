@@ -106,7 +106,11 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
      * @param isFinished Whether range dates selection is in progress or has already ended
      * @param payload props.payload
      */
-    onChange?(range: Props['initDate'], isFinished: boolean, payload: _Payload): void
+    onChange?(
+        range: Required<Props['initDate']>,
+        isFinished: boolean,
+        payload: _Payload
+    ): void
 
     /**
      * Triggered on month switch

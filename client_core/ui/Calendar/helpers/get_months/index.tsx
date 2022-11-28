@@ -13,7 +13,8 @@ import styles from '../../styles.sass'
 function getMonths(mergedProps: MergedProps, store: Store) {
     const {
         theme, monthsBefore, monthsAfter, weekStartsFrom, strings,
-        noControls, prevMonthIcon, nextMonthIcon, prevYearIcon, nextYearIcon, constructCalendarTitle
+        noControls, prevMonthIcon, nextMonthIcon, prevYearIcon, nextYearIcon,
+        constructCalendarTitle
     } = mergedProps
     const state = store[0]
 
