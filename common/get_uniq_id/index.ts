@@ -1,5 +1,5 @@
 let id = 0n
-const getUniqId = () => (++id).toString()
+const getUniqId = () => `${++id}`
 
 
 export default getUniqId

@@ -1,13 +1,13 @@
-type StateWithUpdater<State extends Indexable> = State & { __updated: number }
+type StateWithUpdater<State extends Obj> = State & { __updated: number }
 
 type HookStore<State, Actions extends ActionsUnbinded<State>> = Required<InnerStore<StateWithUpdater<State>, Actions>>
 
 
-type SetState<State extends Indexable> = (newState: StateWithUpdater<State>) => void
+type SetState<State extends Obj> = (newState: StateWithUpdater<State>) => void
 
-type HookSetState<State extends Indexable> = React.Dispatch<React.SetStateAction<State>>
+type HookSetState<State extends Obj> = React.Dispatch<React.SetStateAction<State>>
 
-type InnerStore<State extends Indexable, A extends ActionsUnbinded<State>> = {
+type InnerStore<State extends Obj, A extends ActionsUnbinded<State>> = {
     state: State
     listeners: HookSetState<State>[]
     setState?: SetState<State>
@@ -20,7 +20,7 @@ type ActionsBinded<A extends ActionsUnbinded<any>> = {
     [action in keyof A]: ActionBinded<A[action]>
 }
 
-type ActionsUnbinded<State extends Indexable, Store = HookStore<State, any>> = {
+type ActionsUnbinded<State extends Obj, Store = HookStore<State, any>> = {
     [actions: string]: (store: Store, ...args: any[]) => void
 }
 

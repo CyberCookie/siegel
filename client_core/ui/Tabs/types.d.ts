@@ -33,7 +33,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
 }>
 

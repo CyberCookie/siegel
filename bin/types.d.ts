@@ -26,7 +26,7 @@ type CommandWithParams<R> = {
     params: CommanParam<R>[]
 }
 
-type PrintHelpFlagsMap = Indexable<{
+type PrintHelpFlagsMap = Obj<{
     flag: CommanParam<any>['flag']
     flagLong: CommanParam<any>['flagLong']
 }>
@@ -36,13 +36,13 @@ type CommandExampleFn = (
     flags: PrintHelpFlagsMap
 ) => string
 
-type Command<R extends Indexable = undefined> = {
+type Command<R extends Obj = undefined> = {
     description: string
     commandAction: (params: ActionParam<R>) => void
     example?: boolean | string | CommandExampleFn
 } & (R extends undefined ? {} : CommandWithParams<R>)
 
-type FullCommand = Command<Indexable>
+type FullCommand = Command<Obj>
 
 
 type CommanTree = {

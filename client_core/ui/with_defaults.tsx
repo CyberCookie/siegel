@@ -1,8 +1,22 @@
 import React from 'react'
 
 import extractProps from './_internals/props_extract'
-
 import type { CoreUIComponent, CoreUIComponentWithDefaults } from './_internals/types'
+
+
+type NewProps<_Props extends Obj, _NewDefaults extends Partial<_Props>> = {
+    [K in keyof _Props & keyof _NewDefaults]?: _NewDefaults[K] extends object
+        ?   _NewDefaults[K] extends Function
+            ?   _Props[K]
+            :   NonNullable<_Props[K]> extends object
+                ?   NonNullable<_Props[K]> extends Function
+                    ?   _Props[K]
+                    :   NewProps<NonNullable<_Props[K]>, _NewDefaults[K]>
+                :   _Props[K]
+        :   _Props[K]
+}
+& Omit<_Props, keyof _NewDefaults>
+
 
 
 /**
@@ -17,7 +31,7 @@ function withDefaults
 <
     _ComponentWithDefaults extends CoreUIComponentWithDefaults<CoreUIComponent<any, any>>,
     _Props extends Parameters<_ComponentWithDefaults>[0],
-    _NewDefaults extends Partial<_Props>
+    _NewDefaults extends DeepPartial<_Props>
 >
 (
     Component: _ComponentWithDefaults,
@@ -32,7 +46,8 @@ function withDefaults
     )
     mergedDefaults._noMergeWithDefaults = true
 
-    const componentWithDefaults = (props: PartialKeys<_Props, keyof _NewDefaults>) => (
+
+    const componentWithDefaults = (props: NewProps<_Props, _NewDefaults>) => (
         <Component { ...extractProps(mergedDefaults, props) } />
     )
 

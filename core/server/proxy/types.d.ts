@@ -6,9 +6,9 @@ type ProxyParams = {
     host: string
     port?: number
     path?: string
-    query?: Indexable<string>
+    query?: Obj<string>
     method?: string
-    headers?: Indexable<string>
+    headers?: Obj<string>
     changeOrigin?: boolean
     secure?: boolean
     postProcessReq?: (

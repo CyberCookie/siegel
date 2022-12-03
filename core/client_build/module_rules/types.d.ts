@@ -41,7 +41,7 @@ type LoadersOrder = string[]
 type LoadersOrderFn<_DefaultModule = null> = (
     order: _DefaultModule extends null
         ?   LoadersOrder
-        :   _DefaultModule['loaders'] extends Indexable
+        :   _DefaultModule['loaders'] extends Obj
             ?   _DefaultModule['loadersOrder']
             :   LoadersOrder
 ) => LoadersOrder
@@ -49,7 +49,7 @@ type LoadersOrderFn<_DefaultModule = null> = (
 type LoaderOptionsFn<_DefaultLoader = null> = (
     defaultOptions: _DefaultLoader extends null
         ?   WebpackLoaderObjOptions
-        :   _DefaultLoader['options'] extends Indexable
+        :   _DefaultLoader['options'] extends Obj
             ?   _DefaultLoader['options']
             :   WebpackLoaderObjOptions
 ) => WebpackLoaderObjOptions
@@ -66,7 +66,7 @@ type Loaders<_DefaultRule = null> = (
     _DefaultRule extends null
         ?   {}
         :   { [ K in keyof _DefaultRule['loaders']]?: Loader<_DefaultRule['loaders'][K]> }
-) & Indexable<Loader>
+) & Obj<Loader>
 
 
 

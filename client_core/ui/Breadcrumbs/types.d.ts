@@ -3,7 +3,7 @@ import type {
 } from '../_internals/types'
 
 
-type DynamicCrumbsState = Indexable<React.ReactNode>
+type DynamicCrumbsState = Obj<React.ReactNode>
 type DynamicCrumbsStore = ReactStore<DynamicCrumbsState>
 
 type DynamicCrumbsCustomEventPayload = {
@@ -84,7 +84,7 @@ type Props = PropsComponentThemed<Theme, {
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     className: Props['className']
     theme: Required<Props['theme']>
     separator: Props['separator']

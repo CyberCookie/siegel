@@ -9,7 +9,7 @@ import type {
 } from './types'
 
 
-const setState: SetState<Indexable> = function(this: HookStore<any, any>, newState) {
+const setState: SetState<Obj> = function(this: HookStore<any, any>, newState) {
     newState.__updated++
     this.state = { ...newState }
     const listenersCount = this.listeners.length
@@ -43,7 +43,7 @@ function bindActions
     return actions as ActionsBinded<typeof actions>
 }
 
-const getInitialState = <S extends Indexable>(defaultStateResolve: () => S) => {
+const getInitialState = <S extends Obj>(defaultStateResolve: () => S) => {
     type State = StateWithUpdater<S>
 
     const state = defaultStateResolve()
@@ -54,7 +54,7 @@ const getInitialState = <S extends Indexable>(defaultStateResolve: () => S) => {
 
 
 function createStore
-<S extends Indexable, A extends ActionsUnbinded<S>>
+<S extends Obj, A extends ActionsUnbinded<S>>
 (initialStateResolver: () => S, actions: A) {
     type State = StateWithUpdater<S>
 

@@ -2,7 +2,7 @@ import entities from './'
 
 
 describe('common/entities', () => {
-    const entitiesData = entities<Indexable>('id')
+    const entitiesData = entities<Obj>('id')
 
 
     test('created', () => {

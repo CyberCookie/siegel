@@ -38,7 +38,7 @@ function extractMaskData(
 
     const { pattern, patternValueChar, valuePlaceholderChar = valuePlaceholderCharDefault } = mask
 
-    const placeholdersIndexesMap: Indexable<MaskCharData> = {}
+    const placeholdersIndexesMap: Obj<MaskCharData> = {}
     const placeholderCharsOrdered: number[] = []
 
     let maxLength = 0

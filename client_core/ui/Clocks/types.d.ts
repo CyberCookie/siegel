@@ -14,7 +14,7 @@ type Props = Omit<
     'refApi'
 >
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     speedCoef: Props['speedCoef']
     tickEveryMinute: Props['tickEveryMinute']
     zeroing: Props['zeroing']

@@ -2,10 +2,10 @@ type SEOParams = {
     title?: string
     description?: string
     keywords?: string
-} & Indexable
+} & Obj
 
 
-const paramFlowMap: Indexable = {
+const paramFlowMap: Obj = {
     title: {
         selector: 'title',
         prop: 'innerText'

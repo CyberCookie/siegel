@@ -40,7 +40,7 @@ function filterValue(
 
     const textFilterFunc: OnFilterCompareFunc = ID => {
         const { value } = this.showValue(byID[ID])
-        return value!.toString().toLowerCase().includes(searchLowerCase)
+        return `${value}`.toLowerCase().includes(searchLowerCase)
     }
 
     const dateFilterFunc: OnFilterCompareFunc = ID => {

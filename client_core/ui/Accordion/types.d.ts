@@ -14,7 +14,7 @@ type List = {
     children?: List
 }[]
 
-type BuilderList<_BuilderListExtend = Indexable<any>> = ({
+type BuilderList<_BuilderListExtend = Obj> = ({
     /** List item nested list */
     children?: BuilderList<_BuilderListExtend>
 
@@ -43,7 +43,7 @@ type Theme = {
     nested_list?: string
 }
 
-type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
+type Props<_BuilderListExtend = Obj> = PropsComponentThemed<
     Theme,
     {
         /** Icon to place next to item title */
@@ -64,7 +64,7 @@ type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
              * Expanded lists paths, where key is dot separeted nested lists ids,
              * and value is boolean
              */
-            expandedPaths: Indexable<boolean>
+            expandedPaths: Obj<boolean>
         }>
     }
     &   ({
@@ -109,7 +109,7 @@ type Props<_BuilderListExtend = Indexable<any>> = PropsComponentThemed<
 >
 
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
 }>
 

@@ -4,19 +4,19 @@ import isExists from '../../is/exists'
 const resolveAsUndefSymbol = Symbol('undef')
 
 const deepMerge = <
-    T extends Indexable,
-    K extends Indexable
+    T extends Obj,
+    K extends Obj
 >(
     obj_a: T,
     obj_b: K,
     options?: {
-        mergeResolve?(obj_a: Indexable, obj_b: Indexable, propName: string): any
-        resolveObject?(obj_a: Indexable, obj_b: Indexable, propName: string): Indexable | symbol | undefined
+        mergeResolve?(obj_a: Obj, obj_b: Obj, propName: string): any
+        resolveObject?(obj_a: Obj, obj_b: Obj, propName: string): Obj | symbol | undefined
     }
 ) => {
 
     const { mergeResolve, resolveObject } = options || {}
-    const result: Indexable = {}
+    const result: Obj = {}
 
     for (const key in obj_a) {
         const objValue_a = obj_a[key as keyof T]

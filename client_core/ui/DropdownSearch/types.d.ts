@@ -83,7 +83,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     onFocus?: InputProps['onFocus']
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
     minInputLength: Props['minInputLength']
     listDisabledOptions: Props['listDisabledOptions']

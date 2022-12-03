@@ -19,7 +19,7 @@ type Props = PropsComponentThemed<Theme, {
     >
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     className: Props['className']
     theme: Props['theme']
 }>

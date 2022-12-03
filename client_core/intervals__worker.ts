@@ -6,7 +6,7 @@ type MessageIncome = {
 type MessageOutcome = MessageEvent<MessageIncome['id']>
 
 
-const activeIntervalsById: Indexable<number> = {}
+const activeIntervalsById: Obj<number> = {}
 
 
 onmessage = ({ data }: MessageEvent<MessageIncome>) => {

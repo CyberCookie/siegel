@@ -39,7 +39,7 @@ function extractRequestData(request: RequestParams) {
     if (query) {
         const queryToAdd = query instanceof String
             ?   query
-            :   `?${(new URLSearchParams(query)).toString()}`
+            :   `?${(new URLSearchParams(query))}`
 
         fetchURL += queryToAdd
     }
@@ -52,7 +52,7 @@ function extractRequestData(request: RequestParams) {
     if (json) {
         options.body && (options.body = JSON.stringify(options.body))
         options.headers
-            ?   ((options.headers as Indexable)[HEADERS.CONTENT_TYPE] ||= CONTENT_TYPE.JSON)
+            ?   ((options.headers as Obj)[HEADERS.CONTENT_TYPE] ||= CONTENT_TYPE.JSON)
             :   (options.headers = jsonContentTypeHeaders)
     }
 

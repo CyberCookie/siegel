@@ -1,4 +1,4 @@
-function isEmptyObject(obj: Indexable) {
+function isEmptyObject(obj: Obj) {
     for (const k in obj) return false
     return true
 }

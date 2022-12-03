@@ -28,7 +28,7 @@ const dateParse: DateParse = (date, zeroPrefix) => {
 
     if (zeroPrefix) {
         for (const datePartKey in result) {
-            const datePartStringified = result[datePartKey as DateKeys].toString()
+            const datePartStringified = `${result[datePartKey as DateKeys]}`
             const maxLength = resultMaxLength[datePartKey as keyof DateParsed] || 2
 
             if (datePartStringified.length < maxLength) {

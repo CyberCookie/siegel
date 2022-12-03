@@ -26,7 +26,7 @@ type State<_SearchState = any> = {
         ID: string | undefined
         value: StateSortValues
     }
-    searchByField: Indexable<_SearchState | undefined>
+    searchByField: Obj<_SearchState | undefined>
     toggledColumns: Set<string>
     showPerPage: number
     currentPage: number
@@ -34,10 +34,10 @@ type State<_SearchState = any> = {
 
 
 type ColumnsConfig<
-    _Entity extends Indexable,
+    _Entity extends Obj,
     _ColumnParamsExtend = any,
     _SearchState = any,
-    _ByID = Indexable<_Entity>,
+    _ByID = Obj<_Entity>,
     _Sorted = string[]
 > = {
     ID: string
@@ -59,17 +59,17 @@ type Theme = {
 }
 
 type Props<
-    _Entity = Indexable,
+    _Entity = Obj,
     _ColumnParamsExtend = any,
     _SearchState = any
 > = PropsComponentThemed<Theme, {
     entities: {
-        byID: Indexable<_Entity>
+        byID: Obj<_Entity>
         sorted: string[]
     }
     columnsConfig: ColumnsConfig<_Entity, _ColumnParamsExtend, _SearchState>[]
     pinnedEntities?: {
-        byID: Indexable<_Entity>
+        byID: Obj<_Entity>
         sorted: string[]
     }
     store?: ReactStore<State<_SearchState>>
@@ -110,7 +110,7 @@ type Props<
 }>
 
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
 }>
 

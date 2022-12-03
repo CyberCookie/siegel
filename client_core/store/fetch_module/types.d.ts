@@ -2,9 +2,9 @@ import type { HookStore } from '../index'
 
 
 type State = {
-    requests: Indexable<number>
-    errRes: Indexable
-    lastError: Indexable
+    requests: Obj<number>
+    errRes: Obj
+    lastError: Obj
 }
 
 type Actions = {

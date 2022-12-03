@@ -8,8 +8,8 @@ type State = {
     rangerValues: number[]
     rangerValuesString: string
     anchorPositionsSorted: number[]
-    anchorToOptionData: Indexable<{ value: string, index: number }>
-    valueToAnchorMap: Indexable<number>
+    anchorToOptionData: Obj<{ value: string, index: number }>
+    valueToAnchorMap: Obj<number>
 }
 
 type Option = {
@@ -50,7 +50,7 @@ type Props = PropsComponentThemed<Theme, {
     children?: React.ReactNode
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
 }>
 

@@ -1,12 +1,12 @@
 import isPrimitive from '../../is/primitive'
 
 
-type Comparable = any[] | Indexable
+type Comparable = any[] | Obj
 
 type Options = {
     valueForEqualArrElement?: any
     valueForRemovedObjField?: any
-    complexTypesIsEqual?: <T extends Indexable>(a: T, b: T) => boolean
+    complexTypesIsEqual?: <T extends Obj>(a: T, b: T) => boolean
 }
 
 type ComparsionCallBacks = {
@@ -91,9 +91,9 @@ function compareArrays(a: any[], b: any[], options: Options) {
 }
 
 
-function compareObjects(a: Indexable, b: Indexable, options: Options) {
+function compareObjects(a: Obj, b: Obj, options: Options) {
     const { valueForRemovedObjField } = options
-    const result = {} as Indexable
+    const result = {} as Obj
     let updatesCount = 0
 
     for (const key in a) {

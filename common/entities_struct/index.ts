@@ -3,8 +3,8 @@ import rangeEach from '../array_range_each'
 import type { Entities } from './types'
 
 
-function entities<E extends Indexable>(uniq: keyof E = 'id') {
-    let byID: Indexable<E> = {}
+function entities<E extends Obj>(uniq: keyof E = 'id') {
+    let byID: Obj<E> = {}
     let sorted: string[] = []
 
 

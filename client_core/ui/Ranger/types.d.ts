@@ -46,7 +46,7 @@ type Props = PropsComponentThemed<Theme, {
     disabled?: boolean
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
     rangersCrossBehavior: Props['rangersCrossBehavior']
 }>

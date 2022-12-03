@@ -20,6 +20,20 @@ type CopyPlugin = typeof import('copy-webpack-plugin')
 type EslintPlugin = typeof import('eslint-webpack-plugin')
 
 
+//TODO typing: review corectness
+type DeepExclude<O1 extends object, O2 extends object> =
+    {
+        [K in keyof O1 & keyof O2]?: O2[K] extends object
+            ?   O1[K] extends object
+                ?   DeepExclude<O1[K], O2[K]>
+                :   O2[K]
+            :   O2[K]
+    }
+    &
+    { [K in keyof Omit<O2, keyof O1>]: O2[K] }
+
+
+
 type PluginClassCtor = {
     new(...options: unknown[]): WebpackPluginInstance
     (): WebpackPluginInstance
@@ -29,7 +43,7 @@ type AnyPlugin = abstract new (...args: any) => any
 
 
 type ResolvePluginDefaultOptions = (
-    defaultOption: Indexable,
+    defaultOption: Obj,
     userOption: any
 ) => any
 

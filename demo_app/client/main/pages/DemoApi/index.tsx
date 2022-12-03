@@ -56,7 +56,7 @@ const DemoApi: Page = () => {
             <Button value={ isProxyRequesting ? 'Requesting...' : 'proxy fetch' }
                 disabled={ isProxyRequesting }
                 className={ styles.global_counter }
-                onClick={ () => { api_proxyGet(counter.toString()) } } />
+                onClick={ () => { api_proxyGet(`${counter}`) } } />
 
             { isProxyError
                 ?   <>

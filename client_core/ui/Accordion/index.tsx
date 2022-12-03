@@ -17,7 +17,7 @@ const getStringPath = (key: string | number, prefix: string | number | undefined
 )
 
 function getExpandersPaths(list: List | BuilderList, pathPrefix?: string | number) {
-    const tree: Indexable = {}
+    const tree: Obj = {}
     list.forEach((item, i) => {
         const { id, children } = item
 
@@ -36,7 +36,7 @@ function getExpandersPaths(list: List | BuilderList, pathPrefix?: string | numbe
 const getDefaultState = (list?: List | BuilderList) => ({
     expandedPaths: list
         ?   useMemo(() => getExpandersPaths(list), [])
-        :   {} as Indexable
+        :   {} as Obj
 })
 
 const Accordion = component<Props, DefaultProps>(
@@ -122,7 +122,7 @@ const Accordion = component<Props, DefaultProps>(
                     } else {
                         if (soloOpen) {
                             for (const expandedPath in expandedPaths) {
-                                if (!path.toString().startsWith(expandedPath)) {
+                                if (!`${path}`.startsWith(expandedPath)) {
                                     delete expandedPaths[expandedPath]
                                 }
                             }

@@ -4,8 +4,8 @@ import isExists from '../../is/exists'
 type Key = string | number
 
 
-function deepSet(iterable: any[] | Indexable, path: Key[] | Key, value: any): void {
-    let link: Indexable = iterable
+function deepSet(iterable: any[] | Obj, path: Key[] | Key, value: any): void {
+    let link: Obj = iterable
     const pathSequence = Array.isArray(path) ? path : [ path ]
 
     for (let i = 0, l = pathSequence.length; i < l; i++) {

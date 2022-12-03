@@ -17,7 +17,7 @@ type SidebarItemProps = {
     className?: string
 }
 
-const _demoComponents: Indexable = demoComponents
+const _demoComponents: Obj = demoComponents
 
 const hashParam = 'active'
 

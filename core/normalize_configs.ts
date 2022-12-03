@@ -9,7 +9,7 @@ import type { ServerConfigFinal } from './server/types'
 import type { Config, ConfigFinal, RunParams, RunParamsFinal } from './types'
 
 
-function mergeConfigWithDefaults(CONFIG: Indexable, DEFAULT_CONFIG: Indexable) {
+function mergeConfigWithDefaults(CONFIG: Obj, DEFAULT_CONFIG: Obj) {
     for (const key in DEFAULT_CONFIG) {
         const defaultValue = DEFAULT_CONFIG[key as keyof Config]
         const configValue = CONFIG[key as keyof Config]

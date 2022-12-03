@@ -1,4 +1,4 @@
-type Entities<Entity extends Indexable = Indexable> = {
+type Entities<Entity extends Obj = Obj> = {
     clear(): Entities<Entity>
     addOrUpdate(entity: Entity): Entities<Entity>
     addAll(entities: Entity[], postProcessEach?: (entity: Entity) => void): Entities<Entity>
@@ -8,7 +8,7 @@ type Entities<Entity extends Indexable = Indexable> = {
     get(id: string): Entity
     len(): number
     raw(): ({
-        byID: Indexable<Entity>,
+        byID: Obj<Entity>,
         sorted: string[]
     })
 }

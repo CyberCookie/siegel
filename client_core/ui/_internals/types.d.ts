@@ -18,7 +18,7 @@ type ComponentRefApi<_Props> = {
     getOnPropsUpdate?(props: _Props): any[]
 }
 
-type PropsComponentBase<_Props extends Indexable = Indexable> = {
+type PropsComponentBase<_Props extends Obj = Obj> = {
     /**
      * Internal Siegel property.
      * Using to indicate whether to merge provided component props with default ones
@@ -51,8 +51,8 @@ type ThemeProps<_Theme> = {
     } & _Theme
 }
 type PropsComponentThemed<
-    _Theme extends Indexable = Indexable,
-    _Props extends Indexable = Indexable,
+    _Theme extends Obj = Obj,
+    _Props extends Obj = Obj,
     _ThemeProps = ThemeProps<_Theme>
 > = PropsComponentBase<_Props & _ThemeProps>
 

@@ -22,7 +22,7 @@ type CommonChangeProps = {
 type ValueStateValue = Parameters<NonNullable<InputProps['onChange']>>[0]
     | Parameters<NonNullable<CheckboxProps['onChange']>>[0]
 
-type ValuesState = Indexable<{
+type ValuesState = Obj<{
     value: ValueStateValue
     errorMsg?: string
 }>

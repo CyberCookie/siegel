@@ -25,7 +25,7 @@ function buildInputRegexp(
         if (isFinite(min) || isFinite(max)) {
             const maxNumberAllowed = Math.max( Math.abs(min), Math.abs(max) )
             const regexpModificator = isFinite(maxNumberAllowed)
-                ?   parseInt(maxNumberAllowed).toString().length
+                ?   `${parseInt(maxNumberAllowed)}`.length
                 :   ''
 
             regexpTemplate += `{0,${regexpModificator}}`

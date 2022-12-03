@@ -18,7 +18,7 @@ type Props = PropsComponentBase<{
     >
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     deltaPos: Props['deltaPos']
 }>
 

@@ -10,7 +10,7 @@ const STRIP_PATH_TRAVERSAL_REGEXP = /^(\.\.(\/|\\|$))+/
 const finalizeHeaderValue = (value: NonNullable<HeaderValue>) => (
     value?.constructor == String
         ?   value
-        :   value.toString()
+        :   `${value}`
 )
 
 const getStaticFileResponseParams: GetStaticFileResponseParams = params => {

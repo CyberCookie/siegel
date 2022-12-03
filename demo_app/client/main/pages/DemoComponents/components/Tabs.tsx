@@ -4,7 +4,7 @@ import { Tabs } from 'app/components'
 
 
 const tabsData = ([ 1, 2, 3 ]).map(id => ({
-    id: id.toString(),
+    id: `${id}`,
     content: <div>content {id}</div>,
     label: `label ${id}`
 }))

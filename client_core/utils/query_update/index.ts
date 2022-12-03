@@ -5,7 +5,7 @@ type QueryValue = string | number | boolean
 
 type UpdateURLQuery = {
     (
-        key: string | Indexable<QueryValue>,
+        key: string | Obj<QueryValue>,
         value?: QueryValue
     ): URLSearchParams
 }

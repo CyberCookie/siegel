@@ -77,7 +77,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 }>
 
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
 }>
 

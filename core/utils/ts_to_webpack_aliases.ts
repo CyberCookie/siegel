@@ -10,7 +10,7 @@ function tsToWebpackAliases(rootPath: string) {
     ).compilerOptions
 
 
-    const aliases: Indexable = {}
+    const aliases: Obj = {}
     for (const alias in paths) {
         const WPAlias = alias.replace('/*', '')
         const WPPath = paths[alias][0].replace('/*', '')

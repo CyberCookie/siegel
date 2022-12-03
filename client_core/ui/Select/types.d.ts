@@ -72,7 +72,7 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     >
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
     closeOnSelect: Props['closeOnSelect']
     listDisabledOptions: Props['listDisabledOptions']

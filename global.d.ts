@@ -1,8 +1,8 @@
 declare module '*.png'
 declare module '*.jpg'
 declare module '*.sass' {
-    const styles: Indexable<string | undefined>
-    export default styles
+    const classes: Obj<string | undefined>
+    export default classes
 }
 
 
@@ -16,6 +16,15 @@ interface URLSearchParams {
 }
 
 
+/**
+ * Recursively iterates over given object and makes its properties optional
+ * @param T - object to iterate over
+ */
+type DeepPartial<T> = T extends object
+    ?   T extends Function
+        ?   T
+        :   { [P in keyof T]?: DeepPartial<T[P]> }
+    :   T
 
 
 type DeepMerge<O1 extends Required<object>, O2 extends object> =
@@ -35,46 +44,60 @@ type DeepMerge<O1 extends Required<object>, O2 extends object> =
     &
     { [K in keyof Omit<O2, keyof O1>]: O2[K] }
 
-type DeepExclude<O1 extends object, O2 extends object> =
-    {
-        [K in keyof O1 & keyof O2]?: O2[K] extends object
-            ?   O1[K] extends object
-                ?   DeepExclude<O1[K], O2[K]>
-                :   O2[K]
-            :   O2[K]
-    }
-    &
-    { [K in keyof Omit<O2, keyof O1>]: O2[K] }
 
 
+/**
+ * Simple object with string as a keys
+ * @param V - object values. Default: any
+ */
+type Obj<V = any> = Record<string, V>
 
-type Indexable<V = any> = {
-    [key: string]: V
-}
+/**
+ * Extracts given object's values
+ * @param O - object
+ */
+type Values<O extends Obj> = O[keyof O]
 
-type IndexObject<T, V = any> = {
-    [key in keyof T]: V
-}
-
-type Never<O extends Indexable> = {
+/**
+ * Makes all the object properties optional never
+ * @param O - object
+ */
+type Never<O extends Obj> = {
     [k in keyof O]?: never
 }
 
-type NonNullableKeys<T extends Indexable> = {
-    [k in keyof T]: NonNullable<T[k]>
+/**
+ * Extracts only object's required properties keys
+ * @param O - object
+ */
+type RequiredKeys<O> = { [K in keyof O]-?: {} extends Pick<O, K> ? never : K }[keyof O]
+
+/**
+ * Extracts only object's optional properties keys
+ * @param O - object
+ */
+type OptionalKeys<O> = { [K in keyof O]-?: {} extends Pick<O, K> ? K : never }[keyof O]
+
+/**
+ * Exclude null and undefined from a properties of a given object
+ * @param O - object
+ */
+type NonNullableProps<O extends Obj> = {
+    [k in keyof O]: NonNullable<O[k]>
 }
 
-type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<T>
-
-type NarrowObjectToValueTypes<O extends Indexable, T> = {
-    [k in keyof O as O[k] extends T ? k : never]: T
+/**
+ * Keeps only object properties thats are equal to a given value
+ * @param O - object
+ * @param V - value
+ */
+type NarrowObjectToValueTypes<O extends Obj, V> = {
+    [K in keyof O as O[K] extends V ? K : never]: V
 }
 
-type Values<K extends Indexable> = K[keyof K]
-
-// type PathsOf<T, R = Required<T>> = Values<{
-//     [P in keyof R]: [P] | [P, ...PathsOf<R[P]>]
-// }>
+type PathsOf<T, R = Required<T>> = Values<{
+    [P in keyof R]: [P] | [P, ...PathsOf<R[P]>]
+}>
 
 
 

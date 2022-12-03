@@ -22,7 +22,7 @@ type Props = PropsComponentBase<{
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     type: Props['type']
 }>
 

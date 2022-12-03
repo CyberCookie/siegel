@@ -65,7 +65,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     onKeyDown?(e: React.KeyboardEvent<HTMLDivElement>): void
 }> & Omit<InputProps, 'value' | 'label' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange' | 'store' | 'regexp'>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     className: Props['className']
     theme: Props['theme']
     min: Props['min']

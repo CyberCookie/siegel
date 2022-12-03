@@ -6,7 +6,7 @@ import type { Options } from './types'
 function deepClone<T>(value: T, opts: Options = {}): T {
     if (isPrimitive(value as unknown as object)) return value
 
-    let result: Indexable
+    let result: Obj
 
     if (Array.isArray(value)) {
         result = []

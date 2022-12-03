@@ -39,7 +39,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     fixedWidth?: boolean
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
     elementsBySide: Props['elementsBySide']
     elementsByMiddle: Props['elementsByMiddle']

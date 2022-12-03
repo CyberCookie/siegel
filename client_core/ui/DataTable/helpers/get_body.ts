@@ -20,7 +20,7 @@ function getBody(
     const { searchByField, sortByField, toggledColumns, showPerPage, currentPage } = state
 
 
-    let idToIndexMap: Indexable<number>
+    let idToIndexMap: Obj<number>
     let processedList = sorted
     for (const configurationID in searchByField) {
         if (!idToIndexMap!) {

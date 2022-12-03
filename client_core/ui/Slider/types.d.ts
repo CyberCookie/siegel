@@ -42,7 +42,7 @@ type Props = PropsComponentThemed<Theme, {
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
     swipeDelta: Props['swipeDelta']
 }>

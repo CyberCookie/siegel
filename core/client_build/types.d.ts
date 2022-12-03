@@ -45,7 +45,7 @@ type BuildConfig = {
         }
     }
     eslint?: boolean
-    aliases?: Indexable<string>
+    aliases?: Obj<string>
     plugins?: Plugins
     module?: UserRulesData
     postProcessWebpackConfig?: (

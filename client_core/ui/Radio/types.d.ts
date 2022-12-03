@@ -35,7 +35,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }> & (MultiSelectProps | SingleSelectProps)
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
 }>
 

@@ -68,7 +68,8 @@ const Demo = () => {
         <div>
             <div className={ styles.column_toggles_wrapper }>
                 { columnsConfig.map(({ label, ID }) => (
-                    <Checkbox key={ ID } label={ label } value={ !toggledColumns.has(ID) }
+                    <Checkbox key={ ID } label={ label }
+                        value={ !toggledColumns.has(ID) }
                         onChange={ isColumnToggledNext => {
                             isColumnToggledNext
                                 ?   toggledColumns.delete(ID)

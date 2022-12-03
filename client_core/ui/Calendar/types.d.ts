@@ -223,7 +223,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     strings?: StringValues | (() => StringValues)
 }>
 
-type DefaultProps = NonNullableKeys<{
+type DefaultProps = NonNullableProps<{
     theme: Props['theme']
     strings: StringValues
     monthsBefore: Props['monthsBefore']

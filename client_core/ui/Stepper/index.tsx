@@ -69,7 +69,7 @@ const Stepper = component<Props, DefaultProps>(
             const isSingle = value.length == 1
             const percentsPerAnchor = 100 / ((optionsCount - 1) * 100)
 
-            const valuesCounter: Indexable<number> = {}
+            const valuesCounter: Obj<number> = {}
             value.forEach(v => {
                 valuesCounter[v]
                     ?   valuesCounter[v]++

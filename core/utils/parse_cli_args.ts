@@ -1,4 +1,4 @@
-type CLIParamsValuesType = Indexable<{
+type CLIParamsValuesType = Obj<{
     resolved: boolean
     value: boolean | string
 }>

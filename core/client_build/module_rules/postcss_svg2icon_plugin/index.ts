@@ -73,7 +73,7 @@ const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix = '', 
             rootDecl: undefined as Declaration | undefined
         }
 
-        const absolutePathsIndex: Indexable<number> = {}
+        const absolutePathsIndex: Obj<number> = {}
 
         let i = 0
 

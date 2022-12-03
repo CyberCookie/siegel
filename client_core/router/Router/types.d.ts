@@ -1,7 +1,7 @@
 import type { RouterProps } from '../types'
 
 
-type URLparams = Indexable<string>
+type URLparams = Obj<string>
 
 type ChildrenArrayEl = {
     traversePath: string
@@ -161,7 +161,7 @@ type RouteWithRedirectConfig = RouteRedirectConfig
 
 
 
-type RoutesConfig<_WithPageExtend = {}> = Indexable<
+type RoutesConfig<_WithPageExtend = {}> = Obj<
     RouteWithPageConfig<_WithPageExtend>
     | RouteWithLayoutConfig
     | RouteWithChildrenConfig
