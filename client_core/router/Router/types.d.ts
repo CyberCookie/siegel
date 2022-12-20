@@ -86,8 +86,8 @@ type RouteConfigAllFields<_WithPageExtend = {}> = {
     Layout: Layout | LazyLayout
     children: RoutesConfig<_WithPageExtend>
     fallback: React.ReactNode
-    onEnter: (URLparams: URLparams) => any
-    onLeave: () => void
+    onEnter(URLparams: URLparams): any
+    onLeave(): void
     transition: false | Transition
     permissions: boolean | ((urlParams: URLparams) => boolean)
     redirectTo: RedirectToPathObj | RedirectToPathGetter | RedirectToPath

@@ -11,8 +11,8 @@ type ExpressExtenderParams = {
 }
 type HTTP2ExtenderParams = {
     staticServer: Http2Server | Http2SecureServer
+    onStream(cb: StreamCB): void
     express?: never
-    onStream: (cb: StreamCB) => void
 }
 type ServerExtenderFn = (
     params: ExpressExtenderParams | HTTP2ExtenderParams,

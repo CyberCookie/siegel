@@ -11,7 +11,7 @@ type ProxyParams = {
     headers?: Obj<string>
     changeOrigin?: boolean
     secure?: boolean
-    postProcessReq?: (
+    postProcessReq?(
         clientReq: Parameters<RequestHandler>[0],
         options: {
             host: ProxyParams['host']
@@ -20,7 +20,7 @@ type ProxyParams = {
             headers: IncomingHttpHeaders
             path: NonNullable<ProxyParams['path']>
         }
-    ) => void
+    ): void
 }
 
 type Proxy = (params: ProxyParams) => RequestHandler

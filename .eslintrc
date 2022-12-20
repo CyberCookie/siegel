@@ -63,6 +63,9 @@
         }],
         "react/jsx-first-prop-new-line": [1, "never"],
         "react/jsx-closing-bracket-location": [1, "after-props"],
+        "react/jsx-tag-spacing": [1, {
+            "beforeClosing": "never"
+        }],
         "react/jsx-no-useless-fragment": 1,
         "react/jsx-props-no-multi-spaces": 1,
         "@typescript-eslint/no-non-null-asserted-optional-chain" : 0,

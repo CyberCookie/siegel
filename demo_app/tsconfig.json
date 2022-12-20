@@ -14,7 +14,8 @@
 			"siegel-ui-utils/*": [ "../client_core/utils/*" ],
 			"siegel-router/*": [ "../client_core/router/*" ]
 		},
-		"noEmit": true
+		"noEmit": true,
+		"declaration": false
 	},
 	"include": [ "client", "server", "dto", "../global.d.ts" ]
 }

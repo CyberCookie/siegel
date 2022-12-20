@@ -23,8 +23,8 @@ type GetFontFaceNodeFn = (
         isWoff2: Svg2FontConverterPluginOptions['isWoff2']
     },
     handlers: {
-        onFontName: (fontName: string) => void
-        onFinish: (root: Root) => void
+        onFontName(fontName: string): void
+        onFinish(root: Root): void
     }
 ) => Promise<void>
 

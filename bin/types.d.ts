@@ -11,18 +11,18 @@ type ActionParam<R> = {
 
 type CommanParam<R> = {
     description: string
-    paramAction: (
+    paramAction(
         params: {
             value: CLIParamsValuesType[string]['value']
         } & ActionParam<R>
-    ) => void
+    ): void
     flagLong: string
     flag?: string
     defaultValue?: any
 }
 
 type CommandWithParams<R> = {
-    prepareResult: () => R
+    prepareResult(): R
     params: CommanParam<R>[]
 }
 
@@ -38,7 +38,7 @@ type CommandExampleFn = (
 
 type Command<R extends Obj = undefined> = {
     description: string
-    commandAction: (params: ActionParam<R>) => void
+    commandAction(params: ActionParam<R>): void
     example?: boolean | string | CommandExampleFn
 } & (R extends undefined ? {} : CommandWithParams<R>)
 

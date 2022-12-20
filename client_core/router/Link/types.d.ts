@@ -10,7 +10,7 @@ type Props = PropsComponentBase<
         href: NonNullable<LinkReactTagAttributes['href']>
         state?: any
         activeClassName?: string
-        onClick?: (e: React.MouseEvent) => void
+        onClick?(e: React.MouseEvent): void
     } & LinkReactTagAttributes
 >
 

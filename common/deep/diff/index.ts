@@ -12,7 +12,7 @@ type Options = {
 type ComparsionCallBacks = {
     valuesNotEqual(): void
     valuesIterable(result: ReturnType<typeof compare>): void
-    valuesEqual?: () => void
+    valuesEqual?(): void
 }
 
 

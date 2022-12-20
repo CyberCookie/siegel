@@ -162,7 +162,7 @@ const Radio = withDefaults(_Radio, {
 
 const Ranger = withDefaults(_Ranger, {
     theme: rangerTheme,
-    rangePickIcon: ''
+    rangersCrossBehavior: 'cross'
 })
 
 

@@ -19,6 +19,7 @@ type NewProps<_Props extends Obj, _NewDefaults extends Partial<_Props>> = {
 
 
 
+
 /**
  * Applies default props to a given Siegel component function,
  * so you don't need to apply them every time you use the component

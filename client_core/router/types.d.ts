@@ -1,13 +1,13 @@
 declare global {
     interface History {
-        push?: (
+        push?(
             url: string,
             state?: any,
             replaceURL?: boolean | string,
             _skipSetState?: boolean
-        ) => void
+        ): void
         basename?: string
-        updateBasename?: (newBasename: string) => void
+        updateBasename?(newBasename: string): void
     }
 }
 

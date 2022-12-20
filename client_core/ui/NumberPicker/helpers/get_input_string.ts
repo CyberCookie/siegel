@@ -66,7 +66,7 @@ function getInputString(params: Params) {
                     const curPadLength = padEndIndex! - padStartIndex
 
                     if (curPadLength < zeroesPadLeft!) {
-                        const extraZeroes = ('0').repeat(zeroesPadLeft! - curPadLength)
+                        const extraZeroes = '0'.repeat(zeroesPadLeft! - curPadLength)
                         result = result.replace(
                             firstChar,
                             isNegative

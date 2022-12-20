@@ -97,7 +97,7 @@ function Router(props: RouterProps) {
         const lastIndex = childrenDepth - 1
         if (prevChildrenArray[lastIndex].traversePath == childrenArray[lastIndex].traversePath) {
             childrenArray.push({
-                El: (() => '' as any),
+                El: () => '',
                 traversePath: `${childrenArray[lastIndex].traversePath}/`,
                 historyState: null
             })

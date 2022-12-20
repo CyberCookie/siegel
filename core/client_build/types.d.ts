@@ -48,11 +48,11 @@ type BuildConfig = {
     aliases?: Obj<string>
     plugins?: Plugins
     module?: UserRulesData
-    postProcessWebpackConfig?: (
+    postProcessWebpackConfig?(
         webpackConfig: WebpackConfig,
         config: ConfigFinal,
         buildConstants: BuildConstants
-    ) => WebpackConfig
+    ): WebpackConfig
 }
 
 

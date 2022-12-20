@@ -133,11 +133,13 @@ const Input = component<Props, DefaultProps>(
                 }
             }
 
-        } else if ((suffix || prefix) && inputProps.value) {
-            prefix && (inputProps.value = `${prefix}${inputProps.value}`)
-            suffix && (inputProps.value += `${suffix}`)
         }
 
+        if (suffix || prefix) {
+            prefix
+                ?   (inputProps.value = `${prefix}${inputProps.value}`)
+                :   (inputProps.value += `${suffix}`)
+        }
 
         if (!disabled && onChange) {
             isFocused || (inputRootProps.onFocus = e => {
@@ -151,7 +153,13 @@ const Input = component<Props, DefaultProps>(
             })
 
             inputProps.onChange = e => {
-                const value = (e.target as HTMLInputElement).value
+                let { value } = e.target as HTMLInputElement
+                value = prefix
+                    ?   value.substring(prefix.length)
+                    :   suffix
+                        ?   value.substring(0, suffix.length)
+                        :   value
+
                 if (!regexp || regexp.test(value)) {
                     if (debounceStore) {
                         const [{ debounceTimeoutID }, setDebounceState ] = debounceStore
