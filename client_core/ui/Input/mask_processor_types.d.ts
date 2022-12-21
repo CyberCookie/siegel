@@ -1,7 +1,6 @@
 import type { Props } from './types'
 
 
-type Ref = React.MutableRefObject<HTMLInputElement>
 type ClipboardEvent = React.ClipboardEvent<HTMLInputElement>
 type ChangeEvent = React.ChangeEvent<HTMLInputElement>
 type MaskCharData = {
@@ -15,4 +14,4 @@ type MaskCharData = {
 type MaskProcessor = NonNullable<Props['mask']>['processor']
 
 
-export type { Ref, ClipboardEvent, ChangeEvent, MaskCharData, MaskProcessor }
+export type { ClipboardEvent, ChangeEvent, MaskCharData, MaskProcessor }

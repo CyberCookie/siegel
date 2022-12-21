@@ -9,6 +9,7 @@ import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getInputLabeled from '../_internals/label'
+import { setCaretPos } from './utils'
 import componentID from './id'
 
 import type { DivTagAttributes } from '../_internals/types'
@@ -80,6 +81,7 @@ const Input = component<Props, DefaultProps>(
         const isReadonly = !disabled && !onChange
         const isTextarea = type == 'textarea'
         const isError = isExists(errorMsg)
+        const prefixOrSuffix = prefix || suffix
 
         let inputProps: InnerInputAttributes = {
             disabled, placeholder, type,
@@ -89,7 +91,7 @@ const Input = component<Props, DefaultProps>(
                 ?   debounceStore[0].debounceValue
                 :   value
         }
-        if (autofocus || mask) {
+        if (autofocus || mask || prefixOrSuffix) {
             inputProps.ref = useRef() as InputRef
 
             autofocus && useEffect(() => {
@@ -135,7 +137,7 @@ const Input = component<Props, DefaultProps>(
 
         }
 
-        if (suffix || prefix) {
+        if (prefixOrSuffix) {
             prefix
                 ?   (inputProps.value = `${prefix}${inputProps.value}`)
                 :   (inputProps.value += `${suffix}`)
@@ -153,12 +155,23 @@ const Input = component<Props, DefaultProps>(
             })
 
             inputProps.onChange = e => {
-                let { value } = e.target as HTMLInputElement
-                value = prefix
-                    ?   value.substring(prefix.length)
-                    :   suffix
-                        ?   value.substring(0, suffix.length)
-                        :   value
+                const inputEl = e.target as HTMLInputElement
+
+                let { value } = inputEl
+                if (prefixOrSuffix) {
+                    value = prefix
+                        ?   value.substring(prefix.length)
+                        :   value.substring(0, value.length - suffix!.length)
+
+                    const { selectionStart } = inputEl
+                    if (prefix && (selectionStart! < prefix.length)) {
+                        setCaretPos(inputProps.ref! as InputRef, prefix.length)
+                    }
+
+                    if (suffix && (selectionStart! > value.length)) {
+                        setCaretPos(inputProps.ref! as InputRef, value.length)
+                    }
+                }
 
                 if (!regexp || regexp.test(value)) {
                     if (debounceStore) {
