@@ -21,8 +21,8 @@ const Demo = () => {
         <h2 children='with step[0.1] limit[-2 - 10] precision[2] autofocus' />
         <NumberPicker { ...props } step={ 0.1 } min={ -2 } max={ 10 } precision={ 2 } />
 
-        <h2 children='with step[3.5] precision[2] zeroesPadLeft[2]' />
-        <NumberPicker { ...props } step={ 3.5 } precision={ 2 } zeroesPadLeft={ 2 } />
+        <h2 children='with step[3.5] precision[2] zeroesPadLeft[2] suffix[%]' />
+        <NumberPicker { ...props } step={ 3.5 } precision={ 2 } zeroesPadLeft={ 2 } suffix='%' />
 
         <h2 children='disabled input, step[1], label' />
         <NumberPicker { ...props } step={ 1 } disabledInput label='some label' />

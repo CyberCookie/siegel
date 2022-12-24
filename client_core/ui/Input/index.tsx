@@ -160,15 +160,19 @@ const Input = component<Props, DefaultProps>(
                 let { value } = inputEl
                 if (prefixOrSuffix) {
                     value = prefix
-                        ?   value.substring(prefix.length)
-                        :   value.substring(0, value.length - suffix!.length)
-
+                        ?   value.startsWith(prefix)
+                            ?   value.substring(prefix.length)
+                            :   value
+                        :   value.endsWith(suffix!)
+                                ?   value.substring(0, value.length - suffix!.length)
+                                :   value
                     const { selectionStart } = inputEl
+
                     if (prefix && (selectionStart! < prefix.length)) {
                         setCaretPos(inputProps.ref! as InputRef, prefix.length)
                     }
 
-                    if (suffix && (selectionStart! > value.length)) {
+                    if (suffix && (selectionStart! >= value.length)) {
                         setCaretPos(inputProps.ref! as InputRef, value.length)
                     }
                 }
