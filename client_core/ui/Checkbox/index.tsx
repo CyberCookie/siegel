@@ -30,8 +30,7 @@ function modifyRootProps<P extends CheckboxInnerProps | LabelInnerProps | IconWr
 ) {
 
     const {
-        value, disabled, payload, className, theme,
-        onChange, onMouseDown
+        value, disabled, payload, className, theme, onChange, onMouseDown
     } = mergedProps
 
     let modClass = value ? theme._checked : ''

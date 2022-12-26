@@ -7,8 +7,8 @@ const spinner = (
     <svg>
         <defs>
             <linearGradient id='loader-gradient'>
-                <stop offset='0%' stopColor='#2FEBDF'/>
-                <stop offset='100%' stopColor='#17A8FF'/>
+                <stop offset='0%' stopColor='#2FEBDF' />
+                <stop offset='100%' stopColor='#17A8FF' />
             </linearGradient>
         </defs>
 

@@ -12,6 +12,7 @@ import Input, {
     getDefaultState as getDefaultInputStoreState,
     Props as InputProps
 } from '../Input'
+import { setCaretPos } from '../Input/utils'
 import {
     buildInputRegexp, getInputString, getValuePrecision, getStepButtons,
     adjustWithRanges, pretifyInputString, isValidNumberString
@@ -273,6 +274,12 @@ const NumberPicker = component<Props, DefaultProps>(
                             isValidNumberString: false,
                             event, payload, prevValidNumer
                         })
+
+                        if (suffix) {
+                            setCaretPos({
+                                current: event.currentTarget.querySelector('input')!
+                            }, prefix?.length || 0)
+                        }
 
                     } else {
                         const isKeyUp = keyCode == keyCodes.UP

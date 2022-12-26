@@ -61,7 +61,7 @@ const Demo = () => (
     <>
         <h2 children='simple' />
         <Form inputs={ inputs }
-            onSubmit={ () => {console.log('submit')} }/>
+            onSubmit={ () => {console.log('submit')} } />
     </>
 )
 Demo.coreSrcDirName = 'Form'

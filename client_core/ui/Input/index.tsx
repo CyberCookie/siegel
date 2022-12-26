@@ -9,7 +9,7 @@ import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getInputLabeled from '../_internals/label'
-import { setCaretPos } from './utils'
+import { setCaretPos, INPUT_TYPE } from './utils'
 import componentID from './id'
 
 import type { DivTagAttributes } from '../_internals/types'
@@ -159,14 +159,20 @@ const Input = component<Props, DefaultProps>(
 
                 let { value } = inputEl
                 if (prefixOrSuffix) {
+                    const { selectionStart } = inputEl
+                    const { inputType } = e.nativeEvent as InputEvent
+
                     value = prefix
                         ?   value.startsWith(prefix)
                             ?   value.substring(prefix.length)
-                            :   value
+                            :   inputType == INPUT_TYPE.DELETE_FORWARD
+                                ?   value.substring(prefix.length)
+                                :   value
                         :   value.endsWith(suffix!)
                                 ?   value.substring(0, value.length - suffix!.length)
-                                :   value
-                    const { selectionStart } = inputEl
+                                :   inputType == INPUT_TYPE.DELETE_BACKWARD
+                                    ?   value.substring(0, value.length - 1)
+                                    :   value
 
                     if (prefix && (selectionStart! < prefix.length)) {
                         setCaretPos(inputProps.ref! as InputRef, prefix.length)

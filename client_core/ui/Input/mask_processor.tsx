@@ -4,7 +4,8 @@
 import { useState, useEffect } from 'react'
 
 import isExists from '../../../common/is/exists'
-import { setCaretPos } from './utils'
+import * as keyCodes from '../_internals/key_codes'
+import { setCaretPos, INPUT_TYPE } from './utils'
 
 import type { InputRef } from './types'
 import type {
@@ -12,18 +13,9 @@ import type {
 } from './mask_processor_types'
 
 
-const INSERT_TEXT = 'insertText'
-const INSERT_PASTE = 'insertFromPaste'
-const DELETE_BACKWARD = 'deleteContentBackward'
-const DELETE_FORWARD = 'deleteContentForward'
-const DELETE_CUT = 'deleteByCut'
-
-const CODE_UNDO = 'KeyZ'
-const CODE_REDO = 'KeyY'
-const CODE_ARROW_LEFT = 'ArrowLeft'
-const CODE_ARROW_RIGHT = 'ArrowRight'
-const CODE_ARROW_UP = 'ArrowUp'
-const CODE_ARROW_DOWN = 'ArrowDown'
+const {
+    DELETE_BACKWARD, DELETE_CUT, DELETE_FORWARD, INSERT_PASTE, INSERT_TEXT
+} = INPUT_TYPE
 
 const valuePlaceholderCharDefault = ' '
 
@@ -335,7 +327,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             const { history, historyPos } = maskState
 
             let newValue: string | undefined
-            if (code == CODE_UNDO) {
+            if (code == keyCodes.UNDO) {
                 if (historyPos > -1) {
                     ((historyPos + 1) == history.length) && history.push(value)
 
@@ -343,17 +335,17 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                     maskState.historyPos--
                 }
 
-            } else if (code == CODE_REDO) {
+            } else if (code == keyCodes.REDO) {
                 if (historyPos < history.length - 2) {
                     newValue = history[ historyPos + 2 ]
                     maskState.historyPos++
                 }
 
             } else {
-                const isLeft = code == CODE_ARROW_LEFT
-                const isUp = code == CODE_ARROW_UP
-                const isDown = code == CODE_ARROW_DOWN
-                if (isDown || isUp || isLeft || code == CODE_ARROW_RIGHT) {
+                const isLeft = code == keyCodes.LEFT
+                const isUp = code == keyCodes.UP
+                const isDown = code == keyCodes.DOWN
+                if (isDown || isUp || isLeft || code == keyCodes.RIGHT) {
                     e.preventDefault()
                     const { selectionStart, selectionEnd } = e.target as HTMLInputElement
 

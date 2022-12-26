@@ -7,5 +7,13 @@ const setCaretPos = (ref: InputRef, caretPos: number) => (
     })
 )
 
+const INPUT_TYPE = {
+    INSERT_TEXT: 'insertText',
+    INSERT_PASTE: 'insertFromPaste',
+    DELETE_BACKWARD: 'deleteContentBackward',
+    DELETE_FORWARD: 'deleteContentForward',
+    DELETE_CUT: 'deleteByCut'
+}
 
-export { setCaretPos }
+
+export { setCaretPos, INPUT_TYPE }

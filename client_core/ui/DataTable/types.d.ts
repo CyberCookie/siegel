@@ -20,15 +20,37 @@ type DisplayedEntityIDs = {
     allPagesIDs: string[]
 } | undefined
 
+type Entities<_Entity> = {
+    /** Object where key is an entity ID and value is an entity itself */
+    byID: Obj<_Entity>
+
+    /** Sorted entity IDs */
+    sorted: string[]
+}
+
 type StateSortValues = -1 | 1
 type State<_SearchState = any> = {
+    /** Entities sorting params */
     sortByField: {
+        /** Active sorting column ID */
         ID: string | undefined
+
+        /** Sort value */
         value: StateSortValues
     }
+
+    /**
+     * Entities filtering params, where key is column ID and value is filtering value
+     */
     searchByField: Obj<_SearchState | undefined>
+
+    /** Column IDs to be hidden */
     toggledColumns: Set<string>
+
+    /** Number of entities showed per one pagination page */
     showPerPage: number
+
+    /** Current pagination page */
     currentPage: number
 }
 
@@ -40,21 +62,57 @@ type ColumnsConfig<
     _ByID = Obj<_Entity>,
     _Sorted = string[]
 > = {
+    /** Column ID */
     ID: string
+
+    /**
+     * Get display value
+     *
+     * @param entity table entity
+     */
     showValue(entity: _Entity): TableTD
+
+    /**
+     *
+     * @param IDs
+     * @param byID
+     * @param value
+     */
     onSort?(IDs: _Sorted, byID: _ByID, value: number): Sorted
+
+    /**
+     *
+     * @param IDs
+     * @param byID
+     * @param search
+     */
     onFilter?(IDs: _Sorted, byID: _ByID, search: _SearchState): Sorted
+
+    /** */
     label?: React.ReactNode
+
+    /** */
     customParams?: _ColumnParamsExtend
 }
 
 
 type Theme = {
+    /** Root tag state if footer is applied */
     _with_footer?: string
+
+    /** Underlaying table tag */
     table?: string
+
+    /** Children element */
     children?: string
+
+    /** Data table column resizers elemnts */
     table_resizer?: string
+
+    /** Pagination wrapper element */
     pagination_wrapper?: string
+
+    /** Applied to pagination wrapper if there is only one page in pagination */
     pagination_single_page?: string
 }
 
@@ -63,16 +121,21 @@ type Props<
     _ColumnParamsExtend = any,
     _SearchState = any
 > = PropsComponentThemed<Theme, {
-    entities: {
-        byID: Obj<_Entity>
-        sorted: string[]
-    }
+    /** Data table entities to be listed */
+    entities: Entities<_Entity>
+
+    /** Data table columns configurations */
     columnsConfig: ColumnsConfig<_Entity, _ColumnParamsExtend, _SearchState>[]
-    pinnedEntities?: {
-        byID: Obj<_Entity>
-        sorted: string[]
-    }
+
+    /**
+     * Data table entitites that always appear on top of the table.
+     * The entities can't be filtered out
+     */
+    pinnedEntities?: Entities<_Entity>
+
+    /** Data table inner store */
     store?: ReactStore<State<_SearchState>>
+
     rootTagAttributes?: CoreUIReactTagAttributes<
         HTMLDivElement,
         Omit<React.HTMLAttributes<HTMLDivElement>, 'onScroll'>
