@@ -6,37 +6,44 @@ Input field to type text into<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
 - `refApi`
-
-- `inputAttributes`
-    - **input** tag attributes<br /><br />
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `_filled`
-        - Text field is not empty
+        - Root tag state if input is not empty
+    - `_error`
+        - Root tag state if `props.errorMsg` is defined
+    - `_disabled`
+        - Root tag state if Input `props.disabled` is true
     - `_focused`
-        - Text field is in focus
+        - Root tag state if Input component is focused
     - `_touched`
         - Applied to root tag if there was an interaction with input field, like focus
-    - `_error`
-        - Input has errors
     - `_readonly`
-        - Inpt is in **readonly** mode
-    - `_disabled`
-        - Input is disabled
+        - Root tag state if no `props.onChange` handler provided
+    - `_textarea`
+        - Root tag state if props.type is textarea
+    - `children`
+        - `props.children` element
     - `label`
+        - Input label wrapper
     - `label_text`
+        - Input label text
     - `field`
+        - Input tag
     - `error_text`
-    - `textarea`
-        - Applied to input field if **props.type** is **textarea**
-    - `children`<br /><br />
+        - Error text<br /><br />
+
+- `children`
+    - Any children element to be rendered next to input tag element
+    - **React.ReactNode**<br /><br />
 
 - `value`
     - Input value
@@ -44,91 +51,96 @@ Input field to type text into<br />
 
 - `store`
     - **Static**
-    - Store, created with **React.useState** store, to be used in data table
+    - Inner store
     - State is an **Object** with the next fields:
-        - `isTouched` - if input has been focused at least one time
-        - `isFocused` - if input is focused
+        - `isTouched` - If input been focused at least once
+        - `isFocused` - If currently focused
     - Component exports `getDefaultState` function to init outer store's state<br /><br />
 
 - `disabled`
-    - Disables input field
+    - Disables Input component
     - **Boolean**<br /><br />
 
 - `autofocus`
     - **Static**
-    - Focuses input field on first render
+    - Autofocus Input component on first render
     - **Boolean**<br /><br />
 
 - `placeholder`
-    - Input field placeholder
+    - Input tag placeholder
     - **String**<br /><br />
 
+- `rootTagAttributes`
+    - **div** tag attributes<br /><br />
+
+- `inputAttributes`
+    - **input** tag attributes<br /><br />
+
 - `label`
-    - Input field label
+    - Input label text
     - **React.ReactNode**<br /><br />
 
 - `errorMsg`
-    - Error message to be displayed near input field
+    - Error text
     - **React.ReactNode**<br /><br />
 
 - `type`
-    - Input field type
+    - Input tag type
     - **'input' | 'textarea' | 'password' | 'color' | 'date' | 'week' | 'month' | 'time' | 'datetime-local'**<br /><br />
 
 - `payload`
-    - Data to be passed to **props.onChange** handler
+    - Any data to be returned in `props.onChange` callback
     - **Any**<br /><br />
 
 - `regexp`
-    - Input field regexp validator
+    - Input value regexp
     - **RegExp**<br /><br />
 
 - `debounceMs`
     - **Static**
-    - Set onChange debounce miliseconds
+    - Provides delay after which props.onChange is triggers
     - **Number**<br /><br />
 
 - `prefix`
-    - **String**
-    - Value to be applied to input string before if input is not in focus
+    - Input value to be applied before `props.value`
+    - **String**<br /><br />
 
 - `suffix`
-    - **String**
-    - Value to be applied to input string after if input is not in focus
+    - Input value to be applied after `props.value`
+    - **String**<br /><br />
 
 - `mask`
-    - Applies mask to input field
+    - Applies input mask
     - **Object** with the next fields:
-        - `pattern` - **Required** **String**. Mask pattern
-        - `patterValueChar` - **Required** **Char**. Specify what char in the pattern is value, when editing
-        - `processor` - **Required**. Mask processor. Imported separately in order to reduce component size
+        - `pattern` - **Required** **String**. Provides string pattern to describe a mask
+        - `patterValueChar` - **Required** **Char**. Pattern char to be replaced with `props.value` chars
+        - `processor` - **Required**. Mask processor you should import from Input component and apply separately
         - `valuePlaceholderChar`
-            - Specify what char in the pattern represents empty value
+            - Char to be placed instead empty `props.value` chars
             - **Char**
             - Default is **' '** (empty space)
         - `shiftNextChar`
-            - Determines behavior when we input value before existing one. If **false** then next value is replasing by new one
+            - Whether to shift next chars during typing
             - **Boolean**
             - Default is **true**
-        - `copyMask` - **Boolean**. Whether to copy full mask or only its value<br /><br />
-
-- `onBlur`
-    - Triggered when input field loses focus<br />
-    **Function**  has **1** argument:
-        - **event** - **React.FocusEvent**<br /><br />
-
-- `onFocus`
-    - Triggered when input field gets focus
-    - **Function** has **1** argument:
-        - **event** - **React.FocusEvent**<br /><br />
+        - `copyMask` - **Boolean**. Whether to copy the whole mask or only `props.value` when perform ctrl+c on input<br /><br />
 
 - `onChange`
-    - Triggered on input field change and when field loses focus<br />
-        Input will have _read mode_ If no **props.onChange** handler is specified 
+    - Triggered when user updates input value 
     - **Function** has **3** arguments:
         - **value** - **String**. New **Input** value
         - **event** - **React.ChangeEvent | React.KeyboardEvent**
-        - **payload** - **props.payload**
+        - **payload** - **props.payload**<br /><br />
+
+- `onBlur`
+    - Triggered when Input component lost its focus<br />
+    - **Function**  has **1** argument:
+        - **event** - **React.FocusEvent**<br /><br />
+
+- `onFocus`
+    - Triggered when Input component takes focus
+    - **Function** has **1** argument:
+        - **event** - **React.FocusEvent**
 
 
 </br>

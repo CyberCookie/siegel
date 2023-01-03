@@ -4,6 +4,13 @@ import isExists from '../../is/exists'
 type Key = string | number
 
 
+/**
+ * To set property deeply into an object
+ *
+ * @param iterable Object to set value to
+ * @param path Path to to set value by
+ * @param value Value to set by provided path
+ */
 function deepSet(iterable: any[] | Obj, path: Key[] | Key, value: any): void {
     let link: Obj = iterable
     const pathSequence = Array.isArray(path) ? path : [ path ]

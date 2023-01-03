@@ -232,5 +232,5 @@ const Ranger = component<Props, DefaultProps>(
 
 
 export default Ranger
-export { componentID }
+export { componentID, rangerCrossTypesMap }
 export type { Component, Props }

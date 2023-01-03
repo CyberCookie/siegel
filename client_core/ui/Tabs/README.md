@@ -6,49 +6,60 @@ Provides content distributed for each tab specified<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
-- `children`
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `children`
+        - `props.children` element
     - `labels_wrapper`
+        - Wraps all the tabs labels
     - `label`
+        - Tab label
     - `label__active`
         - Active tab's label
     - `content`
+        - Tab content
     - `content__empty`
-        - If tab content is empty<br /><br />
+        - Tab content state if there is no content defined<br /><br />
 
 - `tabs`
     - Represents each tab data
     - **Object[]**. Each **Object** has the next fields:
-        - `id` - **String**. Tab ID should match **props.activeTab** in order to render this tab content
+        - `id` - **String**. Tab ID
         - `label` - **React.ReactNode**. Tab label content
         - `content` - **React.ReactNode | (() => React.ReactNode)**<br />
             Tab content
-        - `payload` - **Any**. Data to be passed to **props.onChange** if this tab was selected<br /><br />
-
-- `activeTab`
-    - ID of tab to show
-    - **String**<br /><br />
+        - `payload` - **Any**. Data to be passed to **props.onChange** callback<br /><br />
 
 - `onChange`
-    - **Function** that is triggered when tab is selected. Has **3** arguments:
+    - Triggered when tab is selected
+    - **Function** Has **3** arguments:
         - **id** - **String**. Selected tab ID
         - **event** - **React.MouseEvent<HTMLDivElement>**
-        - **payload** - **Any**. Selected tab payload<br /><br />
+        - **payload** - **Any**. Payload to be passed to `props.onChange` callback<br /><br />
+
+- `children`
+    - Children content to be rendered at the root level
+    - **React.ReactNode**<br /><br />
 
 - `renderAll`
-    - Whether to render all tabs at one time. Only actie tab will be displayed though
+    - Whether to render all tabs at one time. Only active tab will be displayed though
     - **Boolean**<br /><br />
 
 - `showEmpty`
-    - Renders content wrapper if it empty
-    - **Boolean**
+    - Renders content wrapper if it's empty
+    - **Boolean**<br /><br />
+
+- `activeTab`
+    - Active tab ID
+    - **String**<br /><br />
+
+- `rootTagAttributes`
+    - **div** tag attributes

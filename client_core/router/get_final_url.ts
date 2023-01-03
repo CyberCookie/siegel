@@ -1,3 +1,5 @@
+const SLASH = '/'
+
 function getFinalURL(curUrl: string, urlPart: string) {
     let result
     if (urlPart) {
@@ -6,25 +8,25 @@ function getFinalURL(curUrl: string, urlPart: string) {
         if (firstCharUrlPart == '!') {
             const newPathPart = urlPart.substring(1)
 
-            const urlArray = curUrl.split('/')
+            const urlArray = curUrl.split(SLASH)
             newPathPart
                 ?   (urlArray[ urlArray.length - 1 ] = newPathPart)
                 :   urlArray.pop()
 
-            result = urlArray.join('/') || '/'
+            result = urlArray.join(SLASH) || SLASH
 
         } else {
-            result = firstCharUrlPart == '/'
+            result = firstCharUrlPart == SLASH
                 ?   urlPart
-                :   `${curUrl}/${urlPart}`
+                :   `${curUrl}${SLASH}${urlPart}`
         }
 
-    } else result = '/'
+    } else result = SLASH
 
 
     const { basename } = history
     if (basename && !result.startsWith(basename)) {
-        result = `${basename}${ result == '/' ? '' : result }`
+        result = `${basename}${ result == SLASH ? '' : result }`
     }
 
 

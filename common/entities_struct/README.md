@@ -15,7 +15,7 @@ Returns **Object** to perform CRUD operations with entities:
     Receives **1** paramenter:
         - **entity** - **Object**. Entity **Object** to add
 
-- `addAll` - **Function**. Same as `addOrUpdate`, but receives **Object[]** entities<br />
+- `addAll` - **Function**. to populate struct with multiple entities<br />
     Returns **Entities** struct
 
 - `get` - **Function** to get an entity by given **uniq field**. Returns **Entity**

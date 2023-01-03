@@ -21,14 +21,28 @@ type ServerExtenderFn = (
 
 
 type ServerConfig = {
+    /** User defined server to extend the one created by Siegel */
     appServer?: ServerExtenderFn
+
+    /** Static server host */
     host?: string
+
+    /** Static server port */
     port?: number
+
+    /** Whether to use HTTP2 protocol */
     http2?: boolean
+
+    /** SSL params to establish secure connection */
     ssl?: {
+        /** Path to ssl private key */
         keyPath: string
+
+        /** Path to signed certificate */
         certPath: string
     }
+
+    /** Compressed files lookup order */
     serveCompressionsPriority?: readonly string[]
 }
 

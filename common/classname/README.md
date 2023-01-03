@@ -5,7 +5,7 @@ Builds element className regarding to passed conditions
 <br />
 
 Receives **2** parameters:
-- **initial class name** - **String**. Class name to concatenate new classes to
+- **initial class name** - **String**. Class name to concatenate new classes with
 - **Classes object** - **Object** where key is a class name to apply<br />
     and value is a condition to determine whether to apply this class name to **initial class name**
 

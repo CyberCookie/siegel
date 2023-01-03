@@ -6,8 +6,13 @@ import type {
 
 
 type Config = {
+    /** Client build output dir and static server public dir */
     publicDir?: string
+
+    /** Webpack params */
     build?: BuildConfig
+
+    /** Static server params */
     server?: ServerConfig
 } | string
 
@@ -25,8 +30,13 @@ type ConfigFinal = {
 
 
 type RunParams = {
+    /** Should run server to host client */
     isServer?: boolean
+
+    /** Should perform client build */
     isBuild?: boolean
+
+    /** Is production mode */
     isProd?: boolean
 }
 

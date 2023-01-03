@@ -48,8 +48,13 @@ type RouterStore = ReactStore<RouterState>
 
 
 type Transition = {
+    /** Transition duration in ms. */
     duration: number
+
+    /** ClassName to be applied to a wrapper that wraps previous and next pages */
     wrapperClassName?: string
+
+    /** Whether to perform transition if same page but different history states */
     performOnHistoryStateChange?: boolean
 }
 
@@ -81,16 +86,39 @@ type RedirectToPathObj = {
 
 
 type RouteConfigAllFields<_WithPageExtend = {}> = {
+    /** Page to render */
     Page: Page | LazyPage
-    paramName: string
+
+    /** React component to wrap all the children pages */
     Layout: Layout | LazyLayout
-    children: RoutesConfig<_WithPageExtend>
+
+    /** Component to display while Page or Layout is lazy loading */
     fallback: React.ReactNode
+
+    /**
+     * Executes before first page render
+     *
+     * @param URLparams Object with parsed url params
+     */
     onEnter(URLparams: URLparams): any
+
+    /** Triggered before current component was replaced with another one */
     onLeave(): void
-    transition: false | Transition
-    permissions: boolean | ((urlParams: URLparams) => boolean)
+
+    /** URL parameter name in dynamic route */
+    paramName: string
+
+    /** Path to redirect to if current route URL was matched */
     redirectTo: RedirectToPathObj | RedirectToPathGetter | RedirectToPath
+
+    /** Defines children transition params or disables global ones for the nested children */
+    transition: false | Transition
+
+    /** Specify whether user has permissions to visit this page */
+    permissions: boolean | ((urlParams: URLparams) => boolean)
+
+    /** Nested routes config */
+    children: RoutesConfig<_WithPageExtend>
 }
 
 
@@ -172,9 +200,16 @@ type RoutesConfig<_WithPageExtend = {}> = Obj<
 
 
 type RouterProps = {
+    /** Routes config */
     children: RoutesConfig
+
+    /** React component to wrap all the children pages */
     Layout?: Layout
+
+    /** URL path prefix */
     basename?: string
+
+    /** Defines global cross pages transition params */
     transition?: Transition
 }
 

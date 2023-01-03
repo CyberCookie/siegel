@@ -12,7 +12,7 @@ type Props = PropsComponentBase<{
     /** Button content */
     value?: React.ReactNode
 
-    /** Is button disabled */
+    /** Disables button */
     disabled?: ButtonAttributes['disabled']
 
     /** Click handler  */

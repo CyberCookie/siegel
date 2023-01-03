@@ -6,23 +6,32 @@ Simple two positioned toggle<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `_toggled`
-        - If toggled
+        - Root tag state if Toggle is toggled
     - `_disabled`
-        - If disabled
+        - Root tag state if Toggle is disabled
     - `children`
+        - `props.children` element
     - `label`
+        - Toggle labels element
     - `toggle_area`
-    - `toggler`<br /><br />
+        - Toggle area element which keeps toggler element
+    - `toggler`
+        - Toggler element<br /><br />
+
+- `children`
+    - Children element to be rendered at the root level
+    - **React.ReactNode**
 
 - `value`
     - **Toggle** value
@@ -41,19 +50,23 @@ Simple two positioned toggle<br />
     - **React.ReactNode**<br /><br />
 
 - `payload`
-    - Payload to be passed to **props.onChange** handler
+    - Payload to be passed to **props.onChange** callback
     - **Any**<br /><br />
 
 - `disabled`
     - Disables **Toggle**
     - **Boolean**<br /><br />
 
-- `onMouseDown`
-    - On root tag mousedown event. May prevent inner default onMouseDown event
-    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLDivElement>**
-
 - `onChange`
-    - **Function** that is triggered when **Toggle** change it's value. Has **3** arguments:
+    - Triggered when user change **Toggle** value
+    - **Function** Has **3** arguments:
         - **value** - **Boolean**. New **Toggle** value
         - **event** - **React.MouseEvent<HTMLDivElement>**
-        - **payload** - **Any**. **props.payload**
+        - **payload** - **Any**. **props.payload**<br /><br />
+
+- `onMouseDown`
+    - Root tag mousedown event handler. May prevent inner default onMouseDown event
+    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLDivElement>**<br /><br />
+
+- `rootTagAttributes`
+    - **div** tag attributes

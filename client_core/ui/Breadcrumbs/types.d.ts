@@ -49,7 +49,7 @@ type BreadcrumbConfig = {
 
 
 type Theme = {
-    /** Each bread crumb */
+    /** Each breadcrumb */
     crumb?: string
 }
 
@@ -58,7 +58,7 @@ type Props = PropsComponentThemed<Theme, {
     config: BreadcrumbConfig
 
     /**
-     * Triggers when crumb link beem clicked
+     * Triggers when crumb link is clicked
      *
      * @param fullPath Full crumb path
      * @param pathPart Pathname key from config

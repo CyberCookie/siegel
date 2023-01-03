@@ -56,22 +56,32 @@ All the fields are optional since many of them are already defined in core  defa
     build: {
         input: {
             /*
-                Path to react application entrypoint.
+                List of directories and/or files to be processed by webpack's loaders
+            */
+            include: String[],
+            
+            /*
+                List of directories and/or files to exclude from being processed by webpack's loaders
+            */
+            exclude: String[]
+
+            /*
+                Path to react application entrypoint
                 Default is: [cwd]/app.ts)
             */
             js: String,
 
-            /* Path to service worker. */
+            /* Path to service worker */
             sw: String,
 
             /*
-                Path to site entrypoint.
+                Path to site entrypoint
                 Default is: [cwd]/client/index.html ( App container div's id = root )
             */
             html: String || HTMLWebpackPlugin::options || (defaultConfig) => updatedConfig,
 
             /*
-                CopyWebpackPlugin assets path.
+                CopyWebpackPlugin assets path
                 If specified as string then it will be transformed to
                 [{
                     from: copyFilesDir,
@@ -81,31 +91,20 @@ All the fields are optional since many of them are already defined in core  defa
             copyFiles: String || CopyWebpackPlugin::options::patterns,
 
             /*
-                Path to styles files which will be included in every other styles file.
-                (Usefull for variables / mixins).
+                Path to styles files which will be included in every other styles file
+                (Usefull for variables / mixins)
             */
             sassResources: String,
-
 
             /*
                 Enables svg2icon postcss plugin and set rootPath relatively to which icon paths will be resolved
             */
             iconsRoot:String
-
-            /*
-                List of directories and/or files to be processed by webpack's loaders.
-            */
-            include: String[],
-            
-            /*
-                List of directories and/or files to exclude from being processed by webpack's loaders.
-            */
-            exclude: String[]
         },
 
         output: {
             /*
-                target EcmaScript version.
+                target EcmaScript version
                 Default is: es2020
             */
             target: String,
@@ -119,7 +118,7 @@ All the fields are optional since many of them are already defined in core  defa
             /* Output files naming format */
             filenames: {
                 /*
-                    In runtime there will be only PROD or DEV fields, depending on selected mode.
+                    In runtime there will be only PROD or DEV fields, depending on selected mode
                 */ 
                 PROD: {
                     assets: String          // Default is: assets/[contenthash][ext]
@@ -136,12 +135,14 @@ All the fields are optional since many of them are already defined in core  defa
                     js_chunk: String        // Default is: chunk.[name][contenthash].js
                     styles: String          // Default is: styles.[name].css
                     styles_chunk: String    // Default is: chunk.[name].css
+                    brotli: String          // Default is: [base].br
+                    gzip: String            // Default is: [base].gz
                 }
             }
         }
 
         /* 
-            Enables ESlint.
+            Enables ESlint
             Default false
         */
         eslint: Boolean || ESLintWebpackPlugin::options || (defaultConfig) => updatedConfig,
@@ -151,21 +152,21 @@ All the fields are optional since many of them are already defined in core  defa
         aliases: Object,
 
         /*
-            Webpack plugins config.
+            Webpack plugins config
             Plugins configuration topic is further
         */
         plugins: Object,
 
         /*
-            Webpack loaders config.
+            Webpack loaders config
             Modules configuration topic is further
         */
         modules: Object,
 
         /*
-            Use it to postprocess the final webpack config before being passed to webpack.
+            Postprocess the final webpack config before being passed to webpack
             Receives webpack config as a first parameter, siegel config as a second and
-            build constants (build dependencies, plugin/loader keys) as third.
+            build constants (build dependencies, plugin/loader keys) as third
         */
         postProcessWebpackConfig: Function
     }

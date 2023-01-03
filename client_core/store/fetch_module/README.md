@@ -12,13 +12,13 @@ const { addToReqQueue, removeFromReqQueue, addToErrRes } = fetchModule.store.act
 
 setup({
     beforeRequest(req) {
-        addToReqQueue(req.initialURL) // add request url to request queue
+        addToReqQueue(req.initialURL) // add request URL to request queue
     },
     afterRequest(req) {
         /*
             success.
-            First parameter: url to remove from request queue
-            Second parameter: indicates whether to cleanup errors, matched with this url, Default: false
+            First parameter: URL to remove from request queue
+            Second parameter: indicates whether to cleanup errors, matched with this URL, Default: false
         */
         removeFromReqQueue(req.initialURL, true)
     },

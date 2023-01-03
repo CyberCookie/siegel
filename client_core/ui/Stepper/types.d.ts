@@ -13,23 +13,47 @@ type State = {
 }
 
 type Option = {
+    /** Option value */
     value: string
+
+    /** Label text */
     label?: React.ReactNode
+
+    /** Option label className */
     className?: string
+
+    /** Some data to store for later usege */
     payload?: any
 }
 
 
 type Theme = {
+    /** Wraps all dragable anchors */
     anchors_wrapper?: string
+
+    /** Draggable anchors */
     anchor?: string
+
+    /** Anchor state if included in selection range */
     anchor__active?: string
+
+    /** Wraps provided children with children passed to Ranger component */
     children_wrapper?: string
 }
 
 type Props = PropsComponentThemed<Theme, {
+    /** Stepper anchors tied to specific option */
     value: string[]
+
+    /** Stepper option labels on top of Ranger component */
     options: Option[]
+
+    /**
+     * Triggered when Stepper value is change
+     *
+     * @param values change values
+     * @param event mouseclick event
+     */
     onChange?(
         values: {
             value: Option['value']
@@ -37,17 +61,39 @@ type Props = PropsComponentThemed<Theme, {
         }[],
         event: Parameters<RangerProps['onChange']>[1]
     ): void
-    rangerTheme?: RangerProps['theme']
-    rangerMemoDeps?: RangerProps['memoDeps']
-    onRangePickStart?: RangerProps['onRangePickStart']
-    onRangePickFinish?: RangerProps['onRangePickFinish']
-    rangersCrossBehavior?: RangerProps['rangersCrossBehavior']
-    rangePickIcon?: RangerProps['rangePickIcon']
-    refApi?: RangerProps['refApi']
-    isVertical?: RangerProps['isVertical']
-    label?: RangerProps['label']
-    disabled?: RangerProps['disabled']
+
+    /** Stepper children element passed to Ranger along with stepper labels */
     children?: React.ReactNode
+
+    /** Underlaying Ranger component props.theme */
+    rangerTheme?: RangerProps['theme']
+
+    /** Underlaying Ranger component props.memoDeps */
+    rangerMemoDeps?: RangerProps['memoDeps']
+
+    /** Underlaying Ranger component props.onRangePickStart */
+    onRangePickStart?: RangerProps['onRangePickStart']
+
+    /** Underlaying Ranger component props.onRangePickFinish */
+    onRangePickFinish?: RangerProps['onRangePickFinish']
+
+    /** Underlaying Ranger component props.rangersCrossBehavior */
+    rangersCrossBehavior?: RangerProps['rangersCrossBehavior']
+
+    /** Underlaying Ranger component props.rangePickIcon */
+    rangePickIcon?: RangerProps['rangePickIcon']
+
+    /** Underlaying Ranger component props.refApi */
+    refApi?: RangerProps['refApi']
+
+    /** Underlaying Ranger component props.isVertical */
+    isVertical?: RangerProps['isVertical']
+
+    /** Underlaying Ranger component props.label */
+    label?: RangerProps['label']
+
+    /** Underlaying Ranger component props.disabled */
+    disabled?: RangerProps['disabled']
 }>
 
 type DefaultProps = NonNullableProps<{

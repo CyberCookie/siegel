@@ -9,45 +9,97 @@ import type { UserRulesData } from './module_rules/types'
 type BuildConstants = typeof import('./constants.js')
 
 
-type FilenamesCommon = {
+type Filenames = {
+    /** Assets filename */
     assets?: string
+
+    /** Main js filename */
     js?: string
+
+    /** JS chunk filename */
     js_chunk?: string
+
+    /** Main styles filename */
     styles?: string
+
+    /** Styles chunk filename */
     styles_chunk?: string
-}
-type FilenamesProd = {
+
+    /** Brotli compressed filename */
     brotli?: string
+
+    /** GZIP compressed filename */
     gzip?: string
-} & FilenamesCommon
+}
 
 
 
 type BuildConfig = {
     input?: {
+        /** List of directories and/or files to be processed by webpack's loaders */
         include?: string[]
+
+        /** List of directories and/or files to exclude from being processed by webpack's loaders */
         exclude?: string[]
 
+        /** Path to react application entrypoint */
         js?: string
+
+        /** Path to service worker */
         sw?: string
+
+        /** Path to site entrypoint */
         html?: HTMLWebpackPluginOptions | NonNullable<HTMLWebpackPluginOptions['template']>
+
+        /** CopyWebpackPlugin assets path */
         copyFiles?: CopyWebpackPluginOptions['patterns'] | string
 
-        iconsRoot?: string
+        /** Path to styles files which will be included in every other styles file */
         sassResources?: string
+
+        /** Enables svg2icon postcss plugin and set rootPath relatively to which icon paths will be resolved */
+        iconsRoot?: string
     }
+
     output?: {
+        /** target EcmaScript version */
         target?: string
+
+        /** Webpack publicPath */
         publicPath?: NonNullable<WebpackConfig['output']>['publicPath']
+
+        /**
+         * Output files naming format
+         * In runtime there will be only PROD or DEV fields, depending on selected mode
+         * */
         filenames?: {
-            PROD?: FilenamesProd
-            DEV?: FilenamesCommon
+            /** Production mode filenames */
+            PROD?: Filenames
+
+            /** Development mode filenames */
+            DEV?: Filenames
         }
     }
+
+    /** Enables ESlint */
     eslint?: boolean
+
+    /** Webpack aliases */
     aliases?: Obj<string>
+
+    /** Webpack plugins config */
     plugins?: Plugins
+
+    /** Webpack loaders config */
     module?: UserRulesData
+
+    /**
+     * Postprocess the final webpack config before being passed to webpack
+     *
+     * @param webpackConfig Webpack config
+     * @param config Siegel config
+     * @param buildConstants Build constants
+     */
     postProcessWebpackConfig?(
         webpackConfig: WebpackConfig,
         config: ConfigFinal,
@@ -96,5 +148,5 @@ type BuildConfigFinal = {
 export type {
     BuildConstants,
     BuildConfig, BuildConfigDefault, BuildConfigFinal, BuildConfigsMerged,
-    FilenamesCommon, FilenamesProd
+    Filenames
 }

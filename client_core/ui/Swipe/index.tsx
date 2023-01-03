@@ -32,10 +32,7 @@ const Swipe = component<Props, DefaultProps>(
             onSwipe, onTouchStart, onMouseDown
         } = props
 
-        let swipeRootAttributes: DivTagAttributes = {
-            className,
-            children
-        }
+        let swipeRootAttributes: DivTagAttributes = { className, children }
         _isTouchScreen
             ?   (swipeRootAttributes.onTouchStart = onMouseDownInner)
             :   (swipeRootAttributes.onMouseDown = onMouseDownInner)

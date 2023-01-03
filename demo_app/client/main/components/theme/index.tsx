@@ -22,7 +22,7 @@ import _Table, { Props as TableProps } from 'siegel-ui/Table'
 import _Tabs, { Props as TabsProps } from 'siegel-ui/Tabs'
 import _Toggle, { Props as ToggleProps } from 'siegel-ui/Toggle'
 import Swipe, { Props as SwipeProps } from 'siegel-ui/Swipe'
-import _Ranger, { Props as RangerProps } from 'siegel-ui/Ranger'
+import _Ranger, { Props as RangerProps, rangerCrossTypesMap } from 'siegel-ui/Ranger'
 import _Stepper, { Props as StepperProps } from 'siegel-ui/Stepper'
 
 
@@ -162,7 +162,7 @@ const Radio = withDefaults(_Radio, {
 
 const Ranger = withDefaults(_Ranger, {
     theme: rangerTheme,
-    rangersCrossBehavior: 'cross'
+    rangersCrossBehavior: rangerCrossTypesMap.cross
 })
 
 

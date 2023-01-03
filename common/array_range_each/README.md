@@ -10,7 +10,7 @@ Receives **4** parameters:
     By default iterates from the beginning
 - **to** - **Number**. Index to iterate to<br />
     By default iterates till the end
-- **callback** - **Function** to xecute on each step
+- **callback** - **Function** to execute on each step
     - Has **2** arguments:
         - **element** - **Any**. Array element
         - **index** - **Number**. Array element index

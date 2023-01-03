@@ -1,15 +1,6 @@
 import React from 'react'
 
-
-type Props = {
-    onError?(err: Error): void
-    getUIErrorText?(err: Error): React.ReactNode
-    children: React.ReactNode
-}
-
-type State = {
-    err: Error | null
-}
+import type { Props, State } from './types'
 
 
 const componentID = '-ui-error_boundary'

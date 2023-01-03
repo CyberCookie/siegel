@@ -6,7 +6,7 @@ import type {
 import type { BasePluginOptions as CompressionWebpackPluginOptions } from 'compression-webpack-plugin'
 import type { PluginOptions as CopyWebpackPluginOptions } from 'copy-webpack-plugin'
 import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
-import type { FilenamesProd, FilenamesCommon, BuildConfig } from '../types'
+import type { Filenames, BuildConfig } from '../types'
 import type { SwPluginClassCtor, SwPluginOptions } from './plugin_sw'
 
 
@@ -158,7 +158,7 @@ type DefaultPlugins = readonly {
         instances: {
             br: {
                 options: {
-                    filename: NonNullable<FilenamesProd['brotli']>
+                    filename: NonNullable<Filenames['brotli']>
                     algorithm: string
                     compressionOptions: {
                         level: number
@@ -167,7 +167,7 @@ type DefaultPlugins = readonly {
             }
             gzip: {
                 options: {
-                    filename: NonNullable<FilenamesProd['gzip']>
+                    filename: NonNullable<Filenames['gzip']>
                 } & CompressionInstanceCommonOptions
             }
         }
@@ -192,8 +192,8 @@ type DefaultPlugins = readonly {
         enabled: boolean
         options: {
             experimentalUseImportModule: boolean
-            filename: NonNullable<FilenamesCommon['styles']>
-            chunkFilename: NonNullable<FilenamesCommon['styles_chunk']>
+            filename: NonNullable<Filenames['styles']>
+            chunkFilename: NonNullable<Filenames['styles_chunk']>
         }
     }
 

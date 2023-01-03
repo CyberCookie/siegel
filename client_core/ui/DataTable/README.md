@@ -10,31 +10,32 @@ Configurable and flexible data grid to manage big amount of data, built on top o
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
-- `children`
-
 - `refApi`
-
-- `tableAttributes`
-    - **table** tag attributes<br /><br />
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `_with_footer`
-        - Applied if **DataTable** has footer
-    - `children`
+        - Root tag state if footer is applied
     - `table`
+        - Underlaying table tag
+    - `children`
+        - `props.children` element
     - `table_resizer`
+        - Data table column resizers elemnts
+    - `pagination_wrapper`
+        - Pagination wrapper element
     - `pagination_single_page`
-    - `pagination_wrapper`<br /><br />
+        - Applied to pagination wrapper if there is only one page in pagination<br /><br />
 
 - `entities`
     - **Required**
-    - Data table entities
+    - Data table entities to be listed
     - **Object** with the next fields:
         - `byID` - **Object**. represents all the entities where key is an entity uniq ID<br />
             and value as an entity itself
@@ -42,100 +43,108 @@ Configurable and flexible data grid to manage big amount of data, built on top o
 
 - `columnsConfig`
     - **Required**
-    - Data table columns config. Each array elelemt represents one column. Table column index mathches with column config index
+    - Data table columns configurations
     - **Object[]** with the next fields:
-        - `ID` - **Required** **String**. Column ID used in store manipulations
-        - `label` - Column label showiing in table header cell
-        - `customParams` - **Any**. some data you may use in extended dataTable
-        - `showValue` - **Required** **Function**. Triggers for each entity to be displayed in a **DataTable**
+        - `ID` - **Required** **String**. Column ID
+        - `label` - **React.ReactNode**. Column TH tag text
+        - `customParams` - **Any**. Any custom params you may extend column config with
+        - `showValue` - **Required** **Function**. TGet display value
             - Has **1** argument:
-                - **entity** - **Object**. Represents each entity stored in **props.entities.byID**
+                - **entity** - **Object**. table entity
             - Returns **TableTD**
-        - `onSort` - **Function**. Specify how this column should be sorted
+        - `onSort` - **Function**. Sorts list of entities by sorting their IDs
             - Has **3** arguments:
-                - **IDs** - **props.entities.sorted**
-                - **byID** - **props.entities.byID**
-                - **value** - **Number**. Sort vakue
+                - **IDs** - **props.entities.sorted**. entities IDs array
+                - **byID** - **props.entities.byID**. entities hashtable where key is entity ID and value is entity
+                - **value** - **Number**. sorting value
             - Returns IDs: **String[]**
-        - `onFilter` - **Function**. Specify how this column should be filtered
+        - `onFilter` - **Function**. Filters list of entities by filtering out their IDs
             - Has **3** arguments:
-                - **IDs** - **props.entities.sorted**
-                - **byID** - **props.entities.byID**
-                - **search** - **Any**. Column filter value<br /><br />
+                - **IDs** - **props.entities.sorted**. entities IDs array
+                - **byID** - **props.entities.byID**. entities hashtable where key is entity ID and value is entity
+                - **search** - **Any**. search value you put into DataTable store<br /><br />
 
 - `pinnedEntities`
-    - Data table pinned entities are pinned to the top of rendered entity list<br />
-    Pinned entities can't be filtered and they are always present on any paginator page<br />
-    Number of entities showed per paginator page is increaed by the number of pinned entities
-    - **Object** - same structure as `props.entities`
+    - Data table entitites that always appear on top of the table.<bt />
+        The entities can't be filtered out
+    - **Object** - same structure as `props.entities`<br /><br />
 
 - `store`
     - **Static**
-    - Store, created with **React.useState** store, to be used in **DataTable**
+    - Data table inner store
     - State is an **Object** with the next fields:
-        - `sortByField` - **Object** with the next fields:
-            - `ID` - **String | undefined** - column ID to apply sorting to
+        - `sortByField` - **Object**. Entities sorting params. Has the next fields:
+            - `ID` - **String | undefined** - Active sorting column ID
             - `value` - **Number** - sort value **-1 | 0 | 1**
-        - `searchByField` - **Object** where key is column ID and value is **Any**
-        - `toggleColumns` - **Set<props.columnsConfig.ID>**. Using to toggle specified columns
-        - `showPerPage` - **Number**. Quantity of items showing per one page
-        - `currentPage` - **Number**. Current selected page<br /><br />
+        - `searchByField` - **Object** Entities filtering params, where key is a column ID and value is a filtering value
+        - `toggleColumns` - **Set<props.columnsConfig.ID>**. Column IDs to be hidden
+        - `showPerPage` - **Number**. Number of entities showed per one pagination page
+        - `currentPage` - **Number**. Current pagination page<br /><br />
+
+- `rootTagAttributes`
+    - **div** tag attributes<br /><br />
 
 - `withFooter`
-    - Describes footer props. Footer uses **Select** and **Pagination** components<br />
-         You should explicitly pass these components. It was made to reduce dependency tree
+    - Table footer you may apply pagination parameters to
     - **Object** with the next fields:
-        - `defaultShowPerPage` - **Required** **Number**. Number of items to show per page by default
-        - `displayQuantity` - **Function**. To show items count
+        - `defaultShowPerPage` - **Required** **Number**. Default number of entities to show per paginationPage
+        - `displayQuantity` - **Function**. Helps to render all entities quantity label
             - Has **1** argument - quantity: **Number**
             - Returns **React.ReactNode**
-        - `select` - **Object**. Select component scope. Has the next fields:
-            - `props` - **Select component props**. All props are optional except **props.options**
-            - `component` - **Select component** itself
-        - `pagination` - **Object**. Pagination component scope. Has the next fields:
-            - `props` - **Pagination component props**. All props are optional
-            - `component` - **Pagination component itself**
-            - `isRenderForSinglePage` - **Boolean**. Renders pagination even if there is only one page<br /><br />
-
-- `resizable`
-    - Makes columns resizable by dragging sides of columns
-    - **Boolean**<br /><br />
+        - `select` - **Object**. Show per page select params. Has the next fields:
+            - `props` - Siegel **Select** props where option value is show per page value
+            - `component` - Siegel **Select** component
+        - `pagination` - **Object**. Pagination params. Has the next fields:
+            - `props` - Siegel **Pagination** props
+            - `component` - Siegel **Pagination** component
+            - `isRenderForSinglePage` - **Boolean**. Render paginator component if there is only one page available<br /><br />
 
 - `virtualization`
-    - Used to speed up performance if you want to display all entities without pagination paging
+    - Allows you to render infinite list of entities applying scrolling window
     - **Object** with the next fields:
-        - `itemHeight` - **Required** **Number**. Minimal row height
-        - `tableHeight` - **Number**. Default is **innerHeight**, Table height . Specifying this prop can precise item loading quantity
-        - `preloadedItemsBySide` - **Number**. Default is **20**. Quantity of items to preload above and below of visible area
-        - `scrollUpdateInterval` - **Number**. Default is **350**ms. Specify how frequent displayed range of items is updating by scrolling<br /><br />
+        - `itemHeight` - **Required** **Number**. Row height
+        - `tableHeight` - **Number**. Table height. Default is **innerHeight**
+        - `preloadedItemsBySide` - **Number**. Defines number of rows to preload by the side of scrolling window. Default is **20**
+        - `scrollUpdateInterval` - **Number**. After scrolling delay in ms after which rows will be updated. Default is **350**ms<br /><br />
 
 - `onScroll`
-    - On root tag scroll event. May prevent inner default onScroll event
-    - **Function** with the only argument: **event** - **React.UIEvent<HTMLDivElement>**
+    - Triggered when you scroll the data table. May prevent virtualization scroll event
+    - **Function** with the only argument: **event** - **React.UIEvent<HTMLDivElement>**<br /><br />
+
+- `children`
+    - Any children element you may put inside DataTable markup at the root level
+    - **React.ReactNode**<br /><br />
+
+- `tableAttributes`
+    - **table** tag attributes<br /><br />
+
+- `resizable`
+    - Makes table columns to be resizable horizontally
+    - **Boolean**<br /><br />
 
 - `postProcessHeadCell`
-    - Post process each head cell and mutates it
+    - Post processes every column header to be rendered in DataTable by mutating resulting headCell
     - **Function**. Has **4** arguments:
-        - **head cell** - **TableTH**. Represents head column
-        - **column config** - **props.columnsConfig[number**. This head cell's column config
+        - **head cell** - **TableTH**. table cell data
+        - **column config** - **props.columnsConfig[number]**. column config
         - **index** - **Number**. Column index
-        - **dispayed entity IDs** - **Object**. Includes precise information about what entities was processed. Has the next fields:
-            - `from` - **Number**. Index of entity **DataTable** starts from
-            - `to` - **Number**. Index of entity **DataTable** ends with
-            - `allPagesIDs` - **ID[]**. All entity IDs left after filtering<br /><br />
+        - **dispayed entity IDs** - **Object**. final list entities IDs to be rendered on the active page. Has the next fields:
+            - `from` - **Number**. First visible entity index
+            - `to` - **Number**. Last visible entity index
+            - `allPagesIDs` - **ID[]**. All pages entity IDs<br /><br />
 
 - `postProcessHeadRow`
-    - Post process head row allowing to add new ones by mutating existing rows
+    - Post processes every DataTable head row by mutating resulting rows array
     - **Function**. Has **2** arguments:
-        - **rows** - **TableHeadRow[]**. Head rows
-        - **dispayedEntityIDs** - Same as **postProcessHeadCell**'s dispayedEntityIDs<br /><br />
+        - **rows** - **TableHeadRow[]**. rows array
+        - **dispayedEntityIDs** - final list entities IDs to be rendered on the active page<br /><br />
 
 - `postProcessBodyRow`
-    - Post process each body row by mutating it
+    - Post process evenry DataTable body row by mutating resulting rows array
     - **Function**. Has **3** arguments:
-        - **row** - **TableBodyRow[]**. Represents table body row
-        - **entity** - **Object**. Entity displayed in this row
-        - **index** - **Number**. Row index
+        - **row** - **TableBodyRow[]**. rows array
+        - **entity** - **Object**. list entity
+        - **index** - **Number**. entity index within all DataTable rows
 
 
 <br /><br />

@@ -15,8 +15,13 @@ type DataTableTableProps = {
 }
 
 type DisplayedEntityIDs = {
+    /** First visible entity index */
     from: number
+
+    /** Last visible entity index */
     to: number
+
+    /** All pages entity IDs */
     allPagesIDs: string[]
 } | undefined
 
@@ -40,7 +45,7 @@ type State<_SearchState = any> = {
     }
 
     /**
-     * Entities filtering params, where key is column ID and value is filtering value
+     * Entities filtering params, where key is a column ID and value is a filtering value
      */
     searchByField: Obj<_SearchState | undefined>
 
@@ -73,25 +78,27 @@ type ColumnsConfig<
     showValue(entity: _Entity): TableTD
 
     /**
+     * Sorts list of entities by sorting their IDs
      *
-     * @param IDs
-     * @param byID
-     * @param value
+     * @param IDs entities IDs array
+     * @param byID entities hashtable where key is entity ID and value is entity
+     * @param value sorting value
      */
     onSort?(IDs: _Sorted, byID: _ByID, value: number): Sorted
 
     /**
+     * Filters list of entities by filtering out their IDs
      *
-     * @param IDs
-     * @param byID
-     * @param search
+     * @param IDs entities IDs array
+     * @param byID entities hashtable where key is entity ID and value is entity
+     * @param search search value you put into DataTable store
      */
     onFilter?(IDs: _Sorted, byID: _ByID, search: _SearchState): Sorted
 
-    /** */
+    /** Column TH tag text */
     label?: React.ReactNode
 
-    /** */
+    /** Any custom params you may extend column config with */
     customParams?: _ColumnParamsExtend
 }
 
@@ -136,39 +143,106 @@ type Props<
     /** Data table inner store */
     store?: ReactStore<State<_SearchState>>
 
+    /** Root tag [<div>] attributes  */
     rootTagAttributes?: CoreUIReactTagAttributes<
         HTMLDivElement,
         Omit<React.HTMLAttributes<HTMLDivElement>, 'onScroll'>
     >
+
+    /** Table footer you may apply pagination parameters to */
     withFooter?: {
+        /** Default number of entities to show per paginationPage */
         defaultShowPerPage: number
+
+        /**
+         * Helps to render all entities quantity label
+         *
+         * @param quantity number of all entities in a table
+         */
         displayQuantity?(quantity: number): React.ReactNode
+
+        /** Show per page select params */
         select?: {
+            /** Siegel Select component */
             component: CoreUIComponentWithDefaults<SelectComponent> | SelectComponent
+
+            /** Siegel Select props where option value is show per page value */
             props: Pick<SelectProps<number>, 'options'> & Partial<SelectProps<number>>
         }
+
+        /** Pagination params */
         pagination?: {
+            /** Siegel Pagination component */
             component: CoreUIComponentWithDefaults<PaginationComponent> | PaginationComponent
+
+            /** Siegel Pagination props */
             props?: Partial<PaginationProps>
+
+            /** Render paginator component if there is only one page available */
             isRenderForSinglePage?: boolean
         }
     }
+
+    /** Allows you to render infinite list of entities applying scrolling window */
     virtualization?: {
+        /** Row height */
         itemHeight: number
+
+        /** Table height */
         tableHeight?: number
+
+        /** Defines number of rows to preload by the side of scrolling window */
         preloadedItemsBySide?: number
+
+        /** After scrolling delay in ms after which rows will be updated */
         scrollUpdateInterval?: number
     }
+
+    /**
+     * Triggered when you scroll the data table. May prevent virtualization scroll event
+     *
+     * @param event scroll event
+     */
     onScroll?(event: React.UIEvent<HTMLDivElement>): void
+
+    /** Any children element you may put inside DataTable markup at the root level */
     children?: React.ReactNode
+
+    /** Underlaying table tag [<table>] attributes  */
     tableAttributes?: TableProps['rootTagAttributes']
+
+    /** Makes table columns to be resizable horizontally */
     resizable?: boolean
+
+    /**
+     * Post processes every column header to be rendered in DataTable
+     * by mutating resulting headCell
+     *
+     * @param headCell table cell data
+     * @param columnConfig column config
+     * @param displayedEntityIDs final list entities IDs to be rendered on the active page
+     */
     postProcessHeadCell?(
         headCell: TableTH,
-        columnsConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>,
+        columnConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>,
         displayedEntityIDs: NonNullable<DisplayedEntityIDs>
     ): void
+
+    /**
+     * Post processes every DataTable head row by mutating resulting rows array
+     *
+     * @param rows rows array
+     * @param displayedEntityIDs final list entities IDs to be rendered on the active page
+     */
     postProcessHeadRow?(rows: TableHeadRow[], displayedEntityIDs: NonNullable<DisplayedEntityIDs>): void
+
+    /**
+     * Post process evenry DataTable body row by mutating resulting rows array
+     *
+     * @param row  rows array
+     * @param entity list entity
+     * @param index entity index within all DataTable rows
+     */
     postProcessBodyRow?(row: Required<TableBodyRow>[], entity: _Entity, index: number): void
 }>
 

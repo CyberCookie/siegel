@@ -1,3 +1,11 @@
+/**
+ * Performs mod calculations with given float numbers
+ *
+ * @param a Left hand operand
+ * @param b Right hand operand
+ * @param precision Maximmal digits count after dot among all the next provided numbers
+ * @returns mod result
+ */
 const floatMod = (a: number, b: number, precision: number) => {
     const multiply = Math.pow(10, precision)
 

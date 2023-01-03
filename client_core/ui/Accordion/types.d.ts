@@ -7,7 +7,7 @@ type List = {
     /** List item title element */
     title: React.ReactNode
 
-    /** List item optional id */
+    /** List item optional id. Default is item index */
     id?: string
 
     /** List item nested list */
@@ -49,13 +49,13 @@ type Props<_BuilderListExtend = Obj> = PropsComponentThemed<
         /** Icon to place next to item title */
         accordionIcon?: React.ReactNode
 
-        /** Forces only one expanded list to be at the moment */
+        /** Forces only one list to be expanded at the moment */
         soloOpen?: boolean
 
         /** Root tag [<ul>] attributes */
         rootTagAttributes?: CoreUIReactTagAttributes<HTMLUListElement>
 
-        /** Render list with all the nested lists already expanded */
+        /** Renders list with all the nested lists already expanded */
         autoExpand?: boolean
 
         /** External store, created with React.useState, to controll expanding of nested lists */
@@ -101,10 +101,10 @@ type Props<_BuilderListExtend = Obj> = PropsComponentThemed<
         }
         |
         {
-            builder?: never
-
             /** List items data when no builder provided; */
             list: List
+
+            builder?: never
         })
 >
 

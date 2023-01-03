@@ -17,6 +17,13 @@ function updateQuery(query: URLSearchParams, key: string, value: QueryValue | un
         :   query.set(key, (value as string))
 }
 
+/**
+ * Updates browser URL query params
+ *
+ * @param key query param key. Or object with keys as query params and valuest as query param values
+ * @param value query param value
+ * @returns String query params
+ */
 const updateURLQuery: UpdateURLQuery = function(key, value) {
     const { search, pathname } = location
 

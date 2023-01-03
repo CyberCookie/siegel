@@ -6,72 +6,81 @@ Recursively expandable list of items<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `item`
+        - List item wrapper
     - `item__empty`
-        - Applied to item if it has no children
+        - List item wrapper state when it has no nested list
     - `item__expanded`
+        - List item wrapper state when its nested list is expanded
     - `item_title_wrapper`
+        - List item title wrapper
     - `item_title`
-    - `nested_list`<br /><br />
+        - List item title
+    - `nested_list`
+        - List item nested list<br /><br />
 
 - `list`
     - **Required**
-    - List of items to render
+    - List items data
     - **Object[]** with fields:
-        - `title` - **Required** **React.ReactNode**
-        - `children` - **props.list** - recursion
-        - `id` - **String** - item ID used for proper item selection.<br />
+        - `title` - **Required** **React.ReactNode** - List item title element
+        - `children` - `props.list` - List item nested list
+        - `id` - **String** - List item optional id.<br />
             By default item index is using<br /><br />
 
-- `soloOpen`
-    - Only one expanded list at the moment
-    - **Boolean**
-    - Default is **false**<br /><br />
-
-- `autoExpand`
-    - **Static**
-    - Render list with all the items already expanded
-    - **Boolean**
-    - Default is **false**<br /><br />
-
-- `store`
-    - **Static**
-    - Store, created with **React.useState** store, to be used in **Accordion**
-    - State is an **Object** with the next fields:
-        - `expandedPaths` - **Object** where key is a path to expandable list and value is boolean to determine whether this list is expanded<br />
-            Key is concatenated string IDs, separated with dot ( *'id1.id2.id3...'* )
-    - Component exports `getDefaultState` function to init outer store's state<br />
-        `autoExpand` wont affect this component if you are passing `store` to it<br />
-        To achieve `autoExpand` behavior - you should pass `list` to `getDefaultState` function<br /><br />
-
 - `builder`
-    - Postprocess callback that executes during an iteration over provided list items
+    - Allows you to provide list items with custom properties and construct the output list elements using this function
     - **Function**
         - Has **1** argument:
             - **Object** with the next fields:
-                - `listItemTheme` - **Object**. **Mutatable**. Current item's theme with the next fields:
+                - `listItemTheme` - **Object**. **Mutatable**. List item theme to be applied to the current list item with the next fields:
                     - `item` - **String**
                     - `item__empty` - **String**
                     - `item__expanded` - **String**
                     - `item_title_wrapper` - **String**
                     - `item_title` - **String**
                     - `nested_list` - **String**
-                - `listItem` - **React.ReactNode**. Item title element
-                - `index` - **Number** - list item index
-                - `acc` - **Any**. Accumulator persists during an iteration over same nesting level
+                - `listItem` - **React.ReactNode**. List item object with custom properties
+                - `index` - **Number**. List item index
+                - `acc` - **Any**. Accumulated value in the scope of mutual parent
         - Returns an **Object** with the next fields:
             - `elem` - **React.ReactNode**. Updated item title element
-            - `acc` - **Any**. Updated accumulator
+            - `acc` - **Any**. Updated accumulator<br /><br />
 
 - `accordionIcon`
     - Icon to place next to item title
-    - **React.ReactNode**
+    - **React.ReactNode**<br /><br />
+
+- `soloOpen`
+    - Forces only one list to be expanded at the moment
+    - **Boolean**
+    - Default is **false**<br /><br />
+
+- `rootTagAttributes`
+    - **div** tag attributes<br /><br />
+
+- `autoExpand`
+    - **Static**
+    - Renders list with all the nested lists already expanded
+    - **Boolean**
+    - Default is **false**<br /><br />
+
+- `store`
+    - **Static**
+    - External store, created with **React.useState**, to controll expanding of nested lists **Accordion**
+    - State is an **Object** with the next fields:
+        - `expandedPaths` - **Object** Expanded lists paths, where key is dot separeted nested lists ids, and value is boolean.<br />
+            Key is concatenated string IDs, separated with dot ( *'id1.id2.id3...'* )
+    - Component exports `getDefaultState` function to init outer store's state<br />
+        `autoExpand` wont affect this component if you are passing `store` to it<br />
+        To achieve `autoExpand` behavior - you should pass `list` to `getDefaultState` function<br /><br />

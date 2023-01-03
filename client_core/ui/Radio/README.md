@@ -6,37 +6,64 @@ Radio buttons allows you to select one or few options out of given group<br />
 
 ## Props:
 
-- `rootTagAttrib**utes`
-    - **div** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `_disabled`
-        - Applied to disabled radio butttons component
+        - Root tag state if Radio component is disabled
     - `option`
+        - Radio option
     - `option__selected`
-        - Selected option<br /><br />
+        - Radio option selected<br /><br />
 
 - `selected`
-    - Selected options
+    - Selected option(s)
     - **String | Set<String>**. Depends on **props.multiple**<br /><br />
 
 - `onChange`
     - **Required**
-    - **Function** that is triggered when you pick an option. Has **3** arguments:
+    - Triggered when you pick an option
+    - **Function** Has **3** arguments:
         - **id** - Option ID
         - **event** - **React.MouseEvent<HTMLDivElement>**
         - **payload** - Option payload<br /><br />
 
+- `options`
+    - Radio options
+    - **Object[]** with the next fields:
+        - `id`
+            - **Required**
+            - Option value
+            - **String**
+
+        - `content`
+            - **Required**
+            - Option text
+            - **React.ReactNode**
+
+        - `className`
+            - Option class name
+            - **String**
+
+        - `payload`
+            - Extra value to be passed to callback along with option value
+            - **Any**<br /><br />
+
 - `multiple`
     - **Required** if type of **props.selected** is **Set**
-    - Allows for multiple opions selection
+    - Allows to select multiple options
     - **Boolean**<br /><br />
 
 - `disabled`
     - Disables radio buttons component
-    - **React.ReactNode**
+    - **React.ReactNode**<br /><br />
+
+- `rootTagAttrib**utes`
+    - **div** tag attributes

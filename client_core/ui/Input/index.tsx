@@ -46,8 +46,8 @@ const Input = component<Props, DefaultProps>(
             _focused: _undef,
             _touched: _undef,
             _readonly: _undef,
+            _textarea: _undef,
             children: _undef,
-            textarea: _undef,
             label: _undef,
             label_text: _undef,
             field: _undef,
@@ -102,7 +102,7 @@ const Input = component<Props, DefaultProps>(
 
         let inputRootProps: DivTagAttributes = {
             className: applyClassName(className, [
-                [ theme.textarea, isTextarea ],
+                [ theme._textarea, isTextarea ],
                 [ theme._error, isError ],
                 [ theme._filled, value.length > 0 || isExists(mask?.pattern) ],
                 [ theme._focused, isFocused ],

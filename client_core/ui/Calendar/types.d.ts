@@ -116,7 +116,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
      * Triggered on month switch
      *
      * @param date New current month first day timestamp
-     * @param value New current month index, starting from 0
+     * @param value Increment value
      * @param event Click event
      */
     onMonthSwitch?(
@@ -126,7 +126,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     ): void
 
     /**
-     * Triggered on year switch
+     * Triggers when current year is changed
      *
      * @param date New current year first day timestamp
      * @param value New current year
@@ -142,10 +142,10 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
      * Allows you to return a custom date element
      * and className to be applied to its wrapper
      *
-     * @param children Day element data consists of date number
+     * @param params Day element data consists of date number
      * and its wrapper className
      */
-    postProcessCalendarDay?(children: PostProcessCalendarDayParams): PostProcessCalendarDayParams
+    postProcessCalendarDay?(params: PostProcessCalendarDayParams): PostProcessCalendarDayParams
 
     /**
      * Allows you to customize default month title markdown
@@ -216,7 +216,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /** Enabled range date selection */
     rangePick?: boolean
 
-    /** Root tag [<div>] attributes  */
+    /** Root tag [<div>] attributes */
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 
     /** Names to be used for months and week days names */

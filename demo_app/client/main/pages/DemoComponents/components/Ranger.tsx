@@ -47,7 +47,7 @@ const Demo = () => {
             <br />
             value to: {valueDouble[1].toFixed(2)}
         </h3>
-        <Ranger { ...propsDouble } />
+        <Ranger { ...propsDouble } rangersCrossBehavior='stop' />
 
 
         <h2 children='Cross behavior: move' />

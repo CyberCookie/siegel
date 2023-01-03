@@ -2,25 +2,26 @@
 
 Site URL breadcrumbs<br />
 
-
 <br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
-    - `crumb`<br /><br />
+        - Root tag
+    - `crumb`
+        - Each breadcrumb<br /><br />
 
 - `config`
     - **Required**
-    - Recursive crumbs config<br />
+    - Breadcrumbs config<br />
         Has the same structure as Siegel router's children config so you can use one for both
     - **Object** where key is **pathname** part and value is **Object** with the next fields:
         - `crumb`
@@ -35,21 +36,26 @@ Site URL breadcrumbs<br />
             - Crumb for this **pathname**, that can be changed at runtime
             - **String** - uniq dynamic crumb ID<br />
             More about working with dynmic crumbs read further
-        - `children` - **props.config** - recursion<br /><br />
-
-- `separator`
-    - Separator between crumbs
-    - **React.ReactNode**<br /><br />
+        - `children` - `props.config`<br /><br />
 
 - `onChange`
     - **Required**
-    - Triggered when crumb is being selected
+    - Triggers when crumb link is clicked
     - **Funcion**. Has **3** arguments:
         - **path** - **String**. Full crumb path
         - **configPath** - **String**. Pathname key from config 
-        - **event** - **React.MouseEvent<HTMLAnchorElement>**
+        - **event** - **React.MouseEvent<HTMLAnchorElement>**<br /><br />
 
+- `separator`
+    - Crumbs separator element
+    - **React.ReactNode**<br /><br />
 
+- `dynamicCrumbsID` - String ID to be used in cutom event to trigger dynamic crumbs update.<br />
+    Provide only if you use more than one Breadcrums component with dynamic crumbs in it
+    - **String**<br /><br />
+
+- `rootTagAttributes`
+    - **div** root tag attributes<br /><br />
 
 <br /><br />
 

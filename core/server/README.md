@@ -24,9 +24,7 @@ Receives **3** parameters:
     publicDir: String,
 
     server: {
-        /*
-            User defined server to extend the one created by Siegel
-        */
+        /* User defined server to extend the one created by Siegel */
         appServer: Function,
 
         /*
@@ -45,14 +43,14 @@ Receives **3** parameters:
         http2: Boolean,
 
         /*
-            You may pass SSL params to establish secure connection (HTTPS HTTP2S)
+            SSL params to establish secure connection (HTTPS HTTP2S)
             Use siegel's 'create_ssl' script to create localhost certificate
         */
         ssl: {
-            /* Path to ssl private key. */
+            /* Path to ssl private key */
             keyPath: String,
 
-            /* Path to signed certificate. */
+            /* Path to signed certificate */
             certPath: String
         },
 
@@ -105,7 +103,7 @@ The **Function**, both for HTTP1 and HTTP2 receives almost the same **2**** argu
 The User App function is called right before static server features was applied.<br />
 Static server caches resources by resource name, so you should always add hash to static files at build stage.<br />
 To prevent file from caching - just add `cache-control: no-cache` header to request.<br />
-Resources thats will be cached, responce with `cache-control: max-age=31536000, immutable` header
+Resources thats will be cached, response with `cache-control: max-age=31536000, immutable` header
 
 
 ```js
@@ -161,8 +159,8 @@ Proxy receives **1** parameter - **Object** with the next fields:
 - `secure` **Boolean** - makes requests over https
 - `host` **String** - destination host
 - `port` **Number** - destination port
-- `path` **String** - url path. Default is original request url path
-- `query` **Object** - url query params. Default is original request query params<br />
+- `path` **String** - URL path. Default is original request URL path
+- `query` **Object** - URL query params. Default is original request query params<br />
     If **Object** provided then **Object** _key_ is query key and **Object** _value_ is query value
 - `method` **String** - request method. Default is original request method
 - `headers` **Object | Function** - request headers<br />

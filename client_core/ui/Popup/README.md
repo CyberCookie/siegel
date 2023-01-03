@@ -6,31 +6,38 @@ Site popup implementation<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `content`
-    - `close`<br /><br />
+        - Popup content wrapper
+    - `close`
+        - Popup close icon<br /><br />
 
 - `onClose`
     - **Required**
-    - **Function** that is triggered when you close **Popup**. Has **1** argument:
+    - Triggered when user closes a popup
+    - **Function** Has **1** argument:
         - **event** - **React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `onMouseDown`
-    - On root tag mousedown event. May prevent inner default onMouseDown event
-    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLDivElement>**
+    - Root tag onmousewon event. May prevent `props.onClose` event
+    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `closeIcon`
-    - Icon to put in close control element
+    - Popup close icon
     - **React.ReactNode**<br /><br />
 
 - `content`
-    - Content to be rendered inside **Popup**
-    - **React.ReactNode**
+    - Popup content
+    - **React.ReactNode**<br /><br />
+
+- `rootTagAttributes`
+    - **div** tag attributes

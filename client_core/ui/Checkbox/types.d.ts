@@ -100,7 +100,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /** Checkbox label */
     label?: React.ReactNode
 
-    /** Checkbox icon */
+    /** Checkbox checked icon */
     icon?: React.ReactNode
 
     /** Disables checkbox */

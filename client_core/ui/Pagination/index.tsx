@@ -123,12 +123,12 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
 
     return <>
         <div children={ iconPrev } data-page={ tokenPrevPage }
-            className={ applyClassName(theme.icon_prev, [[ theme.icon__disabled, curPage == 1 ]]) } />
+            className={ applyClassName(theme.goto_prev, [[ theme.change__disabled, curPage == 1 ]]) } />
 
         { result }
 
         <div children={ iconNext } data-page={ tokenNextPage }
-            className={ applyClassName(theme.icon_next, [[ theme.icon__disabled, curPage == numberOfPages ]]) } />
+            className={ applyClassName(theme.goto_next, [[ theme.change__disabled, curPage == numberOfPages ]]) } />
     </>
 }
 
@@ -139,9 +139,9 @@ const Pagination = component<Props, DefaultProps>(
             root: _undef,
             _single: _undef,
             separator: _undef,
-            icon_prev: _undef,
-            icon_next: _undef,
-            icon__disabled: _undef,
+            goto_prev: _undef,
+            goto_next: _undef,
+            change__disabled: _undef,
             page: _undef,
             page__active: _undef
         },

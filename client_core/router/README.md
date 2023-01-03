@@ -7,45 +7,45 @@ including such features as page wrapping with `Layout`, URL params support, dyna
 
 Router is a React component, that can have the next props:
 
+- `children` - **Required** **Object**. Routes config. Where _key_ is a route URL and _value_ is **Object** that represents route config<br />
+**Object** has the next fields:
+    - `Page` - **React.ComponentType | React.LazyExoticComponent**. Page to render
+    - `Layout` - React component to wrap all the children pages
+    - `fallback` - **React.ReactNode**. Component to display while `Page` or `Layout` is lazy loading
+    - `onEnter` - **Function** that executes before first page render<br />
+        Data returned from the function is passed as `onEnterData` prop to the page props<br />
+        - Function has **1** argument:
+            - **URLParams** - **Object** with parsed URL params
+        - Returns **void | Object**
+    - `onLeave` - **Function** that is triggered before current component was replaced with another one 
+    - `paramName` - **String**. URL parameter name in dynamic route
+    - `redirectTo` - **String** | **Object**. Path to redirect to if current route URL was matched<br />
+        You may also provide history state, if using **Object**. the **Object** has the next fields:
+        - `path` - **String**. Redirect path
+        - `state` - **Any** | **Function**. New history state.<br />
+            **Function** is triggered right before redirection occures and returns **Any** state
+    - `transition` - **False | Object**. Defines children transition params or disables global ones for the nested children<br />
+        **False** prevents upper level transition params from being applied to this routing level
+    - `permissions`- **Boolean | Function**. Specify whether user has permissions to visit this page<br />
+        **Function** has **1** argument - urlParams<br />
+        Returns **Boolean**
+    - `children` - **Object**. Nested routes config
 - `Layout` - **React.ComponentType | React.LazyExoticComponent**.<br />
     React component to wrap all the children pages
-- `basename` - url path prefix
+- `basename` - URL path prefix
 - `transition` - **Object**. Defines global cross pages transition params<br />
     **Object** has the next fields:
     - `duration` - **Required** **Number**. Transition duration in ms.
     - `wrapperClassName` - **String**. ClassName to be applied to a wrapper that wraps previous and next pages<br />
         Pages itself are wrapped in `div` with no className applied
     - `performOnHistoryStateChange` - **Boolean**. Whether to perform transition if same page but different history states
-- `children` - **Required** **Object**. Router config. Where _key_ is a route url and _value_ is **Object** that represents route config<br />
-**Object** has the next fields:
-    - `Page` - **React.ComponentType | React.LazyExoticComponent**. Page to render
-    - `Layout` - Same as Router props `Layout`
-    - `fallback` - **React.ReactNode**. Component to display while `page` or `Layout` is lazy loading
-    - `onEnter` - **Function** that executes before first page render<br />
-        Data returned from the function is passed as `onEnterData` prop to the page props<br />
-        - Function has **1** argument:
-            - **URLParams** - **Object** with parsed url params
-        - Returns **void | Object**
-    - `onLeave` - **Function** that is triggered before current component was replaced with another one 
-    - `paramName` - **String**. URL parameter name in dynamic route
-    - `redirectTo` - **String** | **Object**. Path to redirect to if current route url was matched.<br />
-        You may also provide history state, if using **Object**. the **Object** has the next fields:
-        - `path` - **String**. Redirect path
-        - `state` - **Any** | **Function**. New history state.<br />
-            **Function** is triggered right before redirection occures and returns **Any** state
-    - `transition` - **False | Router props transition**. Same as global transition params, but applied to this routing level<br />
-        **False** prevents upper level transition params from being applied to this routing level
-    - `permissions`- **Boolean | Function**. Specify whether user has permissions to visit this page<br />
-        **Function** has **1** argument - urlParams<br />
-        Returns **Boolean**
-    - `children` - **Object**. Nested routes - recursion.
 
 <br />
 
-Lets say you need to have *www.somesite.com/goods/fruits/orange* url on your site, where *orange* is URL parameter.<br />
-Also we need to have *contacts* page accessible by *www.somesite.com/contacts* url.<br />
-We define 404 page as well for the cases when users type incorrect url.<br />
-And one more thing - we add restricted admin page with url *www.somesite.com/admin*. User will be redirected to home page if has no rights to visit the admin page.<br />
+Lets say you need to have *www.somesite.com/goods/fruits/orange* URL on your site, where *orange* is URL parameter.<br />
+Also we need to have *contacts* page accessible by *www.somesite.com/contacts* URL.<br />
+We define 404 page as well for the cases when users type incorrect URL.<br />
+And one more thing - we add restricted admin page with URL *www.somesite.com/admin*. User will be redirected to home page if has no rights to visit the admin page.<br />
 
 Config:
 
@@ -93,11 +93,11 @@ const routesConfig = {
 }
 ```
 
-First we defined top level routes with url parts `goods`, `contacts` and empty path for the home page.<br />
-We also applied pages that should be rendered if we type related urls in browser address bar, for example *www.somesite.com/goods* <br />
+First we defined top level routes with URL parts `goods`, `contacts` and empty path for the home page.<br />
+We also applied pages that should be rendered if we type related URLs in browser address bar, for example *www.somesite.com/goods* <br />
 Defining `children` opens us the way to describe nested routes.<br />
 At the deepest path level we used wildcard ( * ) - this symbols means we match every route at this level<br />
-and any fruit we type in url eventually will fall down in this route, for example *www.somesite.com/goods/fruits/kiwi*<br />
+and any fruit we type in URL eventually will fall down in this route, for example *www.somesite.com/goods/fruits/kiwi*<br />
 Finally, at the top level we defined *all routes* path ( * ) to match any route we didn't specify and, in this case, redirect to 404 page with state applied to history.<br />
 Admin page with permissions check is also here.<br />
 
@@ -111,7 +111,7 @@ There are few symbols we can place at the beginning of redirection path string t
 - ! - redirects to the same level replacing last path piece
 - no symbol - redirecs relatively to the current path, adding new path piece
 
-For example, with url *www.somesite.com/goods/vegetables*<br />
+For example, with URL *www.somesite.com/goods/vegetables*<br />
 `redirectTo: '/contacts'` will throw us on *www.somesite.com/**contacts***<br />
 `redirectTo: '!fruits'` -> *www.somesite.com/goods/**fruits***<br />
 `redirectTo: '!'` -> *www.somesite.com/goods*<br />
@@ -121,7 +121,7 @@ For example, with url *www.somesite.com/goods/vegetables*<br />
 
 ### 404 page not found
 
-You may define page to be rendered if required page url does not exists in your Router config.<br />
+You may define page to be rendered if required page URL does not exists in your Router config.<br />
 To do so, first we need to define 404 page itself with it's own route.<br />
 Then we need to define redirect from any page to the 404 page:
 
@@ -165,8 +165,8 @@ Redirects priority: specified 404 page at global level -> home page -> first pat
 
 Router component patches `history` with own `push` method in order to intercept and react on location changes. Under the hood it uses `history.pushState` and `history.replaceState`.<br />
 Newly added method `history.push` receives **3** arguments:
-- **url** - **String**. url to change path to. Same as url in `history.pushState / replaceState`
-- **state** - **Optional** **Any**. Same as `history.pushState / replaceState` state
+- **url** - **String**. URL to change path to. Works the same way as **url** param in `history pushState / replaceState`
+- **state** - **Optional** **Any**. Works the same way as **state** param in `history pushState / replaceState` state
 - **replaceURL** - **Optional** **Boolean | String**. Use `history.replaceState`<br />
     Provide **String** URL to use it as URL to be replaced
 
@@ -187,12 +187,12 @@ If you bootstrap your application without basename applied, but the application 
 
 Router exports component for inner site navigation. It's fully compatible with html `a` tag<br />
 but with another few props:
-- `href` - **String**. pathname to perform navigation to<br />
+- `href` - **String**. Pathname to perform navigation to<br />
     Can be relative or absolute URL with no domain and protocol included<br />
     Follow same string rules as redirect paths do
 - `state` - **Any**. History state to be applied when follow this link
-- `onCLick` - handler included, that you may prevent of extend
-- `activeClassName` - **String**. Defines className for this link tag if it points to currently active url
+- `activeClassName` - **String**. Defines className for this link tag if it points to currently active URL
+- `onCLick` - Link click handler, that may prevent default click handler
 
 ```js
 import A from 'siegel/lib/client_core/router/Link'

@@ -5,7 +5,6 @@ import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants.js'
 
 import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
 import type { ConfigFinal, RunParamsFinal } from '../../types'
-import type { FilenamesProd } from '../types'
 import type {
     CompressionInstanceCommonOptions, ResolvePluginDefaultOptions, DefaultPlugins
 } from './types'
@@ -59,7 +58,7 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                 br: {
                     options: {
                         ...compressionInstanceCommonOptions,
-                        filename: (outputFilenames as FilenamesProd).brotli!,
+                        filename: outputFilenames.brotli!,
                         algorithm: 'brotliCompress',
                         compressionOptions: {
                             level: 11
@@ -69,7 +68,7 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                 gzip: {
                     options: {
                         ...compressionInstanceCommonOptions,
-                        filename: (outputFilenames as FilenamesProd).gzip!
+                        filename: outputFilenames.gzip!
                     }
                 }
             }

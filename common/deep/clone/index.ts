@@ -3,6 +3,13 @@ import isPrimitive from '../../is/primitive'
 import type { Options } from './types'
 
 
+/**
+ * Clones any object
+ *
+ * @param value Value to clone
+ * @param opts Clone params
+ * @returns clonned object
+ */
 function deepClone<T>(value: T, opts: Options = {}): T {
     if (isPrimitive(value as unknown as object)) return value
 

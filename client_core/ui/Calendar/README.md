@@ -6,149 +6,170 @@ Flexible calendar to pick single or range of dates<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `_in_progress`
-        - Applied to the root tag if range dates selection is in progress
+        - Root tag state during a range dates selection
     - `month_wrapper`
+        - Calendar month wrapper
     - `month_title_wrapper`
+        - Calendar month title wrapper
     - `month_title`
+        - Month title
     - `icon_month`
+        - Month switch icons
     - `icon_year`
+        - Year switch icons
     - `icon_prev`
+        - Previous month/year icons
     - `icon_next`
+        - next month/year icons
     - `month_days_wrapper`
+        - Calendar month days wrapper
     - `week`
+        - Week days names row
     - `week_day`
+        - Week day name
     - `row`
+        - Month week days row
     - `day`
+        - Month day
     - `day_month_sibling`
+        - Side months days of a currently selected month
     - `day__selected`
-        - Applied to selected days
+        - Selected day state
     - `day__first`
-        - First day in selected month
+        - First day of a currently selected month if `props.hideSiblingMonthsDays` is **true**
     - `day__last`
-        - Last day in selected month
+        - Last day of a currently selected month if `props.hideSiblingMonthsDays` is **true**
     - `day__today`
+        - Today day
     - `day__hidden`
-        - Applied to current and next month's days if **hideSiblingMonthsDays** prop is **true**
+        - Applied to a side months days of a currently selected month, if `props.hideSiblingMonthsDays` is **true**
     - `day__range_from`
-        - First selected day
+        - First day of a range dates selection
     - `day__range_to`
-        - Last selected day<br /><br />
+        - Last day of a range dates selection<br /><br />
 
 - `initDate`
     - **Required**
-    - Represents **Calendar** date selection state<br />
-        Field **rangeDateEnd** can be omited for single date selection mode
+    - **Calendar** initial date<br />
     - **Object** with the next fields:
-        - `rangeDateStart` - **Required** **Number**. Selection start date timestamp
-        - `rangeDateEnd` - **Number**. Selection end date timestamp<br /><br />
+        - `rangeDateStart` - **Required** **Number**. Selected date timestamp or range dates selection start
+        - `rangeDateEnd` - **Number**. Range dates selection finish<br /><br />
 
 - `onChange`
+    - Triggered on date selection
     - **Function**. Has **3** arguments:
-        - **range** - **Required<props.initDate>**
-        - **isFinished** - **Boolean**. Whether date selection is in progress or has just finished
-        - **payload** - **props.payload**<br /><br />
-
-- `rangePick`
-    - Enables range pick mode
-    - **Boolean**<br /><br />
-
-- `triggerOnlyWhenFinished`
-    - Triggers **props.onChange** only when date selection is finished<br /><br />
+        - **range** - Same object as `props.initDate`
+        - **isFinished** - **Boolean**. Whether range dates selection is in progress or has already ended
+        - **payload** - `props.payload`<br /><br />
 
 - `onMonthSwitch`
-    - Triggers when current monts is changed 
+    - Triggered on month switch
     - **Function**. Has **3** arguments:
-        - **date** - **Date**. First day of newly selected current month
+        - **date** - **Date**. New current month first day timestamp
         - **value** - **1 | -1**. Increment value
         - **event** - **React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `onYearSwitch`
     - Triggers when current year is changed
-    - Same signature as **React.MouseEvent<HTMLDivElement>**<br /><br />
+    - **Function**. Has **3** arguments:
+        - **date** - **Date**. New current year first day timestamp
+        - **value** - **1 | -1**. Increment value
+        - **event** - **React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `postProcessCalendarDay`
-    - Postprocesses calendar day element
+    - Allows you to return a custom date element and className to be applied to its wrapper
     - **Function**
         - Has **1** **Object** argument with the next fields:
-            - `className` - **String**. Class name applied to this day
-            - `children` - **React.ReactNode**. Day element
+            - `className` - **String**. Date element wrapper className
+            - `children` - **React.ReactNode**. Date element
         - Returns an **Object** with the same fields<br /><br />
 
 - `constructCalendarTitle`
-    - Allowing construction of calendar month title
+    - Allows you to customize default month title markdown
         - **Function**
             - Has **1** **Object** argument with the next fields:
-                - `prevMonthIcon` - **React.ReactNode**
-                - `nextMonthIcon` - **React.ReactNode**
-                - `prevYearIcon` - **React.ReactNode**
-                - `nextYearIcon` - **React.ReactNode**
-                - `year` - **Number**
-                - `monhName` - **String**
+                - `prevMonthIcon` - **React.ReactNode**. Go to previous month icon
+                - `nextMonthIcon` - **React.ReactNode**. Go to next month icon
+                - `prevYearIcon` - **React.ReactNode**. Go to previous year icon
+                - `nextYearIcon` - **React.ReactNode**. Go to next year icon
+                - `year` - **Number**. Title year
+                - `monhName` - **String**. Title month name
             - Returns **React.ReactNode**<br /><br />
 
 - `hideSiblingMonthsDays`
-    - Whether to hide previous and next month days by side of current selected month
+    - Hides side months days
     - **Boolean**<br /><br />
 
 - `fixedHeight`
-    - Always fixed number of day rows in calendar month
+    - Always renders fixed number of month days rows
     - **Boolean**
     - Default is **true**<br /><br />
 
 - `noControls`
-    - Hide month and year switch control icons
+    - Doesn't place month / year switch controls
     - **Boolean**<br /><br />
 
 - `prevMonthIcon`
-    - Icon for previous month selection
+    - Go to previous month icon
     - **React.ReactNode**
     - Default is **'<'**<br /><br />
 
 - `nextMonthIcon`
-    - Icon for next month selection
+    - Go to next month icon
     - **React.ReactNode**
     - Default is **'>'**<br /><br />
 
 - `prevYearIcon`
-    - Icon for previous year selection
+    - Go to previous year icon
     - **React.ReactNode**
     - Default is **'<<'**<br /><br />
 
 - `nextYearIcon`
-    - Icon for next year selection
+    - Go to next year icon
     - **React.ReactNode**
     - Default is **'>>'**<br /><br />
 
 - `monthsBefore`
-    - Count of months showing before current month
+    - Number of months to render before active month
     - **Number**
     - Default is **0**<br /><br />
 
 - `monthsAfter`
-    - Count of months showing after current month
+    - Number of months to render after active month
     - **Number**
     - Default is **0**<br /><br />
 
 - `weekStartsFrom`
-    - Select week start day
+    - Week day index to start a week from
     - **Number**<br /><br />
 
+- `triggerOnlyWhenFinished`
+    - During range date selection, triggers `props.onChange` only when selection has finished<br /><br />
+
 - `payload`
-    - Data to be passed to **props.onChange** handler
+    - Any data to be retrieven when `props.onChange` is triggered
     - **Any**<br /><br />
 
+- `rangePick`
+    - Enabled range date selection
+    - **Boolean**<br /><br />
+
+- `rootTagAttributes`
+    - **div** tag attributes<br /><br />
+
 - `strings`
-    - Month and week day names
+    - Names to be used for months and week days names
     - **Function** that returns **Object** or **Object** itself with the next fields:
         - `months` - **String[]**
         - `weekDays` - **String[]**

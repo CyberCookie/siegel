@@ -6,85 +6,91 @@ Creates paging controls<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `_single`
         - Applied to the root tag if there is only one page to select
     - `separator`
-    - `icon_prev`
-        - Applied to _go to previous page_ switcher
-    - `icon_next`
-        - Applied to _go to next page_ switcher
-    - `icon__disable`
-        - Applied to page change switcher if there is no pages before or next
+        - Element between side and middle pages
     - `page`
-        - Applied to every page change switcher but icons next / prev
+        - Numeric page switcher
     - `page__active`
-        - Applied to currently selected page<br /><br />
+        - Applied to currently selected numeric page switcher
+    - `goto_prev`
+        - Go to previous page element
+    - `goto_next`
+        - Go to next page element
+    - `change__disabled`
+        - Applied to page change switcher if there is no pages left before or next<br /><br />
 
 - `listLength`
     - **Required**
-    - Items count paging is using for
-    - **Number**
+    - All elements quantity
+    - **Number**<br /><br />
 
 - `curPage`
     - **Required**
-    - Current selected page
-    - **Number**
+    - Currently selected page
+    - **Number**<br /><br />
 
 - `showPerPage`
     - **Required**
-    - Number of items showing per page
-    - **Number**
+    - Elements to show per page
+    - **Number**<br /><br />
 
 - `onChange`
     - **Required**
-    - **Function** that is triggered when page change occurs. Has **3** arguments:
+    - Triggered when active page is changed
+    - **Function** Has **3** arguments:
         - **nextPage** - **Number**. next page to be selected
         - **event** - **React.MouseEvent<HTMLDivElement>**
-        - **payload** - **props.payload**
+        - **payload** - **props.payload**<br /><br />
 
 - `onMouseDown`
-    - On root tag mousedown event. May prevent inner default onMouseDown event
-    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLDivElement>**
+    - Triggered right before `props.onChange` is fired. May prevent props.onCHange
+    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `elementsBySide`
-    - Minimum count of pages in the beginnig and in the end of pages row
+    - Number of numeric page switchers by the sides of Paginator
     - **Number**
-    - Default is **1**
+    - Default is **1**<br /><br />
 
 - `elementsByMiddle`
-    - Minimum count of pages by the middle pages
+    - Number of numeric page switchers between side switchers
     - **Number**
-    - Default is **1**
+    - Default is **1**<br /><br />
 
 - `iconPrev`
-    - Icon to be placed into previous page selector control
+    - Go to previous page button icon
     - **React.ReactNode**
-    - Default is **'<'**
+    - Default is **'<'**<br /><br />
 
 - `iconNext`
-    - Icon to be placed into next page selector control
+    - Go to next page button icon
     - **React.ReactNode**
-    - Default is **'>'**
+    - Default is **'>'**<br /><br />
 
 - `separator`
-    - Space between pages side and middle pages
+    - Element between side and midle pages
     - **React.ReactNode**
-    - Default is **'...'**
+    - Default is **'...'**<br /><br />
+
+- `payload`
+    - Any data to be passed to `props.onChange` callback
+    - **Any**<br /><br />
+
+- `rootTagAttributes`
+    - **div** tag attributes<br /><br />
 
 - `fixedLength`
     - Number of items at the moment always same
     - **Boolean**
     - Default is **true**
-
-- `payload`
-    - Data to be passet to **props.onChange** handler
-    - **Any**

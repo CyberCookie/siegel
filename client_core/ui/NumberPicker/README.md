@@ -8,41 +8,38 @@ Input for numbers with various validations built on top of `Input` component<br 
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
-    - `childtren`
+        - Root tag
     - `_disabled_all`
+        - Root tag state if both props.disabled and `props.diabledInput` is true
     - `_focused`
-    - `children`
+        - Root tag state if NumberPicker os focused
+    - `_error`
+        - Root tag state if `props.errorMsg` is defined
+    - `label_wrapper`
+        - Wraps input_wrapper and label_text
+    - `label_text`
+        - Label text element
+    - `input_wrapper`
+        - Wraps Input and step controls elements
     - `controls`
+        - Holds step buttons controls
     - `button_minus`
+        - Decrease value button
     - `button_plus`
-    - All the theme keys from **Input** component, except:
-        - _children_ , _textarea_<br /><br />
-
-- `value`
-    - Number picker value
-    - **String** | **Number**
-
-- `precision`
-    - Number precission
-    - **Number**<br /><br />
-
-- `precisionKeepZeroes`
-    - Keeps fractional ending zeroes
-    - **Boolean**
-    - Default is **true**<br /><br />
+        - Increase value button<br /><br />
 
 - `onChange`
-    - **Function** that is triggeres when input changes or blur event occurs.<br />
-    Has **1** argument - **Object** with the next props:
+    - Triggered when NumberPicker value is changing
+    - **Function** Has **1** argument - **Object** with the next props:
         - `value` - **String**. New editable value
         - `numberValue` - **Number** value. **NaN** if `value` is en empty **String**
         - `isValidNumberString` - **Boolean**. **True** if `numberValue` is not **NaN**<br />
@@ -53,76 +50,102 @@ Input for numbers with various validations built on top of `Input` component<br 
         - `isKeyboardArrowUp` - **True** if **arrowUp** was pressed. **False** if **arrowUp** was. Othervice **undefined**
         - `payload` - **props.payload**<br /><br />
 
-- `onFocus`
-    - Triggered when component become focused
-    - **Function** with the only argument: **event** - **React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>**
+- `value`
+    - Number picker value
+    - **String** | **Number**<br /><br />
 
-- `onBlur`
-    - Triggered when component lose its focus
-    - **Function** with the only argument: **event** - **React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>**
+- `children`
+    - Children element to be passed to an underlaying Input component
+    - **Input.children**<br /><br />
 
-- `onKeyDown`
-    - On root tag keydown event. May prevent inner default onKeyDown event
-    - **Function** with the only argument: **event** - **React.KeyboardEvent<HTMLDivElement>**
+- `rootTagAttributes`
+    - **div** tag attributes<br /><br />
 
-- `disabledInput`
-    - Disable typing into input field
-    - **Boolean**<br /><br />
+- `regexp`
+    - NumberPicker regexp to be passed to underlaying Input component
+    - **RegExp | ((defaultRegExp: string) => RegExp**<br /><br />
 
-- `inputStore`
-    - **Input** component **props.store**<br /><br />
-
-- `minusIcon`
-    - Icon for value decrement control
-    - **React.ReactNode**
-
-- `plusIcon`
-    - Icon for value increment control
-    - **React.ReactNode**
+- `label`
+    - Number picker label
+    - **React.ReactNode**<br /><br />
 
 - `step`
-    - Value change step if you change with _plus_ / _minus_ controls<br /><br />
+    - Renders change value step buttons with defined value step
+    - **Number**<br /><br />
 
 - `min`
-    - Minimal possible value
+    - Minimum value
     - **Number**
     - Default is **-Infinity**<br /><br />
 
 - `max`
-    - Maximal possible value
+    - Maximum value
     - **Number**
     - Default is **Infinity**<br /><br />
 
-- `regexp`
-    - Input field regexp
-    - **RegExp | ((defaultRegExp: string) => RegExp**
+- `minusIcon`
+    - Step decrease value button icon
+    - **React.ReactNode**<br /><br />
+
+- `plusIcon`
+    - Step increase value button icon
+    - **React.ReactNode**<br /><br />
 
 - `payload`
-    - Data to be passed to **props.onChange** handler
+    - Any value to be passed to `props.onChange` params
     - **Any**<br /><br />
 
-- `children`- **Input.children**
+- `precision`
+    - Value precission (number of digits after dot)
+    - **Number**<br /><br />
 
-- `inputClassName` - **Input.className**
+- `precisionKeepZeroes`
+    - Keeps fractional ending zeroes
+    - **Boolean**
+    - Default is **true**<br /><br />
 
-- `suffix` - **Input.suffix**
+- `zeroesPadLeft`
+    - Adds zeroes before value
+    - **Number**<br /><br />
 
-- `prefix` - **Input.prefix**
+- `disabledInput`
+    - Disables NumbrPicker input
+    - **Boolean**<br /><br />
 
-- `label` - **Input.label**
+- `onFocus`
+    - Triggered if NumberPicker takes focus
+    - **Function** with the only argument: **event** - **React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>**<br /><br />
 
-- `errorMsg` - **Input.errorMsg**
+- `onBlur`
+    - Triggered if NumberPicker loses its focus
+    - **Function** with the only argument: **event** - **React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>**<br /><br />
 
-- `inputTheme` - **Input.theme**
+- `onKeyDown`
+    - Triggered if some key pressed when NumberPicker is focused
+    - **Function** with the only argument: **event** - **React.KeyboardEvent<HTMLDivElement>**<br /><br />
 
-- `placeholder` - **Input.placeholder**
+- `inputClassName`
+    - Underlaying Input class name
+    - **Input.className**<br /><br />
 
-- `inputAttributes` - **Input.inputAttributes**
+- `inputTheme` - **Input.theme**<br /><br />
 
-- `inputMemoDeps` - **Input.memoDeps**
+- `inputStore` - **Input.store**<br /><br />
 
-- `inputRootAttributes` - **Input.rootTagAttributes**
+- `inputMemoDeps` - **Input.memoDeps**<br /><br />
 
-- `debounceMs` - **Input.debounceMs**
+- `inputRootAttributes` - **Input.rootTagAttributes**<br /><br />
 
-- `inputStore` - **Input.store**
+- `debounceMs` - **Input.debounceMs**<br /><br />
+
+- `suffix` - **Input.suffix**<br /><br />
+
+- `prefix` - **Input.prefix**<br /><br />
+
+- `label` - **Input.label**<br /><br />
+
+- `errorMsg` - **Input.errorMsg**<br /><br />
+
+- `placeholder` - **Input.placeholder**<br /><br />
+
+- `inputAttributes` - **Input.inputAttributes**<br /><br />

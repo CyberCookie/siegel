@@ -6,15 +6,15 @@ Simple table<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **table** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `head`
-    - **Table** header. Represents each row in **thead** tag
+    - **Table** header, represents each row in **thead** tag
     - **Object[]** with the next fields:
         - `children` - **Object[]**. Represents each cell in footer row. Each **Object** has the next fields:
             - `value` - **React.ReactNode**. table Cell value
@@ -22,7 +22,7 @@ Simple table<br />
         - `attributes` - **tr** tag attributes<br /><br />
 
 - `body`
-    - **Table** body. Represents each row in **tbody** tag
+    - **Table** body, represents each row in **tbody** tag
     - **Object[]** with the next fields:
         - `children` - **Object[]**. Represents each cell in footer row. Each **Object** has the next fields:
             - `value` - **React.ReactNode**. table Cell value
@@ -30,7 +30,7 @@ Simple table<br />
         - `attributes` - **tr** tag attributes<br /><br />
 
 - `foot`
-    - **Table** footer. Represents each row in **tfoot** tag
+    - **Table** footer, represents each row in **tfoot** tag
     - **Object[]** with the next fields:
         - `children` - **Object[]**. Represents each cell in footer row. Each **Object** has the next fields:
             - `value` - **React.ReactNode**. table Cell value
@@ -39,4 +39,7 @@ Simple table<br />
 
 - `caption`
     - **Table** caption
-    - **React.ReactNode**
+    - **React.ReactNode**<br /><br />
+
+- `rootTagAttributes`
+    - **table** tag attributes

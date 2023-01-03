@@ -1,4 +1,7 @@
-type StateWithUpdater<State extends Obj> = State & { __updated: number }
+type StateWithUpdater<State extends Obj> = State & {
+    /** Value that is get incremented every time store is updated */
+    __updated: number
+}
 
 type HookStore<State, Actions extends ActionsUnbinded<State>> = Required<InnerStore<StateWithUpdater<State>, Actions>>
 

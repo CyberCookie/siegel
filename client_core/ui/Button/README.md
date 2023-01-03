@@ -6,12 +6,12 @@ Simple button<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **Button** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `type`
     - **Button** type
@@ -23,10 +23,13 @@ Simple button<br />
     - **React.ReactNode**<br /><br />
 
 - `disabled`
-    - Indicates whether a **Button** is disabled
+    - Disables **Button**
     - **Boolean**<br /><br />
 
 - `onClick`
     - Click handler
     - **Function**. Has 1 argument:
-        - **event** - **React.MouseEvent**
+        - **event** - **React.MouseEvent**<br /><br />
+
+- `rootTagAttributes`
+    - **Button** root tag attributes<br /><br />

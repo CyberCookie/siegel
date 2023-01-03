@@ -106,7 +106,9 @@ const DEFAULT_CONFIG: ConfigDefault = {
                     js: 'app.[contenthash].js',
                     js_chunk: 'chunk.[name][contenthash].js',
                     styles: 'styles.[name].css',
-                    styles_chunk: 'chunk.[name].css'
+                    styles_chunk: 'chunk.[name].css',
+                    brotli: '[base].br',
+                    gzip: '[base].gz'
                 }
             }
         },

@@ -1,6 +1,6 @@
 ## Floath mod
 
-Performs mod calculations with given float numbers 
+Performs mod calculations with given float numbers
 
 Function receives **3** parameters:
 - **a** - **Number**. Left hand operand

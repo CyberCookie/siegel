@@ -1,14 +1,16 @@
 ## Array objects sort
 
-To sort objects in array
+Sorts array of objects
 
 <br />
 
-Receives **3** parameters:
+Receives **5** parameters:
 - **primary key** - **String**. Primary object property key to sort by
 - **secondary key** - **String**. Secondary object property key to sort by<br />
     if **primary key**'s values of both objects are equal (==)
 - **sort value** - **(-1 | 0 | 1)**. Comparator value
+- **object_a** - **Object** to compare
+- **object_b** - **Object** to compare
 
 <br />
 

@@ -6,17 +6,20 @@ Link to external source<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **a** tag attributes<br /><br />
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `path`
-    - Link path. If no protocol is specified, then link path is prefixed with **'https://'**
+    - Link path
     - **String**<br /><br />
 
 - `title`
-    - link text
-    - **React.ReactNode**
+    - Link text
+    - **React.ReactNode**<br /><br />
+
+- `rootTagAttributes`
+    - **a** tag attributes

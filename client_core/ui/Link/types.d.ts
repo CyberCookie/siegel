@@ -4,8 +4,13 @@ import type {
 
 
 type Props = PropsComponentBase<{
+    /** Link path */
     path: string
+
+    /** Link text */
     title: React.ReactNode
+
+    /** Root tag [<a>] attributes */
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>
 }>
 

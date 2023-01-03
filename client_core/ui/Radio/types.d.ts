@@ -4,34 +4,62 @@ import type {
 
 
 type MultiSelectProps = {
-    multiple: true
+    /** Selected option(s) */
     selected: Set<string>
+
+    /** Allows to select multiple options */
+    multiple: true
 }
 type SingleSelectProps = {
-    multiple?: false
     selected: string
+    multiple?: false
 }
 
 
 type Theme = {
-    option?: string
-    option__selected?: string
+    /** Root tag state if Radio component is disabled */
     _disabled?: string
+
+    /** Radio option */
+    option?: string
+
+    /** Radio option selected */
+    option__selected?: string
 }
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
+    /**
+     * Triggered when you pick an option
+     *
+     * @param id option ID
+     * @param event mousedown event
+     * @param payload option payload
+     */
     onChange(
         id: string,
         event: React.MouseEvent<HTMLDivElement>,
         payload: _Payload
     ): void
+
+    /** Radio options */
     options: {
+        /** Option value */
         id: string
+
+        /** Option text */
         content: React.ReactNode
+
+        /** Option class name */
         className?: string
+
+        /** Extra value to be passed to callback along with option value */
         payload?: _Payload
     }[]
+
+    /** Disables radio buttons component */
     disabled?: boolean
+
+    /** Root tag [<div>] attributes */
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLDivElement>
 }> & (MultiSelectProps | SingleSelectProps)
 

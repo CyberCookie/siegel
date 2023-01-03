@@ -6,56 +6,64 @@ Customizable checkbox<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div | label** tag attributes. Label attributes if **props.label** is defined<br /><br />
-
 - `refApi`
-
-- `checkboxAttributes`
-    - **input** tag attributes<br /><br />
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `_checked`
+        - Root tag state if checkbox is checked
     - `_disabled`
+        - Root tag state if checkbox is disabled
     - `label`
+        - Checkbox label
     - `checkbox`
+        - Checkbox input tag
     - `with_icon_wrapper`
-    - `label_wrapper`<br /><br />
+        - Applied to checkbox tag wrapper if icon is applied
+    - `label_wrapper`
+        - Applied to label wrapper tag if label is applied<br /><br />
 
 - `value`
-    - Checkbox state
+    - Checkbox value
     - **Boolean**
     - Default is **false**<br /><br />
 
 - `onChange`
+    - Triggered on checkbox click
     - **Function**. Has **3** arguments:
-        - **checked** - **Boolean**
+        - **checked** - **Boolean**. New checkbox value
         - **event** - **React.MouseEvent<HTMLDivElement | HTMLLabelElement | HTMLInputElement>**
-        - **payload** - **props.payload**<br /><br />
+        - **payload** - `props.payload`<br /><br />
 
 - `onMouseDown`
-    - On root tag mousedown event. May prevent inner default onMouseDown event
+    - Triggered right before `props.onChange` handler is fired. Can prevent props.onChange from beeing triggered
     - **Function** with the only argument:
-        -   **event** - **React.MouseEvent<HTMLDivElement | HTMLLabelElement | HTMLInputElement>**
+        -   **event** - **React.MouseEvent<HTMLDivElement | HTMLLabelElement | HTMLInputElement>**<br /><br />
 
-- `onYearSwitch`
-    - Same signature as **props.onMonthSwitch**<br /><br />
+- `checkboxAttributes`
+    - **input** tag attributes<br /><br />
+
+- `rootTagAttributes`
+    - **div | label** tag attributes. Label attributes if **props.label** is defined<br /><br />
 
 - `label`
     - **Checkbox** label
     - **React.ReactNode**<br /><br />
 
 - `icon`
-    - **Checkbox** check icon
+    - **Checkbox** checked icon
     - **React.ReactNode**<br /><br />
 
 - `disabled`
-    - Disable **Checkbox**
+    - Disables **Checkbox**
     - **Boolean**<br /><br />
 
 - `payload`
-    - Data to be passed to **props.onChange** handler
+    - Any value to be present in `props.onChange` callback
     - **Any**

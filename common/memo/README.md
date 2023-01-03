@@ -1,12 +1,12 @@
 ## memo
 
-Executes callback to memoize result and returns it whenever called until dependencies have changd<br />
+Executes callback to memoize result and returns it whenever called until dependencies have changed<br />
 
 Receives **3** parameters:<br />
 - callback - **Function** result to memoize<br />
 - dependencyValue - **String | Number | Boolean**. Value to compare with one from previous callback execution<br />
     in order to determine whether to return memoized value<br />
-- id - **Number**. Memoization ID <br />
+- id - **Number**. Memoization ID<br />
 Returns **Any** - memoized result<br />
 
 To prevent memory leaks use `clearState` that accepts memoization id.

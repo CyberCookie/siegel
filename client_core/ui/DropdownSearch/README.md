@@ -8,39 +8,51 @@ Searchable input with select hints built on top of **Input** component<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
-- `children`
-
 - `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
+        - Root tag
     - `_with_suggestions`
-        - Applied if suggestions are visible
+        - Root tag state if search suggestions is visible
     - `_disabled`
-        - Applied if `props.disabled` is `true`
+        - Root tag state if component is disabled
     - `_focused`
-        - Applied if component is focused
+        - Root tag state if component is focused
     - `_error`
-        - Applied if `props.errorMsg` is defined
+        - Root tag state if `props.error` is defined
     - `reset`
         - Applied to reset btn if defined
     - `input_wrapper`
-        - Wrapps input and options elements if label is defined
-    - `label`
-    - `children`
+        - Wraps input and options
+    - `label_wrapper`
+        - Label wrapper element
+    - `label_text`
+        - Label text element
     - `options`
+        - Options wrapper element
     - `option`
+        - Suggestion option
+    - `option__disabled`
+        - Option state if the option is disabled
     - `option__selected`
-    - `option__disabled`<br /><br />
+        - Option state if the option is selected<br /><br />
+
+- `onChange`
+    - **Required**
+    - Triggered on option selection
+    - **Function** Has **3** arguments:
+        - **value** - **Any**. option value
+        - **event** - **React.MouseEvent | React.FocusEvent | React.KeyboardEvent**. Type depends on which way hint has been chosen<br /><br />
 
 - `searchOptions`
     - **Required**
-    - All options that may display as a hints
+    - Search suggestion options
     - **Object[]** with the next fields:
         - `inputValue`
             - **Required**
@@ -63,99 +75,125 @@ Searchable input with select hints built on top of **Input** component<br />
             - Always show this hint no matter what is typed into the input
             - **Boolean**<br /><br />
 
-- `onChange`
-    - **Required**
-    - **Function** that fires when hint has been chosen. Have **3** arguments:
-        - **value** - **Any**. Hint value
-        - **event** - **React.MouseEvent | React.FocusEvent | React.KeyboardEvent**. Type depends on which way hint has been chosen<br /><br />
-
 - `onSearch`
-    - **Function** that is trigered on input text change. Has **2** arguments:
-        - **SearchValue** - **String**. Input field text
+    - Triggered when user type into component input
+    - **Function** Has **2** arguments:
+        - **SearchValue** - **String**. input value
         - **event** - Input component **props.onChange** event<br /><br />
 
-- `onKeyDown`
-    - On root tag keydown event. May prevent inner default onKeyDown event
-    - **Function** with the only argument: **event** - **React.KeyboardEvent**
-
 - `onRootBlur`
-    - On root tag blur event. May prevent inner default onBlur event
-    - **Function** with the only argument: **event** - **React.FocusEvent**
+    - Triggered when component root looses focus
+    - **Function** with the only argument: **event** - **React.FocusEvent**<br /><br />
+
+- `onKeyDown`
+    - Triggered when key was pressed
+    - **Function** with the only argument: **event** - **React.KeyboardEvent**<br /><br />
+
+- `children`
+    - Any children element to be passed to underlaying Input component
+    - **React.ReactNode**<br /><br />
 
 - `store`
     - **Static**
-    - Store, created with **React.useState** store, to be used in **DropdownSearch**
+    - Inner store
     - State is an **Object** with the next fields:
-        - `searchString` - **String | undefined**. Input field text
-        - `arrowSelectIndex` - **Number | undefined**. Hint index choosen with keyboard arrows,<br />
-        before you press __Enter__ to select it<br />
-        This field specify currently selected hint index
+        - `searchString` - **String | undefined**. Input search string
+        - `arrowSelectIndex` - **Number | undefined**. Keyboard selected option index
     - Component exports `getDefaultState` function to init outer store's state<br /><br />
 
+- `rootTagAttributes`
+    - **div** root tag attributes<br /><br />
+
 - `minInputLength`
+    - How many characters to type for suggestions to appear
     - **Number**
-    - Minimal search length to display hints
     - Default is **3**<br /><br />
 
 - `showOnFocus`
-    - **Boolean**
-    - Show all hints on input focus<br /><br />
+    - Always show suggestions on component focus
+    - **Boolean**<br /><br />
 
 - `listDisabledOptions`
-    - Whether to show disabled options in a options list
+    - Show disabled options among popup
     - **Boolean**
     - Default is **true**<br /><br />
 
 - `showAll`
-    - **Boolean**
-    - Show all hints<br /><br />
+    - Show all suggestions
+    - **Boolean**<br /><br />
 
 - `selected`
-    - **Any**
-    - Selected hint. Should match **props.searcOptions[number].value**<br /><br />
+    - Selected option value
+    - **Any**<br /><br />
 
 - `resetIcon`
-    - **React.ReactNode**
-    - Icon to reset selection. There is no reset control if icon is not specified<br /><br />
+    - Enables reset option capability providing reset icon
+    - **React.ReactNode**<br /><br />
 
 - `resetIconKeepChildren`
-    - **Boolean**
-    - Keeps provided `props.children` when `resetIcon` appears
+    - Keeps props.children rendered when resetIcon appears since both are Input component's children
+    - **Boolean**<br /><br />
 
-- `children`- **Input.children**
+- `disabled`
+    - Disables underlaying Input component
+    - **Input.disabled**<br /><br />
 
-- `inputClassName` - **Input.className**
+- `inputTheme`
+    - Underlaying Input theme
+    - **Input.theme**<br /><br />
 
-- `inputTheme` - **Input.theme**
+- `label`
+    - Underlaying Input label
+    - **Input.label**<br /><br />
 
-- `inputStore` - **Input.store**
+- `inputStore`
+    - Underlaying Input inner input store
+    - **Input.store**<br /><br />
 
-- `autofocus` - **Input.autofocus**
+- `autofocus`
+    - Enables underlaying Input component's autofocus
+    - **Input.autofocus**<br /><br />
 
-- `placeholder` - **Input.placeholder**
+- `placeholder`
+    - Underlaying Input placeholder
+    - **Input.placeholder**<br /><br />
 
-- `inputTagAttributes` - **Input.inputAttributes**
+- `inputClassName`
+    - Underlaying Input class name
+    - **Input.className**<br /><br />
 
-- `inputRootTagAttributes` - **Input.rootTagAttributes**
+- `inputTagAttributes`
+    - Underlaying Input input tag attributes
+    - **Input.inputAttributes**<br /><br />
 
-- `inputMemoDeps` - **Input.memoDeps**
+- `inputRootTagAttributes`
+    - Underlaying Input input root tag [<div>] attributes
+    - **Input.rootTagAttributes**<br /><br />
 
-- `errorMsg` - **Input.errorMsg**
+- `inputMemoDeps`
+    - Underlaying Input memo dependencies params
+    - **Input.memoDeps**<br /><br />
 
-- `debounceMs` - **Input.debounceMs**
+- `errorMsg`
+    - Underlaying Input error message
+    - **Input.errorMsg**<br /><br />
 
-- `mask` - **Input.mask**
+- `regexp`
+    - Input regexp
+    - **Input.regexp**<br /><br />
 
-- `regexp` - **Input.regexp**
+- `debounceMs`
+    - Search input change debounce in ms
+    - **Input.debounceMs**<br /><br />
 
-- `onBlur` - **Input.onBlur**
+- `mask`
+    - Applies search input mask
+    - **Input.mask**<br /><br />
 
-- `onFocus` - **Input.onFocus**
+- `onBlur`
+    - Triggered on search input focus
+    - **Input.onBlur**<br /><br />
 
-- `disabled` - **Input.disabled**
-
-- `label` - **Input.label**
-
-- `inputProps`
-    - **Input props** except of **type**, **onChange**, **value**, **rootTagAttributes**
-    - Underlying Input component props
+- `onFocus`
+    - Triggered on search input blur
+    - **Input.onFocus**<br /><br />

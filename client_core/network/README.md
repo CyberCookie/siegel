@@ -30,7 +30,7 @@ Receives **1** argument - **Object** wit the next fields:
     Has **1** argument:
     - **reqParams** - **ReqParams**. Concrete request's request params. (Read below)
 
-- `beforeRequest` - **Function**. Triggered right before **Fetch API** call<br />
+- `beforeRequest` - **Function**. Preprocess mutable request data right before it passed to Fetch API<br />
     Has **1** argument:
     - **reqData** - **Mutable Object**. Holds request data further passed to **Fetch API**<br />
         **Object** has the next fields:
@@ -56,10 +56,10 @@ Receives **1** argument - **Object** wit the next fields:
 - `errorHandler` - **Function**. Triggered if request was failure<br />
     Has **1** argument:
     - **error** - **Object** with the next fields:
-        - `status` - Same as **status** in **afterRequest** callback
-        - `message` - Same as **statusText** in **afterRequest** callback
-        - `res` - Same as **parsedRes** in **afterRequest** callback
-        - `req` - Same as **reqData** in **afterRequest** callback
+        - `status` - **Number**. Response status code
+        - `message` - **String**. Response status text
+        - `res` - Response data
+        - `req` - Data used to make a request
 
 - `json` - **Boolean**. Default is **false**<br />
     Applies json content type to headers and parses response as json
@@ -93,7 +93,7 @@ Content-type header values used in **request**.
     Request URL. Can include url params: _someurl/:param1/:param2_
 
 - `params` - **Object** where _key_ is parameter ID and _value_ is parameter value<br />
-    URL params that was included to URL
+    URL params that will be included in `url`
 
 - `query` - **String | Object**<br />
     If object provided then _key_ is query ID and _value_ is query value<br />
@@ -108,24 +108,24 @@ Content-type header values used in **request**.
 - `headers` - **Object** where _key_ is header ID and _value_ is header value<br />
     Request headers
 
+- `isFullRes` - **Boolean** Default is **false**<br />
+    Returns full response with headers, status code etc
+
 - `parseMethod` - **String**<br />
-    Method to be executed on response to retrieve actual data<br />
+    Method to be executed on response to extract its data<br />
     By default **request** sets this prop regarding to response content type
 
 - `credentials` - **String**<br />
     Request credentials
 
-- `json` - Same as **beforeRequest** in **setupRequest Object** but for particular req
-
-- `preventSame` - Same as **preventSame** in **setupRequest Object** but for particular req
-
 - `signal` - **(new AbortController()).signal**<br />
     Terminates request and prevents browser from response handling
 
-- `isFullRes` - **Boolean** Default is **false**<br />
-    Returns full response with headers, status code etc.
+- `json` - For this request applies json content type to headers and parses response as json
 
-- `beforeRequest` - Same as **beforeRequest** in **setupRequest Object**
+- `preventSame` - For this request prevents request if the same request is already processing
+
+- `beforeRequest` - Preprocess mutable request data right before it passed to Fetch API
 
 
 
@@ -190,7 +190,7 @@ socket.send('messageType', payload)
 
 - `serverTimeout` - **Number**<br />
     Closes socket connection if no messages has been received from a server<br />
-    during `serverTimeout` ms<br />
+    during `serverTimeout` ms.<br />
     Triggers **onerror** event with no arguments passed to<br /> 
 
 - `ping` - **Object**<br />
@@ -201,8 +201,28 @@ socket.send('messageType', payload)
     - `payload` - **String | Blob | ArrayBufferLike | ArrayBufferView**<br />
             Ping message payload of any type<br />
 
+- `events` - **Object**<br />
+    Different events thats are fired during a socket connection lifecycle you may subscribe to<br />
+    - `onopen` - **(e: Event) => void**<br />
+        Triggered after connection has been established<br />
+
+    - `onreconnect`
+        - Triggered after successful reconnection
+        - **Function** Has **1** argument:
+            - **event** - **Event**<br /><br />
+
+    - `onmessage` - **(e: MessageEvent, parsedMessage: any) => void**<br />
+        Triggers when message is received<br />
+        
+    - `onclose` - **(e: CloseEvent) => void**<br />
+        Triggers once socket connection has been clossed<br />
+
+    - `onerror` - **(e?: Event) => void**<br />
+        Triggres once an error is occured in a socket connection<br />
+        **undefined** parameter means that connection was closed when **serverTimeout** has been elapsed
+
 - `parseIncommingMsg` - **(e: MessageEvent) => any**<br />
-    Socket incoming message parse function where you can apply your custom algorithm<br />
+    Socket incoming message parse function where you can apply your custom parse algorithm<br />
     Default message parser is **JSON.parse()**<br />
     Parsed message must contain **messageTypeKey** and **payloadKey** fields to maket it<br />
     possible to trigger message subscribe handlers<br /> 
@@ -217,22 +237,3 @@ socket.send('messageType', payload)
     Constructs a message to be sent on a server<br />
     By default serialization is made by **JSON.stringify()** using<br/>
     **messageTypeKey** and **payloadKey** fields to store messageType and payload accordingly<br />
-
-- `events` - **Object**<br />
-    Different events that are fired during a socket connection lifecycle you may listen to<br />
-    - `onopen` - **(e: Event) => void**<br />
-        Triggered after connection has been established<br />
-
-    - `onreconnect` - **Function** That is triggered after successful reconnection<br />
-        Has **1** argument:
-        - **event** - **Event**<br /><br />
-
-    - `onmessage` - **(e: MessageEvent, parsedMessage: any) => void**<br />
-        Triggers when message is received<br />
-        
-    - `onclose` - **(e: CloseEvent) => void**<br />
-        Triggers once socket connection has been clossed<br />
-
-    - `onerror` - **(e?: Event) => void**<br />
-        Triggres once an error is occured in a socket connection<br />
-        **undefined** parameter means that connection was closed when **serverTimeout** has been elapsed

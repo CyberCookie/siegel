@@ -8,22 +8,24 @@ Steps slider built on top of **Ranger** component<br />
 
 ## Props:
 
-- `rootTagAttributes`
-    - **div** tag attributes<br /><br />
-
-- `refApi` - **Ranger.refApi**
+- `refApi`
+    - Component root reference params<br /><br />
 
 - `className`
+    - Root element class name
+    - **String**<br /><br />
 
 - `theme`
     - `root`
-        - Applied to **Ranger** component
+        - Root tag applied to **Ranger** element
     - `anchors_wrapper`
-    - `children_wrapper`
-        - Wrapps provided children with children passed to **Ranger** component
+        - Wraps all dragable anchors
     - `anchor`
+        - Draggable anchors
     - `anchor__active`
-        - If anchor label is in selection range<br /><br />
+        - Anchor state if included in selection range
+    - `children_wrapper`
+        - Wraps provided children with children passed to **Ranger** component<br /><br />
 
 - `value`
     - **Required**
@@ -40,26 +42,32 @@ Steps slider built on top of **Ranger** component<br />
         - `payload` - **Any**. Some data to store for later usege<br /><br />
 
 - `onChange`
-    - **Funtion** that is triggered when **Stepper** value is change. Has **2** arguments:
+    - Triggered when **Stepper** value is change
+    - **Funtion** Has **2** arguments:
         - **newValues** - **Object[]** with the next fields:
             - `value` - value of selected **props.options**
             - `optionIndex` - selected option index
         - **event** - **MouseEvent | React.MouseEvent**<br /><br />
 
-- `rangerThene` - **Ranger.theme**
+- `children`
+    - Stepper children element passed to **Ranger** along with stepper labels<br />
+        Wraped into **children_wrapper** element<br /><br />
+    - **React.ReactNode**
 
-- `rangerMemoDeps` - **Ranger.memoDeps**
+- `rangerThene` - **Ranger.theme**<br /><br />
 
-- `onRangePickStart` - **Ranger.onRangePickStart**
+- `rangerMemoDeps` - **Ranger.memoDeps**<br /><br />
 
-- `onRangePickFinish` - **Ranger.onRangePickFinish**
+- `onRangePickStart` - **Ranger.onRangePickStart**<br /><br />
 
-- `rangersCrossBehavior` - **Ranger.rangersCrossBehavior**
+- `onRangePickFinish` - **Ranger.onRangePickFinish**<br /><br />
 
-- `rangePickIcon` - **Ranger.rangePickIcon**
+- `rangersCrossBehavior` - **Ranger.rangersCrossBehavior**<br /><br />
 
-- `label` - **Ranger.label**
+- `rangePickIcon` - **Ranger.rangePickIcon**<br /><br />
 
-- `isVertical` - **Ranger.isVertical**
+- `label` - **Ranger.label**<br /><br />
+
+- `isVertical` - **Ranger.isVertical**<br /><br />
 
 - `disabled` - **Ranger.disabled**
