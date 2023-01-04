@@ -14,12 +14,7 @@ const DemoApi: Page = () => {
     const [
         { received, counter, proxyRes },
         { api_echo, updateCounter, api_proxyGet }
-    ] = demoApiModule.default(
-        (prevState, nextState) => {
-            console.log(prevState, nextState)
-            return true
-        }
-    )
+    ] = demoApiModule.default()
 
     const [ requestString, setRequestString ] = useState('')
 
