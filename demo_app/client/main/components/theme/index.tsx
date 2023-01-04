@@ -9,7 +9,6 @@ import Clocks, { Props as ClocksProps } from 'siegel-ui/Clocks'
 import _DataTable, { Props as DataTableProps } from 'siegel-ui/DataTable'
 import _Accordion, { Props as AccordionProps } from 'siegel-ui/Accordion'
 import _DropdownSearch, { Props as DropdownSearchProps } from 'siegel-ui/DropdownSearch'
-import _Form, { Props as FormProps } from 'siegel-ui/Form'
 import _Input, { Props as InputProps } from 'siegel-ui/Input'
 import _Link, { Props as LinkProps } from 'siegel-ui/Link'
 import _NumberPicker, { Props as NumberPickerProps } from 'siegel-ui/NumberPicker'
@@ -36,7 +35,6 @@ import checkboxTheme from './styles/checkbox.sass'
 import _dataTableTheme from './styles/data_table.sass'
 import accordionTheme from './styles/accordion.sass'
 import _dropdownSearchTheme from './styles/dropdown_search.sass'
-import formTheme from './styles/form.sass'
 import inputTheme from './styles/input.sass'
 import linkTheme from './styles/link.sass'
 import _numberPickerTheme from './styles/number_picker.sass'
@@ -115,8 +113,6 @@ const DropdownSearch = withDefaults(_DropdownSearch, {
     }
 })
 
-
-const Form = withDefaults(_Form, {})
 
 const Input = withDefaults(_Input, {
     theme: inputTheme
@@ -221,7 +217,6 @@ export {
     ErrorBoundary,
     accordionTheme, Accordion,
     dropdownSearchTheme, DropdownSearch,
-    formTheme, Form,
     inputTheme, Input,
     linkTheme, Link,
     numberPickerTheme, NumberPicker,
@@ -240,5 +235,5 @@ export type {
     ButtonProps, BreadcrumbsProps, CalendarProps, CheckboxProps, ClocksProps, DataTableProps, SwipeProps,
     AccordionProps, DropdownSearchProps, InputProps, LinkProps, NumberPickerProps, PaginationProps,
     PopupProps, RadioProps, SelectProps, SliderProps, TableProps, ToggleProps, TabsProps, RangerProps,
-    StepperProps, FormProps
+    StepperProps
 }

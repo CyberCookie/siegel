@@ -1,4 +1,4 @@
-import type { HookStore } from 'siegel-store'
+import type { HookStore } from 'siegel-store/index'
 import type { EchoReqBody } from 'dto/demo_api'
 
 
@@ -11,7 +11,7 @@ type State = {
 type Actions = {
     api_echo(store: StoreInitialized, body: EchoReqBody): void
     api_proxyGet(store: StoreInitialized, id: string): void
-    updateCounter(store: StoreInitializedz): void
+    updateCounter(store: StoreInitialized): void
 }
 
 type StoreInitialized = HookStore<State, Actions>

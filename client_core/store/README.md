@@ -14,14 +14,20 @@ import createStore from 'siegel/lib/client_core/store'
 
 
 const getInitialState = () => ({
-    someKey: 0
+    someKey: 0,
+    anotherKey: 'str'
 })
 
 const actions = {
-    storeUpdate(store, data) {
+    storeUpdateSomeKey(store, data) {
         const { state, setState } = store
         state.someKey = data
         setState(state) // {...} object is destructuring under the hood
+    },
+    storeUpdateAnotherKey(store, data) {
+        const { state, setState } = store
+        state.anotherKey = data
+        setState(state)
     }
 }
 
@@ -36,7 +42,13 @@ storeUpdate(Date.now())
 //or by subscribing to the store in some component
 const Component = () => {
     // subscribe to the store changes
-    const [ state, actions ] = useStore()
+    const [
+        { someKey },
+        { storeUpdateSomeKey, storeUpdateAnotherKey }
+    ] = useStore(
+        // Optional shouldUpdate callback to prevent unnecessary renders
+        (prevState, nextState => prevState.someKey != nextSate.someKey)
+    )
     
     // reset store to inital state anytime you need
     useLayoutEffect(() => {
@@ -45,8 +57,12 @@ const Component = () => {
     
     
     return (
-        <div onMouseDown={() => { actions.update(Date.now()) }}>
-            { state.someKey }
+        <div>
+            <div onMouseDown={() => { storeUpdateSomeKey(Date.now()) }}>
+                { someKey }
+            </div>
+
+            <div onMouseDown={() => { storeUpdateAnotherKey(`${Date.now()}`) }} />
         </div>
     )
 }
@@ -55,8 +71,8 @@ const Component = () => {
 <br />
 
 Also your state is populates with `__updated` property which increments every time state has changed<br />
-The counter resets to zero when no subscibed components left<br />
-It can help you to avoid unnecessary rerenders in combinations with such hooks as useMemo or useDidUpdate
+The counter resets to zero when no subscribed components left<br />
+It can help you to avoid unnecessary renders in combinations with such hooks as useMemo or useDidUpdate
 
 ```js
 import React, { useMemo } from 'react'
@@ -81,6 +97,4 @@ const Component = () => {
         [ anotherState.__updated ]
     )
 }
-
-
 ```
