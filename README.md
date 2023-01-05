@@ -83,12 +83,11 @@ npm i siegel
 Create **app.js** file:<br />
 
 ```js
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
-render(
-    'Hello Siegel!',
-    document.getElementById('root')
-)
+const root = document.getElementById('root')
+createRoot(root)
+    .render('Hello Siegel!')
 ```
 
 <br />
