@@ -13,5 +13,10 @@ type MaskCharData = {
 
 type MaskProcessor = NonNullable<Props['mask']>['processor']
 
+type InputTarget = {
+    selectionStart: number
+    selectionEnd: number
+} & HTMLElement & HTMLInputElement
 
-export type { ClipboardEvent, ChangeEvent, MaskCharData, MaskProcessor }
+
+export type { ClipboardEvent, ChangeEvent, MaskCharData, MaskProcessor, InputTarget }

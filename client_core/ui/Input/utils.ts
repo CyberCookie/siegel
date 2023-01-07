@@ -1,9 +1,9 @@
 import type { InputRef } from './types'
 
 
-const setCaretPos = (ref: InputRef, caretPos: number) => (
+const setCaretPos = (ref: InputRef, caretPosFrom: number, caretPosTo?: number) => (
     setTimeout(() => {
-        ref.current.setSelectionRange(caretPos, caretPos)
+        ref.current.setSelectionRange(caretPosFrom, caretPosTo || caretPosFrom)
     })
 )
 

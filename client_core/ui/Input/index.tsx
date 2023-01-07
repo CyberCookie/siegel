@@ -1,5 +1,3 @@
-//TODO: add formatter mode
-
 import React, { useRef, useEffect, useLayoutEffect, useState } from 'react'
 
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
@@ -210,6 +208,7 @@ const Input = component<Props, DefaultProps>(
         inputProps = resolveTagAttributes(inputProps, inputAttributes)
 
         mask?.processor(mask, inputProps as Parameters<typeof mask['processor']>[1])
+
 
         const InputTag: string = isTextarea ? type : 'input'
         let inputElement = <InputTag { ...inputProps } />

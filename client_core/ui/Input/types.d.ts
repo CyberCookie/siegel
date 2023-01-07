@@ -140,6 +140,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 
         /** Whether to copy the whole mask or only props.value when perform ctrl+c on input */
         copyMask?: boolean
+
+        /** Enables lazy mask appliance - new mask characters appears during value update */
+        formatterMode?: boolean
     }
 
     /**

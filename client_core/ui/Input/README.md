@@ -123,7 +123,8 @@ Input field to type text into<br />
             - Whether to shift next chars during typing
             - **Boolean**
             - Default is **true**
-        - `copyMask` - **Boolean**. Whether to copy the whole mask or only `props.value` when perform ctrl+c on input<br /><br />
+        - `copyMask` - **Boolean**. Whether to copy the whole mask or only `props.value` when perform ctrl+c on input
+        - `formatterMode` - **Boolean**. Enables lazy mask appliance - new mask characters appears during value update<br /><br />
 
 - `onChange`
     - Triggered when user updates input value 
