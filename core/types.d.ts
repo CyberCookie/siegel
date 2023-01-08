@@ -17,7 +17,7 @@ type Config = {
 } | string
 
 type ConfigDefault = {
-    publicDir: NonNullable<Config['publicDir']>
+    publicDir: NonNullable<Exclude<Config, string>['publicDir']>
     build: BuildConfigDefault
     server: ServerConfigDefault
 }

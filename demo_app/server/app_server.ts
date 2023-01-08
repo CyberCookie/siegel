@@ -34,6 +34,10 @@ const appServer: ServerExtenderFn = params => {
                 path: '/todos/:id',
                 changeOrigin: true
             }))
+
+            .get('/api/hc', (_, res) => {
+                res.sendStatus(200)
+            })
     }
 }
 
