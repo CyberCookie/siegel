@@ -14,7 +14,11 @@ const CLIENT_MAIN = join(CLIENT_APP, 'main')
 
 
 const siegelConfig: Config = {
-    server: { appServer },
+    server: {
+        appServer,
+        port: process.env.PORT,
+        host: process.env.HOST
+    },
 
     build: {
         input: {

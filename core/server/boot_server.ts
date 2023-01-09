@@ -18,7 +18,7 @@ const server = {
         })
 
 
-        return server.listen(port, host, () => {
+        return server.listen(port as number, host, () => {
             console.info('Starting server on %s:%s.', host, port)
         })
     }

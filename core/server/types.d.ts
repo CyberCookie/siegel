@@ -24,11 +24,11 @@ type ServerConfig = {
     /** User defined server to extend the one created by Siegel */
     appServer?: ServerExtenderFn
 
-    /** Static server host */
+    /** Static server host. Default is localhost */
     host?: string
 
-    /** Static server port */
-    port?: number
+    /** Static server port. Default is 3000 */
+    port?: string | number
 
     /** Whether to use HTTP2 protocol */
     http2?: boolean
