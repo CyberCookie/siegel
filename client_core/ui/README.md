@@ -222,7 +222,7 @@ Component function has field `ID` with this string too
 
 Store is creating with **React.useState** hook and provides state and action to update the state<br />
 
-There are components that accept store as a property. It's becouse some data passed to such components can be changed within this components itself or by user outside of this component<br />
+There are components that accept store as a property. It's because some data passed to such components can be changed within this components itself or by user outside of this component<br />
 Components, that accepts store, exports `getDefaultState` function to help initialize the store
 
 ```jsx

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useLayoutEffect, useRef } from 'react'
 
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import floatMath from '../../../common/math/floats_arifmetic'
@@ -15,7 +15,7 @@ import Input, {
 import { setCaretPos } from '../Input/utils'
 import {
     buildInputRegexp, getInputString, getValuePrecision, getStepButtons,
-    adjustWithRanges, pretifyInputString, isValidNumberString
+    adjustWithRanges, pretifyInputString, isValidNumberString, initializePrevValidNumber
 } from './helpers'
 
 import type { DivTagAttributes } from '../_internals/types'
@@ -74,13 +74,16 @@ const NumberPicker = component<Props, DefaultProps>(
         const _inputStore = inputStore || useState(getDefaultInputStoreState())
         const [{ isFocused }, setInputState ] = _inputStore
 
+
         const editStore = useState({
-            prevValidNumer: isValidNumberString(value, numberValue)
-                ?   numberValue
-                :   undefined
+            prevValidNumer: initializePrevValidNumber(value, numberValue)
         })
         const editState = editStore[0]
         const { prevValidNumer } = editState
+
+        useLayoutEffect(() => {
+            editState.prevValidNumer = initializePrevValidNumber(value, numberValue)
+        }, [ value ])
 
 
         const _onBlur: ComponentFocusEventHandler = e => {
