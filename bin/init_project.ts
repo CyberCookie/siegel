@@ -17,7 +17,7 @@ const {
 } = requireJSON(PATHS.packageJSON)
 
 
-const toJSON = (data: Parameters<typeof JSON['stringify']>[0]) => JSON.stringify(data, null, 4)
+const toJSON = (data: any) => JSON.stringify(data, null, 4)
 
 function main(isGlobal?: boolean) {
     if (DEFAULT_RUN_PARAMS._isSelfDevelopment) {

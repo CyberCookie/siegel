@@ -35,7 +35,9 @@ Input for numbers with various validations built on top of `Input` component<br 
     - `button_minus`
         - Decrease value button
     - `button_plus`
-        - Increase value button<br /><br />
+        - Increase value button
+    - `button__disabled`
+        - If button is disabled<br /><br />
 
 - `onChange`
     - Triggered when NumberPicker value is changing

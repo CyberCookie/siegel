@@ -3,8 +3,6 @@ import type { ReactTagAttributes } from '../../_internals/types'
 import { MergedProps, OnNumberPickerChange, ComponentFocusEvent } from '../types'
 
 
-type BtnClickEv = React.MouseEvent<HTMLButtonElement>
-
 type BtnProps = ReactTagAttributes<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>
 
 type GetStepperButtons = (
@@ -24,4 +22,4 @@ type GetStepperButtons = (
 }
 
 
-export type { BtnClickEv, BtnProps, GetStepperButtons }
+export type { BtnProps, GetStepperButtons }

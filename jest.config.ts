@@ -7,7 +7,7 @@ import type { InitialOptionsTsJest } from 'ts-jest'
 
 const jestOptions: InitialOptionsTsJest = {
     preset: 'ts-jest/presets/default-esm',
-    rootDir: './common',
+    rootDir: './',
     testMatch: [ '**/*.test.ts' ]
 }
 

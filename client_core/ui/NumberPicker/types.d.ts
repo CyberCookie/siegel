@@ -40,6 +40,9 @@ type Theme = {
 
     /** Increase value button */
     button_plus?: string
+
+    /** If button is disabled */
+    button__disabled?: string
 }
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {

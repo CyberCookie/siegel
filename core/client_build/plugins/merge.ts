@@ -81,7 +81,7 @@ function merge(defaultPlugins: DefaultPlugins, userPlugins: Plugins = {}) {
 
 
     for (const userPluginKey in userPlugins) {
-        const userCustomPlugin = userPlugins[userPluginKey]
+        const userCustomPlugin = userPlugins[userPluginKey]!
 
         if (!defaultPlugins[userPluginKey as keyof DefaultPlugins] && isEnabledByUserPlugin(userCustomPlugin)) {
             (userCustomPlugin as AllCaseUserPluginConfig).plugin

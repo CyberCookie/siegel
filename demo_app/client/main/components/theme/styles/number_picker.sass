@@ -17,7 +17,7 @@ $controls_width: 20px
         cursor: pointer
         height: 20px
 
-        &:hover i
+        &:hover:not(.button__disabled) i
             color: $primary
     
     i
@@ -38,8 +38,9 @@ $controls_width: 20px
 ._disabled_all .field
     color: $border_color_light
     
-.controls button:disabled
+button.button__disabled
     cursor: default
+    pointer-events: none
     
     i
         color: $border_color_light

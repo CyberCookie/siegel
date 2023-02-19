@@ -128,8 +128,7 @@ type Plugins = {
 
     eslint?: UserPlugin<EslintPlugin, DefaultEslintPluginOptions>
 
-    [key: string]: AllCaseUserPluginConfig
-}
+} & Partial<{ [key: string]: AllCaseUserPluginConfig }>
 
 
 

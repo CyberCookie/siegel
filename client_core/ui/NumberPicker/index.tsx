@@ -15,7 +15,7 @@ import Input, {
 import { setCaretPos } from '../Input/utils'
 import {
     buildInputRegexp, getInputString, getValuePrecision, getStepButtons,
-    adjustWithRanges, pretifyInputString, isValidNumberString, initializePrevValidNumber
+    adjustWithRanges, pretifyInputString, isValidNumberString
 } from './helpers'
 
 import type { DivTagAttributes } from '../_internals/types'
@@ -41,6 +41,7 @@ const NumberPicker = component<Props, DefaultProps>(
             controls: _undef,
             button_minus: _undef,
             button_plus: _undef,
+            button__disabled: _undef,
             _error: _undef,
             _disabled_all: _undef,
             _focused: _undef
@@ -76,14 +77,17 @@ const NumberPicker = component<Props, DefaultProps>(
 
 
         const editStore = useState({
-            prevValidNumer: initializePrevValidNumber(value, numberValue)
+            prevValidNumer: value as number | undefined
         })
+        useLayoutEffect(() => {
+            editState.prevValidNumer = isValidNumberString(value, numberValue)
+                ?   numberValue
+                :   undefined
+        }, [ value ])
+
         const editState = editStore[0]
         const { prevValidNumer } = editState
 
-        useLayoutEffect(() => {
-            editState.prevValidNumer = initializePrevValidNumber(value, numberValue)
-        }, [ value ])
 
 
         const _onBlur: ComponentFocusEventHandler = e => {
@@ -166,7 +170,6 @@ const NumberPicker = component<Props, DefaultProps>(
             isExists(precision) && (result = result.toFixed(precision))
 
             const newNumberValue = +result
-            editState.prevValidNumer = newNumberValue
 
             onChange({
                 value: `${precisionKeepZeroes ? result : newNumberValue}`,
@@ -214,16 +217,12 @@ const NumberPicker = component<Props, DefaultProps>(
                             newStringValue = `${newNumberValue}`
                         }
 
-                        if (shouldTriggerOnChange) {
-                            editState.prevValidNumer = newNumberValue!
-
-                            onChange({
-                                event, payload, prevValidNumer,
-                                isValidNumberString: true,
-                                numberValue: newNumberValue!,
-                                value: newStringValue!
-                            })
-                        }
+                        shouldTriggerOnChange && onChange({
+                            event, payload, prevValidNumer,
+                            isValidNumberString: true,
+                            numberValue: newNumberValue!,
+                            value: newStringValue!
+                        })
                     }
 
                 } else {
@@ -237,15 +236,11 @@ const NumberPicker = component<Props, DefaultProps>(
 
                     const newNumberValue = parseFloat(value)
 
-                    const isValidNewNumberString = isValidNumberString(newValueString, newNumberValue)
-                        &&  newNumberValue == adjustWithRanges(newNumberValue, min, max)
-
-                    isValidNewNumberString && (editState.prevValidNumer = newNumberValue)
-
                     onChange({
                         event, payload, prevValidNumer,
                         numberValue: newNumberValue,
-                        isValidNumberString: isValidNewNumberString,
+                        isValidNumberString: isValidNumberString(newValueString, newNumberValue)
+                            &&  newNumberValue == adjustWithRanges(newNumberValue, min, max),
                         value: newValueString
                     })
                 }

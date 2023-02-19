@@ -1,6 +1,6 @@
 import React from 'react'
 
-import type { BtnClickEv, BtnProps, GetStepperButtons } from './get_step_buttons_types'
+import type { BtnProps, GetStepperButtons } from './get_step_buttons_types'
 
 
 const getStepButtons: GetStepperButtons = params => {
@@ -19,9 +19,10 @@ const getStepButtons: GetStepperButtons = params => {
         children: plusIcon
     }
     if (disabled || (numberValue >= max)) {
-        plusProps.disabled = isDisabledUp = true
+        plusProps.className += ` ${theme.button__disabled}`
+        isDisabledUp = true
     } else {
-        plusProps.onClick = (e: BtnClickEv) => {
+        plusProps.onClick = e => {
             onStepChange(e, true, step!)
         }
     }
@@ -33,9 +34,10 @@ const getStepButtons: GetStepperButtons = params => {
         children: minusIcon
     }
     if (disabled || (numberValue <= min)) {
-        minusProps.disabled = isDisabledDown = true
+        minusProps.className += ` ${theme.button__disabled}`
+        isDisabledDown = true
     } else {
-        minusProps.onClick = (e: BtnClickEv) => {
+        minusProps.onClick = e => {
             onStepChange(e, false, -step!)
         }
     }
