@@ -3,7 +3,7 @@ import entities from './'
 type TestEntity = {
     id: string
     data?: string
-    newaField?: string
+    newField?: string
 }
 
 
@@ -43,15 +43,15 @@ describe('common/entities', () => {
                 { id: 'd', data: 'data_d' },
                 { id: 'e', data: 'data_e' }
             ],
-            entity => { entity.newaField = entity.id + entity.data }
+            entity => { entity.newField = entity.id + entity.data }
         )
 
         expect(
             entitiesData.len()
         ).toStrictEqual(5)
 
-        expect(entitiesData.get('a').newaField)
-            .toBe('adata_a')
+        expect(entitiesData.get('b').newField)
+            .toBe('bdata_b')
     })
 
     test('clear', () => {
