@@ -16,7 +16,12 @@ Returns **Object** to perform CRUD operations with entities:
         - **entity** - **Object**. Entity **Object** to add
 
 - `addAll` - **Function**. to populate struct with multiple entities<br />
-    Returns **Entities** struct
+    - Receives **2** paramenters:
+        - **entities** - **Object[]**. Entities to populate<br />
+        - **postProcess** - **Function**. Callback to be called on each entity. Function has **2** arguments:
+            - **entity** - Entity to postprocess
+            - **index** - Entity index
+    - Returns **Entities** struct
 
 - `get` - **Function** to get an entity by given **uniq field**. Returns **Entity**
 

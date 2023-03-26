@@ -32,6 +32,9 @@ const Demo = () => {
         <h2 children='simple' />
         <Select { ...props } />
 
+        {/* <h2 children='simple' />
+        <Select { ...props } /> */}
+
         <h2 children='with label and displayTitle processing' />
         <Select { ...props } label='some label' getDisplayValue={ getSelectDisplayValue } />
 

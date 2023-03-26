@@ -32,11 +32,14 @@ function patchHistory(
         })
     }
     window.onpopstate = () => {
-        const { pathname } = location
+        const { pathname, search } = location
         const { state } = history
+
         onHistoryChange(pathname, state, result => {
-            const { newPathname, newHistoryState } = result
-            history.replaceState(newHistoryState, '', newPathname)
+            let { newPathname } = result
+            search && (newPathname += search)
+
+            history.replaceState(result.newHistoryState, '', newPathname)
         })
     }
 

@@ -12,9 +12,11 @@ import styles from './styles.sass'
 const layoutLinkClassName = `${linkTheme.link} ${styles.link}`
 
 const pathPrefix = `/${pagePathMap.demo_router}`
+const paramPage = `${pathPrefix}/some_param`
 const paths = {
     nested: `${pathPrefix}/${pagePathMap.change_basename}`,
-    withParam: `${pathPrefix}/some_param`
+    withParam: `${paramPage}?asas=29`,
+    deepNested: `${paramPage}/deep_nested`
 } as const
 
 const Layout: LayoutType = ({ children }) => (
@@ -26,7 +28,7 @@ const Layout: LayoutType = ({ children }) => (
             <NavLink className={ layoutLinkClassName } href={ paths.withParam }
                 children='Parametrized page' />
 
-            <NavLink className={ layoutLinkClassName } href={ `${paths.withParam}/deep_nested` }
+            <NavLink className={ layoutLinkClassName } href={ paths.deepNested }
                 children='Go to 3 level nested page' />
         </div>
 

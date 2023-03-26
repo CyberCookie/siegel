@@ -6,7 +6,7 @@ import type { Entities } from './types'
 /**
  * Creates data structure to store server entities in and to easily work with them (CRUD)
  *
- * @param uniq Uniq field in each entity. Usually it's something like id
+ * @param uniq Uniq field in each entity. Default is 'id'
  * @returns Object to perform CRUD operations with entities
  */
 function entities<E extends Obj>(uniq: keyof E = 'id') {
@@ -35,7 +35,7 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             for (let i = 0, l = entities.length; i < l; i++) {
                 const entity = entities[i]
 
-                postProcessEach?.(entity)
+                postProcessEach?.(entity, i)
                 this.addOrUpdate(entity)
             }
 

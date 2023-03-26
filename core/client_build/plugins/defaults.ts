@@ -13,7 +13,7 @@ import type {
 const {
     webpack,
     plugins: {
-        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
+        HTMLPlugin, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
         serviceWorkerPlugin, eslint
     }
 } = DEPENDENCIES
@@ -113,11 +113,6 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                 filename: outputFilenames.styles!,
                 chunkFilename: outputFilenames.styles_chunk!
             }
-        },
-
-        [ pluginsKeysMap.cssOptimize ]: {
-            plugin: optimizeCSS,
-            enabled: isProd
         },
 
         [ pluginsKeysMap.html ]: {

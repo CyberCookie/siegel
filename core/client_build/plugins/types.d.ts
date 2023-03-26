@@ -42,6 +42,7 @@ type PluginClassCtor = {
 type AnyPlugin = abstract new (...args: any) => any
 
 
+//TODO typing: replace 'any'
 type ResolvePluginDefaultOptions = (
     defaultOption: Obj,
     userOption: any
@@ -194,11 +195,6 @@ type DefaultPlugins = readonly {
             filename: NonNullable<Filenames['styles']>
             chunkFilename: NonNullable<Filenames['styles_chunk']>
         }
-    }
-
-    cssOptimize: {
-        plugin: CssOptimizePlugin
-        enabled: boolean
     }
 
     html: {

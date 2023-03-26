@@ -1,8 +1,14 @@
 import entities from './'
 
+type TestEntity = {
+    id: string
+    data?: string
+    newaField?: string
+}
+
 
 describe('common/entities', () => {
-    const entitiesData = entities<Obj>('id')
+    const entitiesData = entities<TestEntity>('id')
 
 
     test('created', () => {
@@ -12,7 +18,7 @@ describe('common/entities', () => {
     })
 
     test('add', () => {
-        const newEntity = { id: 'a' }
+        const newEntity: TestEntity = { id: 'a' }
         entitiesData.addOrUpdate(newEntity)
 
         expect(
@@ -30,16 +36,22 @@ describe('common/entities', () => {
     })
 
     test('update mass', () => {
-        entitiesData.addAll([
-            { id: 'b', data: 'data_b' },
-            { id: 'c', data: 'data_c' },
-            { id: 'd', data: 'data_d' },
-            { id: 'e', data: 'data_e' }
-        ])
+        entitiesData.addAll(
+            [
+                { id: 'b', data: 'data_b' },
+                { id: 'c', data: 'data_c' },
+                { id: 'd', data: 'data_d' },
+                { id: 'e', data: 'data_e' }
+            ],
+            entity => { entity.newaField = entity.id + entity.data }
+        )
 
         expect(
             entitiesData.len()
         ).toStrictEqual(5)
+
+        expect(entitiesData.get('a').newaField)
+            .toBe('adata_a')
     })
 
     test('clear', () => {

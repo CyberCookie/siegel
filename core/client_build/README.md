@@ -182,7 +182,6 @@ Every default plugin has its own `plugin key`
   May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`)
 - copy-webpack-plugin ( `copy` ) - enabled if **config.build.input.copyFiles** is specified
 - mini-css-extract-plugin ( `cssExtract` ) - enabled if **runParams.isProd == true** or if **runParams.isServer == false**
-- css-minimizer-webpack-plugin ( `cssOptimize` ) - enabled if **runParams.isProd == true** 
 - html-webpack-plugin ( `html` ) - enabled if **config.build.input.html** is specified
 - clean-webpack-plugin ( `clean` )
 - EsLint ( `eslint` ) - Eslint plugin, Enabled if **config.build.esbuil == true**

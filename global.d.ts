@@ -1,3 +1,7 @@
+// TODO: more jsdoc
+// TODO: change Obj type fields to be partial
+
+
 declare module '*.png'
 declare module '*.jpg'
 declare module '*.sass' {
@@ -59,7 +63,7 @@ type Obj<V = any> = Record<string, V>
 type Values<O extends Obj> = O[keyof O]
 
 /**
- * Makes all the object properties optional never
+ * Makes all the object properties optional with type never
  * @param O - object
  */
 type Never<O extends Obj> = {
@@ -87,6 +91,20 @@ type NonNullableProps<O extends Obj> = {
 }
 
 /**
+ * Makes fields to be partial in a given object
+ * @param O - object
+ * @param K - object fields
+ */
+type MakePartialFields<O extends Obj, K extends string> = Omit<O, K> & Partial<Pick<O, K>>
+
+/**
+ * Makes fields to be required in a given object
+ * @param O - object
+ * @param K - object fields
+ */
+type MakeRequiredFields<O extends Obj, K extends string> = Omit<O, K> & Required<Pick<O, K>>
+
+/**
  * Keeps only object properties thats are equal to a given value
  * @param O - object
  * @param V - value
@@ -103,6 +121,11 @@ type PathsOf<T, R = Required<T>> = Values<{
 
 type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never
 
+type UnionToIntersection<U> = (
+    U extends any
+        ?   (k: U) => void
+        :   never
+) extends ((k: infer I) => void) ? I : never
 
 
 

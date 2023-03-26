@@ -1,3 +1,6 @@
+// TODO: images optimization
+
+
 import { PATHS } from '../constants.js'
 import * as BUILD_CONSTANTS from './constants.js'
 import defaultModuleRulesResolve from './module_rules'
@@ -8,7 +11,7 @@ import type { ConfigFinal, RunParamsFinal } from '../types'
 
 
 const {
-    DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, esBuildMinifyPlugin },
+    DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, esBuildPlugin },
     COMMONS: { ESLintExtensions }
 } = BUILD_CONSTANTS
 
@@ -92,9 +95,10 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
 
             ...( isProd ? {
                 minimizer: [
-                    new esBuildMinifyPlugin({
+                    new esBuildPlugin({
+                        target,
                         legalComments: 'none',
-                        target
+                        css: true
                     })
                 ]
             } : {})

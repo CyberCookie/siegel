@@ -2,9 +2,8 @@ import { createRequire } from 'module'
 import webpack from 'webpack'
 import devMiddleware from 'webpack-dev-middleware'
 import hotMiddleware from 'webpack-hot-middleware'
-import { ESBuildMinifyPlugin } from 'esbuild-loader'
+import { EsbuildPlugin } from 'esbuild-loader'
 import HTMLPlugin from 'html-webpack-plugin'
-import optimizeCSS from 'css-minimizer-webpack-plugin'
 import fileCopyPlugin from 'copy-webpack-plugin'
 import compressionPlugin from 'compression-webpack-plugin'
 import miniCssExtract from 'mini-css-extract-plugin'
@@ -20,10 +19,10 @@ const { resolve } = createRequire(import.meta.url)
 
 const DEPENDENCIES = {
     webpack, devMiddleware, hotMiddleware,
-    esBuildMinifyPlugin: ESBuildMinifyPlugin,
+    esBuildPlugin: EsbuildPlugin,
 
     plugins: {
-        HTMLPlugin, optimizeCSS, fileCopyPlugin, compressionPlugin, reactRefresh, eslint,
+        HTMLPlugin, fileCopyPlugin, compressionPlugin, reactRefresh, eslint,
         serviceWorkerPlugin, miniCssExtract
     },
 
