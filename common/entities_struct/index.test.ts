@@ -50,7 +50,7 @@ describe('common/entities', () => {
             entitiesData.len()
         ).toStrictEqual(5)
 
-        expect(entitiesData.get('b').newField)
+        expect(entitiesData.get('b')?.newField)
             .toBe('bdata_b')
     })
 

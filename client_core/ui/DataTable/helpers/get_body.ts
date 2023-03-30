@@ -30,7 +30,7 @@ function getBody(
             })
         }
 
-        const config = columnsConfig[ idToIndexMap[configurationID] ]
+        const config = columnsConfig[ idToIndexMap[configurationID]! ]
         if (isExists(config.onFilter)) {
             // leave attached to config to keep 'this'
             processedList = config.onFilter(processedList, byID, searchByField[configurationID])
@@ -41,7 +41,7 @@ function getBody(
     if (isExists(sortByField.ID)) {
         const { value, ID } = sortByField
         const columnIndex = idToIndexMap!
-            ?   idToIndexMap[ ID ]
+            ?   idToIndexMap[ ID ]!
             :   columnsConfig.findIndex(config => config.ID == ID)
 
         const config = columnsConfig[columnIndex]
@@ -109,7 +109,7 @@ function getBody(
         } else processedIDs.add(entityID)
 
 
-        const entity = byID[entityID]
+        const entity = byID[entityID]!
 
         const rowChildren: TableTD[] = []
         columnsConfig.forEach(config => {

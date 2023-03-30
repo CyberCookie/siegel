@@ -4,10 +4,9 @@ import isExists from '../../../common/is/exists'
 import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants.js'
 
 import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
+import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
 import type { ConfigFinal, RunParamsFinal } from '../../types'
-import type {
-    CompressionInstanceCommonOptions, ResolvePluginDefaultOptions, DefaultPlugins
-} from './types'
+import type { CompressionInstanceCommonOptions, DefaultPlugins } from './types'
 
 
 const {
@@ -21,15 +20,13 @@ const {
 const { ESLintExtensions } = COMMONS
 
 
-const resolvePluginDefaultOptions: ResolvePluginDefaultOptions = (defaultOptions, userOptions) => {
-    const typeofUserOptions = typeof userOptions
-
-    return typeofUserOptions == 'object'
+const resolvePluginDefaultOptions = <P extends object>(defaultOptions: Partial<P>, userOptions: any) => (
+    typeof userOptions == 'object'
         ?   userOptions
-        :   typeofUserOptions == 'function'
+        :   typeof userOptions == 'function'
             ?   userOptions(defaultOptions)
             :   defaultOptions
-}
+)
 
 
 function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
@@ -118,7 +115,7 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
         [ pluginsKeysMap.html ]: {
             plugin: HTMLPlugin,
             enabled: !!input.html,
-            options: resolvePluginDefaultOptions({
+            options: resolvePluginDefaultOptions<HTMLWebpackPluginOptions>({
                 // scriptLoading: 'defer',
                 template: input.html as NonNullable<HTMLWebpackPluginOptions['template']>,
                 minify: {
@@ -139,9 +136,9 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
 
         [ pluginsKeysMap.eslint ]: {
             plugin: eslint,
-            enabled: eslintOptions,
-            options: resolvePluginDefaultOptions({
-                extensions: ESLintExtensions,
+            enabled: !!eslintOptions,
+            options: resolvePluginDefaultOptions<EslintWebpackPluginOptions>({
+                extensions: ESLintExtensions as unknown as string[],
                 emitWarning: true
             }, eslintOptions)
         }

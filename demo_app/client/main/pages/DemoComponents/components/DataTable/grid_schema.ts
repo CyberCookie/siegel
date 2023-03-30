@@ -39,13 +39,13 @@ function filterValue(
     isTextColumn && (searchLowerCase = (search as string).toLowerCase())
 
     const textFilterFunc: OnFilterCompareFunc = ID => {
-        const { value } = this.showValue(byID[ID])
+        const { value } = this.showValue(byID[ID]!)
         return `${value}`.toLowerCase().includes(searchLowerCase)
     }
 
     const dateFilterFunc: OnFilterCompareFunc = ID => {
         const { dateStart, dateEnd } = search as DateSearchFilter
-        const { value } = this.showValue(byID[ID])
+        const { value } = this.showValue(byID[ID]!)
         const timestamp = value
             ?   (new Date(value as string)).getTime()
             :   Date.now()
@@ -54,7 +54,7 @@ function filterValue(
     }
 
     const setFilterFunc: OnFilterCompareFunc = ID => {
-        const value: string = byID[ID][this.customParams!.valuePath!]
+        const value: string = byID[ID]![this.customParams!.valuePath!]
         return !(search as Set<string>).has(value)
     }
 
@@ -77,8 +77,8 @@ function sortValue(
 ) {
 
     return sorted.sort((ID_a, ID_b) => {
-        const value_a = +this.showValue(byID[ID_a]).value!
-        const value_b = +this.showValue(byID[ID_b]).value!
+        const value_a = +this.showValue(byID[ID_a]!).value!
+        const value_b = +this.showValue(byID[ID_b]!).value!
 
         return value_a < value_b ? sortValue : -sortValue
     })

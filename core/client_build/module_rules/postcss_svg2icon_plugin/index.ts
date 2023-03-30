@@ -1,6 +1,3 @@
-//TODO: extract to separate font file
-
-
 import path from 'path'
 import { createHash } from 'crypto'
 import postcss, { Declaration } from 'postcss'
@@ -94,7 +91,7 @@ const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix = '', 
                             result.absolute.push(absolutePath)
                         }
 
-                        const iconIndex = (absolutePathsIndex[absolutePath] - 1).toString(16)
+                        const iconIndex = (absolutePathsIndex[absolutePath]! - 1).toString(16)
                         decl.prop = 'content'
                         decl.value = '\'\\e' + '0'.repeat(Math.max(0, 3 - iconIndex.length)) + iconIndex + '\''
 

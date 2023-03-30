@@ -1,11 +1,7 @@
-// TODO: more jsdoc
-// TODO: change Obj type fields to be partial
-
-
 declare module '*.png'
 declare module '*.jpg'
 declare module '*.sass' {
-    const classes: Obj<string | undefined>
+    const classes: Obj<string>
     export default classes
 }
 
@@ -20,6 +16,19 @@ interface URLSearchParams {
 }
 
 
+
+/**
+ * Transforms values union into intersaction
+ * @param U - values union
+ */
+type UnionToIntersection<U> = (
+    U extends any
+        ?   (k: U) => void
+        :   never
+) extends ((k: infer I) => void) ? I : never
+
+
+
 /**
  * Recursively iterates over given object and makes its properties optional
  * @param T - object to iterate over
@@ -31,30 +40,53 @@ type DeepPartial<T> = T extends object
     :   T
 
 
-type DeepMerge<O1 extends Required<object>, O2 extends object> =
+
+type __ExtractKeysWithOptionalValueObject<O extends object> = keyof ExcludeObjectValueTypes<
     {
-        [K in keyof O1 & keyof O2]: O2[K] extends object
-            ?   O1[K] extends object
-                ?   DeepMerge<O1[K], O2[K]>
-                :   O2[K]
-            :   Extract<O2[K], undefined> extends never
-                ?   O2[K]
-                :   Extract<O1[K], undefined> extends never
-                    ?   O1[K]
-                    :   O2[K]
-    }
-    &
-    { [K in keyof Omit<O1, keyof O2>]: O1[K] }
-    &
+        [K in keyof NarrowObjectToValueTypes<
+            ExcludeObjectValueTypes<
+                Required<O>,
+                undefined
+            >,
+            object
+        >]: undefined extends O[K] ? O[K] : never
+    },
+    never
+>
+/**
+ * Recursively merges two objects
+ * @param O1 - object
+ * @param O2 - object
+ */
+type DeepMerge<
+    O1 extends object,
+    O2 extends object,
+    BothObjectKeys = keyof NarrowObjectToValueTypes<Required<O1>, object> & keyof NarrowObjectToValueTypes<Required<O2>, object>,
+    O1OptionalObjectKeys = __ExtractKeysWithOptionalObjectValue<O1>,
+    O2OptionalObjectKeys = __ExtractKeysWithOptionalObjectValue<O2>,
+    O1RequiredObjectKeys = RequiredKeys<NarrowObjectToValueTypes<O1, object>>,
+    O2RequiredObjectKeys = RequiredKeys<NarrowObjectToValueTypes<O2, object>>
+> =
+
+    { [K in O1RequiredObjectKeys & O2RequiredObjectKeys]: DeepMerge<O1[K], O2[K]> } &
+    { [K in O1OptionalObjectKeys & O2OptionalObjectKeys]?: DeepMerge<Partial<NonNullable<O1[K]>>, Partial<NonNullable<O2[K]>>> } &
+    { [K in O1RequiredObjectKeys & O2OptionalObjectKeys]: DeepMerge<O1[K], Partial<NonNullable<O2[K]>>> } &
+    { [K in O1OptionalObjectKeys & O2RequiredObjectKeys]: DeepMerge<Partial<NonNullable<O1[K]>>, O2[K]> } &
+
+    { [K in Exclude<RequiredKeys<O1> & OptionalKeys<O2>, BothObjectKeys>]: Exclude<O1[K] | O2[K], undefined> } &
+    { [K in Exclude<RequiredKeys<O2>, BothObjectKeys>]: O2[K] } &
+    { [K in Exclude<OptionalKeys<O1> & OptionalKeys<O2>, BothObjectKeys>]?: O1[K] | O2[K] } &
+    { [K in keyof Omit<O1, keyof O2>]: O1[K] } &
     { [K in keyof Omit<O2, keyof O1>]: O2[K] }
 
 
 
+
 /**
- * Simple object with string as a keys
+ * Simple object that has string key and optional fields
  * @param V - object values. Default: any
  */
-type Obj<V = any> = Record<string, V>
+type Obj<V = any> = Partial<Record<string, V>>
 
 /**
  * Extracts given object's values
@@ -113,27 +145,47 @@ type NarrowObjectToValueTypes<O extends Obj, V> = {
     [K in keyof O as O[K] extends V ? K : never]: V
 }
 
+/**
+ * From a given object excludes object properties thats are equal to a given value
+ * @param O - object
+ * @param V - value
+ */
+type ExcludeObjectValueTypes<O extends Obj, V> = {
+    [K in keyof O as O[K] extends V ? never : K ]: O[K]
+}
+
+/**
+ * Transforms object into an array of all possible property paths
+ * @param O - object
+ */
 type PathsOf<T, R = Required<T>> = Values<{
     [P in keyof R]: [P] | [P, ...PathsOf<R[P]>]
 }>
 
 
 
+/**
+ * Takes array T and returns same array but without first element
+ * @param T - array
+ */
 type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never
 
-type UnionToIntersection<U> = (
-    U extends any
-        ?   (k: U) => void
-        :   never
-) extends ((k: infer I) => void) ? I : never
 
 
 
+/**
+ * Represents all valid css properties
+ */
 type CSSWithVariables = {
     [key: `--${string}`]: string | number
 } & React.CSSProperties
 
 
+/**
+ * Represents HTML Tag attributes for a given HTMLElement
+ * @param E - HTMLElement
+ * @param A - optional React HTML Tag attributes. Default is React.HTMLAttributes<E>
+ */
 type ReactTagAttributes<
     E = HTMLElement,
     A = React.HTMLAttributes<E>
@@ -141,4 +193,8 @@ type ReactTagAttributes<
     [key: `data-${string}`]: string | boolean | number | undefined
 } & A & React.RefAttributes<E>
 
-type ReactStore<State> = [ State, React.Dispatch<React.SetStateAction<State>> ]
+/**
+ * Represents react store created with useState() hook
+ * @param S - store's state
+ */
+type ReactStore<S> = [ S, React.Dispatch<React.SetStateAction<S>> ]

@@ -20,7 +20,7 @@ type CopyPlugin = typeof import('copy-webpack-plugin')
 type EslintPlugin = typeof import('eslint-webpack-plugin')
 
 
-//TODO typing: review corectness
+//TODO typing?: review corectness
 type DeepExclude<O1 extends object, O2 extends object> =
     {
         [K in keyof O1 & keyof O2]?: O2[K] extends object
@@ -40,13 +40,6 @@ type PluginClassCtor = {
 }
 
 type AnyPlugin = abstract new (...args: any) => any
-
-
-//TODO typing: replace 'any'
-type ResolvePluginDefaultOptions = (
-    defaultOption: Obj,
-    userOption: any
-) => any
 
 
 type PluginConfigBase<_Plugin, _DefaultOptions> = {
@@ -96,10 +89,10 @@ type UserPlugin<
 > = Partial<
     PluginConfigBase<_Plugin, _DefaultOpts>
     &   (
-        PluginConfigOptions<_PluginOpts, _DefaultOpts, _Options>
-        |
-        PluginConfigInstances<_PluginOpts, _DefaultInstances>
-    )
+            PluginConfigOptions<_PluginOpts, _DefaultOpts, _Options>
+            |
+            PluginConfigInstances<_PluginOpts, _DefaultInstances>
+        )
 > | boolean
 
 type AllCaseUserPluginConfig = Exclude<UserPlugin<AnyPlugin, {}, {}, {}, {}>, boolean>
@@ -129,7 +122,7 @@ type Plugins = {
 
     eslint?: UserPlugin<EslintPlugin, DefaultEslintPluginOptions>
 
-} & Partial<{ [key: string]: AllCaseUserPluginConfig }>
+} & Obj<AllCaseUserPluginConfig>
 
 
 
@@ -224,5 +217,6 @@ type DefaultPlugins = readonly {
 
 export type {
     CompressionInstanceCommonOptions, CopyWebpackPluginOptions, ResolvePluginDefaultOptions,
-    DefaultPlugins, Plugins, PluginComfigInstance, AllCaseUserPluginConfig
+    DefaultPlugins, Plugins, PluginComfigInstance, AllCaseUserPluginConfig,
+    DefaultEslintPluginOptions, DefaultHtmlPluginOptions
 }

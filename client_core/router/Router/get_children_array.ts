@@ -9,7 +9,7 @@ import type {
 } from './types'
 
 
-type RouteConfig = RoutesConfig[string]
+type RouteConfig = NonNullable<RoutesConfig[string]>
 type ConfigPermissions = RouteConfig['permissions']
 type ConfigRedirectTo = RouteConfig['redirectTo']
 type ConfigTransition = RouteConfig['transition']

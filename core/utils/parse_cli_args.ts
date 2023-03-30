@@ -6,9 +6,12 @@ type CLIParamsValuesType = Obj<{
 
 function parseCommandLineArgs(args: string[]) {
     const CLIParamsValues: CLIParamsValuesType = {}
-    function addValueToCLIParams(key: string, value: CLIParamsValuesType[string]['value']) {
+    function addValueToCLIParams(
+        key: string,
+        value: NonNullable<CLIParamsValuesType[string]>['value']
+    ) {
         if (CLIParamsValues[key]) {
-            CLIParamsValues[key].value = value
+            CLIParamsValues[key]!.value = value
 
         } else {
             CLIParamsValues[key] = {

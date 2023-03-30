@@ -25,7 +25,7 @@ const DemoApi: Page = () => {
 
     const isDisabledSend = !requestString.length
 
-    const isProxyRequesting = requests[demoApiModule.urls.proxy] > 0
+    const isProxyRequesting = requests[demoApiModule.urls.proxy]! > 0
     const isProxyError = errRes[demoApiModule.urls.proxy]
 
 

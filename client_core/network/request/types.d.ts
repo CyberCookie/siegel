@@ -30,10 +30,10 @@ type RequestParams<_Body = any> = {
     url: string
 
     /** URL params that will be included in `url` */
-    params?: Obj<string>
+    params?: Record<string, string>
 
     /** URL query params */
-    query?: string | Obj<string> | URLSearchParams
+    query?: string | Record<string, any> | URLSearchParams
 
     /** Request method */
     method?: RequestInit['method']
@@ -42,7 +42,7 @@ type RequestParams<_Body = any> = {
     body?: _Body
 
     /** Request headers */
-    headers?: Obj<string>
+    headers?: Record<string, string>
 
     /** Returns full response with headers, status code etc */
     isFullRes?: boolean

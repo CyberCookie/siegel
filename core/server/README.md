@@ -183,4 +183,5 @@ Proxy receives **1** parameter - **Object** with the next fields:
     <summary>TODO</summary>
     - Compatible HTTP1 and HTTP2 static servers<br />
     - SEO for crawlers (pages prebuild or build on the fly)<br />
+    - Protobuf
 </details>

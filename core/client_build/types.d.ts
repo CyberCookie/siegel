@@ -1,8 +1,9 @@
 import type { Configuration as WebpackConfig } from 'webpack'
 import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
+import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
 import type { PluginOptions as CopyWebpackPluginOptions } from 'copy-webpack-plugin'
 import type { ConfigFinal } from '../types'
-import type { Plugins } from './plugins/types'
+import type { Plugins, DefaultEslintPluginOptions, DefaultHtmlPluginOptions } from './plugins/types'
 import type { UserRulesData } from './module_rules/types'
 
 
@@ -49,7 +50,9 @@ type BuildConfig = {
         sw?: string
 
         /** Path to site entrypoint */
-        html?: HTMLWebpackPluginOptions | NonNullable<HTMLWebpackPluginOptions['template']>
+        html?: HTMLWebpackPluginOptions
+            |   NonNullable<HTMLWebpackPluginOptions['template']>
+            |   ((defaultOptions: DefaultHtmlPluginOptions) => HTMLWebpackPluginOptions)
 
         /** CopyWebpackPlugin assets path */
         copyFiles?: CopyWebpackPluginOptions['patterns'] | string
@@ -83,9 +86,10 @@ type BuildConfig = {
 
     /** Enables ESlint */
     eslint?: boolean
+        |   ((defaultOptions: DefaultEslintPluginOptions) => EslintWebpackPluginOptions)
 
     /** Webpack aliases */
-    aliases?: Obj<string>
+    aliases?: Recordf<string, string>
 
     /** Webpack plugins config */
     plugins?: Plugins

@@ -7,10 +7,7 @@ type Handlers = {
     onDelete(): void
 }
 
-type Store = ReactStore<
-    { arrowSelectIndex: number | undefined }
-    &   Partial<{ [key: string]: any }>
->
+type Store = ReactStore<{ arrowSelectIndex: number | undefined } & Obj>
 
 type Options = {
     disabled?: boolean

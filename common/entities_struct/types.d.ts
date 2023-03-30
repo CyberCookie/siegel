@@ -8,7 +8,7 @@ type Entities<Entity extends Obj = Obj> = {
     remove(entityID: string): Entities<Entity>
     sort(cb: (entity_a: Entity, entity_b: Entity) => number): Entities<Entity>
     each(cb: (entity: Entity, index: number) => boolean | void): Entities<Entity>
-    get(id: string): Entity
+    get(id: string): Entity | undefined
     len(): number
     raw(): ({
         byID: Obj<Entity>,

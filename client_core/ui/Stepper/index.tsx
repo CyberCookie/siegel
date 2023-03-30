@@ -72,7 +72,7 @@ const Stepper = component<Props, DefaultProps>(
             const valuesCounter: Obj<number> = {}
             value.forEach(v => {
                 valuesCounter[v]
-                    ?   valuesCounter[v]++
+                    ?   valuesCounter[v]!++
                     :   (valuesCounter[v] = 1)
             })
 
@@ -115,7 +115,7 @@ const Stepper = component<Props, DefaultProps>(
 
 
         value.forEach(optionValue => {
-            const rangerValue = state.valueToAnchorMap[optionValue]
+            const rangerValue = state.valueToAnchorMap[optionValue]!
 
             state.rangerValues.push(rangerValue)
             state.rangerValuesString += `-${rangerValue}`
@@ -143,7 +143,7 @@ const Stepper = component<Props, DefaultProps>(
 
             const stepperValues = newRangerValues.map(rangeValue => {
                 const anchorValue = getClosestNumberFromArray(anchorPositionsSorted, rangeValue)!
-                const { value, index } = anchorToOptionData[anchorValue]
+                const { value, index } = anchorToOptionData[anchorValue]!
 
                 newAnchoredRangerValue.push(anchorValue)
                 newRangerValuesString += `-${anchorValue}`

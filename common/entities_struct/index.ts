@@ -54,13 +54,13 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
         },
 
         sort(cb) {
-            sorted.sort((ID_a, ID_b) => cb(byID[ID_a], byID[ID_b]))
+            sorted.sort((ID_a, ID_b) => cb(byID[ID_a]!, byID[ID_b]!))
 
             return entityStruct
         },
 
         each(cb, from = 0, to = sorted.length) {
-            rangeEach(sorted, from, to, (id, index) => cb(byID[id], index))
+            rangeEach(sorted, from, to, (id, index) => cb(byID[id]!, index))
 
             return entityStruct
         },

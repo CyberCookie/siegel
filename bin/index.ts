@@ -33,7 +33,7 @@ const COMMANDS_TREE: CommanTree = {
     run: {
         description: 'Builds client and runs dev server with client watch mode enabled.',
         example: (command, { client, server, port }) => (
-            `siegel ${command} ${client.flagLong} app.ts ${server.flagLong} server.ts ${port.flagLong} 4000`
+            `siegel ${command} ${client!.flagLong} app.ts ${server!.flagLong} server.ts ${port!.flagLong} 4000`
         ),
         prepareResult: () => ({
             config: DEFAULT_CONFIG,
@@ -189,11 +189,11 @@ const COMMANDS_TREE: CommanTree = {
 
 
 const CLI_ARGS = process.argv.slice(2)
-
 const COMMAND = CLI_ARGS.shift()!
+
 const commandConfig = COMMANDS_TREE[COMMAND as keyof typeof COMMANDS_TREE]
 if (commandConfig) {
-    const { params, commandAction, prepareResult } = commandConfig as unknown as FullCommand
+    const { params, commandAction, prepareResult } = commandConfig as FullCommand
     const result = prepareResult?.()
 
     const parseResult = parseCommandLineArgs(CLI_ARGS)
@@ -210,9 +210,8 @@ if (commandConfig) {
                 unresolvedParamsCount--
 
                 paramAction({
-                    result,
-                    value: paramValueData.value,
-                    CLIParamsValues
+                    result, CLIParamsValues,
+                    value: paramValueData.value
                 })
             }
         }
@@ -221,7 +220,7 @@ if (commandConfig) {
     if (unresolvedParamsCount) {
         const notSupportedParams = []
         for (const CLIParam in CLIParamsValues) {
-            CLIParamsValues[CLIParam].resolved || notSupportedParams.push(CLIParam)
+            CLIParamsValues[CLIParam]!.resolved || notSupportedParams.push(CLIParam)
         }
 
         if (notSupportedParams.length) {

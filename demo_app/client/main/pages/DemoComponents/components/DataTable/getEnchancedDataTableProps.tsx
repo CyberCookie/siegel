@@ -88,7 +88,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
                 const { byID, sorted } = entities
 
                 sorted.forEach(entityID => {
-                    const entity = byID[entityID]
+                    const entity = byID[entityID]!
                     const setValue = entity[valuePath]
 
                     if (!uniqValues.has(setValue)) {

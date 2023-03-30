@@ -88,7 +88,7 @@ type UserRulesData = {
         '\\.[tj]sx?$'?: UserRule<DefaultRules['\\.[tj]sx?$']>
         '\\.(c|sc|sa)ss$'?: UserRule<DefaultRules['\\.(c|sc|sa)ss$']>
         '\\.(avif|webp|jpg|png|svg|woff2?)$'?: UserRule
-    } & Partial<{ [key: string]: UserRule<any> }>
+    } & Obj<UserRule<any>>
 
     moduleOptions?: Omit<ModuleOptions, 'rules'>
 }

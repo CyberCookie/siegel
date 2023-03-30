@@ -1,6 +1,3 @@
-// TODO: images optimization
-
-
 import { PATHS } from '../constants.js'
 import * as BUILD_CONSTANTS from './constants.js'
 import defaultModuleRulesResolve from './module_rules'

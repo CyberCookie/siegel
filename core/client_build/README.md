@@ -78,7 +78,7 @@ All the fields are optional since many of them are already defined in core  defa
                 Path to site entrypoint
                 Default is: [cwd]/client/index.html ( App container div's id = root )
             */
-            html: String || HTMLWebpackPlugin::options || (defaultConfig) => updatedConfig,
+            html: String | HTMLWebpackPlugin::options | (defaultConfig) => htmlWebpackPluginOptions,
 
             /*
                 CopyWebpackPlugin assets path
@@ -145,7 +145,7 @@ All the fields are optional since many of them are already defined in core  defa
             Enables ESlint
             Default false
         */
-        eslint: Boolean || ESLintWebpackPlugin::options || (defaultConfig) => updatedConfig,
+        eslint: Boolean | ESLintWebpackPlugin::options | (defaultConfig) => eslintWebpackPluginOptions,
 
 
         /* Webpack aliases */
@@ -539,5 +539,6 @@ const config = {
     - Output pure ESM<br />
     - Save font icon to a separate file<br />
     - Separate styles for different media queries<br />
-    - Generate code documentation from TS
+    - Generate code documentation from TS<br />
+    - Add image optimization plugins
 </details>

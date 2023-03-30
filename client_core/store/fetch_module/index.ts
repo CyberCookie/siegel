@@ -11,15 +11,15 @@ const getInitState = () => ({
 
 
 function decrementRequests({ requests }: State, ID: string) {
-    requests[ID] > 1
-        ?   requests[ID]--
+    requests[ID]! > 1
+        ?   requests[ID]!--
         :   (delete requests[ID])
 }
 
 const actions: Actions = {
     addToReqQueue({ state, setState }, ID) {
         state.requests[ID]
-            ?   state.requests[ID]++
+            ?   state.requests[ID]!++
             :   (state.requests[ID] = 1)
 
         setState(state)
