@@ -15,7 +15,7 @@ import Input, {
 import { setCaretPos } from '../Input/utils'
 import {
     buildInputRegexp, getInputString, getValuePrecision, getStepButtons,
-    adjustWithRanges, pretifyInputString, isValidNumberString
+    adjustWithRanges, pretifyInputString, isValidNumberString, isValidNumberMissingDigits
 } from './helpers'
 
 import type { DivTagAttributes } from '../_internals/types'
@@ -202,9 +202,10 @@ const NumberPicker = component<Props, DefaultProps>(
                         let newNumberValue: number | undefined
                         let shouldTriggerOnChange = true
 
-                        if (isValidNumberString(value, numberValue)) {
+                        if (!isNaN(numberValue)) {
                             const newNumberValueRangeLimited = adjustWithRanges(numberValue, min, max)
-                            if (newNumberValueRangeLimited != numberValue) {
+
+                            if ((newNumberValueRangeLimited != numberValue) || isValidNumberMissingDigits(inputValue)) {
                                 newStringValue = `${newNumberValueRangeLimited}`
                                 newNumberValue = newNumberValueRangeLimited
 

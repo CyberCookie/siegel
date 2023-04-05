@@ -15,7 +15,7 @@ const pathPrefix = `/${pagePathMap.demo_router}`
 const paramPage = `${pathPrefix}/some_param`
 const paths = {
     nested: `${pathPrefix}/${pagePathMap.change_basename}`,
-    withParam: `${paramPage}?asas=29`,
+    withParam: `${paramPage}?param=param_value`,
     deepNested: `${paramPage}/deep_nested`
 } as const
 

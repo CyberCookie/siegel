@@ -3,6 +3,12 @@ import type { Plugin as PostCssPlugin } from 'postcss'
 import type { ConfigFinal } from '../../types'
 
 
+type WorkerLoaderRegExp = '__worker\\.[tj]s$'
+type ScriptsLoaderRegExp = '\\.[tj]sx?$'
+type StylesLoaderRegExp = '\\.(c|sc|sa)ss$'
+type FilesLoaderRegExp = '\\.(avif|webp|jpe?g|png|svg|woff2?)$'
+
+
 type DefaultsWithRuleOptions = {
     ruleOptions: {
         include?: string[]
@@ -84,10 +90,10 @@ type UserRulesData = {
     order?: string[] | ((defaultOrder: DefaultRulesKeys[]) => string[])
 
     rules?: {
-        '__worker\\.[tj]s$'?: UserRule<DefaultRules['__worker\\.[tj]s$']>
-        '\\.[tj]sx?$'?: UserRule<DefaultRules['\\.[tj]sx?$']>
-        '\\.(c|sc|sa)ss$'?: UserRule<DefaultRules['\\.(c|sc|sa)ss$']>
-        '\\.(avif|webp|jpg|png|svg|woff2?)$'?: UserRule
+        '__worker\\.[tj]s$'?: UserRule<DefaultRules[WorkerLoaderRegExp]>
+        '\\.[tj]sx?$'?: UserRule<DefaultRules[ScriptsLoaderRegExp]>
+        '\\.(c|sc|sa)ss$'?: UserRule<DefaultRules[StylesLoaderRegExp]>
+        '\\.(avif|webp|jpe?g|png|svg|woff2?)$'?: UserRule
     } & Obj<UserRule<any>>
 
     moduleOptions?: Omit<ModuleOptions, 'rules'>
@@ -102,7 +108,7 @@ type DefaultRulesData = {
 
     rules: {
         '__worker\\.[tj]s$': {
-            loadersOrder: (keyof DefaultRules['__worker\\.[tj]s$']['loaders'])[]
+            loadersOrder: (keyof DefaultRules[WorkerLoaderRegExp]['loaders'])[]
             loaders: {
                 workers: {
                     loader: string
@@ -115,7 +121,7 @@ type DefaultRulesData = {
         }
 
         '\\.[tj]sx?$': {
-            loadersOrder: (keyof DefaultRules['\\.[tj]sx?$']['loaders'])[]
+            loadersOrder: (keyof DefaultRules[ScriptsLoaderRegExp]['loaders'])[]
             loaders: {
                 esbuildLoader: {
                     loader: string
@@ -129,7 +135,7 @@ type DefaultRulesData = {
         }
 
         '\\.(c|sc|sa)ss$': {
-            loadersOrder: (keyof DefaultRules['\\.(c|sc|sa)ss$']['loaders'])[]
+            loadersOrder: (keyof DefaultRules[StylesLoaderRegExp]['loaders'])[]
             loaders: {
                 cssFinal: {
                     loader: string
@@ -180,7 +186,7 @@ type DefaultRulesData = {
             }
         }
 
-        '\\.(avif|webp|jpg|png|svg|woff2?)$': {
+        '\\.(avif|webp|jpe?g|png|svg|woff2?)$': {
             ruleOptions: {
                 type: string
             }

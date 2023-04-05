@@ -539,6 +539,5 @@ const config = {
     - Output pure ESM<br />
     - Save font icon to a separate file<br />
     - Separate styles for different media queries<br />
-    - Generate code documentation from TS<br />
-    - Add image optimization plugins
+    - Generate code documentation from TS
 </details>

@@ -1,5 +1,3 @@
-declare module '*.png'
-declare module '*.jpg'
 declare module '*.sass' {
     const classes: Obj<string>
     export default classes
