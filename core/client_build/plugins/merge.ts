@@ -1,5 +1,5 @@
 import type { WebpackPluginInstance } from 'webpack'
-import type { DefaultPlugins, Plugins, AllCaseUserPluginConfig, PluginComfigInstance } from './types'
+import type { DefaultPlugins, Plugins, AllCaseUserPluginConfig, PluginConfigInstance } from './types'
 
 
 const mergeOptions = (
@@ -21,7 +21,7 @@ function addWithoutMerge(result: WebpackPluginInstance[], pluginConfig: AllCaseU
 
     if (instances) {
         for (const instanceKey in instances) {
-            const { enabled = true, options } = instances[instanceKey] as Exclude<PluginComfigInstance<{}, {}>, boolean>
+            const { enabled = true, options } = instances[instanceKey] as Exclude<PluginConfigInstance<any, any>, boolean>
             enabled && result.push( new (plugin as any)(options) )
         }
 

@@ -141,10 +141,10 @@ describe('common/deep/merge', () => {
                             return new Set(Array.from(a).concat(Array.from(b)))
 
                         } else if (a.constructor == Array && b.constructor == Array) {
-                            return (a as Obj).concat(b)
+                            return (a as any[]).concat(b)
 
                         } else if (a.constructor == Date && b.constructor == Date) {
-                            return (a as Obj).valueOf() > (b as Obj).valueOf() ? a : b
+                            return (a as Date).valueOf() > (b as Date).valueOf() ? a : b
                         }
                     }
                 }

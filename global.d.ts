@@ -39,7 +39,7 @@ type DeepPartial<T> = T extends object
 
 
 
-type __ExtractKeysWithOptionalValueObject<O extends object> = keyof ExcludeObjectValueTypes<
+type __ExtractKeysWithOptionalValueObject<O extends Record<string, any>> = keyof ExcludeObjectValueTypes<
     {
         [K in keyof NarrowObjectToValueTypes<
             ExcludeObjectValueTypes<
@@ -57,19 +57,44 @@ type __ExtractKeysWithOptionalValueObject<O extends object> = keyof ExcludeObjec
  * @param O2 - object
  */
 type DeepMerge<
-    O1 extends object,
-    O2 extends object,
+    O1 extends Record<string, any>,
+    O2 extends Record<string, any>,
     BothObjectKeys = keyof NarrowObjectToValueTypes<Required<O1>, object> & keyof NarrowObjectToValueTypes<Required<O2>, object>,
-    O1OptionalObjectKeys = __ExtractKeysWithOptionalObjectValue<O1>,
-    O2OptionalObjectKeys = __ExtractKeysWithOptionalObjectValue<O2>,
-    O1RequiredObjectKeys = RequiredKeys<NarrowObjectToValueTypes<O1, object>>,
-    O2RequiredObjectKeys = RequiredKeys<NarrowObjectToValueTypes<O2, object>>
+    // O1OptionalObjectKeys = __ExtractKeysWithOptionalValueObject<O1>,
+    // O2OptionalObjectKeys = __ExtractKeysWithOptionalValueObject<O2>,
+    // O1RequiredObjectKeys = RequiredKeys<NarrowObjectToValueTypes<O1, object>>,
+    // O2RequiredObjectKeys = RequiredKeys<NarrowObjectToValueTypes<O2, object>>
 > =
 
-    { [K in O1RequiredObjectKeys & O2RequiredObjectKeys]: DeepMerge<O1[K], O2[K]> } &
-    { [K in O1OptionalObjectKeys & O2OptionalObjectKeys]?: DeepMerge<Partial<NonNullable<O1[K]>>, Partial<NonNullable<O2[K]>>> } &
-    { [K in O1RequiredObjectKeys & O2OptionalObjectKeys]: DeepMerge<O1[K], Partial<NonNullable<O2[K]>>> } &
-    { [K in O1OptionalObjectKeys & O2RequiredObjectKeys]: DeepMerge<Partial<NonNullable<O1[K]>>, O2[K]> } &
+    // { [K in (O1RequiredObjectKeys & O2RequiredObjectKeys)]: DeepMerge<O1[K], O2[K]> } &
+    // { [K in (O1OptionalObjectKeys & O2OptionalObjectKeys)]?: DeepMerge<Partial<NonNullable<O1[K]>>, Partial<NonNullable<O2[K]>>> } &
+    // { [K in (O1RequiredObjectKeys & O2OptionalObjectKeys)]: DeepMerge<O1[K], Partial<NonNullable<O2[K]>>> } &
+    // { [K in (O1OptionalObjectKeys & O2RequiredObjectKeys)]: DeepMerge<Partial<NonNullable<O1[K]>>, O2[K]> } &
+
+    {
+        [K in (
+            RequiredKeys<NarrowObjectToValueTypes<O1, object>> & RequiredKeys<NarrowObjectToValueTypes<O2, object>>
+        )]: DeepMerge<O1[K], O2[K]>
+    } &
+
+    {
+        [K in (
+            __ExtractKeysWithOptionalValueObject<O1> & __ExtractKeysWithOptionalValueObject<O2>
+        )]?: DeepMerge<Partial<NonNullable<O1[K]>>, Partial<NonNullable<O2[K]>>>
+    } &
+
+    {
+        [K in (
+            RequiredKeys<NarrowObjectToValueTypes<O1, object>> & __ExtractKeysWithOptionalValueObject<O2>
+        )]: DeepMerge<O1[K], Partial<NonNullable<O2[K]>>>
+    } &
+
+    {
+        [K in (
+            __ExtractKeysWithOptionalValueObject<O1> & RequiredKeys<NarrowObjectToValueTypes<O2, object>>
+        )]: DeepMerge<Partial<NonNullable<O1[K]>>, O2[K]>
+    } &
+
 
     { [K in Exclude<RequiredKeys<O1> & OptionalKeys<O2>, BothObjectKeys>]: Exclude<O1[K] | O2[K], undefined> } &
     { [K in Exclude<RequiredKeys<O2>, BothObjectKeys>]: O2[K] } &

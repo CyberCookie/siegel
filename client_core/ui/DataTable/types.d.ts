@@ -84,7 +84,7 @@ type ColumnsConfig<
      * @param byID entities hashtable where key is entity ID and value is entity
      * @param value sorting value
      */
-    onSort?(IDs: _Sorted, byID: _ByID, value: number): Sorted
+    onSort?(IDs: _Sorted, byID: _ByID, value: number): _Sorted
 
     /**
      * Filters list of entities by filtering out their IDs
@@ -93,7 +93,7 @@ type ColumnsConfig<
      * @param byID entities hashtable where key is entity ID and value is entity
      * @param search search value you put into DataTable store
      */
-    onFilter?(IDs: _Sorted, byID: _ByID, search: _SearchState): Sorted
+    onFilter?(IDs: _Sorted, byID: _ByID, search: _SearchState): _Sorted
 
     /** Column TH tag text */
     label?: React.ReactNode
@@ -124,7 +124,7 @@ type Theme = {
 }
 
 type Props<
-    _Entity = Obj,
+    _Entity extends Obj = Obj,
     _ColumnParamsExtend = any,
     _SearchState = any
 > = PropsComponentThemed<Theme, {
@@ -224,7 +224,7 @@ type Props<
      */
     postProcessHeadCell?(
         headCell: TableTH,
-        columnConfig: ColumnsConfig<_Entities, _ColumnParamsExtend>,
+        columnConfig: ColumnsConfig<_Entity, _ColumnParamsExtend>,
         displayedEntityIDs: NonNullable<DisplayedEntityIDs>
     ): void
 

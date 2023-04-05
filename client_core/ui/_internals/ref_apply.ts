@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-import type { ReactTagAttributes, PropsComponentBase } from './types'
+import type { PropsComponentBase } from './types'
 
 
 function applyRefApi<

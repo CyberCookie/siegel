@@ -1,4 +1,4 @@
-import type { HotModuleReplacementPlugin, WebpackPluginInstance } from 'webpack'
+import type { HotModuleReplacementPlugin } from 'webpack'
 import type {
     Options as HTMLWebpackPluginOptions,
     MinifyOptions as HTMLMinifyOptions
@@ -15,13 +15,12 @@ type ReactRefreshPlugin = typeof import('@pmmmwh/react-refresh-webpack-plugin')
 type HtmlPlugin = typeof import('html-webpack-plugin')
 type CompressionPlugin = typeof import('compression-webpack-plugin')
 type CssExtractPlugin = typeof import('mini-css-extract-plugin')
-type CssOptimizePlugin = typeof import('css-minimizer-webpack-plugin')
 type CopyPlugin = typeof import('copy-webpack-plugin')
 type EslintPlugin = typeof import('eslint-webpack-plugin')
 
 
 //TODO typing?: review corectness
-type DeepExclude<O1 extends object, O2 extends object> =
+type DeepExclude<O1, O2> =
     {
         [K in keyof O1 & keyof O2]?: O2[K] extends object
             ?   O1[K] extends object
@@ -34,21 +33,22 @@ type DeepExclude<O1 extends object, O2 extends object> =
 
 
 
-type PluginClassCtor = {
-    new(...options: unknown[]): WebpackPluginInstance
-    (): WebpackPluginInstance
-}
-
 type AnyPlugin = abstract new (...args: any) => any
+type AnyPluginInstance = Exclude<PluginConfigInstance<any, any>, boolean>
+type AnyPluginInstances = Record<string, AnyPluginInstance>
+type AllCaseUserPluginConfig = Exclude<UserPlugin<AnyPlugin, {}, {}, {}, {}>, boolean>
 
 
 type PluginConfigBase<_Plugin, _DefaultOptions> = {
     plugin: _Plugin
     enabled?: boolean
-}
-&   (_DefaultOptions extends null ? {} : { rewrite?: boolean })
+} & (_DefaultOptions extends null ? {} : { rewrite?: boolean })
 
-type PluginConfigOptions<_PluginOpts, _DefaultOpts, _Options> = {
+type PluginConfigOptions<
+    _PluginOpts,
+    _DefaultOpts,
+    _Options
+> = {
     options: (
         _Options extends null
             ?   (
@@ -61,19 +61,35 @@ type PluginConfigOptions<_PluginOpts, _DefaultOpts, _Options> = {
     instances?: never
 }
 
-type PluginConfigInstances<_PluginOpts, _DefaultInstances> = {
-    instances:
-        {
-            [ K in keyof _DefaultInstances ]?: PluginComfigInstance<_DefaultInstances[K], _PluginOpts>
+type PluginConfigInstances<
+    _PluginOpts extends Obj,
+    _DefaultInstances extends AnyPluginInstances | null
+> = _DefaultInstances extends null
+    ?   never
+    :   {
+            instances:
+                {
+                    [ K in keyof _DefaultInstances ]?:
+                        PluginConfigInstance<
+                            Exclude<_DefaultInstances, null>[K],
+                            _PluginOpts
+                        >
+                }
+                &
+                {
+                    [ key: string ]:
+                        PluginConfigInstance<
+                            PluginConfigOptions<_PluginOpts, Obj, Obj>,
+                            _PluginOpts
+                        >
+                }
+            options?: never
         }
-        &
-        {
-            [ key: string ]: PluginComfigInstance<any, _PluginOpts>
-        }
-    options?: never
-}
 
-type PluginComfigInstance<_PluginInstance, _PluginOpts> = {
+type PluginConfigInstance<
+    _PluginInstance extends Exclude<PluginConfigInstance<any, any>, boolean>,
+    _PluginOpts extends Obj
+> = {
     options?: DeepExclude<_PluginInstance['options'], _PluginOpts>
     enabled?: boolean
     rewrite?: boolean
@@ -81,11 +97,11 @@ type PluginComfigInstance<_PluginInstance, _PluginOpts> = {
 
 
 type UserPlugin<
-    _Plugin extends AnyPlugin = AnyPlugin,
+    _Plugin extends AnyPlugin,
     _DefaultOpts = null,
     _Options = null,
-    _DefaultInstances = null,
-    _PluginOpts = NonNullable<ConstructorParameters<_Plugin>[0]>
+    _DefaultInstances extends AnyPluginInstances | null = null,
+    _PluginOpts extends Obj = NonNullable<ConstructorParameters<_Plugin>[0]>
 > = Partial<
     PluginConfigBase<_Plugin, _DefaultOpts>
     &   (
@@ -94,8 +110,6 @@ type UserPlugin<
             PluginConfigInstances<_PluginOpts, _DefaultInstances>
         )
 > | boolean
-
-type AllCaseUserPluginConfig = Exclude<UserPlugin<AnyPlugin, {}, {}, {}, {}>, boolean>
 
 
 //TODO typing: required custom plugin and never predefined
@@ -107,8 +121,6 @@ type Plugins = {
     sw?: UserPlugin<SwPluginClassCtor, DefaultPlugins['sw']['options']>
 
     cssExtract?: UserPlugin<CssExtractPlugin, DefaultPlugins['cssExtract']['options']>
-
-    cssOptimize?: UserPlugin<CssOptimizePlugin>
 
     html?: UserPlugin<
         HtmlPlugin,
@@ -126,25 +138,25 @@ type Plugins = {
 
 
 
-type CompressionInstanceCommonOptions = readonly {
+type CompressionInstanceCommonOptions = {
     test: RegExp
     threshold: Required<CompressionWebpackPluginOptions<any>>['threshold']
     deleteOriginalAssets: boolean
 }
 
-type DefaultHtmlPluginOptions = readonly {
+type DefaultHtmlPluginOptions = {
     template: NonNullable<HTMLWebpackPluginOptions['template']>
     minify: {
         collapseWhitespace: NonNullable<NonNullable<HTMLMinifyOptions>['collapseWhitespace']>
     }
 }
 
-type DefaultEslintPluginOptions = readonly {
+type DefaultEslintPluginOptions = {
     extensions: string[]
     emitWarning: boolean
 }
 
-type DefaultPlugins = readonly {
+type DefaultPlugins = {
     compression: {
         plugin: CompressionPlugin
         enabled: boolean
@@ -170,7 +182,7 @@ type DefaultPlugins = readonly {
         plugin: CopyPlugin
         enabled: boolean
         options: {
-            patterns: NonNullable<NonNullable<BuildConfig['input']>['copyFiles']>
+            patterns: Exclude<NonNullable<NonNullable<BuildConfig['input']>['copyFiles']>, string>
         }
     }
 
@@ -216,7 +228,7 @@ type DefaultPlugins = readonly {
 
 
 export type {
-    CompressionInstanceCommonOptions, CopyWebpackPluginOptions, ResolvePluginDefaultOptions,
-    DefaultPlugins, Plugins, PluginComfigInstance, AllCaseUserPluginConfig,
+    CompressionInstanceCommonOptions, CopyWebpackPluginOptions,
+    DefaultPlugins, Plugins, PluginConfigInstance, AllCaseUserPluginConfig,
     DefaultEslintPluginOptions, DefaultHtmlPluginOptions
 }

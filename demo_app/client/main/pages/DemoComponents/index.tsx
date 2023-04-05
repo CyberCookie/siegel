@@ -17,7 +17,7 @@ type SidebarItemProps = {
     className?: string
 }
 
-const _demoComponents: Obj = demoComponents
+const _demoComponents: Obj<Function & { coreSrcDirName: string }> = demoComponents
 
 const hashParam = 'active'
 
@@ -32,7 +32,7 @@ const DemoPage: Page = () => {
     for (const component in demoComponents) {
         const props: SidebarItemProps = {
             key: component,
-            children: _demoComponents[component].coreSrcDirName,
+            children: _demoComponents[component]!.coreSrcDirName,
             onMouseDown() {
                 updateURLQuery(hashParam, component)
                 setActive(component)

@@ -1,12 +1,9 @@
-import type { RouterProps } from '../types'
-
-
 type URLparams = Obj<string>
 
 type ChildrenArrayEl = {
     traversePath: string
     historyState: any
-    El: RouterPageConfig['page'] | RouteLayoutConfig['Layout']
+    El: RouteConfigAllFields['Page'] | RouteConfigAllFields['Layout']// | (() => React.ReactNode)
     fallback?: PageLayoutCommons['fallback']
     onEnter?: PageLayoutCommons['onEnter']
     onLeave?: PageLayoutCommons['onLeave']
@@ -19,7 +16,7 @@ type ParsePathname = (
     urlParams: URLparams
     newPathname: string
     newHistoryState: any
-    transitionData: RoutesConfig[string]['transition']
+    transitionData: NonNullable<RoutesConfig[string]>['transition']
 }
 
 type GetPageParams = {

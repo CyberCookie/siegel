@@ -69,7 +69,7 @@ type CoreUIReactTagAttributes<
 
 type CoreUIComponent<
     _Props extends PropsComponentThemed,
-    _Defaults extends Partial<P>
+    _Defaults extends Partial<_Props>
 > = {
     defaults: _Defaults
     ID: string
@@ -83,7 +83,7 @@ type CoreUIComponentWithDefaults<_Component extends CoreUIComponent<any, any>> =
 
 
 export type {
-    DivTagAttributes, ReactTagAttributes, CoreUIReactTagAttributes,
+    DivTagAttributes, CoreUIReactTagAttributes,
     ComponentRefApi,
     CoreUIComponent, CoreUIComponentWithDefaults,
     PropsComponentBase, PropsComponentThemed

@@ -9,6 +9,9 @@ type StylesLoaderRegExp = '\\.(c|sc|sa)ss$'
 type FilesLoaderRegExp = '\\.(avif|webp|jpe?g|png|svg|woff2?)$'
 
 
+type AnyDefaultLoader = Exclude<Loader, boolean | string>
+
+
 type DefaultsWithRuleOptions = {
     ruleOptions: {
         include?: string[]
@@ -44,39 +47,52 @@ type RuleOptionsFn = (options: RuleOptions) => RuleOptions
 
 
 type LoadersOrder = string[]
-type LoadersOrderFn<_DefaultModule = null> = (
+
+type LoadersOrderFn<
+    _DefaultModule extends UserRule | null = null,
+    _DefaultModuleLoaders = NonNullable<_DefaultModule>['loaders'],
+    _DefaultModuleLoadersOrder = NonNullable<_DefaultModule>['loadersOrder']
+> = (
     order: _DefaultModule extends null
         ?   LoadersOrder
-        :   _DefaultModule['loaders'] extends Obj
-            ?   _DefaultModule['loadersOrder']
+        :   _DefaultModuleLoaders extends Obj
+            ?   _DefaultModuleLoadersOrder
             :   LoadersOrder
 ) => LoadersOrder
 
-type LoaderOptionsFn<_DefaultLoader = null> = (
+
+type LoaderOptionsFn<
+    _DefaultLoader extends Loader | null = null,
+    _DefaultLoaderOptions = Exclude<_DefaultLoader, null | boolean | string>['options']
+> = (
     defaultOptions: _DefaultLoader extends null
         ?   WebpackLoaderObjOptions
-        :   _DefaultLoader['options'] extends Obj
-            ?   _DefaultLoader['options']
+        :   _DefaultLoaderOptions extends Obj
+            ?   _DefaultLoaderOptions
             :   WebpackLoaderObjOptions
 ) => WebpackLoaderObjOptions
 
-type LoaderObj<_DefaultLoader = null> = {
+type LoaderObj<_DefaultLoader extends Loader | null = null> = {
     enabled?: boolean
-    options?: WebpackLoaderObjOptions | LoaderOptionsFn<_DefaultLoader>
+    options?: WebpackLoaderObjOptions | LoaderOptionsFn<_DefaultLoader> //TODO typing: loader options
 } & Exclude<WebpackLoaderObj, 'options'>
 
-type Loader<_DefaultLoader = null> = string | boolean | LoaderObj<_DefaultLoader>
-type AnyDefaultLoader = Exclude<Loader, boolean | string>
+type Loader<
+    _DefaultLoader extends Loader | null = null
+> = string | boolean | LoaderObj<_DefaultLoader>
 
-type Loaders<_DefaultRule = null> = (
+type Loaders<
+    _DefaultRule extends UserRule | null = null,
+    _DefaultRuleLoaders = Exclude<_DefaultRule, null>['loaders']
+> = (
     _DefaultRule extends null
         ?   {}
-        :   { [ K in keyof _DefaultRule['loaders']]?: Loader<_DefaultRule['loaders'][K]> }
+        :   { [ K in keyof _DefaultRuleLoaders]?: Loader<NonNullable<_DefaultRuleLoaders[K]>> }
 ) & Obj<Loader>
 
 
 
-type UserRule<_DefaultRule = null> = {
+type UserRule<_DefaultRule extends UserRule | null = null> = {
     enabled?: boolean
     rewriteRegExp?: string
     loaders?:  Loaders<_DefaultRule>

@@ -54,7 +54,7 @@ function filterValue(
     }
 
     const setFilterFunc: OnFilterCompareFunc = ID => {
-        const value: string = byID[ID]![this.customParams!.valuePath!]
+        const value = byID[ID]![this.customParams!.valuePath] as string
         return !(search as Set<string>).has(value)
     }
 

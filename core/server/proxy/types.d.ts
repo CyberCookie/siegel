@@ -6,7 +6,7 @@ type ProxyParams = {
     host: string
     port?: number
     path?: string
-    query?: Obj<string>
+    query?: Obj
     method?: string
     headers?: Obj<string>
     changeOrigin?: boolean

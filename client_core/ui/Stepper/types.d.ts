@@ -59,7 +59,7 @@ type Props = PropsComponentThemed<Theme, {
             value: Option['value']
             optionIndex: number
         }[],
-        event: Parameters<RangerProps['onChange']>[1]
+        event: Parameters<NonNullable<RangerProps['onChange']>>[1]
     ): void
 
     /** Stepper children element passed to Ranger along with stepper labels */

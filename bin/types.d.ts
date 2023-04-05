@@ -1,5 +1,5 @@
 import type { CLIParamsValuesType } from '../core/utils/parse_cli_args'
-import type { ConfigDefault, RunParamsFinal } from '../core/types'
+import type { ConfigDefault, ConfigFinal, RunParamsFinal } from '../core/types'
 
 
 type ActionParam<R> = {
@@ -13,7 +13,7 @@ type CommanParam<R> = {
     description: string
     paramAction(
         params: {
-            value: CLIParamsValuesType[string]['value']
+            value: NonNullable<CLIParamsValuesType[string]>['value']
         } & ActionParam<R>
     ): void
     flagLong: string
@@ -36,7 +36,7 @@ type CommandExampleFn = (
     flags: PrintHelpFlagsMap
 ) => string
 
-type Command<R extends Obj = undefined> = {
+type Command<R extends Obj | undefined> = {
     description: string
     commandAction(params: ActionParam<R>): void
     example?: boolean | string | CommandExampleFn
@@ -54,8 +54,8 @@ type CommanTree = {
     init: Command<{
         isGlobal: boolean
     }>
-    'create-ssl': Command
-    version: Command
+    'create-ssl': Command<undefined>
+    version: Command<undefined>
 }
 
 

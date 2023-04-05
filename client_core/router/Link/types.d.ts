@@ -1,6 +1,4 @@
-import type {
-    PropsComponentBase, CoreUIComponent, ReactTagAttributes
-} from '../../ui/_internals/types'
+import type { PropsComponentBase, CoreUIComponent } from '../../ui/_internals/types'
 
 
 type LinkReactTagAttributes = ReactTagAttributes<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>

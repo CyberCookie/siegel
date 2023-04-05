@@ -93,7 +93,7 @@ function compareArrays(a: any[], b: any[], options: Options) {
 
 function compareObjects(a: Obj, b: Obj, options: Options) {
     const { valueForRemovedObjField } = options
-    const result = {} as Obj
+    const result: Obj = {}
     let updatesCount = 0
 
     for (const key in a) {

@@ -8,7 +8,6 @@ import component from '../_internals/component'
 import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
 
-import type { ReactTagAttributes } from '../_internals/types'
 import type { MergedProps, Component, Props, DefaultProps, Tab } from './types'
 
 

@@ -89,7 +89,7 @@ type BuildConfig = {
         |   ((defaultOptions: DefaultEslintPluginOptions) => EslintWebpackPluginOptions)
 
     /** Webpack aliases */
-    aliases?: Recordf<string, string>
+    aliases?: Record<string, string>
 
     /** Webpack plugins config */
     plugins?: Plugins

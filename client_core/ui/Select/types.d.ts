@@ -19,7 +19,7 @@ type Store = ReactStore<{
     arrowSelectIndex: number | undefined
 }>
 
-type Option<_Value = any> = {
+type Option<_Value = any, _Payload = any> = {
     /** Option value */
     value: _Value
 
@@ -86,7 +86,7 @@ type Theme = {
 
 type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     /** Possible options to choose */
-    options: Option<_Value>[],
+    options: Option<_Value, _Payload>[],
 
     /**
      * Triggered when you choose new option

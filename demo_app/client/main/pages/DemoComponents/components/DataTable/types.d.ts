@@ -2,7 +2,7 @@ import type { DataTableProps } from 'app/components'
 
 
 type Entity = {
-    id: ID
+    id: string
     date: number
     text: string
     num: number

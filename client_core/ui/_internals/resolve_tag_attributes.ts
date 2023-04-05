@@ -1,4 +1,4 @@
-import type { ReactTagAttributes, CoreUIReactTagAttributes } from '../_internals/types'
+import type { CoreUIReactTagAttributes } from '../_internals/types'
 
 
 type MergeReactTagAttributes = <

@@ -2,7 +2,6 @@ import React from 'react'
 
 import applyClassName from '../../_internals/apply_classname'
 
-import type { ReactTagAttributes } from '../../_internals/types'
 import type { MergedProps, State, onSelectInner } from '../types'
 
 

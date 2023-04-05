@@ -77,16 +77,18 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             options: {
                 patterns:
                     typeof input.copyFiles == 'string'
-                    && (isExists((input.html as HTMLWebpackPluginOptions).template) || typeof input.html == 'string')
                         ?   [{
                                 from: input.copyFiles,
                                 to: path.join(
                                         CONFIG.publicDir,
                                         path.relative(
                                             path.dirname(
-                                                typeof input.html == 'string'
-                                                    ?   input.html
-                                                    :   (input.html as HTMLWebpackPluginOptions).template!
+                                                isExists((input.html as HTMLWebpackPluginOptions).template)
+                                                ||  typeof input.html == 'string'
+                                                    ?   typeof input.html == 'string'
+                                                        ?   input.html
+                                                        :   (input.html as HTMLWebpackPluginOptions).template!
+                                                    :   input.js
                                             ),
                                             input.copyFiles
                                         )

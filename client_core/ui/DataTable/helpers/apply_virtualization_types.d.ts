@@ -1,4 +1,3 @@
-import type { ReactTagAttributes } from '../../_internals/types'
 import type { MergedProps, State } from '../types'
 
 

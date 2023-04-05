@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, CoreUIReactTagAttributes, ReactTagAttributes, CoreUIComponent
+    PropsComponentThemed, CoreUIReactTagAttributes, CoreUIComponent
 } from '../_internals/types'
 
 
@@ -86,7 +86,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
      *
      * @param event Click Mouse event
      */
-    onMouseDown?(event: HandlerEvent)
+    onMouseDown?(event: HandlerEvent): void
 
     /** Tag [<input>] attributes */
     checkboxAttributes?: CheckboxRootAttrs

@@ -6,7 +6,7 @@ type StateUpdater = {
 type StateWithUpdater<State extends Obj> = State & StateUpdater
 
 type HookStore<
-    State,
+    State extends Obj,
     Actions extends ActionsUnbinded<State>
 > = Required<InnerStore<StateWithUpdater<State>, Actions>>
 
@@ -35,7 +35,7 @@ type StoreListenerWithPrevState<State = StateWithUpdater<{}>> = {
 }
 
 
-type ActionBinded<_Action> = (...args: Tail<Parameters<_Action>>) => ReturnType<_Action>
+type ActionBinded<_Action extends (...args: any[]) => void> = (...args: Tail<Parameters<_Action>>) => ReturnType<_Action>
 type ActionsBinded<A extends ActionsUnbinded<any>> = {
     [action in keyof A]: ActionBinded<A[action]>
 }

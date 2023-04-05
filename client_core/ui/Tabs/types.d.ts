@@ -3,7 +3,7 @@ import type {
 } from '../_internals/types'
 
 
-type Tab = {
+type Tab<_Payload = any> = {
     /** Tab ID */
     id: string
 
@@ -39,7 +39,7 @@ type Theme = {
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /** Represents each tab data */
-    tabs: Tab[],
+    tabs: Tab<_Payload>[],
 
     /**
      * Triggered when tab is selected

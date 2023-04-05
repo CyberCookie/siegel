@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { ReactTagAttributes } from './types'
-
 
 type WithLabel = (
     input: JSX.Element,

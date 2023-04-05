@@ -1,5 +1,5 @@
 import type {
-    PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes, ReactTagAttributes
+    PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes
 } from '../_internals/types'
 
 

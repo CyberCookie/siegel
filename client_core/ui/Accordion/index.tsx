@@ -36,7 +36,7 @@ function getExpandersPaths(list: List | BuilderList, pathPrefix?: string | numbe
 const getDefaultState = (list?: List | BuilderList) => ({
     expandedPaths: list
         ?   useMemo(() => getExpandersPaths(list), [])
-        :   {} as Obj
+        :   {}
 })
 
 const Accordion = component<Props, DefaultProps>(
