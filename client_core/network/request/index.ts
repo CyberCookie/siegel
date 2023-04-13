@@ -32,7 +32,7 @@ function extractRequestData(request: RequestParams) {
     options.method ||= 'GET'
 
     let fetchURL = params
-        ?   populateURLParams(url, params) as string
+        ?   populateURLParams(url, params)
         :   url
 
 

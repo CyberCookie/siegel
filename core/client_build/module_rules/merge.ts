@@ -47,9 +47,9 @@ const addRule: AddRuleFn = (rules, ruleParams) => {
     const use: NonNullable<RuleSetRule['use']> = []
     loadersOrder.forEach(loaderKey => {
         const userLoader = loaders[loaderKey]
-        if (userLoader) {
+        if (userLoader != false) {
             const mergedLoaders = mergeLoaders(
-                userLoader,
+                userLoader || true,
                 defaultLoaders[loaderKey] as AnyDefaultLoader | undefined
             )
             mergedLoaders && use.push(mergedLoaders)

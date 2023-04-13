@@ -5,7 +5,7 @@
  * @param params Object that represents params values where key is URL param key and value is param value
  * @returns Populated URL
  */
-function populateURLParams(url: string, params: Obj<string>) {
+function populateURLParams(url: string, params: Obj) {
     for (const param in params) {
         url = url.replace(`:${param}`, params[param]!)
     }

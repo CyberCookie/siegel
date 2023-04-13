@@ -30,7 +30,7 @@ type RequestParams<_Body = any> = {
     url: string
 
     /** URL params that will be included in `url` */
-    params?: Record<string, string>
+    params?: Record<string, any>
 
     /** URL query params */
     query?: string | Record<string, any> | URLSearchParams
