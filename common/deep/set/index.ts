@@ -132,6 +132,6 @@ type O = Exclude<
 //     }
 // }
 // type X = PathsOf<typeof x>
-deepSet({a: {b: 30}}, ['a', 'a'], {})
+// deepSet({a: {b: 30}}, ['a', 'a'], {})
 
 export default deepSet
