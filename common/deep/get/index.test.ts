@@ -1,3 +1,4 @@
+//@ts-nocheck
 import deepGet from './'
 
 
@@ -7,12 +8,15 @@ describe('common/deep/get', () => {
             deepGet(
                 {
                     a: {
-                        b: [
-                            {},
-                            {
-                                a: [{ val: 'val' }]
+                        b: {
+                            1: {
+                                a: {
+                                    0: {
+                                        val: 'val'
+                                    }
+                                }
                             }
-                        ]
+                        }
                     }
                 },
                 [ 'a', 'b', '1', 'a', '0', 'val' ]

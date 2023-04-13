@@ -9,15 +9,19 @@ import isNullable from '../../is/nullable'
  * @param defaultVal Value to return if no value by with provided path
  * @returns Seek value
  */
-function deepGet(obj: any, path: string[] | string, defaultVal?: any): any {
+function deepGet<
+    _Obj extends Obj,
+    _Keys extends PathsOf<_Obj>
+>(obj: _Obj, path: _Keys, defaultVal?: any): any {
+
     if (isNullable(obj)) return defaultVal
 
-    const arrayPath = Array.isArray(path) ? path : [ path ]
+    const arrayPath = path
     const deepLink = obj[arrayPath[0]]
 
 
     return arrayPath.length > 1
-        ?   deepGet(deepLink, arrayPath.slice(1), defaultVal)
+        ?   deepGet(deepLink, arrayPath.slice(1) as PathsOf<typeof deepLink>, defaultVal)
         :   deepLink
 }
 
