@@ -1,3 +1,4 @@
+import '../../../global.d.ts'
 import deepGet from './'
 
 
@@ -7,15 +8,11 @@ describe('common/deep/get', () => {
             deepGet(
                 {
                     a: {
-                        b: [
-                            {},
-                            {
-                                a: [{ val: 'val' }]
-                            }
-                        ]
+                        b: {
+                            a: { val: 'val' }                        }
                     }
                 },
-                [ 'a', 'b', '1', 'a', '0', 'val' ]
+                [ 'a', 'b', 'a', 'val' ]
             )
         ).toBe('val')
     })
@@ -23,27 +20,24 @@ describe('common/deep/get', () => {
     test('get not exists', () => {
         expect(
             deepGet(
-                { a: {} },
-                [ 'a', 'b', '1' ]
-            )
-        ).toBeUndefined()
-
-        expect(
-            deepGet(
-                { a: null },
-                [ 'a', 'b', '1' ]
-            )
-        ).toBeUndefined()
-
-        expect(
-            deepGet(
-                undefined,
-                [ 'a', 'b', '1' ]
+                { a: {} as { b?: number } },
+                [ 'a', 'b' ]
             )
         ).toBeUndefined()
     })
 
     test('get undefined', () => {
+        console.log(deepGet(
+            { a: null },
+            [ 'a' ]
+        ))
+        expect(
+            deepGet(
+                { a: null },
+                [ 'a' ]
+            )
+        ).toBeUndefined()
+
         expect(
             deepGet(
                 { a: undefined },
@@ -55,8 +49,8 @@ describe('common/deep/get', () => {
     test('get not exists fallback', () => {
         expect(
             deepGet(
-                { a: {} },
-                [ 'a', 'b', '1' ],
+                { a: {} as { b?: number } },
+                [ 'a', 'b' ],
                 '__FALLBACK__'
             )
         ).toBe('__FALLBACK__')

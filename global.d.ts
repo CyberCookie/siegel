@@ -104,7 +104,6 @@ type DeepMerge<
 
 
 
-
 /**
  * Simple object that has string key and optional fields
  * @param V - object values. Default: any
@@ -150,14 +149,20 @@ type NonNullableProps<O extends Obj> = {
  * @param O - object
  * @param K - object fields
  */
-type MakePartialFields<O extends Obj, K extends string> = Omit<O, K> & Partial<Pick<O, K>>
+type MakePartialFields<
+    O extends Obj,
+    K extends keyof O
+> = Omit<O, K> & Partial<Pick<O, K>>
 
 /**
  * Makes fields to be required in a given object
  * @param O - object
  * @param K - object fields
  */
-type MakeRequiredFields<O extends Obj, K extends string> = Omit<O, K> & Required<Pick<O, K>>
+type MakeRequiredFields<
+    O extends Obj,
+    K extends keyof O
+> = Omit<O, K> & Required<Pick<O, K>>
 
 /**
  * Keeps only object properties thats are equal to a given value
@@ -182,7 +187,9 @@ type ExcludeObjectValueTypes<O extends Obj, V> = {
  * @param O - object
  */
 type PathsOf<T, R = Required<T>> = Values<{
-    [P in keyof R]: [P] | [P, ...PathsOf<R[P]>]
+    [P in keyof R]: R[P] extends Obj
+        ?   [P] | [P, ...PathsOf<R[P]>]
+        :   [P]
 }>
 
 
@@ -193,6 +200,11 @@ type PathsOf<T, R = Required<T>> = Values<{
  */
 type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never
 
+/**
+ * Checks whether a _V is null | undefined
+ * @return {true} if _V ex null | undefined
+ */
+type IsNullable<_V> = Extract<_V, undefined | null> extends never ? false : true
 
 
 
