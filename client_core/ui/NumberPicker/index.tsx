@@ -173,6 +173,7 @@ const NumberPicker = component<Props, DefaultProps>(
 
             onChange({
                 value: `${precisionKeepZeroes ? result : newNumberValue}`,
+                prevValue: value,
                 isValidNumberString: true,
                 numberValue: newNumberValue,
                 event, isKeyboardArrowUp, payload, prevValidNumer
@@ -222,7 +223,8 @@ const NumberPicker = component<Props, DefaultProps>(
                             event, payload, prevValidNumer,
                             isValidNumberString: true,
                             numberValue: newNumberValue!,
-                            value: newStringValue!
+                            value: newStringValue!,
+                            prevValue: value
                         })
                     }
 
@@ -242,7 +244,8 @@ const NumberPicker = component<Props, DefaultProps>(
                         numberValue: newNumberValue,
                         isValidNumberString: isValidNumberString(newValueString, newNumberValue)
                             &&  newNumberValue == adjustWithRanges(newNumberValue, min, max),
-                        value: newValueString
+                        value: newValueString,
+                        prevValue: value
                     })
                 }
             }
@@ -270,6 +273,7 @@ const NumberPicker = component<Props, DefaultProps>(
                         onChange({
                             numberValue: NaN,
                             value: '',
+                            prevValue: value,
                             isValidNumberString: false,
                             event, payload, prevValidNumer
                         })

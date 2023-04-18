@@ -52,13 +52,29 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
      * @param changeParams Change params
      */
     onChange(changeParams: {
+        /** New string value */
         value: string
+
+        /** Previous string value */
+        prevValue: Props['value']
+
+        /** New number value */
         numberValue: number
+
+        /** Is valid new string value */
         isValidNumberString: boolean
+
+        /** Previous number value when isValidNumberString was true */
         prevValidNumer: number | undefined
+
+        /** Change event */
         event: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>
             |   React.FocusEvent<HTMLDivElement>
+
+        /** Is step arrow up was pressed. Undefined if no arrows was pressed */
         isKeyboardArrowUp?: boolean
+
+        /** NumberPicker props.payload */
         payload: _Payload
     }): void
 

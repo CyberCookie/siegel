@@ -42,7 +42,8 @@ Input for numbers with various validations built on top of `Input` component<br 
 - `onChange`
     - Triggered when NumberPicker value is changing
     - **Function** Has **1** argument - **Object** with the next props:
-        - `value` - **String**. New editable value
+        - `value` - **String**. New value
+        - `prevValue` - `props.value`. Previous NumberPicker value
         - `numberValue` - **Number** value. **NaN** if `value` is en empty **String**
         - `isValidNumberString` - **Boolean**. **True** if `numberValue` is not **NaN**<br />
             and `numberValue` lays between `props.min` and `props.max`<br />

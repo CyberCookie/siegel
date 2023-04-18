@@ -27,10 +27,6 @@ describe('common/deep/get', () => {
     })
 
     test('get undefined', () => {
-        console.log(deepGet(
-            { a: null },
-            [ 'a' ]
-        ))
         expect(
             deepGet(
                 { a: null },
