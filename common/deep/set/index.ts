@@ -94,29 +94,29 @@ export default deepSet
 // type XX = PathsOf<X>
 
 
-type _PathsOf<T, R = Required<T>> = Values<{
-    [P in keyof R]: R[P] extends Obj
-        ?   [P] | [P, ...PathsOf<R[P]>]
-        :   {
-                k: [P]
-                r: R[P]
-                if: R[P] extends Obj ? true : false
-                iff: Exclude<R[P], null | undefined> extends Obj ? true : false
-            }
+// type _PathsOf<T, R = Required<T>> = Values<{
+//     [P in keyof R]: R[P] extends Obj
+//         ?   [P] | [P, ...PathsOf<R[P]>]
+//         :   {
+//                 k: [P]
+//                 r: R[P]
+//                 if: R[P] extends Obj ? true : false
+//                 iff: Exclude<R[P], null | undefined> extends Obj ? true : false
+//             }
     // [P in keyof R]: R[P] extends Obj
     //     ?   [P] | [P, ...PathsOf<R[P]>]
     //     :   [P]
-}>
+// }>
 
-type X = {
-    a?: {
-        b?: {
-        //     c: number
-        } | null
-    } | null
-}
-type Z = _PathsOf<X>
-const y: _PathsOf<X> = [ 'a', 'b' ]
+// type X = {
+//     a?: {
+//         b?: {
+//         //     c: number
+//         } | null
+//     } | null
+// }
+// type Z = _PathsOf<X>
+// const y: _PathsOf<X> = [ 'a', 'b' ]
 
 // type Y = null | Record<string, any> | undefined
 // type YY = Exclude<Y, null | undefined>
