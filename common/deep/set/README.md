@@ -9,6 +9,8 @@ Receives **3** parameters:
 - **path** - **String[]**. Path to to set value by
 - **value** - **Any**. Value to set by provided **path**
 
+Returns updated **object**<br />
+
 <br />
 
 ```jsx

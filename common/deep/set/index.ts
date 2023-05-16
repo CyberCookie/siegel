@@ -1,7 +1,34 @@
-//TODO typing: tyre return value to reflect updated one
+//TODO typing: type input and return values
 
 
-import type { DeepGet } from '../get'
+/**
+ * To set property deeply into an object
+ *
+ * @param iterable Object to set value to
+ * @param path Path to to set value by
+ * @param value Value to set by provided path
+ */
+function deepSet<_Obj extends Obj>
+(iterable: _Obj, path: string[], value: any): _Obj {
+
+    let link = iterable
+    for (let i = 0, l = path.length; i < l; i++) {
+        const pathPart = path[i] as keyof _Obj
+
+        if (i == l - 1) link[pathPart] = value
+        else {
+            link[pathPart] ||= {} as _Obj[keyof _Obj]
+            link = link[pathPart]
+        }
+    }
+
+
+    return iterable
+}
+
+
+
+// import type { DeepGet } from '../get'
 
 
 // type DeepSet<
@@ -20,21 +47,27 @@ import type { DeepGet } from '../get'
 //         } & Omit<Obj, _FirstKey>
 
 
-/**
- * To set property deeply into an object
- *
- * @param iterable Object to set value to
- * @param path Path to to set value by
- * @param value Value to set by provided path
- */
-// function deepSet<_Obj extends Obj>
-// (iterable: _Obj, path: string[], value: any): _Obj {
+// /**
+//  * To set property deeply into an object
+//  *
+//  * @param iterable Object to set value to
+//  * @param path Path to to set value by
+//  * @param value Value to set by provided path
+//  */
+// function deepSet<
+//     _Obj extends Obj,
+//     _Full extends PathsOf<_Obj>,
+//     // _Value extends DeepGet<_Obj, _Full>,
+//     //// @ts-expect-error
+//     // _Result = DeepSet<_Obj, _Full, _Value>
+// >
+// (iterable: _Obj, path: _Full, value: DeepGet<_Obj, _Full>): _Obj {
 
 //     let link = iterable
 //     for (let i = 0, l = path.length; i < l; i++) {
 //         const pathPart = path[i] as keyof _Obj
-
-//         if (i == l - 1) link[pathPart] = value
+//         // @ts-expect-error
+//         if (i == l - 1) link[pathPart] = value as  _Obj[keyof _Obj]
 //         else {
 //             link[pathPart] ||= {} as _Obj[keyof _Obj]
 //             link = link[pathPart]
@@ -42,31 +75,9 @@ import type { DeepGet } from '../get'
 //     }
 
 
-//     return iterable
+//     return iterable// as DeepSet<_Obj, _Full, DeepGet<_Obj, _Full>>
 // }
-function deepSet<
-    _Obj extends Obj,
-    _Full extends PathsOf<_Obj>,
-    // _Value extends DeepGet<_Obj, _Full>,
-    //// @ts-expect-error
-    // _Result = DeepSet<_Obj, _Full, _Value>
->
-(iterable: _Obj, path: _Full, value: DeepGet<_Obj, _Full>): _Obj {
 
-    let link = iterable
-    for (let i = 0, l = path.length; i < l; i++) {
-        const pathPart = path[i] as keyof _Obj
-        // @ts-expect-error
-        if (i == l - 1) link[pathPart] = value as  _Obj[keyof _Obj]
-        else {
-            link[pathPart] ||= {} as _Obj[keyof _Obj]
-            link = link[pathPart]
-        }
-    }
-
-
-    return iterable// as DeepSet<_Obj, _Full, DeepGet<_Obj, _Full>>
-}
 // const xxx = 20 as number
 
 // type Prov = 1 | 2 | 3
