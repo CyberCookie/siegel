@@ -1,4 +1,7 @@
-// import type { DeepGet } from '../get'
+//TODO typing: tyre return value to reflect updated one
+
+
+import type { DeepGet } from '../get'
 
 
 // type DeepSet<
@@ -6,16 +9,15 @@
 //     _Path extends PathsOf<_Obj>,
 //     _Value extends DeepGet<_Obj, _Path>,
 //     _FirstKey extends keyof Required<_Obj> = _Path[0]
-// > = _FirstKey extends keyof Required<_Obj>
-//     ?   {
+// > = _FirstKey extends never
+//     ?   _Obj
+//     :   {
 //             [key in _FirstKey]: DeepSet<
 //                 Required<_Obj>[_FirstKey],
-//                 // @ts-expect-error
 //                 Tail<_Path>,
 //                 _Value
 //             >
 //         } & Omit<Obj, _FirstKey>
-//     :   _Obj
 
 
 /**
@@ -25,38 +27,14 @@
  * @param path Path to to set value by
  * @param value Value to set by provided path
  */
-function deepSet<_Obj extends Obj>
-(iterable: _Obj, path: string[], value: any): _Obj {
-
-    let link = iterable
-    for (let i = 0, l = path.length; i < l; i++) {
-        const pathPart = path[i] as keyof _Obj
-
-        if (i == l - 1) link[pathPart] = value
-        else {
-            link[pathPart] ||= {} as _Obj[keyof _Obj]
-            link = link[pathPart]
-        }
-    }
-
-
-    return iterable
-}
-
-// function deepSet<
-//     _Obj extends Obj,
-//     _Full extends PathsOf<_Obj>,
-//     _Value extends DeepGet<_Obj, _Full>,
-//     // @ts-expect-error
-//     _Result = DeepSet<_Obj, _Full, _Value>
-// >
-// (iterable: _Obj, path: _Full, value: _Value): _Result {
+// function deepSet<_Obj extends Obj>
+// (iterable: _Obj, path: string[], value: any): _Obj {
 
 //     let link = iterable
 //     for (let i = 0, l = path.length; i < l; i++) {
 //         const pathPart = path[i] as keyof _Obj
 
-//         if (i == l - 1) link[pathPart] = value as _Obj[keyof _Obj]
+//         if (i == l - 1) link[pathPart] = value
 //         else {
 //             link[pathPart] ||= {} as _Obj[keyof _Obj]
 //             link = link[pathPart]
@@ -64,59 +42,51 @@ function deepSet<_Obj extends Obj>
 //     }
 
 
-//     return iterable as unknown as _Result
+//     return iterable
 // }
+function deepSet<
+    _Obj extends Obj,
+    _Full extends PathsOf<_Obj>,
+    // _Value extends DeepGet<_Obj, _Full>,
+    //// @ts-expect-error
+    // _Result = DeepSet<_Obj, _Full, _Value>
+>
+(iterable: _Obj, path: _Full, value: DeepGet<_Obj, _Full>): _Obj {
+
+    let link = iterable
+    for (let i = 0, l = path.length; i < l; i++) {
+        const pathPart = path[i] as keyof _Obj
+        // @ts-expect-error
+        if (i == l - 1) link[pathPart] = value as  _Obj[keyof _Obj]
+        else {
+            link[pathPart] ||= {} as _Obj[keyof _Obj]
+            link = link[pathPart]
+        }
+    }
 
 
+    return iterable// as DeepSet<_Obj, _Full, DeepGet<_Obj, _Full>>
+}
+// const xxx = 20 as number
 
-export default deepSet
-
-
-// type Prov = 1 | 2
+// type Prov = 1 | 2 | 3
 // type Spor = 1 | 2 | 3
 
 // type X = Partial<{
-//     [k in Prov]: number
+//     [p in Prov]: Partial<{
+//         [s in Spor]: number
+//     }>
 // }>
 
-// const x: X = {
-//     '1': 20
-// }
-// const prov = 1 as Prov
-// const spor = 1 as Spor
-
-
-// function xx(p: Prov, s: Spor) {
-//     const y = deepSet(x, [ 'asdas' ], 20)
-
+// const xx: X = {
+//     1: {
+//         1: 20
+//     }
 // }
 
-// type XX = PathsOf<X>
-
-
-// type _PathsOf<T, R = Required<T>> = Values<{
-//     [P in keyof R]: R[P] extends Obj
-//         ?   [P] | [P, ...PathsOf<R[P]>]
-//         :   {
-//                 k: [P]
-//                 r: R[P]
-//                 if: R[P] extends Obj ? true : false
-//                 iff: Exclude<R[P], null | undefined> extends Obj ? true : false
-//             }
-    // [P in keyof R]: R[P] extends Obj
-    //     ?   [P] | [P, ...PathsOf<R[P]>]
-    //     :   [P]
-// }>
-
-// type X = {
-//     a?: {
-//         b?: {
-//         //     c: number
-//         } | null
-//     } | null
+// function y(param: Prov, deep: Spor) {
+//     const x = deepSet(xx, [ param, deep ], 20)
 // }
-// type Z = _PathsOf<X>
-// const y: _PathsOf<X> = [ 'a', 'b' ]
 
-// type Y = null | Record<string, any> | undefined
-// type YY = Exclude<Y, null | undefined>
+
+export default deepSet

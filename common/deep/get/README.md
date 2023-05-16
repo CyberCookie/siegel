@@ -5,7 +5,7 @@ To retrieve deeply nested value
 Receives **3** arguments:
 - **object** - **Object** to get value from
 - **path** - **String[]**. Path to desired value within **object**
-- **default value** - **Any**. Value to return if no value by with provided **path**
+- **default value** - **Any**. Value to return if sought-for value is nullable (null \ undefined)**path**
 
 <br />
 

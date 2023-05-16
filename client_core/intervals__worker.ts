@@ -8,7 +8,6 @@ type MessageOutcome = MessageEvent<MessageIncome['id']>
 
 const activeIntervalsById: Obj<number> = {}
 
-
 onmessage = ({ data }: MessageEvent<MessageIncome>) => {
     const { ms, id } = data
 

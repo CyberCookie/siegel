@@ -338,18 +338,16 @@ const { loadersKeyMap, webpackModuleRulesRegExp } = BUILD_CONSTANTS
                     /* Remember that webpack' loaders executes starting from the end */
     
                     /* To add to the beginning. */
-                    defaultLoadersOrder.push('your_loader')
+                    const newOrder = [ ...defaultLoadersOrder, 'your_loader' ]
     
                     /* To add to the end. */
-                    defaultLoadersOrder.unshift('your_loader')
+                    const newOrder = [ 'your_loader', ...defaultLoadersOrder ]
     
                     /* One of the ways to remove the loader. */
-                    defaultLoadersOrder.splice(
-                        defaultLoadersOrder.indexOf(loadersKeyMap.sassResources),
-                        1
-                    )
+                    const newOrder = defaultLoadersOrder.filter(l => l != loadersKeyMap.sassResources)
+
     
-                    return defaultLoadersOrder
+                    return newOrder
                 },
     
                 loaders: {

@@ -15,6 +15,9 @@ interface URLSearchParams {
 
 
 
+type Fallish = undefined | null | false | 0 | ''
+
+
 /**
  * Transforms values union into intersaction
  * @param U - values union
@@ -187,10 +190,15 @@ type ExcludeObjectValueTypes<O extends Obj, V> = {
  * @param O - object
  */
 type PathsOf<T, R = Required<T>> = Values<{
-    [P in keyof R]: R[P] extends Obj
-        ?   [P] | [P, ...PathsOf<R[P]>]
+    [P in keyof R]: NonNullable<R[P]> extends Obj
+        ?   [P] | [P, ...PathsOf<NonNullable<R[P]>>]
         :   [P]
 }>
+// type PathsOf<T, R = Required<T>> = Values<{
+//     [P in keyof R]: R[P] extends Obj
+//         ?   [P] | [P, ...PathsOf<R[P]>]
+//         :   [P]
+// }>
 
 
 
