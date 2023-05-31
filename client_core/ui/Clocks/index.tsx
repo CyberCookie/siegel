@@ -10,12 +10,42 @@ import intervalWorker, {
 import useDidUpdate from '../../hooks/did_update'
 import component from '../_internals/component'
 
-import type { Component, Props, DefaultProps } from './types'
+import type { Component, Store, Props, DefaultProps } from './types'
 
 
 const worker = intervalWorker()
 
 const componentID = '-ui-clocks'
+
+
+function tick(
+    timeChangeValueMS: number,
+    dateStore: Store,
+    backward: Props['backward'],
+    processAsTimer: boolean | undefined
+) {
+
+    const [ dateState, setDate ] = dateStore
+
+    let newDate
+    if (processAsTimer) {
+        const { date } = dateState
+        const currentMS = date.getMilliseconds()
+
+        newDate = new Date(
+                date.setMilliseconds(
+                    backward
+                        ?   currentMS - timeChangeValueMS
+                        :   currentMS + timeChangeValueMS
+                )
+            )
+
+    } else newDate = new Date()
+
+
+    dateState.date = newDate
+    setDate({ ...dateState })
+}
 
 const Clocks = component<Props, DefaultProps>(
     componentID,
@@ -30,42 +60,20 @@ const Clocks = component<Props, DefaultProps>(
             builder, initDate, zeroing, tickEveryMinute, speedCoef, backward
         } = props
 
-        const [ dateState, setDate ] = useState({
+        const dateStore: Store = useState({
             date: initDate ? new Date(initDate) : new Date()
+            // dateTickTimestamp: undefined
         })
+        const [ dateState, setDate ] = dateStore
         const { date } = dateState
 
         useDidUpdate(() => {
             dateState.date = initDate!
-            setDate({ ...dateState  })
+            setDate({ ...dateState })
         }, [ initDate ])
 
         useLayoutEffect(() => {
-            const workerIntervalId = `${componentID}_tick_${getUniqId()}`
-            worker.addEventListener('message', workerTick)
-
             const { date } = dateState
-
-
-            function workerTick({ data }: WorkerMessageOutcome) {
-                data == workerIntervalId && tick(timeChangeValueMS)
-            }
-
-            function tick(timeChangeValueMS: number) {
-                const currentMS = date.getMilliseconds()
-                const newDate = new Date(
-                    date.setMilliseconds(
-                        backward
-                            ?   currentMS - timeChangeValueMS
-                            :   currentMS + timeChangeValueMS
-                    )
-                )
-
-                dateState.date = newDate
-                setDate({ ...dateState })
-            }
-
-
 
             let timeChangeValueMS: number
             let deltaToFirstMinuteTick: number
@@ -74,9 +82,8 @@ const Clocks = component<Props, DefaultProps>(
 
                 deltaToFirstMinuteTick = date.getSeconds() * msIn.second
                 backward || (deltaToFirstMinuteTick *= -1)
-            } else {
-                timeChangeValueMS = msIn.second
-            }
+
+            } else timeChangeValueMS = msIn.second
 
             const currentMS = date.getMilliseconds()
             let deltaToFirstTick = backward
@@ -95,18 +102,64 @@ const Clocks = component<Props, DefaultProps>(
                 updateInterval /= speedCoef
             }
 
+            const processAsTimer = isNotNormalSpeed || backward
 
 
+            let workerIntervalId: string
+            if (processAsTimer) {
+                workerIntervalId = `${componentID}_tick_${getUniqId()}`
+                worker.addEventListener('message', workerTick)
+            }
+
+
+            function workerTick({ data }: Pick<WorkerMessageOutcome, 'data'>) {
+                if (!processAsTimer || data == workerIntervalId) {
+                    // let timeChangeValueMSAdjust = timeChangeValueMS
+                    // if (processAsTimer) {
+                    //     const dateNow = Date.now()
+                    //     const prevDateTickTimestamp = dateState.dateTickTimestamp || dateNow
+                    //     dateState.dateTickTimestamp = dateNow
+
+                    //     const timeChangeDelta = dateNow - prevDateTickTimestamp
+                    //     console.log('prevDateTickTimestamp: ', new Date(prevDateTickTimestamp))
+                    //     console.log('new date: ', new Date(dateNow))
+                    //     console.log('deltams: ', timeChangeDelta)
+
+                    //     timeChangeValueMSAdjust = timeChangeDelta && timeChangeDelta != updateInterval
+                    //         ?   isNotNormalSpeed
+                    //             ?   parseInt((timeChangeDelta / updateInterval) * timeChangeValueMS)
+                    //             :   timeChangeDelta
+                    //         :   timeChangeValueMS
+                    //     console.log('timeChangeValueMS: ', timeChangeValueMS)
+                    //     console.log('timeChangeValueMSAdjust: ', timeChangeValueMSAdjust, timeChangeDelta, updateInterval)
+                    //     console.log('================')
+                    // }
+
+                    tick(timeChangeValueMS, dateStore, backward, processAsTimer)
+                }
+            }
+
+            let tickInterval: number
             const deltaToFirstTickTimeoutID = setTimeout(() => {
-                tick(firstTickChangeValue)
+                tick(firstTickChangeValue, dateStore, backward, processAsTimer)
 
-                worker.postMessage({ id: workerIntervalId, ms: updateInterval } as WorkerMessageIncome)
+                if (processAsTimer) {
+                    worker.postMessage({ id: workerIntervalId, ms: updateInterval } as WorkerMessageIncome)
+
+                } else {
+                    tickInterval = (setInterval as Window['setInterval'])(() => {
+                        workerTick({ data: '' })
+                    }, updateInterval)
+                }
             }, deltaToFirstTick)
 
 
             return () => {
-                worker.postMessage({ id: workerIntervalId } as WorkerMessageIncome)
-                worker.removeEventListener('message', workerTick)
+                if (processAsTimer) {
+                    worker.postMessage({ id: workerIntervalId } as WorkerMessageIncome)
+                    worker.removeEventListener('message', workerTick)
+
+                } else clearInterval(tickInterval)
 
                 clearTimeout(deltaToFirstTickTimeoutID)
             }

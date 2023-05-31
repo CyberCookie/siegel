@@ -2,6 +2,13 @@ import type { DateParse } from '../../../common/date/parse'
 import type { PropsComponentBase, CoreUIComponent } from '../_internals/types'
 
 
+type State = {
+    date: Date
+    // dateTickTimestamp: undefined | number
+}
+
+type Store = ReactStore<State>
+
 type Props = Omit<
     PropsComponentBase<{
         /** Clocks initial value */
@@ -38,4 +45,4 @@ type DefaultProps = NonNullableProps<{
 type Component = CoreUIComponent<Props, DefaultProps>
 
 
-export type { Props, DefaultProps, Component }
+export type { Props, Store, DefaultProps, Component }
