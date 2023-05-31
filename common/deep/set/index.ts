@@ -56,18 +56,18 @@
  */
 function deepSet<
     _Obj extends Obj,
-    _Keys extends PathsOf<_Obj>,
+    // _Keys extends PathsOf<_Obj>,
     // _Value extends DeepGet<_Obj, _Keys>,
     //// @ts-expect-error
     // _Result = DeepSet<_Obj, _Keys, _Value>
 >
-(iterable: _Obj, path: _Keys, value: any/*DeepGet<_Obj, _Keys>*/): _Obj {
+(iterable: _Obj, path: any[], value: any/*DeepGet<_Obj, _Keys>*/): _Obj {
 
     let link = iterable
     for (let i = 0, l = path.length; i < l; i++) {
         const pathPart = path[i] as keyof _Obj
         //// @ts-expect-error
-        if (i == l - 1) link[pathPart] = value as any // _Obj[keyof _Obj]
+        if (i == l - 1) link[pathPart] = value// _Obj[keyof _Obj]
         else {
             link[pathPart] ||= {} as _Obj[keyof _Obj]
             link = link[pathPart]
