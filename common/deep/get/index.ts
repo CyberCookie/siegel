@@ -1,3 +1,5 @@
+//TODO typing: type input and return values
+
 import isNullable from '../../is/nullable'
 
 
