@@ -65,6 +65,7 @@ type Props = PropsComponentThemed<Theme, {
      * @param value new range value
      * @param event mousedown event
      */
+    /* eslint-disable-next-line */
     onChange?(value: Props['value'], event: MouseEvent | React.MouseEvent<HTMLDivElement>): void
 
     /**
