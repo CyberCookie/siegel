@@ -17,7 +17,11 @@ type SidebarItemProps = {
     className?: string
 }
 
-const _demoComponents: Obj<Function & { coreSrcDirName: string }> = demoComponents
+
+const _demoComponents: Obj<{
+    (): JSX.Element
+    coreSrcDirName: string
+}> = demoComponents
 
 const hashParam = 'active'
 

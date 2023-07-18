@@ -134,9 +134,9 @@ type RoutePageConfig<_WithPageExtend = {}> = {
 type NeverPageConfig = Never<RoutePageConfig>
 
 
-type RouteLayoutConfig = {
+type RouteLayoutConfig<_WithPageExtend = {}> = {
     Layout: RouteConfigAllFields['Layout']
-}
+} & _WithPageExtend
 type NeverLayoutConfig = Never<RouteLayoutConfig>
 
 
@@ -150,7 +150,6 @@ type NeverChildrenConfig = Never<RouteChildrenConfig>
 type RouteRedirectConfig = {
     redirectTo: RouteConfigAllFields['redirectTo']
 }
-type NeverRedirectConfig = Never<RouteRedirectConfig>
 
 
 type RoutePermissionsConfig = {
@@ -170,7 +169,8 @@ type RouteWithPageConfig<_WithPageExtend = {}> = RouteWithPageLayoutCommon<_With
     & RoutePageConfig<_WithPageExtend>
     & NeverLayoutConfig
 
-type RouteWithLayoutConfig = RouteWithPageLayoutCommon & RouteLayoutConfig
+type RouteWithLayoutConfig<_WithPageExtend = {}> = RouteWithPageLayoutCommon<_WithPageExtend>
+    & RouteLayoutConfig<_WithPageExtend>
     & NeverPageConfig
 
 type RouteWithChildrenConfig = RouteChildrenConfig
@@ -188,7 +188,7 @@ type RouteWithRedirectConfig = RouteRedirectConfig
 
 type RoutesConfig<_WithPageExtend = {}> = Obj<
     RouteWithPageConfig<_WithPageExtend>
-    | RouteWithLayoutConfig
+    | RouteWithLayoutConfig<_WithPageExtend>
     | RouteWithChildrenConfig
     | RouteWithPermissionsConfig
     | RouteWithRedirectConfig
