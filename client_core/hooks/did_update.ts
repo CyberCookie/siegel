@@ -19,7 +19,7 @@ const symbolIsRendered = Symbol('rendered')
  */
 function useDidUpdate(fn: EffectCB, dependencies: React.DependencyList, ref = useRef()) {
     useLayoutEffect(() => {
-        let retFn: ReturnType<EffectCB>
+        let retFn: ReturnType<EffectCB> | undefined
 
         if ((ref as ExtendedRef)[symbolIsRendered]) retFn = fn() as ReturnType<EffectCB>
         else (ref as ExtendedRef)[symbolIsRendered] = true

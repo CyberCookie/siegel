@@ -76,7 +76,7 @@ type RedirectToPath = string
 type RedirectToPathGetter = (() => string)
 type RedirectToPathObj = {
     path: RedirectToPath | RedirectToPathGetter
-    state?: any | (() => any)
+    state?: any
 }
 
 

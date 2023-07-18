@@ -1,4 +1,4 @@
-import https from 'https'
+import https, { Server } from 'https'
 import express, { Express, RequestHandler } from 'express'
 
 import { HEADER_ACCEPT_INDEX } from './constants.js'
@@ -27,7 +27,7 @@ async function createHTTPServer(params: ServerBootParams) {
     } = CONFIG
 
 
-    let staticServer: Express | https.Server = express()
+    let staticServer: Express | Server = express()
 
     appServer && await appServer({ staticServer, express }, CONFIG)
 
