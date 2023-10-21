@@ -51,7 +51,7 @@ const actions: Actions = {
     },
 
     api_proxyGet({ state, setState }, id) {
-        request<Obj>({
+        request<State['proxyRes']>({
             url: urls.proxy,
             params: { id }
 

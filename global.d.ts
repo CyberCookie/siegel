@@ -113,6 +113,7 @@ type DeepMerge<
  */
 type Obj<V = any> = Partial<Record<string, V>>
 
+
 /**
  * Extracts given object's values
  * @param O - object

@@ -7,10 +7,14 @@ type SEOParams = {
 
     /** New meta keywords tag content */
     keywords?: string
-} & Obj
+}
+
+type SEOParamKeys = keyof SEOParams
+
+type SEOHeadHTMLTags = HTMLMetaElement | HTMLTitleElement
 
 
-const paramFlowMap: Obj = {
+const paramFlowMap = {
     title: {
         selector: 'title',
         prop: 'innerText'
@@ -25,7 +29,7 @@ const paramFlowMap: Obj = {
         selector: 'meta[name=description]',
         prop: 'content'
     }
-}
+} as const
 
 /**
  * Updates HTML SEO tags
@@ -34,10 +38,12 @@ const paramFlowMap: Obj = {
  */
 function updateSEOParams(seoParams: SEOParams) {
     for (const param in seoParams) {
-        const { selector, prop } = paramFlowMap[param]
+        const { selector, prop } = paramFlowMap[param as SEOParamKeys]
 
-        const seoElement = document.querySelector(selector)
-        seoElement && (seoElement[prop] = seoParams[param])
+        const seoElement: SEOHeadHTMLTags | null = document.querySelector(selector)
+        if (seoElement) {
+            (seoElement as UnionToIntersection<SEOHeadHTMLTags>)[prop] = seoParams[param as SEOParamKeys]!
+        }
     }
 }
 

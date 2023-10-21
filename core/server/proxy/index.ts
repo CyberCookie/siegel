@@ -24,7 +24,7 @@ const proxy: Proxy = proxyParams => {
         const proxyPath = proxyParams.path || path
         let finalPath = isEmptyObject(proxyQuery)
             ?   proxyPath
-            :   `${proxyPath}?${new URLSearchParams(proxyQuery)}`
+            :   `${proxyPath}?${new URLSearchParams(proxyQuery as NonNullableProps<Obj<string>>)}`
 
         params && (finalPath = populateURLParams(finalPath, params))
 

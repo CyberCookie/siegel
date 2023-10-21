@@ -1,6 +1,6 @@
-import constants from './constants'
-import parse from './parse'
+import msIn from './constants'
+import dateParse from './parse'
 import toUTCDate from './toUTCDate'
 
 
-export { constants, parse, toUTCDate }
+export { dateParse, msIn, toUTCDate }

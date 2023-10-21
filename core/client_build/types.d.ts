@@ -2,7 +2,7 @@ import type { Configuration as WebpackConfig } from 'webpack'
 import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
 import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
 import type { PluginOptions as CopyWebpackPluginOptions } from 'copy-webpack-plugin'
-import type { ConfigFinal } from '../types'
+import type { ConfigFinal, RunParamsFinal } from '../types'
 import type { Plugins, DefaultEslintPluginOptions, DefaultHtmlPluginOptions } from './plugins/types'
 import type { UserRulesData } from './module_rules/types'
 
@@ -103,11 +103,13 @@ type BuildConfig = {
      * @param webpackConfig Webpack config
      * @param config Siegel config
      * @param buildConstants Build constants
+     * @param runParams Siegel run params
      */
     postProcessWebpackConfig?(
         webpackConfig: WebpackConfig,
         config: ConfigFinal,
-        buildConstants: BuildConstants
+        buildConstants: BuildConstants,
+        runParams: RunParamsFinal
     ): WebpackConfig
 }
 

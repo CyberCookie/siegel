@@ -10,7 +10,7 @@ function tsToWebpackAliases(rootPath: string) {
     ).compilerOptions
 
 
-    const aliases: Obj = {}
+    const aliases: Obj<string> = {}
     for (const alias in paths) {
         const WPAlias = alias.replace('/*', '')
         const WPPath = paths[alias][0].replace('/*', '')
@@ -19,7 +19,7 @@ function tsToWebpackAliases(rootPath: string) {
     }
 
 
-    return aliases
+    return aliases as NonNullableProps<typeof aliases>
 }
 
 

@@ -51,7 +51,7 @@ type ThemeProps<_Theme> = {
     } & _Theme
 }
 type PropsComponentThemed<
-    _Theme extends Obj = Obj,
+    _Theme extends Obj<string> = Obj<string>,
     _Props extends Obj = Obj,
     _ThemeProps = ThemeProps<_Theme>
 > = PropsComponentBase<_Props & _ThemeProps>

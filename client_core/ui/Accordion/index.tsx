@@ -16,8 +16,9 @@ const getStringPath = (key: string | number, prefix: string | number | undefined
     isExists(prefix) ? `${prefix}.${key}` : key
 )
 
+
 function getExpandersPaths(list: List | BuilderList, pathPrefix?: string | number) {
-    const tree: Obj = {}
+    const tree: Obj<boolean> = {}
     list.forEach((item, i) => {
         const { id, children } = item
 

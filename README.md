@@ -1,6 +1,6 @@
 <br />
 <h1>
-    Siegel&nbsp;&nbsp;&nbsp;
+Siegel&nbsp;&nbsp;&nbsp;
 
 <a href='https://badge.fury.io/js/siegel' target='_blank'>
     <img src='https://badge.fury.io/js/siegel.svg' alt='npm package version' />

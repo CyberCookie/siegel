@@ -5,7 +5,11 @@
  * @param rules where key is a class name to apply
  * @returns class name string
  */
-function className(initialClassName: string | Exclude<Fallish, string>, rules: Obj) {
+function className(
+    initialClassName: string | Exclude<Fallish, string>,
+    rules: Record<string, unknown>
+) {
+
     let result = initialClassName || ''
     for (const key in rules) {
         rules[key] && (result += ` ${key}`)

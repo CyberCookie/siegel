@@ -5,8 +5,8 @@ import { store as fetchModuleStore } from 'siegel-store/fetch_module'
 const { addToReqQueue, addToErrRes, removeFromReqQueue } = fetchModuleStore.actions
 
 const request = createApi({
-    beforeRequest({ url }) {
-        addToReqQueue(url)
+    beforeRequest({ initialURL }) {
+        addToReqQueue(initialURL)
     },
 
     afterRequest({ initialURL }) {

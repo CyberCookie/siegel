@@ -11,8 +11,8 @@ Utils list:
 - [Array range each](https://github.com/CyberCookie/siegel/tree/master/common/array_range_each)
 - [Class name](https://github.com/CyberCookie/siegel/tree/master/common/classname)
 - Date
-    - [Constants](https://github.com/CyberCookie/siegel/tree/master/common/date/constants)
-    - [Parse](https://github.com/CyberCookie/siegel/tree/master/common/date/parse)
+    - [Ms in](https://github.com/CyberCookie/siegel/tree/master/common/date/constants)
+    - [Date parse](https://github.com/CyberCookie/siegel/tree/master/common/date/parse)
     - [To UTC date](https://github.com/CyberCookie/siegel/tree/master/common/date/toUTCDate)
 - Deep
     - [Clone](https://github.com/CyberCookie/siegel/tree/master/common/deep/clone)

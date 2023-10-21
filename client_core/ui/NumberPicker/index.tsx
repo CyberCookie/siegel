@@ -199,8 +199,8 @@ const NumberPicker = component<Props, DefaultProps>(
                 if (!relatedTarget || !ref.current.contains(relatedTarget as Node)) {
                     if (!event.defaultPrevented) {
 
-                        let newStringValue: string | undefined
-                        let newNumberValue: number | undefined
+                        let newStringValue!: string
+                        let newNumberValue!: number
                         let shouldTriggerOnChange = true
 
                         if (!isNaN(numberValue)) {

@@ -103,7 +103,7 @@ const Breadcrumbs: Component = component(
 
         const hasDynamicCrumbs = useMemo(() => checkHasDynamicCrumb(config), [])
 
-        let dynamicCrumbsState: DynamicCrumbsStore[0] | undefined
+        let dynamicCrumbsState!: DynamicCrumbsStore[0]
         if (hasDynamicCrumbs) {
             const [ state, setState ] = useState({})
             dynamicCrumbsState = state

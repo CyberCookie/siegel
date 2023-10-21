@@ -161,7 +161,7 @@ Proxy receives **1** parameter - **Object** with the next fields:
 - `port` **Number** - destination port
 - `path` **String** - URL path. Default is original request URL path
 - `query` **Object** - URL query params. Default is original request query params<br />
-    If **Object** provided then **Object** _key_ is query key and **Object** _value_ is query value
+    If **Object** provided then **Object** _key_ is query key and **Object** _value_ is **String** query value
 - `method` **String** - request method. Default is original request method
 - `headers` **Object | Function** - request headers<br />
     If **Object** provided then **Object** _key_ is header key and **Object** _value_ is header value. Given **Object** will be merged with **Request headers**<br />

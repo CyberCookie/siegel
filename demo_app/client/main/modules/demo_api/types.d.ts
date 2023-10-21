@@ -4,7 +4,7 @@ import type { EchoReqBody } from 'dto/demo_api'
 
 type State = {
     received: string
-    proxyRes: Obj
+    proxyRes: Obj<unknown>
     counter: number
 }
 

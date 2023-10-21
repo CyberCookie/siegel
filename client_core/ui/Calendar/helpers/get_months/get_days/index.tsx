@@ -36,7 +36,7 @@ const getDays = (props: ChildProps) => {
     const hiddenDateClassName = applyClassName(styles.day__hidden, [
         [ theme.day, true ],
         [ theme.day__hidden, true ]
-    ])
+    ])!
 
     const rows = []
     for (let i = 0, day = 0; i <= allDays.length / DAYS_IN_WEEK && day < allDays.length; i++) {
@@ -45,7 +45,8 @@ const getDays = (props: ChildProps) => {
         for (let dayInWeek = 0; dayInWeek < DAYS_IN_WEEK; dayInWeek++, day++) {
             const { timestamp, date, hidden, isSiblingMonth } = allDays[day]
 
-            let children, className: string | undefined
+            let children!: React.ReactNode
+            let className: string | undefined
             if (hidden) className = hiddenDateClassName
             else {
                 children = date
