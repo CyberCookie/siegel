@@ -68,6 +68,7 @@
         }],
         "react/jsx-no-useless-fragment": 1,
         "react/jsx-props-no-multi-spaces": 1,
+        "react/jsx-fragments": [1, "syntax"],
         "@typescript-eslint/no-non-null-asserted-optional-chain" : 0,
         "@typescript-eslint/ban-ts-comment": 0,
         "@typescript-eslint/no-misused-promises": 0,
