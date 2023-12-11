@@ -71,8 +71,8 @@ function getBody(
         if (slideWindowRange) {
             from += slideWindowRange.from
             to = Math.min(to, from + (slideWindowRange.to - slideWindowRange.from))
-
         }
+
     } else {
         if (slideWindowRange) {
             from = slideWindowRange.from

@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client'
 
-import 'app/network'
 import Router from 'app/Router'
 
 import './styles'

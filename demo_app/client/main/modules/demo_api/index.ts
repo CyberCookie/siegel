@@ -3,11 +3,17 @@ import {
     componentID as breadcrumbsComponentID,
     DynamicCrumbsCustomEventPayload
 } from 'siegel-ui/Breadcrumbs'
+import createJsonKeysReplacer from 'siegel-utils/json_keys_replace'
 
 import request from 'app/network'
 import { dynamicCrumbsMap } from 'app/Router'
 
 import type { State, Actions, EchoReqBody } from './types'
+
+
+const apiEchoJsonKeysReplace = createJsonKeysReplacer<keyof EchoReqBody>([
+    'dataToSend'
+])
 
 
 const getInitialState = () => ({
@@ -24,7 +30,9 @@ const actions: Actions = {
     api_echo({ state, setState }, body) {
         request<EchoReqBody, EchoReqBody>({
             body,
-            url: urls.echo
+            url: urls.echo,
+            jsonStringifyPostprocess: json => apiEchoJsonKeysReplace(json, true),
+            jsonParsePreprocess: json => apiEchoJsonKeysReplace(json, false)
 
         }).then(({ res }) => {
             if (res) {

@@ -62,7 +62,19 @@ Receives **1** argument - **Object** wit the next fields:
         - `req` - Data used to make a request
 
 - `json` - **Boolean**. Default is **false**<br />
-    Applies json content type to headers and parses response as json
+    For every request applies json content type to headers and parses response as json
+
+- `jsonStringifyPostprocess` - **Function**. For every request post process json string before request occurs<br />
+    Has **1** argument:<br />
+    - **jsonString** - **String**. Request json string
+
+    Returns **String**. Processed request json string
+
+- `jsonParsePreprocess` - **Function**. For every request Pre process responce string before being parsed to object as json string<br />
+    Has **1** argument:
+    - **jsonString** - **String**. Responce json string
+
+    Returns **String**. Processed responce json string
 
 - `preventSame` - **Boolean**.
     Prevents request if the same request is already processing<br />
@@ -122,6 +134,10 @@ Content-type header values used in **request**.
     Terminates request and prevents browser from response handling
 
 - `json` - For this request applies json content type to headers and parses response as json
+
+- `jsonStringifyPostprocess` - Post process json string before request occurs
+
+- `jsonParsePreprocess` - Pre process responce string before being parsed to object as json string
 
 - `preventSame` - For this request prevents request if the same request is already processing
 

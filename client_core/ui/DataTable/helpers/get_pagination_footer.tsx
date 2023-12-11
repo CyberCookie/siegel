@@ -63,7 +63,7 @@ function getPaginationFooter(
                 paginationEl = <Pagination { ...dataTablePaginationProps } />
             }
 
-        } className += ` ${theme.pagination_single_page}`
+        } else className += ` ${theme.pagination_single_page}`
     }
 
 

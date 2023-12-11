@@ -2,7 +2,7 @@ import React from 'react'
 import NavLink from 'siegel-router/Link'
 
 import { Breadcrumbs, linkTheme } from 'app/components'
-import { pagePathMap } from 'app/Router'
+import { pagePathMap } from 'app/Router/config'
 
 import styles from './styles.sass'
 

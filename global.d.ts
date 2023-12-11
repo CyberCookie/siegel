@@ -62,18 +62,8 @@ type __ExtractKeysWithOptionalValueObject<O extends Record<string, any>> = keyof
 type DeepMerge<
     O1 extends Record<string, any>,
     O2 extends Record<string, any>,
-    BothObjectKeys = keyof NarrowObjectToValueTypes<Required<O1>, object> & keyof NarrowObjectToValueTypes<Required<O2>, object>,
-    // O1OptionalObjectKeys = __ExtractKeysWithOptionalValueObject<O1>,
-    // O2OptionalObjectKeys = __ExtractKeysWithOptionalValueObject<O2>,
-    // O1RequiredObjectKeys = RequiredKeys<NarrowObjectToValueTypes<O1, object>>,
-    // O2RequiredObjectKeys = RequiredKeys<NarrowObjectToValueTypes<O2, object>>
+    BothObjectKeys = keyof NarrowObjectToValueTypes<Required<O1>, object> & keyof NarrowObjectToValueTypes<Required<O2>, object>
 > =
-
-    // { [K in (O1RequiredObjectKeys & O2RequiredObjectKeys)]: DeepMerge<O1[K], O2[K]> } &
-    // { [K in (O1OptionalObjectKeys & O2OptionalObjectKeys)]?: DeepMerge<Partial<NonNullable<O1[K]>>, Partial<NonNullable<O2[K]>>> } &
-    // { [K in (O1RequiredObjectKeys & O2OptionalObjectKeys)]: DeepMerge<O1[K], Partial<NonNullable<O2[K]>>> } &
-    // { [K in (O1OptionalObjectKeys & O2RequiredObjectKeys)]: DeepMerge<Partial<NonNullable<O1[K]>>, O2[K]> } &
-
     {
         [K in (
             RequiredKeys<NarrowObjectToValueTypes<O1, object>> & RequiredKeys<NarrowObjectToValueTypes<O2, object>>
@@ -195,11 +185,6 @@ type PathsOf<T, R = Required<T>> = Values<{
         ?   [P] | [P, ...PathsOf<NonNullable<R[P]>>]
         :   [P]
 }>
-// type PathsOf<T, R = Required<T>> = Values<{
-//     [P in keyof R]: R[P] extends Obj
-//         ?   [P] | [P, ...PathsOf<R[P]>]
-//         :   [P]
-// }>
 
 
 

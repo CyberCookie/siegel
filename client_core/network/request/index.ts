@@ -1,6 +1,6 @@
 import populateURLParams from '../../../common/populate_url_params'
 
-import type { ReqData, ReqError, RequestParams, Hooks } from './types'
+import type { ReqData, ReqError, RequestParams, SetupParams } from './types'
 
 
 const HEADERS = {
@@ -17,10 +17,13 @@ const jsonContentTypeHeaders = {
     [HEADERS.CONTENT_TYPE]: CONTENT_TYPE.JSON
 }
 
+const jsonParseMethod = 'json'
+
 
 function extractRequestData(request: RequestParams) {
     const {
-        url, query, params, method, headers, body, credentials, signal, json
+        url, query, params, method, headers, body, credentials, signal,
+        json, jsonStringifyPostprocess
     } = request
 
     const options: ReqData['options'] = { method }
@@ -50,7 +53,13 @@ function extractRequestData(request: RequestParams) {
 
 
     if (json) {
-        options.body && (options.body = JSON.stringify(options.body))
+        if (options.body) {
+            options.body = JSON.stringify(options.body)
+            if (jsonStringifyPostprocess) {
+                options.body = jsonStringifyPostprocess(options.body)
+            }
+        }
+
         options.headers
             ?   (options.headers[HEADERS.CONTENT_TYPE] ||= CONTENT_TYPE.JSON)
             :   (options.headers = jsonContentTypeHeaders)
@@ -66,6 +75,7 @@ function extractRequestData(request: RequestParams) {
 
 
 async function extractResponseData(req: RequestParams, res: Response): Promise<any> {
+    const { jsonParsePreprocess } = req
     let { parseMethod } = req
     let contentType
 
@@ -75,7 +85,7 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
 
         if (contentType) {
             if (contentType.startsWith(CONTENT_TYPE.JSON)) {
-                parseMethod = 'json'
+                parseMethod = jsonParseMethod
 
             } else if (contentType.startsWith(CONTENT_TYPE.FORM_DATA)
                 || contentType.startsWith(CONTENT_TYPE.X_FORM)) {
@@ -85,34 +95,46 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
         }
     }
 
-    try { return await res[parseMethod as 'json' | 'formData' | 'text']() }
-    catch (err) { throw new Error(
+    try {
+        return jsonParsePreprocess && parseMethod == jsonParseMethod
+            ?   JSON.parse(
+                    jsonParsePreprocess(await res.text())
+                )
+
+            :   await res[parseMethod as 'json' | 'formData' | 'text']()
+    } catch (err) { throw new Error(
         `${err}. Failed to parse contentType: ${contentType} using ${parseMethod}() method.`
     )}
 }
 
 
-const createApi = (hooks: Hooks = {}) => {
+const createApi = (setupParams: SetupParams = {}) => {
     const {
-        beforeParse, beforeRequest, afterRequest, errorHandler, json,
-        preventSame: preventSameGlobal
-    } = hooks
+        preventSame: preventSameGlobal,
+        beforeParse, beforeRequest, afterRequest, errorHandler,
+        json, jsonParsePreprocess, jsonStringifyPostprocess
+    } = setupParams
     const activeRequest = new Set()
 
 
     return async function request<Res = any, Body = any>(req: RequestParams<Body>) {
         req.json ||= json
+        req.jsonStringifyPostprocess ||= jsonStringifyPostprocess
+        req.jsonParsePreprocess ||= jsonParsePreprocess
+
 
         const ifAsync = beforeParse?.(req)
         if (ifAsync) await ifAsync.then(_req => { req = _req })
 
         const { isFullRes, preventSame } = req
+
         const reqData = extractRequestData(req)
+        const { options, url } = reqData
 
         const isSameReqPrevent = preventSame != false && (preventSame || preventSameGlobal)
 
         let reqKey
-        isSameReqPrevent && (reqKey = `${reqData.url}_${reqData.options.method}_${reqData.options.body}`)
+        isSameReqPrevent && (reqKey = `${url}_${options.method}_${options.body}`)
 
 
         beforeRequest?.(reqData)
@@ -127,7 +149,7 @@ const createApi = (hooks: Hooks = {}) => {
                 } else activeRequest.add(reqKey)
             }
 
-            const res = await fetch(reqData.url, reqData.options)
+            const res = await fetch(url, options)
             const { headers, status, statusText, ok } = res
 
             let parsedRes = await extractResponseData(req, res)
@@ -172,4 +194,4 @@ const createApi = (hooks: Hooks = {}) => {
 
 export default createApi
 export { HEADERS, CONTENT_TYPE }
-export type { ReqData, ReqError, RequestParams, Hooks }
+export type { ReqData, ReqError, RequestParams, SetupParams }

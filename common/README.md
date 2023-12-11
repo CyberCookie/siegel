@@ -28,6 +28,10 @@ Utils list:
     - [Nullable](https://github.com/CyberCookie/siegel/tree/master/common/is/nullable)
     - [Primitive](https://github.com/CyberCookie/siegel/tree/master/common/is/primitive)
     - [Same type](https://github.com/CyberCookie/siegel/tree/master/common/is/same_type)
-- [Math float](https://github.com/CyberCookie/siegel/tree/master/common/math_float)
+- Math
+    - [Floats arifmetic](https://github.com/CyberCookie/siegel/tree/master/common/math/floats_arifmetic)
+    - [Floats mod](https://github.com/CyberCookie/siegel/tree/master/common/math/floats_mod)
+    - [To char 91](https://github.com/CyberCookie/siegel/tree/master/common/math/to_char91)
 - [Memo](https://github.com/CyberCookie/siegel/tree/master/common/memo)
 - [Parse JWT](https://github.com/CyberCookie/siegel/tree/master/common/parse_jwt)
+- [Populte URL params](https://github.com/CyberCookie/siegel/tree/master/common/populate_url_params)

@@ -14,7 +14,7 @@ const STATE = {
     OPEN: 1,
     CLOSING: 2,
     CLOSED: 3
-}
+} as const
 
 const connectionsInProgress = new Set<string>()
 

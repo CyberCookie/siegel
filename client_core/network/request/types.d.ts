@@ -59,15 +59,29 @@ type RequestParams<_Body = any> = {
     /** For this request applies json content type to headers and parses response as json */
     json?: boolean
 
+    /**
+     * Post process json string before request occurs
+     *
+     * @param json - request json string
+     */
+    jsonStringifyPostprocess?(json: string): string
+
+    /**
+     * Pre process responce string before being parsed to object as json string
+     *
+     * @param json - responce json string
+     */
+    jsonParsePreprocess?(json: string): string
+
     /** For this request prevents request if the same request is already processing */
     preventSame?: boolean
 
     /** Preprocess mutable request data right before it passed to Fetch API */
-    beforeRequest?: Hooks['beforeRequest']
+    beforeRequest?: SetupParams['beforeRequest']
 }
 
 
-type Hooks = {
+type SetupParams = {
     /**
      * Triggered before request Object is beeing parsed
      *
@@ -97,12 +111,18 @@ type Hooks = {
      */
     errorHandler?(error: ReqError): void
 
-    /** Applies json content type to headers and parses response as json */
+    /** For every request applies json content type to headers and parses response as json */
     json?: RequestParams['json']
+
+    /** For every request post process json string before request occurs */
+    jsonStringifyPostprocess?: RequestParams['jsonStringifyPostprocess']
+
+    /** For every request Pre process responce string before being parsed to object as json string */
+    jsonParsePreprocess?: RequestParams['jsonParsePreprocess']
 
     /** Prevents request if the same request is already processing */
     preventSame?: boolean
 }
 
 
-export type { ReqData, ReqError, RequestParams, Hooks }
+export type { ReqData, ReqError, RequestParams, SetupParams }

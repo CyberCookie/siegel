@@ -26,7 +26,7 @@ import _Stepper, { Props as StepperProps } from 'siegel-ui/Stepper'
 
 
 import icons from '../icons'
-import { routesConfig } from 'app/Router'
+import { routesConfig } from 'app/Router/config'
 
 import buttonTheme from './styles/button.sass'
 import breadcrumbsTheme from './styles/breadcrumbs.sass'
