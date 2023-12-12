@@ -35,11 +35,12 @@ function patchHistory(
         const { pathname, search } = location
         const { state } = history
 
-        onHistoryChange(pathname, state, result => {
-            let { newPathname } = result
-            search && (newPathname += search)
+        let newPathname = pathname
+        search && (newPathname += search)
 
-            history.replaceState(result.newHistoryState, '', newPathname)
+        onHistoryChange(newPathname, state, result => {
+            const { newHistoryState, newPathname } = result
+            history.replaceState(newHistoryState, '', newPathname)
         })
     }
 
