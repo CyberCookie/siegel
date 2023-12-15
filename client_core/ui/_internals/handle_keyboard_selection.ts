@@ -69,8 +69,6 @@ function handleKeyboardSelect(
     const { arrowSelectIndex } = state
 
     const isUp = keyCode == keyCodes.UP
-    const isArrowIndexExists = isExists(arrowSelectIndex)
-
     if (isUp || keyCode == keyCodes.DOWN) {
         state.arrowSelectIndex = getKeyboardOptionIndex({
             options, selectedOptionIndex, arrowSelectIndex, isUp
@@ -79,7 +77,7 @@ function handleKeyboardSelect(
 
     } else if (keyCode == keyCodes.DELETE) onDelete()
 
-    else if (isArrowIndexExists && keyCode == keyCodes.ENTER) onEnter()
+    else if (isExists(arrowSelectIndex) && keyCode == keyCodes.ENTER) onEnter()
 }
 
 

@@ -16,17 +16,33 @@ const createJsonKeysCoder: CreateJsonCoder = keys => {
     const encodeKeysMap: Obj<string> = {}
 
     if (Array.isArray(keys)) {
-        for (let i = 0, duplicatedKeysCount = 0; i < keys.length; i++) {
+        const keysSet = new Set(keys)
+
+        for (
+            let i = 0,
+                duplicatedKeysCount = 0,
+                keysCollisionsCount = 0;
+            i < keys.length;
+            i++
+        ) {
+
             const key = keys[i]
             if (encodeKeysMap[key]) {
                 duplicatedKeysCount++
                 continue
 
             } else {
-                const encodeKey = toChar91(i - duplicatedKeysCount)
+                const encodeKey = toChar91(i - duplicatedKeysCount + keysCollisionsCount)
 
-                decodeKeysMap[encodeKey] = key
-                encodeKeysMap[key] = encodeKey
+                if (keysSet.has(encodeKey as (typeof keys)[number])) {
+                    i--
+                    keysCollisionsCount++
+                    continue
+
+                } else {
+                    decodeKeysMap[encodeKey] = key
+                    encodeKeysMap[key] = encodeKey
+                }
             }
         }
 
