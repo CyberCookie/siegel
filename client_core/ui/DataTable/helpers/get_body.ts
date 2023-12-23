@@ -30,10 +30,14 @@ function getBody(
             })
         }
 
-        const config = columnsConfig[ idToIndexMap[configurationID]! ]
-        if (isExists(config.onFilter)) {
-            // leave attached to config to keep 'this'
-            processedList = config.onFilter(processedList, byID, searchByField[configurationID])
+        const columnIndex = idToIndexMap[configurationID]
+
+        if (isExists(columnIndex)) { // Handle unexisted ID within searchByField prop
+            const config = columnsConfig[ columnIndex ]
+            if (isExists(config.onFilter)) {
+                // leave attached to config to keep 'this'
+                processedList = config.onFilter(processedList, byID, searchByField[configurationID])
+            }
         }
     }
 
