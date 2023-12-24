@@ -35,7 +35,7 @@
         "npm": ">= 7"
     },
     "config": {
-        "boot": "node --experimental-specifier-resolution=node --loader ts-node/esm demo_app/server/index.js"
+        "boot": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm demo_app/server/index.js"
     },
     "files": [
         "demo_app",
@@ -50,7 +50,7 @@
     "main": "lib/core/index.js",
     "bin": "lib/bin/index.js",
     "scripts": {
-        "__transpile": "./node_modules/.bin/ts-node-esm prepublish.ts",
+        "__transpile": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm",
         "__validate": "npm run validate && npx tsc -p demo_app && npx jest",
         "__update": "rm -rf ./node_modules ./package-lock.json && npm i",
         "prepublishOnly": "npm run __validate && npm run __transpile",
