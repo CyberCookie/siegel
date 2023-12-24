@@ -13,6 +13,9 @@ type Tab<_Payload = any> = {
     /** Tab content */
     content?: React.ReactNode | (() => React.ReactNode)
 
+    /** Tab className */
+    className?: string
+
     /** Data to be passed to props.onChange callback */
     payload?: _Payload
 }

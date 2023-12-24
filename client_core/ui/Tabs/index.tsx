@@ -26,7 +26,7 @@ function getTabsVisual(mergedProps: MergedProps) {
 
     const tabsContent: React.ReactNode[] = []
     const labels = tabs.map(tab => {
-        const { label, id, payload, content } = tab
+        const { label, id, payload, content, className } = tab
 
         const isSelected = activeTab == id
 
@@ -34,6 +34,7 @@ function getTabsVisual(mergedProps: MergedProps) {
             let tabContent = getContent(content)
             if (renderAll) {
                 const wrapperProps: ReactTagAttributes<HTMLDivElement> = {
+                    className,
                     children: tabContent,
                     key: id
                 }

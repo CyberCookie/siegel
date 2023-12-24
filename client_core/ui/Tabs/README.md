@@ -36,6 +36,7 @@ Provides content distributed for each tab specified<br />
         - `label` - **React.ReactNode**. Tab label content
         - `content` - **React.ReactNode | (() => React.ReactNode)**<br />
             Tab content
+        - `className` - **String**. Tab content className
         - `payload` - **Any**. Data to be passed to **props.onChange** callback<br /><br />
 
 - `onChange`
