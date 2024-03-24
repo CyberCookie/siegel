@@ -1,3 +1,5 @@
+//TODO: support url with "//" like delimeters
+
 import React, { Suspense, useState, useLayoutEffect } from 'react'
 
 import isNullable from '../../../common/is/nullable'

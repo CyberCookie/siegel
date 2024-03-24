@@ -41,7 +41,7 @@ const actions: Actions = {
         state.lastError = res
 
         state.errRes[ID]
-            ?   state.errRes[ID].push(res)
+            ?   state.errRes[ID]!.push(res)
             :   state.errRes[ID] = [ res ]
 
         setState(state)
@@ -61,7 +61,7 @@ const actions: Actions = {
         const errorsById = store.state.errRes[ID]
 
         return errorsById && errorsById.length
-            ?   errorsById.at(-1).message
+            ?   errorsById.at(-1)!.message
             :   ''
     }
 }

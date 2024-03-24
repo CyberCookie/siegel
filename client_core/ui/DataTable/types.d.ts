@@ -57,6 +57,9 @@ type State<_SearchState = any> = {
 
     /** Current pagination page */
     currentPage: number
+
+    /** Readonly inner filtered props.entities.sorted array of entities IDs */
+    __resultIDs: string[]
 }
 
 

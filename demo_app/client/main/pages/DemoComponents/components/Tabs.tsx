@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
-import { Tabs } from 'app/components'
+import { Tabs, TabsProps } from 'app/components'
 
 
-const tabsData = ([ 1, 2, 3 ]).map(id => ({
+const tabsData: TabsProps['tabs'] = ([ 1, 2, 3 ]).map(id => ({
     id: `${id}`,
-    content: <div>content {id}</div>,
+    content: `content ${id}`,
     label: `label ${id}`
 }))
 

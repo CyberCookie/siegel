@@ -1,10 +1,15 @@
 import type { HookStore } from '../index'
 
 
+type AnyError = {
+    date: number
+} & Obj
+
+
 type State = {
     requests: Obj<number>
-    errRes: Obj
-    lastError: Obj
+    errRes: Obj<AnyError[]>
+    lastError: AnyError
 }
 
 type Actions = {
@@ -18,4 +23,4 @@ type Actions = {
 type StoreInitialized = HookStore<State, Actions>
 
 
-export type { State, Actions, StoreInitialized }
+export type { State, Actions, StoreInitialized, AnyError }

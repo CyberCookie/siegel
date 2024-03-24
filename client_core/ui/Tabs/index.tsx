@@ -1,5 +1,4 @@
 //TODO?: no render labels when only one
-//TODO: tab content className
 
 import React from 'react'
 
@@ -21,10 +20,22 @@ const getContent = (content: Tab['content']) => (
         :   content
 )
 
+const getContentClassName = (
+    { content }: MergedProps['theme'],
+    tabClassName: Tab['className']
+) => (
+    content
+        ?   tabClassName
+            ?   `${content} ${tabClassName}`
+            :   content
+        :   tabClassName
+)
+
 function getTabsVisual(mergedProps: MergedProps) {
     const { tabs, activeTab, onChange, theme, showEmpty, renderAll } = mergedProps
 
     const tabsContent: React.ReactNode[] = []
+    let tabContentClassName
     const labels = tabs.map(tab => {
         const { label, id, payload, content, className } = tab
 
@@ -34,18 +45,18 @@ function getTabsVisual(mergedProps: MergedProps) {
             let tabContent = getContent(content)
             if (renderAll) {
                 const wrapperProps: ReactTagAttributes<HTMLDivElement> = {
-                    className,
                     children: tabContent,
                     key: id
                 }
                 isSelected
-                    ?   (wrapperProps.className = theme.content)
+                    ?   (wrapperProps.className = getContentClassName(theme, className))
                     :   (wrapperProps.style = { display: 'none' })
 
                 tabContent = <div { ...wrapperProps } />
             }
 
             tabsContent.push(tabContent)
+            isSelected && (tabContentClassName = className)
         }
 
 
@@ -65,7 +76,8 @@ function getTabsVisual(mergedProps: MergedProps) {
         activeTabContent: (showEmpty || tabsContent.length)
             ?   renderAll
                 ?   tabsContent
-                :   <div className={ theme.content } children={ tabsContent[0] } />
+                :   <div className={ getContentClassName(theme, tabContentClassName) }
+                        children={ tabsContent[0] } />
             :   _undef,
         labels: <div className={ theme.labels_wrapper } children={ labels } />
     }

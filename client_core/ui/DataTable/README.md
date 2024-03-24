@@ -79,7 +79,8 @@ Configurable and flexible data grid to manage big amount of data, built on top o
         - `searchByField` - **Object** Entities filtering params, where key is a column ID and value is a filtering value
         - `toggleColumns` - **Set<props.columnsConfig.ID>**. Column IDs to be hidden
         - `showPerPage` - **Number**. Number of entities showed per one pagination page
-        - `currentPage` - **Number**. Current pagination page<br /><br />
+        - `currentPage` - **Number**. Current pagination page starting from 1
+        - `__resultIDs` - **string[]**. Readonly inner filtered `props.entities.sorted` array of entities IDs */<br /><br />
 
 - `rootTagAttributes`
     - **div** tag attributes<br /><br />

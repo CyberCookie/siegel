@@ -34,7 +34,8 @@ const getDefaultState: () => State = () => ({
     searchByField: {},
     toggledColumns: new Set(),
     showPerPage: 0,
-    currentPage: 1
+    currentPage: 1,
+    __resultIDs: []
 })
 
 const DataTable = component<Props, DefaultProps>(
@@ -104,6 +105,9 @@ const DataTable = component<Props, DefaultProps>(
             }]
         }])
         dataTableTableProps = resolveTagAttributes(dataTableTableProps, tableAttributes)
+
+
+        state.__resultIDs = resultIDs
 
 
         return (
