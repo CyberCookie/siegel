@@ -70,9 +70,3 @@ async function processRequest(req: Request) {
 ;(addEventListener as AddEvent)('install', () => {
     skipWaiting()
 })
-
-
-;(addEventListener as AddEvent)('message', e => {
-)
-
-})
