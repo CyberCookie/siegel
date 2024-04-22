@@ -14,9 +14,9 @@
 			"siegel-ui-utils/*": [ "../client_core/utils/*" ],
 			"siegel-router/*": [ "../client_core/router/*" ]
 		},
-		"lib": ["WebWorker"],
 		"noEmit": true,
 		"declaration": false
 	},
-	"include": [ "client", "server", "dto", "../global.d.ts" ]
+	"include": [ "client", "server", "dto", "../global.d.ts" ],
+	"exclude": [ "client/sw.ts" ]
 }

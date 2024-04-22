@@ -1,3 +1,6 @@
+/// <reference lib="WebWorker" />
+
+
 declare const buildOutput: string[]
 
 // declare const globalThis: ServiceWorkerGlobalScope
