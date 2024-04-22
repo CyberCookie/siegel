@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import webpack, { WebpackPluginInstance, Compiler } from 'webpack'
+import ts from 'typescript'
 
 
 const { sources, Compilation } = webpack
@@ -12,7 +13,6 @@ type SwPluginClassCtor = {
     new(options: SwPluginOptions): WebpackPluginInstance
     (): WebpackPluginInstance
 }
-
 
 
 const NAME = 'siegel-sw-plugin'
@@ -29,10 +29,12 @@ const serviceWorkerPlugin = function(this: WebpackPluginInstance, entry: SwPlugi
                 stage: Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE
             }, assets => {
                 const SW_ASSETS = JSON.stringify(Object.keys(assets))
-                const SW_SOURCE = `const buildOutput=${SW_ASSETS};${swContent}`
+                const isTS = filename.endsWith('.ts')
+
+                const SW_SOURCE = `const buildOutput=${SW_ASSETS};${isTS ? ts.transpile(swContent) : swContent}`
 
                 compilation.emitAsset(
-                    filename,
+                    isTS ? filename.replace('.ts', '.js') : filename,
                     new sources.RawSource(SW_SOURCE, true)
                 )
             })

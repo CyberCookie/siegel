@@ -285,7 +285,7 @@ Loaders used by default together with `file extensions regexp` are described bel
 
 
 - Workers<br />
-RegExp string: `_worker\\.[tj]s$` (**worker**)<br />
+RegExp string: `__worker\\.[tj]s$` (**worker**)<br />
 Loaders:
     - worker-loader ( `workers` )<br /><br />
 

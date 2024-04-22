@@ -23,7 +23,7 @@ const siegelConfig: Config = {
     build: {
         input: {
             js: join(CLIENT_APP, 'index.ts'),
-            sw: join(CLIENT_APP, 'sw.js'),
+            sw: join(CLIENT_APP, 'sw.ts'),
             html: join(CLIENT_APP, 'index.html'),
             copyFiles: join(CLIENT_APP, 'assets', 'copy'),
             sassResources: join(CLIENT_MAIN, 'styles', 'sass_resources.sass'),

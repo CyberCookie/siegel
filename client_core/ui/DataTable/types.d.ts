@@ -21,7 +21,7 @@ type DisplayedEntityIDs = {
     /** Last visible entity index */
     to: number
 
-    /** All pages entity IDs */
+    /** All entities IDs after beeing filtered and sorted */
     allPagesIDs: string[]
 } | undefined
 
@@ -58,7 +58,7 @@ type State<_SearchState = any> = {
     /** Current pagination page */
     currentPage: number
 
-    /** Readonly inner filtered props.entities.sorted array of entities IDs */
+    /** Readonly. All entities IDs after beeing filtered and sorted */
     __resultIDs: string[]
 }
 
@@ -223,7 +223,7 @@ type Props<
      *
      * @param headCell table cell data
      * @param columnConfig column config
-     * @param displayedEntityIDs final list entities IDs to be rendered on the active page
+     * @param displayedEntityIDs final list of entities IDs to be rendered on the active page
      */
     postProcessHeadCell?(
         headCell: TableTH,
