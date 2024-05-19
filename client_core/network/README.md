@@ -42,6 +42,8 @@ Receives **1** argument - **Object** wit the next fields:
             - `credentials` - **Request** credentials
             - `headers` - **Request** headers
             - `signal` - **Request** signal
+    
+    Returns **false** | **void**. Return **false** to abort request execution
 
 - `afterRequest` - **Function**. Triggered after successful request was made<br />
     Has **2** arguments:
@@ -120,6 +122,10 @@ Content-type header values used in **request**.
 - `headers` - **Object** where _key_ is header ID and _value_ is header value<br />
     Request headers
 
+- `onSuccess` - Successful responce callback<br />
+
+- `onError` - Error responce callback<br />
+
 - `isFullRes` - **Boolean** Default is **false**<br />
     Returns full response with headers, status code etc
 
@@ -142,6 +148,7 @@ Content-type header values used in **request**.
 - `preventSame` - For this request prevents request if the same request is already processing
 
 - `beforeRequest` - Preprocess mutable request data right before it passed to Fetch API
+    Return **false** to abort request execution
 
 
 

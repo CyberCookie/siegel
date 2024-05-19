@@ -1,5 +1,3 @@
-//TODO: support url with "//" like delimeters
-
 import React, { Suspense, useState, useLayoutEffect } from 'react'
 
 import isNullable from '../../../common/is/nullable'
@@ -39,6 +37,12 @@ function toDefaultTransitionState(routerState: RouterState) {
     return routerState
 }
 
+const isValidUrl = (url: string) => !url.includes('//')
+
+function normalizeUrl(url: string) {
+    return url.replace(/\/{2,}/g, '/')
+}
+
 function Router(props: RouterProps) {
     const routerStore = useState<RouterState>({
         pathname: location.pathname,
@@ -50,118 +54,128 @@ function Router(props: RouterProps) {
     const { transitionTimeoutID, prevChildrenArray, prevPathnameParseResult } = routerState
     let { pathname } = routerState
 
-    routerState.prevPathnameParseResult = null
-
-
-    patchHistory(props.basename, (newPath, state, cb) => {
-        const { pathname } = routerState
-
-        const result = parsePathname(props, newPath, state)
-        const { newPathname, newHistoryState } = result
-
-        routerState.pathname = newPathname
-
-        if (
-            pathname != newPathname
-            ||  ( isNullable(newHistoryState) || isNullable(history.state)
-                    ?   newHistoryState !== history.state
-                    :   deepEqual(newHistoryState, history.state) != SYMBOL__VALUES_EQUAL )
-        ) {
-
-            cb(result)
-
-            routerState.prevPathnameParseResult = result
-            setRouterState({ ...routerState })
-        }
-    })
-
-
-    const {
-        childrenArray, newHistoryState, newPathname, urlParams, transitionData
-    } = prevPathnameParseResult || parsePathname(props, pathname, history.state)
-
-    if (newPathname != pathname) {
-        routerState.pathname = pathname = newPathname
-        history.replaceState(newHistoryState, '', newPathname)
-    }
-
-
-    let childrenDepth = childrenArray.length
-
+    const _isValidUrl = isValidUrl(pathname)
 
     useLayoutEffect(() => {
-        transitionTimeoutID && clearTimeout(transitionTimeoutID)
-    }, [ pathname ])
-
-    toDefaultTransitionState(routerState)
-
-    if (transitionData && prevChildrenArray.length > childrenDepth) {
-        const lastIndex = childrenDepth - 1
-        if (prevChildrenArray[lastIndex].traversePath == childrenArray[lastIndex].traversePath) {
-            childrenArray.push({
-                El: () => '' as unknown as JSX.Element,
-                traversePath: `${childrenArray[lastIndex].traversePath}/`,
-                historyState: null
-            })
-            childrenDepth++
-        }
-    }
+        _isValidUrl && transitionTimeoutID
+            &&  clearTimeout(transitionTimeoutID)
+    }, [ pathname, _isValidUrl ])
 
 
     let resultElement
-    let isHistoryAlreadyTransitioned
-    for (let i = childrenDepth - 1; i >= 0; i--) {
-        const childData = childrenArray[i]
-        const { El, onEnter, onLeave, fallback, traversePath, historyState } = childData
+    if (_isValidUrl) {
+        routerState.prevPathnameParseResult = null
 
-        const pageParams: GetPageParams = {
-            resultElement, urlParams, El, onEnter, onLeave, fallback
-        }
+        patchHistory(props.basename, (newPath, state, cb) => {
+            const { pathname } = routerState
 
-        resultElement = onLeave
-            ?   <PageWrap { ...pageParams } />
-            :   getPageElement(pageParams)
+            const result = parsePathname(props, newPath, state)
+            const { newPathname, newHistoryState } = result
 
-
-        if (transitionData) {
-            const { duration, wrapperClassName, performOnHistoryStateChange } = transitionData
-
-            routerState.prevChildrenArray[i] = { resultElement, traversePath, historyState }
-
-            const isDiffStates = performOnHistoryStateChange
-                &&  prevChildrenArray.length
-                &&  prevChildrenArray[i]?.historyState != childrenArray[i].historyState
-
+            routerState.pathname = newPathname
 
             if (
-                prevChildrenArray.length
-                &&  (   !prevChildrenArray[i]
-                        ||  ( isDiffStates && !isHistoryAlreadyTransitioned )
-                        ||  ( prevChildrenArray[i].traversePath != childrenArray[i].traversePath
-                            && prevChildrenArray[i - 1].traversePath == childrenArray[i - 1].traversePath )
-                    )
+                pathname != newPathname
+                ||  ( isNullable(newHistoryState) || isNullable(history.state)
+                        ?   newHistoryState !== history.state
+                        :   deepEqual(newHistoryState, history.state) != SYMBOL__VALUES_EQUAL )
             ) {
 
-                if (!transitionTimeoutID) {
-                    routerState.transitionTimeoutID = (setTimeout as Window['setTimeout'])(() => {
-                        setRouterState({ ...toDefaultTransitionState(routerState) })
-                    }, duration)
+                cb(result)
 
-                    routerState.prevPathnameParseResult = prevPathnameParseResult
-                }
+                routerState.prevPathnameParseResult = result
+                setRouterState({ ...routerState })
+            }
+        })
 
-                resultElement = (
-                    <div className={ wrapperClassName }
-                        style={{ '--ui-route_transition_duration': `${duration}ms` } as CSSWithVariables}>
 
-                        <div children={ prevChildrenArray![i]?.resultElement } />
-                        <div children={ resultElement } />
-                    </div>
-                )
+        const {
+            childrenArray, newHistoryState, newPathname, urlParams, transitionData
+        } = prevPathnameParseResult || parsePathname(props, pathname, history.state)
+
+        if (newPathname != pathname) {
+            routerState.pathname = pathname = newPathname
+            history.replaceState(newHistoryState, '', newPathname)
+        }
+
+
+        let childrenDepth = childrenArray.length
+
+        toDefaultTransitionState(routerState)
+
+        if (transitionData && prevChildrenArray.length > childrenDepth) {
+            const lastIndex = childrenDepth - 1
+            if (prevChildrenArray[lastIndex].traversePath == childrenArray[lastIndex].traversePath) {
+                childrenArray.push({
+                    El: () => '' as unknown as JSX.Element,
+                    traversePath: `${childrenArray[lastIndex].traversePath}/`,
+                    historyState: null
+                })
+                childrenDepth++
+            }
+        }
+
+
+        let isHistoryAlreadyTransitioned
+        for (let i = childrenDepth - 1; i >= 0; i--) {
+            const childData = childrenArray[i]
+            const { El, onEnter, onLeave, fallback, traversePath, historyState } = childData
+
+            const pageParams: GetPageParams = {
+                resultElement, urlParams, El, onEnter, onLeave, fallback
             }
 
-            isHistoryAlreadyTransitioned = isDiffStates
+            resultElement = onLeave
+                ?   <PageWrap { ...pageParams } />
+                :   getPageElement(pageParams)
+
+
+            if (transitionData) {
+                const { duration, wrapperClassName, performOnHistoryStateChange } = transitionData
+
+                routerState.prevChildrenArray[i] = { resultElement, traversePath, historyState }
+
+                const isDiffStates = performOnHistoryStateChange
+                    &&  prevChildrenArray.length
+                    &&  prevChildrenArray[i]?.historyState != childrenArray[i].historyState
+
+
+                if (
+                    prevChildrenArray.length
+                    &&  (   !prevChildrenArray[i]
+                            ||  ( isDiffStates && !isHistoryAlreadyTransitioned )
+                            ||  ( prevChildrenArray[i].traversePath != childrenArray[i].traversePath
+                                && prevChildrenArray[i - 1].traversePath == childrenArray[i - 1].traversePath )
+                        )
+                ) {
+
+                    if (!transitionTimeoutID) {
+                        routerState.transitionTimeoutID = (setTimeout as Window['setTimeout'])(() => {
+                            setRouterState({ ...toDefaultTransitionState(routerState) })
+                        }, duration)
+
+                        routerState.prevPathnameParseResult = prevPathnameParseResult
+                    }
+
+                    resultElement = (
+                        <div className={ wrapperClassName }
+                            style={{ '--ui-route_transition_duration': `${duration}ms` } as CSSWithVariables}>
+
+                            <div children={ prevChildrenArray![i]?.resultElement } />
+                            <div children={ resultElement } />
+                        </div>
+                    )
+                }
+
+                isHistoryAlreadyTransitioned = isDiffStates
+            }
         }
+    } else {
+        const newPathName = normalizeUrl(pathname)
+        history.replaceState({}, '', newPathName)
+
+        routerState.pathname = newPathName
+        setRouterState({ ...routerState })
     }
 
 

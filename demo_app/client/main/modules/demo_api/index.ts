@@ -32,10 +32,8 @@ const actions: Actions = {
             body,
             url: urls.echo,
             jsonStringifyPostprocess: json => apiEchoJsonKeysReplace(json, true),
-            jsonParsePreprocess: json => apiEchoJsonKeysReplace(json, false)
-
-        }).then(({ res }) => {
-            if (res) {
+            jsonParsePreprocess: json => apiEchoJsonKeysReplace(json, false),
+            onSuccess(res) {
                 const { dataToSend } = res
 
                 /*
@@ -61,10 +59,8 @@ const actions: Actions = {
     api_proxyGet({ state, setState }, id) {
         request<State['proxyRes']>({
             url: urls.proxy,
-            params: { id }
-
-        }).then(({ res }) => {
-            if (res) {
+            params: { id },
+            onSuccess(res) {
                 state.proxyRes = res
                 setState(state)
             }

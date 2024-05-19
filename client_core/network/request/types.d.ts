@@ -11,6 +11,7 @@ type ReqData = {
     } & Omit<RequestInit, 'headers'>
 }
 
+
 type ReqError = {
     /** Request data */
     req: ReqData
@@ -25,7 +26,9 @@ type ReqError = {
     res?: any
 }
 
-type RequestParams<_Body = any> = {
+type BeforeReuest<_Result> = (opts: RequestParams) => _Result
+
+type RequestParams<_Body = any, _Res = any> = {
     /** Request URL. Can include URL params: _someurl/:param1/:param2_ */
     url: string
 
@@ -78,6 +81,12 @@ type RequestParams<_Body = any> = {
 
     /** Preprocess mutable request data right before it passed to Fetch API */
     beforeRequest?: SetupParams['beforeRequest']
+
+    /** Successful responce callback */
+    onSuccess?: (res: _Res) => void
+
+    /** Error responce callback */
+    onError?: (err: ReqError) => void
 }
 
 
@@ -94,7 +103,7 @@ type SetupParams = {
      *
      * @param reqData fetch api request params
      */
-    beforeRequest?(reqData: ReqData): void
+    beforeRequest?(reqData: ReqData): void | false
 
     /**
      * Triggered after successful request was made

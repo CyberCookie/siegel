@@ -117,7 +117,7 @@ const createApi = (setupParams: SetupParams = {}) => {
     const activeRequest = new Set()
 
 
-    return async function request<Res = any, Body = any>(req: RequestParams<Body>) {
+    return async <Res = any, Body = any>(req: RequestParams<Body, Res>) => {
         req.json ||= json
         req.jsonStringifyPostprocess ||= jsonStringifyPostprocess
         req.jsonParsePreprocess ||= jsonParsePreprocess
@@ -137,55 +137,62 @@ const createApi = (setupParams: SetupParams = {}) => {
         isSameReqPrevent && (reqKey = `${url}_${options.method}_${options.body}`)
 
 
-        beforeRequest?.(reqData)
-        req.beforeRequest?.(reqData)
-        try {
-            if (isSameReqPrevent) {
-                if (activeRequest.has(reqKey)) {
-                    throw {
-                        err: new Error('Same request is already processing...'),
-                        canceled: true
-                    }
-                } else activeRequest.add(reqKey)
-            }
+        if (
+            beforeRequest?.(reqData) !== false
+            && req.beforeRequest?.(reqData) !== false
+        ) {
 
-            const res = await fetch(url, options)
-            const { headers, status, statusText, ok } = res
-
-            let parsedRes = await extractResponseData(req, res)
-            isSameReqPrevent && activeRequest.delete(reqKey)
-
-            isFullRes && (parsedRes = {
-                status, statusText, headers,
-                data: parsedRes
-            })
-
-
-            if (ok) {
-                afterRequest?.(reqData, parsedRes)
-
-                return {
-                    res: parsedRes as Res,
-                    err: null
+            try {
+                if (isSameReqPrevent) {
+                    if (activeRequest.has(reqKey)) {
+                        throw {
+                            err: new Error('Same request is already processing...'),
+                            canceled: true
+                        }
+                    } else activeRequest.add(reqKey)
                 }
 
-            } else throw {
-                status,
-                message: statusText,
-                res: parsedRes
-            }
+                const res = await fetch(url, options)
+                const { headers, status, statusText, ok } = res
 
-        } catch (err) {
-            isSameReqPrevent && console.log(err)
-            isSameReqPrevent && activeRequest.delete(reqKey)
+                let parsedRes = await extractResponseData(req, res)
+                isSameReqPrevent && activeRequest.delete(reqKey)
 
-            ;(err as ReqError).req = reqData
+                isFullRes && (parsedRes = {
+                    status, statusText, headers,
+                    data: parsedRes
+                })
 
-            errorHandler?.(err as ReqError)
 
-            return {
-                res: null,
-                err: err as ReqError
+                if (ok) {
+                    afterRequest?.(reqData, parsedRes)
+                    req.onSuccess?.(parsedRes as Res)
+
+
+                    return {
+                        res: parsedRes as Res,
+                        err: null
+                    }
+
+                } else throw {
+                    status,
+                    message: statusText,
+                    res: parsedRes
+                }
+
+            } catch (err) {
+                isSameReqPrevent && activeRequest.delete(reqKey)
+
+                ;(err as ReqError).req = reqData
+
+                errorHandler?.(err as ReqError)
+                req.onError?.(err as ReqError)
+
+
+                return {
+                    res: null,
+                    err: err as ReqError
+                }
             }
         }
     }
