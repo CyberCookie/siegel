@@ -19,9 +19,10 @@ function component
 ) {
 
     type ComponentType = CoreUIComponent<_Props, _Defaults>
+    type MergedProps = _Props & _Defaults
 
 
-    const Component: Partial<ComponentType> = memo<_Props & _Defaults>(
+    const Component: Partial<ComponentType> = memo<MergedProps>(
         props => {
 
             const mergedProps = props._noMergeWithDefaults
@@ -29,7 +30,7 @@ function component
                 :   extractProps(defaults, props)
 
 
-            const defaultProps: Partial<_Props & _Defaults> = {}
+            const defaultProps: Partial<MergedProps> = {}
             for (const defaultProp in defaults) {
                 if (!isExists(mergedProps[defaultProp])) {
                     defaultProps[defaultProp] = defaults[defaultProp]!
@@ -43,7 +44,7 @@ function component
                 :   { ...mergedProps, ...defaultProps }
             )
         },
-        (prevProps, nextProps) => nextProps.memoDeps?.(prevProps, nextProps) || false
+        (prevProps, nextProps) => nextProps.memoDeps?.(prevProps as MergedProps, nextProps as MergedProps) || false
     )
 
     Component.ID = ID
