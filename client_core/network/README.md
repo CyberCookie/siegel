@@ -17,6 +17,13 @@ request<Res, ReqBody>(options: ReqParams)
         if (res) ...
     })
 
+request<Res, ReqBody>({
+    url: '...',
+    onSuccess(res) {
+        ...
+    }
+})
+
 ```
 
 <br />
@@ -139,13 +146,15 @@ Content-type header values used in **request**.
 - `signal` - **(new AbortController()).signal**<br />
     Terminates request and prevents browser from response handling
 
-- `json` - For this request applies json content type to headers and parses response as json
+- `json` - **Boolean**<br />
+    For this request applies json content type to headers and parses response as json
 
 - `jsonStringifyPostprocess` - Post process json string before request occurs
 
 - `jsonParsePreprocess` - Pre process responce string before being parsed to object as json string
 
-- `preventSame` - For this request prevents request if the same request is already processing
+- `preventSame` - **Boolean**<br />
+    For this request prevents request if the same request is already processing
 
 - `beforeRequest` - Preprocess mutable request data right before it passed to Fetch API
     Return **false** to abort request execution

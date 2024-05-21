@@ -168,7 +168,6 @@ const createApi = (setupParams: SetupParams = {}) => {
                     afterRequest?.(reqData, parsedRes)
                     req.onSuccess?.(parsedRes as Res)
 
-
                     return {
                         res: parsedRes as Res,
                         err: null
@@ -188,13 +187,13 @@ const createApi = (setupParams: SetupParams = {}) => {
                 errorHandler?.(err as ReqError)
                 req.onError?.(err as ReqError)
 
-
                 return {
                     res: null,
                     err: err as ReqError
                 }
             }
-        }
+
+        } else return { res: null, err: null }
     }
 }
 
