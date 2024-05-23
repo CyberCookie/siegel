@@ -103,7 +103,7 @@ type SetupParams = {
      *
      * @param reqData fetch api request params
      */
-    beforeRequest?(reqData: ReqData): void | false
+    beforeRequest?(reqData: ReqData): void | boolean | Promise<void | boolean>
 
     /**
      * Triggered after successful request was made

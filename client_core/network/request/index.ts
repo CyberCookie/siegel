@@ -1,4 +1,5 @@
 import populateURLParams from '../../../common/populate_url_params'
+import isExists from '../../../common/is/exists'
 
 import type { ReqData, ReqError, RequestParams, SetupParams } from './types'
 
@@ -107,6 +108,27 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
     )}
 }
 
+async function isAllowedToProcess(
+    beforeRequest: RequestParams['beforeRequest'],
+    reqData: ReturnType<typeof extractRequestData>
+) {
+
+    const currentBeforeReqResult = beforeRequest?.(reqData)
+    let isAllowedToProcess: boolean | void = true
+
+    if (isExists(currentBeforeReqResult)) {
+        if (typeof currentBeforeReqResult == 'object') {
+            await currentBeforeReqResult.then(shouldProcess => {
+                isAllowedToProcess = shouldProcess
+            })
+
+        } else isAllowedToProcess = currentBeforeReqResult
+    }
+
+
+    return isAllowedToProcess
+}
+
 
 const createApi = (setupParams: SetupParams = {}) => {
     const {
@@ -137,11 +159,10 @@ const createApi = (setupParams: SetupParams = {}) => {
         isSameReqPrevent && (reqKey = `${url}_${options.method}_${options.body}`)
 
 
-        if (
-            beforeRequest?.(reqData) !== false
-            && req.beforeRequest?.(reqData) !== false
-        ) {
+        const globalReqAllowed = await isAllowedToProcess(beforeRequest, reqData)
+        const isReqAllowed = globalReqAllowed && await isAllowedToProcess(req.beforeRequest, reqData)
 
+        if (isReqAllowed) {
             try {
                 if (isSameReqPrevent) {
                     if (activeRequest.has(reqKey)) {

@@ -35,7 +35,9 @@ Receives **1** argument - **Object** wit the next fields:
 
 - `beforeParse` - **Function**. Triggered before request **Object** is beeing parsed<br />
     Has **1** argument:
-    - **reqParams** - **ReqParams**. Concrete request's request params. (Read below)
+    - **reqParams** - **ReqParams**. Concrete request's request params. (Read below)<br />
+
+    Returns **void | Promise<void>**
 
 - `beforeRequest` - **Function**. Preprocess mutable request data right before it passed to Fetch API<br />
     Has **1** argument:
@@ -50,7 +52,7 @@ Receives **1** argument - **Object** wit the next fields:
             - `headers` - **Request** headers
             - `signal` - **Request** signal
     
-    Returns **false** | **void**. Return **false** to abort request execution
+    Returns **boolean | void | Promise<boolean | void>**. Return **false** to abort request execution
 
 - `afterRequest` - **Function**. Triggered after successful request was made<br />
     Has **2** arguments:
