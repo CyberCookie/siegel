@@ -18,6 +18,9 @@ type Tab<_Payload = any> = {
 
     /** Data to be passed to props.onChange callback */
     payload?: _Payload
+
+    /** Always render tab with display: none if not selected */
+    prerender?: boolean
 }
 
 type Theme = {
@@ -59,9 +62,6 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 
     /** Children content to be rendered at the root level */
     children?: React.ReactNode
-
-    /** Whether to render all tabs at one time. Only active tab will be displayed though */
-    renderAll?: boolean
 
     /** Renders content wrapper if it's empty */
     showEmpty?: boolean

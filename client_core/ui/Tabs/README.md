@@ -37,7 +37,8 @@ Provides content distributed for each tab specified<br />
         - `content` - **React.ReactNode | (() => React.ReactNode)**<br />
             Tab content
         - `className` - **String**. Tab content className
-        - `payload` - **Any**. Data to be passed to **props.onChange** callback<br /><br />
+        - `payload` - **Any**. Data to be passed to **props.onChange** callback
+        - `prerender` - **Boolean**. Always render tab with display: none if not selected<br /><br />
 
 - `onChange`
     - Triggered when tab is selected
@@ -49,10 +50,6 @@ Provides content distributed for each tab specified<br />
 - `children`
     - Children content to be rendered at the root level
     - **React.ReactNode**<br /><br />
-
-- `renderAll`
-    - Whether to render all tabs at one time. Only active tab will be displayed though
-    - **Boolean**<br /><br />
 
 - `showEmpty`
     - Renders content wrapper if it's empty

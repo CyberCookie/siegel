@@ -6,7 +6,8 @@ import { Tabs, TabsProps } from 'app/components'
 const tabsData: TabsProps['tabs'] = ([ 1, 2, 3 ]).map(id => ({
     id: `${id}`,
     content: `content ${id}`,
-    label: `label ${id}`
+    label: `label ${id}`,
+    prerender: id == 3
 }))
 
 const Demo = () => {

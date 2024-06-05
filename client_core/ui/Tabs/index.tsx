@@ -32,18 +32,20 @@ const getContentClassName = (
 )
 
 function getTabsVisual(mergedProps: MergedProps) {
-    const { tabs, activeTab, onChange, theme, showEmpty, renderAll } = mergedProps
+    const { tabs, activeTab, onChange, theme, showEmpty } = mergedProps
+
+    const hasPrerenderTab = tabs.find(({ prerender }) => prerender)
 
     const tabsContent: React.ReactNode[] = []
     let tabContentClassName
     const labels = tabs.map(tab => {
-        const { label, id, payload, content, className } = tab
-
+        const { label, id, payload, content, className, prerender } = tab
         const isSelected = activeTab == id
 
-        if (renderAll || isSelected) {
+        if (prerender || isSelected) {
             let tabContent = getContent(content)
-            if (renderAll) {
+
+            if (hasPrerenderTab) {
                 const wrapperProps: ReactTagAttributes<HTMLDivElement> = {
                     children: tabContent,
                     key: id
@@ -74,7 +76,7 @@ function getTabsVisual(mergedProps: MergedProps) {
 
     return {
         activeTabContent: (showEmpty || tabsContent.length)
-            ?   renderAll
+            ?   hasPrerenderTab
                 ?   tabsContent
                 :   <div className={ getContentClassName(theme, tabContentClassName) }
                         children={ tabsContent[0] } />
