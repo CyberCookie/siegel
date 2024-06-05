@@ -1,3 +1,5 @@
+//TODO: validayr URL in updateBasename
+
 import isExists from '../../../common/is/exists'
 import getFinalURL from '../get_final_url'
 import { BASENAME_UPDATE_EVENT_TYPE } from '../Link'
