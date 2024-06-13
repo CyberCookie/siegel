@@ -57,6 +57,10 @@ function patchHistory(
 
 
         history.updateBasename = newBasename => {
+            if (newBasename && !newBasename.startsWith('/')) {
+                newBasename = '/' + newBasename
+            }
+
             const { basename } = history
             if (newBasename != basename) {
                 history.basename = newBasename
