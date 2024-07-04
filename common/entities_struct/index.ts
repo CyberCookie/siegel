@@ -69,7 +69,14 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
 
         len: () => sorted.length,
 
-        raw: () => ({ byID, sorted })
+        raw: () => ({ byID, sorted }),
+
+        setRaw: newState => {
+            byID = newState.byID
+            sorted = newState.sorted
+
+            return entityStruct
+        }
     }
 
 

@@ -79,8 +79,13 @@ type RequestParams<_Body = any, _Res = any> = {
     /** For this request prevents request if the same request is already processing */
     preventSame?: boolean
 
-    /** Preprocess mutable request data right before it passed to Fetch API */
-    beforeRequest?: SetupParams['beforeRequest']
+    /**
+     * Preprocess mutable request data right before it passed to Fetch API
+     *
+     * @param reqData fetch api request params
+     * @return false to prevent request execution
+     */
+    beforeRequest?: NonNullable<SetupParams['beforeRequest']>
 
     /** Successful responce callback */
     onSuccess?: (res: _Res) => void
@@ -92,9 +97,10 @@ type RequestParams<_Body = any, _Res = any> = {
 
 type SetupParams = {
     /**
-     * Triggered before request Object is beeing parsed
+     * Preprocess mutable request data right before it passed to Fetch API
      *
-     * @param opts - request params
+     * @param reqData fetch api request params
+     * @return false to prevent request execution
      */
     beforeParse?(opts: RequestParams): void | Promise<RequestParams>
 

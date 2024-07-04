@@ -11,7 +11,7 @@ Receives **1** paremeter:
 
 Returns **Object** to perform CRUD operations with entities:
 - `addOrUpdate` - **Function** to populate struct with one entity<br />
-    Replaces entity it already exists (by checking **uniq field**)<br />
+    Replaces entity if already exists (by checking **uniq field**)<br />
     Receives **1** paramenter:
         - **entity** - **Object**. Entity **Object** to add
 
