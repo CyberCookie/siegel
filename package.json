@@ -35,7 +35,7 @@
         "npm": ">= 7"
     },
     "config": {
-        "boot": "node  --experimental-specifier-resolution=node --loader ts-node/esm demo_app/server/index.js"
+        "boot": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm demo_app/server/index.js"
     },
     "files": [
         "demo_app",
@@ -58,7 +58,7 @@
         "build": "$npm_package_config_boot -b -p",
         "build_serv": "$npm_package_config_boot -b -s -p",
         "serv": "$npm_package_config_boot -s -p",
-        "deploy": "npm ci --no-audit --no-fund && npm run build && npm run serv",
+        "deploy": "npm ci --no-audit --no-fund && npm run build && npm run serv",   
         "validate": "npx eslint . && npx tsc -p ."
     },
     "dependencies": {
@@ -107,10 +107,10 @@
         "@types/ttf2woff2": "2.0.2",
         "@types/webpack-env": "1.18.5",
         "@types/webpack-hot-middleware": "2.25.9",
-        "@typescript-eslint/eslint-plugin": "6.13.2",
-        "@typescript-eslint/parser": "6.13.2",
+        "@typescript-eslint/eslint-plugin": "7.15.0",
+        "@typescript-eslint/parser": "7.15.0",
         "esbuild-loader": "4.2.0",
-        "eslint": "8.55.0",
+        "eslint": "8.56.0",
         "eslint-plugin-react": "7.34.3",
         "typescript": "5.5.3"
     }
