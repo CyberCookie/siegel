@@ -6,7 +6,7 @@ import type { ConfigFinal } from '../../types'
 type WorkerLoaderRegExp = '__worker\\.[tj]s$'
 type ScriptsLoaderRegExp = '\\.[tj]sx?$'
 type StylesLoaderRegExp = '\\.(c|sc|sa)ss$'
-type FilesLoaderRegExp = '\\.(avif|webp|jpe?g|png|svg|woff2?)$'
+// type FilesLoaderRegExp = '\\.(avif|webp|jpe?g|png|svg|woff2?)$'
 
 
 type AnyDefaultLoader = Exclude<Loader, boolean | string>

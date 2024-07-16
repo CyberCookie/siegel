@@ -102,7 +102,7 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
                     jsonParsePreprocess(await res.text())
                 )
 
-            :   await res[parseMethod as 'json' | 'formData' | 'text']()
+            :   await res[parseMethod]()
     } catch (err) { throw new Error(
         `${err}. Failed to parse contentType: ${contentType} using ${parseMethod}() method.`
     )}
@@ -140,7 +140,11 @@ const createApi = (setupParams: SetupParams = {}) => {
 
 
     return async <Res = any, Body = any>(req: RequestParams<Body, Res>) => {
-        req.json ||= json
+
+        if (!isExists(req.json)) {
+            req.json = json
+        }
+
         req.jsonStringifyPostprocess ||= jsonStringifyPostprocess
         req.jsonParsePreprocess ||= jsonParsePreprocess
 

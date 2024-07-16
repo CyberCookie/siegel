@@ -17,21 +17,6 @@ type SwPluginClassCtor = {
 
 const NAME = 'siegel-sw-plugin'
 
-// function generateContentHash(str: string) {
-//     let hash = 0, i, chr
-
-//     if (str.length) {
-//         for (i = 0; i < str.length; i++) {
-//             chr = str.charCodeAt(i)
-//             hash = ((hash << 5) - hash) + chr
-//             hash |= 0 // Convert to 32bit integer
-//         }
-
-//     }
-
-//     return hash
-// }
-
 const serviceWorkerPlugin = function(this: WebpackPluginInstance, entry: SwPluginOptions) {
     const filename = path.basename(entry)
     const swContent = fs.readFileSync(entry, 'utf8')

@@ -51,7 +51,7 @@ type RequestParams<_Body = any, _Res = any> = {
     isFullRes?: boolean
 
     /** Method to be executed on response to extract its data */
-    parseMethod?: string
+    parseMethod?: 'json' | 'formData' | 'text' | 'arrayBuffer' | 'blob'
 
     /** Request credentials */
     credentials?: RequestInit['credentials']

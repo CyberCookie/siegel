@@ -138,7 +138,7 @@ Content-type header values used in **request**.
 - `isFullRes` - **Boolean** Default is **false**<br />
     Returns full response with headers, status code etc
 
-- `parseMethod` - **String**<br />
+- `parseMethod` - **'json' | 'formData' | 'text' | 'arrayBuffer' | 'blob'**<br />
     Method to be executed on response to extract its data<br />
     By default **request** sets this prop regarding to response content type
 

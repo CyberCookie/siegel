@@ -112,6 +112,7 @@ type UserPlugin<
 > | boolean
 
 
+//TODO typing: user plugin options
 //TODO typing: required custom plugin and never predefined
 type Plugins = {
     compression?: UserPlugin<CompressionPlugin, null, null, DefaultPlugins['compression']['instances']>
