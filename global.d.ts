@@ -3,6 +3,11 @@ declare module '*.sass' {
     export default classes
 }
 
+declare module '*.proto' {
+    const protofile: string
+    export default protofile
+}
+
 
 declare function isNaN(value: any): boolean
 declare function isFinite(value: any): boolean

@@ -13,7 +13,7 @@ const DemoApi: Page = () => {
     const { requests, errRes } = fetchModule()[0]
     const [
         { received, counter, proxyRes },
-        { api_echo, updateCounter, api_proxyGet }
+        { api_echo, updateCounter, api_proxyGet, api_protobufGet }
     ] = demoApiModule.default()
 
     const [ requestString, setRequestString ] = useState('')
@@ -26,6 +26,7 @@ const DemoApi: Page = () => {
     const isDisabledSend = !requestString.length
 
     const isProxyRequesting = requests[demoApiModule.urls.proxy]! > 0
+    const isProtoRequesting = requests[demoApiModule.urls.proto]! > 0
     const isProxyError = errRes[demoApiModule.urls.proxy]
 
 
@@ -57,6 +58,13 @@ const DemoApi: Page = () => {
                 disabled={ isProxyRequesting }
                 className={ styles.global_counter }
                 onClick={ () => { api_proxyGet(`${counter}`) } } />
+
+            <br />
+
+            <Button value={ isProtoRequesting ? 'Requesting...' : 'protobuf requst' }
+                disabled={ isProtoRequesting }
+                className={ styles.global_counter }
+                onClick={ () => { api_protobufGet() } } />
 
             { isProxyError
                 ?   <>

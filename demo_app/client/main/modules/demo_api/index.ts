@@ -11,6 +11,15 @@ import { dynamicCrumbsMap } from 'app/Router'
 import type { State, Actions, EchoReqBody } from './types'
 
 
+import protobuf from 'protobufjs'
+import prot from '!raw-loader!../../../../dto/test.proto'
+
+const protLoaded = protobuf.parse(prot)
+const testMsgProto = protLoaded.root.lookupType('somePackage.SomeMessage')
+// console.log('prot: ', prot)
+// console.log(protLoaded)
+// console.log(testMsgProto)
+
 const apiEchoJsonKeysReplace = createJsonKeysReplacer<keyof EchoReqBody>([
     'dataToSend'
 ])
@@ -22,10 +31,13 @@ const getInitialState = () => ({
     proxyRes: {}
 } as State)
 
+const urlPrefix = '/api/'
 const urls = {
-    echo: '/api/echo',
-    proxy: '/api/proxy_get/:id'
-}
+    echo: `${urlPrefix}echo`,
+    proxy: `${urlPrefix}proxy_get/:id`,
+    proto: `${urlPrefix}protobuf_req`
+} as const
+
 const actions: Actions = {
     api_echo({ state, setState }, body) {
         request<EchoReqBody, EchoReqBody>({
@@ -70,6 +82,23 @@ const actions: Actions = {
     updateCounter({ state, setState }) {
         state.counter++
         setState(state)
+    },
+
+    api_protobufGet({ state, setState }) {
+        request({
+            url: urls.proto,
+            body: testMsgProto.encode({
+                testField: 'lel'
+            }).finish(),
+            json: false,
+            parseMethod: 'arrayBuffer',
+            onSuccess(res) {
+                console.log(testMsgProto.decode(new Uint8Array(res)))
+            }
+        })
+        // .then(res => {
+        //     console.log(testMsgProto.decode(res.res))
+        // })
     }
 }
 

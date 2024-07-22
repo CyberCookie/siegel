@@ -14,6 +14,7 @@ const request = createApi({
     },
 
     errorHandler(err) {
+        console.error(err)
         addToErrRes(err, err.req.initialURL)
     },
 

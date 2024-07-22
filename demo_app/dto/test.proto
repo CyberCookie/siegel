@@ -1,0 +1,6 @@
+package somePackage;
+syntax = "proto3";
+
+message SomeMessage {
+    string test_field = 1; // becomes testField
+}

@@ -11,6 +11,7 @@ type State = {
 type Actions = {
     api_echo(store: StoreInitialized, body: EchoReqBody): void
     api_proxyGet(store: StoreInitialized, id: string): void
+    api_protobufGet(store: StoreInitialized): void
     updateCounter(store: StoreInitialized): void
 }
 
