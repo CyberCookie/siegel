@@ -1,5 +1,3 @@
-//TODO: validayr URL in updateBasename
-
 import isExists from '../../../common/is/exists'
 import getFinalURL from '../get_final_url'
 import { BASENAME_UPDATE_EVENT_TYPE } from '../Link'
@@ -57,8 +55,13 @@ function patchHistory(
 
 
         history.updateBasename = newBasename => {
-            if (newBasename && !newBasename.startsWith('/')) {
-                newBasename = '/' + newBasename
+            if (newBasename) {
+                if (!newBasename.startsWith('/')) {
+                    newBasename = '/' + newBasename
+
+                } else if (newBasename.startsWith('//')) {
+                    newBasename = newBasename.replace(/(\/){2,}/g, '/')
+                }
             }
 
             const { basename } = history

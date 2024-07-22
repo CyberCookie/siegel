@@ -3,7 +3,7 @@ import type {
 } from '../_internals/types'
 
 
-// TODO typing?: attributes type should depend on label <> icon presence
+//TODO typing?: attributes type should depend on label <> icon presence
 // type WithLabelProps = {
 //     label: React.ReactNode
 //     icon?: never

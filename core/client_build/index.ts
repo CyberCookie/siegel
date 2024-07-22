@@ -76,7 +76,6 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
         experiments: {
             cacheUnaffected: true,
             backCompat: false,
-            topLevelAwait: true,
             asyncWebAssembly: true
             // ...( outputESM ? {
             //     outputModule: true

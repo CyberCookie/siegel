@@ -19,8 +19,8 @@ const convertSvgToFont: ConvertSvgToFontFn = ({ fontName, svgs, isWoff2 }) => (
 
         let svgFont = ''
         fontStream
-            .on('finish', () => { resolve(svgFont) })
             .on('data', part => { svgFont += part })
+            .on('finish', () => { resolve(svgFont) })
             .on('error', reject)
 
         svgs.forEach((filename, i) => {
@@ -47,7 +47,7 @@ const convertSvgToFont: ConvertSvgToFontFn = ({ fontName, svgs, isWoff2 }) => (
         fontStream.end()
     })
 )
-    .then(svgFont => svg2ttf(svgFont, {}).buffer)
+    .then(svgFont => svg2ttf(svgFont, { ts: 0 }).buffer)
     .then(ttfFont => isWoff2 ? ttf2woff2(ttfFont as Buffer) : ttf2woff(ttfFont).buffer)
 
 

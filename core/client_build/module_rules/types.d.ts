@@ -3,11 +3,7 @@ import type { Plugin as PostCssPlugin } from 'postcss'
 import type { ConfigFinal } from '../../types'
 
 
-type WorkerLoaderRegExp = '__worker\\.[tj]s$'
-type ScriptsLoaderRegExp = '\\.[tj]sx?$'
-type StylesLoaderRegExp = '\\.(c|sc|sa)ss$'
-// type FilesLoaderRegExp = '\\.(avif|webp|jpe?g|png|svg|woff2?)$'
-
+type WebpackModuleRulesRegExp = typeof import('../constants').webpackModuleRulesRegExp
 
 type AnyDefaultLoader = Exclude<Loader, boolean | string>
 
@@ -101,15 +97,17 @@ type UserRule<_DefaultRule extends UserRule | null = null> = {
 }
 
 
-
 type UserRulesData = {
     order?: string[] | ((defaultOrder: DefaultRulesKeys[]) => string[])
 
     rules?: {
-        '__worker\\.[tj]s$'?: UserRule<DefaultRules[WorkerLoaderRegExp]>
-        '\\.[tj]sx?$'?: UserRule<DefaultRules[ScriptsLoaderRegExp]>
-        '\\.(c|sc|sa)ss$'?: UserRule<DefaultRules[StylesLoaderRegExp]>
-        '\\.(avif|webp|jpe?g|png|svg|woff2?)$'?: UserRule
+        [key in WebpackModuleRulesRegExp['worker']]?: UserRule<DefaultRules[WebpackModuleRulesRegExp['worker']]>
+    } & {
+        [key in WebpackModuleRulesRegExp['scripts']]?: UserRule<DefaultRules[WebpackModuleRulesRegExp['scripts']]>
+    } & {
+        [key in WebpackModuleRulesRegExp['styles']]?: UserRule<DefaultRules[WebpackModuleRulesRegExp['styles']]>
+    } & {
+        [key in WebpackModuleRulesRegExp['files']]?: UserRule
     } & Obj<UserRule<any>>
 
     moduleOptions?: Omit<ModuleOptions, 'rules'>
@@ -123,8 +121,8 @@ type DefaultRulesData = {
     order: DefaultRulesKeys[]
 
     rules: {
-        '__worker\\.[tj]s$': {
-            loadersOrder: (keyof DefaultRules[WorkerLoaderRegExp]['loaders'])[]
+        [key in WebpackModuleRulesRegExp['worker']]: {
+            loadersOrder: (keyof DefaultRules[WebpackModuleRulesRegExp['worker']]['loaders'])[]
             loaders: {
                 workers: {
                     loader: string
@@ -135,9 +133,9 @@ type DefaultRulesData = {
                 include: string[]
             }
         }
-
-        '\\.[tj]sx?$': {
-            loadersOrder: (keyof DefaultRules[ScriptsLoaderRegExp]['loaders'])[]
+    } & {
+        [key in WebpackModuleRulesRegExp['scripts']]: {
+            loadersOrder: (keyof DefaultRules[WebpackModuleRulesRegExp['scripts']]['loaders'])[]
             loaders: {
                 esbuildLoader: {
                     loader: string
@@ -149,9 +147,9 @@ type DefaultRulesData = {
                 }
             }
         }
-
-        '\\.(c|sc|sa)ss$': {
-            loadersOrder: (keyof DefaultRules[StylesLoaderRegExp]['loaders'])[]
+    } & {
+        [key in WebpackModuleRulesRegExp['styles']]: {
+            loadersOrder: (keyof DefaultRules[WebpackModuleRulesRegExp['styles']]['loaders'])[]
             loaders: {
                 cssFinal: {
                     loader: string
@@ -201,8 +199,8 @@ type DefaultRulesData = {
                 include: string[]
             }
         }
-
-        '\\.(avif|webp|jpe?g|png|svg|woff2?)$': {
+    } & {
+        [key in WebpackModuleRulesRegExp['files']]: {
             ruleOptions: {
                 type: string
             }
