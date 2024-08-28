@@ -1,6 +1,6 @@
 ## Is nullable
 
-Check if value is not null or undefned<br />
+Check if value is null or undefned<br />
 
 Receives **1** parameter: **Any**. Value to check<br />
 Returns **Boolean**. **true** if value is **undefined** or **null**

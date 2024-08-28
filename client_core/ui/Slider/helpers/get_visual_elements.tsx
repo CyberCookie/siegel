@@ -1,4 +1,4 @@
-//TODO?: visible slides count (???)
+//TODO: number of visible slides at the moment (now is 1)
 
 import React from 'react'
 

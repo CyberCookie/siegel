@@ -36,7 +36,7 @@ type DeepExclude<O1, O2> =
 type AnyPlugin = abstract new (...args: any) => any
 type AnyPluginInstance = Exclude<PluginConfigInstance<any, any>, boolean>
 type AnyPluginInstances = Record<string, AnyPluginInstance>
-type AllCaseUserPluginConfig = Exclude<UserPlugin<AnyPlugin, {}, {}, {}, {}>, boolean>
+type AllCaseUserPluginConfig = UserPlugin<AnyPlugin, {}, {}, {}, {}>
 
 
 type PluginConfigBase<_Plugin, _DefaultOptions> = {
@@ -103,17 +103,16 @@ type UserPlugin<
     _DefaultInstances extends AnyPluginInstances | null = null,
     _PluginOpts extends Obj = NonNullable<ConstructorParameters<_Plugin>[0]>
 > = Partial<
-    PluginConfigBase<_Plugin, _DefaultOpts>
-    &   (
-            PluginConfigOptions<_PluginOpts, _DefaultOpts, _Options>
-            |
-            PluginConfigInstances<_PluginOpts, _DefaultInstances>
-        )
-> | boolean
+        PluginConfigBase<_Plugin, _DefaultOpts>
+        &   (
+                PluginConfigOptions<_PluginOpts, _DefaultOpts, _Options>
+                |
+                PluginConfigInstances<_PluginOpts, _DefaultInstances>
+            )
+    > | boolean
 
 
 //TODO typing: user plugin options
-//TODO typing: required custom plugin and never predefined
 type Plugins = {
     compression?: UserPlugin<CompressionPlugin, null, null, DefaultPlugins['compression']['instances']>
 
@@ -135,7 +134,12 @@ type Plugins = {
 
     eslint?: UserPlugin<EslintPlugin, DefaultEslintPluginOptions>
 
-} & Obj<AllCaseUserPluginConfig>
+} & Obj<
+    MakeRequiredFields<
+        Exclude<AllCaseUserPluginConfig, boolean>,
+        'plugin'
+    > | boolean
+>
 
 
 

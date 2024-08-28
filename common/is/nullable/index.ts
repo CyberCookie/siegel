@@ -2,7 +2,7 @@ import isExists from '../exists'
 
 
 /**
- * Check if value is not null or undefned
+ * Check if value is null or undefned
  *
  * @param val Value to check
  * @returns true if value is undefined or null

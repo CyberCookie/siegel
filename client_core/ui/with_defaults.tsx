@@ -1,6 +1,7 @@
 import React from 'react'
 
 import extractProps from './_internals/props_extract'
+
 import type { CoreUIComponent, CoreUIComponentWithDefaults } from './_internals/types'
 
 
