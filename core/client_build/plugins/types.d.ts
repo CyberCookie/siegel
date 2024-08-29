@@ -37,6 +37,7 @@ type AnyPlugin = abstract new (...args: any) => any
 type AnyPluginInstance = Exclude<PluginConfigInstance<any, any>, boolean>
 type AnyPluginInstances = Record<string, AnyPluginInstance>
 type AllCaseUserPluginConfig = UserPlugin<AnyPlugin, {}, {}, {}, {}>
+type UserPluginObjectConfig = Exclude<AllCaseUserPluginConfig, boolean>
 
 
 type PluginConfigBase<_Plugin, _DefaultOptions> = {
@@ -229,11 +230,13 @@ type DefaultPlugins = {
         options: DefaultEslintPluginOptions | EslintWebpackPluginOptions
     }
 }
+type DefaultPluginsKeys = keyof DefaultPlugins
 
 
 
 export type {
     CompressionInstanceCommonOptions, CopyWebpackPluginOptions,
-    DefaultPlugins, Plugins, PluginConfigInstance, AllCaseUserPluginConfig,
+    DefaultPlugins, DefaultPluginsKeys, Plugins, PluginConfigInstance,
+    AllCaseUserPluginConfig, UserPluginObjectConfig,
     DefaultEslintPluginOptions, DefaultHtmlPluginOptions
 }
