@@ -76,7 +76,11 @@ function main(isGlobal?: boolean) {
         writeFileSync(INIT_PATHS.userTSGlobal, `import '${pathToSiegelGlobalTs}'`)
 
         // Copy Eslint jsons
-        shell(`cp ${ PATHS.packageRoot }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
+        // shell(`cp ${ PATHS.packageRoot }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
+
+        // Render doesn't support cp syntax above
+        shell(`cp ${ PATHS.packageRoot }/${ LOC_NAMES.ESLINT_JSON } .`)
+        shell(`cp ${ PATHS.packageRoot }/{${ LOC_NAMES.TS_ESLINT_JSON } .`)
     }
 
 
