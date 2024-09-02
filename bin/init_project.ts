@@ -80,7 +80,7 @@ function main(isGlobal?: boolean) {
 
         // Render doesn't support cp syntax above
         shell(`cp ${ PATHS.packageRoot }/${ LOC_NAMES.ESLINT_JSON } .`)
-        shell(`cp ${ PATHS.packageRoot }/{${ LOC_NAMES.TS_ESLINT_JSON } .`)
+        shell(`cp ${ PATHS.packageRoot }/${ LOC_NAMES.TS_ESLINT_JSON } .`)
     }
 
 
