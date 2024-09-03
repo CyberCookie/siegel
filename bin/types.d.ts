@@ -59,8 +59,21 @@ type CommanTree = {
 }
 
 
+type PackageJson = {
+    name: string
+    type: string
+    config: {
+        boot: string
+    }
+    scripts: Obj<string>
+    engines: {
+        node: string
+        npm: string
+    }
+}
+
 
 export type {
-    FullCommand, CommanTree,
+    PackageJson, FullCommand, CommanTree,
     PrintHelpFlagsMap, CommandExampleFn
 }

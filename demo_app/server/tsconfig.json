@@ -3,7 +3,8 @@
     "compilerOptions": {
         "outDir": "../server_dist",
         "declaration": false,
-        "noEmit": false
+        "noEmit": false,
+        "target": "ESNext"
     },
     "include": [ ".", "../../global.d.ts" ]
 }

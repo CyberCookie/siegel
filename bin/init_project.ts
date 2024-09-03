@@ -8,13 +8,17 @@ import { execSync as shell } from 'child_process'
 import { isRunDirectly, requireJSON, globalNodeModulesPath, toPosixPath } from '../core/utils'
 import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../core/constants.js'
 
+import type { PackageJson } from './types'
 
+
+const packageJson = requireJSON(PATHS.packageJSON) as PackageJson
 const {
     name: siegelPackageName,
     scripts: siegelPackageJSONScripts,
     type: siegelPackageType,
+    engines: siegelPackageEngines,
     config: packageJsonConfig
-} = requireJSON(PATHS.packageJSON)
+} = packageJson
 
 
 const toJSON = (data: any) => JSON.stringify(data, null, 4)
@@ -177,17 +181,18 @@ function main(isGlobal?: boolean) {
         const deployCommand = 'deploy'
         const buildNodeCommand = 'build_node'
 
-        siegelPackageJSONScripts[deployCommand] = siegelPackageJSONScripts[deployCommand]
+        siegelPackageJSONScripts[deployCommand] = siegelPackageJSONScripts[deployCommand]!
             .replace(servCommandRun, `npm run ${buildNodeCommand} && ${servCommandRun}`)
 
         siegelPackageJSONScripts[buildNodeCommand] = `npx tsc -p ./${INIT_LOC_NAMES.DEMO_APP_SERVER_DIR_NAME}`
 
 
 
-        const targetPackageJSON = requireJSON(INIT_PATHS.userPackageJson)
+        const targetPackageJSON = requireJSON(INIT_PATHS.userPackageJson) as PackageJson
 
         targetPackageJSON.scripts = siegelPackageJSONScripts
         targetPackageJSON.type = siegelPackageType
+        targetPackageJSON.engines = siegelPackageEngines
 
         packageJsonConfig.boot = packageJsonConfigBootArgs.join(' ')
         targetPackageJSON.config = packageJsonConfig
