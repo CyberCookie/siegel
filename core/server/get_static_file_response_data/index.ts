@@ -6,6 +6,8 @@ import type { GetStaticFileResponseParams, HeaderValue } from './types'
 
 
 const STRIP_PATH_TRAVERSAL_REGEXP = /^(\.\.(\/|\\|$))+/
+const CHARSET_CONTENT_TYPES_REGEXP = /^text\/|^application\/(javascript|json)/
+
 
 const finalizeHeaderValue = (value: NonNullable<HeaderValue>) => (
     value?.constructor == String
@@ -22,20 +24,19 @@ const getStaticFileResponseParams: GetStaticFileResponseParams = params => {
 
 
     const reqUrlFinal = finalizeHeaderValue(reqUrl)
-    const acceptEncodingFinal = finalizeHeaderValue(acceptEncoding)
-
-
     const urlNormalized = path.normalize(reqUrlFinal)
         .replace(STRIP_PATH_TRAVERSAL_REGEXP, '')
 
+
     const pathAbsolute = path.join(publicDir, urlNormalized)
 
-    let contentType = mime.lookup(pathAbsolute)
+    let contentType = mime.getType(pathAbsolute)
+    if (contentType && CHARSET_CONTENT_TYPES_REGEXP.test(contentType)) {
+        contentType += '; charset=UTF-8'
+    }
 
-    const charset = mime.charsets.lookup(contentType, '')
-    charset && (contentType += `; charset=${charset}`)
 
-
+    const acceptEncodingFinal = finalizeHeaderValue(acceptEncoding)
     const browserEncodings = new Set(
         (acceptEncodingFinal || '').split(', ')
     )

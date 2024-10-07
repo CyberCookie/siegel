@@ -12,7 +12,7 @@ async function createHTTP2Server(params: ServerBootParams) {
     const { devMiddlewares, CONFIG } = params
     const {
         publicDir,
-        server: { ssl, serveCompressionsPriority, appServer }
+        server: { ssl, serveCompressionsPriority, appServer, HTTP2PreFileSend }
     } = CONFIG
 
     const {
@@ -37,13 +37,14 @@ async function createHTTP2Server(params: ServerBootParams) {
                     ?   '/index.html'
                     :   headers[HTTP2_HEADER_PATH]!
 
-            const {
-                pathToFile, encoding, contentType, cacheControl
-            } = getStaticServingData({
+            const staticServingData = getStaticServingData({
                 publicDir, reqUrl, serveCompressionsPriority,
                 acceptEncoding: headers[ HTTP2_HEADER_ACCEPT_ENCODING ],
                 cacheControl: headers[ HTTP2_HEADER_CACHE_CONTROL ]
             })
+            const {
+                pathToFile, encoding, contentType, cacheControl
+            } = staticServingData
 
 
             const resHeaders: http2.OutgoingHttpHeaders = {}
@@ -51,16 +52,19 @@ async function createHTTP2Server(params: ServerBootParams) {
             encoding && (resHeaders[HTTP2_HEADER_CONTENT_ENCODING] = encoding)
             cacheControl && (resHeaders[HTTP2_HEADER_CACHE_CONTROL] = cacheControl)
 
-            stream.respondWithFile(pathToFile, resHeaders, {
-                onError(err) {
-                    console.log(err)
-                    stream.respond({
-                        [HTTP2_HEADER_STATUS]: err.code == 'ENOENT' ? 404 : 500
-                    })
 
-                    stream.end()
-                }
-            })
+            if (!HTTP2PreFileSend?.(stream, headers, resHeaders, staticServingData)) {
+                stream.respondWithFile(pathToFile, resHeaders, {
+                    onError(err) {
+                        console.log(err)
+                        stream.respond({
+                            [HTTP2_HEADER_STATUS]: err.code == 'ENOENT' ? 404 : 500
+                        })
+
+                        stream.end()
+                    }
+                })
+            }
         }
     })
 

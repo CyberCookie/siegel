@@ -3,7 +3,7 @@
 Replaces JSON keys with minified ones and vice versa
 
 
-```js
+```ts
 import createJsonKeysReplacer from 'siegel/lib/common/json_keys_replace'
 
 

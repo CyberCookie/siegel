@@ -21,7 +21,7 @@ Receives **3** arguments:
 
 <br />
 
-```js
+```ts
 import diff, { SYMBOL__VALUES_EQUAL, SYMBOL__OBJECT_FIELD_REMOVED } from 'siegel/lib/common/deep/diff'
 
 
@@ -104,7 +104,7 @@ diff(
 
 With options:
 
-```js
+```ts
 import diff from 'siegel/lib/common/deep/diff'
 
 diff(

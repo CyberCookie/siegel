@@ -11,7 +11,7 @@ Has **2** signatures:
 
 <br />
 
-```js
+```ts
 import updateURLQuery from 'siegel/lib/client_core/ui/utils/query_update'
 
 console.log(location.search) // '?paramKey=paramValue'

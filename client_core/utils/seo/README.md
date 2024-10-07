@@ -10,7 +10,7 @@ Receives **1** parameter: **Objec** with the next fields:
 
 <br />
 
-```js
+```ts
 import seo from 'siegel/lib/client_core/ui/utils/seo'
 
 seo({

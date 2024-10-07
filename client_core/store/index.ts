@@ -7,13 +7,13 @@ import type {
 } from './types'
 
 
-const setState: SetState<Obj> = function(this: HookStore<{}, any>, newState) {
+const setState: SetState<Obj> = function(this: HookStore<object, any>, newState) {
     const prevUpdated = this.state.__updated || 0
     const prevState = this.state
 
     newState.__updated ||= prevUpdated
     newState.__updated!++
-    this.state = { ...newState as StateWithUpdater<{}> }
+    this.state = { ...newState as StateWithUpdater<object> }
 
     prevState.__updated = prevUpdated
 

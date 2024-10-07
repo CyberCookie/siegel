@@ -13,7 +13,7 @@ Returns updated **object**<br />
 
 <br />
 
-```jsx
+```tsx
 import deepSet from 'siegel/lib/common/deep/set'
 
 const someObject = {}

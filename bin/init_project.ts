@@ -50,7 +50,6 @@ function main(isGlobal?: boolean) {
     const INIT_PATHS = {
         pathToSiegelRelative,
         pathToSiegelAbsolute,
-        siegelEsLint:                   join(isGlobal ? pathToSiegelAbsolute : pathToSiegelRelative, LOC_NAMES.ESLINT_JSON),
         siegelDemoAppServerPath:        join(PATHS.demoProject, INIT_LOC_NAMES.DEMO_APP_SERVER_DIR_NAME),
         siegelDemoAppPathShift:         relative(PATHS.demoProject, PATHS.packageRoot),
         siegelLibPath:                  join(pathToSiegelRelative, LOC_NAMES.LIB_OUTPUT_DIRNAME),
@@ -61,7 +60,7 @@ function main(isGlobal?: boolean) {
         userServerTSConfigPath:         join(userServerPath, LOC_NAMES.TS_JSON),
         userTSConfigPath:               join(PATHS.cwd, LOC_NAMES.TS_JSON),
         userTSGlobal:                   join(PATHS.cwd, LOC_NAMES.TS_GLOBAL_TYPES),
-        userESLint:                     join(PATHS.cwd, LOC_NAMES.ESLINT_JSON),
+        userESLint:                     join(PATHS.cwd, LOC_NAMES.ESLINT_CONFIG_JS),
         userPackageJson:                join(PATHS.cwd, LOC_NAMES.PACKAGE_JSON),
 
         cwdRelativeUserServer:          relative(PATHS.cwd, userServerEntryPath)
@@ -79,12 +78,8 @@ function main(isGlobal?: boolean) {
         ) + '/global'
         writeFileSync(INIT_PATHS.userTSGlobal, `import '${pathToSiegelGlobalTs}'`)
 
-        // Copy Eslint jsons
-        // shell(`cp ${ PATHS.packageRoot }/{${ LOC_NAMES.ESLINT_JSON },${ LOC_NAMES.TS_ESLINT_JSON }} .`)
-
         // Render doesn't support cp syntax above
-        shell(`cp ${ PATHS.packageRoot }/${ LOC_NAMES.ESLINT_JSON } .`)
-        shell(`cp ${ PATHS.packageRoot }/${ LOC_NAMES.TS_ESLINT_JSON } .`)
+        shell(`cp ${ PATHS.packageRoot }/${ LOC_NAMES.ESLINT_CONFIG_JS } .`)
     }
 
 
@@ -149,17 +144,14 @@ function main(isGlobal?: boolean) {
 
 
     function modifyESLintConfig() {
-        const ESLintConfig = requireJSON(INIT_PATHS.userESLint)
+        const ESLintConfig = readFileSync(INIT_PATHS.userESLint, 'utf-8')
 
-        ESLintConfig.extends.push(
-            INIT_PATHS.siegelEsLint[0] == '.' || isGlobal
-                ?   INIT_PATHS.siegelEsLint
-                :   `./${INIT_PATHS.siegelEsLint}`
+        const ESLintConfigModified = ESLintConfig.replace(
+            INIT_PATHS.siegelDemoAppPathShift,
+            siegelPackageName
         )
-        ESLintConfig.ignorePatterns.pop()
-        ESLintConfig.rules = {}
 
-        writeFileSync(INIT_PATHS.userESLint, toJSON(ESLintConfig))
+        writeFileSync(INIT_PATHS.userESLint, ESLintConfigModified)
     }
 
 

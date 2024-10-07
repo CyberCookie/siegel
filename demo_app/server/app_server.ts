@@ -7,7 +7,7 @@ import type { EchoReqBody } from '../dto/demo_api'
 type ReqHandler<ReqBody, ResBody> = (
     req: {
         body: ReqBody
-    } & Omit<Request<{}, ResBody, ReqBody>, 'body'>,
+    } & Omit<Request<object, ResBody, ReqBody>, 'body'>,
     res: Response<ResBody>,
     next: NextFunction
 ) => void

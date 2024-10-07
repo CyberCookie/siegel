@@ -10,7 +10,7 @@ Returns **Boolean**. **true** if values have the same type
 
 <br />
 
-```js
+```ts
 import isSameType from 'siegel/lib/common/is/same_type'
 
 isSameType(undefined, null)

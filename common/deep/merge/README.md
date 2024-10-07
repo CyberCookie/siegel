@@ -27,7 +27,7 @@ Receives **3** arguments:
 
 <br />
 
-```js
+```ts
 import deepMerge, { resolveAsUndefSymbol } from 'siegel/lib/common/deep/merge'
 
 

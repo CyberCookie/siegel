@@ -47,7 +47,7 @@ All the fields are optional since many of them are already defined in core  defa
 <br />
 
 
-```js
+```ts
 {
     /* Output path */
     publicDir: String,
@@ -195,7 +195,7 @@ Every default plugin has its own `plugin key`
 
 To extend default plugins or instances you should use `plugin keys` or `instance keys`
 
-```js
+```ts
 import somePlugin from 'some_webpack_plugin'
 
 
@@ -249,7 +249,7 @@ The only purpose of this plugin is to place an array of build output assets into
 **Plugin emits an output service worker file to the destination root**<br />
 
 
-```js
+```ts
 const config = {
     // ...build config,
 
@@ -261,7 +261,7 @@ const config = {
 }
 ```
 
-```js
+```ts
 // service worker file sw.js
 
 // Variable is put during a build phase.
@@ -270,7 +270,7 @@ console.log(buildOutput) // [ 'index.js', 'assets/fonts/some_font.woff2' ]
 
 Require service worker file as you'd usually do:
 
-```js
+```ts
 navigator.serviceWorker?.register('/sw.js')
     .catch(console.error)
 ```
@@ -310,7 +310,7 @@ RegExp string: `\\.(avif|webp|jpg|png|svg|woff2)?$` (**assets**)
 
 <br />
 
-```js
+```ts
 import { BUILD_CONSTANTS } from 'siegel'
 
 
@@ -488,7 +488,7 @@ Example output:
 ```
 
 There are two options you can pass to the plugin:
-```js
+```ts
 import { BUILD_CONSTANTS } from 'siegel'
 
 

@@ -1,14 +1,16 @@
 'use strict'
 
-import type { InitialOptionsTsJest } from 'ts-jest'
+import type { JestConfigWithTsJest } from 'ts-jest'
+
 
 //TODO typing blocked by https://github.com/facebook/jest/issues/12952
 // console.log(import.meta)
 
-const jestOptions: InitialOptionsTsJest = {
+const jestOptions: JestConfigWithTsJest = {
     preset: 'ts-jest/presets/default-esm',
     rootDir: './',
     testMatch: [ '**/*.test.ts' ]
 }
+
 
 export default jestOptions

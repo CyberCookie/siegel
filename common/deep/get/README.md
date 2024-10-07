@@ -9,7 +9,7 @@ Receives **3** arguments:
 
 <br />
 
-```js
+```ts
 import deepGet from 'siegel/lib/common/deep/get'
 
 const someObject = {

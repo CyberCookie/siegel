@@ -4,7 +4,7 @@
 Hook store provides `fetch module` which is usefull to track requests status
 
 
-```js
+```ts
 import { setup } from 'siegel/lib/client_core/network/request'
 import fetchModule from 'siegel/lib/client_core/store/fetch_module'
 
@@ -29,7 +29,7 @@ setup({
 
 ```
 
-```js
+```ts
 import React from 'react'
 import fetchModule, { reset } from 'siegel/lib/client_core/store/fetch_module'
 

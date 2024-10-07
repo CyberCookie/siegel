@@ -1,4 +1,4 @@
-import type { Configuration as WebpackConfig } from 'webpack'
+import type { Configuration as WebpackConfig, StatsOptions } from 'webpack'
 import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
 import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
 import type { PluginOptions as CopyWebpackPluginOptions } from 'copy-webpack-plugin'
@@ -82,6 +82,9 @@ type BuildConfig = {
             /** Development mode filenames */
             DEV?: Filenames
         }
+
+        /* Webpack build logger params */
+        logging: StatsOptions
     }
 
     /** Enables ESlint */
@@ -127,6 +130,10 @@ type BuildConfigDefault = {
         publicPath: NonNullOutput['publicPath']
         target: NonNullOutput['target']
         filenames: NonNullable<NonNullOutput['filenames']>
+        logging: MakeRequiredFields<
+            NonNullable<NonNullOutput['logging']>,
+            'colors' | 'modules' | 'children'
+        >
     }
     eslint: NonNullable<BuildConfig['eslint']>
     aliases: NonNullable<BuildConfig['aliases']>
@@ -136,12 +143,14 @@ type BuildConfigDefault = {
 type BuildConfigsMerged = BuildConfig & BuildConfigDefault
 type BuildConfigsOutputsMerged = BuildConfig['output'] & BuildConfigDefault['output']
 
+
 type BuildConfigFinal = {
     input: BuildConfigsMerged['input']
     output: {
         target: BuildConfigsOutputsMerged['target']
         publicPath: BuildConfigsOutputsMerged['publicPath']
         filenames: NonNullable<BuildConfigsOutputsMerged['filenames']['DEV' | 'PROD']>
+        logging: BuildConfigDefault['output']['logging']
     }
     eslint: BuildConfigsMerged['eslint']
     aliases: BuildConfigsMerged['aliases']

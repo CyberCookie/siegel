@@ -1,7 +1,5 @@
 import type { ServerConfig } from '../types'
-
-
-type Mime = typeof import('mime')
+import type { Mime } from 'mime'
 
 
 type HeaderValue = string | string[] | undefined
@@ -17,7 +15,7 @@ type GetStaticFileResponseParams = (
 ) => {
     pathToFile: string
     encoding: string
-    contentType: ReturnType<Mime['lookup']>
+    contentType: ReturnType<Mime['getType']>
     cacheControl: string
 }
 

@@ -15,8 +15,8 @@
 			"siegel-router/*": [ "../client_core/router/*" ]
 		},
 		"noEmit": true,
-		"declaration": false
+		"declaration": false,
+		"skipDefaultLibCheck": true
 	},
-	"include": [ "client", "server", "dto", "../global.d.ts" ],
-	"exclude": [ "client/sw.ts" ]
+	"include": [ "client", "server", "dto", "../global.d.ts" ]
 }

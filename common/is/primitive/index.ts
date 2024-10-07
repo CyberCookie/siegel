@@ -7,7 +7,7 @@ import isNullable from '../nullable'
  * @param val Value to check
  * @returns true if value is primitive
  */
-const isPrimitive = (val: Object | null | undefined) => {
+const isPrimitive = (val: any) => {
     if (isNullable(val)) return true
 
     const { constructor } = val as object

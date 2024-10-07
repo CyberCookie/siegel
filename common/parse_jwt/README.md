@@ -6,7 +6,7 @@ Receives **1** parameter: **String**. JSON web token string
 
 <br />
 
-```js
+```ts
 import parseJWT from 'siegel/lib/common/parse_jwt'
 
 parseJWT(someString)

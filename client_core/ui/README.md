@@ -41,7 +41,7 @@ Components list:
 You may theme any Siegel component with `withDefaults` HOC it provides<br />
 Moreover, you can do this many times with single component wraping it in the new theme on top of existing
 
-```jsx
+```tsx
 import React from 'react'
 import withDefaults from 'siegel/lib/client_core/ui/with_defaults'
 import Button from 'siegel/lib/client_core/ui/Button'
@@ -69,7 +69,7 @@ const SubmitButton = withDefaults(ThemedButton, {
 Every property passed into a new theme rewrites the same property from a previous theme (if exists) with the only exception:<br />
 `className` propery concatenates with previous one:
 
-```jsx
+```tsx
 import withDefaults from 'siegel/lib/client_core/ui/with_defaults'
 import Checkbox from 'siegel/lib/client_core/ui/Checkbox'
 
@@ -108,7 +108,7 @@ Each theme has _root_ key which is root tag's className<br />
 Class name, that applied to component depending on its state, has extra underscore in its name<br />
 All the components are unstyled by default. In some components only required styles are applied
 
-```jsx
+```tsx
 import React from 'react'
 import Toggle from 'siegel/lib/client_core/ui/Toggle'
 import styles from './styles.sass'
@@ -128,7 +128,7 @@ import styles from './styles.sass'
 Almost every component receives `rootTagAttributes` prop, which defines all the attributes thats could be passed into a component root tag<br />
 
 
-```jsx
+```tsx
 import React from 'react'
 import Table from 'siegel/lib/client_core/ui/Table'
 
@@ -162,7 +162,7 @@ Each component receives optional ref params to provide better control over compo
     - **Function** has **1** argument - component **props**
     - **Function** returns **Array of props keys**
 
-```jsx
+```tsx
 import React from 'react'
 import Button from 'siegel/lib/client_core/ui/Button'
 
@@ -186,7 +186,7 @@ You may pass `memoDeps` prop to any siegel component.<br />
 Property itself is just a second parameter of `React.memo` function.<br />
 Returns **true** if component should not update.
 
-```jsx
+```tsx
 import React from 'react'
 import Button from 'siegel/lib/client_core/ui/Button'
 
@@ -225,7 +225,7 @@ Store is creating with **React.useState** hook and provides state and action to 
 There are components that accept store as a property. It's because some data passed to such components can be changed within this components itself or by user outside of this component<br />
 Components, that accepts store, exports `getDefaultState` function to help initialize the store
 
-```jsx
+```tsx
 import React, { useState } from 'react'
 import Input, { getDefaultState } from 'siegel/lib/client_core/ui/Input'
 

@@ -7,7 +7,7 @@ Returns **Boolean**. **false** if value is **undefined**
 
 <br />
 
-```js
+```ts
 import isExists from 'siegel/lib/common/is/exists'
 
 isExists(undefined)

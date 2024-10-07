@@ -7,7 +7,7 @@ Returns **Boolean**. **true** if value is primitive
 
 <br />
 
-```js
+```ts
 import isPrimitive from 'siegel/lib/common/is/primitive'
 
 isPrimitive(undefined)

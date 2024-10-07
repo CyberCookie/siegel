@@ -1,4 +1,4 @@
-import https, { Server } from 'https'
+import https from 'https'
 import express, { Express, RequestHandler } from 'express'
 
 import { HEADER_ACCEPT_INDEX } from './constants.js'
@@ -23,12 +23,11 @@ async function createHTTPServer(params: ServerBootParams) {
     const { devMiddlewares, CONFIG } = params
     const {
         publicDir,
-        server: { ssl, serveCompressionsPriority, appServer }
+        server: { ssl, serveCompressionsPriority, appServer, HTTP1PreFileSend }
     } = CONFIG
 
 
-    let staticServer: Express | Server = express()
-
+    const staticServer: Express = express()
     appServer && await appServer({ staticServer, express }, CONFIG)
 
     staticServer.disable('x-powered-by')
@@ -42,31 +41,29 @@ async function createHTTPServer(params: ServerBootParams) {
 
         :   staticServer.use((req, res) => {
                 const { url, headers } = req
-                const {
-                    pathToFile, encoding, contentType, cacheControl
-                } = getStaticServingData({
+                const staticServingData = getStaticServingData({
                     publicDir, serveCompressionsPriority,
                     reqUrl: url,
                     acceptEncoding: headers['accept-encoding']?.toString(),
                     cacheControl: headers['cache-control']
                 })
+                const {
+                    pathToFile, encoding, contentType, cacheControl
+                } = staticServingData
 
 
                 encoding && res.append('content-encoding', encoding)
                 contentType && res.append('content-type', contentType)
                 cacheControl && res.append('cache-control', cacheControl)
 
-                res.sendFile(pathToFile)
+
+                HTTP1PreFileSend?.(req, res, staticServingData) || res.sendFile(pathToFile)
             })
 
 
-    ssl && (staticServer = https.createServer(
-        extractSSL(ssl),
-        staticServer
-    ))
-
-
-    return staticServer
+    return ssl
+        ?   https.createServer(extractSSL(ssl), staticServer)
+        :   staticServer
 }
 
 

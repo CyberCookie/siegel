@@ -12,18 +12,13 @@ const {
     COMMONS: { ESLintExtensions }
 } = BUILD_CONSTANTS
 
-const statsOptions = {
-    colors: true,
-    modules: false,
-    children: false
-}
 
 function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
     const { isProd, _isDevServer, _isSelfDevelopment } = RUN_PARAMS
     const {
         publicDir,
         build: {
-            output: { target, publicPath, filenames },
+            output: { target, publicPath, filenames, logging },
             input, aliases, postProcessWebpackConfig//, outputESM = true
         }
     } = CONFIG
@@ -125,7 +120,7 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
                     const message = err || (
                         stats!.hasErrors()
                             ?   stats!.compilation.errors
-                            :   stats!.toString(statsOptions)
+                            :   stats!.toString(logging)
                     )
                     console.log(message)
 
@@ -136,7 +131,7 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
 
         getDevMiddlewares: () => ({
             dev: devMiddleware(webpackCompiller, {
-                stats: statsOptions
+                stats: logging
             }),
             hot: hotMiddleware(webpackCompiller)
         })

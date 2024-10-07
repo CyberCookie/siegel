@@ -21,7 +21,7 @@ function mergeConfigWithDefaults(CONFIG: Obj, DEFAULT_CONFIG: Obj) {
             CONFIG[key] = Array.from(new Set( defaultValue.concat(configValue) ))
 
         } else if (typeof configValue == 'object' && typeof defaultValue == 'object') {
-            mergeConfigWithDefaults(CONFIG[key], defaultValue)
+            mergeConfigWithDefaults(configValue, defaultValue)
         }
     }
 }

@@ -16,8 +16,8 @@ const componentID = '-ui-tabs'
 
 const getContent = (content: Tab['content']) => (
     content?.constructor == Function
-        ?   (content as Function)()
-        :   content
+        ?   (content as Extract<Tab['content'], AnyFunc>)()
+        :   (content as Exclude<Tab['content'], AnyFunc>)
 )
 
 const getContentClassName = (

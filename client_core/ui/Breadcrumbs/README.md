@@ -68,7 +68,7 @@ _Orange_, on the other hand, is `dynamicCrumb`, since it represents _:id_ in URL
 
 **Breadcrumbs** component has its special approach to update `dynamicCrumb` you may defined in config - by firing a **custom event**:<br />
 
-```jsx
+```tsx
 import Breadcrumbs, { componentID as breadcumbsComponentID } from 'siegel/lib/client_core/ui/Breadcrumbs'
 
 // Define breadcrumbs config
@@ -131,7 +131,7 @@ const SomePage = () => {
 Since both [Router](https://github.com/CyberCookie/siegel/tree/master/client_core/router) and breadcrumb configs are similar - you may use one config for both components as described below:<br />
 
 
-```js
+```ts
 import type { RoutesConfig } from 'siegel/lib/client_core/router/types'
 import type { CrumbComposedConfig } from 'siegel/lib/client_core/ui/Breadcrumbs'
 

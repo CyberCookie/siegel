@@ -5,6 +5,7 @@ import { ErrorBoundary } from 'app/components'
 
 const ComponentWithError = () => {
     throw Error('component error')
+    /* eslint-disable-next-line no-unreachable */
     return <div />
 }
 

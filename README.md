@@ -82,7 +82,7 @@ npm i siegel
 
 Create **app.js** file:<br />
 
-```js
+```ts
 import { createRoot } from 'react-dom/client'
 
 const root = document.getElementById('root')
@@ -105,7 +105,7 @@ Now your application is hosting on **localhost:3000** in watch mode and ready fo
 You may also define **NodeJS dev server** using `--server` flag:
 
 
-```js
+```ts
 // server.js
 
 function appServer(app, { express }) {
@@ -139,7 +139,7 @@ Run `npx siegel` To get list of Siegel CLI commands
 </p><br />
 
 
-```js
+```ts
 import siegel from 'siegel'
 
 siegel(config, runParams)
@@ -150,7 +150,7 @@ siegel(config, runParams)
 
 Or just pass an entry point to __react app__ and it will do everything else for you:
 
-```js
+```ts
 import siegel from 'siegel'
 
 siegel('/path/to/js_entry.ts')
@@ -166,7 +166,7 @@ siegel('/path/to/js_entry.ts')
 [Build configuration](https://github.com/CyberCookie/siegel/tree/master/core/client_build)<br />
 [Server configuration](https://github.com/CyberCookie/siegel/tree/master/core/server)
 
-```js
+```ts
 {   
     /*
         Affects both server(as public dir to be served),
@@ -189,7 +189,7 @@ siegel('/path/to/js_entry.ts')
 
 <br />
 
-```js
+```ts
 {   
     /* Run static server. Default is true */
     isServer: Boolean,

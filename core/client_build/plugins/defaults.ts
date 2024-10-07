@@ -141,7 +141,8 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             enabled: !!eslintOptions,
             options: resolvePluginDefaultOptions<EslintWebpackPluginOptions>({
                 extensions: ESLintExtensions as unknown as string[],
-                emitWarning: true
+                emitWarning: true,
+                configType: 'flat'
             }, eslintOptions)
         }
     }

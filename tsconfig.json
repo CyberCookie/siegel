@@ -16,6 +16,5 @@
     "ts-node": {
         "files": true
     },
-    "include": [ "bin", "client_core", "core", "common", "global.d.ts" ],
-    "exclude": [ "**/*.test.ts" ]
+    "include": [ "bin", "client_core", "core", "common", "*.ts" ]
 }

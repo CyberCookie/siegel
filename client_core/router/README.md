@@ -49,7 +49,7 @@ And one more thing - we add restricted admin page with URL *www.somesite.com/adm
 
 Config:
 
-```js
+```ts
 const routesConfig = {
     '': {
         Page: () => <div>home page</div>
@@ -125,7 +125,7 @@ You may define page to be rendered if required page URL does not exists in your 
 To do so, first we need to define 404 page itself with it's own route.<br />
 Then we need to define redirect from any page to the 404 page:
 
-```js
+```ts
 const routerConfig = {
     '': {
         Page: () => <div>home page</div>
@@ -194,7 +194,7 @@ but with another few props:
 - `activeClassName` - **String**. Defines className for this link tag if it points to currently active URL
 - `onCLick` - Link click handler, that may prevent default click handler
 
-```js
+```ts
 import A from 'siegel/lib/client_core/router/Link'
 
 const link = <A href='/contacts' activeClassName='link_active' />
@@ -208,7 +208,7 @@ This component can be themed with help of `withDefaults` function as other UI co
 
 Another example with all the features included:
 
-```js
+```ts
 import React, { lazy } from 'react'
 import { render } from 'react-dom'
 import Router from 'siegel/lib/client_core/router'

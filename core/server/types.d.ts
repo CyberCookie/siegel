@@ -1,7 +1,11 @@
-import type { Http2Server, Http2SecureServer } from 'http2'
-import type { RequestHandler, Express } from 'express'
+import type {
+    Http2Server, Http2SecureServer,
+    Http2Stream, IncomingHttpHeaders, OutgoingHttpHeaders
+} from 'http2'
+import type { RequestHandler, Express, Request, Response } from 'express'
 import type { ConfigFinal } from '../types'
 import type { StreamCB } from './http2/types'
+import type { GetStaticFileResponseParams } from './get_static_file_response_data/types'
 
 
 type ExpressExtenderParams = {
@@ -18,6 +22,8 @@ type ServerExtenderFn = (
     params: ExpressExtenderParams | HTTP2ExtenderParams,
     config: ConfigFinal
 ) => Promise<void> | void
+
+type StaticServingData = ReturnType<GetStaticFileResponseParams>
 
 
 type ServerConfig = {
@@ -44,6 +50,34 @@ type ServerConfig = {
 
     /** Compressed files lookup order */
     serveCompressionsPriority?: readonly string[]
+
+    /** Executes right before file send
+     *
+     * @param req Express.js request
+     * @param res Express.js response
+     * @param staticServingData file serving params
+     * @returns true to prevent default file send handler
+    */
+    HTTP1PreFileSend?(
+        req: Request,
+        res: Response,
+        staticServingData: StaticServingData
+    ): boolean
+
+    /** Executes right before file send
+     *
+     * @param stream Node http2 stream
+     * @param headers Node http2 request headers
+     * @param resHeaders Node http2 response headers
+     * @param staticServingData file serving params
+     * @returns true to prevent default file send handler
+    */
+    HTTP2PreFileSend?(
+        stream: Http2Stream,
+        reqHeaders: IncomingHttpHeaders,
+        resHeaders: OutgoingHttpHeaders,
+        staticServingData: StaticServingData
+    ): boolean
 }
 
 type ServerConfigDefault = {

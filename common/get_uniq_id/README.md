@@ -3,7 +3,7 @@
 Returns incremental uniq number
 
 
-```js
+```ts
 import getUniqId from 'siegel/lib/common/get_uniq_id'
 
 

@@ -3,6 +3,7 @@ import type { Plugin as PostCssPlugin } from 'postcss'
 import type { ConfigFinal } from '../../types'
 
 
+
 type WebpackModuleRulesRegExp = typeof import('../constants').webpackModuleRulesRegExp
 
 type AnyDefaultLoader = Exclude<Loader, boolean | string>
@@ -163,6 +164,8 @@ type DefaultRulesData = {
                         sourceMap: boolean
                         importLoaders: number
                         modules: {
+                            exportLocalsConvention: string
+                            namedExport: boolean
                             localIdentName: string
                         }
                     }

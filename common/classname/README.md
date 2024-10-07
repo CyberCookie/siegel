@@ -11,7 +11,7 @@ Receives **2** parameters:
 
 <br />
 
-```js
+```ts
 import getClassName from 'siegel/lib/common/classname'
 
 

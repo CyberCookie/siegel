@@ -8,7 +8,7 @@ Store creator receives **2** parameters:
 - `actions` - **Object**. Store actions, where _key_ is action name and _value_ is action **Function**
 
 
-```js
+```ts
 import React, { useLayoutEffect } from 'react'
 import createStore from 'siegel/lib/client_core/store'
 
@@ -74,7 +74,7 @@ Also your state is populates with `__updated` property which increments every ti
 The counter resets to zero when no subscribed components left<br />
 It can help you to avoid unnecessary renders in combinations with such hooks as useMemo or useDidUpdate
 
-```js
+```ts
 import React, { useMemo } from 'react'
 import createStore from 'siegel/lib/client_core/store'
 import useDidUpdate from 'siegel/lib/client_core/hooks/did_update'

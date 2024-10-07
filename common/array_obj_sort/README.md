@@ -14,7 +14,7 @@ Receives **5** parameters:
 
 <br />
 
-```js
+```ts
 import objectsSort from 'siegel/lib/common/array_obj_sort'
 
 const mock = [

@@ -4,6 +4,7 @@ declare module '*.sass' {
 }
 
 
+
 declare function isNaN(value: any): boolean
 declare function isFinite(value: any): boolean
 declare function parseInt(value: any, radix?: string): number
@@ -12,7 +13,6 @@ declare function parseFloat(value: any): number
 interface URLSearchParams {
     append(key: string, value: any): void
 }
-
 
 
 type Fallish = undefined | null | false | 0 | ''
@@ -102,6 +102,9 @@ type DeepMerge<
  * @param V - object values. Default: any
  */
 type Obj<V = any> = Partial<Record<string, V>>
+
+/** Any function with any parameters and return type */
+type AnyFunc = (...args: any[]) => any
 
 
 /**

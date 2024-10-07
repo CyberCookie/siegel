@@ -9,7 +9,7 @@ Function receives **3** parameters:
 
 <br />
 
-```js
+```ts
 import floatsMod from 'siegel/lib/common/math/floats_mod'
 
 floatsMod(2.1, 0.4, 2) // ->> 0.1

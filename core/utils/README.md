@@ -10,7 +10,7 @@ Retrieves dirname in CommonJS manner<br />
 It accessible through global variable **__dirname** in CommonJS.
 <br/>
 
-```js
+```ts
 import { utils } from 'siegel'
 
 const __dirname = utils.cjs__dirname(import.meta)
@@ -22,7 +22,7 @@ Returns true if module were run directly from CLI<br />
 In CommonJS were made with **require.main == module** check.
 <br/>
 
-```js
+```ts
 import { utils } from 'siegel'
 
 utils.isRunDirectly(import.meta)
@@ -33,7 +33,7 @@ utils.isRunDirectly(import.meta)
 Returns parsed JSON by json file pathname<br /> 
 <br/>
 
-```js
+```ts
 import { utils } from 'siegel'
 
 const parsed = utils.requireJSON('path/to/file.json')
@@ -44,7 +44,7 @@ const parsed = utils.requireJSON('path/to/file.json')
 Returns location where global node modules are stored<br /> 
 <br/>
 
-```js
+```ts
 import { utils } from 'siegel'
 
 const parsed = utils.globalNodeModulesPath()
@@ -56,7 +56,7 @@ const parsed = utils.globalNodeModulesPath()
 Converts any OS path to posix path<br /> 
 <br/>
 
-```js
+```ts
 import { utils } from 'siegel'
 
 const posixPath = utils.toPosixPath('some\\directory\\path')
@@ -68,7 +68,7 @@ const posixPath = utils.toPosixPath('some\\directory\\path')
 Returns parsed JSON by json file pathname<br /> 
 <br/>
 
-```js
+```ts
 import { utils } from 'siegel'
 
 const CLI_ARGS = process.argv.slice(3)
@@ -104,7 +104,7 @@ while processing the result to perform some validation.
 Transforms TS compilation paths to webpack aliases<br /> 
 <br/>
 
-```js
+```ts
 import { utils } from 'siegel'
 
 /*

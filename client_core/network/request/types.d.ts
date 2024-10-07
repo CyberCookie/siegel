@@ -16,10 +16,10 @@ type ReqError = {
     /** Request data */
     req: ReqData
 
-    /** Error responce message */
+    /** Error response message */
     message?: string
 
-    /** Error responce code */
+    /** Error response code */
     status?: number
 
     /** Responce data */
@@ -70,9 +70,9 @@ type RequestParams<_Body = any, _Res = any> = {
     jsonStringifyPostprocess?(json: string): string
 
     /**
-     * Pre process responce string before being parsed to object as json string
+     * Pre process response string before being parsed to object as json string
      *
-     * @param json - responce json string
+     * @param json - response json string
      */
     jsonParsePreprocess?(json: string): string
 
@@ -87,10 +87,10 @@ type RequestParams<_Body = any, _Res = any> = {
      */
     beforeRequest?: NonNullable<SetupParams['beforeRequest']>
 
-    /** Successful responce callback */
+    /** Successful response callback */
     onSuccess?: (res: _Res) => void
 
-    /** Error responce callback */
+    /** Error response callback */
     onError?: (err: ReqError) => void
 }
 
@@ -115,7 +115,7 @@ type SetupParams = {
      * Triggered after successful request was made
      *
      * @param reqData - fetch api request params
-     * @param parsedRes - parsed responce
+     * @param parsedRes - parsed response
      */
     afterRequest?(reqData: ReqData, parsedRes: any): void
 
@@ -132,7 +132,7 @@ type SetupParams = {
     /** For every request post process json string before request occurs */
     jsonStringifyPostprocess?: RequestParams['jsonStringifyPostprocess']
 
-    /** For every request Pre process responce string before being parsed to object as json string */
+    /** For every request Pre process response string before being parsed to object as json string */
     jsonParsePreprocess?: RequestParams['jsonParsePreprocess']
 
     /** Prevents request if the same request is already processing */

@@ -18,14 +18,37 @@ Receives **3** parameters:
 
 ## config
 
-```js
+```ts
+
+type AppServer = (
+    params: ({
+        staticServer: ExpressApp,
+        express: ExpressModule
+    } | {
+        staticServer: Http2Server | Http2SecureServer,
+        onStream: (
+            cb: (stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number ) => void
+        ): void
+    }),
+    siegelConfig: ConfigFinal
+) => Promise<void> | void
+
+
+type StaticServingData = {
+    pathToFile: string
+    encoding: string
+    cacheControl: string
+    contentType: ReturnType<Mime['getType']>
+}
+
+
 {   
     /* Public directory */
     publicDir: String,
 
     server: {
         /* User defined server to extend the one created by Siegel */
-        appServer: Function,
+        appServer: AppServer,
 
         /*
             Static server host
@@ -60,6 +83,21 @@ Receives **3** parameters:
             Default is: [ 'br, 'gzip' ]
         */
         serveCompressionsPriority: String[]
+
+        /* Executes right before file send */
+        HTTP1PreFileSend(
+            req: Express.Request,
+            res: Express.Response,
+            staticServingData: StaticServingData
+        ): boolean
+
+        /* Executes right before file send */
+        HTTP2PreFileSend(
+            stream: Http2Stream,
+            reqHeaders: IncomingHttpHeaders
+            resHeaders: OutgoingHttpHeaders
+            staticServingData: StaticServingData
+        ): boolean
     }
 }
 ```
@@ -74,7 +112,7 @@ To extend built in server you may use `server.appServer` config property
 
 <br />
 
-```js
+```ts
 import myServer from './my_server.ts'
 
 
@@ -106,7 +144,7 @@ To prevent file from caching - just add `cache-control: no-cache` header to requ
 Resources thats will be cached, response with `cache-control: max-age=31536000, immutable` header
 
 
-```js
+```ts
 // user_app.js
 function appServer({ express, staticServer, onStream }, CONFIG) {
     if (express) {
@@ -136,7 +174,7 @@ export default appServer
 
 Siegel provides method to proxy server requests:
 
-```js
+```ts
 import express from 'express'
 import { proxyReq } from 'siegel'
 

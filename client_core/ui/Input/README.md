@@ -150,7 +150,7 @@ Input field to type text into<br />
 
 Example of mask usage:
 
-```jsx
+```tsx
 import React from 'react'
 import Input from 'siegel/lib/client_core/ui/Input'
 import maskProcessor from 'siegel/lib/client_core/ui/Input/mask_processor'

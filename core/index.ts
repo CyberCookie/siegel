@@ -40,7 +40,6 @@ async function main(
 
         await run()
 
-
         if (_isDevServer) {
             devMiddlewares = Object.values(getDevMiddlewares())
         }

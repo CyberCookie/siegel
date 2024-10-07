@@ -17,8 +17,7 @@ const LOC_NAMES = {
     PACKAGE_JSON: 'package.json',
     NODE_MODULES: 'node_modules',
 
-    ESLINT_JSON: '.eslintrc',
-    TS_ESLINT_JSON: 'tsconfig.eslint.json',
+    ESLINT_CONFIG_JS: 'eslint.config.js',
     TS_JSON: 'tsconfig.json',
     TS_GLOBAL_TYPES: 'global.d.ts',
 
@@ -90,7 +89,7 @@ const DEFAULT_CONFIG: ConfigDefault = {
 
         output: {
             publicPath: '/',
-            target: 'es2020',
+            target: 'es2022',
             filenames: {
                 PROD: {
                     assets: 'assets/[contenthash][ext]',
@@ -110,6 +109,11 @@ const DEFAULT_CONFIG: ConfigDefault = {
                     brotli: '[base].br',
                     gzip: '[base].gz'
                 }
+            },
+            logging: {
+                colors: true,
+                modules: false,
+                children: false
             }
         },
 

@@ -15,7 +15,7 @@
         box-shadow: $shadow_4
 
         &:hover
-            background: darken($primary, 20%)
+            background: hsl(from #{$primary} h s calc(l - 20))
 
     &:disabled
         background: #c3c3c3

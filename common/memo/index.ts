@@ -11,7 +11,11 @@ const clearState = (id: string) => { delete results[id] }
  * @param id Memoization ID
  * @returns memoized result
  */
-function memo(cb: Function, dependencyValue: number | string | boolean, id: number | string) {
+function memo(
+    cb: () => void,
+    dependencyValue: number | string | boolean, id: number | string
+) {
+
     const resultData = results[id]
 
     if (!resultData) {

@@ -7,10 +7,10 @@ import type { CoreUIComponent, CoreUIComponentWithDefaults } from './_internals/
 
 type NewProps<_Props extends Obj, _NewDefaults extends Partial<_Props>> = {
     [K in keyof _Props & keyof _NewDefaults]?: _NewDefaults[K] extends object
-        ?   _NewDefaults[K] extends Function
+        ?   _NewDefaults[K] extends Extract<_NewDefaults[K], AnyFunc>
             ?   _Props[K]
             :   NonNullable<_Props[K]> extends object
-                ?   NonNullable<_Props[K]> extends Function
+                ?   NonNullable<_Props[K]> extends Extract<NonNullable<_Props[K]>, AnyFunc>
                     ?   _Props[K]
                     :   NewProps<NonNullable<_Props[K]>, _NewDefaults[K]>
                 :   _Props[K]

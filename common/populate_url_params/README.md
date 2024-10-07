@@ -8,7 +8,7 @@ Receives **2** parameters
 
 <br />
 
-```js
+```ts
 import populateURLParams from 'siegel/lib/common/populate_url_params'
 
 populateURLParams('/api/:id/foo/:bar', {

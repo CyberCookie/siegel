@@ -20,7 +20,7 @@ const Demo = () => {
         <h2 children='with icon and labels' />
         <Toggle { ...props } toggleIcon={ icons.edit }
             labelLeft='Left label'
-            labelRight='Left label' />
+            labelRight='Right label' />
 
         <h2 children='disabled' />
         <Toggle { ...props } disabled />

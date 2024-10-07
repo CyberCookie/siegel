@@ -3,7 +3,7 @@
 Encodes number to string using set of 91 ACII chars
 
 
-```js
+```ts
 import toChar91 from 'siegel/lib/common/math/to_char91'
 
 

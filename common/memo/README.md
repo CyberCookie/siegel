@@ -14,7 +14,7 @@ To prevent memory leaks use `clearState` that accepts memoization id.
 
 <br />
 
-```js
+```ts
 import getUniqId from 'siegel/lib/common/get_uniq_id'
 import memo, { clearState } from 'siegel/lib/common/memo'
 

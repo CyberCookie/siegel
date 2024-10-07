@@ -20,7 +20,7 @@ Returns an `Object` with parsed date. Object has the next fields:
 
 <br />
 
-```js
+```ts
 import dateParse from 'siegel/lib/common/date/parse'
 
 let {

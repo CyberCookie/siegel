@@ -54,8 +54,11 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
 
         [ webpackModuleRulesRegExp.styles ]: {
             loadersOrder: [
-                loadersKeyMap.cssFinal, loadersKeyMap.cssLoader, loadersKeyMap.postCssLoader,
-                loadersKeyMap.sassLoader, loadersKeyMap.sassResources
+                loadersKeyMap.cssFinal,
+                loadersKeyMap.cssLoader,
+                loadersKeyMap.postCssLoader,
+                loadersKeyMap.sassLoader,
+                ...( sassResources ? [ loadersKeyMap.sassResources ] : [])
             ],
             loaders: {
                 [ loadersKeyMap.cssFinal ]: {
@@ -73,6 +76,8 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                         // url: url => !url.endsWith('.svg'),
                         importLoaders: 2,
                         modules: {
+                            exportLocalsConvention: 'as-is',
+                            namedExport: false,
                             localIdentName: isProd
                                 ?   '[hash:base64:4]'
                                 :   '[local]--[hash:base64:4]'
@@ -108,7 +113,7 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                     }
                 },
 
-                ...( sassResourcesLoader ? {
+                ...( sassResources ? {
                     [ loadersKeyMap.sassResources ]: {
                         loader: sassResourcesLoader,
                         ident: loadersKeyMap.sassResources,
@@ -136,8 +141,13 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
     for (const ruleRegExp in defaultRules) {
         (defaultRules[ruleRegExp as DefaultRulesKeys] as DefaultsWithRuleOptions).ruleOptions ||= {}
 
-        const { ruleOptions } = defaultRules[ruleRegExp as DefaultRulesKeys] as DefaultsWithRuleOptions
-        const { include: _include, exclude: _exclude } = ruleOptions
+        const {
+            ruleOptions
+        } = defaultRules[ruleRegExp as DefaultRulesKeys] as DefaultsWithRuleOptions
+        const {
+            include: _include,
+            exclude: _exclude
+        } = ruleOptions
 
         ruleOptions.include = _include && include
             ?   _include.concat(include)

@@ -7,7 +7,7 @@ Returns **Boolean**. **true** if value is **undefined** or **null**
 
 <br />
 
-```js
+```ts
 import isNullable from 'siegel/lib/common/is/nullable'
 
 isNullable(undefined)

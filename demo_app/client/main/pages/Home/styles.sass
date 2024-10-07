@@ -1,5 +1,5 @@
 $transition: .7s ease-out
-$blessed_primary_color: lighten($primary, 34%)
+$blessed_primary_color: hsl(from #{$primary} h s calc(l + 34))
 
 =text_shadow()
     text-shadow: #fff 0 0 20px
@@ -31,7 +31,7 @@ $blessed_primary_color: lighten($primary, 34%)
             letter-spacing: 2px
 
     h2
-        +font(40px, 60px, lighten($primary, 5%))
+        +font(40px, 60px, hsl(from #{$primary} h s calc(l + 5)))
         letter-spacing: 0.8px
 
 

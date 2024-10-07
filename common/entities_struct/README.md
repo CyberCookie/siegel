@@ -50,7 +50,7 @@ Returns **Object** to perform CRUD operations with entities:
 
 <br />
 
-```js
+```ts
 import entitiesStruct from 'siegel/lib/common/entities_struct'
 
 const entities = entitiesStruct('id')

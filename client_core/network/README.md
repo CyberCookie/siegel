@@ -7,7 +7,7 @@
 
 <br />
 
-```js
+```ts
 import setupRequest, { HEADERS, CONTENT_TYPE } from 'siegel/lib/client_core/network/request'
 
 const request = setupRequest(config: ReqSetup)
@@ -81,11 +81,11 @@ Receives **1** argument - **Object** wit the next fields:
 
     Returns **String**. Processed request json string
 
-- `jsonParsePreprocess` - **Function**. For every request Pre process responce string before being parsed to object as json string<br />
+- `jsonParsePreprocess` - **Function**. For every request Pre process response string before being parsed to object as json string<br />
     Has **1** argument:
     - **jsonString** - **String**. Responce json string
 
-    Returns **String**. Processed responce json string
+    Returns **String**. Processed response json string
 
 - `preventSame` - **Boolean**.
     Prevents request if the same request is already processing<br />
@@ -131,9 +131,9 @@ Content-type header values used in **request**.
 - `headers` - **Object** where _key_ is header ID and _value_ is header value<br />
     Request headers
 
-- `onSuccess` - Successful responce callback<br />
+- `onSuccess` - Successful response callback<br />
 
-- `onError` - Error responce callback<br />
+- `onError` - Error response callback<br />
 
 - `isFullRes` - **Boolean** Default is **false**<br />
     Returns full response with headers, status code etc
@@ -153,7 +153,7 @@ Content-type header values used in **request**.
 
 - `jsonStringifyPostprocess` - Post process json string before request occurs
 
-- `jsonParsePreprocess` - Pre process responce string before being parsed to object as json string
+- `jsonParsePreprocess` - Pre process response string before being parsed to object as json string
 
 - `preventSame` - **Boolean**<br />
     For this request prevents request if the same request is already processing
@@ -171,7 +171,7 @@ Content-type header values used in **request**.
 
 <br />
 
-```js
+```ts
 import createSocket from 'siegel/lib/client_core/network/socket'
 
 const socket = createSocket({

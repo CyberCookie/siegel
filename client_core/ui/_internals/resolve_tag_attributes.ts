@@ -10,13 +10,17 @@ type MergeReactTagAttributes = <
 ) => A
 
 
-const resolveTagAttributes: MergeReactTagAttributes = (defaultAttributes, newAttributes) => (
-    newAttributes
+const resolveTagAttributes: MergeReactTagAttributes = (defaultAttributes, newAttributes) => {
+    type NewAttrFuncCb = Extract<NonNullable<typeof newAttributes>, AnyFunc>
+    type ExpectedResult = typeof defaultAttributes
+
+
+    return newAttributes
         ?   newAttributes.constructor == Function
-            ?   (newAttributes as Function)(defaultAttributes)
+            ?   (newAttributes as NewAttrFuncCb)(defaultAttributes) as ExpectedResult
             :   Object.assign(defaultAttributes, newAttributes)
         :   defaultAttributes
-)
+}
 
 
 export default resolveTagAttributes

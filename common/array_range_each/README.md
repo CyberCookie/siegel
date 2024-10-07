@@ -18,7 +18,7 @@ Receives **4** parameters:
 
 <br />
 
-```js
+```ts
 import rangeEach from 'siegel/lib/common/array_range_each'
 
 const mock = (new Array(10)).fill(1)
