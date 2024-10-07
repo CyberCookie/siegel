@@ -62,6 +62,7 @@ function main(isGlobal?: boolean) {
         userTSGlobal:                   join(PATHS.cwd, LOC_NAMES.TS_GLOBAL_TYPES),
         userESLint:                     join(PATHS.cwd, LOC_NAMES.ESLINT_CONFIG_JS),
         userPackageJson:                join(PATHS.cwd, LOC_NAMES.PACKAGE_JSON),
+        userGitIgnore:                  join(PATHS.cwd, '.gitignore'),
 
         cwdRelativeUserServer:          relative(PATHS.cwd, userServerEntryPath)
     }
@@ -78,8 +79,8 @@ function main(isGlobal?: boolean) {
         ) + '/global'
         writeFileSync(INIT_PATHS.userTSGlobal, `import '${pathToSiegelGlobalTs}'`)
 
-        // Render doesn't support cp syntax above
-        shell(`cp ${ PATHS.packageRoot }/${ LOC_NAMES.ESLINT_CONFIG_JS } .`)
+        // Create .gitignore
+        writeFileSync(INIT_PATHS.userGitIgnore, `${LOC_NAMES.NODE_MODULES}\n${LOC_NAMES.NODE_MODULES}`)
     }
 
 
