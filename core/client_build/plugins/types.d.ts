@@ -160,7 +160,8 @@ type DefaultHtmlPluginOptions = {
 type DefaultEslintPluginOptions = {
     extensions: string[]
     emitWarning: boolean
-}
+    configType: string
+} & Partial<EslintWebpackPluginOptions>
 
 type DefaultPlugins = {
     compression: {

@@ -1,6 +1,6 @@
 //// @ts-check
 
-import siegelEslintConfig from '../eslint.config'
+import siegelEslintConfig from '../eslint.config.js'
 import {
     config as typeScriptEslintCreateConfig
 } from 'typescript-eslint'
