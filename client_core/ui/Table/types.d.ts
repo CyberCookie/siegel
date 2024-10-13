@@ -51,7 +51,7 @@ type Props = PropsComponentBase<{
     rootTagAttributes?: CoreUIReactTagAttributes<HTMLTableElement, React.TableHTMLAttributes<HTMLTableElement>>
 }>
 
-type DefaultProps = {}
+type DefaultProps = object
 
 type Component = CoreUIComponent<Props, DefaultProps>
 

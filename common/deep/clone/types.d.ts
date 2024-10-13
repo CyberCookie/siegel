@@ -1,5 +1,5 @@
 type Options = {
-    funcClone?(value: Function): Function
+    funcClone?(value: AnyFunc): AnyFunc
 }
 
 

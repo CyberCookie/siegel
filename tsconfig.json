@@ -14,7 +14,9 @@
         "isolatedModules": true
     },
     "ts-node": {
-        "files": true
+        "files": true,
+        "logError": true,
+        "experimentalSpecifierResolution": "node"
     },
     "include": [ "bin", "client_core", "core", "common", "*.ts" ]
 }

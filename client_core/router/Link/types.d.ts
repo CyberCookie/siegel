@@ -23,7 +23,7 @@ type Props = PropsComponentBase<
     } & LinkReactTagAttributes
 >
 
-type DefaultProps = {}
+type DefaultProps = object
 
 type MergedProps = Props & DefaultProps
 

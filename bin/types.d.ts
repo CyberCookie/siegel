@@ -40,7 +40,7 @@ type Command<R extends Obj | undefined> = {
     description: string
     commandAction(params: ActionParam<R>): void
     example?: boolean | string | CommandExampleFn
-} & (R extends undefined ? {} : CommandWithParams<R>)
+} & (R extends undefined ? object : CommandWithParams<R>)
 
 type FullCommand = Command<Obj>
 

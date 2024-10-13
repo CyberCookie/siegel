@@ -56,7 +56,7 @@ type Transition = {
 }
 
 type LazyComponentIdentifier = {
-    _init?: Function
+    _init?: AnyFunc
 }
 
 type PageProps = {
@@ -82,7 +82,7 @@ type RedirectToPathObj = {
 
 
 
-type RouteConfigAllFields<_WithPageExtend = {}> = {
+type RouteConfigAllFields<_WithPageExtend = object> = {
     /** Page to render */
     Page: Page | LazyPage
 
@@ -127,20 +127,20 @@ type PageLayoutCommons = {
 }
 
 
-type RoutePageConfig<_WithPageExtend = {}> = {
+type RoutePageConfig<_WithPageExtend = object> = {
     Page: RouteConfigAllFields['Page']
     paramName?: RouteConfigAllFields['paramName']
 } & _WithPageExtend
 type NeverPageConfig = Never<RoutePageConfig>
 
 
-type RouteLayoutConfig<_WithPageExtend = {}> = {
+type RouteLayoutConfig<_WithPageExtend = object> = {
     Layout: RouteConfigAllFields['Layout']
 } & _WithPageExtend
 type NeverLayoutConfig = Never<RouteLayoutConfig>
 
 
-type RouteChildrenConfig<_WithPageExtend = {}> = {
+type RouteChildrenConfig<_WithPageExtend = object> = {
     children: RouteConfigAllFields<_WithPageExtend>['children']
     transition?: RouteConfigAllFields['transition']
 }
@@ -161,15 +161,15 @@ type NeverPermissionsConfig = Never<RoutePermissionsConfig>
 
 
 
-type RouteWithPageLayoutCommon<_WithPageExtend = {}> = PageLayoutCommons
+type RouteWithPageLayoutCommon<_WithPageExtend = object> = PageLayoutCommons
     & (RouteChildrenConfig<_WithPageExtend> | NeverChildrenConfig)
     & (RoutePermissionsConfig | NeverPermissionsConfig)
 
-type RouteWithPageConfig<_WithPageExtend = {}> = RouteWithPageLayoutCommon<_WithPageExtend>
+type RouteWithPageConfig<_WithPageExtend = object> = RouteWithPageLayoutCommon<_WithPageExtend>
     & RoutePageConfig<_WithPageExtend>
     & NeverLayoutConfig
 
-type RouteWithLayoutConfig<_WithPageExtend = {}> = RouteWithPageLayoutCommon<_WithPageExtend>
+type RouteWithLayoutConfig<_WithPageExtend = object> = RouteWithPageLayoutCommon<_WithPageExtend>
     & RouteLayoutConfig<_WithPageExtend>
     & NeverPageConfig
 
@@ -186,7 +186,7 @@ type RouteWithRedirectConfig = RouteRedirectConfig
 
 
 
-type RoutesConfig<_WithPageExtend = {}> = Obj<
+type RoutesConfig<_WithPageExtend = object> = Obj<
     RouteWithPageConfig<_WithPageExtend>
     | RouteWithLayoutConfig<_WithPageExtend>
     | RouteWithChildrenConfig

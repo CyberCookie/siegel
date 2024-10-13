@@ -35,7 +35,7 @@ type UnionToIntersection<U> = (
  * @param T - object to iterate over
  */
 type DeepPartial<T> = T extends object
-    ?   T extends Function
+    ?   T extends AnyFunc
         ?   T
         :   { [P in keyof T]?: DeepPartial<T[P]> }
     :   T
@@ -125,13 +125,13 @@ type Never<O extends Obj> = {
  * Extracts only object's required properties keys
  * @param O - object
  */
-type RequiredKeys<O> = { [K in keyof O]-?: {} extends Pick<O, K> ? never : K }[keyof O]
+type RequiredKeys<O> = { [K in keyof O]-?: object extends Pick<O, K> ? never : K }[keyof O]
 
 /**
  * Extracts only object's optional properties keys
  * @param O - object
  */
-type OptionalKeys<O> = { [K in keyof O]-?: {} extends Pick<O, K> ? K : never }[keyof O]
+type OptionalKeys<O> = { [K in keyof O]-?: object extends Pick<O, K> ? K : never }[keyof O]
 
 /**
  * Exclude null and undefined from a properties of a given object

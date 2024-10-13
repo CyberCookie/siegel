@@ -1,7 +1,7 @@
 import type { WebpackPluginInstance } from 'webpack'
 import type {
     DefaultPlugins, Plugins, AllCaseUserPluginConfig, PluginConfigInstance,
-    UserPluginObjectConfig, DefaultPluginsKeys
+    UserPluginObjectConfig, DefaultPluginsKeys, DefaultPluginsIntersact
 } from './types'
 
 
@@ -19,18 +19,22 @@ const mergeOptions = (
             :   userOptions
 )
 
-function addWithoutMerge(result: WebpackPluginInstance[], pluginConfig: UserPluginObjectConfig) {
+function addWithoutMerge(
+    result: WebpackPluginInstance[],
+    pluginConfig: UserPluginObjectConfig | DefaultPluginsIntersact
+) {
+
     const { instances, plugin, options } = pluginConfig
 
     if (instances) {
         for (const instanceKey in instances) {
             const {
                 enabled = true, options
-            } = instances[instanceKey] as Exclude<PluginConfigInstance<any, any>, boolean>
-            enabled && result.push( new (plugin as any)(options) )
+            } = instances[instanceKey as keyof typeof instances] as Exclude<PluginConfigInstance<any, any>, boolean>
+            enabled && result.push( new plugin!(options) )
         }
 
-    } else result.push( new (plugin as any)(options) )
+    } else result.push( new plugin!(options) )
 }
 
 const isEnabledByUserPlugin = (plugin: AllCaseUserPluginConfig) => (plugin as UserPluginObjectConfig).enabled !== false
@@ -43,7 +47,7 @@ function merge(defaultPlugins: DefaultPlugins, userPlugins: Plugins = {}) {
         const defaultPluginConfig = defaultPlugins[defaultPluginKey as DefaultPluginsKeys]
         const {
             plugin, options, instances, enabled = true
-        } = defaultPluginConfig as UnionToIntersection<DefaultPlugins[DefaultPluginsKeys]>
+        } = defaultPluginConfig as DefaultPluginsIntersact
 
 
         const userPluginConfig = userPlugins[defaultPluginKey as keyof Plugins] as AllCaseUserPluginConfig
@@ -73,16 +77,16 @@ function merge(defaultPlugins: DefaultPlugins, userPlugins: Plugins = {}) {
                                 }
                             }
 
-                            result.push( new (userPlugin as any)(finalPluginInstanceOptions) )
+                            result.push( new userPlugin(finalPluginInstanceOptions) )
                         }
                     }
 
                 } else {
                     const finalPluginOptions = mergeOptions(options, userOptions, rewrite)
-                    result.push( new (userPlugin as any)(finalPluginOptions) )
+                    result.push( new userPlugin(finalPluginOptions) )
                 }
 
-            } else if (enabled) addWithoutMerge(result, defaultPluginConfig)
+            } else if (enabled) addWithoutMerge(result, defaultPluginConfig as DefaultPluginsIntersact)
         }
     }
 

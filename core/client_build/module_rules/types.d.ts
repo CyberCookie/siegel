@@ -34,7 +34,7 @@ type MergeLoadersFn = (
 
 
 
-type WebpackLoaderObj = Exclude<NonNullable<RuleSetUseItem>, string | Function>
+type WebpackLoaderObj = Exclude<NonNullable<RuleSetUseItem>, string | AnyFunc>
 type WebpackLoaderObjOptions = WebpackLoaderObj['options']
 
 
@@ -83,7 +83,7 @@ type Loaders<
     _DefaultRuleLoaders = Exclude<_DefaultRule, null>['loaders']
 > = (
     _DefaultRule extends null
-        ?   {}
+        ?   object
         :   { [ K in keyof _DefaultRuleLoaders]?: Loader<NonNullable<_DefaultRuleLoaders[K]>> }
 ) & Obj<Loader>
 

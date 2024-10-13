@@ -11,7 +11,7 @@ import {
 
 
 const config = typeScriptEslintCreateConfig(
-    { ignores: [ 'dist', 'node_modules', 'lib', '**/*.d.ts' ] },
+    { ignores: [ 'dist', 'node_modules', 'lib' ] },
     {
         extends: [
             ...typeScriptLintConfigs.recommendedTypeChecked,

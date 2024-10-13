@@ -24,12 +24,12 @@ type InnerStore<State extends Obj, A extends ActionsUnbinded<State>> = {
     actions?: ActionsBinded<A>
 }
 
-type StoreShouldUpdate<State extends StateWithUpdater<{}>> = (
+type StoreShouldUpdate<State extends StateWithUpdater<object>> = (
     prevState: State,
     newState: State
 ) => boolean
 
-type StoreListenerWithPrevState<State = StateWithUpdater<{}>> = {
+type StoreListenerWithPrevState<State = StateWithUpdater<object>> = {
     (newState: State, prevState: State): void
     withShouldUpdateCb: boolean
 }

@@ -33,17 +33,17 @@ type DeepExclude<O1, O2> =
 
 
 
-type AnyPlugin = abstract new (...args: any) => any
+type AnyPlugin = new (...args: any) => any
 type AnyPluginInstance = Exclude<PluginConfigInstance<any, any>, boolean>
 type AnyPluginInstances = Record<string, AnyPluginInstance>
-type AllCaseUserPluginConfig = UserPlugin<AnyPlugin, {}, {}, {}, {}>
+type AllCaseUserPluginConfig = UserPlugin<AnyPlugin, object, object, AnyPluginInstances, object>
 type UserPluginObjectConfig = Exclude<AllCaseUserPluginConfig, boolean>
 
 
 type PluginConfigBase<_Plugin, _DefaultOptions> = {
     plugin: _Plugin
     enabled?: boolean
-} & (_DefaultOptions extends null ? {} : { rewrite?: boolean })
+} & (_DefaultOptions extends null ? object : { rewrite?: boolean })
 
 type PluginConfigOptions<
     _PluginOpts,
@@ -232,12 +232,13 @@ type DefaultPlugins = {
     }
 }
 type DefaultPluginsKeys = keyof DefaultPlugins
+type DefaultPluginsIntersact = UnionToIntersection<DefaultPlugins[DefaultPluginsKeys]>
 
 
 
 export type {
     CompressionInstanceCommonOptions, CopyWebpackPluginOptions,
-    DefaultPlugins, DefaultPluginsKeys, Plugins, PluginConfigInstance,
+    DefaultPlugins, DefaultPluginsKeys, DefaultPluginsIntersact, Plugins, PluginConfigInstance,
     AllCaseUserPluginConfig, UserPluginObjectConfig,
     DefaultEslintPluginOptions, DefaultHtmlPluginOptions
 }

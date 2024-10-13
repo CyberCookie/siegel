@@ -16,7 +16,7 @@ type Props = PropsComponentBase<{
 
 type Component = CoreUIComponent<Props, DefaultProps>
 
-type DefaultProps = {}
+type DefaultProps = object
 
 
 export type { Props, DefaultProps, Component }
