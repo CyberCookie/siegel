@@ -24,7 +24,7 @@ $border: 1px solid grey
     font-weight: 600
 
 .demo_component
-    padding: $gutter_lg
+    padding: 0 $gutter_lg $gutter_lg
     width: 100%
     height: 100%
     overflow: auto
@@ -45,9 +45,13 @@ $border: 1px solid grey
 
 .component_title
     +font(34px, '','', 600)
+    position: sticky
+    top: 0
     border-bottom: $border
+    background: $white
     margin: 0 -#{$gutter_lg}
-    padding: $gutter $gutter_lg $gutter_lg
+    padding: $gutter_lg $gutter_lg $gutter_lg
+    z-index: 2
 
     a
         vertical-align: middle

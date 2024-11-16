@@ -161,7 +161,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
                     { icons.chevron } DESC
                 </div>
 
-                <div className={ styles.grid_col_search } children={ getSearch() } />
+                <div children={ getSearch() } />
             </div>
         )
     }

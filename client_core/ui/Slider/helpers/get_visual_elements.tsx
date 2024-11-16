@@ -1,5 +1,3 @@
-//TODO: number of visible slides at the moment (now is 1)
-
 import React from 'react'
 
 import applyClassName from '../../_internals/apply_classname'

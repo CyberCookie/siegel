@@ -157,7 +157,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     disabled?: InputProps['disabled']
 
     /** Underlaying Input theme */
-    inputTheme?: InputProps['theme']
+    inputTheme?: Omit<InputProps['theme'], 'label' | 'label_text'>
 
     /** Underlaying Input label */
     label?: InputProps['label']

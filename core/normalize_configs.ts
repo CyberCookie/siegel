@@ -63,6 +63,7 @@ function normalizeConfig(CONFIG: Config = {}, RUN_PARAMS: RunParams = {}) {
 
         if (fs.existsSync(input.js)) {
             const userJSEntryDirName = path.dirname(input.js)
+
             input.include
                 ?   input.include.push( userJSEntryDirName )
                 :   (input.include = [ userJSEntryDirName ])

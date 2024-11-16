@@ -13,8 +13,11 @@ type Tab<_Payload = any> = {
     /** Tab content */
     content?: React.ReactNode | (() => React.ReactNode)
 
-    /** Tab className */
-    className?: string
+    /** Classname to be applied to tab's content when active */
+    contentClassName?: string
+
+    /** Classname to be applied to this label */
+    labelClassName?: string
 
     /** Data to be passed to props.onChange callback */
     payload?: _Payload

@@ -1,0 +1,13 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "plugins": [{
+			"name": "typescript-plugin-css-modules",
+			"options": {
+                "customMatcher": "\\.sass$"
+			}
+		}]
+    },
+    "include": [ "**/*", "../global.d.ts" ]
+}

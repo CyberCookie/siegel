@@ -30,7 +30,7 @@ Features:
     - `ESBuild` to transform `TypeScript` and `JSX` syntaxes
     - Code linting with `ESLint`
     - `Hot Modules Replace` for **scripts** and **styles**
-    - `SASS` with `CSS modules`
+    - `SASS` with `typed CSS modules`
     - Build and serve site assets compressed with `Brotli` or `GZIP`
     - `SVG icons to font` converter<br /><br />
 
@@ -239,7 +239,26 @@ npm start
 
 <br />
 
-More about demo project read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app)<br />
+More about demo project read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app)
+
+
+<br /><br />
+
+### VSCode tweaks
+
+<p>
+    In order to enable all the features, Siegel provides, you should first change some settings in your VSCode:<br />
+
+```json
+{
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "eslint.useFlatConfig": true
+}
+```
+`typescript.tsdk` - to tell TS extension to load ts plugins from your `tsconfig.json`<br />
+
+`eslint.useFlatConfig` - to tell ESLint to use `.js` config file extension by default
+</p>
 
 
 <br /><br />

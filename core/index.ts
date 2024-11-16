@@ -20,14 +20,10 @@ import type {
 
 async function main(
     CONFIG?: ConfigFinal | Config,
-    RUN_PARAMS?: RunParams,
-    performConfigNormalize = true
+    RUN_PARAMS?: RunParams
 ) {
 
-    if (performConfigNormalize) {
-        ({ CONFIG, RUN_PARAMS } = normalizeConfigs(CONFIG as Config, RUN_PARAMS))
-    }
-
+    ({ CONFIG, RUN_PARAMS } = normalizeConfigs(CONFIG as Config, RUN_PARAMS))
     const { isBuild, _isDevServer, isServer } = RUN_PARAMS as RunParamsFinal
 
 

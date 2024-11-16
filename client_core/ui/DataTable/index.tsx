@@ -94,7 +94,7 @@ const DataTable = component<Props, DefaultProps>(
             body,
             head: getHead(props, state, resultIDs, from, to),
             className: applyClassName(
-                styles.table!,
+                styles.table,
                 [[ theme.table, true ]]
             )!
         }

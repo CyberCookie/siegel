@@ -36,27 +36,29 @@ type CommandExampleFn = (
     flags: PrintHelpFlagsMap
 ) => string
 
-type Command<R extends Obj | undefined> = {
+type CommandObj<R extends Obj | undefined> = {
     description: string
     commandAction(params: ActionParam<R>): void
     example?: boolean | string | CommandExampleFn
 } & (R extends undefined ? object : CommandWithParams<R>)
 
-type FullCommand = Command<Obj>
-
 
 type CommanTree = {
-    run: Command<{
+    run: CommandObj<{
         config: ConfigDefault
         runParams: RunParamsFinal
         providedConfigNormalized?: ConfigFinal
     }>
-    init: Command<{
+    init: CommandObj<{
         isGlobal: boolean
+        isMini: boolean
     }>
-    'create-ssl': Command<undefined>
-    version: Command<undefined>
+    'create-ssl': CommandObj<undefined>
+    version: CommandObj<undefined>
 }
+type Command = keyof CommanTree
+type ALlCommands = CommanTree[Command]
+type CommandsWithParams = Extract<ALlCommands, CommandWithParams<any>>
 
 
 type PackageJson = {
@@ -72,8 +74,7 @@ type PackageJson = {
     }
 }
 
-
 export type {
-    PackageJson, FullCommand, CommanTree,
-    PrintHelpFlagsMap, CommandExampleFn
+    PackageJson, ALlCommands, CommanTree, CommandsWithParams,
+    PrintHelpFlagsMap, CommandExampleFn, Command
 }

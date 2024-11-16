@@ -22,7 +22,7 @@ const getContent = (content: Tab['content']) => (
 
 const getContentClassName = (
     { content }: MergedProps['theme'],
-    tabClassName: Tab['className']
+    tabClassName: Tab['contentClassName']
 ) => (
     content
         ?   tabClassName
@@ -39,7 +39,9 @@ function getTabsVisual(mergedProps: MergedProps) {
     const tabsContent: React.ReactNode[] = []
     let tabContentClassName
     const labels = tabs.map(tab => {
-        const { label, id, payload, content, className, prerender } = tab
+        const {
+            label, id, payload, content, contentClassName, labelClassName, prerender
+        } = tab
         const isSelected = activeTab == id
 
         if (prerender || isSelected) {
@@ -51,14 +53,14 @@ function getTabsVisual(mergedProps: MergedProps) {
                     key: id
                 }
                 isSelected
-                    ?   (wrapperProps.className = getContentClassName(theme, className))
+                    ?   (wrapperProps.className = getContentClassName(theme, contentClassName))
                     :   (wrapperProps.style = { display: 'none' })
 
                 tabContent = <div { ...wrapperProps } />
             }
 
             tabsContent.push(tabContent)
-            isSelected && (tabContentClassName = className)
+            isSelected && (tabContentClassName = contentClassName)
         }
 
 
@@ -66,7 +68,8 @@ function getTabsVisual(mergedProps: MergedProps) {
             <div key={ id } children={ label }
                 className={
                     applyClassName(theme.label, [
-                        [ theme.label__active, isSelected ]
+                        [ theme.label__active, isSelected ],
+                        [ labelClassName, labelClassName ]
                     ])
                 }
                 onMouseDown={ e => { onChange(id, e, payload) } } />

@@ -1,0 +1,10 @@
+{
+	"extends": "../tsconfig.json",
+    "compilerOptions": {
+		"baseUrl": ".",
+		"noEmit": true,
+		"declaration": false,
+		"skipDefaultLibCheck": true
+	},
+	"include": [ "**/*.ts", "**/*.tsx", "../global.d.ts" ]
+}

@@ -67,7 +67,7 @@ const Calendar = component<Props, DefaultProps>(
             beginOfMonth: getFirstMonthDate(rangeDateStart, monthsBefore)
         })
 
-        let _className = styles.root!
+        let _className = styles.root
         className && (_className += ` ${className}`)
 
         let rootAttributes: Props['rootTagAttributes'] = {

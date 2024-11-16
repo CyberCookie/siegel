@@ -94,7 +94,6 @@ const DataTable = withDefaults(_DataTable, {
 
 const dropdownSearchTheme: DropdownSearchProps['theme'] = {
     root: _dropdownSearchTheme.root,
-    _disabled: _dropdownSearchTheme._disabled,
     _with_suggestions: _dropdownSearchTheme._with_suggestions,
     _error: _dropdownSearchTheme._error,
     _focused: _selectTheme._active,

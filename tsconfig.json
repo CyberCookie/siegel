@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
         "jsx": "react",
         "lib": [ "dom", "esnext" ],
         "outDir": "./lib",
@@ -11,12 +12,19 @@
         "strict": true,
         "declaration": true,
         "allowSyntheticDefaultImports": true,
-        "isolatedModules": true
+        "isolatedModules": true,
+        "plugins": [{
+			"name": "typescript-plugin-css-modules",
+			"options": {
+                "customMatcher": "\\.sass$",
+                "additionalData": "@use 'sass:math'\n@use 'app/styles/variables' as *\n@use 'siegel-ui/utils' as *\n"
+			}
+		}]
     },
     "ts-node": {
         "files": true,
         "logError": true,
         "experimentalSpecifierResolution": "node"
     },
-    "include": [ "bin", "client_core", "core", "common", "*.ts" ]
+    "include": [ "bin", "client_core", "core", "common", "*.ts", "renderer.js" ]
 }

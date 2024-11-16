@@ -8,13 +8,14 @@ import { LOC_NAMES, PATHS, DEFAULT_CONFIG, DEFAULT_RUN_PARAMS } from '../core/co
 import normalizeConfig from '../core/normalize_configs.js'
 import siegel, { nodeUtils, utils } from '../core'
 import initProject from './init_project.js'
+import initMiniProject from './init_minimal.js'
 import createSSLCerts from './create_SSL.js'
 
 import type { ServerConfig } from '../core/server/types'
 import type { BuildConfig } from '../core/client_build/types'
 import type {
-    FullCommand, CommanTree,
-    PrintHelpFlagsMap, CommandExampleFn
+    Command, CommanTree, CommandsWithParams,
+    PrintHelpFlagsMap, CommandExampleFn, ALlCommands
 } from './types'
 
 
@@ -41,7 +42,7 @@ const COMMANDS_TREE: CommanTree = {
         }),
         commandAction({ result }) {
             const { config, runParams, providedConfigNormalized } = result!
-            siegel(providedConfigNormalized || config, runParams, false)
+            siegel(providedConfigNormalized || config, runParams)
         },
         params: [
             {
@@ -65,7 +66,7 @@ const COMMANDS_TREE: CommanTree = {
             {
                 flagLong: '--serv-only',
                 flag: '-s',
-                description: 'Build client and run dev server with client watch mode enabled.',
+                description: 'Serves built client.',
                 defaultValue: false,
                 paramAction({ result }) {
                     result.runParams.isBuild = false
@@ -110,6 +111,7 @@ const COMMANDS_TREE: CommanTree = {
             },
             {
                 flagLong: '--client',
+                flag: '-C',
                 description: 'Path to client app entrypoint.',
                 defaultValue: DEFAULT_CONFIG.build.input.js,
                 paramAction({ value, result }) {
@@ -118,6 +120,7 @@ const COMMANDS_TREE: CommanTree = {
             },
             {
                 flagLong: '--server',
+                flag: '-S',
                 description: 'Path to server app entrypoint.',
                 async paramAction({ value, result }) {
                     const appServer = await import(resolvePath(value as string))
@@ -150,20 +153,35 @@ const COMMANDS_TREE: CommanTree = {
                         \r\tMore about demo project read here: ${getColoredHighlightText(`https://github.com/CyberCookie/siegel/tree/master/${LOC_NAMES.DEMO_APP_DIR_NAME}`)}`,
         example: true,
         commandAction({ result }) {
-            initProject(result!.isGlobal)
+            const { isGlobal, isMini } = result
+            isMini
+                ?   initMiniProject()
+                :   initProject(isGlobal)
         },
         prepareResult: () => ({
-            isGlobal: false
+            isGlobal: false,
+            isMini: false
         }),
-        params: [{
-            flagLong: '--global',
-            flag: '-g',
-            defaultValue: false,
-            description: 'Updates Siegel related paths to global.',
-            paramAction({ result }) {
-                result.isGlobal = true
+        params: [
+            {
+                flagLong: '--global',
+                flag: '-g',
+                defaultValue: false,
+                description: 'Updates Siegel related paths to global.',
+                paramAction({ result }) {
+                    result.isGlobal = true
+                }
+            },
+            {
+                flagLong: '--mini',
+                flag: '-m',
+                defaultValue: false,
+                description: 'Create mini zero-config react ts project',
+                paramAction({ result }) {
+                    result.isMini = true
+                }
             }
-        }]
+        ]
     },
 
 
@@ -189,18 +207,19 @@ const COMMANDS_TREE: CommanTree = {
 
 
 const CLI_ARGS = process.argv.slice(2)
-const COMMAND = CLI_ARGS.shift()!
+const COMMAND = CLI_ARGS.shift() as Command
 
-const commandConfig = COMMANDS_TREE[COMMAND as keyof typeof COMMANDS_TREE]
+const commandConfig = COMMANDS_TREE[COMMAND] as Partial<ALlCommands>
 if (commandConfig) {
-    const { params, commandAction, prepareResult } = commandConfig as FullCommand
+    const { commandAction } = commandConfig as ALlCommands
+    const { params, prepareResult } = commandConfig as Partial<CommandsWithParams>
     const result = prepareResult?.()
 
     const parseResult = parseCommandLineArgs(CLI_ARGS)
     const { CLIParamsValues } = parseResult
 
     let { unresolvedParamsCount } = parseResult
-    params && params.forEach(param => {
+    params?.forEach(param => {
         const { flag, flagLong, paramAction } = param
 
         if (paramAction) {
@@ -210,7 +229,8 @@ if (commandConfig) {
                 unresolvedParamsCount--
 
                 paramAction({
-                    result, CLIParamsValues,
+                    result: result as UnionToIntersection<ReturnType<CommandsWithParams['prepareResult']>>,
+                    CLIParamsValues,
                     value: paramValueData.value
                 })
             }
@@ -231,18 +251,20 @@ if (commandConfig) {
     }
 
 
-    commandAction({ CLIParamsValues, result })
+    commandAction({ CLIParamsValues, result } as UnionToIntersection<Parameters<typeof commandAction>[0]>)
 
 } else {
     COMMAND && console.log(`Command ${getColoredCommandStr(COMMAND)} doesn't exist.\n`)
 
     for (const commandConfigKey in COMMANDS_TREE) {
-        const { description, example, params } = COMMANDS_TREE[commandConfigKey as keyof CommanTree] as unknown as FullCommand
+        const COMMAND = COMMANDS_TREE[commandConfigKey as Command]
+        const { description, example } = COMMAND
+        const { params } = COMMAND as Partial<CommandsWithParams>
 
         console.log(`\n  ${getColoredCommandStr(commandConfigKey)} - ${description}`)
 
         const flagsMap: PrintHelpFlagsMap = {}
-        params && params.forEach(paramConfg => {
+        params?.forEach(paramConfg => {
             const { description, defaultValue, flag, flagLong } = paramConfg
 
             let logString = '\n\t'

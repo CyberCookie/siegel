@@ -1,7 +1,8 @@
-declare module '*.sass' {
-    const classes: Obj<string>
-    export default classes
-}
+declare module '*.sass'
+// {
+//     const classes: Record<string, string>
+//     export default classes
+// }
 
 
 

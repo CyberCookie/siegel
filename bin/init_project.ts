@@ -5,8 +5,8 @@ import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { isRunDirectly, requireJSON, globalNodeModulesPath, toPosixPath } from '../core/utils'
 import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../core/constants.js'
+import { isRunDirectly, requireJSON, globalNodeModulesPath, toPosixPath } from '../core/utils'
 
 import type { PackageJson } from './types'
 

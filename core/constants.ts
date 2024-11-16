@@ -27,6 +27,7 @@ const LOC_NAMES = {
     BIN_DIR_NAME: 'bin',
     LIB_OUTPUT_DIRNAME: 'lib',
 
+    DEMO_MINI_APP_DIR_NAME: 'demo_app_minimal',
     DEMO_APP_DIR_NAME: 'demo_app',
     DEMO_APP_OUTPUT_DIR_NAME: 'dist'
 } as const
@@ -58,6 +59,7 @@ const PATHS = {
     srcOutput:          join(libOutput, LOC_NAMES.SRC_DIR_NAME),
     binOutput:          join(libOutput, LOC_NAMES.BIN_DIR_NAME),
 
+    demoMiniProject:    join(packageRoot, LOC_NAMES.DEMO_MINI_APP_DIR_NAME),
     demoProject:        join(packageRoot, LOC_NAMES.DEMO_APP_DIR_NAME),
     demoProjectOutput:  join(cwd, LOC_NAMES.DEMO_APP_OUTPUT_DIR_NAME)
 }

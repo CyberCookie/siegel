@@ -16,7 +16,7 @@ const componentID = '-ui-popup'
 const Popup = component<Props, DefaultProps>(
     componentID,
     {
-        className: styles.root!,
+        className: styles.root,
         theme: {
             root: _undef,
             content: _undef,

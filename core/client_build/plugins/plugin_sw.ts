@@ -4,9 +4,6 @@ import webpack, { WebpackPluginInstance, Compiler } from 'webpack'
 import ts from 'typescript'
 
 
-const { sources, Compilation } = webpack
-
-
 type SwPluginOptions = string
 
 type SwPluginClassCtor = {
@@ -14,6 +11,8 @@ type SwPluginClassCtor = {
     (): WebpackPluginInstance
 }
 
+
+const { sources, Compilation } = webpack
 
 const NAME = 'siegel-sw-plugin'
 

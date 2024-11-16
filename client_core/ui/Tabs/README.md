@@ -36,7 +36,8 @@ Provides content distributed for each tab specified<br />
         - `label` - **React.ReactNode**. Tab label content
         - `content` - **React.ReactNode | (() => React.ReactNode)**<br />
             Tab content
-        - `className` - **String**. Tab content className
+        - `contentClassName` - **String**. Classname to be applied to tab's content when active
+        - `labelClassName` - **String**. Classname to be applied to this label
         - `payload` - **Any**. Data to be passed to **props.onChange** callback
         - `prerender` - **Boolean**. Always render tab with display: none if not selected<br /><br />
 

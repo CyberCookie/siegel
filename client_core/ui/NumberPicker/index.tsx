@@ -33,7 +33,7 @@ const componentID = '-ui-number_picker'
 const NumberPicker = component<Props, DefaultProps>(
     componentID,
     {
-        className: styles.root!,
+        className: styles.root,
         theme: {
             root: _undef,
             label_wrapper: _undef,

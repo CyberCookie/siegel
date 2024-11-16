@@ -6,6 +6,7 @@ import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 import componentID from './id'
 
+
 import type {
     Component, MergedProps, DynamicCrumbsStore, Props,
     BreadcrumbConfig, BreadcrumbConfigPart, CrumbComposedConfig,
@@ -87,7 +88,7 @@ const checkHasDynamicCrumb: (config: Props['config']) => boolean | undefined = c
 const Breadcrumbs: Component = component(
     componentID,
     {
-        className: styles.root!,
+        className: styles.root,
         separator: '',
         theme: {
             root: '',

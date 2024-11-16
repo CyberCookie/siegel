@@ -1,3 +1,5 @@
+// TODO: themeExtend prop
+
 import { isValidElement } from 'react'
 import deepMerge from '../../../common/deep/merge'
 
