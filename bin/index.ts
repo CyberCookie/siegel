@@ -124,7 +124,7 @@ const COMMANDS_TREE: CommanTree = {
                 description: 'Path to server app entrypoint.',
                 async paramAction({ value, result }) {
                     const appServer = await import(resolvePath(value as string))
-                    ;(result.config.server as ServerConfig).appServer = appServer
+                    ;(result.config.server as ServerConfig).appServer = appServer.default
                 }
             },
             {
@@ -153,14 +153,15 @@ const COMMANDS_TREE: CommanTree = {
                         \r\tMore about demo project read here: ${getColoredHighlightText(`https://github.com/CyberCookie/siegel/tree/master/${LOC_NAMES.DEMO_APP_DIR_NAME}`)}`,
         example: true,
         commandAction({ result }) {
-            const { isGlobal, isMini } = result
+            const { isGlobal, isMini, isMiniServ } = result
             isMini
-                ?   initMiniProject()
+                ?   initMiniProject(isMiniServ)
                 :   initProject(isGlobal)
         },
         prepareResult: () => ({
             isGlobal: false,
-            isMini: false
+            isMini: false,
+            isMiniServ: false
         }),
         params: [
             {
@@ -176,9 +177,19 @@ const COMMANDS_TREE: CommanTree = {
                 flagLong: '--mini',
                 flag: '-m',
                 defaultValue: false,
-                description: 'Create mini zero-config react ts project',
+                description: 'Creates mini zero-config react TS project',
                 paramAction({ result }) {
                     result.isMini = true
+                }
+            },
+            {
+                flagLong: '--mini-serv',
+                flag: '-ms',
+                defaultValue: false,
+                description: 'Creates mini zero-config react TS project with preconfigured TS express server',
+                paramAction({ result }) {
+                    result.isMini = true
+                    result.isMiniServ = true
                 }
             }
         ]
@@ -219,7 +230,7 @@ if (commandConfig) {
     const { CLIParamsValues } = parseResult
 
     let { unresolvedParamsCount } = parseResult
-    params?.forEach(param => {
+    for await (const param of params!) {
         const { flag, flagLong, paramAction } = param
 
         if (paramAction) {
@@ -228,14 +239,15 @@ if (commandConfig) {
                 paramValueData.resolved = true
                 unresolvedParamsCount--
 
-                paramAction({
+                await paramAction({
                     result: result as UnionToIntersection<ReturnType<CommandsWithParams['prepareResult']>>,
                     CLIParamsValues,
                     value: paramValueData.value
                 })
             }
         }
-    })
+    }
+
 
     if (unresolvedParamsCount) {
         const notSupportedParams = []

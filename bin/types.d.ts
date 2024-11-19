@@ -52,6 +52,7 @@ type CommanTree = {
     init: CommandObj<{
         isGlobal: boolean
         isMini: boolean
+        isMiniServ: boolean
     }>
     'create-ssl': CommandObj<undefined>
     version: CommandObj<undefined>

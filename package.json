@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.15.4",
+    "version": "0.15.5",
     "homepage": "https://siegel-qe3q.onrender.com",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -55,7 +55,7 @@
         "__update": "rm -rf ./node_modules ./package-lock.json && npm i",
         "prepublishOnly": "npm run __validate && npm run __transpile",
         "start": "$npm_package_config_boot -b -s",
-        "start_mini": "node --no-warnings=ExperimentalWarning --loader ts-node/esm bin/index.ts run --client demo_app_minimal/index.ts",
+        "start_mini": "node --no-warnings=ExperimentalWarning --loader ts-node/esm bin run --server demo_app_minimal/server.ts --client demo_app_minimal/app.ts",
         "build": "$npm_package_config_boot -b -p",
         "build_serv": "$npm_package_config_boot -b -s -p",
         "serv": "$npm_package_config_boot -s -p",

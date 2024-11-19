@@ -107,7 +107,8 @@ const config = typeScriptEslintCreateConfig(
             '@typescript-eslint/no-unsafe-argument': 0,
             '@typescript-eslint/ban-types': 0,
             '@typescript-eslint/no-base-to-string': 0,
-            '@typescript-eslint/only-throw-error': 0
+            '@typescript-eslint/only-throw-error': 0,
+            '@typescript-eslint/await-thenable': 0
         }
     }
 )

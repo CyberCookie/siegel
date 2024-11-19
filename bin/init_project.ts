@@ -32,7 +32,9 @@ function main(isGlobal?: boolean) {
     const INIT_LOC_NAMES = {
         DEMO_APP_SERVER_DIR_NAME:   'server',
         DEMO_APP_SERVER_EXTENDER:   'app_server.ts',
-        DEMO_APP_SIEGEL_CONFIG:     'siegel_config.ts'
+        DEMO_APP_SIEGEL_CONFIG:     'siegel_config.ts',
+        GITIGNOR_FILENAME:          '.gitignore',
+        TS_GLOBALS:                 'global'
     } as const
 
 
@@ -62,7 +64,7 @@ function main(isGlobal?: boolean) {
         userTSGlobal:                   join(PATHS.cwd, LOC_NAMES.TS_GLOBAL_TYPES),
         userESLint:                     join(PATHS.cwd, LOC_NAMES.ESLINT_CONFIG_JS),
         userPackageJson:                join(PATHS.cwd, LOC_NAMES.PACKAGE_JSON),
-        userGitIgnore:                  join(PATHS.cwd, '.gitignore'),
+        userGitIgnore:                  join(PATHS.cwd, INIT_LOC_NAMES.GITIGNOR_FILENAME),
 
         cwdRelativeUserServer:          relative(PATHS.cwd, userServerEntryPath)
     }
@@ -70,17 +72,14 @@ function main(isGlobal?: boolean) {
 
 
     function createDemoApp() {
-        // Copy demo_app
         shell(`cp -r ${PATHS.demoProject}/. .`)
 
-        // Create global.d.ts
         const pathToSiegelGlobalTs = toPosixPath(
             isGlobal ? INIT_PATHS.pathToSiegelAbsolute : INIT_PATHS.pathToSiegelRelative
-        ) + '/global'
-        writeFileSync(INIT_PATHS.userTSGlobal, `import '${pathToSiegelGlobalTs}'`)
+        )
+        writeFileSync(INIT_PATHS.userTSGlobal, `import '${pathToSiegelGlobalTs}/${INIT_LOC_NAMES.TS_GLOBALS}'`)
 
-        // Create .gitignore
-        writeFileSync(INIT_PATHS.userGitIgnore, `${LOC_NAMES.NODE_MODULES}\n${LOC_NAMES.NODE_MODULES}`)
+        writeFileSync(INIT_PATHS.userGitIgnore, `${LOC_NAMES.NODE_MODULES}\n${LOC_NAMES.DEMO_APP_OUTPUT_DIR_NAME}`)
     }
 
 
@@ -164,9 +163,9 @@ function main(isGlobal?: boolean) {
         packageJsonConfigBootArgs[ packageJsonConfigBootArgs.length - 1 ] = INIT_PATHS.cwdRelativeUserServer
 
 
-        const internalPackageScripts = [ 'prepublishOnly', '__validate', '__transpile' ]
-        internalPackageScripts.forEach(command => {
-            delete siegelPackageJSONScripts[command]
+        const scriptsToRemove = [ 'prepublishOnly', '__validate', '__transpile', 'start_mini' ]
+        scriptsToRemove.forEach(script => {
+            delete siegelPackageJSONScripts[script]
         })
 
 
