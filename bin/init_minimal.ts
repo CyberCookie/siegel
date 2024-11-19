@@ -95,7 +95,9 @@ function init(isMiniServ: boolean) {
                 path.relative(PATHS.cwd, PATHS.binOutput)
             )
             .replace(`${LOC_NAMES.DEMO_MINI_APP_DIR_NAME}/`, '')
-            .replace(/\s--c.*$/g, '')
+            .replace(/\s--c.*$/g, ''),
+        
+        start_client: 'npx siegel run'
     }
 
     fs.writeFileSync(INIT_PATHS.userPackageJson, JSON.stringify(clientPackageJson, null, 4))

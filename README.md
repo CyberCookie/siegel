@@ -80,7 +80,7 @@ npm i siegel
 
 <br />
 
-Create **app.js** file:<br />
+Create **app.ts** file:<br />
 
 ```ts
 import { createRoot } from 'react-dom/client'
@@ -106,24 +106,39 @@ You may also define **NodeJS dev server** using `--server` flag:
 
 
 ```ts
-// server.js
+// server.ts
 
-function appServer(app, { express }) {
-    console.log('Custom server is ready')
+import type { ServerExtenderFn, ExpressExtenderParams } from '../core'
+
+const appServer: ServerExtenderFn = params => {
+    const { express, staticServer } = params as ExpressExtenderParams
+
+    staticServer
+        .use(express.json())
 }
 
-module.exports = appServer
-```
-
-In console run:
-
-```sh
-npx siegel run --server server.js 
+export default appServer
 ```
 
 <br />
 
-Run `npx siegel` To get list of Siegel CLI commands
+To bootstrap the app with server defined - run the next command:
+
+```sh
+npx siegel run --server server.ts
+```
+
+<br />
+
+Siegel provides a command to initialize mini project along with `server` and `app` files we created above:<br />
+
+```sh
+npx siegel init -s
+```
+
+<br />
+
+To list all the available Siegel CLI commands and flags: `npx siegel`
 
 <br /><br />
 

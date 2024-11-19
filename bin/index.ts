@@ -184,7 +184,7 @@ const COMMANDS_TREE: CommanTree = {
             },
             {
                 flagLong: '--mini-serv',
-                flag: '-ms',
+                flag: '-s',
                 defaultValue: false,
                 description: 'Creates mini zero-config react TS project with preconfigured TS express server',
                 paramAction({ result }) {

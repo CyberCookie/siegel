@@ -55,6 +55,7 @@ function main(isGlobal?: boolean) {
         siegelDemoAppServerPath:        join(PATHS.demoProject, INIT_LOC_NAMES.DEMO_APP_SERVER_DIR_NAME),
         siegelDemoAppPathShift:         relative(PATHS.demoProject, PATHS.packageRoot),
         siegelLibPath:                  join(pathToSiegelRelative, LOC_NAMES.LIB_OUTPUT_DIRNAME),
+        siegelTSConfigPath:             join(PATHS.packageRoot, LOC_NAMES.TS_JSON),
 
         userServerEntryPath,
         userServerExtenderPath:         join(userServerPath, INIT_LOC_NAMES.DEMO_APP_SERVER_EXTENDER),
@@ -112,6 +113,8 @@ function main(isGlobal?: boolean) {
             INIT_PATHS.siegelDemoAppPathShift,
             INIT_PATHS.pathToSiegelRelative
         )
+
+        clientTSConfig.compilerOptions.plugins = requireJSON(INIT_PATHS.siegelTSConfigPath).compilerOptions.plugins
 
         const paths = clientTSConfig.compilerOptions.paths
         for (const alias in paths) {
