@@ -1,3 +1,6 @@
+// TODO: inner state for editing
+
+
 import React, { useState, useLayoutEffect, useRef } from 'react'
 
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'

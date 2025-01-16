@@ -16,7 +16,14 @@
 		},
 		"noEmit": true,
 		"declaration": false,
-		"skipDefaultLibCheck": true
+		"skipDefaultLibCheck": true,
+		"plugins": [{
+			"name": "typescript-plugin-css-modules",
+			"options": {
+                "customMatcher": "\\.sass$",
+                "additionalData": "@use 'sass:math'\n@use 'app/styles/variables' as *\n@use 'siegel-ui/utils' as *\n"
+			}
+		}]
 	},
 	"include": [ "client", "server", "dto", "../global.d.ts" ]
 }

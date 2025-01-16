@@ -96,7 +96,7 @@ function init(isMiniServ: boolean) {
             )
             .replace(`${LOC_NAMES.DEMO_MINI_APP_DIR_NAME}/`, '')
             .replace(/\s--c.*$/g, ''),
-        
+
         start_client: 'npx siegel run'
     }
 

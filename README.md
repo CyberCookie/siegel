@@ -21,7 +21,7 @@ Siegel&nbsp;&nbsp;&nbsp;
 
 <br />
 
-#### Siegel is a higly opiniated SPA development platform to build and host any scale projects in a simple way
+#### Siegel is a higly opiniated CSR SPA development platform to build and host any scale projects in a simple way
 
 <br />
 
@@ -72,7 +72,7 @@ Read more about each part following the links below:
 
 ## Simple usage
 
-<hr /><br />
+<br />
 
 ```sh
 npm i siegel
@@ -108,7 +108,7 @@ You may also define **NodeJS dev server** using `--server` flag:
 ```ts
 // server.ts
 
-import type { ServerExtenderFn, ExpressExtenderParams } from '../core'
+import type { ServerExtenderFn, ExpressExtenderParams } from 'siegel'
 
 const appServer: ServerExtenderFn = params => {
     const { express, staticServer } = params as ExpressExtenderParams
@@ -145,11 +145,11 @@ To list all the available Siegel CLI commands and flags: `npx siegel`
 
 ## Usage
 
-<hr /><br />
+<br />
 
 <p>
-    Siegel it's just a bunch of client / server side modules you may use together or appart.<br />
-    To launch siegel you just import and call it passing<br />
+    Siegel itself it's just a bunch of client / server side modules you may use together or appart.<br />
+    To launch Siegel you just import and call it passing<br />
     <a href='#config'>config</a> as a first argument and <a href='#runParams'>runParams</a> as a second
 </p><br />
 
@@ -212,7 +212,7 @@ siegel('/path/to/js_entry.ts')
     /* Build a project. Default is true */
     isBuild: Boolean,
 
-    /* Run siegel in production mode. Default is false */
+    /* Run Siegel in production mode. Default is false */
     isProd: Boolean
 }
 ```
@@ -222,12 +222,16 @@ siegel('/path/to/js_entry.ts')
 
 ## Demo project init
 
-<hr /><br />
+<br />
 
 Quick way to start your development journey with everything you need right after project initialization is __Demo project__.<br />
 You may init the demo project having Siegel installed localy:<br />
 
-`npx siegel init`<br /><br />
+```sh
+npx siegel init
+```
+
+<br /><br />
 
 
 <!-- <br />
@@ -242,7 +246,7 @@ siegel init -g
 
 <br /><br /> -->
 
-Here we initialize a demo project in a current dirrectory along with `package.json` (if not yet exists)<br />
+Here we have initialized a demo project in a current dirrectory along with `package.json` (if not yet created)<br />
 Now you have project skeleton with preconfigured Siegel in it!<br />
 Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production modes<br />
 Bootstrap newly created project with:<br />
@@ -250,6 +254,20 @@ Bootstrap newly created project with:<br />
 ```sh
 npm start
 ```
+
+<br />
+
+Probably you don't need to initialize a big project to play with code.<br />
+For this reason you may init minimal project passing `-m` as argument to the `siegel init` command.<br />
+Only client side React entry file and tsconfig will be created.
+Optionally you may also pass `-s` parameter to create server extender file.
+
+```sh
+npm init -m -s
+```
+
+To run mini project use `npm start_client` if created without server extender.<br />
+Otherwise use `npm start`
 
 
 <br />
@@ -280,7 +298,7 @@ More about demo project read [here](https://github.com/CyberCookie/siegel/tree/m
 
 ### Siegel development
 
-<hr /><br />
+<br />
 
 In case you've cloned this repo:
 
