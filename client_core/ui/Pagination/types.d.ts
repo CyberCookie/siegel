@@ -3,7 +3,7 @@ import type {
 } from '../_internals/types'
 
 
-type GetPageElement = (page: number, props: MergedProps) => React.JSX.Element
+type GetPageElement = (page: number, props: MergedProps) => JSX.Element
 
 
 type Theme = {

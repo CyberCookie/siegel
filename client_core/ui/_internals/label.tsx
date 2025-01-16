@@ -2,10 +2,10 @@ import React from 'react'
 
 
 type WithLabel = (
-    input: React.JSX.Element,
+    input: JSX.Element,
     labelProps: ReactTagAttributes<HTMLLabelElement>,
     labelTextProps: ReactTagAttributes<HTMLDivElement>
-) => React.JSX.Element
+) => JSX.Element
 
 
 const withLabel: WithLabel = (input, labelProps, labelTextProps) => (
