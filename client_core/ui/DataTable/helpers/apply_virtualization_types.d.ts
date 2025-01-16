@@ -1,7 +1,7 @@
 import type { MergedProps, State } from '../types'
 
 
-type Ref = React.MutableRefObject<HTMLDivElement>
+type Ref = React.RefObject<HTMLDivElement>
 
 type Virtualization = NonNullable<MergedProps['virtualization']>
 

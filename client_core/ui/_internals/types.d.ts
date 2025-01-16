@@ -73,7 +73,7 @@ type CoreUIComponent<
 > = {
     defaults: _Defaults
     ID: string
-} & React.MemoExoticComponent<(props: _Props) => JSX.Element>
+} & React.MemoExoticComponent<(props: _Props) => React.JSX.Element>
 
 type CoreUIComponentWithDefaults<_Component extends CoreUIComponent<any, any>> = {
     (...args: Parameters<_Component>): ReturnType<_Component>

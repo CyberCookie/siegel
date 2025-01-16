@@ -11,7 +11,7 @@ type InnerInputAttributes = {
     onChange?(e: onChangeEventType): void
 } & ReactTagAttributes<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>
 
-type InputRef = React.MutableRefObject<HTMLInputElement>
+type InputRef = React.RefObject<HTMLInputElement>
 
 type DebounceStore = ReactStore<{
     debounceValue: string | undefined

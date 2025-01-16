@@ -25,7 +25,7 @@ type GetPageParams = {
     onEnter: ChildrenArrayEl['onEnter']
     onLeave: ChildrenArrayEl['onLeave']
     urlParams: URLparams
-    resultElement: JSX.Element | undefined
+    resultElement: React.JSX.Element | undefined
 }
 
 

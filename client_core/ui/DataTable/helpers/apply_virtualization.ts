@@ -127,7 +127,7 @@ function applyVirtualization(params: UseVirtualizationParams) {
     } = params as VirtualizationMergedProps
 
 
-    rootAttributes.ref = useRef() as Ref
+    rootAttributes.ref = useRef(null)
 
     const [ virtualizationState, setVirtualizationState ] = useState<ScrollTopState>( getDefaultState() )
     const { scrollTop } = virtualizationState

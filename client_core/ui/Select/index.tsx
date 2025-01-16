@@ -88,11 +88,11 @@ const Select = component<Props, DefaultProps>(
                 [ theme._error, isError ],
                 [ theme._disabled, disabled ]
             ]),
-            ref: useRef() as RootRef
+            ref: useRef(null)
         }
 
 
-        let optionsElement: JSX.Element
+        let optionsElement: React.JSX.Element
         let selectedOption: Props['options'][number] | undefined
         let selectedOptionIndex: number | undefined
 

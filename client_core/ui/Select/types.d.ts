@@ -9,7 +9,7 @@ type OnSelect = (
     payload?: Option['payload']
 ) => void
 
-type RootRef = React.MutableRefObject<HTMLDivElement>
+type RootRef = React.RefObject<HTMLDivElement>
 
 type Store = ReactStore<{
     /** Whether select is in focus */

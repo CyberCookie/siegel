@@ -5,7 +5,7 @@ type EffectCB = Parameters<typeof useLayoutEffect>[0]
 
 type ExtendedRef = {
     [key in typeof symbolIsRendered]: undefined | boolean
-} & React.MutableRefObject<undefined>
+} & React.RefObject<null>
 
 
 const symbolIsRendered = Symbol('rendered')
@@ -17,7 +17,7 @@ const symbolIsRendered = Symbol('rendered')
  * @param dependencies React.useLayoutEffect's second parameter
  * @param ref Optional reusable ref created with React.useRef
  */
-function useDidUpdate(fn: EffectCB, dependencies: React.DependencyList, ref = useRef()) {
+function useDidUpdate(fn: EffectCB, dependencies: React.DependencyList, ref = useRef(null)) {
     useLayoutEffect(() => {
         let retFn!: ReturnType<EffectCB>
 

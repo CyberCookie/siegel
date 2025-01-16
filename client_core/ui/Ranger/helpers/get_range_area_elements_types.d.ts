@@ -6,13 +6,13 @@ type GetRangeElement = (
     className: string | undefined,
     width: number,
     isVertical: MergedProps['isVertical']
-) => JSX.Element
+) => React.JSX.Element
 
 type GetRangePickerElement = (
     key: string,
     props: MergedProps,
     width: number
-) => JSX.Element
+) => React.JSX.Element
 
 
 export type { GetRangeElement, GetRangePickerElement }

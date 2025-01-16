@@ -90,7 +90,7 @@ const Input = component<Props, DefaultProps>(
                 :   value
         }
         if (autofocus || mask || prefixOrSuffix) {
-            inputProps.ref = useRef() as InputRef
+            inputProps.ref = useRef(null)
 
             autofocus && useEffect(() => {
                 disabled || (inputProps.ref as InputRef).current.focus()

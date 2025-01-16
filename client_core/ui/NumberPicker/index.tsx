@@ -73,7 +73,7 @@ const NumberPicker = component<Props, DefaultProps>(
         const numberMask = buildInputRegexp(min, max, precision, regexp)
 
 
-        const ref = useRef() as React.MutableRefObject<HTMLDivElement>
+        const ref = useRef(null)
 
         const _inputStore = inputStore || useState(getDefaultInputStoreState())
         const [{ isFocused }, setInputState ] = _inputStore
@@ -97,7 +97,7 @@ const NumberPicker = component<Props, DefaultProps>(
             e.stopPropagation()
 
             const { relatedTarget } = e.nativeEvent
-            if (!relatedTarget || !(ref.current.contains(relatedTarget as Node))) {
+            if (!relatedTarget || !((ref.current! as HTMLDivElement).contains(relatedTarget as Node))) {
 
                 onBlur?.(e)
                 e.defaultPrevented || setInputState({
@@ -199,7 +199,7 @@ const NumberPicker = component<Props, DefaultProps>(
             disabled: disabled || disabledInput,
             onBlur(event) {
                 const { relatedTarget } = event.nativeEvent
-                if (!relatedTarget || !ref.current.contains(relatedTarget as Node)) {
+                if (!relatedTarget || !(ref.current! as HTMLDivElement).contains(relatedTarget as Node)) {
                     if (!event.defaultPrevented) {
 
                         let newStringValue!: string

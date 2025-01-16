@@ -3,7 +3,7 @@ import { useRef, useLayoutEffect } from 'react'
 
 type ExtendedRef = {
     [key in typeof symbolPrevValue]: any
-} & React.MutableRefObject<undefined>
+} & React.RefObject<null>
 
 
 const symbolPrevValue = Symbol('prev_value')
@@ -15,7 +15,7 @@ const symbolPrevValue = Symbol('prev_value')
  * @param ref Optional reusable ref created with React.useRef
  * @returns previous value or undefined if it's first render
  */
-function usePrevious(value: any, ref = useRef()) {
+function usePrevious(value: any, ref = useRef(null)) {
     useLayoutEffect(() => {
         (ref as ExtendedRef)[symbolPrevValue] = value
     }, [ value ])

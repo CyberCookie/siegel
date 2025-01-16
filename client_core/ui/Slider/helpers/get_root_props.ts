@@ -10,7 +10,7 @@ function getRootProps(mergedProps: MergedProps) {
     const { className, rootTagAttributes } = mergedProps
     let result = {
         className,
-        ref: (useRef() as React.MutableRefObject<HTMLDivElement>)
+        ref: useRef(null)
     }
     applyRefApi(result, mergedProps)
     result = resolveTagAttributes(result, rootTagAttributes)

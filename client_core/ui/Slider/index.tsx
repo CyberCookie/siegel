@@ -55,7 +55,7 @@ const Slider: Component = component<Props, DefaultProps>(
 
 
         useLayoutEffect(() => {
-            const rootElement = sliderRootProps.ref.current as HTMLDivElement
+            const rootElement = sliderRootProps.ref.current! as HTMLDivElement
             rootElement.style.setProperty(
                 '--slide_width',
                 (

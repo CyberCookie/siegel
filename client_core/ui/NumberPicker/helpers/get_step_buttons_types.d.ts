@@ -14,7 +14,7 @@ type GetStepperButtons = (
         onPickerFocus: ComponentFocusEventHandler | undefined
     }
 ) => {
-    stepperElement: JSX.Element
+    stepperElement: React.JSX.Element
     isDisabledUp: boolean
     isDisabledDown: boolean
 }
