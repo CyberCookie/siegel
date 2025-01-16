@@ -79,10 +79,10 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
 
         function getSearch() {
             const searchByField = dataGridHookState.searchByField
-            let searchElement: JSX.Element | JSX.Element[]
+            let searchElement: React.JSX.Element | React.JSX.Element[]
 
             if (type == 'set') {
-                const resultCheckbox: JSX.Element[] = []
+                const resultCheckbox: React.JSX.Element[] = []
                 const searchSet = searchByField[ID] || new Set()
                 const uniqValues = new Set()
                 const { byID, sorted } = entities

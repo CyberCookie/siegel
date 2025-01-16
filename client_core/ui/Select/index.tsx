@@ -92,7 +92,7 @@ const Select = component<Props, DefaultProps>(
         }
 
 
-        let optionsElement: JSX.Element
+        let optionsElement: React.JSX.Element
         let selectedOption: Props['options'][number] | undefined
         let selectedOptionIndex: number | undefined
 

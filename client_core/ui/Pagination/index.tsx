@@ -58,7 +58,7 @@ const getPageElement: GetPageElement = (page: number, { curPage, theme }) => (
         key={ page } data-page={ page } children={ page } />
 )
 
-function fillGap(start: number, end: number, result: JSX.Element[], props: MergedProps, isLastGap?: boolean) {
+function fillGap(start: number, end: number, result: React.JSX.Element[], props: MergedProps, isLastGap?: boolean) {
     const { theme, separator } = props
 
     const elementToPush = (start - end) == 1
@@ -69,7 +69,7 @@ function fillGap(start: number, end: number, result: JSX.Element[], props: Merge
     result.push(elementToPush)
 }
 
-function getElementsRange(from: number, to: number, result: JSX.Element[], props: MergedProps) {
+function getElementsRange(from: number, to: number, result: React.JSX.Element[], props: MergedProps) {
     for (let i = from; i <= to; i++) {
         result.push(getPageElement(i, props))
     }
@@ -82,7 +82,7 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
 
     const middlePluseSide = elementsByMiddle + elementsBySide
     const maxLength = middlePluseSide * 2 + 3
-    const result: JSX.Element[] = []
+    const result: React.JSX.Element[] = []
 
 
     if (maxLength > numberOfPages) getElementsRange(1, numberOfPages, result, mergedProps)

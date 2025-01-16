@@ -19,7 +19,7 @@ type SidebarItemProps = {
 
 
 const _demoComponents: Obj<{
-    (): JSX.Element
+    (): React.JSX.Element
     coreSrcDirName: string
 }> = demoComponents
 

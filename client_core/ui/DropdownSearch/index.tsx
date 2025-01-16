@@ -87,7 +87,7 @@ const DropdownSearch = component<Props, DefaultProps>(
         const isShowOptions = isFocused
             && (showOnFocus || (searchString ? searchString.length : 0) >= minInputLength)
 
-        let optionsElement: JSX.Element | undefined
+        let optionsElement: React.JSX.Element | undefined
         let selectedOption: Option | undefined
         let selectedOptionIndex: number | undefined
         if (isShowOptions) {

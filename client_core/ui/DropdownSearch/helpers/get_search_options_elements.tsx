@@ -10,7 +10,7 @@ function getSearchOptions(props: MergedProps, state: State, onSelect: onSelectIn
     const { searchString, arrowSelectIndex } = state
     const searchLower = searchString?.toLowerCase()
 
-    const options: JSX.Element[] = []
+    const options: React.JSX.Element[] = []
     let selectedOption, selectedOptionIndex
     for (let i = 0; i < searchOptions.length; i++) {
         const option = searchOptions[i]
