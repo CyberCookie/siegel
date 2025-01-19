@@ -74,7 +74,7 @@ const Select = component<Props, DefaultProps>(
 
             onChange(value, e, payload)
 
-            closeOnSelect && (selectRootProps.ref as RootRef).current.blur()
+            closeOnSelect && (selectRootProps.ref as RootRef).current!.blur()
         }
 
 
@@ -162,7 +162,7 @@ const Select = component<Props, DefaultProps>(
                 onMouseDown={ e => {
                     if (isActive) {
                         e.preventDefault()
-                        ;(selectRootProps.ref as RootRef).current.blur()
+                        ;(selectRootProps.ref as RootRef).current!.blur()
                     }
                 } }>
 

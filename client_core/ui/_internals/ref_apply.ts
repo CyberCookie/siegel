@@ -19,7 +19,7 @@ function applyRefApi<
             :   undefined
 
         useEffect(() => {
-            getRef((rootProps.ref as React.RefObject<HTMLElement>).current, mergedProps)
+            getRef((rootProps.ref as React.RefObject<HTMLElement>).current!, mergedProps)
         }, trackDependencies)
     }
 }

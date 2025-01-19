@@ -172,7 +172,7 @@ function applyVirtualization(params: UseVirtualizationParams) {
                 maxItemsCount: newMaxItemsCount
             })
 
-            const rootElement = (rootAttributes.ref as Ref).current
+            const rootElement = (rootAttributes.ref as Ref).current!
             const tableElement = rootElement.firstChild as HTMLTableElement
             tableElement.style.padding = `${from * itemHeight}px 0 ${(newMaxItemsCount - to) * itemHeight}px`
 

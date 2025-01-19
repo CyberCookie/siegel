@@ -93,7 +93,7 @@ const Input = component<Props, DefaultProps>(
             inputProps.ref = useRef(null)
 
             autofocus && useEffect(() => {
-                disabled || (inputProps.ref as InputRef).current.focus()
+                disabled || (inputProps.ref as InputRef).current!.focus()
             }, [ disabled ])
         }
 
@@ -173,11 +173,11 @@ const Input = component<Props, DefaultProps>(
                                     :   value
 
                     if (prefix && (selectionStart! < prefix.length)) {
-                        setCaretPos(inputProps.ref! as InputRef, prefix.length)
+                        setCaretPos(inputProps.ref as InputRef, prefix.length)
                     }
 
                     if (suffix && (selectionStart! >= value.length)) {
-                        setCaretPos(inputProps.ref! as InputRef, value.length)
+                        setCaretPos(inputProps.ref as InputRef, value.length)
                     }
                 }
 

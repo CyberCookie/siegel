@@ -3,7 +3,7 @@ import type { InputRef } from './types'
 
 const setCaretPos = (ref: InputRef, caretPosFrom: number, caretPosTo?: number) => (
     setTimeout(() => {
-        ref.current.setSelectionRange(caretPosFrom, caretPosTo || caretPosFrom)
+        ref.current!.setSelectionRange(caretPosFrom, caretPosTo || caretPosFrom)
     })
 )
 
