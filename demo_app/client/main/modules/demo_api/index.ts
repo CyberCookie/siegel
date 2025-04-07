@@ -20,12 +20,12 @@ const getInitialState = () => ({
     received: '',
     counter: 0,
     proxyRes: {}
-} as State)
+})
 
 const urls = {
     echo: '/api/echo',
     proxy: '/api/proxy_get/:id'
-}
+} as const
 const actions: Actions = {
     api_echo({ state, setState }, body) {
         request<EchoReqBody, EchoReqBody>({

@@ -3,14 +3,13 @@ import React, { useLayoutEffect, useState } from 'react'
 import isExists from '../../../common/is/exists'
 import component from '../../ui/_internals/component'
 import applyRefApi from '../../ui/_internals/ref_apply'
+import { BASENAME_UPDATE_EVENT_TYPE } from '../constants'
 import getFinalURL from '../get_final_url'
 
 import type { Component, Props } from './types'
 
 
 const componentID = '-ui-internal_link'
-
-const BASENAME_UPDATE_EVENT_TYPE = '_basename_update'
 
 const NavLink: Component = component(
     componentID,
@@ -69,5 +68,5 @@ const NavLink: Component = component(
 
 
 export default NavLink
-export { componentID, BASENAME_UPDATE_EVENT_TYPE }
+export { componentID }
 export type { Component, Props }

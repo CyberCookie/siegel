@@ -1,4 +1,4 @@
-type ReqData = {
+type RequestParamsProcessed = {
     /** Not processed URL */
     initialURL: string
 
@@ -14,7 +14,7 @@ type ReqData = {
 
 type ReqError = {
     /** Request data */
-    req: ReqData
+    req: RequestParamsProcessed
 
     /** Error response message */
     message?: string
@@ -25,8 +25,6 @@ type ReqError = {
     /** Responce data */
     res?: any
 }
-
-type BeforeReuest<_Result> = (opts: RequestParams) => _Result
 
 type RequestParams<_Body = any, _Res = any> = {
     /** Request URL. Can include URL params: _someurl/:param1/:param2_ */
@@ -90,8 +88,13 @@ type RequestParams<_Body = any, _Res = any> = {
     /** Successful response callback */
     onSuccess?: (res: _Res) => void
 
-    /** Error response callback */
-    onError?: (err: ReqError) => void
+    /**
+     * Error response callback
+     *
+     * @param err error object that contains request parameters, response and error message and status
+     * @return true to prevent propagation to the global error handler
+     */
+    onError?: (err: ReqError) => void | boolean
 }
 
 
@@ -109,7 +112,7 @@ type SetupParams = {
      *
      * @param reqData fetch api request params
      */
-    beforeRequest?(reqData: ReqData): void | boolean | Promise<void | boolean>
+    beforeRequest?(reqData: RequestParamsProcessed): void | boolean | Promise<void | boolean>
 
     /**
      * Triggered after successful request was made
@@ -117,7 +120,7 @@ type SetupParams = {
      * @param reqData - fetch api request params
      * @param parsedRes - parsed response
      */
-    afterRequest?(reqData: ReqData, parsedRes: any): void
+    afterRequest?(reqData: RequestParamsProcessed, parsedRes: any): void
 
     /**
      * Triggered if request was failure
@@ -140,4 +143,4 @@ type SetupParams = {
 }
 
 
-export type { ReqData, ReqError, RequestParams, SetupParams }
+export type { SetupParams, RequestParams, RequestParamsProcessed, ReqError }

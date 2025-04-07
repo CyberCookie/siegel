@@ -36,10 +36,10 @@ type Theme = {
     controls?: string
 
     /** Decrease value button */
-    button_minus?: string
+    value_decrement_icon?: string
 
     /** Increase value button */
-    button_plus?: string
+    value_increment_icon?: string
 
     /** If button is disabled */
     button__disabled?: string
@@ -47,7 +47,7 @@ type Theme = {
 
 type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
-     * Triggered when NumberPicker value is changing
+     * Triggered when NumberPicker number value is change
      *
      * @param changeParams Change params
      */
@@ -65,7 +65,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
         isValidNumberString: boolean
 
         /** Previous number value when isValidNumberString was true */
-        prevValidNumer: number | undefined
+        prevValidNumber: number | undefined
 
         /** Change event */
         event: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>
@@ -106,10 +106,10 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     max?: number
 
     /** Step decrease value button icon */
-    minusIcon?: React.ReactNode
+    valueDecrementIcon?: React.ReactNode
 
     /** Step increase value button icon */
-    plusIcon?: React.ReactNode
+    valueIncrementIcon?: React.ReactNode
 
     /** Any value to be passed to props.onChange params */
     payload?: _Payload
@@ -125,6 +125,12 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 
     /** Disables NumbrPicker input */
     disabledInput?: boolean
+
+    /** Triggered if NumberPicker string value is change */
+    onStringChange?: (
+        value: string,
+        e: Parameters<NonNullable<InputProps['onChange']>>[1]
+    ) => void
 
     /** Triggered if NumberPicker loses its focus */
     onBlur?: ComponentFocusEventHandler
@@ -160,6 +166,7 @@ type DefaultProps = NonNullableProps<{
     min: Props['min']
     max: Props['max']
     precisionKeepZeroes: Props['precisionKeepZeroes']
+    inputTheme: Partial<NonNullable<InputProps['theme']>>
 }>
 
 type MergedProps = Props & DefaultProps

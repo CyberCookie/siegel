@@ -1,68 +1,19 @@
 import { useState, useLayoutEffect } from 'react'
 
 import type {
-    SetState, StoreShouldUpdate,
-    HookStore, InnerStore, StateWithUpdater, StoreListenerWithPrevState,
-    ActionsUnbinded, ActionsBinded, ActionBinded
+    StoreShouldUpdate, StateWithUpdater, StoreListenerWithPrevState,
+    ActionsUnbinded, ActionsBinded, HookStore
 } from './types'
 
 
-const setState: SetState<Obj> = function(this: HookStore<object, any>, newState) {
-    const prevUpdated = this.state.__updated || 0
-    const prevState = this.state
-
-    newState.__updated ||= prevUpdated
-    newState.__updated!++
-    this.state = { ...newState as StateWithUpdater<object> }
-
-    prevState.__updated = prevUpdated
-
-
-    for (let i = 0, l = this.listeners.length; i < l; i++) {
-        const listener = this.listeners[i]
-        ;(listener as StoreListenerWithPrevState).withShouldUpdateCb
-            ?   listener(this.state, prevState)
-            :   (listener as Exclude<typeof listener, StoreListenerWithPrevState>)(this.state)
-    }
-}
-
-
-function useCustom(this: InnerStore<any, any>, shouldUpdate?: any) {
-    type NewListener = React.Dispatch<React.SetStateAction<any>> | StoreListenerWithPrevState
-
-
-    let newListener: NewListener = useState()[1]
-    if (shouldUpdate) {
-        const storeAction = newListener
-
-        newListener = (((newState, prevState) => {
-            shouldUpdate(prevState, newState) && storeAction(newState)
-        }) as StoreListenerWithPrevState)
-        ;(newListener as StoreListenerWithPrevState).withShouldUpdateCb = true
-    }
-
-    useLayoutEffect(() => {
-        this.listeners.push(newListener)
-
-        return () => {
-            this.listeners = this.listeners.filter(listener => listener !== newListener)
-            this.listeners.length || (this.state.__updated = 0)
-        }
-    }, [])
-
-    return [ this.state, this.actions ]
-}
-
-
-function bindActions
-(store: HookStore<any, any>, actions: ActionsUnbinded<any>) {
-    for (const ACTION_ID in actions) {
-        actions[ACTION_ID] = actions[ACTION_ID].bind(actions, store)
-    }
+function bindActions(store: HookStore<any, any>, actions: ActionsUnbinded<any>) {
+    Object.keys(actions)
+        .forEach(actionKey => {
+            actions[actionKey] = actions[actionKey].bind(actions, store)
+        })
 
     return actions as ActionsBinded<typeof actions>
 }
-
 
 const getInitialState = <S extends Obj>(defaultStateResolve: () => S) => {
     type State = StateWithUpdater<S>
@@ -77,20 +28,36 @@ const getInitialState = <S extends Obj>(defaultStateResolve: () => S) => {
 function createStore
 <S extends Obj, A extends ActionsUnbinded<S>>
 (initialStateResolver: () => S, actions: A) {
-    type State = StateWithUpdater<S>
 
-    type StoreUninitialized = InnerStore<State, A>
-    type Store = Required<StoreUninitialized>
+    type Store = HookStore<S, A>
+    type State = Store['state']
+    type StoreListener = Store['listeners'][number]
+    type _StoreListenerWithPrevState = StoreListenerWithPrevState<State>
 
-    type UseStore = (shouldUpdate?: StoreShouldUpdate<State>) => [ State, Store['actions'] ]
 
-
-    const store: StoreUninitialized = {
+    const store: MakePartialFields<Store, 'actions'> = {
         listeners: [],
-        state: getInitialState(initialStateResolver)
+        state: getInitialState(initialStateResolver),
+        setState(newState) {
+            const prevUpdated = store.state.__updated || 0
+            const prevState = store.state
+            prevState.__updated = prevUpdated
+
+            newState.__updated ||= prevUpdated
+            newState.__updated++
+
+            store.state = { ...newState as Required<State> }
+
+
+            for (let i = 0, l = store.listeners.length; i < l; i++) {
+                const listener = store.listeners[i]
+                ;(listener as _StoreListenerWithPrevState).withShouldUpdateCb
+                    ?   listener(store.state, prevState)
+                    :   (listener as React.Dispatch<React.SetStateAction<State>>)(store.state)
+            }
+        }
     }
-    store.setState = setState.bind(store)
-    store.actions = (bindActions(store as Store, actions) as ActionsBinded<A>)
+    store.actions = bindActions(store as Store, actions) as ActionsBinded<A>
 
 
     return {
@@ -98,12 +65,34 @@ function createStore
         store: (store as Store),
 
         /** Hook which subscribes component to the store */
-        useStore: (useCustom.bind(store) as UseStore),
+        useStore(shouldUpdate?: StoreShouldUpdate<State>) {
+            let newListener: StoreListener = useState(store.state)[1]
+            if (shouldUpdate) {
+                const storeAction = newListener
 
-        /** Resets store state to its default state */
+                newListener = ((newState, prevState) => {
+                    shouldUpdate(prevState, newState) && storeAction(newState)
+                }) as _StoreListenerWithPrevState
+                ;(newListener as _StoreListenerWithPrevState).withShouldUpdateCb = true
+            }
+
+            useLayoutEffect(() => {
+                store.listeners.push(newListener)
+
+                return () => {
+                    store.listeners = store.listeners.filter(listener => listener !== newListener)
+                    // this.listeners.length || (this.state.__updated = 0)
+                }
+            }, [])
+
+
+            return [ store.state, store.actions! ] as const
+        },
+
+        /** Resets store to its default state */
         reset() {
-            store.setState!(
-                getInitialState( initialStateResolver )
+            store.setState(
+                getInitialState(initialStateResolver)
             )
         }
     }
@@ -111,4 +100,4 @@ function createStore
 
 
 export default createStore
-export type { HookStore, ActionBinded }
+export type { HookStore }

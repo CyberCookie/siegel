@@ -1,12 +1,12 @@
 import mergeModuleRules from './merge.js'
 import getDefaultModuleRules from './defaults.js'
 
-import type { ConfigFinal, RunParamsFinal } from '../../types'
+import type { ConfigObject } from '../../types'
 
 
-const merge = (CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) => mergeModuleRules(
-    getDefaultModuleRules(CONFIG, RUN_PARAMS),
-    CONFIG.build.module
+const merge = (config: ConfigObject) => mergeModuleRules(
+    getDefaultModuleRules(config),
+    config.build!.module
 )
 
 

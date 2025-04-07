@@ -1,12 +1,12 @@
 import mergePlugins from './merge.js'
 import getDefaultPlugins from './defaults.js'
 
-import type { ConfigFinal, RunParamsFinal } from '../../types'
+import type { ConfigObject } from '../../types'
 
 
-const merge = (CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) => mergePlugins(
-    getDefaultPlugins(CONFIG, RUN_PARAMS),
-    CONFIG.build.plugins
+const merge = (config: ConfigObject) => mergePlugins(
+    getDefaultPlugins(config),
+    config.build!.plugins
 )
 
 

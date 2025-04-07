@@ -6,7 +6,7 @@ import type { ServerBootParams } from './types'
 
 const server = {
     async run(params: ServerBootParams) {
-        const { http2, host, port } = params.CONFIG.server
+        const { http2, host, port } = params.config.server!
 
         const server = http2
             ?   await http2Server(params)
@@ -18,7 +18,7 @@ const server = {
         })
 
 
-        return server.listen(port as number, host, () => {
+        return server.listen(port as number, host!, () => {
             console.info('Starting server on %s:%s.', host, port)
         })
     }

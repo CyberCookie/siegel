@@ -9,7 +9,7 @@ const resultMaxLength: { [key in DateKeys]?: number } = {
     year: 4,
     milliseconds: 4,
     day: 1
-} as const
+}
 
 
 /**
@@ -34,15 +34,16 @@ const dateParse: DateParse = (date, zeroPrefix) => {
     }
 
     if (zeroPrefix) {
-        for (const datePartKey in result) {
-            const datePartStringified = `${result[datePartKey as DateKeys]}`
-            const maxLength = resultMaxLength[datePartKey as keyof DateParsed] || 2
+        Object.entries(result)
+            .forEach(([ dateParseKey, dateParseValue ]) => {
+                const datePartStringified = `${dateParseValue}`
+                const maxLength = resultMaxLength[dateParseKey as keyof DateParsed] || 2
 
-            if (datePartStringified.length < maxLength) {
-                result[datePartKey as DateKeys] = datePartStringified
-                    .padStart(maxLength, '0')
-            }
-        }
+                if (datePartStringified.length < maxLength) {
+                    result[dateParseKey as DateKeys] = datePartStringified
+                        .padStart(maxLength, '0')
+                }
+            })
     }
 
 

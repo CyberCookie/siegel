@@ -1,5 +1,5 @@
 import type { CLIParamsValuesType } from '../core/utils/parse_cli_args'
-import type { ConfigDefault, ConfigFinal, RunParamsFinal } from '../core/types'
+import type { ConfigObject } from '../core/types'
 
 
 type ActionParam<R> = {
@@ -45,9 +45,7 @@ type CommandObj<R extends Obj | undefined> = {
 
 type CommanTree = {
     run: CommandObj<{
-        config: ConfigDefault
-        runParams: RunParamsFinal
-        providedConfigNormalized?: ConfigFinal
+        config: ConfigObject
     }>
     init: CommandObj<{
         isGlobal: boolean

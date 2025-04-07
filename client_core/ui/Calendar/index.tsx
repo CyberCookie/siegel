@@ -3,13 +3,14 @@ import React, { useState } from 'react'
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
-import componentID from './id'
 import { getMonths, getFirstMonthDate } from './helpers'
 
 import type { Component, Props, DefaultProps } from './types'
 
 import styles from './styles.sass'
 
+
+const componentID = '-ui-calendar'
 
 const _undef = undefined
 

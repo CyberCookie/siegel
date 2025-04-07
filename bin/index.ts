@@ -4,8 +4,8 @@
 
 import path from 'path'
 
-import { LOC_NAMES, PATHS, DEFAULT_CONFIG, DEFAULT_RUN_PARAMS } from '../core/constants.js'
-import normalizeConfig from '../core/normalize_configs.js'
+import { LOC_NAMES, PATHS } from '../core/constants.js'
+import getConfig from '../core/get_config.js'
 import siegel, { nodeUtils, utils } from '../core'
 import initProject from './init_project.js'
 import initMiniProject from './init_minimal.js'
@@ -29,6 +29,8 @@ const getColoredHighlightText = getColored.bind(null, 33)
 const resolvePath = (_path: string) => path.isAbsolute(_path) ? _path : `${PATHS.cwd}/${_path}`
 
 
+const DEFAULT_CONFIG = getConfig()
+
 
 const COMMANDS_TREE: CommanTree = {
     run: {
@@ -37,21 +39,19 @@ const COMMANDS_TREE: CommanTree = {
             `siegel ${command} ${client!.flagLong} app.ts ${server!.flagLong} server.ts ${port!.flagLong} 4000`
         ),
         prepareResult: () => ({
-            config: DEFAULT_CONFIG,
-            runParams: DEFAULT_RUN_PARAMS
+            config: DEFAULT_CONFIG
         }),
         commandAction({ result }) {
-            const { config, runParams, providedConfigNormalized } = result!
-            siegel(providedConfigNormalized || config, runParams)
+            siegel(result.config)
         },
         params: [
             {
                 flagLong: '--production',
                 flag: '-p',
                 description: 'Production mode.',
-                defaultValue: DEFAULT_RUN_PARAMS.isProd,
+                defaultValue: false,
                 paramAction({ result }) {
-                    result.runParams.isProd = true
+                    result.config.runMode!.isProd = true
                 }
             },
             {
@@ -60,7 +60,7 @@ const COMMANDS_TREE: CommanTree = {
                 description: 'Builds client with no static server enabled.',
                 defaultValue: false,
                 paramAction({ result }) {
-                    result.runParams.isServer = false
+                    result.config.runMode!.isServer = false
                 }
             },
             {
@@ -69,7 +69,7 @@ const COMMANDS_TREE: CommanTree = {
                 description: 'Serves built client.',
                 defaultValue: false,
                 paramAction({ result }) {
-                    result.runParams.isBuild = false
+                    result.config.runMode!.isBuild = false
                 }
             },
             {
@@ -82,7 +82,7 @@ const COMMANDS_TREE: CommanTree = {
                         ?   requireJSON(resolvedPath)
                         :   (await import(resolvedPath)).default
 
-                    result.providedConfigNormalized = normalizeConfig(config, result.runParams).CONFIG
+                    result.config = getConfig(config)
                 }
             },
             {
@@ -91,7 +91,7 @@ const COMMANDS_TREE: CommanTree = {
                 description: 'Enables lintng with ESLint.',
                 defaultValue: DEFAULT_CONFIG.build.eslint,
                 paramAction({ result }) {
-                    result.config.build.eslint = true
+                    result.config.build!.eslint = true
                 }
             },
             {
@@ -115,7 +115,7 @@ const COMMANDS_TREE: CommanTree = {
                 description: 'Path to client app entrypoint.',
                 defaultValue: DEFAULT_CONFIG.build.input.js,
                 paramAction({ value, result }) {
-                    result.config.build.input.js = resolvePath(value as string)
+                    result.config.build!.input!.js = resolvePath(value as string)
                 }
             },
             {
@@ -132,7 +132,7 @@ const COMMANDS_TREE: CommanTree = {
                 description: 'Dev server port.',
                 defaultValue: DEFAULT_CONFIG.server.port,
                 paramAction({ value, result }) {
-                    result.config.server.port = +value
+                    result.config.server!.port = +value
                 }
             },
             {
@@ -140,7 +140,7 @@ const COMMANDS_TREE: CommanTree = {
                 description: 'Dev server host.',
                 defaultValue: DEFAULT_CONFIG.server.host,
                 paramAction({ value, result }) {
-                    result.config.server.host = value as string
+                    result.config.server!.host = value as string
                 }
             }
         ]
@@ -250,10 +250,11 @@ if (commandConfig) {
 
 
     if (unresolvedParamsCount) {
-        const notSupportedParams = []
-        for (const CLIParam in CLIParamsValues) {
-            CLIParamsValues[CLIParam]!.resolved || notSupportedParams.push(CLIParam)
-        }
+        const notSupportedParams: string[] = []
+        Object.entries(CLIParamsValues)
+            .forEach(([ CLIParam, CLIParamValue ]) => {
+                CLIParamValue!.resolved || notSupportedParams.push(CLIParam)
+            })
 
         if (notSupportedParams.length) {
             throw Error(`
@@ -268,44 +269,45 @@ if (commandConfig) {
 } else {
     COMMAND && console.log(`Command ${getColoredCommandStr(COMMAND)} doesn't exist.\n`)
 
-    for (const commandConfigKey in COMMANDS_TREE) {
-        const COMMAND = COMMANDS_TREE[commandConfigKey as Command]
-        const { description, example } = COMMAND
-        const { params } = COMMAND as Partial<CommandsWithParams>
+    Object.entries(COMMANDS_TREE)
+        .forEach(([ commandConfigKey, COMMAND ]) => {
+            const { description, example } = COMMAND
+            const { params } = COMMAND as Partial<CommandsWithParams>
 
-        console.log(`\n  ${getColoredCommandStr(commandConfigKey)} - ${description}`)
+            console.log(`\n  ${getColoredCommandStr(commandConfigKey)} - ${description}`)
 
-        const flagsMap: PrintHelpFlagsMap = {}
-        params?.forEach(paramConfg => {
-            const { description, defaultValue, flag, flagLong } = paramConfg
+            const flagsMap: PrintHelpFlagsMap = {}
+            params?.forEach(paramConfg => {
+                const { description, defaultValue, flag, flagLong } = paramConfg
 
-            let logString = '\n\t'
+                let logString = '\n\t'
 
-            flag && (logString += getColoredCommandArgumentStr(flag))
-            flag && flagLong && (logString += ' ')
-            flagLong && (logString += getColoredCommandArgumentStr(flagLong))
+                flag && (logString += getColoredCommandArgumentStr(flag))
+                flag && flagLong && (logString += ' ')
+                flagLong && (logString += getColoredCommandArgumentStr(flagLong))
 
-            logString += ` - ${description}`
+                logString += ` - ${description}`
 
-            if (utils.is.isExists(defaultValue)) {
-                logString += `\n\r\t\t${getColoredHighlightText(` Default value: ${defaultValue}`)}`
+                if (utils.isExists(defaultValue)) {
+                    logString += `\n\r\t\t${getColoredHighlightText(` Default value: ${defaultValue}`)}`
+                }
+
+                console.log(logString)
+
+                flagsMap[flagLong.substring(2)] = { flag, flagLong }
+            })
+
+            if (example) {
+                const exampleType = typeof example
+                const logString = exampleType == 'function'
+                    ?   (example as CommandExampleFn)(commandConfigKey, flagsMap)
+                    :   exampleType == 'string'
+                        ?   example
+                        :   `siegel ${commandConfigKey}`
+
+                console.log(`\n\tExample: ${getColoredHighlightText(logString as string)}\n`)
             }
-
-            console.log(logString)
-
-            flagsMap[flagLong.substring(2)] = { flag, flagLong }
         })
 
-        if (example) {
-            const exampleType = typeof example
-            const logString = exampleType == 'function'
-                ?   (example as CommandExampleFn)(commandConfigKey, flagsMap)
-                :   exampleType == 'string'
-                    ?   example
-                    :   `siegel ${commandConfigKey}`
-
-            console.log(`\n\tExample: ${getColoredHighlightText(logString as string)}\n`)
-        }
-    }
     console.log('\n')
 }

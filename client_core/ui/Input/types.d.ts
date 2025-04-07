@@ -109,7 +109,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /** Input value regexp */
     regexp?: RegExp
 
-    /** Provides delay after which props.onChange is triggers */
+    /** Provides delay after which props.onChange is being triggered */
     debounceMs?: number
 
     /** Input value to be applied before props.value */

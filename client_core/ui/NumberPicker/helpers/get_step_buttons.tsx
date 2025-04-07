@@ -6,7 +6,7 @@ import type { BtnProps, GetStepperButtons } from './get_step_buttons_types'
 const getStepButtons: GetStepperButtons = params => {
     const {
         props: {
-            theme, disabled, step, plusIcon, minusIcon,
+            theme, disabled, step, valueIncrementIcon, valueDecrementIcon,
             disabledInput
         },
         min, max, onStepChange, numberValue, onPickerBlur, onPickerFocus
@@ -15,8 +15,8 @@ const getStepButtons: GetStepperButtons = params => {
 
     let isDisabledUp = false
     const plusProps: BtnProps = {
-        className: theme.button_plus,
-        children: plusIcon
+        className: theme.value_increment_icon,
+        children: valueIncrementIcon
     }
     if (disabled || (numberValue >= max)) {
         plusProps.className += ` ${theme.button__disabled}`
@@ -30,8 +30,8 @@ const getStepButtons: GetStepperButtons = params => {
 
     let isDisabledDown = false
     const minusProps: BtnProps = {
-        className: theme.button_minus,
-        children: minusIcon
+        className: theme.value_decrement_icon,
+        children: valueDecrementIcon
     }
     if (disabled || (numberValue <= min)) {
         minusProps.className += ` ${theme.button__disabled}`

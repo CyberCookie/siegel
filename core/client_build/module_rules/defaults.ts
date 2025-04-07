@@ -1,27 +1,25 @@
-import { PATHS } from '../../constants.js'
+import { PATHS, IS_SELF_DEVELOPMENT } from '../../constants.js'
 import { loadersKeyMap, webpackModuleRulesRegExp, DEPENDENCIES } from '../constants.js'
 
-import type { ConfigFinal, RunParamsFinal } from '../../types'
-import type { DefaultRulesData, DefaultRulesKeys, DefaultsWithRuleOptions } from './types'
+import type { ConfigObject } from '../../types'
+import type { DefaultRulesData, DefaultsWithRuleOptions } from './types'
 
 
 const {
     plugins: { miniCssExtract },
     loaders: {
-        esbuild, cssLoader, sassLoader, styleLoader, sassResourcesLoader, workerLoader,
+        swcLoader, cssLoader, sassLoader, styleLoader, sassResourcesLoader, workerLoader,
         postCssLoader, postCssAutoprefix, postCssSVG2Font
     }
 } = DEPENDENCIES
 
 
-function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
-    const {
-        output: { target },
-        input: { sassResources, iconsRoot, include, exclude }
-    } = CONFIG.build
-    const { isProd, isServer, _isSelfDevelopment } = RUN_PARAMS
+function getDefaultModulesConfig(config: ConfigObject) {
+    const { build, runMode } = config
+    const { isProd, isServer } = runMode!
+    const { input, output } = build!
 
-    const isDev = !isProd
+    const sourceMap = !isProd
 
 
     const defaultRules: DefaultRulesData['rules'] = {
@@ -39,14 +37,19 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
         },
 
         [ webpackModuleRulesRegExp.scripts ]: {
-            loadersOrder: [ loadersKeyMap.esbuild ],
+            loadersOrder: [ loadersKeyMap.swcLoader ],
             loaders: {
-                [ loadersKeyMap.esbuild ]: {
-                    ident: loadersKeyMap.esbuild,
-                    loader: esbuild,
+                [ loadersKeyMap.swcLoader ]: {
+                    ident: loadersKeyMap.swcLoader,
+                    loader: swcLoader,
                     options: {
-                        target,
-                        loader: 'tsx'
+                        jsc: {
+                            parser: {
+                                syntax: 'typescript',
+                                jsx: true
+                            },
+                            target: output!.target!
+                        }
                     }
                 }
             }
@@ -58,7 +61,7 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                 loadersKeyMap.cssLoader,
                 loadersKeyMap.postCssLoader,
                 loadersKeyMap.sassLoader,
-                ...( sassResources ? [ loadersKeyMap.sassResources ] : [])
+                ...( input!.sassResources ? [ loadersKeyMap.sassResources ] : [])
             ],
             loaders: {
                 [ loadersKeyMap.cssFinal ]: {
@@ -72,7 +75,7 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                     loader: cssLoader,
                     ident: loadersKeyMap.cssLoader,
                     options: {
-                        sourceMap: isDev,
+                        sourceMap,
                         // url: url => !url.endsWith('.svg'),
                         importLoaders: 2,
                         modules: {
@@ -89,15 +92,15 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                     loader: postCssLoader,
                     ident: loadersKeyMap.postCssLoader,
                     options: {
-                        sourceMap: isDev,
+                        sourceMap,
                         postcssOptions: {
                             plugins: [
                                 postCssAutoprefix({ overrideBrowserslist: 'last 1 version' }),
 
-                                ...( iconsRoot ? [
+                                ...( input!.iconsRoot ? [
                                     postCssSVG2Font({
                                         isWoff2: isProd,
-                                        iconsRoot
+                                        iconsRoot: input!.iconsRoot
                                     })
                                 ] : [])
                             ]
@@ -108,27 +111,27 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                 [ loadersKeyMap.sassLoader ]: {
                     loader: sassLoader,
                     ident: loadersKeyMap.sassLoader,
-                    options: {
-                        sourceMap: isDev
-                    }
+                    options: { sourceMap }
                 },
 
-                ...( sassResources ? {
+                ...( input!.sassResources ? {
                     [ loadersKeyMap.sassResources ]: {
                         loader: sassResourcesLoader,
                         ident: loadersKeyMap.sassResources,
                         options: {
-                            resources: sassResources!
+                            resources: input!.sassResources
                         }
                     }
                 } : {})
             },
 
-            ...( !_isSelfDevelopment ? {
-                ruleOptions: {
-                    include: [ PATHS.clientCoreOutput ]
-                }
-            }: {})
+            ...( IS_SELF_DEVELOPMENT
+                ?   {}
+                :   {
+                        ruleOptions: {
+                            include: [ PATHS.clientCoreOutput ]
+                        }
+                    })
         },
 
         [ webpackModuleRulesRegExp.files ]: {
@@ -138,25 +141,25 @@ function getDefaultModulesConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
         }
     }
 
-    for (const ruleRegExp in defaultRules) {
-        (defaultRules[ruleRegExp as DefaultRulesKeys] as DefaultsWithRuleOptions).ruleOptions ||= {}
+    Object.values(defaultRules)
+        .forEach(defaultRule => {
 
-        const {
-            ruleOptions
-        } = defaultRules[ruleRegExp as DefaultRulesKeys] as DefaultsWithRuleOptions
-        const {
-            include: _include,
-            exclude: _exclude
-        } = ruleOptions
+            (defaultRule as DefaultsWithRuleOptions).ruleOptions ||= {}
+            const { ruleOptions } = defaultRule as DefaultsWithRuleOptions
 
-        ruleOptions.include = _include && include
-            ?   _include.concat(include)
-            :   _include || include,
+            const {
+                include: _include,
+                exclude: _exclude
+            } = ruleOptions
 
-        ruleOptions.exclude = _exclude && exclude
-            ?   _exclude.concat(exclude)
-            :   _exclude || exclude
-    }
+            ruleOptions.include = _include && input!.include
+                ?   _include.concat(input!.include)
+                :   _include || input!.include,
+
+            ruleOptions.exclude = _exclude && input!.exclude
+                ?   _exclude.concat(input!.exclude)
+                :   _exclude || input!.exclude
+            })
 
 
     const defaultRulesData: DefaultRulesData = {

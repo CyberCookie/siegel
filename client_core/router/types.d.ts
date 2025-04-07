@@ -1,3 +1,6 @@
+//TODO: typings
+
+
 declare global {
     interface History {
         push?(
@@ -7,7 +10,8 @@ declare global {
             _skipSetState?: boolean
         ): void
         basename?: string
-        updateBasename?(newBasename: string): void
+        updateBasename?(newBasename: string): string
+        setURLQuery?(query: URLSearchParams | string): void
     }
 }
 
@@ -15,3 +19,4 @@ declare global {
 export type {
     RouterProps, RoutesConfig, Page, Layout, URLparams
 } from './Router/types'
+export type { HistoryChangeCustomEventPayload } from './history/types'

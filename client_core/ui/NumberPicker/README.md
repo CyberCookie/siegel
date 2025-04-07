@@ -32,15 +32,15 @@ Input for numbers with various validations built on top of `Input` component<br 
         - Wraps Input and step controls elements
     - `controls`
         - Holds step buttons controls
-    - `button_minus`
+    - `value_decrement_icon`
         - Decrease value button
-    - `button_plus`
+    - `value_increment_icon`
         - Increase value button
     - `button__disabled`
         - If button is disabled<br /><br />
 
 - `onChange`
-    - Triggered when NumberPicker value is changing
+    - Triggered when NumberPicker number value is change
     - **Function** Has **1** argument - **Object** with the next props:
         - `value` - **String**. New value
         - `prevValue` - `props.value`. Previous NumberPicker value
@@ -48,7 +48,7 @@ Input for numbers with various validations built on top of `Input` component<br 
         - `isValidNumberString` - **Boolean**. **True** if `numberValue` is not **NaN**<br />
             and `numberValue` lays between `props.min` and `props.max`<br />
             and `value` is valid number string without open comma '.'
-        - `prevValidNumer` - **Number | undefined**. Last valid `numberValue`<br />
+        - `prevValidNumber` - **Number | undefined**. Last valid `numberValue`<br />
         - `event` - **FocusEvent | MouseEvent | KeyboardEvent | ChangeEvent**
         - `isKeyboardArrowUp` - **True** if **arrowUp** was pressed. **False** if **arrowUp** was. Othervice **undefined**
         - `payload` - **props.payload**<br /><br />
@@ -86,11 +86,11 @@ Input for numbers with various validations built on top of `Input` component<br 
     - **Number**
     - Default is **Infinity**<br /><br />
 
-- `minusIcon`
+- `valueDecrementIcon`
     - Step decrease value button icon
     - **React.ReactNode**<br /><br />
 
-- `plusIcon`
+- `valueIncrementIcon`
     - Step increase value button icon
     - **React.ReactNode**<br /><br />
 
@@ -114,6 +114,12 @@ Input for numbers with various validations built on top of `Input` component<br 
 - `disabledInput`
     - Disables NumbrPicker input
     - **Boolean**<br /><br />
+
+- `onStringChange`
+    - Triggered if NumberPicker string value is change
+    - **Function** Has **2** arguments:
+        - `value` - **String**. New string value
+        - `event` - **FocusEvent | ChangeEvent**<br /><br />
 
 - `onFocus`
     - Triggered if NumberPicker takes focus

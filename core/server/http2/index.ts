@@ -9,11 +9,9 @@ import type { StreamCB } from './types'
 
 
 async function createHTTP2Server(params: ServerBootParams) {
-    const { devMiddlewares, CONFIG } = params
-    const {
-        publicDir,
-        server: { ssl, serveCompressionsPriority, appServer, HTTP2PreFileSend }
-    } = CONFIG
+    const { devMiddlewares, config } = params
+    const { publicDir, server } = config
+    const { ssl, serveCompressionsPriority, appServer, HTTP2PreFileSend } = server!
 
     const {
         HTTP2_HEADER_CONTENT_ENCODING, HTTP2_HEADER_ACCEPT, HTTP2_HEADER_ACCEPT_ENCODING,
@@ -38,7 +36,8 @@ async function createHTTP2Server(params: ServerBootParams) {
                     :   headers[HTTP2_HEADER_PATH]!
 
             const staticServingData = getStaticServingData({
-                publicDir, reqUrl, serveCompressionsPriority,
+                reqUrl, serveCompressionsPriority,
+                publicDir: publicDir!,
                 acceptEncoding: headers[ HTTP2_HEADER_ACCEPT_ENCODING ],
                 cacheControl: headers[ HTTP2_HEADER_CACHE_CONTROL ]
             })
@@ -75,7 +74,7 @@ async function createHTTP2Server(params: ServerBootParams) {
         onStream(cb: StreamCB) {
             onStreamCb = cb
         }
-    }, CONFIG)
+    }, config)
 
 
     return staticServer

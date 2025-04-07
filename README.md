@@ -21,13 +21,13 @@ Siegel&nbsp;&nbsp;&nbsp;
 
 <br />
 
-#### Siegel is a higly opiniated CSR SPA development platform to build and host any scale projects in a simple way
+#### Siegel is a lightweight, opinionated web development platform designed for building scalable client side rendered (CSR) single page applications (SPAs). It aims to simplify the development process.
 
 <br />
 
 Features:
-- Preconfigured and easily extendable `Webpack` bundler:
-    - `ESBuild` to transform `TypeScript` and `JSX` syntaxes
+- Pre-configured and easily extendable `Webpack` bundler:
+    - `SWC loader` to transform `TypeScript` and `JSX` syntaxes
     - Code linting with `ESLint`
     - `Hot Modules Replace` for **scripts** and **styles**
     - `SASS` with `typed CSS modules`
@@ -35,44 +35,46 @@ Features:
     - `SVG icons to font` converter<br /><br />
 
 - `ExpressJS` static server:
-    - `HTTP(S)1 / HTTP(S)2`. +Script to create dev certificates to use in Chrome on localhost<br /><br />
+    - Supports `HTTP/1.1` and `HTTP/2`, with a script for generating development certificates for local Chrome use<br /><br />
 
 - `Utils` and `modules` to use on client side:
-    - Big set of `React components`
+    - A comprehensive set of `React components`
     - Easy configurable `Router`
     - React `global state manager` built on top of `react hooks`
-    - Optional `fetch module` to track requests statuses with
-    - `Network` services to make `requests` and minimal client `WebSocket` implementation<br /><br />
+    - Optional `fetch module` for tracking requests statuses
+    - `Network` services for making `requests` and a minimal client `WebSocket` implementation<br /><br />
 
-- `Demo project` with already themed components, predefined folder structure and scalable architecture built on top of Siegel<br />
-    It gives you a quick start right after initialization!
+- `Demo project` with pre-themed components, a predefined folder structure, and a scalable architecture built on Siegel<br />
+    This facilitates a rapid project start after initialization
 
-- `Global TS utility types` that you may import. They could be usefull while you are building your React project
+- `Global TS utility types` are available, enchancing development of your React project 
 
 <br />
 
 Read more about each part following the links below:
-- [Client core](https://github.com/CyberCookie/siegel/tree/master/client_core)
-    - [UI](https://github.com/CyberCookie/siegel/tree/master/client_core/ui)
-    - [Router](https://github.com/CyberCookie/siegel/tree/master/client_core/router)
-    - [Global store](https://github.com/CyberCookie/siegel/tree/master/client_core/store)
-    - [Custom hooks](https://github.com/CyberCookie/siegel/tree/master/client_core/hooks)
-    - [Network](https://github.com/CyberCookie/siegel/tree/master/client_core/network)
-    - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils)
+- Client core
+    - [UI components](https://github.com/CyberCookie/siegel/tree/master/client_core/ui) - Common and lightweight React UI components
+    - [Routing](https://github.com/CyberCookie/siegel/tree/master/client_core/router) - Built-in routing system, simplifying navigation within your SPA and enabling efficient page management
+    - [Global store](https://github.com/CyberCookie/siegel/tree/master/client_core/store) - Allows you to easily create and manage global stores built on top of React hooks
+    - [Custom hooks](https://github.com/CyberCookie/siegel/tree/master/client_core/hooks) - A selction of React to aid in site creation
+    - [Networking](https://github.com/CyberCookie/siegel/tree/master/client_core/network) - Tools for a network data transmission 
+    - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils) - Web related small utilities
 - Core
-    - [Build](https://github.com/CyberCookie/siegel/tree/master/core/client_build)
-    - [Server](https://github.com/CyberCookie/siegel/tree/master/core/server)
-    - [Utils](https://github.com/CyberCookie/siegel/tree/master/core/utils)
-- [Cross env utils](https://github.com/CyberCookie/siegel/tree/master/common)
-- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app)
-- [TS utils](https://github.com/CyberCookie/siegel/tree/master/global.d.ts)
+    - [Build](https://github.com/CyberCookie/siegel/tree/master/core/client_build) - Webpack abstraction to easily configure a build process
+    - [Server](https://github.com/CyberCookie/siegel/tree/master/core/server) - Minimalistic HTTP1.1(S) / HTTP2(S) servers built with ExpressJS 
+    - [Utils](https://github.com/CyberCookie/siegel/tree/master/core/utils) - NodeJS related utils
+- [Cross env utils](https://github.com/CyberCookie/siegel/tree/master/common) - Basic utils to help you process data
+- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) - Examle project demonstrating Siegel abilities
+- [TS utils](https://github.com/CyberCookie/siegel/tree/master/global.d.ts) - Useful TypeScript generics
 
 <br /><br />
 
 
-## Simple usage
+## Getting started
 
 <br />
+
+Install Siegel as a project dependency with npm:
 
 ```sh
 npm i siegel
@@ -80,7 +82,7 @@ npm i siegel
 
 <br />
 
-Create **app.ts** file:<br />
+Create a new file named **app.ts** in your project root directory and add the following code:<br />
 
 ```ts
 import { createRoot } from 'react-dom/client'
@@ -92,17 +94,18 @@ createRoot(root)
 
 <br />
 
-Bootstrap the app with the next command:
+Run the app with the next command:
 
 ```sh
 npx siegel run
 ```
 
-Now your application is hosting on **localhost:3000** in watch mode and ready for development!
+Your app will now be running on **localhost:3000** in watch mode, enabling live development.
 
 <br />
 
-You may also define **NodeJS dev server** using `--server` flag:
+Additionaly, uou can define a custom **NodeJS development server** using the `--server` flag.<br/>
+Create a **server.ts** file with the following content:
 
 
 ```ts
@@ -122,7 +125,7 @@ export default appServer
 
 <br />
 
-To bootstrap the app with server defined - run the next command:
+To start the app with the custom server, execute the following command:
 
 ```sh
 npx siegel run --server server.ts
@@ -130,7 +133,7 @@ npx siegel run --server server.ts
 
 <br />
 
-Siegel provides a command to initialize mini project along with `server` and `app` files we created above:<br />
+Siegel provides a command to initialize a minimal project, including the **server.ts** and **app.ts** files created earlier:<br />
 
 ```sh
 npx siegel init -s
@@ -138,32 +141,32 @@ npx siegel init -s
 
 <br />
 
-To list all the available Siegel CLI commands and flags: `npx siegel`
+To view a list of all available Siegel CLI commands and flags, run: `npx siegel`
 
 <br /><br />
 
 
-## Usage
+## Basic usage
 
 <br />
 
 <p>
-    Siegel itself it's just a bunch of client / server side modules you may use together or appart.<br />
-    To launch Siegel you just import and call it passing<br />
-    <a href='#config'>config</a> as a first argument and <a href='#runParams'>runParams</a> as a second
+    Siegel is composed of client sude and server side modules that can be used independently or in combination.<br />
+    To launch Siegel, import the module and call it with a <br />
+    <a href='#config'>config object</a>
 </p><br />
 
 
 ```ts
 import siegel from 'siegel'
 
-siegel(config, runParams)
+siegel(config)
 ```
 
 
 <br />
 
-Or just pass an entry point to __react app__ and it will do everything else for you:
+Alternatively, you can provide the entry point to your __React application__ and Siegel will handle the remaining configs:
 
 ```ts
 import siegel from 'siegel'
@@ -178,11 +181,22 @@ siegel('/path/to/js_entry.ts')
 
 <br />
 
-[Build configuration](https://github.com/CyberCookie/siegel/tree/master/core/client_build)<br />
-[Server configuration](https://github.com/CyberCookie/siegel/tree/master/core/server)
+[Build config](https://github.com/CyberCookie/siegel/tree/master/core/client_build) <br />
+[Server config](https://github.com/CyberCookie/siegel/tree/master/core/server)
 
 ```ts
 {   
+    runMode: {
+        /* Run static server. Default is true */
+        isServer: Boolean,
+
+        /* Build a project. Default is true */
+        isBuild: Boolean,
+
+        /* Run Siegel in production mode. Default is false */
+        isProd: Boolean
+    },
+
     /*
         Affects both server(as public dir to be served),
         and client_build(as webpack output folder).
@@ -190,48 +204,30 @@ siegel('/path/to/js_entry.ts')
     */
     publicDir: String,
 
-    /* Static server configuration. */
+    /* Static server config. */
     server: Object,
 
-    /* Build configuration. */
+    /* Build config. */
     build: Object
-}
-```
-
-<br />
-
-#### <a id='runParams'>runParams</a>
-
-<br />
-
-```ts
-{   
-    /* Run static server. Default is true */
-    isServer: Boolean,
-
-    /* Build a project. Default is true */
-    isBuild: Boolean,
-
-    /* Run Siegel in production mode. Default is false */
-    isProd: Boolean
 }
 ```
 
 
 <br /><br />
 
-## Demo project init
+## Demo project setup
 
 <br />
 
-Quick way to start your development journey with everything you need right after project initialization is __Demo project__.<br />
-You may init the demo project having Siegel installed localy:<br />
+The demo project provides a quick start for your development journey, offering all necessary components immediately after initialization.<br />
+
+Install Siegel as a project dependency with npm:<br />
 
 ```sh
 npx siegel init
 ```
 
-<br /><br />
+<br />
 
 
 <!-- <br />
@@ -246,10 +242,10 @@ siegel init -g
 
 <br /><br /> -->
 
-Here we have initialized a demo project in a current dirrectory along with `package.json` (if not yet created)<br />
-Now you have project skeleton with preconfigured Siegel in it!<br />
-Use various `npm commands` from the new `package.json` to perform build, code validation and static serving in development or production modes<br />
-Bootstrap newly created project with:<br />
+This comman initializes a demo project in the current directory, including a `package.json` if not one does not already exist.<br />
+The project now has pre-configured Siegel project structure.<br />
+Use the various `npm commands` within the generated `package.json` to build, validate and server the project in development or production modes.<br />
+Start the newly created project with:<br />
 
 ```sh
 npm start
@@ -257,22 +253,22 @@ npm start
 
 <br />
 
-Probably you don't need to initialize a big project to play with code.<br />
-For this reason you may init minimal project passing `-m` as argument to the `siegel init` command.<br />
-Only client side React entry file and tsconfig will be created.
-Optionally you may also pass `-s` parameter to create server extender file.
+For quick experimentation, you may not need to initialize a full demo project.<br />
+Therefore, you can initialize a minimal project by passing the `-m` flag to the `siegel init` command.<br />
+This creates only a client-side React entry file and a `tsconfig.json` file.<br />
+Optionally you can also pass the `-s` flag to create a server extender file.
 
 ```sh
 npm init -m -s
 ```
 
-To run mini project use `npm start_client` if created without server extender.<br />
+To run the minimal project, use `npm start_client` if a server extender was not created.<br />
 Otherwise use `npm start`
 
 
 <br />
 
-More about demo project read [here](https://github.com/CyberCookie/siegel/tree/master/demo_app)
+Read more about demo project [here](https://github.com/CyberCookie/siegel/tree/master/demo_app)
 
 
 <br /><br />

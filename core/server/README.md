@@ -1,8 +1,8 @@
 # Server
 
-Server could be runned in `HTTP1` / `HTTP2` mode with or without secure layer depending on a server configuration you passed.<br />
+Server could be runned in `HTTP1.1` / `HTTP2` mode with or without secure layer depending on a server config you passed.<br />
 Static server is already configured to serve brotli and gzip compressed files and always responses with index.html as a SPA application.<br />
-Only `HTTP1` is suitable for development purposes<br />
+Only `HTTP1.1` is suitable for development purposes<br />
 
 <br/><br/>
 
@@ -126,9 +126,9 @@ import myServer from './my_server.ts'
 
 Here we define path to User App entrypoint file - **user_app.ts**<br />
 User App must be a **Function** in order to call it during Siegel server initialization<br />
-The **Function**, both for HTTP1 and HTTP2 receives almost the same **2**** arguments:
+The **Function**, both for HTTP1.1 and HTTP2 receives almost the same **2**** arguments:
 - **Static server data** - **Object**. Static server protocol related data<br />
-    - `HTTP1` static server made with `Express` has the next fields:
+    - `HTTP1.1` static server made with `Express` has the next fields:
         - `express` - **Express module**
         - `staticServer` - **express()**. Static server created with express
     - `HTTP2` static server made with `http2` node module, has the next fields:
@@ -219,7 +219,7 @@ Proxy receives **1** parameter - **Object** with the next fields:
 <br /><hr />
 <details>
     <summary>TODO</summary>
-    - Compatible HTTP1 and HTTP2 static servers<br />
+    - Compatible HTTP1.1 and HTTP2 static servers<br />
     - SEO for crawlers (pages prebuild or build on the fly)<br />
     - Protobuf
 </details>

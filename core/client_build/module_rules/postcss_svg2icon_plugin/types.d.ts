@@ -13,7 +13,7 @@ type ConvertSvgToFontFn = (params: {
     fontName: string
     svgs: string[]
     isWoff2: boolean | undefined
-}) => Promise<ArrayBuffer>
+}) => Promise<ArrayBuffer | SharedArrayBuffer | Buffer>
 
 
 type GetFontFaceNodeFn = (

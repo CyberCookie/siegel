@@ -22,24 +22,25 @@ function getBody(
 
     let idToIndexMap: Obj<number>
     let processedList = sorted
-    for (const configurationID in searchByField) {
-        if (!idToIndexMap!) {
-            idToIndexMap = {}
-            columnsConfig.forEach(({ ID }, index) => {
-                idToIndexMap[ ID ] = index
-            })
-        }
-
-        const columnIndex = idToIndexMap[configurationID]
-
-        if (isExists(columnIndex)) { // Handle unexisted ID within searchByField prop
-            const config = columnsConfig[ columnIndex ]
-            if (isExists(config.onFilter)) {
-                // leave attached to config to keep 'this'
-                processedList = config.onFilter(processedList, byID, searchByField[configurationID])
+    Object.entries(searchByField)
+        .forEach(([ configurationID, searchData ]) => {
+            if (!idToIndexMap!) {
+                idToIndexMap = {}
+                columnsConfig.forEach(({ ID }, index) => {
+                    idToIndexMap[ ID ] = index
+                })
             }
-        }
-    }
+
+            const columnIndex = idToIndexMap[configurationID]
+
+            if (isExists(columnIndex)) { // Handle unexisted ID within searchByField prop
+                const config = columnsConfig[ columnIndex ]
+                if (isExists(config.onFilter)) {
+                    // leave attached to config to keep 'this'
+                    processedList = config.onFilter(processedList, byID, searchData)
+                }
+            }
+        })
 
 
     if (isExists(sortByField.ID)) {

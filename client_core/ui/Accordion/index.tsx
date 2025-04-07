@@ -114,19 +114,23 @@ const Accordion = component<Props, DefaultProps>(
                 ]])
 
                 function onExpandToggle() {
+                    const expandedPathsKeys = isExpanded || soloOpen
+                        ?   Object.keys(expandedPaths)
+                        :   []
+
                     if (isExpanded) {
-                        for (const expandedPath in expandedPaths) {
+                        expandedPathsKeys.forEach(expandedPath => {
                             if (expandedPath.startsWith(path as string)) {
                                 delete expandedPaths[expandedPath]
                             }
-                        }
+                        })
                     } else {
                         if (soloOpen) {
-                            for (const expandedPath in expandedPaths) {
+                            expandedPathsKeys.forEach(expandedPath => {
                                 if (!`${path}`.startsWith(expandedPath)) {
                                     delete expandedPaths[expandedPath]
                                 }
-                            }
+                            })
                         }
                         expandedPaths[path] = true
                     }

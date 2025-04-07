@@ -9,6 +9,7 @@ type Params = {
     props: MergedProps
     isFocused: boolean
     numberValue: number
+    prevValidNumber: number | undefined
     numberMask: RegExp
 }
 
@@ -17,11 +18,17 @@ function getInputString(params: Params) {
     if (isExists(params.props.value)) {
         const {
             props: { value, precision, zeroesPadLeft, precisionKeepZeroes },
-            isFocused, numberValue, numberMask
+            isFocused, numberMask, prevValidNumber
         } = params
 
+        let { numberValue } = params
+        let isNumberNaN = isNaN(numberValue)
+        if (isNumberNaN && !isFocused && isExists(prevValidNumber) && !isNaN(prevValidNumber)) {
+            numberValue = prevValidNumber
+            isNumberNaN = false
+        }
 
-        const isNumberNaN = isNaN(numberValue)
+
 
         let result = typeof value == 'string' && numberMask.test(value)
             ?   pretifyInputString(value)

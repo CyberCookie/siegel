@@ -170,9 +170,38 @@ Newly added method `history.push` receives **3** arguments:
 - **replaceURL** - **Optional** **Boolean | String**. Use `history.replaceState`<br />
     Provide **String** URL to use it as URL to be replaced
 
-URL strings in `push` method have the same behavior as `redirectTo`, described above.
+URL strings in `push` method have the same behavior as `redirectTo`, described above.<br /><br />
 
-<br />
+It is possible to prevent navigation by subscibing to Siegel History custom event:
+
+```ts
+import React, { useLayoutEffect } from 'react'
+import { NAVIGATION_UPDATE_EVENT_TYPE } from 'siegel-router/constants'
+import type { HistoryChangeCustomEventPayload } from 'siegel-router/types'
+
+const Component = () => {
+    useLayoutEffect(() => {
+        const historyChangeHandler = (function(e: CustomEvent<HistoryChangeCustomEventPayload>) {
+            if (e.detail.newPathname == 'some_path') {
+                e.preventDefault()
+            }
+        } as EventListener)
+        window.addEventListener(NAVIGATION_UPDATE_EVENT_TYPE, historyChangeHandler)
+
+        return () => {
+            window.removeEventListener(NAVIGATION_UPDATE_EVENT_TYPE, historyChangeHandler)
+        }
+    }, [])
+}
+```
+
+In the example above we prevent navigation if a new path is `some_path`.<br />
+Event property detail has 3 properties:
+- **state** - **Any**. Next reoute state
+- **pathname** - **String**. Current pathname
+- **newPathname** - **String**. New pathname 
+
+<br /><br />
 
 Also router component patches `history` with `history.basename` property and `history.updateBasename` method<br />
 in the case you've provided `basename` prop to the Router.<br />

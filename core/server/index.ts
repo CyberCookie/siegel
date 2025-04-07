@@ -1,12 +1,6 @@
-import getStaticServingData from './get_static_file_response_data'
-import httpServer from './http.js'
-import http2Server from './http2'
-import proxyReq from './proxy'
-import bootServer from './boot_server.js'
-import extractSSL from './extract_ssl_key.js'
-
-
-export {
-    bootServer, httpServer, http2Server, proxyReq, getStaticServingData,
-    extractSSL
-}
+export { default as getStaticServingData } from './get_static_file_response_data'
+export { default as httpServer } from './http.js'
+export { default as http2Server } from './http2'
+export { default as proxyReq } from './proxy'
+export { default as bootServer } from './boot_server.js'
+export { default as extractSSL } from './extract_ssl_key.js'

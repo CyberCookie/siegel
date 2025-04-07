@@ -1,11 +1,23 @@
-import type { BuildConfig, BuildConfigDefault, BuildConfigFinal } from './client_build/types'
+import type { BuildConfig } from './client_build/types'
 import type {
-    ServerConfig, ServerConfigDefault, ServerConfigFinal,
+    ServerConfig,
     ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
 } from './server/types'
 
 
-type Config = {
+type ConfigObject = {
+    /** Siegel run modes */
+    runMode?: {
+        /** Should run server to host client */
+        isServer?: boolean
+
+        /** Should perform client build */
+        isBuild?: boolean
+
+        /** Is production mode */
+        isProd?: boolean
+    }
+
     /** Client build output dir and static server public dir */
     publicDir?: string
 
@@ -14,40 +26,11 @@ type Config = {
 
     /** Static server params */
     server?: ServerConfig
-} | string
-
-type ConfigDefault = {
-    publicDir: NonNullable<Exclude<Config, string>['publicDir']>
-    build: BuildConfigDefault
-    server: ServerConfigDefault
 }
-
-type ConfigFinal = {
-    publicDir: NonNullable<Exclude<Config, string>['publicDir']>
-    server: ServerConfigFinal
-    build: BuildConfigFinal
-}
-
-
-type RunParams = {
-    /** Should run server to host client */
-    isServer?: boolean
-
-    /** Should perform client build */
-    isBuild?: boolean
-
-    /** Is production mode */
-    isProd?: boolean
-}
-
-type RunParamsFinal = {
-    _isDevServer: boolean
-    _isSelfDevelopment: boolean
-} & Required<RunParams>
+type Config = ConfigObject | string
 
 
 export type {
-    ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams,
-    Config, ConfigDefault, ConfigFinal,
-    RunParams, RunParamsFinal
+    Config, ConfigObject,
+    ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
 }

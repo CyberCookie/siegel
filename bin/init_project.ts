@@ -5,9 +5,10 @@ import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS } from '../core/constants.js'
+import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../core/constants.js'
 import { isRunDirectly, requireJSON, globalNodeModulesPath, toPosixPath } from '../core/utils'
 
+import type { CompilerOptions } from 'typescript'
 import type { PackageJson } from './types'
 
 
@@ -24,7 +25,7 @@ const {
 const toJSON = (data: any) => JSON.stringify(data, null, 4)
 
 function main(isGlobal?: boolean) {
-    if (DEFAULT_RUN_PARAMS._isSelfDevelopment) {
+    if (IS_SELF_DEVELOPMENT) {
         throw new Error('Attempt to initialize demo_app inside siegel pckg')
     }
 
@@ -113,13 +114,13 @@ function main(isGlobal?: boolean) {
             INIT_PATHS.pathToSiegelRelative
         )
 
-        const paths = clientTSConfig.compilerOptions.paths
-        for (const alias in paths) {
-            paths[alias][0] = paths[alias][0].replace(
-                INIT_PATHS.siegelDemoAppPathShift,
-                INIT_PATHS.siegelLibPath
-            )
-        }
+        Object.values((clientTSConfig.compilerOptions as CompilerOptions).paths!)
+            .forEach(aliasValue => {
+                aliasValue[0] = aliasValue[0].replace(
+                    INIT_PATHS.siegelDemoAppPathShift,
+                    INIT_PATHS.siegelLibPath
+                )
+            })
 
         if (INIT_PATHS.siegelDemoAppPathShift) {
             const { include } = clientTSConfig

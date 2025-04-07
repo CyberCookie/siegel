@@ -1,6 +1,6 @@
 import type { RuleSetRule, RuleSetUseItem, ModuleOptions } from 'webpack'
 import type { Plugin as PostCssPlugin } from 'postcss'
-import type { ConfigFinal } from '../../types'
+import type { ConfigObject } from '../../types'
 
 
 
@@ -138,12 +138,19 @@ type DefaultRulesData = {
         [key in WebpackModuleRulesRegExp['scripts']]: {
             loadersOrder: (keyof DefaultRules[WebpackModuleRulesRegExp['scripts']]['loaders'])[]
             loaders: {
-                esbuildLoader: {
+                swcLoader: {
                     loader: string
                     ident: string
                     options: {
-                        target: ConfigFinal['build']['output']['target']
-                        loader: string
+                        jsc: {
+                            parser: {
+                                syntax: string
+                                jsx: boolean
+                            }
+                            target: NonNullable<
+                                NonNullable<ConfigObject['build']>['output']
+                            >['target']
+                        }
                     }
                 }
             }

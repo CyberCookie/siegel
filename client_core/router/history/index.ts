@@ -1,21 +1,12 @@
 import isExists from '../../../common/is/exists'
+import { BASENAME_UPDATE_EVENT_TYPE, NAVIGATION_UPDATE_EVENT_TYPE } from '../constants'
 import getFinalURL from '../get_final_url'
-import { BASENAME_UPDATE_EVENT_TYPE } from '../Link'
 import parseBasename from './parse_basename'
 
-import type { RouterProps } from '../types'
-import type { ParsePathname } from '../Router/types'
+import type { HistoryChangeCustomEventPayload, PatchHistory } from './types'
 
 
-function patchHistory(
-    basename: RouterProps['basename'],
-    onHistoryChange: (
-        newPath: string,
-        state: any,
-        cb: (pathnameParseResult: ReturnType<ParsePathname>) => void
-    ) => void
-) {
-
+const patchHistory: PatchHistory = (basename, onHistoryChange) => {
     const { pathname } = location
 
     history.push = (url, state, replaceURL) => {
@@ -24,12 +15,24 @@ function patchHistory(
             url
         )
 
-        onHistoryChange(finalURL, state, result => {
+        const isNotPrevented = dispatchEvent(
+            new CustomEvent<HistoryChangeCustomEventPayload>(NAVIGATION_UPDATE_EVENT_TYPE, {
+                detail: {
+                    state, pathname,
+                    newPathname: finalURL
+                }
+            })
+        )
+
+        isNotPrevented && onHistoryChange(finalURL, state, result => {
             const { newPathname, newHistoryState } = result
             replaceURL
                 ?   history.replaceState(newHistoryState, '', newPathname)
                 :   history.pushState(newHistoryState, '', newPathname)
         })
+    }
+    history.setURLQuery = query => {
+        history.replaceState(history.state, '', `${pathname}?${query}`)
     }
     window.onpopstate = () => {
         const { pathname, search } = location
@@ -80,6 +83,9 @@ function patchHistory(
                     new CustomEvent(BASENAME_UPDATE_EVENT_TYPE)
                 )
             }
+
+
+            return newBasename
         }
     }
 }

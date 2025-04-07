@@ -22,7 +22,7 @@ const getFontFaceNode: GetFontFaceNodeFn = (opts, handlers) => {
 
     return iconToFont({ fontName, isWoff2, svgs })
         .then(font => {
-            const base64Font = Buffer.from(font).toString('base64')
+            const base64Font = Buffer.from(font as ArrayBuffer).toString('base64')
             const fontURL = `src:url('data:application/x-font-woff;charset=utf-8;base64,${base64Font}')`
             const fontFormat = `format('woff${isWoff2 ? 2 : ''}')`
 
@@ -43,6 +43,7 @@ const cssPropValueMap = {
     'font-style': 'normal',
     'font-family': ''
 }
+const cssFontEntries = Object.entries(cssPropValueMap)
 
 const pluginCssDeclarationsSet = new Set([
     'font-icon', 'font-icon-orphan', 'font-icon-common'
@@ -50,13 +51,13 @@ const pluginCssDeclarationsSet = new Set([
 
 
 const applyFontDeclarations = (decl: Declaration, fontName: string) => {
-    cssPropValueMap['font-family'] = fontName
-    for (const prop in cssPropValueMap) {
-        decl.cloneBefore({
-            prop,
-            value: cssPropValueMap[prop as keyof typeof cssPropValueMap]
-        })
-    }
+    decl.cloneBefore({
+        prop: 'font-family',
+        value: fontName
+    })
+    cssFontEntries.forEach(([ prop, value ]) => {
+        decl.cloneBefore({ prop, value })
+    })
 }
 
 const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix = '', isWoff2, iconsRoot }) => ({

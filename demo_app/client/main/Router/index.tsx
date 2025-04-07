@@ -1,13 +1,14 @@
 import React from 'react'
 import Router from 'siegel-router/Router'
 
-import { routesConfig, pagePathMap, dynamicCrumbsMap } from './config'
+import { localStorageKeys } from 'app/constants'
 import Layout from 'app/Layout'
+import { routesConfig, pagePathMap, dynamicCrumbsMap } from './config'
 
 
 const App = (
     <Router Layout={ Layout } children={ routesConfig }
-        basename='' />
+        basename={ localStorage.getItem(localStorageKeys.basename) || '' } />
 )
 
 

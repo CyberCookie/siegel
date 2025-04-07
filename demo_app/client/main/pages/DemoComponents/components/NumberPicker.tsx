@@ -4,12 +4,13 @@ import { NumberPicker, NumberPickerProps } from 'app/components'
 
 
 const Demo = () => {
-    const [ value, setValue ] = useState<string | number>(0)
+    const [ value, setValue ] = useState<number | string>(0)
     const props: NumberPickerProps = {
         value,
         placeholder: 'placeholder',
-        onChange({ value }) {
-            setValue(value)
+        onChange({ value, numberValue }) {
+            console.log(value, numberValue)
+            setValue(numberValue)
         }
     }
 

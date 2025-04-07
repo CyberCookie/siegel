@@ -8,5 +8,5 @@
 
 Utils list:
 - [Is touchscreen](https://github.com/CyberCookie/siegel/tree/master/client_core/utils/is_touchscreen)
-- [Query update](https://github.com/CyberCookie/siegel/tree/master/client_core/utils/query_update)
+- [Query build](https://github.com/CyberCookie/siegel/tree/master/client_core/utils/query_build)
 - [SEO](https://github.com/CyberCookie/siegel/tree/master/client_core/utils/seo)

@@ -81,7 +81,7 @@ Flexible calendar to pick single or range of dates<br />
         - **event** - **React.MouseEvent<HTMLDivElement>**<br /><br />
 
 - `onYearSwitch`
-    - Triggers when current year is changed
+    - Triggered when current year is changed
     - **Function**. Has **3** arguments:
         - **date** - **Date**. New current year first day timestamp
         - **value** - **1 | -1**. Increment value

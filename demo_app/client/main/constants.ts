@@ -14,4 +14,9 @@ const GIT_PATHS = {
 } as const
 
 
-export { GIT_PATHS }
+const localStorageKeys = {
+    basename: 'basename'
+} as const
+
+
+export { GIT_PATHS, localStorageKeys }

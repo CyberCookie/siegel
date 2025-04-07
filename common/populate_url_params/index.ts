@@ -6,9 +6,10 @@
  * @returns Populated URL
  */
 function populateURLParams(url: string, params: Obj) {
-    for (const param in params) {
-        url = url.replace(`:${param}`, params[param]!)
-    }
+    Object.entries(params)
+        .forEach(([ paramKey, paramValue ]) => {
+            url = url.replace(`:${paramKey}`, paramValue)
+        })
 
     return url
 }

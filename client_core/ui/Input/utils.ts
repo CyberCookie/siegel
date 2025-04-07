@@ -13,7 +13,7 @@ const INPUT_TYPE = {
     DELETE_BACKWARD: 'deleteContentBackward',
     DELETE_FORWARD: 'deleteContentForward',
     DELETE_CUT: 'deleteByCut'
-}
+} as const
 
 
 export { setCaretPos, INPUT_TYPE }

@@ -21,11 +21,11 @@ const Demo = () => {
             Error is not handling in dev mode. You should press <b>close</b> on error screen to observe the result
         </h3>
 
-        { isShowErrorComponent && (
+        { isShowErrorComponent &&
             <ErrorBoundary>
                 <ComponentWithError />
             </ErrorBoundary>
-        )}
+        }
     </>
 }
 Demo.coreSrcDirName = 'ErrorBoundary'

@@ -5,7 +5,7 @@ import { icons, Input, InputProps } from 'app/components'
 
 
 const Demo = () => {
-    const [ inputValue, setInputValue ] = useState('')
+    const [ inputValue, setInputValue ] = useState('abc')
 
     const props: InputProps = {
         value: inputValue,
@@ -18,7 +18,7 @@ const Demo = () => {
 
     return <>
         <h2 children='simple' color='20px' />
-        <Input { ...props } />
+        <Input { ...props } prefix='&&^$' suffix='&@#%' />
 
         <h2 children='with error, label and extra content as icon, autofocus' />
         <Input { ...props } autofocus

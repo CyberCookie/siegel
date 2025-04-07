@@ -37,7 +37,7 @@ type AnyPlugin = new (...args: any) => any
 type AnyPluginInstance = Exclude<PluginConfigInstance<any, any>, boolean>
 type AnyPluginInstances = Record<string, AnyPluginInstance>
 type AllCaseUserPluginConfig = UserPlugin<AnyPlugin, object, object, AnyPluginInstances, object>
-type UserPluginObjectConfig = Exclude<AllCaseUserPluginConfig, boolean>
+type UserPluginConfigObject = Exclude<AllCaseUserPluginConfig, boolean>
 
 
 type PluginConfigBase<_Plugin, _DefaultOptions> = {
@@ -238,7 +238,7 @@ type DefaultPluginsIntersact = UnionToIntersection<DefaultPlugins[DefaultPlugins
 
 export type {
     CompressionInstanceCommonOptions, CopyWebpackPluginOptions,
-    DefaultPlugins, DefaultPluginsKeys, DefaultPluginsIntersact, Plugins, PluginConfigInstance,
-    AllCaseUserPluginConfig, UserPluginObjectConfig,
+    DefaultPlugins, DefaultPluginsKeys, DefaultPluginsIntersact, Plugins,
+    AllCaseUserPluginConfig, UserPluginConfigObject,
     DefaultEslintPluginOptions, DefaultHtmlPluginOptions
 }

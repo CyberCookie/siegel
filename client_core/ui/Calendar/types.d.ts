@@ -126,7 +126,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     ): void
 
     /**
-     * Triggers when current year is changed
+     * Triggered when current year is changed
      *
      * @param date New current year first day timestamp
      * @param value New current year

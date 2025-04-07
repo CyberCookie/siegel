@@ -40,7 +40,7 @@ Site URL breadcrumbs<br />
 
 - `onChange`
     - **Required**
-    - Triggers when crumb link is clicked
+    - Triggered when crumb link is clicked
     - **Funcion**. Has **3** arguments:
         - **path** - **String**. Full crumb path
         - **configPath** - **String**. Pathname key from config 
@@ -69,7 +69,10 @@ _Orange_, on the other hand, is `dynamicCrumb`, since it represents _:id_ in URL
 **Breadcrumbs** component has its special approach to update `dynamicCrumb` you may defined in config - by firing a **custom event**:<br />
 
 ```tsx
-import Breadcrumbs, { componentID as breadcumbsComponentID } from 'siegel/lib/client_core/ui/Breadcrumbs'
+import Breadcrumbs, {
+    componentID as breadcumbsComponentID,
+    DynamicCrumbsCustomEventPayload
+} from 'siegel/lib/client_core/ui/Breadcrumbs'
 
 // Define breadcrumbs config
 const breadcrumbsConfig = {
@@ -105,7 +108,7 @@ function getFruitDetails() {
     fetch( ... ).then(fruit => {
         // Changing dynamic crumbs state by firing custom event
         dispatchEvent(
-            new CustomEvent(breadcumbsComponentID, {
+            new CustomEvent<DynamicCrumbsCustomEventPayload>(breadcumbsComponentID, {
                 detail: {
                     crumbs: {
                         fruit_name: fruit.name

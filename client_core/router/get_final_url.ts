@@ -1,6 +1,9 @@
+type GetFinalUrl = (curUrl: string, urlPath: string) => string
+
+
 const SLASH = '/'
 
-function getFinalURL(curUrl: string, urlPart: string) {
+const getFinalURL: GetFinalUrl = (curUrl, urlPart) => {
     let result
     if (urlPart) {
         const firstCharUrlPart = urlPart[0]
@@ -35,3 +38,4 @@ function getFinalURL(curUrl: string, urlPart: string) {
 
 
 export default getFinalURL
+export type { GetFinalUrl }

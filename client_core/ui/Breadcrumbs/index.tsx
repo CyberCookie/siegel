@@ -4,8 +4,6 @@ import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import isExists from '../../../common/is/exists'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
-import componentID from './id'
-
 
 import type {
     Component, MergedProps, DynamicCrumbsStore, Props,
@@ -15,6 +13,8 @@ import type {
 
 import styles from './styles.sass'
 
+
+const componentID = '-ui-breadcrumbs'
 
 function linkClickPreventDefault(e: React.MouseEvent) {
     e.preventDefault()

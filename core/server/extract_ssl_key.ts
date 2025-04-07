@@ -1,9 +1,15 @@
 import fs from 'fs'
 
-import type { ConfigFinal } from '../types'
+import type { ConfigObject } from '../types'
 
 
-const extractSSL = ({ keyPath, certPath }: NonNullable<ConfigFinal['server']['ssl']>) => ({
+type Params = NonNullable<
+    NonNullable<ConfigObject['server']>['ssl']
+>
+
+
+
+const extractSSL = ({ keyPath, certPath }: Params) => ({
     key: fs.readFileSync(keyPath),
     cert: fs.readFileSync(certPath)
 })

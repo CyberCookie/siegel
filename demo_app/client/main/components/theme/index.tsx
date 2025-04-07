@@ -134,8 +134,8 @@ const numberPickerInputTheme: NonNullable<InputProps['theme']> = {
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
     inputTheme: numberPickerInputTheme,
-    minusIcon: icons.chevron,
-    plusIcon: icons.chevron
+    valueDecrementIcon: icons.chevron,
+    valueIncrementIcon: icons.chevron
 })
 
 

@@ -1,6 +1,3 @@
-import msIn from './constants'
-import dateParse from './parse'
-import toUTCDate from './toUTCDate'
-
-
-export { dateParse, msIn, toUTCDate }
+export { default as msIn } from './constants'
+export { default as dateParse } from './parse'
+export { default as toUTCDate } from './toUTCDate'

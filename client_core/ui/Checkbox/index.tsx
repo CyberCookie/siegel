@@ -4,7 +4,6 @@ import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 import getLabel from '../_internals/label'
-import componentID from './id'
 
 import type {
     Component, Props, DefaultProps, MergedProps,
@@ -15,6 +14,8 @@ import type {
 
 import styles from './styles.sass'
 
+
+const componentID = '-ui-checkbox'
 
 const _undef = undefined
 

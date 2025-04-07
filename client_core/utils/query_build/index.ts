@@ -3,7 +3,7 @@ import isNullable from '../../../common/is/nullable'
 
 type QueryValue = string | number | boolean
 
-type UpdateURLQuery = {
+type BuildURLQuery = {
     (
         key: string | Obj<QueryValue>,
         value?: QueryValue
@@ -11,7 +11,7 @@ type UpdateURLQuery = {
 }
 
 
-function updateQuery(query: URLSearchParams, key: string, value: QueryValue | undefined) {
+function buildQueryPart(query: URLSearchParams, key: string, value: QueryValue | undefined) {
     isNullable(value)
         ?   query.delete(key)
         :   query.set(key, (value as string))
@@ -24,18 +24,24 @@ function updateQuery(query: URLSearchParams, key: string, value: QueryValue | un
  * @param value query param value
  * @returns String query params
  */
-const updateURLQuery: UpdateURLQuery = function(key, value) {
+const buildURLQuery: BuildURLQuery = function(key, value) {
     const { search } = location
 
     const query = new URLSearchParams(search)
 
-    if (typeof key == 'string') updateQuery(query, key, value)
-    else for (const searchKey in key) updateQuery(query, searchKey, key[searchKey])
+
+    if (typeof key == 'string') buildQueryPart(query, key, value)
+    else {
+        Object.entries(key)
+            .forEach(([ searchKey, searchValue ]) => {
+                buildQueryPart(query, searchKey, searchValue)
+            })
+    }
 
 
     return query
 }
 
 
-export default updateURLQuery
-export type { UpdateURLQuery }
+export default buildURLQuery
+export type { BuildURLQuery }

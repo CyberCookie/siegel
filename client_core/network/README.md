@@ -8,7 +8,7 @@
 <br />
 
 ```ts
-import setupRequest, { HEADERS, CONTENT_TYPE } from 'siegel/lib/client_core/network/request'
+import setupRequest from 'siegel/lib/client_core/network/request'
 
 const request = setupRequest(config: ReqSetup)
 
@@ -94,17 +94,6 @@ Receives **1** argument - **Object** wit the next fields:
 
 <br /><br />
 
-### HEADERS
-
-Request headers constants used in **request**.
-
-<br />
-
-### CONTENT_TYPE
-
-Content-type header values used in **request**.
-
-<br />
 
 ### ReqParams
 
@@ -134,6 +123,7 @@ Content-type header values used in **request**.
 - `onSuccess` - Successful response callback<br />
 
 - `onError` - Error response callback<br />
+    Return **true** to prevent propagation to the global error handler
 
 - `isFullRes` - **Boolean** Default is **false**<br />
     Returns full response with headers, status code etc
@@ -246,13 +236,13 @@ socket.send('messageType', payload)
             - **event** - **Event**<br /><br />
 
     - `onmessage` - **(e: MessageEvent, parsedMessage: any) => void**<br />
-        Triggers when message is received<br />
+        Triggered when message is received<br />
         
     - `onclose` - **(e: CloseEvent) => void**<br />
-        Triggers once socket connection has been clossed<br />
+        Triggered once socket connection has been clossed<br />
 
     - `onerror` - **(e?: Event) => void**<br />
-        Triggres once an error is occured in a socket connection<br />
+        Triggered once an error is occured in a socket connection<br />
         **undefined** parameter means that connection was closed when **serverTimeout** has been elapsed
 
 - `parseIncommingMsg` - **(e: MessageEvent) => any**<br />

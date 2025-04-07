@@ -58,7 +58,7 @@ type Props = PropsComponentThemed<Theme, {
     config: BreadcrumbConfig
 
     /**
-     * Triggers when crumb link is clicked
+     * Triggered when crumb link is clicked
      *
      * @param fullPath Full crumb path
      * @param pathPart Pathname key from config

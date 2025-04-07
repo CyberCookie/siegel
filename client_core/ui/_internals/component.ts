@@ -31,11 +31,12 @@ function component
 
 
             const defaultProps: Partial<MergedProps> = {}
-            for (const defaultProp in defaults) {
-                if (!isExists(mergedProps[defaultProp])) {
-                    defaultProps[defaultProp] = defaults[defaultProp]!
-                }
-            }
+            Object.keys(defaults)
+                .forEach((defaultProp: keyof _Defaults) => {
+                    if (!isExists(mergedProps[defaultProp])) {
+                        defaultProps[defaultProp] = defaults[defaultProp]!
+                    }
+                })
 
 
             return cb(

@@ -26,34 +26,37 @@ const deepMerge = <
     const { mergeResolve, resolveObject } = options || {}
     const result: Obj = {}
 
-    for (const key in obj_a) {
-        const objValue_a = obj_a[key as keyof T]
+    Object.entries(obj_a)
+        .forEach(([ a_key, a_value ]) => {
 
-        if (key in obj_b) {
-            const objValue_b = obj_b[key as keyof K]
+            if (Object.prototype.hasOwnProperty.call(obj_b, a_key)) {
+                const b_value = obj_b[a_key]
 
-            if (typeof objValue_a == 'object' && typeof objValue_b == 'object') {
-                if (objValue_a?.constructor == Object && objValue_b?.constructor == Object) {
-                    const resolvedObj = resolveObject?.(objValue_a, objValue_b, key)
-                    result[key] = isExists(resolvedObj)
-                        ?   resolvedObj == resolveAsUndefSymbol
-                            ?   undefined
-                            :   resolvedObj
-                        :   deepMerge(objValue_a, objValue_b, options)
+                if (typeof a_value == 'object' && typeof b_value == 'object') {
+                    if (a_value?.constructor == Object && b_value?.constructor == Object) {
+                        const resolvedObj = resolveObject?.(a_value, b_value, a_key)
+                        result[a_key] = isExists(resolvedObj)
+                            ?   resolvedObj == resolveAsUndefSymbol
+                                ?   undefined
+                                :   resolvedObj
+                            :   deepMerge(a_value, b_value, options)
 
-                } else {
-                    result[key] = mergeResolve
-                        ?   mergeResolve(objValue_a, objValue_b, key)
-                        :   objValue_b
-                }
+                    } else {
+                        result[a_key] = mergeResolve
+                            ?   mergeResolve(a_value, b_value, a_key)
+                            :   b_value
+                    }
 
-            } else result[key] = objValue_b
-        } else result[key] = objValue_a
-    }
+                } else result[a_key] = b_value
+            } else result[a_key] = a_value
+        })
 
-    for (const key in obj_b) {
-        if (!(key in obj_a)) result[key] = obj_b[key as keyof K]
-    }
+    Object.entries(obj_b)
+        .forEach(([ b_key, b_value ]) => {
+            if (!Object.prototype.hasOwnProperty.call(obj_a, b_key)) {
+                result[b_key] = b_value
+            }
+        })
 
 
     return result as T & K

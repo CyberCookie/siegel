@@ -14,7 +14,7 @@ function main() {
         localhostKey: 'localhost.key',
         localhostCsr: 'localhost.csr',
         localhostCrt: 'localhost.crt'
-    }
+    } as const
 
     const domainsContent = [
         'authorityKeyIdentifier=keyid,issuer',
@@ -54,7 +54,7 @@ function main() {
 
     console.log(`
 Add ${filenames.localhostCrt} and ${filenames.localhostKey} to your server config.
-Import ${filenames.rootCACrt} into the chrome browser SSL settings -> Authorities.
+Import ${filenames.rootCACrt} into your chrome browser SSL settings -> Authorities.
     `)
 }
 

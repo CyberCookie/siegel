@@ -1,14 +1,13 @@
 import React, { useRef, useEffect, useLayoutEffect, useState } from 'react'
 
-import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import isExists from '../../../common/is/exists'
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
 import getInputLabeled from '../_internals/label'
 import { setCaretPos, INPUT_TYPE } from './utils'
-import componentID from './id'
 
 import type { DivTagAttributes } from '../_internals/types'
 import type {
@@ -19,6 +18,8 @@ import type {
 
 type DebounceState = DebounceStore[0]
 
+
+const componentID = '-ui-input'
 
 const _undef = undefined
 
@@ -136,20 +137,40 @@ const Input = component<Props, DefaultProps>(
         }
 
         if (prefixOrSuffix) {
-            prefix
-                ?   (inputProps.value = `${prefix}${inputProps.value}`)
-                :   (inputProps.value += `${suffix}`)
+            prefix && (inputProps.value = `${prefix}${inputProps.value}`)
+            suffix && (inputProps.value += `${suffix}`)
         }
 
         if (!disabled && onChange) {
             isFocused || (inputRootProps.onFocus = e => {
                 onFocus?.(e)
-                e.defaultPrevented || (
+                if (!e.defaultPrevented) {
                     setState({
                         isFocused: true,
                         isTouched: true
                     })
-                )
+
+                    if (prefixOrSuffix) {
+                        const rootEl = e.currentTarget
+                        setTimeout(() => {
+                            const inputEl = rootEl.querySelector('input')!
+                            const { selectionStart, selectionEnd, value } = inputEl
+
+                            const allowedSelectionStart = prefix?.length || 0
+                            const allowedSelectionEnd = value.length - (suffix?.length || 0)
+
+                            const newSelectionStart = Math.max(selectionStart!, allowedSelectionStart)
+                            const newSelectionEnd = Math.max(
+                                allowedSelectionStart,
+                                Math.min(selectionEnd!, allowedSelectionEnd)
+                            )
+
+                            if (newSelectionStart != selectionStart || newSelectionEnd != selectionEnd) {
+                                inputEl.setSelectionRange(newSelectionStart, newSelectionEnd)
+                            }
+                        })
+                    }
+                }
             })
 
             inputProps.onChange = e => {
@@ -158,26 +179,100 @@ const Input = component<Props, DefaultProps>(
                 let { value } = inputEl
                 if (prefixOrSuffix) {
                     const { selectionStart } = inputEl
+
                     const { inputType } = e.nativeEvent as InputEvent
+                    if (inputType == 'deleteByDrag' || inputType == 'insertFromDrop') return
 
-                    value = prefix
-                        ?   value.startsWith(prefix)
-                            ?   value.substring(prefix.length)
-                            :   inputType == INPUT_TYPE.DELETE_FORWARD
-                                ?   value.substring(prefix.length)
-                                :   value
-                        :   value.endsWith(suffix!)
-                                ?   value.substring(0, value.length - suffix!.length)
-                                :   inputType == INPUT_TYPE.DELETE_BACKWARD
-                                    ?   value.substring(0, value.length - 1)
-                                    :   value
+                    const newData = (e.nativeEvent as InputEvent).data
+                    const newDataLength = newData?.length || 0
 
-                    if (prefix && (selectionStart! < prefix.length)) {
-                        setCaretPos(inputProps.ref as InputRef, prefix.length)
+                    const prefLength = prefix?.length || 0
+                    const sufLength = suffix?.length || 0
+                    const prevValueLength = props.value?.length || 0
+
+
+                    const isDelete = inputType == INPUT_TYPE.DELETE_BACKWARD || inputType == INPUT_TYPE.DELETE_FORWARD
+
+
+                    if (isDelete) {
+                        const prevLength = prefLength + prevValueLength + sufLength
+                        const charsDeleted = prevLength - value.length
+
+                        const isPrefDeleted = prefLength > selectionStart!
+                        const isSufDeleted = prefLength + prevValueLength < selectionStart! + charsDeleted
+
+                        if (isPrefDeleted) {
+                            const countCharsSubstr = selectionStart! + charsDeleted > prefLength
+                                ?   selectionStart!
+                                :   prefLength - charsDeleted
+
+                            if (countCharsSubstr > 0) {
+                                value = prefix + value.substring(countCharsSubstr)
+                            }
+
+                            setCaretPos(inputProps.ref as InputRef, prefLength)
+
+                        } else if (isSufDeleted) {
+                            const countCharsBeforeSuf = prefLength + prevValueLength
+                            const countCharsSubstr = selectionStart! > countCharsBeforeSuf
+                                ?   countCharsBeforeSuf
+                                :   countCharsBeforeSuf - (countCharsBeforeSuf - selectionStart!)
+
+                            value = value.substring(0, countCharsSubstr) + suffix
+
+                            setCaretPos(inputProps.ref as InputRef, value.length - sufLength)
+                        }
                     }
 
-                    if (suffix && (selectionStart! >= value.length)) {
-                        setCaretPos(inputProps.ref as InputRef, value.length)
+
+                    if (prefix) {
+
+                        let shouldAdjustPosition
+                        if (!isDelete) {
+
+                            const prevCaretPos = selectionStart! - newDataLength
+                            if (prefLength > prevCaretPos) {
+                                const valueBeforeNewData = value.substring(0, prevCaretPos)
+                                const valueAfterNewData = value.substring(selectionStart!)
+                                value = valueBeforeNewData + valueAfterNewData
+
+                                shouldAdjustPosition = true
+                            }
+                        }
+
+                        if (value.startsWith(prefix)) {
+                            value = value.substring(prefLength)
+                        }
+
+                        if (shouldAdjustPosition) {
+                            value = newData + value
+                            setCaretPos(inputProps.ref as InputRef, prefLength + newDataLength)
+                        }
+                    }
+
+                    if (suffix) {
+
+                        let shouldAdjustPosition
+                        if (!isDelete) {
+
+                            const prevCaretPos = selectionStart! - newDataLength
+                            if (prefLength + prevValueLength < prevCaretPos) {
+                                const valueBeforeNewData = value.substring(0, prevCaretPos - prefLength)
+                                const valueAfterNewData = value.substring(selectionStart! - prefLength)
+                                value = valueBeforeNewData + valueAfterNewData
+
+                                shouldAdjustPosition = true
+                            }
+                        }
+
+                        if (value.endsWith(suffix)) {
+                            value = value.substring(0, value.length - suffix!.length)
+                        }
+
+                        if (shouldAdjustPosition) {
+                            value += newData
+                            setCaretPos(inputProps.ref as InputRef, prefLength + prevValueLength + newDataLength)
+                        }
                     }
                 }
 

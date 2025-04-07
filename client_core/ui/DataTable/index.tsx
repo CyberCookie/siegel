@@ -9,7 +9,6 @@ import component from '../_internals/component'
 import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
 import Table from '../Table/index'
-import componentID from './id'
 import {
     getBody, getHead, getPaginationFooter, applyVirtualization,
     GetPaginationFnProps
@@ -23,6 +22,8 @@ import type {
 
 import styles from './styles.sass'
 
+
+const componentID = '-ui-data_grid'
 
 const _undef = undefined
 

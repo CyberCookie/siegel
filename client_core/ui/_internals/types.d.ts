@@ -1,7 +1,7 @@
 type ComponentRefApi<_Props> = {
     /**
      * Callback to retrieve a ref.
-     * By default triggers only once after the first render
+     * By default triggered only once after the first render
      *
      * @param ref component root tag ref
      * @param props passed component props

@@ -20,15 +20,13 @@ const rewriteSPAUrl: RequestHandler = (req, _, next) => {
 
 
 async function createHTTPServer(params: ServerBootParams) {
-    const { devMiddlewares, CONFIG } = params
-    const {
-        publicDir,
-        server: { ssl, serveCompressionsPriority, appServer, HTTP1PreFileSend }
-    } = CONFIG
+    const { devMiddlewares, config } = params
+    const { publicDir, server } = config
+    const { ssl, serveCompressionsPriority, appServer, HTTP1PreFileSend } = server!
 
 
     const staticServer: Express = express()
-    appServer && await appServer({ staticServer, express }, CONFIG)
+    appServer && await appServer({ staticServer, express }, config)
 
     staticServer.disable('x-powered-by')
         .use(rewriteSPAUrl)
@@ -42,7 +40,8 @@ async function createHTTPServer(params: ServerBootParams) {
         :   staticServer.use((req, res) => {
                 const { url, headers } = req
                 const staticServingData = getStaticServingData({
-                    publicDir, serveCompressionsPriority,
+                    serveCompressionsPriority,
+                    publicDir: publicDir!,
                     reqUrl: url,
                     acceptEncoding: headers['accept-encoding']?.toString(),
                     cacheControl: headers['cache-control']

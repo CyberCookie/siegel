@@ -2,7 +2,8 @@ import path from 'path'
 import fs from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG } from '../core/constants.js'
+import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../core/constants.js'
+import getConfig from '../core/get_config.js'
 import { requireJSON, toPosixPath } from '../core/utils'
 
 import type { PackageJson } from './types'
@@ -18,14 +19,14 @@ const {
 
 
 function init(isMiniServ: boolean) {
-    if (DEFAULT_RUN_PARAMS._isSelfDevelopment) {
+    if (IS_SELF_DEVELOPMENT) {
         throw new Error('Attempt to initialize demo_app inside siegel pckg')
     }
 
 
     const INIT_LOC_NAMES = {
         MINI_DEMO_APP_SERVER:   'server.ts',
-        MINI_DEMO_APP_CLIENT:    path.parse(DEFAULT_CONFIG.build.input.js).base,
+        MINI_DEMO_APP_CLIENT:    path.parse(getConfig().build.input.js).base,
         TS_GLOBALS:             'global'
     } as const
 

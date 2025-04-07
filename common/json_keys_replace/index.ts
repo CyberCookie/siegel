@@ -47,12 +47,11 @@ const createJsonKeysCoder: CreateJsonCoder = keys => {
         }
 
     } else {
-        for (const keyToEncode in keys) {
-            const keyToDecode = keys[keyToEncode]!
-
-            decodeKeysMap[keyToDecode] = keyToEncode
-            encodeKeysMap[keyToEncode] = keyToDecode
-        }
+        Object.entries(keys)
+            .forEach(([ keyToEncode, keyToDecode ]) => {
+                decodeKeysMap[keyToDecode!] = keyToEncode
+                encodeKeysMap[keyToEncode] = keyToDecode
+            })
     }
 
 

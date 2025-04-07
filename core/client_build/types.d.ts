@@ -2,7 +2,7 @@ import type { Configuration as WebpackConfig, StatsOptions } from 'webpack'
 import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
 import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
 import type { PluginOptions as CopyWebpackPluginOptions } from 'copy-webpack-plugin'
-import type { ConfigFinal, RunParamsFinal } from '../types'
+import type { ConfigObject } from '../types'
 import type { Plugins, DefaultEslintPluginOptions, DefaultHtmlPluginOptions } from './plugins/types'
 import type { UserRulesData } from './module_rules/types'
 
@@ -73,18 +73,11 @@ type BuildConfig = {
 
         /**
          * Output files naming format
-         * In runtime there will be only PROD or DEV fields, depending on selected mode
          * */
-        filenames?: {
-            /** Production mode filenames */
-            PROD?: Filenames
-
-            /** Development mode filenames */
-            DEV?: Filenames
-        }
+        filenames?: Filenames
 
         /* Webpack build logger params */
-        logging: StatsOptions
+        logging?: StatsOptions
     }
 
     /** Enables ESlint */
@@ -106,62 +99,13 @@ type BuildConfig = {
      * @param webpackConfig Webpack config
      * @param config Siegel config
      * @param buildConstants Build constants
-     * @param runParams Siegel run params
      */
     postProcessWebpackConfig?(
         webpackConfig: WebpackConfig,
-        config: ConfigFinal,
-        buildConstants: BuildConstants,
-        runParams: RunParamsFinal
+        config: ConfigObject,
+        buildConstants: BuildConstants
     ): WebpackConfig
 }
 
 
-type NonNullInput = Required<NonNullable<BuildConfig['input']>>
-type NonNullOutput = Required<NonNullable<BuildConfig['output']>>
-
-type BuildConfigDefault = {
-    input: {
-        html: NonNullable<HTMLWebpackPluginOptions['template']>
-        js: NonNullInput['js']
-        include?: NonNullInput['include']
-    }
-    output: {
-        publicPath: NonNullOutput['publicPath']
-        target: NonNullOutput['target']
-        filenames: NonNullable<NonNullOutput['filenames']>
-        logging: MakeRequiredFields<
-            NonNullable<NonNullOutput['logging']>,
-            'colors' | 'modules' | 'children'
-        >
-    }
-    eslint: NonNullable<BuildConfig['eslint']>
-    aliases: NonNullable<BuildConfig['aliases']>
-}
-
-
-type BuildConfigsMerged = BuildConfig & BuildConfigDefault
-type BuildConfigsOutputsMerged = BuildConfig['output'] & BuildConfigDefault['output']
-
-
-type BuildConfigFinal = {
-    input: BuildConfigsMerged['input']
-    output: {
-        target: BuildConfigsOutputsMerged['target']
-        publicPath: BuildConfigsOutputsMerged['publicPath']
-        filenames: NonNullable<BuildConfigsOutputsMerged['filenames']['DEV' | 'PROD']>
-        logging: BuildConfigDefault['output']['logging']
-    }
-    eslint: BuildConfigsMerged['eslint']
-    aliases: BuildConfigsMerged['aliases']
-    plugins?: BuildConfigsMerged['plugins']
-    module?: BuildConfigsMerged['module']
-    postProcessWebpackConfig?: BuildConfigsMerged['postProcessWebpackConfig']
-}
-
-
-export type {
-    BuildConstants,
-    BuildConfig, BuildConfigDefault, BuildConfigFinal, BuildConfigsMerged,
-    Filenames
-}
+export type { BuildConstants, BuildConfig, Filenames }

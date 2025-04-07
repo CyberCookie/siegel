@@ -3,10 +3,8 @@
 <p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares thats could be used in express app</p>
 
 The build exports object with two methods:
-- `run` - **(config, runParams)**. Creates webpack compiller and runs it to produce a bundle<br />
-    - Receives **2** parameters:
+- `run` - **(config)**. Creates webpack compiller and runs it to produce a bundle<br />
         - **config** - More about config read further
-        - **runParams** - Siegel run params
     - Returns promise which resolved with webpack compiller<br /><br />
 
 - `getDevMiddlewares` - (config, webpackCompiller)** - Returns an object with webpack dev and hot middlewares
@@ -18,7 +16,7 @@ The build exports object with two methods:
 
 <br />
 
-- Transform React JSX and TypeScript files via ESBuild
+- Transform React JSX and TypeScript files via SWC
 - Code splitting
 - Service worker plugin to provide the best caching strategy
 - SASS/SCSS processing; style autoprefixing; css modules
@@ -42,7 +40,7 @@ The build exports object with two methods:
 
 This config allows you to bring any changes to an underlying webpack configuration,<br />
 by providing an easy to use api<br />
-All the fields are optional since many of them are already defined in core  default configuration
+All the fields are optional since many of them are already defined in core default config
 
 <br />
 
@@ -92,7 +90,7 @@ All the fields are optional since many of them are already defined in core  defa
 
             /*
                 Path to styles files which will be included in every other styles file
-                (Usefull for variables / mixins)
+                (Useful for variables / mixins)
             */
             sassResources: String,
 
@@ -105,7 +103,7 @@ All the fields are optional since many of them are already defined in core  defa
         output: {
             /*
                 target EcmaScript version
-                Default is: es2020
+                Default is: es2022
             */
             target: String,
 
@@ -178,15 +176,15 @@ All the fields are optional since many of them are already defined in core  defa
 ### Plugins
 
 Every default plugin has its own `plugin key`
-- compression-webpack-plugin ( `compression` ) - Enabled if **runParams.isProd == true**<br />
+- compression-webpack-plugin ( `compression` ) - Enabled if **runMode.isProd == true**<br />
   May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`)
 - copy-webpack-plugin ( `copy` ) - enabled if **config.build.input.copyFiles** is specified
-- mini-css-extract-plugin ( `cssExtract` ) - enabled if **runParams.isProd == true** or if **runParams.isServer == false**
+- mini-css-extract-plugin ( `cssExtract` ) - enabled if **runMode.isProd == true** or if **runMode.isServer == false**
 - html-webpack-plugin ( `html` ) - enabled if **config.build.input.html** is specified
 - clean-webpack-plugin ( `clean` )
 - EsLint ( `eslint` ) - Eslint plugin, Enabled if **config.build.esbuil == true**
-- webpack HHMR plugin (`hot`) - enabled if **runParams.isProd == false**
-- @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if **runParams.isProd == true**
+- webpack HHMR plugin (`hot`) - enabled if **runMode.isProd == false**
+- @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if **runMode.isProd == true**
 - <a href='#sw_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if **config.build.input.sw** is specified
     - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces
 
@@ -292,14 +290,14 @@ Loaders:
 - Scripts<br />
 RegExp string: `\\.[tj]sx?$` (**scripts**)<br />
 Loaders:
-    - ESBuild ( `esbuildLoader` )<br /><br />
+    - SWC ( `swcLoader` )<br /><br />
 
 - Styles<br />
 RegExp string: `\\.(c|sc|sa)ss$` (**styles**)<br />
 Loaders:
     - SASS ( `sassLoader` )
     - CSS ( `cssLoader` )
-    - ( `cssFinal` ) MiniCSSExtractPlugin **if runParams.isProd || !runParams.isServer, else** Style loader
+    - ( `cssFinal` ) MiniCSSExtractPlugin **if runMode.isProd || !runMode.isServer, else** Style loader
     - SASS resources ( `sassResources` )
     - PostCSS ( `postCssLoader` )
         - autoprefixer

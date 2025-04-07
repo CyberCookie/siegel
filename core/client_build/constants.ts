@@ -2,7 +2,6 @@ import { createRequire } from 'module'
 import webpack from 'webpack'
 import devMiddleware from 'webpack-dev-middleware'
 import hotMiddleware from 'webpack-hot-middleware'
-import { EsbuildPlugin } from 'esbuild-loader'
 import HTMLPlugin from 'html-webpack-plugin'
 import fileCopyPlugin from 'copy-webpack-plugin'
 import compressionPlugin from 'compression-webpack-plugin'
@@ -10,6 +9,7 @@ import miniCssExtract from 'mini-css-extract-plugin'
 import reactRefresh from '@pmmmwh/react-refresh-webpack-plugin'
 import eslint from 'eslint-webpack-plugin'
 import postCssAutoprefix from 'autoprefixer'
+import TerserWebpackPlugin from 'terser-webpack-plugin'
 
 import serviceWorkerPlugin from './plugins/plugin_sw.js'
 import postCssSVG2Font from './module_rules/postcss_svg2icon_plugin'
@@ -19,17 +19,17 @@ const { resolve } = createRequire(import.meta.url)
 
 const DEPENDENCIES = {
     webpack, devMiddleware, hotMiddleware,
-    esBuildPlugin: EsbuildPlugin,
 
     plugins: {
+        swcMinify: TerserWebpackPlugin.swcMinify,
         HTMLPlugin, fileCopyPlugin, compressionPlugin, reactRefresh, eslint,
-        serviceWorkerPlugin, miniCssExtract
+        serviceWorkerPlugin, miniCssExtract, TerserWebpackPlugin
     },
 
     loaders: {
         postCssAutoprefix, postCssSVG2Font,
 
-        esbuild:                resolve('esbuild-loader'),
+        swcLoader:              resolve('swc-loader'),
         workerLoader:           resolve('worker-loader'),
         styleLoader:            resolve('style-loader'),
         cssLoader:              resolve('css-loader'),
@@ -60,7 +60,7 @@ const pluginsKeysMap = {
 
 
 const loadersKeyMap = {
-    esbuild: 'esbuildLoader',
+    swcLoader: 'swcLoader',
     workers: 'workers',
     styleLoader: 'styleLoader',
     cssFinal: 'cssFinal',

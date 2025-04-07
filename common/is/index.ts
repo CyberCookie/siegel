@@ -1,8 +1,5 @@
-import isEmptyObject from './empty_obj'
-import isExists from './exists'
-import isNullable from './nullable'
-import isPrimitive from './primitive'
-import isSameType from './same_type'
-
-
-export { isEmptyObject, isExists, isNullable, isPrimitive, isSameType }
+export { default as isEmptyObject } from './empty_obj'
+export { default as isExists } from './exists'
+export { default as isNullable } from './nullable'
+export { default as isPrimitive } from './primitive'
+export { default as isSameType } from './same_type'

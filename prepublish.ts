@@ -3,10 +3,14 @@
 import fs from 'fs'
 import path from 'path'
 import { execSync as shell } from 'child_process'
-import esbuild from 'esbuild'
+import TerserWebpackPlugin from 'terser-webpack-plugin'
 
-import { PATHS, LOC_NAMES, DEFAULT_CONFIG } from './core/constants.js'
+import { PATHS, LOC_NAMES } from './core/constants.js'
 
+import type { JsMinifyOptions } from '@swc/core'
+
+
+const { swcMinify } = TerserWebpackPlugin
 
 
 function iterateFiles(dirPath: string, cb: (nextDir: string, curDir: string) => void) {
@@ -42,7 +46,7 @@ function copyTypes(iterateOverDirPath: string) {
 const addExtensionToImportRegExp = /((import|export) .* from\s+['"])(?!@)((.*\/.*)(?<![.]\w*))(?=['"])/g
 
 function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = true) {
-    iterateFiles(iterateOverDirPath, (fileNamePath, dirPath) => {
+    iterateFiles(iterateOverDirPath, async (fileNamePath, dirPath) => {
         if (fileNamePath.endsWith('.js')) {
             let notMinifiedJSFile = fs.readFileSync(fileNamePath, 'utf8')
 
@@ -66,10 +70,13 @@ function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = tr
 
 
             const resultCode = isMinify
-                ?   esbuild.transformSync(notMinifiedJSFile, {
-                        minify: true,
-                        target: DEFAULT_CONFIG.build.output.target
-                    }).code
+                ?   (await swcMinify(
+                        { [fileNamePath]: notMinifiedJSFile },
+                        undefined,
+                        {
+                            module: true
+                        } satisfies JsMinifyOptions
+                    )).code
                 :   notMinifiedJSFile
 
 

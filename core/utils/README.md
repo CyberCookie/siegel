@@ -124,7 +124,7 @@ import { utils } from 'siegel'
 }
 */
 
-const webpackAliases = utils.tsToWebpackAliases(rootPath)
+const webpackAliases = utils.tsToWebpackAliases(pathToTSConfigDir)
 
 /*
     in this case webpackAliases will be:

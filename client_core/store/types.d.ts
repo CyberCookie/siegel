@@ -1,35 +1,38 @@
 type StateUpdater = {
-    /** Value thats incremented every time store is updated */
+    /** Value that incremented every time store is updated */
     __updated: number
 }
+type PartialUpdater = Partial<StateUpdater>
 
 type StateWithUpdater<State extends Obj> = State & StateUpdater
 
+
 type HookStore<
     State extends Obj,
-    Actions extends ActionsUnbinded<State>
-> = Required<InnerStore<StateWithUpdater<State>, Actions>>
-
-
-type SetState<State extends Obj> = (
-    newState: Omit<StateWithUpdater<State>, keyof StateUpdater> & Partial<StateUpdater>
-) => void
-
-type HookSetState<State extends Obj> = React.Dispatch<React.SetStateAction<State>>
-
-type InnerStore<State extends Obj, A extends ActionsUnbinded<State>> = {
-    state: State
-    listeners: (HookSetState<State> | StoreListenerWithPrevState<State>)[]
-    setState?: SetState<State>
-    actions?: ActionsBinded<A>
+    Actions extends ActionsUnbinded<State>,
+> = {
+    state: StateWithUpdater<State>
+    setState(newState: State & PartialUpdater): void
+    actions: ActionsBinded<Actions>
+    listeners: (
+        React.Dispatch<
+            React.SetStateAction<
+                StateWithUpdater<State>
+            >
+        >
+        |   StoreListenerWithPrevState<
+                StateWithUpdater<State>
+            >
+    )[]
 }
 
-type StoreShouldUpdate<State extends StateWithUpdater<object>> = (
+
+type StoreShouldUpdate<State extends StateWithUpdater<Obj>> = (
     prevState: State,
     newState: State
 ) => boolean
 
-type StoreListenerWithPrevState<State = StateWithUpdater<object>> = {
+type StoreListenerWithPrevState<State = StateWithUpdater<Obj>> = {
     (newState: State, prevState: State): void
     withShouldUpdateCb: boolean
 }
@@ -40,13 +43,12 @@ type ActionsBinded<A extends ActionsUnbinded<any>> = {
     [action in keyof A]: ActionBinded<A[action]>
 }
 
-type ActionsUnbinded<State extends Obj, Store = HookStore<State, any>> = {
-    [actions: string]: (store: Store, ...args: any[]) => void
+type ActionsUnbinded<State extends Obj> = {
+    [actions: string]: (store: HookStore<State, any>, ...args: any[]) => void
 }
 
 
 export type {
-    SetState, StoreShouldUpdate,
-    HookStore, InnerStore, StateWithUpdater, StoreListenerWithPrevState,
-    ActionsUnbinded, ActionsBinded, ActionBinded
+    StoreShouldUpdate, StateWithUpdater, StoreListenerWithPrevState,
+    ActionsUnbinded, ActionsBinded, HookStore
 }

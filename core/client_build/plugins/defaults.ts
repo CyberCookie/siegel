@@ -5,7 +5,7 @@ import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants.js'
 
 import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
 import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
-import type { ConfigFinal, RunParamsFinal } from '../../types'
+import type { ConfigObject } from '../../types'
 import type { CompressionInstanceCommonOptions, DefaultPlugins } from './types'
 
 
@@ -20,7 +20,7 @@ const {
 const { ESLintExtensions } = COMMONS
 
 
-const resolvePluginDefaultOptions = <P extends object>(defaultOptions: Partial<P>, userOptions: any) => (
+const resolvePluginDefaultOptions = <P extends Obj>(defaultOptions: Partial<P>, userOptions: any) => (
     typeof userOptions == 'object'
         ?   userOptions
         :   typeof userOptions == 'function'
@@ -29,15 +29,11 @@ const resolvePluginDefaultOptions = <P extends object>(defaultOptions: Partial<P
 )
 
 
-function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
-    const {
-        eslint: eslintOptions,
-        output: {
-            filenames: outputFilenames
-        },
-        input
-    } = CONFIG.build
-    const { isProd, isServer } = RUN_PARAMS
+function getDefaultPluginsConfig(config: ConfigObject) {
+    const { build, runMode, publicDir } = config
+    const { isProd, isServer } = runMode!
+    const { eslint: eslintOptions, input, output } = build!
+    const outputFilenames = output!.filenames
 
 
 
@@ -50,12 +46,12 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
     const defaults: DefaultPlugins = {
         [ pluginsKeysMap.compression ]: {
             plugin: compressionPlugin,
-            enabled: isProd,
+            enabled: isProd!,
             instances: {
                 br: {
                     options: {
                         ...compressionInstanceCommonOptions,
-                        filename: outputFilenames.brotli!,
+                        filename: outputFilenames!.brotli!,
                         algorithm: 'brotliCompress',
                         compressionOptions: {
                             level: 11
@@ -65,7 +61,7 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
                 gzip: {
                     options: {
                         ...compressionInstanceCommonOptions,
-                        filename: outputFilenames.gzip!
+                        filename: outputFilenames!.gzip!
                     }
                 }
             }
@@ -73,35 +69,35 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
 
         [ pluginsKeysMap.copy ]: {
             plugin: fileCopyPlugin,
-            enabled: !!input.copyFiles,
+            enabled: !!input!.copyFiles,
             options: {
                 patterns:
-                    typeof input.copyFiles == 'string'
+                    typeof input!.copyFiles == 'string'
                         ?   [{
-                                from: input.copyFiles,
+                                from: input!.copyFiles,
                                 to: path.join(
-                                        CONFIG.publicDir,
+                                        publicDir!,
                                         path.relative(
                                             path.dirname(
-                                                isExists((input.html as HTMLWebpackPluginOptions).template)
-                                                ||  typeof input.html == 'string'
-                                                    ?   typeof input.html == 'string'
-                                                        ?   input.html
-                                                        :   (input.html as HTMLWebpackPluginOptions).template!
-                                                    :   input.js
+                                                isExists((input!.html as HTMLWebpackPluginOptions).template)
+                                                ||  typeof input!.html == 'string'
+                                                    ?   typeof input!.html == 'string'
+                                                        ?   input!.html
+                                                        :   (input!.html as HTMLWebpackPluginOptions).template!
+                                                    :   input!.js!
                                             ),
-                                            input.copyFiles
+                                            input!.copyFiles
                                         )
                                     )
                             }]
-                        :   input.copyFiles!
+                        :   input!.copyFiles!
             }
         },
 
         [ pluginsKeysMap.sw ]: {
             plugin: serviceWorkerPlugin,
-            enabled: !!input.sw,
-            options: input.sw!
+            enabled: !!input!.sw,
+            options: input!.sw!
         },
 
         [ pluginsKeysMap.cssExtract ]: {
@@ -109,21 +105,21 @@ function getDefaultPluginsConfig(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal
             enabled: isProd || !isServer,
             options: {
                 experimentalUseImportModule: true,
-                filename: outputFilenames.styles!,
-                chunkFilename: outputFilenames.styles_chunk!
+                filename: outputFilenames!.styles!,
+                chunkFilename: outputFilenames!.styles_chunk!
             }
         },
 
         [ pluginsKeysMap.html ]: {
             plugin: HTMLPlugin,
-            enabled: !!input.html,
+            enabled: !!input!.html,
             options: resolvePluginDefaultOptions<HTMLWebpackPluginOptions>({
                 // scriptLoading: 'defer',
-                template: input.html as NonNullable<HTMLWebpackPluginOptions['template']>,
+                template: input!.html as NonNullable<HTMLWebpackPluginOptions['template']>,
                 minify: {
                     collapseWhitespace: true
                 }
-            }, input.html)
+            }, input!.html)
         },
 
         [ pluginsKeysMap.hot ]: {

@@ -1,14 +1,14 @@
 import type { WebpackPluginInstance } from 'webpack'
 import type {
-    DefaultPlugins, Plugins, AllCaseUserPluginConfig, PluginConfigInstance,
-    UserPluginObjectConfig, DefaultPluginsKeys, DefaultPluginsIntersact
+    DefaultPlugins, Plugins, AllCaseUserPluginConfig,
+    UserPluginConfigObject, DefaultPluginsKeys, DefaultPluginsIntersact
 } from './types'
 
 
 const mergeOptions = (
-    defaultOptions: UserPluginObjectConfig['options'],
-    userOptions: UserPluginObjectConfig['options'],
-    rewrite: UserPluginObjectConfig['rewrite']
+    defaultOptions: UserPluginConfigObject['options'],
+    userOptions: UserPluginConfigObject['options'],
+    rewrite: UserPluginConfigObject['rewrite']
 ) => (
 
     typeof userOptions == 'function'
@@ -21,89 +21,88 @@ const mergeOptions = (
 
 function addWithoutMerge(
     result: WebpackPluginInstance[],
-    pluginConfig: UserPluginObjectConfig | DefaultPluginsIntersact
+    pluginConfig: UserPluginConfigObject | DefaultPluginsIntersact
 ) {
 
     const { instances, plugin, options } = pluginConfig
 
     if (instances) {
-        for (const instanceKey in instances) {
-            const {
-                enabled = true, options
-            } = instances[instanceKey as keyof typeof instances] as Exclude<PluginConfigInstance<any, any>, boolean>
-            enabled && result.push( new plugin!(options) )
-        }
+        Object.values(instances)
+            .forEach(pluginInstance => {
+                const { options, enabled = true } = pluginInstance
+                enabled && result.push( new plugin!(options) )
+            })
 
     } else result.push( new plugin!(options) )
 }
 
-const isEnabledByUserPlugin = (plugin: AllCaseUserPluginConfig) => (plugin as UserPluginObjectConfig).enabled !== false
+const isEnabledByUserPlugin = (plugin: AllCaseUserPluginConfig) => (plugin as UserPluginConfigObject).enabled !== false
 
 
 function merge(defaultPlugins: DefaultPlugins, userPlugins: Plugins = {}) {
     const result: WebpackPluginInstance[] = []
 
-    for (const defaultPluginKey in defaultPlugins) {
-        const defaultPluginConfig = defaultPlugins[defaultPluginKey as DefaultPluginsKeys]
-        const {
-            plugin, options, instances, enabled = true
-        } = defaultPluginConfig as DefaultPluginsIntersact
+    Object.entries(defaultPlugins)
+        .forEach(([ defaultPluginKey, defaultPluginConfig ]) => {
+            const {
+                plugin, options, instances, enabled = true
+            } = defaultPluginConfig as DefaultPluginsIntersact
 
 
-        const userPluginConfig = userPlugins[defaultPluginKey as keyof Plugins] as AllCaseUserPluginConfig
-        if (!userPluginConfig || isEnabledByUserPlugin(userPluginConfig)) {
-            if ((userPluginConfig as UserPluginObjectConfig)?.plugin) {
-                const {
-                    rewrite,
-                    plugin: userPlugin = plugin,
-                    options: userOptions,
-                    instances: userInstances
-                } = userPluginConfig as UserPluginObjectConfig
+            const userPluginConfig = userPlugins[defaultPluginKey as keyof Plugins] as AllCaseUserPluginConfig
+            if (!userPluginConfig || isEnabledByUserPlugin(userPluginConfig)) {
+                if ((userPluginConfig as UserPluginConfigObject)?.plugin) {
+                    const {
+                        rewrite,
+                        plugin: userPlugin = plugin,
+                        options: userOptions,
+                        instances: userInstances
+                    } = userPluginConfig as UserPluginConfigObject
 
-                if (userInstances) {
-                    for (const userPluginInstanceKey in userInstances) {
-                        const userInstance = userInstances[userPluginInstanceKey]
+                    if (userInstances) {
+                        Object.entries(userInstances)
+                            .forEach(([ userPluginInstanceKey, userInstance ]) => {
 
-                        if (userInstance) {
-                            const { rewrite, options: userInstanceOptions } = userInstance
+                                if (userInstance) {
+                                    const { rewrite, options: userInstanceOptions } = userInstance
 
-                            let finalPluginInstanceOptions = userInstanceOptions
+                                    let finalPluginInstanceOptions = userInstanceOptions
 
-                            if (instances) {
-                                const defaultInstance = instances[userPluginInstanceKey as keyof typeof instances]
+                                    if (instances) {
 
-                                if (defaultInstance) {
-                                    finalPluginInstanceOptions = mergeOptions(defaultInstance.options, userInstanceOptions, rewrite)
+                                        const defaultInstance = instances[userPluginInstanceKey as keyof typeof instances]
+                                        if (defaultInstance) {
+                                            finalPluginInstanceOptions = mergeOptions(defaultInstance.options, userInstanceOptions, rewrite)
+                                        }
+                                    }
+
+                                    result.push( new userPlugin(finalPluginInstanceOptions) )
                                 }
-                            }
+                            })
 
-                            result.push( new userPlugin(finalPluginInstanceOptions) )
-                        }
+                    } else {
+                        const finalPluginOptions = mergeOptions(options, userOptions, rewrite)
+                        result.push( new userPlugin(finalPluginOptions) )
                     }
 
-                } else {
-                    const finalPluginOptions = mergeOptions(options, userOptions, rewrite)
-                    result.push( new userPlugin(finalPluginOptions) )
-                }
-
-            } else if (enabled) addWithoutMerge(result, defaultPluginConfig as DefaultPluginsIntersact)
-        }
-    }
-
-
-    for (const userPluginKey in userPlugins) {
-        const userCustomPluginConfig = userPlugins[userPluginKey]
-
-        if ((userCustomPluginConfig as UserPluginObjectConfig).plugin) {
-            const userCustomPluginObjectConfig = userCustomPluginConfig as UserPluginObjectConfig
-
-            if (!defaultPlugins[userPluginKey as DefaultPluginsKeys] && isEnabledByUserPlugin(userCustomPluginObjectConfig)) {
-                userCustomPluginObjectConfig.plugin
-                    ?   addWithoutMerge(result, userCustomPluginObjectConfig)
-                    :   console.error(`[config.build.plugins.${userPluginKey}] ->> property 'plugin' is missed.`)
+                } else if (enabled) addWithoutMerge(result, defaultPluginConfig as DefaultPluginsIntersact)
             }
-        }
-    }
+        })
+
+
+
+    Object.entries(userPlugins)
+        .forEach(([ userPluginKey, userCustomPluginConfig ]) => {
+            if ((userCustomPluginConfig as UserPluginConfigObject).plugin) {
+                const userCustomPluginConfigObject = userCustomPluginConfig as UserPluginConfigObject
+
+                if (!defaultPlugins[userPluginKey as DefaultPluginsKeys] && isEnabledByUserPlugin(userCustomPluginConfigObject)) {
+                    userCustomPluginConfigObject.plugin
+                        ?   addWithoutMerge(result, userCustomPluginConfigObject)
+                        :   console.error(`[config.build.plugins.${userPluginKey}] ->> property 'plugin' is missed.`)
+                }
+            }
+        })
 
 
     return result

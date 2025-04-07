@@ -2,16 +2,6 @@ import { join, sep } from 'path'
 
 import cjs__dirname from './utils/cjs__dirname.js'
 
-import type { RunParamsFinal, ConfigDefault } from './types'
-
-
-const { INIT_CWD, PWD } = process.env
-if (INIT_CWD && INIT_CWD != PWD) {
-    process.chdir(INIT_CWD)
-}
-
-
-
 
 const LOC_NAMES = {
     PACKAGE_JSON: 'package.json',
@@ -31,7 +21,6 @@ const LOC_NAMES = {
     DEMO_APP_DIR_NAME: 'demo_app',
     DEMO_APP_OUTPUT_DIR_NAME: 'dist'
 } as const
-
 
 
 
@@ -65,76 +54,7 @@ const PATHS = {
 }
 
 
+const IS_SELF_DEVELOPMENT = cwd == packageRoot
 
 
-const _isSelfDevelopment = cwd == packageRoot
-
-
-const DEFAULT_CONFIG: ConfigDefault = {
-    publicDir: PATHS.demoProjectOutput,
-
-    server: {
-        host: 'localhost',
-        port: 3000,
-        serveCompressionsPriority: [ 'br', 'gzip' ]
-    },
-
-    build: {
-        input: {
-            html: join(PATHS.demoProject, 'client/index.html'),
-            js: join(cwd, 'app.ts'),
-
-            ...( _isSelfDevelopment ? {
-                include: [ PATHS.clientCore, PATHS.sharedUtils ]
-            }: {})
-        },
-
-        output: {
-            publicPath: '/',
-            target: 'es2022',
-            filenames: {
-                PROD: {
-                    assets: 'assets/[contenthash][ext]',
-                    js: '[contenthash].js',
-                    js_chunk: '[contenthash].js',
-                    styles: '[contenthash].css',
-                    styles_chunk: '[contenthash].css',
-                    brotli: '[base].br',
-                    gzip: '[base].gz'
-                },
-                DEV: {
-                    assets: 'assets/[name][ext]',
-                    js: 'app.[contenthash].js',
-                    js_chunk: 'chunk.[name][contenthash].js',
-                    styles: 'styles.[name].css',
-                    styles_chunk: 'chunk.[name].css',
-                    brotli: '[base].br',
-                    gzip: '[base].gz'
-                }
-            },
-            logging: {
-                colors: true,
-                modules: false,
-                children: false
-            }
-        },
-
-        eslint: false,
-
-        aliases: {}
-    }
-} as const
-
-
-
-const DEFAULT_RUN_PARAMS: RunParamsFinal = {
-    isServer: true,
-    isBuild: true,
-    isProd: false,
-
-    _isDevServer: true,
-    _isSelfDevelopment
-} as const
-
-
-export { PATHS, LOC_NAMES, DEFAULT_RUN_PARAMS, DEFAULT_CONFIG }
+export { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT }

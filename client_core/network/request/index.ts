@@ -1,7 +1,7 @@
 import populateURLParams from '../../../common/populate_url_params'
 import isExists from '../../../common/is/exists'
 
-import type { ReqData, ReqError, RequestParams, SetupParams } from './types'
+import type { RequestParamsProcessed, ReqError, RequestParams, SetupParams } from './types'
 
 
 const HEADERS = {
@@ -27,7 +27,7 @@ function extractRequestData(request: RequestParams) {
         json, jsonStringifyPostprocess
     } = request
 
-    const options: ReqData['options'] = { method }
+    const options: RequestParamsProcessed['options'] = { method }
 
     if (body) {
         options.body = body
@@ -209,8 +209,9 @@ const createApi = (setupParams: SetupParams = {}) => {
 
                 ;(err as ReqError).req = reqData
 
-                errorHandler?.(err as ReqError)
-                req.onError?.(err as ReqError)
+                const preventGlobalHandler = req.onError?.(err as ReqError)
+                preventGlobalHandler || errorHandler?.(err as ReqError)
+
 
                 return {
                     res: null,
@@ -224,5 +225,4 @@ const createApi = (setupParams: SetupParams = {}) => {
 
 
 export default createApi
-export { HEADERS, CONTENT_TYPE }
-export type { ReqData, ReqError, RequestParams, SetupParams }
+export type { RequestParamsProcessed, ReqError, RequestParams, SetupParams }

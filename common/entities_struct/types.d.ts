@@ -31,12 +31,13 @@ type Entities<Entity extends Obj = Obj> = {
     remove(entityID: string): Entities<Entity>
 
     /**
-     * Sortß entities
+     * Sort entities
      */
     sort(cb: (entity_a: Entity, entity_b: Entity) => number): Entities<Entity>
 
     /**
      * Iterates over all entities
+     * Breaks iteration if true is returned from callback
      */
     each(cb: (entity: Entity, index: number) => boolean | void): Entities<Entity>
 

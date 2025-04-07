@@ -1,0 +1,5 @@
+const BASENAME_UPDATE_EVENT_TYPE = '_basename_update'
+const NAVIGATION_UPDATE_EVENT_TYPE = '_on_route_change'
+
+
+export { BASENAME_UPDATE_EVENT_TYPE, NAVIGATION_UPDATE_EVENT_TYPE }

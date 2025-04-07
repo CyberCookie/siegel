@@ -1,30 +1,31 @@
-import { PATHS } from '../constants.js'
+import { PATHS, IS_SELF_DEVELOPMENT } from '../constants.js'
 import * as BUILD_CONSTANTS from './constants.js'
 import defaultModuleRulesResolve from './module_rules'
 import defaultPluginsResolve from './plugins'
 
 import type { Compiler, Configuration } from 'webpack'
-import type { ConfigFinal, RunParamsFinal } from '../types'
+import type { ConfigObject } from '../types'
 
 
 const {
-    DEPENDENCIES: { webpack, devMiddleware, hotMiddleware, esBuildPlugin },
+    DEPENDENCIES: {
+        webpack, devMiddleware, hotMiddleware,
+        plugins: { TerserWebpackPlugin, swcMinify }
+    },
     COMMONS: { ESLintExtensions }
 } = BUILD_CONSTANTS
 
 
-function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
-    const { isProd, _isDevServer, _isSelfDevelopment } = RUN_PARAMS
-    const {
-        publicDir,
-        build: {
-            output: { target, publicPath, filenames, logging },
-            input, aliases, postProcessWebpackConfig//, outputESM = true
-        }
-    } = CONFIG
+function clientBuilder(config: ConfigObject) {
+    const { publicDir, runMode, build } = config
+    const { isProd, isServer } = runMode!
+    const { input, aliases, postProcessWebpackConfig, output } = build!
+    const { publicPath, filenames, logging } = output!
 
     const nodeModulesPaths = [ PATHS.nodeModules ]
-    _isSelfDevelopment || nodeModulesPaths.push(PATHS.cwdNodeModules)
+    IS_SELF_DEVELOPMENT || nodeModulesPaths.push(PATHS.cwdNodeModules)
+
+    const isDevServer = isServer && !isProd
 
     let webpackCompiller: Compiler
 
@@ -34,7 +35,7 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
             ?   'production'
             :   (process.env.NODE_ENV as Configuration['mode']) || 'development',
 
-        cache: _isDevServer,
+        cache: isDevServer,
 
         devtool: !isProd && 'eval-cheap-module-source-map',
 
@@ -46,21 +47,22 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
         },
 
         entry: [
-            ...( _isDevServer ? [ 'webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true' ] : [] ),
-            input.js
+            ...( isDevServer ? [ 'webpack-hot-middleware/client?reload=true&noInfo=true&quiet=true' ] : [] ),
+            input!.js!
         ],
 
         output: {
             publicPath,
             path: publicDir,
             pathinfo: false,
-            chunkFilename: filenames.js_chunk,
-            filename: filenames.js,
-            assetModuleFilename: filenames.assets,
+            chunkFilename: filenames!.js_chunk,
+            filename: filenames!.js,
+            assetModuleFilename: filenames!.assets,
             hashFunction: 'xxhash64',
             clean: true
 
-            // ...( outputESM ? {
+            // ,chunkFormat: 'module',
+            // ,...( outputESM ? {
             //     module: true,
             //     library: {
             //         type: 'module'
@@ -72,41 +74,39 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
             cacheUnaffected: true,
             backCompat: false,
             asyncWebAssembly: true
-            // ...( outputESM ? {
+            // , ...( outputESM ? {
             //     outputModule: true
             // } : {})
         },
 
         optimization: {
-            sideEffects: false,
-            providedExports: false,
+            // sideEffects: false,
+            // providedExports: false,
             splitChunks: {
                 chunks: 'all'
             },
-
             ...( isProd ? {
+                minimize: true,
                 minimizer: [
-                    new esBuildPlugin({
-                        target,
-                        legalComments: 'none',
-                        css: true
+                    new TerserWebpackPlugin({
+                        minify: swcMinify
                     })
                 ]
             } : {})
         },
 
-        plugins: defaultPluginsResolve(CONFIG, RUN_PARAMS),
+        plugins: defaultPluginsResolve(config),
         module: {
             unsafeCache: true,
-            rules: defaultModuleRulesResolve(CONFIG, RUN_PARAMS)
+            rules: defaultModuleRulesResolve(config)
         }
     }
 
-    const moduleOptions = CONFIG.build.module?.moduleOptions
+    const moduleOptions = build!.module?.moduleOptions
     moduleOptions && Object.assign(webpackConfig.module!, moduleOptions)
 
     if (typeof postProcessWebpackConfig == 'function') {
-        webpackConfig = postProcessWebpackConfig(webpackConfig, CONFIG, BUILD_CONSTANTS, RUN_PARAMS)
+        webpackConfig = postProcessWebpackConfig(webpackConfig, config, BUILD_CONSTANTS)
     }
 
 
@@ -114,7 +114,7 @@ function clientBuilder(CONFIG: ConfigFinal, RUN_PARAMS: RunParamsFinal) {
         run: () => new Promise<void>(resolve => {
             webpackCompiller = webpack(webpackConfig)
 
-            if (_isDevServer) resolve()
+            if (isDevServer) resolve()
             else {
                 webpackCompiller.run((err, stats) => {
                     const message = err || (

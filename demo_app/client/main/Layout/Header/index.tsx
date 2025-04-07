@@ -17,12 +17,12 @@ const nav = ([
         label: 'Components'
     },
     {
-        path: pagePathMap.demo_api,
-        label: 'Store + API'
-    },
-    {
         path: pagePathMap.demo_router,
         label: 'Router'
+    },
+    {
+        path: pagePathMap.demo_api,
+        label: 'Global store & network'
     }
 ]).map(({ path, label }) => (
     <NavLink key={ path } href={ `/${path}` } className={ linkTheme.link }

@@ -3,7 +3,7 @@ import type {
     Http2Stream, IncomingHttpHeaders, OutgoingHttpHeaders
 } from 'http2'
 import type { RequestHandler, Express, Request, Response } from 'express'
-import type { ConfigFinal } from '../types'
+import type { ConfigObject } from '../types'
 import type { StreamCB } from './http2/types'
 import type { GetStaticFileResponseParams } from './get_static_file_response_data/types'
 
@@ -20,7 +20,7 @@ type HTTP2ExtenderParams = {
 }
 type ServerExtenderFn = (
     params: ExpressExtenderParams | HTTP2ExtenderParams,
-    config: ConfigFinal
+    config: ConfigObject
 ) => Promise<void> | void
 
 type StaticServingData = ReturnType<GetStaticFileResponseParams>
@@ -80,22 +80,14 @@ type ServerConfig = {
     ): boolean
 }
 
-type ServerConfigDefault = {
-    host: NonNullable<ServerConfig['host']>
-    port: NonNullable<ServerConfig['port']>
-    serveCompressionsPriority: NonNullable<ServerConfig['serveCompressionsPriority']>
-}
-
-type ServerConfigFinal = ServerConfig & ServerConfigDefault
-
 
 type ServerBootParams = {
-    CONFIG: ConfigFinal
+    config: ConfigObject
     devMiddlewares: RequestHandler[]
 }
 
 
 export type {
-    ServerConfig, ServerConfigDefault, ServerConfigFinal,
+    ServerConfig,
     ServerBootParams, ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
 }

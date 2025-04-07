@@ -51,7 +51,7 @@ type CreateSocketParams = {
         onreconnect?(e: Event): void
 
         /**
-         * Triggers when message is received
+         * Triggered when message is received
          *
          * @param e Message Event
          * @param parsedMessage Parsed message
@@ -59,14 +59,14 @@ type CreateSocketParams = {
         onmessage?(e: MessageEvent, parsedMessage: any): void
 
         /**
-         * Triggers once socket connection has been clossed
+         * Triggered once socket connection has been clossed
          *
          * @param e Close event
          */
         onclose?(e: CloseEvent): void
 
         /**
-         * Triggres once an error is occured in a socket connection
+         * Triggered once an error is occured in a socket connection
          *
          * @param e Event
          */

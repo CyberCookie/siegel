@@ -13,7 +13,7 @@ In development mode, you should first close webpack overlay message to see the r
     - Component to wrap<br /><br />
 
 - `onError`
-    - Triggers when error occurs
+    - Triggered when error occurs
     - **Function**. Has **1** argument:
         - **error** - **Error**. error message<br /><br />
 

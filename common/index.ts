@@ -1,19 +1,11 @@
-import arrayObjSort from './array_obj_sort'
-import arrayRangeEach from './array_range_each'
-import classNames from './classname'
-import entities from './entities_struct'
-import memo from './memo'
-import parseJWT from './parse_jwt'
-import populateURLParams from './populate_url_params'
-import * as date from './date'
-import * as deep from './deep'
-import * as is from './is'
-import * as math from './math'
-
-
-export {
-    date, deep, is, math,
-    arrayObjSort, arrayRangeEach,
-    classNames, populateURLParams, parseJWT,
-    memo, entities
-}
+export * from './date'
+export * from './deep'
+export * from './is'
+export * from './math'
+export { default as arrayRangeEach } from './array_range_each'
+export { default as classNames } from './classname'
+export { default as entities } from './entities_struct'
+export { default as memo } from './memo'
+export { default as parseJWT } from './parse_jwt'
+export { default as populateURLParams } from './populate_url_params'
+export { default as arrayObjSort } from './array_obj_sort'

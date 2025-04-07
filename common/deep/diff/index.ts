@@ -96,33 +96,36 @@ function compareObjects(a: Obj, b: Obj, options: Options) {
     const result: Obj = {}
     let updatesCount = 0
 
-    for (const key in a) {
-        if (key in b) {
-            const b_val = b[key]
+    Object.entries(a)
+        .forEach(([ a_key, a_value ]) => {
+            if (Object.prototype.hasOwnProperty.call(b, a_key)) {
+                const b_value = b[a_key]
 
-            comparsionCallBacks(a[key], b_val, options, {
-                valuesIterable(nestedResult) {
-                    if (nestedResult.updatesCount) {
-                        result[key] = nestedResult.result
+                comparsionCallBacks(a_value, b_value, options, {
+                    valuesIterable(nestedResult) {
+                        if (nestedResult.updatesCount) {
+                            result[a_key] = nestedResult.result
+                            updatesCount++
+                        }
+                    },
+                    valuesNotEqual() {
+                        result[a_key] = b_value
                         updatesCount++
                     }
-                },
-                valuesNotEqual() {
-                    result[key] = b_val
-                    updatesCount++
-                }
-            })
-        } else {
-            result[key] = valueForRemovedObjField
-            updatesCount++
-        }
-    }
+                })
+            } else {
+                result[a_key] = valueForRemovedObjField
+                updatesCount++
+            }
+        })
 
     for (const key in b) {
-        if (key in a) continue
-        else {
-            result[key] = b[key]
-            updatesCount++
+        if (Object.prototype.hasOwnProperty.call(b, key)) {
+            if (Object.prototype.hasOwnProperty.call(a, key)) continue
+            else {
+                result[key] = b[key]
+                updatesCount++
+            }
         }
     }
 

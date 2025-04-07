@@ -11,9 +11,10 @@ function className(
 ) {
 
     let result = initialClassName || ''
-    for (const key in rules) {
-        rules[key] && (result += ` ${key}`)
-    }
+    Object.entries(rules)
+        .forEach(([ className, condition ]) => {
+            condition && (result += ` ${className}`)
+        })
 
     return result
 }

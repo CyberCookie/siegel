@@ -12,14 +12,14 @@ Has **2** signatures:
 <br />
 
 ```ts
-import updateURLQuery from 'siegel/lib/client_core/ui/utils/query_update'
+import buildURLQuery from 'siegel/lib/client_core/ui/utils/query_build'
 
 console.log(location.search) // '?paramKey=paramValue'
 
 
 // Update single key (1st parameters) with value (2nd parameter) 
 console.log(
-    updateURLQuery('paramKey', 'newParamValue')
+    buildURLQuery('paramKey', 'newParamValue')
 )
 // '?paramKey=newParamValue'
 
@@ -27,7 +27,7 @@ console.log(
 
 // Update using key value hashmap
 console.log(
-    updateURLQuery({
+    buildURLQuery({
         paramKey: 123,
         anotherKey: false,
         emptyValueKey: ''
@@ -39,7 +39,7 @@ console.log(
 
 // Remove some keys passing undefined / null as values
 console.log(
-    updateURLQuery({
+    buildURLQuery({
         paramKey: null,
         anotherKey: 'another_value',
         emptyValueKey: undefined

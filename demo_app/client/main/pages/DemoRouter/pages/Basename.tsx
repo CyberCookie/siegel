@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { localStorageKeys } from 'app/constants'
 import { Input, Button } from 'app/components'
 
 import styles from './styles.sass'
@@ -17,7 +18,8 @@ const Basename = () => {
 
             <Button className={ styles.apply_basename_btn } value='Apply basename'
                 onClick={ () => {
-                    history.updateBasename!(basename)
+                    const newBasename = history.updateBasename!(basename)
+                    localStorage.setItem(localStorageKeys.basename, newBasename)
                 } } />
         </div>
     )

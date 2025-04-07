@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { icons, IconName } from 'app/components'
+import { icons } from 'app/components'
 
 
 const iconWrapperStyles: React.CSSProperties = {
@@ -15,24 +15,16 @@ const altTextStyles: React.CSSProperties = {
 }
 
 
-function getIcons() {
-    const icons_elements = []
-    for (const icon in icons) {
-        icons_elements.push(
-            <div key={ icon } style={ iconWrapperStyles }>
-                { icons[icon as IconName] }
-                <div style={ altTextStyles } children={ icon } />
-            </div>
-        )
-    }
-
-    return icons_elements
-}
-
 const Demo = () => <>
     <h2 children='icons set' />
 
-    { getIcons() }
+    { Object.entries(icons)
+        .map(([ iconKey, icon ]) => (
+            <div key={ iconKey } style={ iconWrapperStyles }>
+                { icon }
+                <div style={ altTextStyles } children={ iconKey } />
+            </div>
+        )) }
 </>
 Demo.coreSrcDirName = '_icons'
 
