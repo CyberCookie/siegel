@@ -4,7 +4,7 @@
  * @param obj Value to check
  * @returns true if object is empty
  */
-const isEmptyObject = (obj: Obj) => Object.keys(obj).length > 0
+const isEmptyObject = (obj: Obj) => Object.keys(obj).length == 0
 
 
 export default isEmptyObject
