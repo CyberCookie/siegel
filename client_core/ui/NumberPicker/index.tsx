@@ -90,11 +90,10 @@ const NumberPicker = component<Props, DefaultProps>(
         })
 
         useDidUpdate(() => {
+            const _isValidNumberString = isValidNumberString(value, numberValue)
             setEditState({
-                prevValidNumber: isValidNumberString(value, numberValue)
-                    ?   numberValue
-                    :   undefined,
-                stringValue: `${numberValue}`
+                prevValidNumber: _isValidNumberString ? numberValue : undefined,
+                stringValue: _isValidNumberString ? `${numberValue}` : ''
             })
         }, [ value ])
 
