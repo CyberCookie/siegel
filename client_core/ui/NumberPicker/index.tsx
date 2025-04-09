@@ -53,7 +53,6 @@ const NumberPicker = component<Props, DefaultProps>(
         precisionKeepZeroes: true
     },
     props => {
-
         const {
             theme, disabled, step, precision, disabledInput, className, precisionKeepZeroes,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
@@ -68,6 +67,8 @@ const NumberPicker = component<Props, DefaultProps>(
         const numberValue = typeof value == 'number'
             ?   value
             :   parseFloat(value)
+
+        const isValueExists = isExists(value)
 
         const numberMask = buildInputRegexp(min, max, precision, regexp)
 
@@ -89,10 +90,12 @@ const NumberPicker = component<Props, DefaultProps>(
         })
 
         useDidUpdate(() => {
-            editState.prevValidNumber = isValidNumberString(value, numberValue)
-                ?   numberValue
-                :   undefined
-            setEditState({ ...editState })
+            setEditState({
+                prevValidNumber: isValidNumberString(value, numberValue)
+                    ?   numberValue
+                    :   undefined,
+                stringValue: `${numberValue}`
+            })
         }, [ value ])
 
         const [ editState, setEditState ] = editStore
@@ -112,10 +115,12 @@ const NumberPicker = component<Props, DefaultProps>(
                     isTouched: true
                 })
 
-                editState.stringValue = getInputString({
-                    props, numberValue, numberMask, prevValidNumber,
-                    isFocused: false
-                })
+                if (isValueExists) {
+                    editState.stringValue = getInputString({
+                        props, numberValue, numberMask, prevValidNumber,
+                        isFocused: false
+                    })
+                }
             }
         }
         const _onFocus: ComponentFocusEventHandler = e => {
@@ -126,10 +131,12 @@ const NumberPicker = component<Props, DefaultProps>(
                 isTouched: true
             })
 
-            editState.stringValue = getInputString({
-                props, numberValue, numberMask, prevValidNumber,
-                isFocused: true
-            })
+            if (isValueExists) {
+                editState.stringValue = getInputString({
+                    props, numberValue, numberMask, prevValidNumber,
+                    isFocused: true
+                })
+            }
         }
 
 
@@ -235,7 +242,7 @@ const NumberPicker = component<Props, DefaultProps>(
 
                             } else shouldTriggerOnChange = false
 
-                        } else {
+                        } else if (isValueExists) {
                             newNumberValue = min <= 0 && 0 <= max
                                 ?   0
                                 :   Math.abs(min) > Math.abs(max) ? max : min
