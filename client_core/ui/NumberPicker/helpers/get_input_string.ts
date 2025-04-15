@@ -54,7 +54,7 @@ function getInputString(params: Params) {
 
             if (!isFocused) {
                 const lastChar = result.at(-1)
-                lastChar == '.' && (result = result.replace(lastChar, ''))
+                lastChar == '.' && (result = result.substring(0, result.length - 1))
 
 
                 if (zeroesPadLeft! > 0) {

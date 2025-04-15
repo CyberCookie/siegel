@@ -93,7 +93,10 @@ const NumberPicker = component<Props, DefaultProps>(
             const _isValidNumberString = isValidNumberString(value, numberValue)
             setEditState({
                 prevValidNumber: _isValidNumberString ? numberValue : undefined,
-                stringValue: _isValidNumberString ? `${numberValue}` : ''
+                stringValue: getInputString({
+                    props, numberValue, numberMask, isFocused,
+                    prevValidNumber: _isValidNumberString ? numberValue : undefined
+                })
             })
         }, [ value ])
 

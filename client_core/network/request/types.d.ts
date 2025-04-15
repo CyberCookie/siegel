@@ -1,4 +1,4 @@
-type RequestParamsProcessed = {
+type RequestParamsProcessed<_P = any> = {
     /** Not processed URL */
     initialURL: string
 
@@ -9,12 +9,15 @@ type RequestParamsProcessed = {
     options: {
         headers?: RequestParams['headers']
     } & Omit<RequestInit, 'headers'>
+
+
+    passThroughPayload: _P
 }
 
 
-type ReqError = {
+type ReqError<_P = any> = {
     /** Request data */
-    req: RequestParamsProcessed
+    req: RequestParamsProcessed<_P>
 
     /** Error response message */
     message?: string
@@ -26,7 +29,7 @@ type ReqError = {
     res?: any
 }
 
-type RequestParams<_Body = any, _Res = any> = {
+type RequestParams<_Body = any, _Res = any, _P = any> = {
     /** Request URL. Can include URL params: _someurl/:param1/:param2_ */
     url: string
 
@@ -60,6 +63,11 @@ type RequestParams<_Body = any, _Res = any> = {
     /** For this request applies json content type to headers and parses response as json */
     json?: boolean
 
+    /** For this request prevents request if the same request is already processing */
+    preventSame?: boolean
+
+    passThroughPayload?: _P
+
     /**
      * Post process json string before request occurs
      *
@@ -74,16 +82,13 @@ type RequestParams<_Body = any, _Res = any> = {
      */
     jsonParsePreprocess?(json: string): string
 
-    /** For this request prevents request if the same request is already processing */
-    preventSame?: boolean
-
     /**
      * Preprocess mutable request data right before it passed to Fetch API
      *
      * @param reqData fetch api request params
      * @return false to prevent request execution
      */
-    beforeRequest?: NonNullable<SetupParams['beforeRequest']>
+    beforeRequest?: NonNullable<SetupParams<_P>['beforeRequest']>
 
     /** Successful response callback */
     onSuccess?: (res: _Res) => void
@@ -94,25 +99,25 @@ type RequestParams<_Body = any, _Res = any> = {
      * @param err error object that contains request parameters, response and error message and status
      * @return true to prevent propagation to the global error handler
      */
-    onError?: (err: ReqError) => void | boolean
+    onError?: (err: ReqError<_P>) => void
 }
 
 
-type SetupParams = {
+type SetupParams<_P = any> = {
     /**
      * Preprocess mutable request data right before it passed to Fetch API
      *
      * @param reqData fetch api request params
      * @return false to prevent request execution
      */
-    beforeParse?(opts: RequestParams): void | Promise<RequestParams>
+    beforeParse?(opts: RequestParams<any, any, _P>): void | Promise<RequestParams<any, any, _P>>
 
     /**
      * Preprocess mutable request data right before it passed to Fetch API
      *
      * @param reqData fetch api request params
      */
-    beforeRequest?(reqData: RequestParamsProcessed): void | boolean | Promise<void | boolean>
+    beforeRequest?(reqData: RequestParamsProcessed<_P>): void | boolean | Promise<void | boolean>
 
     /**
      * Triggered after successful request was made
@@ -120,14 +125,14 @@ type SetupParams = {
      * @param reqData - fetch api request params
      * @param parsedRes - parsed response
      */
-    afterRequest?(reqData: RequestParamsProcessed, parsedRes: any): void
+    afterRequest?(reqData: RequestParamsProcessed<_P>, parsedRes: any): void
 
     /**
      * Triggered if request was failure
      *
      * @param error - error onject params
      */
-    errorHandler?(error: ReqError): void
+    errorHandler?(error: ReqError<_P>): void
 
     /** For every request applies json content type to headers and parses response as json */
     json?: RequestParams['json']

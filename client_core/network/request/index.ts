@@ -21,10 +21,10 @@ const jsonContentTypeHeaders = {
 const jsonParseMethod = 'json'
 
 
-function extractRequestData(request: RequestParams) {
+function extractRequestData<_P>(request: RequestParams<any, any, _P>) {
     const {
         url, query, params, method, headers, body, credentials, signal,
-        json, jsonStringifyPostprocess
+        json, jsonStringifyPostprocess, passThroughPayload
     } = request
 
     const options: RequestParamsProcessed['options'] = { method }
@@ -68,9 +68,10 @@ function extractRequestData(request: RequestParams) {
 
 
     return {
+        options,
+        passThroughPayload: passThroughPayload as _P,
         initialURL: url,
-        url: fetchURL,
-        options
+        url: fetchURL
     }
 }
 
@@ -130,7 +131,7 @@ async function isAllowedToProcess(
 }
 
 
-const createApi = (setupParams: SetupParams = {}) => {
+const createApi = <_P = any>(setupParams: SetupParams<_P> = {}) => {
     const {
         preventSame: preventSameGlobal,
         beforeParse, beforeRequest, afterRequest, errorHandler,
@@ -139,7 +140,7 @@ const createApi = (setupParams: SetupParams = {}) => {
     const activeRequest = new Set()
 
 
-    return async <Res = any, Body = any>(req: RequestParams<Body, Res>) => {
+    return async <Res = any, Body = any>(req: RequestParams<Body, Res, _P>) => {
 
         if (!isExists(req.json)) {
             req.json = json
@@ -154,7 +155,7 @@ const createApi = (setupParams: SetupParams = {}) => {
 
         const { isFullRes, preventSame } = req
 
-        const reqData = extractRequestData(req)
+        const reqData = extractRequestData<_P>(req)
         const { options, url } = reqData
 
         const isSameReqPrevent = preventSame != false && (preventSame || preventSameGlobal)
@@ -205,17 +206,20 @@ const createApi = (setupParams: SetupParams = {}) => {
                 }
 
             } catch (err) {
+                type _ReqErr = ReqError<_P>
+
+
                 isSameReqPrevent && activeRequest.delete(reqKey)
 
-                ;(err as ReqError).req = reqData
+                ;(err as _ReqErr).req = reqData
 
-                const preventGlobalHandler = req.onError?.(err as ReqError)
-                preventGlobalHandler || errorHandler?.(err as ReqError)
+                req.onError?.(err as _ReqErr)
+                errorHandler?.(err as _ReqErr)
 
 
                 return {
                     res: null,
-                    err: err as ReqError
+                    err: err as _ReqErr
                 }
             }
 

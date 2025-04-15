@@ -4,7 +4,7 @@ import { NumberPicker, NumberPickerProps } from 'app/components'
 
 
 const Demo = () => {
-    const [ value, setValue ] = useState<number>(0)
+    const [ value, setValue ] = useState<NumberPickerProps['value']>(0)
     const props: NumberPickerProps = {
         value,
         placeholder: 'placeholder',
@@ -16,7 +16,7 @@ const Demo = () => {
 
     return <>
         <h2 children='simple' />
-        <NumberPicker { ...props } />
+        <NumberPicker { ...props } precision={ 1 } zeroesPadLeft={ 2 } />
 
         <h2 children='with step[0.1] limit[-2 - 10] precision[2] autofocus' />
         <NumberPicker { ...props } step={ 0.1 } min={ -2 } max={ 10 } precision={ 2 } />

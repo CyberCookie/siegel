@@ -123,7 +123,6 @@ Receives **1** argument - **Object** wit the next fields:
 - `onSuccess` - Successful response callback<br />
 
 - `onError` - Error response callback<br />
-    Return **true** to prevent propagation to the global error handler
 
 - `isFullRes` - **Boolean** Default is **false**<br />
     Returns full response with headers, status code etc
