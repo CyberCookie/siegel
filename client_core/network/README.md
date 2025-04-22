@@ -91,6 +91,9 @@ Receives **1** argument - **Object** wit the next fields:
     Prevents request if the same request is already processing<br />
     Same request is a request with the same **url** **method** and **stringified body**
 
+- `passThroughPayload` - **Any**.
+    Doesn't affect request itself. Can be handy in global requests interceptors
+
 
 <br /><br />
 

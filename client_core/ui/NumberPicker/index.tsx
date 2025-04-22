@@ -49,12 +49,11 @@ const NumberPicker = component<Props, DefaultProps>(
         },
         inputTheme: {},
         min: -Infinity,
-        max: Infinity,
-        precisionKeepZeroes: true
+        max: Infinity
     },
     props => {
         const {
-            theme, disabled, step, precision, disabledInput, className, precisionKeepZeroes,
+            theme, disabled, step, precision, disabledInput, className,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
             rootTagAttributes, inputRootAttributes, children, debounceMs, suffix, prefix,
             autofocus, mask, inputTheme, inputMemoDeps, inputClassName,
@@ -199,7 +198,7 @@ const NumberPicker = component<Props, DefaultProps>(
             isExists(precision) && (result = result.toFixed(precision))
 
             const newNumberValue = +result
-            const stringValue = `${precisionKeepZeroes ? result : newNumberValue}`
+            const stringValue = `${result}`
 
             onChange({
                 value: stringValue,
@@ -269,17 +268,16 @@ const NumberPicker = component<Props, DefaultProps>(
                 const newValueString = pretifyInputString(value)
                 if (stringValue != newValueString) {
 
-                    const newNumberValue = parseFloat(value)
+                    const newNumberValue = adjustWithRanges(parseFloat(value), min, max)
 
-
-                    newNumberValue != prevValidNumber && newValueString && onChange({
+                    !isNaN(newNumberValue) && newNumberValue != prevValidNumber && onChange({
                         event, payload, prevValidNumber,
                         numberValue: newNumberValue,
-                        isValidNumberString: isValidNumberString(newValueString, newNumberValue)
-                            &&  newNumberValue == adjustWithRanges(newNumberValue, min, max),
+                        isValidNumberString: isValidNumberString(newValueString, newNumberValue),
                         value: newValueString,
                         prevValue: value
                     })
+
 
                     onStringChange?.(value, event)
 
@@ -291,7 +289,7 @@ const NumberPicker = component<Props, DefaultProps>(
 
 
         let stepper
-        if (!disabled && step) {
+        if (!disabled && isExists(step)) {
             const {
                 isDisabledDown, isDisabledUp, stepperElement
             } = getStepButtons({

@@ -14,10 +14,13 @@ type Params = {
 }
 
 
+const CHAR_ZERO = '0'
+const CHAR_DOT = '.'
+
 function getInputString(params: Params) {
     if (isExists(params.props.value)) {
         const {
-            props: { value, precision, zeroesPadLeft, precisionKeepZeroes },
+            props: { value, precision, zeroesPadLeft },
             isFocused, numberMask, prevValidNumber
         } = params
 
@@ -40,21 +43,19 @@ function getInputString(params: Params) {
             if (!isNumberNaN && isExists(precision)) {
                 let isPrecisionAdjust = true
                 if (isFocused) {
-                    indexOfDot = result.indexOf('.')
+                    indexOfDot = result.indexOf(CHAR_DOT)
                     isPrecisionAdjust = indexOfDot >= 0 && ((result.length - 1) - indexOfDot) > precision
                 }
 
                 isPrecisionAdjust && (result = numberValue.toFixed(precision))
 
-                if (!(isFocused || precisionKeepZeroes)) {
-                    result = `${numberValue}`
-                }
+                isFocused && (result = `${numberValue}`)
             }
 
 
             if (!isFocused) {
                 const lastChar = result.at(-1)
-                lastChar == '.' && (result = result.substring(0, result.length - 1))
+                lastChar == CHAR_DOT && (result = result.substring(0, result.length - 1))
 
 
                 if (zeroesPadLeft! > 0) {
@@ -63,7 +64,7 @@ function getInputString(params: Params) {
 
                     const zeroPadIndexOfDot = isExists(indexOfDot)
                         ?   indexOfDot
-                        :   result.indexOf('.')
+                        :   result.indexOf(CHAR_DOT)
 
                     const padStartIndex = isNegative ? 1 : 0
                     const padEndIndex = zeroPadIndexOfDot! >= 0
@@ -73,7 +74,7 @@ function getInputString(params: Params) {
                     const curPadLength = padEndIndex! - padStartIndex
 
                     if (curPadLength < zeroesPadLeft!) {
-                        const extraZeroes = '0'.repeat(zeroesPadLeft! - curPadLength)
+                        const extraZeroes = CHAR_ZERO.repeat(zeroesPadLeft! - curPadLength)
                         result = result.replace(
                             firstChar,
                             isNegative

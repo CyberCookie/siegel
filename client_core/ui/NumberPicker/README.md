@@ -102,11 +102,6 @@ Input for numbers with various validations built on top of `Input` component<br 
     - Value precission (number of digits after dot)
     - **Number**<br /><br />
 
-- `precisionKeepZeroes`
-    - Keeps fractional ending zeroes
-    - **Boolean**
-    - Default is **true**<br /><br />
-
 - `zeroesPadLeft`
     - Adds zeroes before value
     - **Number**<br /><br />

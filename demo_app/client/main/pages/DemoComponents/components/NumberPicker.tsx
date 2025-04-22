@@ -16,10 +16,10 @@ const Demo = () => {
 
     return <>
         <h2 children='simple' />
-        <NumberPicker { ...props } precision={ 1 } zeroesPadLeft={ 2 } />
+        <NumberPicker { ...props } />
 
         <h2 children='with step[0.1] limit[-2 - 10] precision[2] autofocus' />
-        <NumberPicker { ...props } step={ 0.1 } min={ -2 } max={ 10 } precision={ 2 } />
+        <NumberPicker { ...props } step={ 1 } min={ -2 } max={ 5 } precision={ 2 } />
 
         <h2 children='with step[3.5] precision[1] zeroesPadLeft[2] suffix[%]' />
         <NumberPicker { ...props } step={ 3.5 } precision={ 1 } zeroesPadLeft={ 2 } suffix='%' />

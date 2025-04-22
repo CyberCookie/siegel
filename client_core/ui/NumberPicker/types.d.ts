@@ -117,9 +117,6 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /** Value precission (number of digits after dot) */
     precision?: number
 
-    /** Adds zeroes to the end of value if precission allows */
-    precisionKeepZeroes?: boolean
-
     /** Adds zeroes before value */
     zeroesPadLeft?: number
 
@@ -165,7 +162,6 @@ type DefaultProps = NonNullableProps<{
     theme: Props['theme']
     min: Props['min']
     max: Props['max']
-    precisionKeepZeroes: Props['precisionKeepZeroes']
     inputTheme: Partial<NonNullable<InputProps['theme']>>
 }>
 

@@ -276,7 +276,7 @@ Read more about demo project [here](https://github.com/CyberCookie/siegel/tree/m
 ### VSCode tweaks
 
 <p>
-    In order to enable all the features, Siegel provides, you should first change some settings in your VSCode:<br />
+    In order to enable all the features that Siegel provides, you should first change some settings in your VSCode:<br />
 
 ```json
 {

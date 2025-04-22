@@ -66,6 +66,7 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
     /** For this request prevents request if the same request is already processing */
     preventSame?: boolean
 
+    /** Doesn't affect request itself. Can be handy in global requests interceptors */
     passThroughPayload?: _P
 
     /**

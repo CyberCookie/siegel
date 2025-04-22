@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.16.3",
+    "version": "0.16.4",
     "homepage": "https://siegel-qe3q.onrender.com",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -64,15 +64,15 @@
         "validate": "npx eslint . && npx tsc -p ."
     },
     "dependencies": {
-        "@eslint/js": "9.24.0",
+        "@eslint/js": "9.25.1",
         "@pmmmwh/react-refresh-webpack-plugin": "0.5.16",
-        "@swc/core": "1.11.16",
+        "@swc/core": "1.11.21",
         "autoprefixer": "10.4.21",
         "compression-webpack-plugin": "11.1.0",
         "copy-webpack-plugin": "13.0.0",
         "css-loader": "7.1.2",
         "eslint-plugin-react": "7.37.5",
-        "eslint-webpack-plugin": "5.0.0",
+        "eslint-webpack-plugin": "5.0.1",
         "express": "5.1.0",
         "html-webpack-plugin": "5.6.3",
         "mime": "4.0.7",
@@ -81,7 +81,7 @@
         "react": "18.3.1",
         "react-dom": "18.3.1",
         "react-refresh": "0.17.0",
-        "sass": "1.86.3",
+        "sass": "1.87.0",
         "sass-loader": "16.0.5",
         "sass-resources-loader": "2.2.5",
         "style-loader": "4.0.0",
@@ -92,9 +92,9 @@
         "ts-node": "10.9.2",
         "ttf2woff": "3.0.0",
         "ttf2woff2": "6.0.1",
-        "typescript-eslint": "8.29.0",
+        "typescript-eslint": "8.31.0",
         "typescript-plugin-css-modules": "5.1.0",
-        "webpack": "^5.98.0",
+        "webpack": "^5.99.6",
         "webpack-dev-middleware": "7.4.2",
         "webpack-hot-middleware": "2.26.1",
         "worker-loader": "3.0.8"
@@ -113,12 +113,10 @@
         "@types/react": "18.3.12",
         "@types/react-dom": "18.3.1",
         "@types/svg2ttf": "5.0.3",
-        "@types/svgicons2svgfont": "14.0.0",
         "@types/ttf2woff": "2.0.4",
-        "@types/ttf2woff2": "6.0.0",
         "@types/webpack-env": "1.18.8",
         "@types/webpack-hot-middleware": "2.25.9",
-        "eslint": "9.24.0",
+        "eslint": "9.25.1",
         "typescript": "5.8.3"
     }
 }
