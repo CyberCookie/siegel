@@ -48,8 +48,6 @@ function getInputString(params: Params) {
                 }
 
                 isPrecisionAdjust && (result = numberValue.toFixed(precision))
-
-                isFocused && (result = `${numberValue}`)
             }
 
 

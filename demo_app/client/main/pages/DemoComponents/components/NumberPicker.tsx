@@ -4,7 +4,7 @@ import { NumberPicker, NumberPickerProps } from 'app/components'
 
 
 const Demo = () => {
-    const [ value, setValue ] = useState<NumberPickerProps['value']>(0)
+    const [ value, setValue ] = useState<NumberPickerProps['value']>(0.000001)
     const props: NumberPickerProps = {
         value,
         placeholder: 'placeholder',

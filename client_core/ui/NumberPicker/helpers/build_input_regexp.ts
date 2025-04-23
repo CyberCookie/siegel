@@ -20,16 +20,17 @@ function buildInputRegexp(
             max >= 0 && (regexpTemplate += '?')
         }
 
-        regexpTemplate += '\\d'
+        regexpTemplate += '\\d*'
+        // regexpTemplate += '\\d'
 
-        if (isFinite(min) || isFinite(max)) {
-            const maxNumberAllowed = Math.max( Math.abs(min), Math.abs(max) )
-            const regexpModificator = isFinite(maxNumberAllowed)
-                ?   `${parseInt(maxNumberAllowed)}`.length
-                :   ''
+        // if (isFinite(min) || isFinite(max)) {
+        //     const maxNumberAllowed = Math.max( Math.abs(min), Math.abs(max) )
+        //     const regexpModificator = isFinite(maxNumberAllowed)
+        //         ?   `${parseInt(maxNumberAllowed)}`.length
+        //         :   ''
 
-            regexpTemplate += `{0,${regexpModificator}}`
-        } else regexpTemplate += '*'
+        //     regexpTemplate += `{0,${regexpModificator}}`
+        // } else regexpTemplate += '*'
 
         if (precision != 0) {
             regexpTemplate += '([.,]\\d'
