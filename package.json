@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.16.7",
+    "version": "0.16.8",
     "homepage": "https://siegel-qe3q.onrender.com",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -66,7 +66,7 @@
     "dependencies": {
         "@eslint/js": "9.25.1",
         "@pmmmwh/react-refresh-webpack-plugin": "0.5.16",
-        "@swc/core": "1.11.21",
+        "@swc/core": "1.11.22",
         "autoprefixer": "10.4.21",
         "compression-webpack-plugin": "11.1.0",
         "copy-webpack-plugin": "13.0.0",
@@ -89,7 +89,6 @@
         "svgicons2svgfont": "15.0.1",
         "swc-loader": "0.2.6",
         "terser-webpack-plugin": "5.3.14",
-        "ts-node": "10.9.2",
         "ttf2woff": "3.0.0",
         "ttf2woff2": "6.0.1",
         "typescript-eslint": "8.31.0",
@@ -117,6 +116,7 @@
         "@types/webpack-env": "1.18.8",
         "@types/webpack-hot-middleware": "2.25.9",
         "eslint": "9.25.1",
+        "ts-node": "10.9.2",
         "typescript": "5.8.3"
     }
 }

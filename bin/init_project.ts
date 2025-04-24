@@ -33,7 +33,6 @@ function main(isGlobal?: boolean) {
     const INIT_LOC_NAMES = {
         DEMO_APP_SERVER_DIR_NAME:   'server',
         DEMO_APP_SERVER_EXTENDER:   'app_server.ts',
-        DEMO_APP_SIEGEL_CONFIG:     'siegel_config.ts',
         GITIGNOR_FILENAME:          '.gitignore',
         TS_GLOBALS:                 'global'
     } as const
@@ -59,7 +58,6 @@ function main(isGlobal?: boolean) {
 
         userServerEntryPath,
         userServerExtenderPath:         join(userServerPath, INIT_LOC_NAMES.DEMO_APP_SERVER_EXTENDER),
-        userServerSiegelConfigPath:     join(userServerPath, INIT_LOC_NAMES.DEMO_APP_SIEGEL_CONFIG),
         userServerTSConfigPath:         join(userServerPath, LOC_NAMES.TS_JSON),
         userTSConfigPath:               join(PATHS.cwd, LOC_NAMES.TS_JSON),
         userTSGlobal:                   join(PATHS.cwd, LOC_NAMES.TS_GLOBAL_TYPES),
@@ -95,7 +93,7 @@ function main(isGlobal?: boolean) {
             :   siegelPackageName
 
 
-        ;([ INIT_PATHS.userServerEntryPath, INIT_PATHS.userServerExtenderPath, INIT_PATHS.userServerSiegelConfigPath ])
+        ;([ INIT_PATHS.userServerEntryPath, INIT_PATHS.userServerExtenderPath ])
             .forEach(path => {
                 const newFileContent = readFileSync(path, 'utf8')
                     .replace(replaceStringPart, siegelEntryPointPath)

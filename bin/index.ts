@@ -74,7 +74,7 @@ const COMMANDS_TREE: CommanTree = {
             },
             {
                 flagLong: '--config',
-                description: 'Path to siegel config.',
+                description: 'Path to Siegel config.',
                 async paramAction({ value, result }) {
                     const resolvedPath = resolvePath(value as string)
 
@@ -148,7 +148,7 @@ const COMMANDS_TREE: CommanTree = {
 
 
     init: {
-        description:    `Creates production ready project with predefined folder structure including already configured siegel.
+        description:    `Creates production ready project with predefined folder structure including already configured Siegel.
                         \r\tModifies existing ${LOC_NAMES.PACKAGE_JSON} or creates new one.
                         \r\tMore about demo project read here: ${getColoredHighlightText(`https://github.com/CyberCookie/siegel/tree/master/${LOC_NAMES.DEMO_APP_DIR_NAME}`)}`,
         example: true,

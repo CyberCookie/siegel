@@ -1,9 +1,9 @@
 import type { HookStore } from '../index'
 
 
-type AnyError = {
+type AnyError<_E = Obj> = {
     date: number
-} & Obj
+} & _E
 
 
 type State = {

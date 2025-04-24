@@ -300,7 +300,7 @@ In case you've cloned this repo:
 
 <br />
 
-To build `siegel` run:
+To build `Siegel` run:
 
 ```sh
 npm run __transpile

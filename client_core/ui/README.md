@@ -182,7 +182,7 @@ import Button from 'siegel/lib/client_core/ui/Button'
 
 ### Memoization
 
-You may pass `memoDeps` prop to any siegel component.<br />
+You may pass `memoDeps` prop to any Siegel component.<br />
 Property itself is just a second parameter of `React.memo` function.<br />
 Returns **true** if component should not update.
 

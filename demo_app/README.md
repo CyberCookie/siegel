@@ -47,10 +47,10 @@ Install dependencies with `npm i`.
         - `copy` - assets in this folder was copied by `WebpackCopyPlugin` to the output folder
     - `main` - UI and business logic
         - `network` - setup client-server networking
-        - `modules` - api calls and app state manager using siegel's `Request` and `Hook Store`
-        - `Router` - demo routing with siegel's `react-router wrapper`
+        - `modules` - api calls and app state manager using Siegel's `Request` and `Hook Store`
+        - `Router` - demo routing with Siegel's `react-router wrapper`
         - `Layout` - pages wrapper. Components like header, footer etc.
-        - `components` - app level components, icons, raw siegel's `components theming`
+        - `components` - app level components, icons, raw Siegel's `components theming`
         - `pages` - app pages
             - Home - welcome demo page
             - DemoComponents - demo of all the themed components with their variations
@@ -62,9 +62,8 @@ Install dependencies with `npm i`.
     - `styles.sass` - styles that are not plugged in react components directly
     - `sw.js` - service worker with uniq and the best caching strategy
 - `server` - application entrypoint
-    - `app_server.ts` -  siegel static server extender
-    - `index.ts` - demo app entrypoint
-    - `siegel_config.ts` - siegel config
+    - `app_server.ts` -  Siegel static server extender
+    - `index.ts` - demo app entrypoint with Siegel config
 - `dto` - shared client-server api contracts types
 - `.eslintrc` - eslint config
 - `tsconfig.eslint.json` - eslint typescript config

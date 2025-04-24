@@ -67,7 +67,7 @@ type StaticServingData = {
 
         /*
             SSL params to establish secure connection (HTTPS HTTP2S)
-            Use siegel's 'create_ssl' script to create localhost certificate
+            Use Siegel's 'create_ssl' script to create localhost certificate
         */
         ssl: {
             /* Path to ssl private key */
@@ -116,7 +116,7 @@ To extend built in server you may use `server.appServer` config property
 import myServer from './my_server.ts'
 
 
-// ...siegel_config
+// ...Siegel_config
 {
     server: {
         appServer: myServer
@@ -136,7 +136,7 @@ The **Function**, both for HTTP1.1 and HTTP2 receives almost the same **2**** ar
             - **http2.ServerHttp2Stream**.<br />
             Return `true` to prevent further request processing
         - `staticServer` - Static server created with `http2` module
-- **siegel config** - Siegel config
+- **Siegel config** - Siegel config
 
 The User App function is called right before static server features was applied.<br />
 Static server caches resources by resource name, so you should always add hash to static files at build stage.<br />

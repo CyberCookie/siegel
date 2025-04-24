@@ -163,7 +163,7 @@ All the fields are optional since many of them are already defined in core defau
 
         /*
             Postprocess the final webpack config before being passed to webpack
-            Receives webpack config as a first parameter, siegel config as a second and
+            Receives webpack config as a first parameter, Siegel config as a second and
             build constants (build dependencies, plugin/loader keys) as third
         */
         postProcessWebpackConfig: Function
