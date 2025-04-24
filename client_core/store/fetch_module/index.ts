@@ -1,6 +1,6 @@
 import createStore from '../index'
 
-import type { State, Actions } from './types'
+import type { State, Actions, AnyError, StoreInitialized } from './types'
 
 
 const getInitState = () => ({
@@ -72,4 +72,4 @@ const { useStore, store, reset } = createStore(getInitState, actions)
 
 export default useStore
 export { store, reset }
-export * from './types'
+export type { State, AnyError, Actions, StoreInitialized }
