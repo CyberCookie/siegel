@@ -2,8 +2,13 @@
     "name": "siegel",
     "version": "0.16.10",
     "homepage": "https://siegel-qe3q.onrender.com",
-    "url": "https://github.com/CyberCookie/siegel",
-    "bugs": "https://github.com/CyberCookie/siegel/issues",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/CyberCookie/siegel.git"
+    },
+    "bugs": {
+        "url": "https://github.com/CyberCookie/siegel/issues"
+    },
     "description": "Web application development ecosystem",
     "keywords": [
         "web",
