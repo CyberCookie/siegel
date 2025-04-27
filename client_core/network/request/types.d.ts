@@ -98,7 +98,6 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
      * Error response callback
      *
      * @param err error object that contains request parameters, response and error message and status
-     * @return true to prevent propagation to the global error handler
      */
     onError?: (err: ReqError<_P>) => void
 }

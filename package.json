@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.16.9",
+    "version": "0.16.10",
     "homepage": "https://siegel-qe3q.onrender.com",
     "url": "https://github.com/CyberCookie/siegel",
     "bugs": "https://github.com/CyberCookie/siegel/issues",
@@ -93,7 +93,7 @@
         "ttf2woff2": "6.0.1",
         "typescript-eslint": "8.31.0",
         "typescript-plugin-css-modules": "5.1.0",
-        "webpack": "^5.99.6",
+        "webpack": "^5.99.7",
         "webpack-dev-middleware": "7.4.2",
         "webpack-hot-middleware": "2.26.1",
         "worker-loader": "3.0.8"

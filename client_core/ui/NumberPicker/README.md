@@ -42,13 +42,7 @@ Input for numbers with various validations built on top of `Input` component<br 
 - `onChange`
     - Triggered when NumberPicker number value is change
     - **Function** Has **1** argument - **Object** with the next props:
-        - `value` - **String**. New value
-        - `prevValue` - `props.value`. Previous NumberPicker value
         - `numberValue` - **Number** value. **NaN** if `value` is en empty **String**
-        - `isValidNumberString` - **Boolean**. **True** if `numberValue` is not **NaN**<br />
-            and `numberValue` lays between `props.min` and `props.max`<br />
-            and `value` is valid number string without open comma '.'
-        - `prevValidNumber` - **Number | undefined**. Last valid `numberValue`<br />
         - `event` - **FocusEvent | MouseEvent | KeyboardEvent | ChangeEvent**
         - `isKeyboardArrowUp` - **True** if **arrowUp** was pressed. **False** if **arrowUp** was. Othervice **undefined**
         - `payload` - **props.payload**<br /><br />
@@ -112,9 +106,13 @@ Input for numbers with various validations built on top of `Input` component<br 
 
 - `onStringChange`
     - Triggered if NumberPicker string value is change
-    - **Function** Has **2** arguments:
+    - **Function** Has **1** argument - **Object** with the next props:
         - `value` - **String**. New string value
-        - `event` - **FocusEvent | ChangeEvent**<br /><br />
+        - `isValidNumberString` - **Boolean**. **True** if `numberValue` is not **NaN**<br />
+            and `numberValue` lays between `props.min` and `props.max`<br />
+            and `value` is valid number string
+        - `event` - **ChangeEvent**
+        - `payload` - **props.payload**<br /><br />
 
 - `onFocus`
     - Triggered if NumberPicker takes focus

@@ -12,7 +12,6 @@ type OnNumberPickerChange = (
     step: number
 ) => void
 
-
 type Theme = {
     /** Root tag state if both props.disabled and props.diabledInput is true */
     _disabled_all?: string
@@ -52,20 +51,8 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
      * @param changeParams Change params
      */
     onChange(changeParams: {
-        /** New string value */
-        value: string
-
-        /** Previous string value */
-        prevValue: Props['value']
-
         /** New number value */
         numberValue: number
-
-        /** Is valid new string value */
-        isValidNumberString: boolean
-
-        /** Previous number value when isValidNumberString was true */
-        prevValidNumber: number | undefined
 
         /** Change event */
         event: Parameters<OnNumberPickerChange>[0] | React.ChangeEvent<HTMLInputElement>
@@ -125,8 +112,19 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 
     /** Triggered if NumberPicker string value is change */
     onStringChange?: (
-        value: string,
-        e: Parameters<NonNullable<InputProps['onChange']>>[1]
+        changeParams: {
+            /** New string value */
+            value: string
+
+            /** Is valid new string as number value */
+            isValidStringNumber: boolean
+
+            /** Change event */
+            event: Parameters<NonNullable<InputProps['onChange']>>[1]
+
+            /** NumberPicker props.payload */
+            payload: _Payload
+        }
     ) => void
 
     /** Triggered if NumberPicker loses its focus */
