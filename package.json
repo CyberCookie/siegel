@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.16.10",
+    "version": "0.16.11",
     "homepage": "https://siegel-qe3q.onrender.com",
     "repository": {
         "type": "git",
@@ -70,8 +70,7 @@
     },
     "dependencies": {
         "@eslint/js": "9.25.1",
-        "@pmmmwh/react-refresh-webpack-plugin": "0.5.16",
-        "@swc/core": "1.11.22",
+        "@pmmmwh/react-refresh-webpack-plugin": "0.6.0",
         "autoprefixer": "10.4.21",
         "compression-webpack-plugin": "11.1.0",
         "copy-webpack-plugin": "13.0.0",
@@ -112,6 +111,7 @@
         "typedoc-plugin-markdown": "^4.6.1"
     },
     "peerDependencies": {
+        "@swc/core": "1.11.21",
         "@types/express": "5.0.1",
         "@types/node": "22.14.0",
         "@types/react": "18.3.12",

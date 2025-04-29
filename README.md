@@ -64,8 +64,9 @@ Read more about each part following the links below:
     - [Server](https://github.com/CyberCookie/siegel/tree/master/core/server) - Minimalistic HTTP1.1(S) / HTTP2(S) servers built with ExpressJS 
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/core/utils) - NodeJS related utils
 - [Cross env utils](https://github.com/CyberCookie/siegel/tree/master/common) - Basic utils to help you process data
-- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) - Examle project demonstrating Siegel abilities
 - [TS utils](https://github.com/CyberCookie/siegel/tree/master/global.d.ts) - Useful TypeScript generics
+- [Demo project](https://github.com/CyberCookie/siegel/tree/master/demo_app) - Examle project demonstrating Siegel abilities
+- [Demo mini project](https://github.com/CyberCookie/siegel/tree/master/demo_app_minimal) - Examle minimal project demonstrating Siegel abilities
 
 <br /><br />
 
@@ -181,8 +182,8 @@ siegel('/path/to/js_entry.ts')
 
 <br />
 
-[Build config](https://github.com/CyberCookie/siegel/tree/master/core/client_build) <br />
-[Server config](https://github.com/CyberCookie/siegel/tree/master/core/server)
+[Build config](https://github.com/CyberCookie/siegel/tree/master/core/client_build#config) <br />
+[Server config](https://github.com/CyberCookie/siegel/tree/master/core/server#config)
 
 ```ts
 {   
