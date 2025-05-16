@@ -9,6 +9,12 @@ type ProxyParams = {
     /** Destination port */
     port?: number
 
+    /** Rewrites origin query params [doesn't affect web socket subscription] */
+    query?: Obj<string>
+
+    /** Rewrites origin path [doesn't affect web socket subscription] */
+    path?: string
+
     /** Replaces origin host header with target host */
     changeOrigin?: boolean
 

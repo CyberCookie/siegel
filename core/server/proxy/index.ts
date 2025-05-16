@@ -1,6 +1,9 @@
 import http, { Server, IncomingHttpHeaders, IncomingMessage, RequestOptions } from 'http'
 import https from 'https'
 
+import isEmptyObject from '../../../common/is/empty_obj'
+import populateURLParams from '../../../common/populate_url_params'
+
 import type { Socket } from 'net'
 import type { RequestHandler } from 'express'
 import type { Proxy, ProxyParams } from './types'
@@ -35,16 +38,32 @@ function updateSocket(socket: Socket, head: Buffer<ArrayBufferLike>) {
 
 function getProxyRequestOptions(
     proxyParams: ProxyParams,
-    clientReq: Parameters<RequestHandler>[0] | IncomingMessage
+    clientReq: Parameters<RequestHandler>[0] | IncomingMessage,
+    isWS?: boolean
 ) {
 
     const { host, port, changeOrigin, postProcessReq, secure } = proxyParams
     const { url, method, headers } = clientReq
 
+    let finalPath: string
+    if (isWS) finalPath = url!
+    else {
+        const { query, params, path } = clientReq as Parameters<RequestHandler>[0]
+
+        const proxyQuery = proxyParams.query || query
+        const proxyPath = proxyParams.path || path
+        finalPath = isEmptyObject(proxyQuery)
+            ?   proxyPath
+            :   `${proxyPath}?${new URLSearchParams(proxyQuery as NonNullableProps<Obj<string>>)}`
+
+        params && (finalPath = populateURLParams(finalPath, params))
+    }
+
+
     const proxyReqOptions = {
         host, method, headers,
         port: !port && secure ? 443 : port,
-        path: url
+        path: finalPath
     } satisfies RequestOptions
 
     if (changeOrigin) {
@@ -75,7 +94,7 @@ const proxy: Proxy = proxyParams => {
 
 
                     client.request(
-                        getProxyRequestOptions(proxyParams, req)
+                        getProxyRequestOptions(proxyParams, req, true)
                     )
                     .on('upgrade', (pRes, pSocket, pHead) => {
                         updateSocket(pSocket, pHead)
