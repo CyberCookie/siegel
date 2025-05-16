@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.16.12",
+    "version": "0.16.13",
     "homepage": "https://siegel-qe3q.onrender.com",
     "repository": {
         "type": "git",
@@ -37,7 +37,7 @@
     "engineStrict": true,
     "engines": {
         "node": ">= 18",
-        "npm": ">= 7"
+        "npm": ">= 8"
     },
     "config": {
         "boot": "node --no-warnings=ExperimentalWarning --loader ts-node/esm demo_app/server/index.js"

@@ -84,9 +84,16 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
     jsonParsePreprocess?(json: string): string
 
     /**
+     * Postprocess Fetch API's mutable options parameter
+     *
+     * @param fetchOptions fetch api request options
+     */
+    fetchOptionsPostprocess?(fetchOptions: RequestInit): void
+
+    /**
      * Preprocess mutable request data right before it passed to Fetch API
      *
-     * @param reqData fetch api request params
+     * @param reqData every request params
      * @return false to prevent request execution
      */
     beforeRequest?: NonNullable<SetupParams<_P>['beforeRequest']>
@@ -105,30 +112,37 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
 
 type SetupParams<_P = any> = {
     /**
-     * Preprocess mutable request data right before it passed to Fetch API
+     * For every request preprocess mutable request data right before it passed to Fetch API
      *
-     * @param reqData fetch api request params
+     * @param reqData request params
      * @return false to prevent request execution
      */
     beforeParse?(opts: RequestParams<any, any, _P>): void | Promise<RequestParams<any, any, _P>>
 
     /**
-     * Preprocess mutable request data right before it passed to Fetch API
+     * For every request postprocess mutable Fetch API's options parameter
      *
-     * @param reqData fetch api request params
+     * @param fetchOptions fetch api request options
+     */
+    fetchOptionsPostprocess?(fetchOptions: RequestInit): void
+
+    /**
+     * For every request preprocess request data right before it passed to Fetch API
+     *
+     * @param reqData request params
      */
     beforeRequest?(reqData: RequestParamsProcessed<_P>): void | boolean | Promise<void | boolean>
 
     /**
-     * Triggered after successful request was made
+     * For every request triggered after successful request was made
      *
-     * @param reqData - fetch api request params
+     * @param reqData - request params
      * @param parsedRes - parsed response
      */
     afterRequest?(reqData: RequestParamsProcessed<_P>, parsedRes: any): void
 
     /**
-     * Triggered if request was failure
+     * For every request triggered if request was failure
      *
      * @param error - error onject params
      */

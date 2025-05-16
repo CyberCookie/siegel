@@ -1,4 +1,5 @@
-//TODO?: add multi select
+//TODO: add multi select
+//TODO: add grouping
 //TODO?: detect options position to handle options overflow
 
 import React, { useState, useRef } from 'react'

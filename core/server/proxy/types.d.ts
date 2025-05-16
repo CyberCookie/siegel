@@ -1,29 +1,34 @@
-import type { IncomingHttpHeaders } from 'http'
+import type { RequestOptions, IncomingMessage } from 'http'
 import type { RequestHandler } from 'express'
 
 
 type ProxyParams = {
+    /** Destination host */
     host: string
+
+    /** Destination port */
     port?: number
-    path?: string
-    query?: Obj<string>
-    method?: string
-    headers?: Obj<string>
+
+    /** Replaces origin host header with target host */
     changeOrigin?: boolean
+
+    /** Makes request over https */
     secure?: boolean
+
+    /** Enables web socket proxying */
+    ws?: boolean
+
+    /** Called after proxy request options is formed giving full controll over the proxy request options */
     postProcessReq?(
-        clientReq: Parameters<RequestHandler>[0],
-        options: {
-            host: ProxyParams['host']
-            port: ProxyParams['port']
-            method: ProxyParams['method']
-            headers: IncomingHttpHeaders
-            path: NonNullable<ProxyParams['path']>
-        }
+        /** Request from origin */
+        clientReq: Parameters<RequestHandler>[0] | IncomingMessage,
+
+        /** Mutable proxy request options */
+        options: RequestOptions
     ): void
 }
 
 type Proxy = (params: ProxyParams) => RequestHandler
 
 
-export type { Proxy }
+export type { Proxy, ProxyParams }

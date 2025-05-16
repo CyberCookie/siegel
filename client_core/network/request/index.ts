@@ -24,7 +24,8 @@ const jsonParseMethod = 'json'
 function extractRequestData<_P>(request: RequestParams<any, any, _P>) {
     const {
         url, query, params, method, headers, body, credentials, signal,
-        json, jsonStringifyPostprocess, passThroughPayload
+        json, passThroughPayload,
+        jsonStringifyPostprocess, fetchOptionsPostprocess
     } = request
 
     const options: RequestParamsProcessed['options'] = { method }
@@ -65,6 +66,8 @@ function extractRequestData<_P>(request: RequestParams<any, any, _P>) {
             ?   (options.headers[HEADERS.CONTENT_TYPE] ||= CONTENT_TYPE.JSON)
             :   (options.headers = jsonContentTypeHeaders)
     }
+
+    fetchOptionsPostprocess?.(options)
 
 
     return {
@@ -133,7 +136,7 @@ async function isAllowedToProcess(
 
 const createApi = <_P = any>(setupParams: SetupParams<_P> = {}) => {
     const {
-        preventSame: preventSameGlobal,
+        preventSame: preventSameGlobal, fetchOptionsPostprocess,
         beforeParse, beforeRequest, afterRequest, errorHandler,
         json, jsonParsePreprocess, jsonStringifyPostprocess
     } = setupParams
@@ -148,6 +151,7 @@ const createApi = <_P = any>(setupParams: SetupParams<_P> = {}) => {
 
         req.jsonStringifyPostprocess ||= jsonStringifyPostprocess
         req.jsonParsePreprocess ||= jsonParsePreprocess
+        req.fetchOptionsPostprocess ||= fetchOptionsPostprocess
 
 
         const ifAsync = beforeParse?.(req)

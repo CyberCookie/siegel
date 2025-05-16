@@ -35,9 +35,13 @@ Receives **1** argument - **Object** wit the next fields:
 
 - `beforeParse` - **Function**. Triggered before request **Object** is beeing parsed<br />
     Has **1** argument:
-    - **reqParams** - **ReqParams**. Concrete request's request params. (Read below)<br />
+    - **reqParams** - **ReqParams**. Request params. (Read below)<br />
 
     Returns **void | Promise<void>**
+
+- `fetchOptionsPostprocess` - **Function**. For every request postprocess mutable Fetch API's options parameter<br />
+    Has **1** argument:
+    - **fetchOptions** - **RequestInit**. Fetch API's request options
 
 - `beforeRequest` - **Function**. Preprocess mutable request data right before it passed to Fetch API<br />
     Has **1** argument:
@@ -146,6 +150,10 @@ Receives **1** argument - **Object** wit the next fields:
 - `jsonStringifyPostprocess` - Post process json string before request occurs
 
 - `jsonParsePreprocess` - Pre process response string before being parsed to object as json string
+
+- `fetchOptionsPostprocess` - **Function**. Postprocess mutable Fetch API's options parameter<br />
+    Has **1** argument:
+    - **fetchOptions** - **RequestInit**. Fetch API's request options
 
 - `preventSame` - **Boolean**<br />
     For this request prevents request if the same request is already processing
