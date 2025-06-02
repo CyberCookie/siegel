@@ -1,5 +1,6 @@
 //TODO?: resize with %
 //TODO?: virtualization handle dynamic height
+//TODO?: showValue expose indexes
 
 
 import React, { useState } from 'react'

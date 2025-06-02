@@ -104,6 +104,11 @@ Input for numbers with various validations built on top of `Input` component<br 
     - Disables NumbrPicker input
     - **Boolean**<br /><br />
 
+- `focusedValueOutsideUpdate`
+    - Rewrites editable value if props.value is changed by outside events
+    - **Boolean**
+    - Default is **true**<br /><br />
+
 - `onStringChange`
     - Triggered if NumberPicker string value is change
     - **Function** Has **1** argument - **Object** with the next props:

@@ -57,6 +57,11 @@ type Entities<Entity extends Obj = Obj> = {
     raw(): State<Entity>
 
     /**
+     * Last update occured timestamp
+     */
+    lastUpdated: number
+
+    /**
      * [ UNSAFE !!! ]
      * Replaces existing entities with new ones
      */

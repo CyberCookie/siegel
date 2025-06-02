@@ -27,7 +27,7 @@ const createHttpHeader = (line: string, headers: IncomingHttpHeaders) => (
             [ line ]
         )
         .join('\r\n') + '\r\n\r\n'
-    )
+)
 
 function updateSocket(socket: Socket, head: Buffer<ArrayBufferLike>) {
     socket.setTimeout(0)
@@ -77,19 +77,29 @@ function getProxyRequestOptions(
     return proxyReqOptions
 }
 
+const PROXY_WS_SUBSCRIPTIONS: Obj<boolean> = {}
+
 const proxy: Proxy = proxyParams => {
-    const { secure, ws } = proxyParams
-
+    const { secure, ws, host, port } = proxyParams
     const client = secure ? https : http
-    let wsOnUpgradeSubscribed = false
-
+    const proxyId = `${host}:${port}`
 
     const proxyRequest: RequestHandler = (clientReq, clientRes) => {
         const { body, socket } = clientReq
 
-        if (ws && !wsOnUpgradeSubscribed) {
+
+        if (ws && !PROXY_WS_SUBSCRIPTIONS[proxyId]) {
             (socket as Socket & { server: Server }).server
-                .on('upgrade', (req, socket: Socket, head) => {
+                .addListener('upgrade', (req, socket: Socket, head) => {
+
+            //     })
+            // (socket as Socket & { server: Server }).server
+            //     .on('upgrade', (req, socket: Socket, head) => {
+                    if (req.method !== 'GET' || !req.headers.upgrade || req.headers.upgrade.toLowerCase() !== 'websocket') {
+                        socket.destroy()
+                        return
+                    }
+
                     updateSocket(socket, head)
 
 
@@ -123,7 +133,7 @@ const proxy: Proxy = proxyParams => {
                     .end()
                 })
 
-            wsOnUpgradeSubscribed = true
+                PROXY_WS_SUBSCRIPTIONS[proxyId] = true
         }
 
 

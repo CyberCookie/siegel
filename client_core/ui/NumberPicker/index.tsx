@@ -66,11 +66,13 @@ const NumberPicker = component<Props, DefaultProps>(
         },
         inputTheme: {},
         min: -Infinity,
-        max: Infinity
+        max: Infinity,
+        focusedValueOutsideUpdate: true
     },
     props => {
+
         const {
-            theme, disabled, step, precision, disabledInput, className,
+            theme, disabled, step, precision, disabledInput, className, focusedValueOutsideUpdate,
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
             rootTagAttributes, inputRootAttributes, children, debounceMs, suffix, prefix,
             autofocus, mask, inputTheme, inputMemoDeps, inputClassName,
@@ -100,10 +102,10 @@ const NumberPicker = component<Props, DefaultProps>(
         const { prevValidNumber, stringValue } = editState
 
         useDidUpdate(() => {
-            setEditState(
+            ((isFocused && focusedValueOutsideUpdate) || !isFocused) && setEditState(
                 getValueState(props, numberValue, numberMask, isFocused)
             )
-        }, [ value ])
+        }, [ focusedValueOutsideUpdate, isFocused, value ])
 
 
 

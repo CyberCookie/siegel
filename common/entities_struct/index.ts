@@ -19,6 +19,8 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             byID = {}
             sorted = []
 
+
+            entityStruct.lastUpdated = Date.now()
             return entityStruct
         },
 
@@ -28,6 +30,8 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             byID[entityID] || sorted.push(entityID)
             byID[entityID] = entity
 
+
+            entityStruct.lastUpdated = Date.now()
             return entityStruct
         },
 
@@ -39,6 +43,8 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
                 this.addOrUpdate(entity)
             }
 
+
+            entityStruct.lastUpdated = Date.now()
             return entityStruct
         },
 
@@ -50,6 +56,8 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
                 delete byID[entityID]
             }
 
+
+            entityStruct.lastUpdated = Date.now()
             return entityStruct
         },
 
@@ -76,7 +84,9 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             sorted = newState.sorted
 
             return entityStruct
-        }
+        },
+
+        lastUpdated: Date.now()
     }
 
 

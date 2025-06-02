@@ -110,6 +110,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /** Disables NumbrPicker input */
     disabledInput?: boolean
 
+    /** Rewrites editable value if props.value is changed by outside events. Default is true */
+    focusedValueOutsideUpdate?: boolean
+
     /** Triggered if NumberPicker string value is change */
     onStringChange?: (
         changeParams: {
@@ -160,6 +163,7 @@ type DefaultProps = NonNullableProps<{
     theme: Props['theme']
     min: Props['min']
     max: Props['max']
+    focusedValueOutsideUpdate: Props['focusedValueOutsideUpdate']
     inputTheme: Partial<NonNullable<InputProps['theme']>>
 }>
 

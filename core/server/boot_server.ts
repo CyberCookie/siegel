@@ -18,9 +18,19 @@ const server = {
         })
 
 
-        return server.listen(port as number, host!, () => {
+        const serverInstance = server.listen(port as number, host!, () => {
             console.info('Starting server on %s:%s.', host, port)
         })
+
+        // process.on('SIGTERM', () => {
+        //     serverInstance.close()
+        // })
+        // process.on('SIGINT', () => {
+        //     serverInstance.close()
+        // })
+
+
+        return serverInstance
     }
 }
 
