@@ -7,7 +7,7 @@ const getStepButtons: GetStepperButtons = params => {
     const {
         props: {
             theme, disabled, step, valueIncrementIcon, valueDecrementIcon,
-            disabledInput
+            disabledInput, onClick
         },
         min, max, onStepChange, numberValue, onPickerBlur, onPickerFocus
     } = params
@@ -23,7 +23,8 @@ const getStepButtons: GetStepperButtons = params => {
         isDisabledUp = true
     } else {
         plusProps.onClick = e => {
-            onStepChange(e, true, step!)
+            onClick?.(e)
+            !e.defaultPrevented && onStepChange(e, true, step!)
         }
     }
 
@@ -38,7 +39,8 @@ const getStepButtons: GetStepperButtons = params => {
         isDisabledDown = true
     } else {
         minusProps.onClick = e => {
-            onStepChange(e, false, -step!)
+            onClick?.(e)
+            !e.defaultPrevented && onStepChange(e, false, -step!)
         }
     }
 

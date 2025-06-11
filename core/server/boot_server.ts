@@ -13,13 +13,13 @@ const server = {
             :   await httpServer(params)
 
 
-        server.on('error', err => {
-            console.error(err)
-        })
+        server.on('error', console.error)
 
 
-        const serverInstance = server.listen(port as number, host!, () => {
-            console.info('Starting server on %s:%s.', host, port)
+        const serverInstance = server.listen(port as number, host!, err => {
+            err
+                ?   console.error(err)
+                :   console.info('Starting server on %s:%s.', host, port)
         })
 
         // process.on('SIGTERM', () => {

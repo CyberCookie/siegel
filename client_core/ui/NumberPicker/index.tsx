@@ -76,7 +76,7 @@ const NumberPicker = component<Props, DefaultProps>(
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
             rootTagAttributes, inputRootAttributes, children, debounceMs, suffix, prefix,
             autofocus, mask, inputTheme, inputMemoDeps, inputClassName,
-            onChange, onFocus, onBlur, onKeyDown, onStringChange
+            onChange, onFocus, onBlur, onKeyDown, onClick, onStringChange
         } = props
 
         let { min, max } = props
@@ -103,7 +103,10 @@ const NumberPicker = component<Props, DefaultProps>(
 
         useDidUpdate(() => {
             ((isFocused && focusedValueOutsideUpdate) || !isFocused) && setEditState(
-                getValueState(props, numberValue, numberMask, isFocused)
+                getValueState(
+                    props, numberValue, numberMask,
+                    document.activeElement?.nodeName == 'INPUT' ? isFocused : false
+                )
             )
         }, [ focusedValueOutsideUpdate, isFocused, value ])
 
@@ -156,7 +159,7 @@ const NumberPicker = component<Props, DefaultProps>(
 
 
         let numberpickerRootProps: DivTagAttributes = {
-            ref, onKeyDown,
+            ref, onKeyDown, onClick,
             onFocus: onPickerFocus,
             onBlur: onPickerBlur,
             className: applyClassName(className, [

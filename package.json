@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.16.14",
+    "version": "0.16.15",
     "homepage": "https://siegel-qe3q.onrender.com",
     "repository": {
         "type": "git",
@@ -76,7 +76,7 @@
         "copy-webpack-plugin": "13.0.0",
         "css-loader": "7.1.2",
         "eslint-plugin-react": "7.37.5",
-        "eslint-webpack-plugin": "5.0.1",
+        "eslint-webpack-plugin": "5.0.2",
         "express": "5.1.0",
         "html-webpack-plugin": "5.6.3",
         "mime": "4.0.7",
@@ -85,7 +85,7 @@
         "react": "18.3.1",
         "react-dom": "18.3.1",
         "react-refresh": "0.17.0",
-        "sass": "1.89.1",
+        "sass": "1.89.2",
         "sass-loader": "16.0.5",
         "sass-resources-loader": "2.2.5",
         "style-loader": "4.0.0",
@@ -95,7 +95,7 @@
         "terser-webpack-plugin": "5.3.14",
         "ttf2woff": "3.0.0",
         "ttf2woff2": "8.0.0",
-        "typescript-eslint": "8.33.1",
+        "typescript-eslint": "8.34.0",
         "typescript-plugin-css-modules": "5.1.0",
         "webpack": "^5.99.9",
         "webpack-dev-middleware": "7.4.2",
@@ -111,8 +111,8 @@
         "typedoc-plugin-markdown": "^4.6.1"
     },
     "peerDependencies": {
-        "@swc/core": "1.11.29",
-        "@types/express": "5.0.2",
+        "@swc/core": "1.12.0",
+        "@types/express": "5.0.3",
         "@types/node": "22.15.29",
         "@types/react": "18.3.12",
         "@types/react-dom": "18.3.1",

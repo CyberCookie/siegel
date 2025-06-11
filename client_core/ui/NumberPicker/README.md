@@ -131,6 +131,10 @@ Input for numbers with various validations built on top of `Input` component<br 
     - Triggered if some key pressed when NumberPicker is focused
     - **Function** with the only argument: **event** - **React.KeyboardEvent<HTMLDivElement>**<br /><br />
 
+- `onClick`
+    - Triggered when click event occurs in NumberPicker
+    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLElement>**<br /><br />
+
 - `inputClassName`
     - Underlaying Input class name
     - **Input.className**<br /><br />
