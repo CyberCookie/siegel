@@ -80,9 +80,10 @@ function getProxyRequestOptions(
 const PROXY_WS_SUBSCRIPTIONS: Obj<boolean> = {}
 
 const proxy: Proxy = proxyParams => {
-    const { secure, ws, host, port } = proxyParams
+    const { secure, ws, wsEndpoints, host, port } = proxyParams
     const client = secure ? https : http
     const proxyId = `${host}:${port}`
+    const wsEndpointsSet = wsEndpoints && new Set(wsEndpoints)
 
     const proxyRequest: RequestHandler = (clientReq, clientRes) => {
         const { body, socket } = clientReq
@@ -91,46 +92,56 @@ const proxy: Proxy = proxyParams => {
         if (ws && !PROXY_WS_SUBSCRIPTIONS[proxyId]) {
             (socket as Socket & { server: Server }).server
                 .addListener('upgrade', (req, socket: Socket, head) => {
+                    const { url, method, headers } = req
 
-            //     })
-            // (socket as Socket & { server: Server }).server
-            //     .on('upgrade', (req, socket: Socket, head) => {
-                    if (req.method !== 'GET' || !req.headers.upgrade || req.headers.upgrade.toLowerCase() !== 'websocket') {
-                        socket.destroy()
-                        return
+                    let isAllowed = true
+                    if (wsEndpointsSet) {
+                        const endpointIndexOfQuery = url!.indexOf('?')
+                        const endpoint = endpointIndexOfQuery > -1
+                            ?   url!.substring(0, endpointIndexOfQuery)
+                            :   url!
+
+                        isAllowed = wsEndpointsSet?.has(endpoint)
                     }
 
-                    updateSocket(socket, head)
+                    if (isAllowed) {
+                        if (method !== 'GET' || headers.upgrade?.toLowerCase() != 'websocket') {
+                            socket.destroy()
+                            return
+                        }
+
+                        updateSocket(socket, head)
 
 
-                    client.request(
-                        getProxyRequestOptions(proxyParams, req, true)
-                    )
-                    .on('upgrade', (pRes, pSocket, pHead) => {
-                        updateSocket(pSocket, pHead)
-
-                        socket.write(
-                            createHttpHeader(
-                                'HTTP/1.1 101 Switching Protocols',
-                                pRes.headers
-                            )
+                        client.request(
+                            getProxyRequestOptions(proxyParams, req, true)
                         )
+                        .on('upgrade', (pRes, pSocket, pHead) => {
+                            updateSocket(pSocket, pHead)
 
-                        pSocket.pipe(socket).pipe(pSocket)
-                    })
-                    .on('response', res => {
-                        const { headers, httpVersion, statusCode, statusMessage } = res
-                        socket.write(
-                            createHttpHeader(
-                                `HTTP/${httpVersion} ${statusCode} ${statusMessage}`,
-                                headers
+                            socket.write(
+                                createHttpHeader(
+                                    'HTTP/1.1 101 Switching Protocols',
+                                    pRes.headers
+                                )
                             )
-                        )
 
-                        res.pipe(socket)
-                    })
-                    .on('error', console.error)
-                    .end()
+                            pSocket.pipe(socket).pipe(pSocket)
+                        })
+                        .on('response', res => {
+                            const { headers, httpVersion, statusCode, statusMessage } = res
+                            socket.write(
+                                createHttpHeader(
+                                    `HTTP/${httpVersion} ${statusCode} ${statusMessage}`,
+                                    headers
+                                )
+                            )
+
+                            res.pipe(socket)
+                        })
+                        .on('error', console.error)
+                        .end()
+                    }
                 })
 
                 PROXY_WS_SUBSCRIPTIONS[proxyId] = true

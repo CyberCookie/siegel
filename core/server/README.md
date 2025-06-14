@@ -196,10 +196,12 @@ app.get('/api/proxy_get/:id', apiProxy)
 Proxy receives **1** parameter - **Object** with the next fields:
 - `secure` **Boolean** - makes requests over https
 - `ws` **Boolean** - Enables web socket proxying
+- `wsEndpoints` **Array<string>** - You should specify ws connection endpoints for this destination<br />
+     if you proxy to multiple backends using the same express server
 - `host` **String** - destination host
 - `port` **Number** - destination port
 - `path` **String** - Rewrites origin path [doesn't affect web socket subscription]
-- `query` **Object** - Rewrites origin query params.<br />
+- `query` **Object** - Rewrites origin query params
 - `changeOrigin` - **Boolean** - Replaces origin host header with target host
 - `postProcessReq` **Function** - Called after proxy request options is formed<br />
 giving you full controll over the proxy request options<br />

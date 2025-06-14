@@ -24,6 +24,12 @@ type ProxyParams = {
     /** Enables web socket proxying */
     ws?: boolean
 
+    /**
+     * You should specify ws connection endpoints for this destination
+     * if you proxy to multiple backends using same express server
+     */
+    wsEndpoints?: Array<string>
+
     /** Called after proxy request options is formed giving full controll over the proxy request options */
     postProcessReq?(
         /** Request from origin */
