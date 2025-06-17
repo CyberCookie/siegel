@@ -38,6 +38,7 @@ function getValueState(
     numberMask: RegExp,
     isFocused: boolean
 ) {
+
     const prevValidNumber = isValidNumberString(props.value) ? numberValue : undefined
     return {
         prevValidNumber,
@@ -102,7 +103,7 @@ const NumberPicker = component<Props, DefaultProps>(
         const { prevValidNumber, stringValue } = editState
 
         useDidUpdate(() => {
-            ((isFocused && focusedValueOutsideUpdate) || !isFocused) && setEditState(
+            (!isFocused || (focusedValueOutsideUpdate && numberValue != +stringValue!)) && setEditState(
                 getValueState(
                     props, numberValue, numberMask,
                     document.activeElement?.nodeName == 'INPUT' ? isFocused : false
