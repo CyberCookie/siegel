@@ -212,7 +212,7 @@ const NumberPicker = component<Props, DefaultProps>(
                 numberValue: +result
             })
 
-            if (!event.defaultPrevented) {
+            if (event.type != 'click' || !event.defaultPrevented) {
                 editState.stringValue = `${result}`
                 setEditState({ ...editState })
             }

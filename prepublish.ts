@@ -91,7 +91,7 @@ shell('npx tsc -p .')
 
 
 copyTypes(PATHS.clientCore)
-normalizeImportPathsAndMinify(PATHS.clientCoreOutput, false)
+normalizeImportPathsAndMinify(PATHS.clientCoreOutput)
 
 copyTypes(PATHS.sharedUtils)
 normalizeImportPathsAndMinify(PATHS.sharedUtilsOutput)
