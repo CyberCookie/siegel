@@ -139,8 +139,8 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /** Triggered if some key pressed when NumberPicker is focused */
     onKeyDown?(e: React.KeyboardEvent<HTMLDivElement>): void
 
-    /** Triggered when click event occurs in NumberPicker */
-    onClick?(e: React.MouseEvent<HTMLElement>): void
+    /** Triggered when click on step buttons */
+    onStepButtonClick?(e: React.MouseEvent<HTMLButtonElement>, isUp: boolean): void
 
     /** Underlaying Input class name */
     inputClassName?: InputProps['className']

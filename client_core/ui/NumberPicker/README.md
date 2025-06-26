@@ -60,7 +60,7 @@ Input for numbers with various validations built on top of `Input` component<br 
 
 - `regexp`
     - NumberPicker regexp to be passed to underlaying Input component
-    - **RegExp | ((defaultRegExp: string) => RegExp**<br /><br />
+    - **RegExp | (defaultRegExp: string) => RegExp**<br /><br />
 
 - `label`
     - Number picker label
@@ -131,9 +131,11 @@ Input for numbers with various validations built on top of `Input` component<br 
     - Triggered if some key pressed when NumberPicker is focused
     - **Function** with the only argument: **event** - **React.KeyboardEvent<HTMLDivElement>**<br /><br />
 
-- `onClick`
-    - Triggered when click event occurs in NumberPicker
-    - **Function** with the only argument: **event** - **React.MouseEvent<HTMLElement>**<br /><br />
+- `onStepButtonClick`
+    - Triggered when click on step buttons
+    - **Function** Has **2** arguments:
+        - `event` - **React.MouseEvent<HTMLButtonElement>** - click event
+        - `isUp` - **Boolean** - is increase value button been clicked<br /><br />
 
 - `inputClassName`
     - Underlaying Input class name

@@ -77,7 +77,7 @@ const NumberPicker = component<Props, DefaultProps>(
             value, regexp, label, payload, inputStore, errorMsg, placeholder, inputAttributes,
             rootTagAttributes, inputRootAttributes, children, debounceMs, suffix, prefix,
             autofocus, mask, inputTheme, inputMemoDeps, inputClassName,
-            onChange, onFocus, onBlur, onKeyDown, onClick, onStringChange
+            onChange, onFocus, onBlur, onKeyDown, onStringChange
         } = props
 
         let { min, max } = props
@@ -160,7 +160,7 @@ const NumberPicker = component<Props, DefaultProps>(
 
 
         let numberpickerRootProps: DivTagAttributes = {
-            ref, onKeyDown, onClick,
+            ref, onKeyDown,
             onFocus: onPickerFocus,
             onBlur: onPickerBlur,
             className: applyClassName(className, [
@@ -277,11 +277,16 @@ const NumberPicker = component<Props, DefaultProps>(
                         numberValue: newNumberValue
                     })
 
-
                     onStringChange?.({ value, event, isValidStringNumber, payload })
 
-                    editState.stringValue = newValueString
-                    setEditState({ ...editState })
+
+                    const shouldPrevent = event.defaultPrevented
+                        ||  (precision === 0 && isExists(max) && newNumberValue > max)
+
+                    if (!shouldPrevent) {
+                        editState.stringValue = newValueString
+                        setEditState({ ...editState })
+                    }
                 }
             }
         }
@@ -322,7 +327,7 @@ const NumberPicker = component<Props, DefaultProps>(
                             ||  (isKeyDown && !isDisabledDown)
 
                         if (isAllowedAction) {
-                            event.preventDefault()
+                            // event.preventDefault()
 
                             let _step = step
                             isKeyUp || (_step *= -1)
