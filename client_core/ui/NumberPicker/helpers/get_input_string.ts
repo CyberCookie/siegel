@@ -47,7 +47,10 @@ function getInputString(params: Params) {
                     isPrecisionAdjust = indexOfDot >= 0 && ((result.length - 1) - indexOfDot) > precision
                 }
 
-                isPrecisionAdjust && (result = numberValue.toFixed(precision))
+                if (isPrecisionAdjust) {
+                    result = numberValue.toFixed(precision)
+                    isFocused && (result = `${+result}`)
+                }
             }
 
 
