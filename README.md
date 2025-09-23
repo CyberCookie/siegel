@@ -105,7 +105,7 @@ Your app will now be running on **localhost:3000** in watch mode, enabling live 
 
 <br />
 
-Additionaly, uou can define a custom **NodeJS development server** using the `--server` flag.<br/>
+Additionaly, you can define a custom **NodeJS development server** using the `--server` flag.<br/>
 Create a **server.ts** file with the following content:
 
 
@@ -152,7 +152,7 @@ To view a list of all available Siegel CLI commands and flags, run: `npx siegel`
 <br />
 
 <p>
-    Siegel is composed of client sude and server side modules that can be used independently or in combination.<br />
+    Siegel is composed of client side and server side modules that can be used independently or in combination.<br />
     To launch Siegel, import the module and call it with a <br />
     <a href='#config'>config object</a>
 </p><br />

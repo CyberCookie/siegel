@@ -1,4 +1,3 @@
-//TODO: add multi select
 //TODO: add grouping
 //TODO?: detect options position to handle options overflow
 
@@ -10,7 +9,8 @@ import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
 import handleKeyboardSelect, {
-    Store as HandleKeyboardSelectStore
+    Store as HandleKeyboardSelectStore,
+    SelectedOptionIndex
 } from '../_internals/handle_keyboard_selection'
 import applyRefApi from '../_internals/ref_apply'
 import addChildren from '../_internals/children'
@@ -19,7 +19,7 @@ import getOptions from './helpers/get_options'
 import type { DivTagAttributes } from '../_internals/types'
 import type {
     Component, Props, DefaultProps,  Store,
-    OnSelect, RootRef
+    OnSelect, RootRef, SelectedOption, Option
 } from './types'
 
 
@@ -40,11 +40,13 @@ const Select = component<Props, DefaultProps>(
             _active: _undef,
             _disabled: _undef,
             _error: _undef,
+            _multiselect: _undef,
             children: _undef,
             label: _undef,
             reset: _undef,
             title_wrapper: _undef,
             title_text: _undef,
+            multiselect_title_option: _undef,
             error_text: _undef,
             input_wrapper: _undef,
             options: _undef,
@@ -60,7 +62,7 @@ const Select = component<Props, DefaultProps>(
         const {
             theme, rootTagAttributes, options, getDisplayValue, selected, dropdownIcon,
             disabled, placeholder, store, resetIcon, closeOnSelect, children, label,
-            errorMsg, className,
+            errorMsg, className, multiselect,
             onChange, onFocus, onBlur, onKeyDown
         } = props
 
@@ -73,32 +75,43 @@ const Select = component<Props, DefaultProps>(
             e.stopPropagation()
             e.preventDefault()
 
-            onChange(value, e, payload)
+            let newVaue
+            if (multiselect) {
+                selected.has(value)
+                    ?   selected.delete(value)
+                    :   selected.add(value)
+
+                newVaue = selected
+
+            } else newVaue = value
+
+            onChange(newVaue, e, payload)
 
             closeOnSelect && (selectRootProps.ref as RootRef).current!.blur()
         }
 
 
-        const isSelected = isExists(selected)
+        const isSelectionExists = isExists(selected)
         const isError = isExists(errorMsg)
 
         let selectRootProps: DivTagAttributes = {
             className: applyClassName(className, [
                 [ theme._active, isActive ],
-                [ theme._filled, isSelected ],
+                [ theme._filled, isSelectionExists ],
                 [ theme._error, isError ],
-                [ theme._disabled, disabled ]
+                [ theme._disabled, disabled ],
+                [ theme._multiselect, multiselect ]
             ]),
             ref: useRef(null)
         }
 
 
         let optionsElement: React.JSX.Element
-        let selectedOption: Props['options'][number] | undefined
-        let selectedOptionIndex: number | undefined
+        let selectedOption: SelectedOption
+        let selectedOptionIndex: SelectedOptionIndex
 
         if (disabled) {
-            isSelected && (selectedOption = options.find(option => option.value == selected))
+            isSelectionExists && (selectedOption = options.find(option => option.value == selected))
 
         } else {
             ({
@@ -154,8 +167,17 @@ const Select = component<Props, DefaultProps>(
 
         const displayValue = selectedOption
             ?   getDisplayValue
-                ?   getDisplayValue(selectedOption)
-                :   selectedOption.title
+                ?   multiselect
+                    ?   getDisplayValue(selectedOption as Option[])
+                    :   getDisplayValue(selectedOption as Option)
+                :   multiselect
+                    ?   (selectedOption as Option[]).length
+                        ?   (selectedOption as Option[]).map(({ title, value }) => (
+                                <div key={ value } className={ theme.multiselect_title_option }
+                                    children={ title } />
+                            ))
+                        :   placeholder
+                    :   (selectedOption as Option).title
             :   placeholder
 
         const selectInput = <>
@@ -172,7 +194,7 @@ const Select = component<Props, DefaultProps>(
                 { !disabled && resetIcon && (
                     <div children={ resetIcon } className={ theme.reset }
                         onMouseDown={ e => {
-                            onSelect(_undef, e)
+                            onSelect(multiselect ? new Set() : _undef, e)
                         } } />
                 )}
 

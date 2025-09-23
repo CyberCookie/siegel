@@ -13,7 +13,7 @@ type Options = {
     disabled?: boolean
 }[]
 
-type SelectedOptionIndex = number | undefined
+type SelectedOptionIndex = number | Set<number> | undefined
 
 
 function getKeyboardOptionIndex(
@@ -26,6 +26,7 @@ function getKeyboardOptionIndex(
 ) {
 
     const { options, selectedOptionIndex, arrowSelectIndex, isUp } = commonParams
+    const isMultiselect = selectedOptionIndex?.constructor.name == 'Set'
 
     const { length } = options
     const maxIndex = length - 1
@@ -41,7 +42,11 @@ function getKeyboardOptionIndex(
 
 
     for (let i = startFrom; 0 <= i && i < length; i += incrementValue) {
-        if (i != selectedOptionIndex && !options[i].disabled) return i
+        const isIndexSelected = isMultiselect
+            ?   (selectedOptionIndex as Set<number>).has(i)
+            :   selectedOptionIndex == i
+
+        if (!isIndexSelected && !options[i].disabled) return i
 
         passedValuesSet.add(i)
 
@@ -82,4 +87,4 @@ function handleKeyboardSelect(
 
 
 export default handleKeyboardSelect
-export type { Store }
+export type { Store, SelectedOptionIndex }

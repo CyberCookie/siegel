@@ -7,12 +7,21 @@
 <br />
 
 Checks whether some props have been changed<br />
-It has the same signature as **React.useEffect** hook<br />
-Exports **Symbol** used for inner ref mutation  
+Receives **4** arguments:
+- **cb** - **React.useLayoutEffect**'s first parameter (callback)
+- **dependencies** - **React.useLayoutEffect**'s second parameter (dependencies)
+- **onlyOnce** - Optional **Boolean**. Whether to trigger callback function only once
+- **ref** - **React.useRef()**. If ypu already have an initialized ref - you may pass it to this hook
+
+Exports **Symbol** used for inner ref mutation:
+- **symbolIsRendered** - to indicate whether component has been already rendered at least once
+- **symbolIsCalled** - to indicate whether callback function has been called at least once
+
+<br />
 
 ``` js
 import React from 'react'
-import useDidUpdate, { symbolIsRendered } from 'siegel/lib/client_core/hooks/did_update'
+import useDidUpdate, { symbolIsRendered, symbolIsCalled } from 'siegel/lib/client_core/hooks/did_update'
 
 
 const Component = props => {

@@ -12,9 +12,14 @@ type DemoSelectProps = SelectProps<DemoSelectState>
 const getSelectDisplayValue = ({ title }: DemoSelectProps['options'][number]) => 'selected - ' + title
 
 const Demo = () => {
-    const [ selectedOption, setOption ] = useState() as DemoSelectStore
+    const [ multiselectOptionsState, setSelectedOptions ] = useState({
+        selectedOptions: new Set<number>()
+    })
+    const { selectedOptions } = multiselectOptionsState
 
-    const props: DemoSelectProps = {
+    const [ selectedOption, setSelectedOption ] = useState() as DemoSelectStore
+
+    const singleOptionSelectProps: DemoSelectProps = {
         placeholder: 'placeholder',
         selected: selectedOption,
         options: [
@@ -24,22 +29,32 @@ const Demo = () => {
             { value: 4, title: 'option 4' },
             { value: 5, title: 'disabled option 5', disabled: true }
         ],
-        onChange(value) { setOption(value) }
+        onChange(value) {
+            setSelectedOption(value)
+        }
     }
 
 
     return <>
         <h2 children='simple' />
-        <Select { ...props } />
+        <Select { ...singleOptionSelectProps } />
 
         <h2 children='with label and displayTitle processing' />
-        <Select { ...props } label='some label' getDisplayValue={ getSelectDisplayValue } />
+        <Select { ...singleOptionSelectProps } label='some label' getDisplayValue={ getSelectDisplayValue } />
 
         <h2 children='filter selected: false; with reset' />
-        <Select { ...props } listSelectedOption={ false } resetIcon={ icons.close } />
+        <Select { ...singleOptionSelectProps } listSelectedOption={ false } resetIcon={ icons.close } />
+
+        <h2 children='multiselect' />
+        <Select { ...singleOptionSelectProps } multiselect listSelectedOption
+            selected={ selectedOptions }
+            onChange={ (selectedOptions: Set<number>) => {
+                multiselectOptionsState.selectedOptions = selectedOptions
+                setSelectedOptions({ ...multiselectOptionsState })
+            } } />
 
         <h2 children='disabled' />
-        <Select { ...props } disabled />
+        <Select { ...singleOptionSelectProps } disabled />
     </>
 }
 Demo.coreSrcDirName = 'Select'

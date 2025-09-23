@@ -21,7 +21,7 @@ const jsonContentTypeHeaders = {
 const jsonParseMethod = 'json'
 
 
-function extractRequestData<_P>(request: RequestParams<any, any, _P>) {
+function extractRequestData<_Payload>(request: RequestParams<any, any, _Payload>) {
     const {
         url, query, params, method, headers, body, credentials, signal,
         json, passThroughPayload,
@@ -72,7 +72,7 @@ function extractRequestData<_P>(request: RequestParams<any, any, _P>) {
 
     return {
         options,
-        passThroughPayload: passThroughPayload as _P,
+        passThroughPayload: passThroughPayload as _Payload,
         initialURL: url,
         url: fetchURL
     }
@@ -134,16 +134,17 @@ async function isAllowedToProcess(
 }
 
 
-const createApi = <_P = any>(setupParams: SetupParams<_P> = {}) => {
+const createApi = <_Payload = any>(setupParams: SetupParams<_Payload> = {}) => {
     const {
-        preventSame: preventSameGlobal, fetchOptionsPostprocess,
+        preventSame: preventSameGlobal,
+        fetchOptionsPostprocess,
         beforeParse, beforeRequest, afterRequest, errorHandler,
         json, jsonParsePreprocess, jsonStringifyPostprocess
     } = setupParams
     const activeRequest = new Set()
 
 
-    return async <Res = any, Body = any>(req: RequestParams<Body, Res, _P>) => {
+    return async <Res = any, Body = any>(req: RequestParams<Body, Res, _Payload>) => {
 
         if (!isExists(req.json)) {
             req.json = json
@@ -157,21 +158,22 @@ const createApi = <_P = any>(setupParams: SetupParams<_P> = {}) => {
         const ifAsync = beforeParse?.(req)
         if (ifAsync) await ifAsync.then(_req => { req = _req })
 
-        const { isFullRes, preventSame } = req
-
-        const reqData = extractRequestData<_P>(req)
-        const { options, url } = reqData
-
-        const isSameReqPrevent = preventSame != false && (preventSame || preventSameGlobal)
-
-        let reqKey
-        isSameReqPrevent && (reqKey = `${url}_${options.method}_${options.body}`)
-
+        const reqData = extractRequestData<_Payload>(req)
 
         const globalReqAllowed = await isAllowedToProcess(beforeRequest, reqData)
         const isReqAllowed = globalReqAllowed && await isAllowedToProcess(req.beforeRequest, reqData)
 
+
         if (isReqAllowed) {
+            const { isFullRes, preventSame } = req
+            const { options, url } = reqData
+
+            const isSameReqPrevent = preventSame != false && (preventSame || preventSameGlobal)
+
+            let reqKey
+            isSameReqPrevent && (reqKey = `${url}_${options.method}_${options.body}`)
+
+
             try {
                 if (isSameReqPrevent) {
                     if (activeRequest.has(reqKey)) {
@@ -210,7 +212,7 @@ const createApi = <_P = any>(setupParams: SetupParams<_P> = {}) => {
                 }
 
             } catch (err) {
-                type _ReqErr = ReqError<_P>
+                type _ReqErr = ReqError<_Payload>
 
 
                 isSameReqPrevent && activeRequest.delete(reqKey)

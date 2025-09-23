@@ -1,4 +1,4 @@
-//TODO: typings
+//TODO typings
 
 
 declare global {

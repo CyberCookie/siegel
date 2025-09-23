@@ -1,5 +1,7 @@
 import React from 'react'
 
+import type { Props as PaginationProps } from '../../Pagination'
+import type { Props as SelectProps } from '../../Select'
 import type { Props } from '../types'
 import type { GetPaginationFnProps } from './get_pagination_footer_types'
 
@@ -30,13 +32,14 @@ function getPaginationFooter(
 
             const dataTableSelectProps = Object.assign({
                 selected: showPerPage,
+                multiselect: false,
                 onChange(value: number) {
                     if (value > 0) {
                         state.showPerPage = value
                         setState({ ...state })
                     }
                 }
-            }, selectProps)
+            } satisfies Partial<SelectProps>, selectProps)
 
             showPerPageSelectEl = <Select { ...dataTableSelectProps } />
         }
@@ -49,11 +52,11 @@ function getPaginationFooter(
             } = pagination
 
             if (isRenderForSinglePage || showPerPage < totalItems) {
-                const dataTablePaginationProps = {
+                const dataTablePaginationProps: PaginationProps = {
                     showPerPage,
                     listLength: totalItems,
                     curPage: currentPage,
-                    onChange(value: number) {
+                    onChange(value) {
                         state.currentPage = value
                         setState({ ...state })
                     }

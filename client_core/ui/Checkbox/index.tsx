@@ -1,4 +1,5 @@
 import React from 'react'
+import isExists from '../../../common/is/exists'
 
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
@@ -84,18 +85,22 @@ const Checkbox = component<Props, DefaultProps>(
             onChange: _onChange,
             readOnly: !onChange
         }
-        if (!(label || icon)) {
+
+        const isLabelExists = isExists(label)
+        const isIconExits = isExists(icon)
+
+        if (!(isLabelExists || isIconExits)) {
             checkboxInputProps = modifyRootProps(checkboxInputProps, props, checkboxAttributes)
         }
 
         let CheckboxElement = <input { ...checkboxInputProps } />
 
 
-        if (icon) {
+        if (isIconExits) {
             let iconWrapperProps: IconWrapperInnerProps = {
                 className: theme.with_icon_wrapper
             }
-            label || (iconWrapperProps = modifyRootProps(iconWrapperProps, props, rootTagAttributes))
+            isLabelExists || (iconWrapperProps = modifyRootProps(iconWrapperProps, props, rootTagAttributes))
 
             CheckboxElement = (
                 <div { ...iconWrapperProps }>
@@ -106,7 +111,7 @@ const Checkbox = component<Props, DefaultProps>(
         }
 
 
-        return label
+        return isLabelExists
             ?   getLabel(
                     CheckboxElement,
                     modifyRootProps(

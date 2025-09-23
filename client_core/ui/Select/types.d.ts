@@ -9,7 +9,12 @@ type OnSelect = (
     payload?: Option['payload']
 ) => void
 
+type OnChangeEvent = React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
+
 type RootRef = React.RefObject<HTMLDivElement>
+
+type SelectedOption = Option | Option[] | undefined
+
 
 type Store = ReactStore<{
     /** Whether select is in focus */
@@ -50,6 +55,9 @@ type Theme = {
     /** Root tag state if select has selected value */
     _filled?: string
 
+    /** Root tag state if multiselect is enabled */
+    _multiselect?: string
+
     /** props.children element */
     children?: string
 
@@ -61,6 +69,9 @@ type Theme = {
 
     /** Title text element */
     title_text?: string
+
+    /** Title text option if props.multiselect is enabled */
+    multiselect_title_option?: string
 
     /** Wraps title_wrapper, error_text and options */
     input_wrapper?: string
@@ -89,19 +100,6 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     options: Option<_Value, _Payload>[],
 
     /**
-     * Triggered when you choose new option
-     *
-     * @param value Option's value
-     * @param event
-     * @param payload option payload
-     */
-    onChange(
-        value: _Value,
-        event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>,
-        payload?: _Payload
-    ): void
-
-    /**
      * Root tag focus event handler. May prevent inner default onFocus event
      *
      * @param event focus event
@@ -128,13 +126,6 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     /** Select inner store */
     store?: Store
 
-    /**
-     * Constructs component input title
-     *
-     * @param selectedOption props.options[number]
-     */
-    getDisplayValue?(selectedOption: Option<_Value>): React.ReactNode
-
     /** Error message */
     errorMsg?: React.ReactNode
 
@@ -154,7 +145,7 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     placeholder?: React.ReactNode
 
     /** Selected option */
-    selected?: _Value
+    // selected?: _Value
 
     /** Whether to filter out selected option from the options list */
     listSelectedOption?: boolean
@@ -171,6 +162,51 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
         Omit<React.HTMLAttributes<Element>, 'onKeyDown' | 'onFocus' | 'onBlur'>
     >
 }>
+& ({
+    /** Allows options multiselect */
+    multiselect?: false
+
+    /** Selected option */
+    selected?: _Value
+
+    /**
+     * Triggered when you choose new option
+     *
+     * @param value Option's value
+     * @param event
+     * @param payload option payload
+     */
+    onChange(value: _Value, event: OnChangeEvent, payload?: _Payload): void
+
+    /**
+     * Constructs component input title
+     *
+     * @param selectedOption selected option
+     */
+    getDisplayValue?(selectedOption: Option<_Value>): React.ReactNode
+} | {
+    /** Allows options multiselection */
+    multiselect: true
+
+    /** Selected set of options */
+    selected: Set<_Value>
+
+    /**
+     * Triggered when you choose new option
+     *
+     * @param value Set of option's values
+     * @param event
+     * @param payload option payload
+     */
+    onChange(value: Set<_Value>, event: OnChangeEvent, payload?: _Payload): void
+
+    /**
+     * Constructs component input title
+     *
+     * @param selectedOption selected options array
+     */
+    getDisplayValue?(selectedOptions: Option<_Value>[]): React.ReactNode
+})
 
 type DefaultProps = NonNullableProps<{
     theme: Props['theme']
@@ -185,5 +221,5 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 export type {
     Props, DefaultProps, Component, Store, MergedProps,
-    OnSelect, RootRef
+    OnSelect, RootRef, SelectedOption, Option
 }

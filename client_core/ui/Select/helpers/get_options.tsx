@@ -2,7 +2,8 @@ import React from 'react'
 
 import applyClassName from '../../_internals/apply_classname'
 
-import type { MergedProps, Store } from '../types'
+import type { SelectedOptionIndex } from '../../_internals/handle_keyboard_selection'
+import type { MergedProps, Store, SelectedOption } from '../types'
 
 
 function stopPropagationHandler(e: React.MouseEvent) {
@@ -15,21 +16,28 @@ function getOptions(
     arrowSelectIndex: Store[0]['arrowSelectIndex']
 ) {
 
-    const { options, selected, theme, listSelectedOption, listDisabledOptions } = props
+    const { options, selected, theme, listSelectedOption, listDisabledOptions, multiselect } = props
 
     const optionElements = []
-    let selectedOption, selectedOptionIndex
+    let selectedOption: SelectedOption = multiselect ? [] : undefined
+    let selectedOptionIndex: SelectedOptionIndex = multiselect ? new Set<number>() : undefined
+
     for (let i = 0; i < options.length; i++) {
         const option = options[i]
         const { disabled, title, value, payload, className } = option
 
         if (!listDisabledOptions && disabled) continue
 
-        const isSelected = value === selected
+        const isSelected = multiselect
+            ?   selected.has(value)
+            :   value === selected
 
         if (isSelected) {
-            selectedOption = option
+            if (multiselect) (selectedOption as Extract<SelectedOption, Array<any>>).push(option)
+            else selectedOption = option
+
             selectedOptionIndex = i
+
             if (!listSelectedOption) continue
         }
 

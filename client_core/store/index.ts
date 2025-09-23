@@ -100,4 +100,4 @@ function createStore
 
 
 export default createStore
-export type { HookStore }
+export type { HookStore, ActionsBinded, StateWithUpdater }

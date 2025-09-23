@@ -1,5 +1,6 @@
 declare module '*.sass'
 
+declare module 'picomatch'
 
 
 declare function isNaN(value: any): boolean

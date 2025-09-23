@@ -18,6 +18,8 @@ Dropdown options selector<br />
         Root tag
     - `_active`
         - Root tag state if select is in focus
+    - `_multiselect`
+        - Root tag state if multiselect is enabled
     - `_disabled`
         - Root tag state if select is disabled
     - `_error`
@@ -30,6 +32,8 @@ Dropdown options selector<br />
         - Select component label
     - `title_wrapper`
         - Wraps title_text, reset and `props.dropdownIcon`
+    - `multiselect_title_option`
+        - Title text option if `props.multiselect` is enabled
     - `title_text`
         - Title text element
     - `input_wrapper`
@@ -60,7 +64,7 @@ Dropdown options selector<br />
 - `onChange`
     - Triggered when you choose new option
     - **Function** Has **3** arguments:
-        - **value** - **Any**. Option's value
+        - **value** - **Set<Any>** if `props.multiselect` is **true**, otherwise **Any**. Selected value
         - **event** - **React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>**
         - **payload** - **props.options[number].payload**. Option payload<br /><br />
 
@@ -93,7 +97,7 @@ Dropdown options selector<br />
 - `getDisplayValue`
     - Constructs component input title
     - **Function**
-        - Has **1** argument: **props.options** option
+        - Has **1** argument: **props.options** if `props.multiselect` is **true**, otherwise **props.options** option
         - Returns: **React.ReactNode**<br /><br />
 
 - `errorMsg`
@@ -123,7 +127,11 @@ Dropdown options selector<br />
 
 - `selected`
     - Selected option
-    -  **Any**. Should be equal to **value** of some **props.opions** option<br /><br />
+    - **Set<Any>** if `props.multiselect` is **true**, otherwise **Any**.<br />
+    Selected option(s), where value should be equal to **value** of **props.opions** option<br /><br />
+
+- `multiselect`
+    - Allows options multiselection
 
 - `listSelectedOption`
     - Whether to filter out selected option from the options list

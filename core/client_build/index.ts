@@ -112,7 +112,7 @@ function clientBuilder(config: ConfigObject) {
 
     return {
         run: () => new Promise<void>(resolve => {
-            webpackCompiller = webpack(webpackConfig)
+            webpackCompiller = webpack(webpackConfig)!
 
             if (isDevServer) resolve()
             else {

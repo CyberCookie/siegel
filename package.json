@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.16.22",
+    "version": "0.16.23",
     "homepage": "https://siegel-qe3q.onrender.com",
     "repository": {
         "type": "git",
@@ -69,23 +69,23 @@
         "validate": "npx eslint . && npx tsc -p ."
     },
     "dependencies": {
-        "@eslint/js": "9.28.0",
+        "@eslint/js": "9.36.0",
         "@pmmmwh/react-refresh-webpack-plugin": "0.5.16",
         "autoprefixer": "10.4.21",
         "compression-webpack-plugin": "11.1.0",
-        "copy-webpack-plugin": "13.0.0",
+        "copy-webpack-plugin": "13.0.1",
         "css-loader": "7.1.2",
         "eslint-plugin-react": "7.37.5",
         "eslint-webpack-plugin": "5.0.2",
         "express": "5.1.0",
-        "html-webpack-plugin": "5.6.3",
-        "mime": "4.0.7",
-        "mini-css-extract-plugin": "2.9.2",
-        "postcss-loader": "8.1.1",
+        "html-webpack-plugin": "5.6.4",
+        "mime": "4.1.0",
+        "mini-css-extract-plugin": "2.9.4",
+        "postcss-loader": "8.2.0",
         "react": "18.3.1",
         "react-dom": "18.3.1",
         "react-refresh": "0.17.0",
-        "sass": "1.89.2",
+        "sass": "1.93.1",
         "sass-loader": "16.0.5",
         "sass-resources-loader": "2.2.5",
         "style-loader": "4.0.0",
@@ -95,10 +95,10 @@
         "terser-webpack-plugin": "5.3.14",
         "ttf2woff": "3.0.0",
         "ttf2woff2": "8.0.0",
-        "typescript-eslint": "8.34.0",
-        "typescript-plugin-css-modules": "5.1.0",
-        "webpack": "^5.99.9",
-        "webpack-dev-middleware": "7.4.2",
+        "typescript-eslint": "8.44.1",
+        "typescript-plugin-css-modules": "5.2.0",
+        "webpack": "^5.101.3",
+        "webpack-dev-middleware": "7.4.3",
         "webpack-hot-middleware": "2.26.1",
         "worker-loader": "3.0.8"
     },
@@ -111,7 +111,7 @@
         "typedoc-plugin-markdown": "^4.6.1"
     },
     "peerDependencies": {
-        "@swc/core": "1.12.0",
+        "@swc/core": "1.13.5",
         "@types/express": "5.0.3",
         "@types/node": "22.15.29",
         "@types/react": "18.3.12",
@@ -119,9 +119,9 @@
         "@types/svg2ttf": "5.0.3",
         "@types/ttf2woff": "2.0.4",
         "@types/webpack-env": "1.18.8",
-        "@types/webpack-hot-middleware": "2.25.9",
-        "eslint": "9.28.0",
+        "@types/webpack-hot-middleware": "2.25.10",
+        "eslint": "9.36.0",
         "ts-node": "10.9.2",
-        "typescript": "5.8.3"
+        "typescript": "5.9.2"
     }
 }

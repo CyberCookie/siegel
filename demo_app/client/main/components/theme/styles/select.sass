@@ -16,6 +16,21 @@ $width: 200px
             & > i
                 transform: rotate(90deg)
     
+    &._multiselect
+        .title_text
+            display: flex
+            flex-wrap: wrap
+            white-space: nowrap
+
+            & > div
+                padding-right: $gutter_sm
+        
+        .title_wrapper
+            height: auto
+            min-height: 38px
+            line-height: 20px
+
+
     &:not(._disabled) .title_wrapper
         cursor: pointer
 

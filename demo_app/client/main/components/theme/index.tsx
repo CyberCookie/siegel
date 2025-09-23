@@ -85,7 +85,7 @@ const Checkbox = withDefaults(_Checkbox, {
 
 const dataTableTheme: DataTableProps<any>['theme'] = Object.assign(_dataTableTheme, {
     table: `${tableTheme.table} ${_dataTableTheme.table}`
-})
+} satisfies DataTableProps['theme'])
 const DataTable = withDefaults(_DataTable, {
     theme: dataTableTheme,
     resizable: true
@@ -162,11 +162,12 @@ const Ranger = withDefaults(_Ranger, {
 
 
 const selectTheme: SelectProps['theme'] = Object.assign(_selectTheme, {
+    _multiselect: _selectTheme._multiselect,
     _error: `${inputTheme._error} ${_selectTheme._error}`,
     title_wrapper: `${inputTheme.field} ${_selectTheme.title_wrapper}`,
     error_text: inputTheme.error_text,
     label: `${inputTheme.label_text} ${_selectTheme.label_text}`
-})
+} satisfies SelectProps['theme'])
 const Select = withDefaults(_Select, {
     theme: selectTheme,
     dropdownIcon: icons.chevron
@@ -186,7 +187,7 @@ const Stepper = withDefaults(_Stepper, {
         ranger_content_wrapper: stepperTheme.ranger_content_wrapper,
         children: stepperTheme.ranger_children,
         range__selected: `${rangerTheme.range__selected} ${stepperTheme.range__selected}`
-    }),
+    } satisfies RangerProps['theme']),
     rangePickIcon: ''
 })
 

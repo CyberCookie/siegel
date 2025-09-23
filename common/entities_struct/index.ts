@@ -1,3 +1,5 @@
+//TODO add clone entities
+
 import rangeEach from '../array_range_each'
 
 import type { Entities } from './types'
