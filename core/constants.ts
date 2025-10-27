@@ -1,6 +1,6 @@
 import { join, sep } from 'path'
 
-import cjs__dirname from './utils/cjs__dirname.js'
+import cjs__dirname from './utils/cjs__dirname'
 
 
 const LOC_NAMES = {

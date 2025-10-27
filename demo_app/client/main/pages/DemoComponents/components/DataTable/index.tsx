@@ -15,15 +15,15 @@ function getMockEntities(count: number) {
     const entitiesStruct = createEntitiesStruct<Entity>('id')
 
     ;(new Array(count))
-    .fill(1)
-    .map((_, i) => ({
-        id: `${i}`,
-        date: Date.now() + msIn.day * i,
-        text: 'some text ' + i,
-        num: i % 4,
-        bool: i % 2 == 0 ? true : false
-    }))
-    .forEach(el => entitiesStruct.addOrUpdate(el))
+        .fill(1)
+        .map((_, i) => ({
+            id: `${i}`,
+            date: Date.now() + msIn.day * i,
+            text: 'some text ' + i,
+            num: i % 4,
+            bool: i % 2 == 0 ? true : false
+        }))
+        .forEach(el => entitiesStruct.addOrUpdate(el))
 
 
     return entitiesStruct

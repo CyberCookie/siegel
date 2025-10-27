@@ -58,14 +58,9 @@ const DemoApi: Page = () => {
                 className={ styles.global_counter }
                 onClick={ () => { api_proxyGet(`${counter}`) } } />
 
-            { isProxyError
-                ?   <>
-                        <br />
-                        Error:
-                    </>
-                :   ''
-            }
+            <br />
 
+            { isProxyError && 'Error:' }
             <pre children={ JSON.stringify(proxyRes, null, 4) } />
         </div>
     )

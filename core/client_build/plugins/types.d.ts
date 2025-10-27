@@ -223,6 +223,11 @@ type DefaultPlugins = {
     reactRefresh: {
         plugin: ReactRefreshPlugin
         enabled: boolean
+        options: {
+            overlay: {
+                sockIntegration: string
+            }
+        }
     }
 
     eslint: {

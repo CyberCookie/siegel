@@ -103,13 +103,14 @@ const NumberPicker = component<Props, DefaultProps>(
         const { prevValidNumber, stringValue } = editState
 
         useDidUpdate(() => {
-            (!isFocused || (focusedValueOutsideUpdate && numberValue != +stringValue!)) && setEditState(
-                getValueState(
-                    props, numberValue, numberMask,
-                    document.activeElement?.nodeName == 'INPUT' ? isFocused : false
-                )
-            )
-        }, [ focusedValueOutsideUpdate, isFocused, value ])
+            (disabled || !isFocused || (focusedValueOutsideUpdate && numberValue != +stringValue!))
+                &&  setEditState(
+                        getValueState(
+                            props, numberValue, numberMask,
+                            document.activeElement?.nodeName == 'INPUT' ? isFocused : false
+                        )
+                    )
+        }, [ focusedValueOutsideUpdate, isFocused, value, disabled ])
 
 
 

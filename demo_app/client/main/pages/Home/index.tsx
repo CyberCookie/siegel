@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'siegel-ui/Link'
+
 import { GIT_PATHS } from 'app/constants'
 
 import type { Page } from 'siegel-router/types'

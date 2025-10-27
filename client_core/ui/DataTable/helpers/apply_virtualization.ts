@@ -40,8 +40,6 @@ const getDefaultState = () => ({
     }
 })
 
-const parsePixelValue = (value: string) => +value.replace('px', '')
-
 function adjustHeaderTopPositon(rootElement: HTMLDivElement, virtualizationState: ScrollTopState) {
     const { firstChild, scrollTop } = rootElement
     const {
@@ -55,7 +53,7 @@ function adjustHeaderTopPositon(rootElement: HTMLDivElement, virtualizationState
     const isScrollUp = scrollTop < prevScrollTop
     virtualizationState.prevScrollTop = scrollTop
 
-    const contentTopPos = parsePixelValue(paddingTop)
+    const contentTopPos = +paddingTop.replace('px', '')
     const contentBottomPos = contentTopPos + tBodies[0].clientHeight
 
     const scrollDiffAdjust = prevHeadAdjustment.value! - (prevHeadAdjustment.scrollTop! - scrollTop)

@@ -96,7 +96,7 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
      * @param reqData every request params
      * @return false to prevent request execution
      */
-    beforeRequest?: NonNullable<SetupParams<_P>['beforeRequest']>
+    beforeRequest?: NonNullable<RequestSetupParams<_P>['beforeRequest']>
 
     /** Successful response callback */
     onSuccess?: (res: _Res) => void
@@ -110,7 +110,7 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
 }
 
 
-type SetupParams<_P = any> = {
+type RequestSetupParams<_P = any> = {
     /**
      * For every request preprocess mutable request data right before it passed to Fetch API
      *
@@ -162,4 +162,4 @@ type SetupParams<_P = any> = {
 }
 
 
-export type { SetupParams, RequestParams, RequestParamsProcessed, ReqError }
+export type { RequestSetupParams, RequestParams, RequestParamsProcessed, ReqError }

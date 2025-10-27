@@ -1,5 +1,5 @@
-import httpServer from './http.js'
-import http2Server from './http2'
+import httpServer, { Server } from './http.js'
+import http2Server, { Http2Server } from './http2'
 
 import type { ServerBootParams } from './types'
 
@@ -13,7 +13,8 @@ const server = {
             :   await httpServer(params)
 
 
-        server.on('error', console.error)
+        ;(server as Http2Server | Server)
+            .on('error', console.error)
 
 
         const serverInstance = server.listen(port as number, host!, err => {

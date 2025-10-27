@@ -1,4 +1,4 @@
-import https from 'https'
+import https, { Server } from 'https'
 import express, { Express, RequestHandler } from 'express'
 
 import { HEADER_ACCEPT_INDEX } from './constants.js'
@@ -67,3 +67,4 @@ async function createHTTPServer(params: ServerBootParams) {
 
 
 export default createHTTPServer
+export type { Server }

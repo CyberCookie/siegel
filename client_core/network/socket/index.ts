@@ -9,7 +9,7 @@ import type { CreateSocketParams, Handler, SocketState, SocketInit } from './typ
 
 const worker = intervalWorker()
 
-const STATE = {
+const SOCKET_CONNECTION_STATE = {
     CONNECTING: 0,
     OPEN: 1,
     CLOSING: 2,
@@ -200,10 +200,10 @@ function createSocket(params: CreateSocketParams) {
 
         send(messageType: string, payload: any) {
             const { readyState } = socket
-            if (readyState != STATE.CLOSING && readyState != STATE.CLOSED) {
+            if (readyState != SOCKET_CONNECTION_STATE.CLOSING && readyState != SOCKET_CONNECTION_STATE.CLOSED) {
 
                 const dataToSend = serializeOutcommingMsg({ messageTypeKey, messageType, payloadKey, payload })
-                readyState == STATE.OPEN
+                readyState == SOCKET_CONNECTION_STATE.OPEN
                     ?   socket.send(dataToSend)
                     :   pendingDataToSend.push(dataToSend)
             }
@@ -213,12 +213,13 @@ function createSocket(params: CreateSocketParams) {
 
         close() {
             const { readyState } = socket
-            if (readyState == STATE.CONNECTING || readyState == STATE.OPEN) {
+            if (readyState == SOCKET_CONNECTION_STATE.CONNECTING || readyState == SOCKET_CONNECTION_STATE.OPEN) {
                 socket.close()
             }
 
             return this
         },
+
 
         getUnderlyingSocket: () => socket
     }
@@ -226,5 +227,5 @@ function createSocket(params: CreateSocketParams) {
 
 
 export default createSocket
-export { STATE }
+export { SOCKET_CONNECTION_STATE }
 export type { CreateSocketParams }

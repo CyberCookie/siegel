@@ -1,7 +1,7 @@
 import populateURLParams from '../../../common/populate_url_params'
 import isExists from '../../../common/is/exists'
 
-import type { RequestParamsProcessed, ReqError, RequestParams, SetupParams } from './types'
+import type { RequestParamsProcessed, ReqError, RequestParams, RequestSetupParams } from './types'
 
 
 const HEADERS = {
@@ -134,7 +134,7 @@ async function isAllowedToProcess(
 }
 
 
-const createApi = <_Payload = any>(setupParams: SetupParams<_Payload> = {}) => {
+const createApi = <_Payload = any>(setupParams: RequestSetupParams<_Payload> = {}) => {
     const {
         preventSame: preventSameGlobal,
         fetchOptionsPostprocess,
@@ -235,4 +235,4 @@ const createApi = <_Payload = any>(setupParams: SetupParams<_Payload> = {}) => {
 
 
 export default createApi
-export type { RequestParamsProcessed, ReqError, RequestParams, SetupParams }
+export type { RequestParamsProcessed, ReqError, RequestParams, RequestSetupParams }

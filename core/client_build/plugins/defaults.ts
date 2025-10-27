@@ -129,7 +129,12 @@ function getDefaultPluginsConfig(config: ConfigObject) {
 
         [ pluginsKeysMap.reactRefresh ]: {
             plugin: reactRefresh,
-            enabled: !isProd
+            enabled: !isProd,
+            options: {
+                overlay: {
+                    sockIntegration: 'whm'
+                }
+            }
         },
 
         [ pluginsKeysMap.eslint ]: {

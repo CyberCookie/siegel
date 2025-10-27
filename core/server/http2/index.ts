@@ -1,4 +1,4 @@
-import http2 from 'http2'
+import http2, { Http2Server } from 'http2'
 
 import { HEADER_ACCEPT_INDEX } from '../constants.js'
 import extractSSL from '../extract_ssl_key.js'
@@ -82,3 +82,4 @@ async function createHTTP2Server(params: ServerBootParams) {
 
 
 export default createHTTP2Server
+export type { Http2Server }
