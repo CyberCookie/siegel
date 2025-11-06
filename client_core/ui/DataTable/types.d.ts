@@ -25,6 +25,14 @@ type DisplayedEntityIDs = {
     allPagesIDs: string[]
 } | undefined
 
+type RowIndexes = {
+    /** Data grid row index */
+    gridIndex: number
+
+    /** Data grid row index of the current page */
+    pageIndex: number
+}
+
 type Entities<_Entity> = {
     /** Object where key is an entity ID and value is an entity itself */
     byID: Obj<_Entity>
@@ -77,8 +85,9 @@ type ColumnsConfig<
      * Get display value
      *
      * @param entity table entity
+     * @param indexes values's row indexes
      */
-    showValue(entity: _Entity): TableTD
+    showValue(entity: _Entity, indexes?: RowIndexes): TableTD
 
     /**
      * Sorts list of entities by sorting their IDs
@@ -124,6 +133,12 @@ type Theme = {
 
     /** Applied to pagination wrapper if there is only one page in pagination */
     pagination_single_page?: string
+
+    /**
+     * Table top and bottom system cells that expands to match scroll height with items count
+     * if virtualization is enabled
+     */
+    virtualization_expander_cell?: string
 }
 
 type Props<
@@ -237,16 +252,23 @@ type Props<
      * @param rows rows array
      * @param displayedEntityIDs final list entities IDs to be rendered on the active page
      */
-    postProcessHeadRow?(rows: TableHeadRow[], displayedEntityIDs: NonNullable<DisplayedEntityIDs>): void
+    postProcessHeadRow?(
+        rows: TableHeadRow[],
+        displayedEntityIDs: NonNullable<DisplayedEntityIDs>
+    ): void
 
     /**
      * Post process evenry DataTable body row by mutating resulting rows array
      *
      * @param row  rows array
      * @param entity list entity
-     * @param index entity index within all DataTable rows
+     * @param indexes row indexes
      */
-    postProcessBodyRow?(row: Required<TableBodyRow>[], entity: _Entity, index: number): void
+    postProcessBodyRow?(
+        row: Required<TableBodyRow>[],
+        entity: _Entity,
+        indexes: RowIndexes
+    ): void
 }>
 
 

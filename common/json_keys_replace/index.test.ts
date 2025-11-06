@@ -1,5 +1,5 @@
 import '../../global.d.ts'
-import createJsonKeysReplacer from './index'
+import createJsonKeysReplacer from '.'
 
 
 describe('common/json_keys_replace', () => {

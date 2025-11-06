@@ -1,4 +1,4 @@
-import toChar91 from './index'
+import toChar91 from '.'
 
 
 describe('common/toChar91', () => {

@@ -169,7 +169,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
 
     headCell.value = (
         <div className={ styles.grid_col_label }>
-            { label }
+            <div className={ styles.grid_col_label_text } children={ label } />
 
             <div className={ styles.grid_col_menu_toggle }>
                 { icons.more_vert }
@@ -291,16 +291,18 @@ function getExtendedDataTableProps(props: DemoDataTableProps) {
                 component: Pagination
             }
         },
-        postProcessHeadCell: (headCell, config, index) => getHeadLabelMenuTableCell({
-            headCell, config, index,
-            dataGridHookStore, postProcessStore,
-            entities: props.entities
-        }),
+        postProcessHeadCell: (headCell, config, index) =>
+            getHeadLabelMenuTableCell({
+                headCell, config, index,
+                dataGridHookStore, postProcessStore,
+                entities: props.entities
+            }),
 
         postProcessHeadRow: (row, displayedEntityIDs) =>
             getSelectAllCheckboxTableCell({ row, displayedEntityIDs, postProcessStore }),
 
-        postProcessBodyRow: (row, entity) => getSelectCheckboxTableCell({ row, entity, postProcessStore })
+        postProcessBodyRow: (row, entity) =>
+            getSelectCheckboxTableCell({ row, entity, postProcessStore })
     }
 
 

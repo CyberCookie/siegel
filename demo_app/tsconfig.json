@@ -6,7 +6,6 @@
 			"app/*": [ "client/main/*" ],
 			"assets/*": [ "client/assets/*" ],
 			"dto/*": [ "dto/*" ],
-			"siegel-utils": [ "../common" ],
 			"siegel-utils/*": [ "../common/*" ],
 			"siegel-network/*": [ "../client_core/network/*" ],
 			"siegel-store/*": [ "../client_core/store/*" ],

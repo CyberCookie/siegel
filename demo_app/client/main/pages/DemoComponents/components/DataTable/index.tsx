@@ -34,7 +34,7 @@ function getMockEntities(count: number) {
 const Demo = () => {
     const props: DemoDataTableProps = {
         columnsConfig,
-        entities: getMockEntities(300).raw(),
+        entities: getMockEntities(500).raw(),
         className: styles.demo_grid,
         postProcessHeadCell(cell, { customParams }) {
             cell.attributes = {
@@ -48,10 +48,11 @@ const Demo = () => {
     const { toggledColumns } = dataTableState
 
 
+    const VIRTUALIZATION_ENTITES_COUNT = 100000
     const virtualizationProps = Object.assign(
         getEnchancedDataTableProps(props),
         {
-            entities: getMockEntities(10000).raw(),
+            entities: getMockEntities(VIRTUALIZATION_ENTITES_COUNT).raw(),
             virtualization: {
                 itemHeight: 68
             },
@@ -83,7 +84,7 @@ const Demo = () => {
             <DataTable { ...extendedDataTableProps } />
         </div>
 
-        <h2 children='Virtualization with 10000 elements' />
+        <h2 children={ `Virtualization with ${VIRTUALIZATION_ENTITES_COUNT} elements` } />
         <DataTable { ...virtualizationProps } />
     </>
 }

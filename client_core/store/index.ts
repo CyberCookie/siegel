@@ -64,7 +64,7 @@ function createStore
         /** Store */
         store: (store as Store),
 
-        /** Hook which subscribes component to the store */
+        /** Hook that subscribes component to the store */
         useStore(shouldUpdate?: StoreShouldUpdate<State>) {
             let newListener: StoreListener = useState(store.state)[1]
             if (shouldUpdate) {

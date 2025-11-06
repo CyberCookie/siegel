@@ -57,6 +57,11 @@ type Entities<Entity extends Obj = Obj> = {
     raw(): State<Entity>
 
     /**
+     * Clones entities struct
+     */
+    clone(): Entities<Entity>
+
+    /**
      * Last update occured timestamp
      */
     lastUpdated: number

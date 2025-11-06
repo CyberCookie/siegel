@@ -1,12 +1,22 @@
 import { useLayoutEffect, useState, useRef } from 'react'
 
-import isExists from '../../../../common/is/exists'
-
 import type {
-    Ref, ScrollTopState, SlideWindowRange, GetWindowSlideRanges,
+    Ref, ScrollTopState, SlideWindowRange,
+    GetWindowSlideRanges, GetExpanderRow,
     UseVirtualizationParams, VirtualizationMergedProps
 } from './apply_virtualization_types'
 
+
+const getDefaultState = () => ({
+    scrollTop: 0,
+    prevScrollTop: 0,
+    timeoutID: 0,
+    prevHeadAdjustment: {
+        value: undefined,
+        scrollTop: undefined,
+        isScrollUp: undefined
+    }
+})
 
 const getWindowSlideRanges: GetWindowSlideRanges = ({
     scrollTop, itemHeight, preloadedItemsBySide, maxItemsCount, tableHeight
@@ -29,84 +39,15 @@ const getWindowSlideRanges: GetWindowSlideRanges = ({
     return { from, to }
 }
 
-const getDefaultState = () => ({
-    scrollTop: 0,
-    prevScrollTop: 0,
-    timeoutID: 0,
-    prevHeadAdjustment: {
-        value: undefined,
-        scrollTop: undefined,
-        isScrollUp: undefined
+const getExpanderRow: GetExpanderRow = (isTop, className) => ({
+    children: [{
+        value: '',
+        attributes: { className }
+    }],
+    attributes: {
+        key: `____${isTop ? 'top' : 'bottom'}_virtualization_expander_row_cell`
     }
 })
-
-function adjustHeaderTopPositon(rootElement: HTMLDivElement, virtualizationState: ScrollTopState) {
-    const { firstChild, scrollTop } = rootElement
-    const {
-        tBodies,
-        style: { paddingTop }
-    } = firstChild as HTMLTableElement
-
-    const { prevHeadAdjustment, prevScrollTop } = virtualizationState
-
-
-    const isScrollUp = scrollTop < prevScrollTop
-    virtualizationState.prevScrollTop = scrollTop
-
-    const contentTopPos = +paddingTop.replace('px', '')
-    const contentBottomPos = contentTopPos + tBodies[0].clientHeight
-
-    const scrollDiffAdjust = prevHeadAdjustment.value! - (prevHeadAdjustment.scrollTop! - scrollTop)
-    const scrollDiffContentTop = scrollTop - contentTopPos
-    const scrollDiffContentBottom = scrollTop - contentBottomPos
-
-    const isScrollBelowContent = scrollTop > contentBottomPos
-    const isScrollAboveContent = scrollTop < contentTopPos
-
-    const isSameScrollDirection = prevHeadAdjustment.isScrollUp == isScrollUp
-    const isSameScrollBelowContent = isSameScrollDirection && isScrollBelowContent
-    const isSameScrollAboveContent = isSameScrollDirection && isScrollAboveContent
-
-
-    let theadPositionAdjust = isScrollUp
-        ?   prevHeadAdjustment.isScrollUp
-            ?   isSameScrollBelowContent
-                ?   scrollDiffContentBottom
-                :   Math.min(scrollDiffContentTop, 0)
-            :   isScrollAboveContent
-                ?   scrollDiffContentTop
-                :   Math.max(scrollDiffAdjust, 0)
-        :   prevHeadAdjustment.isScrollUp
-            ?   isScrollBelowContent
-                ?   scrollDiffContentBottom
-                :   Math.min(scrollDiffAdjust, 0)
-            :   isSameScrollAboveContent
-                ?   scrollDiffContentTop
-                :   Math.max(scrollDiffContentBottom, 0)
-
-    isNaN(theadPositionAdjust) && (theadPositionAdjust = 0)
-
-    const isUpdate =
-        ( isScrollUp
-            ?   theadPositionAdjust <= 0 || isSameScrollBelowContent
-            :   theadPositionAdjust >= 0 || isSameScrollAboveContent )
-        ||  !isSameScrollDirection
-
-    if (isUpdate) {
-        virtualizationState.prevHeadAdjustment = {
-            scrollTop,
-            isScrollUp: isExists(prevHeadAdjustment.isScrollUp)
-                ?   prevHeadAdjustment.isScrollUp
-                :   isScrollUp,
-            value: theadPositionAdjust
-        }
-
-        rootElement.style.setProperty(
-            '--data_table_virtualization_scrolltop',
-            `${theadPositionAdjust}px`
-        )
-    }
-}
 
 function applyVirtualization(params: UseVirtualizationParams) {
     const {
@@ -118,7 +59,7 @@ function applyVirtualization(params: UseVirtualizationParams) {
             virtualization: {
                 itemHeight,
                 preloadedItemsBySide = 20,
-                scrollUpdateInterval = 350,
+                scrollUpdateInterval = 250,
                 tableHeight = innerHeight
             }
         }
@@ -127,7 +68,9 @@ function applyVirtualization(params: UseVirtualizationParams) {
 
     rootAttributes.ref = useRef(null)
 
-    const [ virtualizationState, setVirtualizationState ] = useState<ScrollTopState>( getDefaultState() )
+    const [ virtualizationState, setVirtualizationState ] = useState<ScrollTopState>(
+        getDefaultState()
+    )
     const { scrollTop } = virtualizationState
 
 
@@ -143,22 +86,15 @@ function applyVirtualization(params: UseVirtualizationParams) {
     function onScrollHandler(e: React.UIEvent<HTMLDivElement, UIEvent>) {
         onScroll?.(e)
 
-        if (!e.defaultPrevented) {
+        if (!(e.defaultPrevented || virtualizationState.timeoutID)) {
             const rootElement = e.target as HTMLDivElement
-            const tableElement = rootElement.firstChild as HTMLTableElement
 
-            const isStickyHeader = getComputedStyle(tableElement.tHead!.rows[0].cells[0])
-                .position == 'sticky'
-            isStickyHeader && adjustHeaderTopPositon(rootElement, virtualizationState)
+            virtualizationState.timeoutID = (setTimeout as Window['setTimeout'])(() => {
+                const newScrollTopState = getDefaultState()
+                newScrollTopState.scrollTop = newScrollTopState.prevScrollTop = rootElement.scrollTop
 
-            if (!virtualizationState.timeoutID) {
-                virtualizationState.timeoutID = (setTimeout as Window['setTimeout'])(() => {
-                    const newScrollTopState = getDefaultState()
-                    newScrollTopState.scrollTop = newScrollTopState.prevScrollTop = rootElement.scrollTop
-
-                    setVirtualizationState(newScrollTopState)
-                }, scrollUpdateInterval)
-            }
+                setVirtualizationState(newScrollTopState)
+            }, scrollUpdateInterval)
         }
     }
 
@@ -170,11 +106,12 @@ function applyVirtualization(params: UseVirtualizationParams) {
                 maxItemsCount: newMaxItemsCount
             })
 
-            const rootElement = (rootAttributes.ref as Ref).current!
-            const tableElement = rootElement.firstChild as HTMLTableElement
-            tableElement.style.padding = `${from * itemHeight}px 0 ${(newMaxItemsCount - to) * itemHeight}px`
+            const { rows } = ((rootAttributes.ref as Ref).current!
+                .firstChild as HTMLTableElement)
+                .tBodies[0]
 
-            rootElement.style.setProperty('--data_table_virtualization_scrolltop', '0px')
+            rows[0].cells[0].style.height = `${from * itemHeight}px`
+            rows[rows.length - 1].cells[0].style.height = `${(newMaxItemsCount - to) * itemHeight}px`
 
 
             return () => {
@@ -184,9 +121,12 @@ function applyVirtualization(params: UseVirtualizationParams) {
     }
 
 
-    return { slideWindowRange, maxItemsCount, useVirtualizationScrolling, onScrollHandler }
+    return {
+        slideWindowRange, maxItemsCount,
+        useVirtualizationScrolling, onScrollHandler
+    }
 }
 
 
-export { applyVirtualization }
+export { applyVirtualization, getExpanderRow }
 export type { SlideWindowRange }

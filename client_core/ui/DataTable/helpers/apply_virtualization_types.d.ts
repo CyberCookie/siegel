@@ -1,3 +1,4 @@
+import type { TableBodyRow } from '../../Table'
 import type { MergedProps, State } from '../types'
 
 
@@ -28,6 +29,11 @@ type GetWindowSlideRanges = (params: {
     maxItemsCount: number
 }) => SlideWindowRange
 
+type GetExpanderRow = (
+    isTop: boolean,
+    themeClassName: MergedProps['theme']['virtualization_expander_cell']
+) => TableBodyRow
+
 type UseVirtualizationParams = {
     state: State
     rootAttributes: ReactTagAttributes<HTMLDivElement>
@@ -41,6 +47,7 @@ type VirtualizationMergedProps = {
 
 
 export type {
-    Ref, ScrollTopState, SlideWindowRange, GetWindowSlideRanges,
+    Ref, ScrollTopState, SlideWindowRange,
+    GetWindowSlideRanges, GetExpanderRow,
     UseVirtualizationParams, VirtualizationMergedProps
 }

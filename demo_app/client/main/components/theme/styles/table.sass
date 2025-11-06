@@ -1,7 +1,6 @@
 .table
     border: $border
     border-radius: $radius
-    width: 50%
 
     caption
         +font(24px, 64px, '', 500)
@@ -16,5 +15,8 @@
     th
         border-bottom: $border
     
+    tbody tr:not(:last-child) td
+        border-bottom: $border
+
     tfoot td
         border-top: $border

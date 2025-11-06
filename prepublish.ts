@@ -1,3 +1,6 @@
+//TODO: support '..' / '.' paths (fetchModule/index)
+
+
 'use strict'
 
 import fs from 'fs'
@@ -56,7 +59,8 @@ function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = tr
                 const [ , _import, , importPath ] = matchedGroups
 
                 const importPathResolved = path.join(dirPath, importPath)
-                const isDirectory = fs.existsSync(importPathResolved) && fs.lstatSync(importPathResolved).isDirectory()
+                const isDirectory = fs.existsSync(importPathResolved)
+                    &&  fs.lstatSync(importPathResolved).isDirectory()
 
                 const replace = _import + importPath
                 const replaceWith = replace + (

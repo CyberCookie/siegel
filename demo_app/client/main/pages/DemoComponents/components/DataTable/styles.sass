@@ -1,18 +1,12 @@
 .demo_grid
     height: 600px
-    width: min-content
 
     table
-        border-width: 0 1px 1px
+        table-layout: auto
+        width: 100%
 
         th, td
-            min-width: 25px
-
-            &:first-child
-                border-left: $border
-            
-            &:last-child
-                border-right: $border
+            min-width: 40px
 
 
 .paginator_count
@@ -52,19 +46,19 @@
 
 
 .row_selector
-    width: 80px
+    width: 10%
 
     div
         margin: 0 auto
 
 .column_id
-    width: 100px
+    width: 10%
 
 .column_date
-    width: 300px
+    width: 20%
 
 .column_name, .column_number, .column_boolean
-    width: 200px
+    width: 20%
 
 
 
@@ -72,6 +66,13 @@
     +flex(space-between, center)
     position: relative
     cursor: pointer
+
+.grid_col_label_text
+    height: 40px
+    line-height: 36px
+    text-overflow: ellipsis
+    overflow: hidden
+    word-break: break-all
 
 
 .grid_col_menu_toggle:hover > svg path

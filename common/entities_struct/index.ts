@@ -81,11 +81,20 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
 
         raw: () => ({ byID, sorted }),
 
-        setRaw: newState => {
+        setRaw(newState) {
             byID = newState.byID
             sorted = newState.sorted
 
             return entityStruct
+        },
+
+        clone() {
+            const newEntites = entities<E>(uniq)
+            newEntites.setRaw(
+                structuredClone(this.raw())
+            )
+
+            return newEntites
         },
 
         lastUpdated: Date.now()

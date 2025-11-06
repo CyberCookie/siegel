@@ -1,7 +1,7 @@
 import isExists from '../../../../common/is/exists'
+import { getExpanderRow, SlideWindowRange } from '../helpers/apply_virtualization'
 
 import type { TableBodyRow, TableTD } from '../../Table/types'
-import type { SlideWindowRange } from '../helpers/apply_virtualization'
 import type { MergedProps, State } from '../types'
 
 
@@ -13,7 +13,7 @@ function getBody(
 
     const {
         entities: { byID, sorted },
-        pinnedEntities, columnsConfig, postProcessBodyRow, withFooter
+        pinnedEntities, columnsConfig, postProcessBodyRow, withFooter, theme
     } = props
     let pinnedEntitiesSorted = pinnedEntities?.sorted
 
@@ -66,7 +66,8 @@ function getBody(
 
     const maxLength = processedList.length
 
-    let from: number, to: number
+    let from: number
+    let to: number
     if (withFooter) {
         const maxPages = Math.ceil(maxLength / showPerPage) || 1
         currentPage > maxPages && (state.currentPage = maxPages)
@@ -82,6 +83,7 @@ function getBody(
         if (slideWindowRange) {
             from = slideWindowRange.from
             to = Math.min(slideWindowRange.to, maxLength)
+
         } else {
             from = 0
             to = maxLength
@@ -102,8 +104,12 @@ function getBody(
     } else resultIDs = processedList
 
 
-    const processedIDs = new Set<string>()
     const resultList: TableBodyRow[] = []
+    slideWindowRange && resultList.push(
+        getExpanderRow(true, theme.virtualization_expander_cell)
+    )
+
+    const processedIDs = new Set<string>()
     for (let i = from; i < to; i++) {
 
         const entityID = processedList[i]
@@ -116,11 +122,17 @@ function getBody(
 
         const entity = byID[entityID]!
 
+        const indexes = {
+            pageIndex: i,
+            gridIndex: i
+        }
+        withFooter && (indexes.pageIndex %= showPerPage)
+
         const rowChildren: TableTD[] = []
         columnsConfig.forEach(config => {
             toggledColumns.has(config.ID) || rowChildren.push(
                 // leave attached to config to keep 'this'
-                config.showValue(entity)
+                config.showValue(entity, indexes)
             )
         })
 
@@ -129,12 +141,16 @@ function getBody(
             attributes: { key: entityID }
         }]
 
-        postProcessBodyRow?.(itemToPush, entity, i)
+        postProcessBodyRow?.(itemToPush, entity, indexes)
 
         itemToPush.length > 1
             ?   itemToPush.forEach(item => { resultList.push(item) })
             :   resultList.push(itemToPush[0])
     }
+
+    slideWindowRange && resultList.push(
+        getExpanderRow(false, theme.virtualization_expander_cell)
+    )
 
 
     return {

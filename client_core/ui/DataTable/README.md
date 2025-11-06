@@ -48,9 +48,12 @@ Configurable and flexible data grid to manage big amount of data, built on top o
         - `ID` - **Required** **String**. Column ID
         - `label` - **React.ReactNode**. Column TH tag text
         - `customParams` - **Any**. Any custom params you may extend column config with
-        - `showValue` - **Required** **Function**. TGet display value
-            - Has **1** argument:
-                - **entity** - **Object**. table entity
+        - `showValue` - **Required** **Function**. Get display value
+            - Has **2** arguments:
+                - **entity** - **Object**. Table entity
+                - **indexes** - **Object** with the next fields:
+                    - **gridIndex** - **Number**. Data grid row index
+                    - **pageIndex** - **Number**. Data grid row index of the current page
             - Returns **TableTD**
         - `onSort` - **Function**. Sorts list of entities by sorting their IDs
             - Has **3** arguments:
@@ -145,7 +148,9 @@ Configurable and flexible data grid to manage big amount of data, built on top o
     - **Function**. Has **3** arguments:
         - **row** - **TableBodyRow[]**. rows array
         - **entity** - **Object**. list entity
-        - **index** - **Number**. entity index within all DataTable rows
+        - **indexes** - **Object** with the next fields:
+            - **gridIndex** - **Number**. Data grid row index
+            - **pageIndex** - **Number**. Data grid row index of the current page
 
 
 <br /><br />

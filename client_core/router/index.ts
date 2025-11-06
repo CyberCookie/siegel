@@ -4,6 +4,7 @@ export {
     default as NavLink,
     componentID as NavLinkComponentID
 } from './Link'
+
 export type {
     HistoryChangeCustomEventPayload, URLparams,
     RouterProps, RoutesConfig, Page, Layout

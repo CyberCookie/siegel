@@ -15,6 +15,7 @@ Utils list:
     - [Date parse](https://github.com/CyberCookie/siegel/tree/master/common/date/parse)
     - [To UTC date](https://github.com/CyberCookie/siegel/tree/master/common/date/toUTCDate)
 - Deep
+    - [Clone](https://github.com/CyberCookie/siegel/tree/master/common/deep/clone)
     - [Diff](https://github.com/CyberCookie/siegel/tree/master/common/deep/diff)
     - [Get](https://github.com/CyberCookie/siegel/tree/master/common/deep/get)
     - [Set](https://github.com/CyberCookie/siegel/tree/master/common/deep/set)

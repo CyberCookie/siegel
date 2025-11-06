@@ -1,6 +1,7 @@
-//TODO?: resize with %
+//TODO: server side paging
+//TODO: pin collumns
+//TODO: multi sorting
 //TODO?: virtualization handle dynamic height
-//TODO?: showValue expose indexes
 
 
 import React, { useState } from 'react'
@@ -10,7 +11,7 @@ import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import addChildren from '../_internals/children'
 import applyRefApi from '../_internals/ref_apply'
-import Table from '../Table/index'
+import Table from '../Table'
 import {
     getBody, getHead, getPaginationFooter, applyVirtualization,
     GetPaginationFnProps
@@ -51,7 +52,8 @@ const DataTable = component<Props, DefaultProps>(
             table: _undef,
             table_resizer: _undef,
             pagination_wrapper: _undef,
-            pagination_single_page: _undef
+            pagination_single_page: _undef,
+            virtualization_expander_cell: _undef
         }
     },
     props => {

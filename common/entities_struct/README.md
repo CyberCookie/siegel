@@ -48,6 +48,9 @@ Returns **Object** to perform CRUD operations with entities:
     - `byID` - **Object** where key is **Entity**'s **uniq field**'s value and value is **Entity itself**
     - `sorted` - **ID[]**
 
+- `clone` - **Function** to copy **Entities** stuct
+Returns copied **Entities** struct
+
 <br />
 
 ```ts
