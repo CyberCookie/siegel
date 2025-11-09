@@ -8,13 +8,7 @@ type Virtualization = NonNullable<MergedProps['virtualization']>
 
 type ScrollTopState = {
     scrollTop: number
-    prevScrollTop: number
     timeoutID: number
-    prevHeadAdjustment: {
-        value: number | undefined
-        scrollTop: number | undefined
-        isScrollUp: boolean | undefined
-    }
 }
 
 type SlideWindowRange = {

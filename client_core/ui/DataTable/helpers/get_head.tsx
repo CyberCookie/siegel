@@ -9,41 +9,51 @@ import styles from '../styles.sass'
 const passiveEv = { passive: true }
 
 const toPercentWidth = (allWidth: number, width: number) => (
-    +(100 / (allWidth / width))
+    +((100 / (allWidth / width)).toFixed(1))
 )
 
-function getColumnWidthParams(columnEl: HTMLTableCellElement, rowElement: HTMLTableRowElement) {
+function getColumnWidthParams(
+    columnEl: HTMLTableCellElement,
+    clientWidth: HTMLTableRowElement['clientWidth']
+) {
+
     const {
-        width, minWidth, paddingLeft, paddingRight, borderLeftWidth, borderRightWidth
+        width, minWidth, maxWidth,
+        paddingLeft, paddingRight,
+        borderLeftWidth, borderRightWidth
     } = getComputedStyle(columnEl)
 
 
     return {
-        width: toPercentWidth(rowElement.clientWidth, parseInt(width)),
+        widthPercent: toPercentWidth(clientWidth, parseInt(width)),
         minWidth: toPercentWidth(
-            rowElement.clientWidth,
+            clientWidth,
             parseInt(minWidth)
                 +   parseInt(paddingLeft) + parseInt(paddingRight)
                 +   parseInt(borderLeftWidth) + parseInt(borderRightWidth)
-        )
+        ),
+        maxWidth: toPercentWidth(clientWidth, parseInt(maxWidth)) || Infinity
     }
 }
 
 function getResizeHandler() {
     let mouseXAnchor: number | null,
         isLeftSide: ChildNode | null,
-        targetHeadCell: HTMLTableCellElement | null,
         headRow: HTMLTableRowElement | null,
-        currentWidth: number | null,
-        currentMinWidth: number | null,
-        siblingHeadCell: HTMLTableCellElement | null,
-        siblingWidth: number | null,
-        siblingMinWidth: number | null
+        targetCell: HTMLTableCellElement | null,
+        targetCellMinWidth: number | null,
+        targetCellMaxWidth: number | null,
+        targetCellWidthPercent: number | null,
+        siblingCell: HTMLTableCellElement | null,
+        siblingCellMinWidth: number | null,
+        siblingCellMaxWidth: number | null,
+        siblingCellWidthPercent: number | null
 
 
     function onMouseUp() {
-        mouseXAnchor = targetHeadCell = currentWidth = siblingHeadCell = siblingWidth = headRow
-            = isLeftSide = currentMinWidth = siblingMinWidth = null
+        targetCell = targetCellWidthPercent = targetCellMinWidth
+            = siblingCell = siblingCellWidthPercent = siblingCellMinWidth
+            = mouseXAnchor = headRow = isLeftSide = null
 
         removeEventListener('mousemove', onMouseMove)
         removeEventListener('mouseup', onMouseUp)
@@ -53,16 +63,16 @@ function getResizeHandler() {
         let deltaX = e.x - mouseXAnchor!
         isLeftSide && (deltaX = -deltaX)
 
-        const nextCurWidth = currentWidth! + toPercentWidth(headRow!.clientWidth, deltaX)
-        const nextSiblingWidth = siblingWidth! - toPercentWidth(headRow!.clientWidth, deltaX)
+        const nextCurWidth = targetCellWidthPercent! + toPercentWidth(headRow!.clientWidth, deltaX)
+        const nextSiblingWidth = siblingCellWidthPercent! - toPercentWidth(headRow!.clientWidth, deltaX)
 
         if (
-            (!siblingMinWidth || (nextSiblingWidth >= siblingMinWidth))
-                &&  (!currentMinWidth || (nextCurWidth >= currentMinWidth))
+            (siblingCellMinWidth! <= nextSiblingWidth && nextSiblingWidth <= siblingCellMaxWidth!)
+                &&  (targetCellMinWidth! <= nextCurWidth && nextCurWidth <= targetCellMaxWidth!)
         ) {
 
-            siblingHeadCell!.style.width = nextSiblingWidth + '%'
-            targetHeadCell!.style.width = nextCurWidth + '%'
+            targetCell!.style.width = nextCurWidth + '%'
+            siblingCell!.style.width = nextSiblingWidth + '%'
         }
     }
 
@@ -73,20 +83,28 @@ function getResizeHandler() {
 
         const resizerElement = e.currentTarget
 
-        targetHeadCell = resizerElement.parentElement as HTMLTableCellElement
-        headRow = targetHeadCell.parentElement as HTMLTableRowElement
+        targetCell = resizerElement.parentElement as HTMLTableCellElement
+        headRow = targetCell.parentElement as HTMLTableRowElement
 
         mouseXAnchor = e.nativeEvent.x
         isLeftSide = resizerElement.nextSibling
 
-        siblingHeadCell = (resizerElement.nextSibling as HTMLTableCellElement)
-            ?   (targetHeadCell.previousSibling as HTMLTableCellElement)
-            :   (targetHeadCell.nextSibling as HTMLTableCellElement)
+        siblingCell = (resizerElement.nextSibling as HTMLTableCellElement)
+            ?   (targetCell.previousSibling as HTMLTableCellElement)
+            :   (targetCell.nextSibling as HTMLTableCellElement)
 
 
-        if (siblingHeadCell) {
-            ({ width: currentWidth, minWidth: currentMinWidth } = getColumnWidthParams(targetHeadCell, headRow))
-            ;({ width: siblingWidth, minWidth: siblingMinWidth } = getColumnWidthParams(siblingHeadCell, headRow))
+        if (siblingCell) {
+            ({
+                widthPercent: targetCellWidthPercent,
+                minWidth: targetCellMinWidth,
+                maxWidth: targetCellMaxWidth
+            } = getColumnWidthParams(targetCell, headRow.clientWidth))
+            ;({
+                widthPercent: siblingCellWidthPercent,
+                minWidth: siblingCellMinWidth,
+                maxWidth: siblingCellMaxWidth
+            } = getColumnWidthParams(siblingCell, headRow.clientWidth))
 
             addEventListener('mousemove', onMouseMove, passiveEv)
             addEventListener('mouseup', onMouseUp, passiveEv)

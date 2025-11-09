@@ -143,7 +143,8 @@ function getDefaultPluginsConfig(config: ConfigObject) {
             options: resolvePluginDefaultOptions<EslintWebpackPluginOptions>({
                 extensions: ESLintExtensions as unknown as string[],
                 emitWarning: true,
-                configType: 'flat'
+                configType: 'flat',
+                failOnError: false
             }, eslintOptions)
         }
     }

@@ -135,12 +135,25 @@ type Plugins = {
 
     eslint?: UserPlugin<EslintPlugin, DefaultEslintPluginOptions>
 
-} & Obj<
+}
+ & Obj<
     MakeRequiredFields<
         Exclude<AllCaseUserPluginConfig, boolean>,
         'plugin'
     > | boolean
 >
+
+// type Plugins = {
+//     [K in string]: K extends keyof _Plugins
+//         ?   MakePartialFields<
+//                 Exclude<NonNullable<_Plugins[K]>, boolean>,
+//                 'plugin'
+//             > | boolean
+//         :   MakeRequiredFields<
+//                 Exclude<AllCaseUserPluginConfig, boolean>,
+//                 'plugin'
+//             > | boolean
+// }
 
 
 

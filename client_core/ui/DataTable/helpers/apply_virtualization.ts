@@ -7,17 +7,6 @@ import type {
 } from './apply_virtualization_types'
 
 
-const getDefaultState = () => ({
-    scrollTop: 0,
-    prevScrollTop: 0,
-    timeoutID: 0,
-    prevHeadAdjustment: {
-        value: undefined,
-        scrollTop: undefined,
-        isScrollUp: undefined
-    }
-})
-
 const getWindowSlideRanges: GetWindowSlideRanges = ({
     scrollTop, itemHeight, preloadedItemsBySide, maxItemsCount, tableHeight
 }) => {
@@ -68,9 +57,10 @@ function applyVirtualization(params: UseVirtualizationParams) {
 
     rootAttributes.ref = useRef(null)
 
-    const [ virtualizationState, setVirtualizationState ] = useState<ScrollTopState>(
-        getDefaultState()
-    )
+    const [ virtualizationState, setVirtualizationState ] = useState<ScrollTopState>({
+        scrollTop: 0,
+        timeoutID: 0
+    })
     const { scrollTop } = virtualizationState
 
 
@@ -90,10 +80,10 @@ function applyVirtualization(params: UseVirtualizationParams) {
             const rootElement = e.target as HTMLDivElement
 
             virtualizationState.timeoutID = (setTimeout as Window['setTimeout'])(() => {
-                const newScrollTopState = getDefaultState()
-                newScrollTopState.scrollTop = newScrollTopState.prevScrollTop = rootElement.scrollTop
-
-                setVirtualizationState(newScrollTopState)
+                setVirtualizationState({
+                    scrollTop: rootElement.scrollTop,
+                    timeoutID: 0
+                })
             }, scrollUpdateInterval)
         }
     }

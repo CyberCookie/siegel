@@ -21,7 +21,7 @@ function getMockEntities(count: number) {
             date: Date.now() + msIn.day * i,
             text: 'some text ' + i,
             num: i % 4,
-            bool: i % 2 == 0 ? true : false
+            bool: !!(i % 2)
         }))
         .forEach(el => entitiesStruct.addOrUpdate(el))
 

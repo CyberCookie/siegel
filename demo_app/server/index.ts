@@ -46,5 +46,15 @@ siegel({
         eslint: true,
 
         aliases: tsToWebpackAliases(rootPath)
+
+        // ,plugins: {
+        //     eslint: {
+        //         options: {
+        //             failOnError: false
+        //         }
+        //     },
+
+        //     olo: false
+        // }
     }
 })
