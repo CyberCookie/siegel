@@ -1,8 +1,8 @@
 
 
 type DefaultPlugins = ReturnType<(typeof import('./defaults'))['default']>
-type DefaultPluginsWithInstances = NarrowObjectToValueTypes<DefaultPlugins, PluginInstances>
-type DefaultPluginsWithOptions = NarrowObjectToValueTypes<DefaultPlugins, PluginOptions>
+// type DefaultPluginsWithInstances = NarrowObjectToValueTypes<DefaultPlugins, PluginInstances>
+// type DefaultPluginsWithOptions = NarrowObjectToValueTypes<DefaultPlugins, PluginOptions>
 
 
 //TODO typing?: review corectness

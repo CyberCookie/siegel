@@ -4,7 +4,7 @@ import type { WebpackPluginInstance } from 'webpack'
 import type {
     DefaultPlugins, Plugins, AllCaseUserPluginConfig,
     UserPluginConfigObject, DefaultPluginsKeys, DefaultPluginsIntersact
-} from './types'
+} from '../plugins/types'
 
 
 const mergeOptions = (
