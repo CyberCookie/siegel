@@ -84,26 +84,26 @@ type ColumnsConfig<
     /**
      * Get display value
      *
-     * @param entity table entity
-     * @param indexes values's row indexes
+     * @param entity - Table entity
+     * @param indexes - Values's row indexes
      */
     showValue(entity: _Entity, indexes?: RowIndexes): TableTD
 
     /**
      * Sorts list of entities by sorting their IDs
      *
-     * @param IDs entities IDs array
-     * @param byID entities hashtable where key is entity ID and value is entity
-     * @param value sorting value
+     * @param IDs - Entities IDs array
+     * @param byID - Entities hashtable where key is entity ID and value is entity
+     * @param value - Sorting value
      */
     onSort?(IDs: _Sorted, byID: _ByID, value: number): _Sorted
 
     /**
      * Filters list of entities by filtering out their IDs
      *
-     * @param IDs entities IDs array
-     * @param byID entities hashtable where key is entity ID and value is entity
-     * @param search search value you put into DataTable store
+     * @param IDs - Entities IDs array
+     * @param byID - Entities hashtable where key is entity ID and value is entity
+     * @param search - Search value you put into DataTable store
      */
     onFilter?(IDs: _Sorted, byID: _ByID, search: _SearchState): _Sorted
 
@@ -175,7 +175,7 @@ type Props<
         /**
          * Helps to render all entities quantity label
          *
-         * @param quantity number of all entities in a table
+         * @param quantity - Number of all entities in a table
          */
         displayQuantity?(quantity: number): React.ReactNode
 
@@ -219,7 +219,7 @@ type Props<
     /**
      * Triggered when you scroll the data table. May prevent virtualization scroll event
      *
-     * @param event scroll event
+     * @param event - Scroll event
      */
     onScroll?(event: React.UIEvent<HTMLDivElement>): void
 
@@ -230,15 +230,34 @@ type Props<
     tableAttributes?: TableProps['rootTagAttributes']
 
     /** Makes table columns to be resizable horizontally */
-    resizable?: boolean
+    resizable?: {
+        /** Enables resizing */
+        enabled: boolean
+
+        /** Enables resizing in px units. Default is % */
+        resizeInPixel?: boolean
+
+        /** Preventable resize event callback
+         * @param event - Mouse move event
+         * @param targetCell - Table head cell to resize
+         * @param siblingCell - Sibling table head cell to resize
+         * @param deltaX - Resized value in pixels
+         */
+        onCellResize?: (
+            event: MouseEvent,
+            targetCell: HTMLTableCellElement,
+            siblingCell: HTMLTableCellElement,
+            deltaX: number
+        ) => void
+    } | boolean
 
     /**
      * Post processes every column header to be rendered in DataTable
      * by mutating resulting headCell
      *
-     * @param headCell table cell data
-     * @param columnConfig column config
-     * @param displayedEntityIDs final list of entities IDs to be rendered on the active page
+     * @param headCell - Table cell data
+     * @param columnConfig - Column config
+     * @param displayedEntityIDs - Final list of entities IDs to be rendered on the active page
      */
     postProcessHeadCell?(
         headCell: TableTH,
@@ -249,8 +268,8 @@ type Props<
     /**
      * Post processes every DataTable head row by mutating resulting rows array
      *
-     * @param rows rows array
-     * @param displayedEntityIDs final list entities IDs to be rendered on the active page
+     * @param rows - Rows array
+     * @param displayedEntityIDs - Final list entities IDs to be rendered on the active page
      */
     postProcessHeadRow?(
         rows: TableHeadRow[],
@@ -260,9 +279,9 @@ type Props<
     /**
      * Post process evenry DataTable body row by mutating resulting rows array
      *
-     * @param row  rows array
-     * @param entity list entity
-     * @param indexes row indexes
+     * @param row - Rows array
+     * @param entity - List entity
+     * @param indexes - Row indexes
      */
     postProcessBodyRow?(
         row: Required<TableBodyRow>[],

@@ -20,8 +20,8 @@ function buildQueryPart(query: URLSearchParams, key: string, value: QueryValue |
 /**
  * Returns updated URL search query
  *
- * @param key query param key. Or object with keys as query params and valuest as query param values
- * @param value query param value
+ * @param key - Query param key. Or object with keys as query params and valuest as query param values
+ * @param value - Query param value
  * @returns String query params
  */
 const buildURLQuery: BuildURLQuery = function(key, value) {

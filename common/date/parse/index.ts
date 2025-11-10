@@ -15,8 +15,8 @@ const resultMaxLength: { [key in DateKeys]?: number } = {
 /**
  * Parse date into date parts
  *
- * @param date Date to parse
- * @param zeroPrefix Wheher to prefix parsed numbers with 0 if parsed value is less then 10
+ * @param date - Date to parse
+ * @param zeroPrefix - Whether to prefix parsed numbers with 0 if parsed value is less then 10
  * @returns Parsed date
  */
 const dateParse: DateParse = (date, zeroPrefix) => {

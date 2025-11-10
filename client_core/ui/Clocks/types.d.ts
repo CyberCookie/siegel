@@ -29,7 +29,7 @@ type Props = Omit<
         /**
          * Callback to construct clocks display value
          *
-         * @param dateParsed result of date/parse util
+         * @param dateParsed - Result of date/parse util
          */
         builder?(dateParsed: ReturnType<DateParse>): React.ReactNode
     }>,

@@ -11,8 +11,8 @@ const symbolPrevValue = Symbol('prev_value')
 /**
  * Memoize given value to retrieve it at the next component render
  *
- * @param value Value to retrieve at the next render
- * @param ref Optional reusable ref created with React.useRef
+ * @param value - Value to retrieve at the next render
+ * @param ref - Optional reusable ref created with React.useRef
  * @returns previous value or undefined if it's first render
  */
 function usePrevious(value: any, ref = useRef(null)) {

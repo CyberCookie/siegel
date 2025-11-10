@@ -53,9 +53,9 @@ type ServerConfig = {
 
     /** Executes right before file send
      *
-     * @param req Express.js request
-     * @param res Express.js response
-     * @param staticServingData file serving params
+     * @param req - Express.js request
+     * @param res - Express.js response
+     * @param staticServingData - File serving params
      * @returns true to prevent default file send handler
     */
     HTTP1PreFileSend?(
@@ -66,10 +66,10 @@ type ServerConfig = {
 
     /** Executes right before file send
      *
-     * @param stream Node http2 stream
-     * @param headers Node http2 request headers
-     * @param resHeaders Node http2 response headers
-     * @param staticServingData file serving params
+     * @param stream - Node http2 stream
+     * @param headers - Node http2 request headers
+     * @param resHeaders - Node http2 response headers
+     * @param staticServingData - File serving params
      * @returns true to prevent default file send handler
     */
     HTTP2PreFileSend?(

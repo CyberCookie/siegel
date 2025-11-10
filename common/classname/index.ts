@@ -1,8 +1,8 @@
 /**
  * Builds element className regarding to passed conditions
  *
- * @param initialClassName Class name to concatenate new classes with
- * @param rules where key is a class name to apply
+ * @param initialClassName - Class name to concatenate new classes with
+ * @param rules - Where key is a class name to apply
  * @returns class name string
  */
 function className(

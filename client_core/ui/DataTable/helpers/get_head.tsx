@@ -6,6 +6,9 @@ import type { MergedProps, DisplayedEntityIDs, State } from '../types'
 import styles from '../styles.sass'
 
 
+type InnerResizeParams = Partial<Exclude<NonNullable<MergedProps['resizable']>, boolean>>
+
+
 const passiveEv = { passive: true }
 
 const toPercentWidth = (allWidth: number, width: number) => (
@@ -14,7 +17,8 @@ const toPercentWidth = (allWidth: number, width: number) => (
 
 function getColumnWidthParams(
     columnEl: HTMLTableCellElement,
-    clientWidth: HTMLTableRowElement['clientWidth']
+    clientWidth: HTMLTableRowElement['clientWidth'],
+    isPixelResize: InnerResizeParams['resizeInPixel']
 ) {
 
     const {
@@ -24,35 +28,48 @@ function getColumnWidthParams(
     } = getComputedStyle(columnEl)
 
 
-    return {
-        widthPercent: toPercentWidth(clientWidth, parseInt(width)),
-        minWidth: toPercentWidth(
-            clientWidth,
-            parseInt(minWidth)
-                +   parseInt(paddingLeft) + parseInt(paddingRight)
-                +   parseInt(borderLeftWidth) + parseInt(borderRightWidth)
-        ),
-        maxWidth: toPercentWidth(clientWidth, parseInt(maxWidth)) || Infinity
-    }
+    const widthInt = parseInt(width)
+    const maxWidthInt = parseInt(maxWidth)
+    const minWidthInt = parseInt(minWidth)
+        +   parseInt(borderLeftWidth) + parseInt(borderRightWidth)
+        +   parseInt(paddingLeft) + parseInt(paddingRight)
+
+    const result = isPixelResize
+        ?   {
+                width: widthInt,
+                maxWidth: maxWidthInt,
+                minWidth: minWidthInt
+            }
+        :   {
+                width: toPercentWidth(clientWidth, widthInt),
+                maxWidth: toPercentWidth(clientWidth, maxWidthInt),
+                minWidth: toPercentWidth(clientWidth, minWidthInt)
+            }
+    result.maxWidth || (result.maxWidth = Infinity)
+
+
+    return result
 }
 
-function getResizeHandler() {
+function getResizeHandler(resizeParams: InnerResizeParams) {
+    const { onCellResize, resizeInPixel } = resizeParams
+
     let mouseXAnchor: number | null,
         isLeftSide: ChildNode | null,
         headRow: HTMLTableRowElement | null,
         targetCell: HTMLTableCellElement | null,
         targetCellMinWidth: number | null,
         targetCellMaxWidth: number | null,
-        targetCellWidthPercent: number | null,
+        targetCellWidth: number | null,
         siblingCell: HTMLTableCellElement | null,
         siblingCellMinWidth: number | null,
         siblingCellMaxWidth: number | null,
-        siblingCellWidthPercent: number | null
+        siblingCellWidth: number | null
 
 
     function onMouseUp() {
-        targetCell = targetCellWidthPercent = targetCellMinWidth
-            = siblingCell = siblingCellWidthPercent = siblingCellMinWidth
+        targetCell = targetCellWidth = targetCellMinWidth
+            = siblingCell = siblingCellWidth = siblingCellMinWidth
             = mouseXAnchor = headRow = isLeftSide = null
 
         removeEventListener('mousemove', onMouseMove)
@@ -63,16 +80,26 @@ function getResizeHandler() {
         let deltaX = e.x - mouseXAnchor!
         isLeftSide && (deltaX = -deltaX)
 
-        const nextCurWidth = targetCellWidthPercent! + toPercentWidth(headRow!.clientWidth, deltaX)
-        const nextSiblingWidth = siblingCellWidthPercent! - toPercentWidth(headRow!.clientWidth, deltaX)
+        onCellResize?.(e, targetCell!, siblingCell!, deltaX)
 
-        if (
-            (siblingCellMinWidth! <= nextSiblingWidth && nextSiblingWidth <= siblingCellMaxWidth!)
-                &&  (targetCellMinWidth! <= nextCurWidth && nextCurWidth <= targetCellMaxWidth!)
-        ) {
+        if (!e.defaultPrevented) {
+            const delta = resizeInPixel
+                ?   deltaX
+                :   toPercentWidth(headRow!.clientWidth, deltaX)
 
-            targetCell!.style.width = nextCurWidth + '%'
-            siblingCell!.style.width = nextSiblingWidth + '%'
+            const nextCurWidth = targetCellWidth! + delta
+            const nextSiblingWidth = siblingCellWidth! - delta
+
+            if (
+                (siblingCellMinWidth! <= nextSiblingWidth && nextSiblingWidth <= siblingCellMaxWidth!)
+                    &&  (targetCellMinWidth! <= nextCurWidth && nextCurWidth <= targetCellMaxWidth!)
+            ) {
+
+                const suffix = resizeInPixel ? 'px' : '%'
+
+                targetCell!.style.width = nextCurWidth + suffix
+                siblingCell!.style.width = nextSiblingWidth + suffix
+            }
         }
     }
 
@@ -96,15 +123,15 @@ function getResizeHandler() {
 
         if (siblingCell) {
             ({
-                widthPercent: targetCellWidthPercent,
+                width: targetCellWidth,
                 minWidth: targetCellMinWidth,
                 maxWidth: targetCellMaxWidth
-            } = getColumnWidthParams(targetCell, headRow.clientWidth))
+            } = getColumnWidthParams(targetCell, headRow.clientWidth, resizeInPixel))
             ;({
-                widthPercent: siblingCellWidthPercent,
+                width: siblingCellWidth,
                 minWidth: siblingCellMinWidth,
                 maxWidth: siblingCellMaxWidth
-            } = getColumnWidthParams(siblingCell, headRow.clientWidth))
+            } = getColumnWidthParams(siblingCell, headRow.clientWidth, resizeInPixel))
 
             addEventListener('mousemove', onMouseMove, passiveEv)
             addEventListener('mouseup', onMouseUp, passiveEv)
@@ -113,9 +140,27 @@ function getResizeHandler() {
 }
 
 
-function getHead(props: MergedProps, state: State, resultIDs: string[], from: number, to: number) {
+function getHead(
+    props: MergedProps,
+    state: State,
+    resultIDs: string[],
+    from: number,
+    to: number
+) {
+
     const { columnsConfig, resizable, theme, postProcessHeadRow, postProcessHeadCell } = props
     const { toggledColumns } = state
+
+    let resizeParams: InnerResizeParams = {}
+    if (resizable) {
+        typeof resizable == 'object'
+            ?   (resizeParams = resizable)
+            :   (resizeParams = {
+                    enabled: true,
+                    resizeInPixel: false
+                })
+    }
+
 
     let resizerClassName = styles.table_resizer
     theme.table_resizer && (resizerClassName += ` ${theme.table_resizer}`)
@@ -135,8 +180,8 @@ function getHead(props: MergedProps, state: State, resultIDs: string[], from: nu
             const tableHeadCellToPush: TableTH = { value: label }
             postProcessHeadCell?.(tableHeadCellToPush, columnConfig, displayedEntityIDs!)
 
-            if (resizable) {
-                const resizeHandler = getResizeHandler()
+            if (resizeParams.enabled) {
+                const resizeHandler = getResizeHandler(resizeParams)
 
                 tableHeadCellToPush.value = <>
                     { !i || <div className={ resizerClassName } onMouseDown={ resizeHandler } /> }

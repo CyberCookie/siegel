@@ -10,7 +10,6 @@ import type { Filenames, BuildConfig } from '../types'
 import type { SwPluginClassCtor, SwPluginOptions } from './plugin_sw'
 
 
-
 type ReactRefreshPlugin = typeof import('@pmmmwh/react-refresh-webpack-plugin')
 type HtmlPlugin = typeof import('html-webpack-plugin')
 type CompressionPlugin = typeof import('compression-webpack-plugin')
@@ -144,7 +143,7 @@ type Plugins = {
 >
 
 // type Plugins = {
-//     [K in string]: K extends keyof _Plugins
+//     [K: string]: K extends keyof _Plugins
 //         ?   MakePartialFields<
 //                 Exclude<NonNullable<_Plugins[K]>, boolean>,
 //                 'plugin'

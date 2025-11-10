@@ -1,7 +1,7 @@
 /**
  * Adjust hours in date object to match UTC date
  *
- * @param date date to adjust
+ * @param date - Date to adjust
  * @returns adjusted date
  */
 const toUTCDate = (date: Date) => {

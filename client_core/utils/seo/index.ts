@@ -34,7 +34,7 @@ const paramFlowMap = {
 /**
  * Updates HTML SEO tags
  *
- * @param seoParams seo params
+ * @param seoParams - SEO params
  */
 function updateSEOParams(seoParams: SEOParams) {
     Object.entries(seoParams)

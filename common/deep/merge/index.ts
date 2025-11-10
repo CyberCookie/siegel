@@ -6,9 +6,9 @@ const resolveAsUndefSymbol = Symbol('undef')
 /**
  * Recursively merges objects
  *
- * @param obj_a Object to merge
- * @param obj_b Object to merge
- * @param options Merge strategies options
+ * @param obj_a - Object to merge
+ * @param obj_b - Object to merge
+ * @param options - Merge strategies options
  * @returns Merged objects
  */
 const deepMerge = <

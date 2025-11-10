@@ -48,9 +48,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when user change Toggle value
      *
-     * @param value New toggle value
-     * @param event Mouse event
-     * @param payload props.payload
+     * @param value - New toggle value
+     * @param event - Mouse event
+     * @param payload - Props.payload
      */
     onChange?(
         value: boolean,
@@ -61,7 +61,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Root tag mousedown event handler. May prevent inner default onMouseDown event
      *
-     * @param event Mouse event
+     * @param event - Mouse event
      */
     onMouseDown?(event: React.MouseEvent<HTMLDivElement>): void
 

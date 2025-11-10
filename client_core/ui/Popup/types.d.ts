@@ -15,14 +15,14 @@ type Props = PropsComponentThemed<Theme, {
     /**
      * Triggered when user closes a popup
      *
-     * @param event - click event
+     * @param event - Click event
      */
     onClose(event: React.MouseEvent<HTMLDivElement>): void
 
     /**
      * Root tag onmousewon event. May prevent props.onClose event
      *
-     * @param event - mousedown event
+     * @param event - Mousedown event
      */
     onMouseDown?(event: React.MouseEvent<HTMLDivElement>): void
 

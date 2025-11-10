@@ -17,7 +17,7 @@ type Props = PropsComponentBase<
         /**
          * Link click handler, that may prevent default click handler
          *
-         * @param e Mouse event
+         * @param e - Mouse event
          */
         onClick?(e: React.MouseEvent): void
     } & LinkReactTagAttributes

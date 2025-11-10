@@ -81,8 +81,8 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered on option selection
      *
-     * @param value option value
-     * @param event event
+     * @param value - Option value
+     * @param event - Focus event / Mouse event / Keyboard event
      */
     onChange(
         value: _Value | undefined,
@@ -95,8 +95,8 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when user type into component input
      *
-     * @param searchValue input value
-     * @param event event
+     * @param searchValue - Input value
+     * @param event - Change event / Focuse event
      */
     onSearch?(
         searchValue: string,
@@ -106,14 +106,14 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when component root looses focus
      *
-     * @param event focus event
+     * @param event - Focus event
      */
     onRootBlur?(event: React.FocusEvent<HTMLDivElement>): void
 
     /**
      * Triggered when key was pressed
      *
-     * @param event event
+     * @param event - Keyboard event
      */
     onKeyDown?(event: React.KeyboardEvent<HTMLDivElement>): void
 

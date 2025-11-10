@@ -62,22 +62,22 @@ type Props = PropsComponentThemed<Theme, {
     /**
      * Triggered when you change selected range
      *
-     * @param value new range value
-     * @param event mousedown event
+     * @param value - New range value
+     * @param event - Mousedown event
      */
     onChange?(value: Props['value'], event: MouseEvent | React.MouseEvent<HTMLDivElement>): void
 
     /**
      * Triggered when start slide dragging
      *
-     * @param event mousedown event
+     * @param event - Mousedown event
      */
     onRangePickStart?:(event: React.MouseEvent<HTMLDivElement>) => void
 
     /**
      * Triggered when finish slide dragging
      *
-     * @param event mousedown event
+     * @param event - Mousedown event
      */
     onRangePickFinish?:(event: MouseEvent | undefined) => void
 

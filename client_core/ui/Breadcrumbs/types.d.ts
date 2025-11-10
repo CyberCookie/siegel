@@ -60,9 +60,9 @@ type Props = PropsComponentThemed<Theme, {
     /**
      * Triggered when crumb link is clicked
      *
-     * @param fullPath Full crumb path
-     * @param pathPart Pathname key from config
-     * @param event Crumb click event
+     * @param fullPath - Full crumb path
+     * @param pathPart - Pathname key from config
+     * @param event - Crumb click event
      */
     onChange(
         fullPath: string,

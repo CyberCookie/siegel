@@ -9,22 +9,22 @@ type Props = PropsComponentBase<{
     /**
      * Triggered when swipe gesture occurs
      *
-     * @param dirrection Swipe dirrection. true if swipe to left / top
-     * @param e mouse / touch event
+     * @param dirrection - Swipe dirrection. true if swipe to left / top
+     * @param e - Mouse or touch event
      */
     onSwipe(dirrection: boolean, e: HTMLSwipeMouseEvent): void
 
     /**
      * Root tag touchstart event handler. May prevent inner default onTouchStart event
      *
-     * @param event touch event
+     * @param event - Touch event
      */
     onTouchStart?(event: React.TouchEvent<HTMLDivElement>): void
 
     /**
      * Root tag mousedown event handler. May prevent inner default onMouseDown event
      *
-     * @param event mouse event
+     * @param event - Mouse event
      */
     onMouseDown?(event: React.MouseEvent<HTMLDivElement>): void
 

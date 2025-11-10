@@ -70,9 +70,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered on checkbox click
      *
-     * @param checked New checkbox value
-     * @param event Click Mouse event
-     * @param payload props.payload
+     * @param checked - New checkbox value
+     * @param event - Click Mouse event
+     * @param payload - Props.payload
      */
     onChange?(
         checked: NonNullable<Props['value']>,
@@ -84,7 +84,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
      * Triggered right before props.onChange handler is fired.
      * Can prevent props.onChange from beeing triggered
      *
-     * @param event Click Mouse event
+     * @param event - Click Mouse event
      */
     onMouseDown?(event: HandlerEvent): void
 

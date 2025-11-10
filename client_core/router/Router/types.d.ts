@@ -95,7 +95,7 @@ type RouteConfigAllFields<_WithPageExtend = object> = {
     /**
      * Executes before first page render
      *
-     * @param URLparams Object with parsed url params
+     * @param URLparams - Object with parsed url params
      */
     onEnter(URLparams: URLparams): any
 

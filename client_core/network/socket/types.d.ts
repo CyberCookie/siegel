@@ -39,36 +39,36 @@ type CreateSocketParams = {
         /**
          * Triggered after connection has been established
          *
-         * @param e Event
+         * @param e - Event
          */
         onopen?(e: Event): void
 
         /**
          * Triggered after successful reconnection
          *
-         * @param e Event
+         * @param e - Event
          */
         onreconnect?(e: Event): void
 
         /**
          * Triggered when message is received
          *
-         * @param e Message Event
-         * @param parsedMessage Parsed message
+         * @param e - Message Event
+         * @param parsedMessage - Parsed message
          */
         onmessage?(e: MessageEvent, parsedMessage: any): void
 
         /**
          * Triggered once socket connection has been clossed
          *
-         * @param e Close event
+         * @param e - Close event
          */
         onclose?(e: CloseEvent): void
 
         /**
          * Triggered once an error is occured in a socket connection
          *
-         * @param e Event
+         * @param e - Event
          */
         onerror?(e?: Event): void
     }
@@ -76,14 +76,14 @@ type CreateSocketParams = {
     /**
      * Socket incoming message parse function where you can apply your custom parse algorithm
      *
-     * @param e Message event
+     * @param e - Message event
      */
     parseIncommingMsg?(e: MessageEvent): any
 
     /**
      * Constructs a message to be sent on a server
      *
-     * @param serializeParams Serialize params
+     * @param serializeParams - Serialize params
      */
     serializeOutcommingMsg?(
         serializeParams: {
@@ -106,7 +106,7 @@ type Handler<_Payload = any> = (payload?: _Payload) => void
 
 type SocketState = {
     messageHandlers: {
-        [key in string]: Set<Handler>
+        [key: string]: Set<Handler>
     }
     pendingDataToSend: any[]
     reconnecting: boolean

@@ -72,28 +72,28 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
     /**
      * Post process json string before request occurs
      *
-     * @param json - request json string
+     * @param json - Request json string
      */
     jsonStringifyPostprocess?(json: string): string
 
     /**
      * Pre process response string before being parsed to object as json string
      *
-     * @param json - response json string
+     * @param json - Response json string
      */
     jsonParsePreprocess?(json: string): string
 
     /**
      * Postprocess Fetch API's mutable options parameter
      *
-     * @param fetchOptions fetch api request options
+     * @param fetchOptions - Fetch api request options
      */
     fetchOptionsPostprocess?(fetchOptions: RequestInit): void
 
     /**
      * Preprocess mutable request data right before it passed to Fetch API
      *
-     * @param reqData every request params
+     * @param reqData - Every request params
      * @return false to prevent request execution
      */
     beforeRequest?: NonNullable<RequestSetupParams<_P>['beforeRequest']>
@@ -104,7 +104,7 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
     /**
      * Error response callback
      *
-     * @param err error object that contains request parameters, response and error message and status
+     * @param err - Error object that contains request parameters, response and error message and status
      */
     onError?: (err: ReqError<_P>) => void
 }
@@ -114,7 +114,7 @@ type RequestSetupParams<_P = any> = {
     /**
      * For every request preprocess mutable request data right before it passed to Fetch API
      *
-     * @param reqData request params
+     * @param reqData - Request params
      * @return false to prevent request execution
      */
     beforeParse?(opts: RequestParams<any, any, _P>): void | Promise<RequestParams<any, any, _P>>
@@ -122,29 +122,29 @@ type RequestSetupParams<_P = any> = {
     /**
      * For every request postprocess mutable Fetch API's options parameter
      *
-     * @param fetchOptions fetch api request options
+     * @param fetchOptions - Fetch api request options
      */
     fetchOptionsPostprocess?(fetchOptions: RequestInit): void
 
     /**
      * For every request preprocess request data right before it passed to Fetch API
      *
-     * @param reqData request params
+     * @param reqData - Request params
      */
     beforeRequest?(reqData: RequestParamsProcessed<_P>): void | boolean | Promise<void | boolean>
 
     /**
      * For every request triggered after successful request was made
      *
-     * @param reqData - request params
-     * @param parsedRes - parsed response
+     * @param reqData - Request params
+     * @param parsedRes - Parsed response
      */
     afterRequest?(reqData: RequestParamsProcessed<_P>, parsedRes: any): void
 
     /**
      * For every request triggered if request was failure
      *
-     * @param error - error onject params
+     * @param error - Error onject params
      */
     errorHandler?(error: ReqError<_P>): void
 

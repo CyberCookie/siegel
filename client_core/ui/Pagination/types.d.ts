@@ -42,9 +42,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when active page is changed
      *
-     * @param nextPage
-     * @param event
-     * @param payload
+     * @param nextPage - Selected page
+     * @param event - Mouse event
+     * @param payload - Props.payload
      */
     onChange(
         nextPage: number,
@@ -54,7 +54,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 
     /**
      * Triggered right before props.onChange is fired. May prevent props.onCHange
-     * @param event
+     * @param event - Mouse event
      */
     onMouseDown?(event: React.MouseEvent<HTMLDivElement>): void
 

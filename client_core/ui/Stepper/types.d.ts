@@ -51,8 +51,8 @@ type Props = PropsComponentThemed<Theme, {
     /**
      * Triggered when Stepper value is change
      *
-     * @param values change values
-     * @param event mouseclick event
+     * @param values - Change values
+     * @param event - Mouseclick event
      */
     onChange?(
         values: {

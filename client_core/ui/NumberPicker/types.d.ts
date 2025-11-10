@@ -48,7 +48,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when NumberPicker number value is change
      *
-     * @param changeParams Change params
+     * @param changeParams - Change params
      */
     onChange(changeParams: {
         /** New number value */

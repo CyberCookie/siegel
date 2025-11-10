@@ -6,8 +6,8 @@ import type { Options } from './types'
 /**
  * Clones any object
  *
- * @param value Value to clone
- * @param opts Clone params
+ * @param value - Value to clone
+ * @param opts - Clone params
  * @returns clonned object
  */
 function deepClone<T>(value: T, opts: Options = {}): T {

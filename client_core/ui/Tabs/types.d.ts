@@ -53,9 +53,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when tab is selected
      *
-     * @param id Selected tab ID
-     * @param event Mouse event
-     * @param payload Payload to be passed to props.onChange callback
+     * @param id - Selected tab ID
+     * @param event - Mouse event
+     * @param payload - Payload to be passed to props.onChange callback
      */
     onChange(
         id: string,

@@ -102,9 +102,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered on date selection
      *
-     * @param range Same object as props.initDate
-     * @param isFinished Whether range dates selection is in progress or has already ended
-     * @param payload props.payload
+     * @param range - Same object as props.initDate
+     * @param isFinished - Whether range dates selection is in progress or has already ended
+     * @param payload - Props.payload
      */
     onChange?(
         range: Required<Props['initDate']>,
@@ -115,9 +115,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered on month switch
      *
-     * @param date New current month first day timestamp
-     * @param value Increment value
-     * @param event Click event
+     * @param date - New current month first day timestamp
+     * @param value - Increment value
+     * @param event - Click event
      */
     onMonthSwitch?(
         date: Date,
@@ -128,9 +128,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when current year is changed
      *
-     * @param date New current year first day timestamp
-     * @param value New current year
-     * @param event Click event
+     * @param date - New current year first day timestamp
+     * @param value - New current year
+     * @param event - Click event
      */
     onYearSwitch?(
         date: Date,
@@ -142,7 +142,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
      * Allows you to return a custom date element
      * and className to be applied to its wrapper
      *
-     * @param params Day element data consists of date number
+     * @param params - Day element data consists of date number
      * and its wrapper className
      */
     postProcessCalendarDay?(params: PostProcessCalendarDayParams): PostProcessCalendarDayParams
@@ -150,7 +150,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Allows you to customize default month title markdown
      *
-     * @param params Default title params
+     * @param params - Default title params
      */
     constructCalendarTitle?(
         params: {

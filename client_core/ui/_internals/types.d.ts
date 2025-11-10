@@ -3,8 +3,8 @@ type ComponentRefApi<_Props> = {
      * Callback to retrieve a ref.
      * By default triggered only once after the first render
      *
-     * @param ref component root tag ref
-     * @param props passed component props
+     * @param ref - Component root tag ref
+     * @param props - Passed component props
      */
     getRef(ref: HTMLElement, props: _Props): void
 
@@ -12,7 +12,7 @@ type ComponentRefApi<_Props> = {
      * Provides array of values to compare during each rerender.
      * Triggers getRef if some values have changed
      *
-     * @param props passed component props
+     * @param props - Passed component props
      * @return array of values to compare after each render
      */
     getOnPropsUpdate?(props: _Props): any[]
@@ -34,8 +34,8 @@ type PropsComponentBase<_Props extends Obj = Obj> = {
     /**
      * Works the same way as React.memo
      *
-     * @param prevProps old component props
-     * @param nextProps new component props
+     * @param prevProps - Old component props
+     * @param nextProps - New component props
      */
     memoDeps?(
         prevProps: PropsComponentBase<_Props>,

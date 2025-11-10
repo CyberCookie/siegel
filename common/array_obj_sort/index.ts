@@ -1,11 +1,11 @@
 /**
  * Sorts array of objects
  *
- * @param primaryKey Primary object property key to sort by
- * @param secondaryKey Secondary object property key to sort by
- * @param sortValue Comparator value
- * @param object_a Object to compare
- * @param object_b Object to compare
+ * @param primaryKey - Primary object property key to sort by
+ * @param secondaryKey - Secondary object property key to sort by
+ * @param sortValue - Comparator value
+ * @param object_a - Object to compare
+ * @param object_b - Object to compare
  * @returns sortValue
  */
 function arrayObjSort(

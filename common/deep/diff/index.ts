@@ -143,9 +143,9 @@ const compare = (a: Comparable, b: Comparable, options: Options) => (
 /**
  * Performs deep comparsion of any JSON like objects
  *
- * @param a Comparable object
- * @param b Object to compare with
- * @param options Options to help to resolve corner cases
+ * @param a - Comparable object
+ * @param b - Object to compare with
+ * @param options - Options to help to resolve corner cases
  * @returns Diff result
  */
 function diff(a: Comparable, b: Comparable, options = {} as Options) {

@@ -31,9 +31,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when you pick an option
      *
-     * @param id option ID
-     * @param event mousedown event
-     * @param payload option payload
+     * @param id - Option ID
+     * @param event - Mousedown event
+     * @param payload - Option payload
      */
     onChange(
         id: string,

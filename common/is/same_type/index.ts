@@ -17,8 +17,8 @@ const getValueConstructor = (value: any) => (
 /**
  * Check if both values have the same type
  *
- * @param a Comparable value
- * @param b Value to compare with
+ * @param a - Comparable value
+ * @param b - Value to compare with
  * @returns true if values have the same type
  */
 const isSameType = (a: any, b: any) => (

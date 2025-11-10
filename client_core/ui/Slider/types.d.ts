@@ -57,8 +57,8 @@ type Props = PropsComponentThemed<Theme, {
     /**
      * Triggered whenever current slide changes
      *
-     * @param newSlideIndex
-     * @param prevSlideIndex
+     * @param newSlideIndex - Next slide's index
+     * @param prevSlideIndex - Previous slide's index
      */
     onChange?(newSlideIndex: number, prevSlideIndex: number): void
 

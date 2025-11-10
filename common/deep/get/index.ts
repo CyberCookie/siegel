@@ -19,9 +19,9 @@ import isNullable from '../../is/nullable'
 /**
  * To retrieve deeply nested value
  *
- * @param obj to get value from
- * @param path Path to desired value within object
- * @param defaultVal Value to return if no value by with provided path
+ * @param obj - To get value from
+ * @param path - Path to desired value within object
+ * @param defaultVal - Value to return if no value by with provided path
  * @returns Seek value
  */
 function deepGet(obj: Obj, path: string[], defaultVal?: any): any {

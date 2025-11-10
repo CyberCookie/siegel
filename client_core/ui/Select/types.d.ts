@@ -102,21 +102,21 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Root tag focus event handler. May prevent inner default onFocus event
      *
-     * @param event focus event
+     * @param event - Focus event
      */
     onFocus?(event: React.FocusEvent<HTMLDivElement>): void
 
     /**
      * Root tag blur event handler. May prevent inner default onBlur event
      *
-     * @param event focus event
+     * @param event - Focus event
      */
     onBlur?(event: React.FocusEvent<HTMLDivElement>): void
 
     /**
      * Root tag keydown event handler. May prevent inner default onKeyDown event
      *
-     * @param event keyboard event
+     * @param event - Keyboard event
      */
     onKeyDown?(event: React.KeyboardEvent<HTMLDivElement>): void
 
@@ -172,16 +172,16 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when you choose new option
      *
-     * @param value Option's value
-     * @param event
-     * @param payload option payload
+     * @param value - Option's value
+     * @param event - Mouse or Keyboard event
+     * @param payload - Option payload
      */
     onChange(value: _Value, event: OnChangeEvent, payload?: _Payload): void
 
     /**
      * Constructs component input title
      *
-     * @param selectedOption selected option
+     * @param selectedOption - Selected option
      */
     getDisplayValue?(selectedOption: Option<_Value>): React.ReactNode
 } | {
@@ -194,16 +194,16 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when you choose new option
      *
-     * @param value Set of option's values
-     * @param event
-     * @param payload option payload
+     * @param value - Set of option's values
+     * @param event - Mouse or Keyboard event
+     * @param payload - Option payload
      */
     onChange(value: Set<_Value>, event: OnChangeEvent, payload?: _Payload): void
 
     /**
      * Constructs component input title
      *
-     * @param selectedOption selected options array
+     * @param selectedOption - Selected options array
      */
     getDisplayValue?(selectedOptions: Option<_Value>[]): React.ReactNode
 })

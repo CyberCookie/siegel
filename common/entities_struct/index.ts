@@ -8,7 +8,7 @@ import type { Entities } from './types'
 /**
  * Creates data structure to store server entities in and to easily work with them (CRUD)
  *
- * @param uniq Uniq field in each entity. Default is 'id'
+ * @param uniq - Uniq field in each entity. Default is 'id'
  * @returns Object to perform CRUD operations with entities
  */
 function entities<E extends Obj>(uniq: keyof E = 'id') {

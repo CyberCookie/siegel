@@ -96,9 +96,9 @@ type BuildConfig = {
     /**
      * Postprocess the final webpack config before being passed to webpack
      *
-     * @param webpackConfig Webpack config
-     * @param config Siegel config
-     * @param buildConstants Build constants
+     * @param webpackConfig - Webpack config
+     * @param config - Siegel config
+     * @param buildConstants - Build constants
      */
     postProcessWebpackConfig?(
         webpackConfig: WebpackConfig,

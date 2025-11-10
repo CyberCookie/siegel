@@ -72,7 +72,7 @@ type Props<_BuilderListExtend = Obj> = PropsComponentThemed<
              * Allows you to provide list items with custom properties
              * and construct the output list elements using this function
              *
-             * @param params Current list item params
+             * @param params - Current list item params
              */
             builder(
                 params: {

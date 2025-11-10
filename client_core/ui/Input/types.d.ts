@@ -148,23 +148,23 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /**
      * Triggered when user updates input value
      *
-     * @param value new input value
-     * @param e Change event
-     * @param payload props.payload
+     * @param value - New input value
+     * @param e - Change event
+     * @param payload - Props.payload
      */
     onChange?(value: string, e: onChangeEventType | ComponentFocusEvent, payload: _Payload): void
 
     /**
      * Triggered when Input component lost its focus
      *
-     * @param e Focus event
+     * @param e - Focus event
      */
     onBlur?(e: ComponentFocusEvent): void
 
     /**
      * Triggered when Input component takes focus
      *
-     * @param e Focus event
+     * @param e - Focus event
      */
     onFocus?(e: ComponentFocusEvent): void
 }>

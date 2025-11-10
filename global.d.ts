@@ -18,7 +18,7 @@ type Fallish = undefined | null | false | 0 | ''
 
 /**
  * Transforms values union into intersaction
- * @param U - values union
+ * @param U - Values union
  */
 type UnionToIntersection<U> = (
     U extends any
@@ -30,7 +30,7 @@ type UnionToIntersection<U> = (
 
 /**
  * Recursively iterates over given object and makes its properties optional
- * @param T - object to iterate over
+ * @param T - Object to iterate over
  */
 type DeepPartial<T> = T extends object
     ?   T extends AnyFunc
@@ -54,8 +54,8 @@ type DeepPartial<T> = T extends object
 // >
 // /**
 //  * Recursively merges two objects
-//  * @param O1 - object
-//  * @param O2 - object
+//  * @param O1 - Object
+//  * @param O2 - Object
 //  */
 // type DeepMerge<
 //     O1 extends Record<string, any>,
@@ -97,7 +97,7 @@ type DeepPartial<T> = T extends object
 
 /**
  * Simple object that has string key and optional fields
- * @param V - object values. Default: any
+ * @param V - Object values. Default: any
  */
 type Obj<V = any> = Partial<Record<string, V>>
 
@@ -107,13 +107,13 @@ type AnyFunc = (...args: any[]) => any
 
 /**
  * Extracts given object's values
- * @param O - object
+ * @param O - Object
  */
 type Values<O extends Obj> = O[keyof O]
 
 /**
  * Makes all the object properties optional with type never
- * @param O - object
+ * @param O - Object
  */
 type Never<O extends Obj> = {
     [k in keyof O]?: never
@@ -121,19 +121,19 @@ type Never<O extends Obj> = {
 
 /**
  * Extracts only object's required properties keys
- * @param O - object
+ * @param O - Object
  */
 type RequiredKeys<O> = { [K in keyof O]-?: object extends Pick<O, K> ? never : K }[keyof O]
 
 /**
  * Extracts only object's optional properties keys
- * @param O - object
+ * @param O - Object
  */
 type OptionalKeys<O> = { [K in keyof O]-?: object extends Pick<O, K> ? K : never }[keyof O]
 
 /**
  * Exclude null and undefined from a properties of a given object
- * @param O - object
+ * @param O - Object
  */
 type NonNullableProps<O extends Obj> = {
     [k in keyof O]: NonNullable<O[k]>
@@ -141,8 +141,8 @@ type NonNullableProps<O extends Obj> = {
 
 /**
  * Makes fields to be partial in a given object
- * @param O - object
- * @param K - object fields
+ * @param O - Object
+ * @param K - Object fields
  */
 type MakePartialFields<
     O extends Obj,
@@ -151,8 +151,8 @@ type MakePartialFields<
 
 /**
  * Makes fields to be required in a given object
- * @param O - object
- * @param K - object fields
+ * @param O - Object
+ * @param K - Object fields
  */
 type MakeRequiredFields<
     O extends Obj,
@@ -161,8 +161,8 @@ type MakeRequiredFields<
 
 /**
  * Keeps only object properties thats are equal to a given value
- * @param O - object
- * @param V - value
+ * @param O - Object
+ * @param V - Value
  */
 type NarrowObjectToValueTypes<O extends Obj, V> = {
     [K in keyof O as O[K] extends V ? K : never]: V
@@ -170,8 +170,8 @@ type NarrowObjectToValueTypes<O extends Obj, V> = {
 
 /**
  * From a given object excludes object properties thats are equal to a given value
- * @param O - object
- * @param V - value
+ * @param O - Object
+ * @param V - Value
  */
 type ExcludeObjectValueTypes<O extends Obj, V> = {
     [K in keyof O as O[K] extends V ? never : K ]: O[K]
@@ -179,7 +179,7 @@ type ExcludeObjectValueTypes<O extends Obj, V> = {
 
 /**
  * Transforms object into an array of all possible property paths
- * @param O - object
+ * @param O - Object
  */
 type PathsOf<T, R = Required<T>> = Values<{
     [P in keyof R]: NonNullable<R[P]> extends Obj
@@ -191,7 +191,7 @@ type PathsOf<T, R = Required<T>> = Values<{
 
 /**
  * Takes array T and returns same array but without first element
- * @param T - array
+ * @param T - Array
  */
 type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R) => void) ? R : never
 
@@ -214,7 +214,7 @@ type CSSWithVariables = {
 /**
  * Represents HTML Tag attributes for a given HTMLElement
  * @param E - HTMLElement
- * @param A - optional React HTML Tag attributes. Default is React.HTMLAttributes<E>
+ * @param A - Optional React HTML Tag attributes. Default is React.HTMLAttributes<E>
  */
 type ReactTagAttributes<
     E = HTMLElement,
@@ -225,6 +225,6 @@ type ReactTagAttributes<
 
 /**
  * Represents react store created with useState() hook
- * @param S - store's state
+ * @param S - Store's state
  */
 type ReactStore<S> = [ S, React.Dispatch<React.SetStateAction<S>> ]
