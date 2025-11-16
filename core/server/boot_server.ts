@@ -16,7 +16,7 @@ const server = {
         ;(server as Http2Server | Server)
             .on('error', console.error)
 
-
+        console.log(process.env)
         const serverInstance = server.listen(port as number, host!, err => {
             err
                 ?   console.error(err)
