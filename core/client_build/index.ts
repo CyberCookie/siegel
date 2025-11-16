@@ -95,7 +95,9 @@ function clientBuilder(config: ConfigObject) {
             } : {})
         },
 
-        plugins: defaultPluginsResolve(config),
+        plugins: defaultPluginsResolve(config)
+            .map(({ plugin, options }) => new plugin(options)),
+
         module: {
             unsafeCache: true,
             rules: defaultModuleRulesResolve(config)

@@ -27,11 +27,7 @@ const CLIENT_MAIN = join(CLIENT_APP, 'main')
 siegel({
     runMode: { isProd, isServer, isBuild },
 
-    server: {
-        appServer,
-        port: process.env.PORT,
-        host: process.env.HOST
-    },
+    server: { appServer },
 
     build: {
         input: {
@@ -43,18 +39,6 @@ siegel({
             iconsRoot: join(CLIENT_MAIN, 'components', 'icons', 'svg_sources')
         },
 
-        eslint: true,
-
         aliases: tsToWebpackAliases(rootPath)
-
-        // ,plugins: {
-        //     eslint: {
-        //         options: {
-        //             failOnError: false
-        //         }
-        //     },
-
-        //     olo: false
-        // }
     }
 })

@@ -74,9 +74,9 @@ All the fields are optional since many of them are already defined in core defau
 
             /*
                 Path to site entrypoint
-                Default is: [cwd]/client/index.html ( App container div's id = root )
+                Default is: [cwd]/client/index.html
             */
-            html: String | HTMLWebpackPlugin::options | (defaultConfig) => htmlWebpackPluginOptions,
+            html: String,
 
             /*
                 CopyWebpackPlugin assets path
@@ -86,7 +86,7 @@ All the fields are optional since many of them are already defined in core defau
                     to: join( publicDir, relative( dirname(input.html) copyFilesDir) )
                 }]
             */
-            copyFiles: String || CopyWebpackPlugin::options::patterns,
+            copyFiles: String || CopyWebpackPlugin.options.patterns,
 
             /*
                 Path to styles files which will be included in every other styles file
@@ -115,36 +115,43 @@ All the fields are optional since many of them are already defined in core defau
 
             /* Output files naming format */
             filenames: {
-                /*
-                    In runtime there will be only PROD or DEV fields, depending on selected mode
-                */ 
-                PROD: {
-                    assets: String          // Default is: assets/[contenthash][ext]
-                    js: String              // Default is: [contenthash].js
-                    js_chunk: String        // Default is: [contenthash].js
-                    styles: String          // Default is: [contenthash].css
-                    styles_chunk: String    // Default is: [contenthash].css
-                    brotli: String          // Default is: [base].br
-                    gzip: String            // Default is: [base].gz
-                },
-                DEV: {
-                    assets: String          // Default is: assets/[name][ext]
-                    js: String              // Default is: app.[contenthash].js
-                    js_chunk: String        // Default is: chunk.[name][contenthash].js
-                    styles: String          // Default is: styles.[name].css
-                    styles_chunk: String    // Default is: chunk.[name].css
-                    brotli: String          // Default is: [base].br
-                    gzip: String            // Default is: [base].gz
-                }
+                /* Assets filenames. Defaulta are:
+                    production ->   assets/[contenthash][ext]
+                    dev ->          assets/[name][ext]
+                */
+                assets: String
+                
+                /* App js entrypoint filename. Defaults are:
+                    production ->   [contenthash].js
+                    dev ->          app.[contenthash].js
+                */
+                js: String
+                
+                /* JS chunk filenames. Defaults are:
+                    production ->   [contenthash].js
+                    dev ->          chunk.[name][contenthash].js
+                */
+                js_chunk: String
+
+                /* Main style filename. Defaults are:
+                    production ->   [contenthash].css
+                    dev ->          styles.[name].css
+                */
+                styles: String
+
+                /* Styles chunk filenames. Defaults are:
+                    production ->   [contenthash].css
+                    dev ->          chunk.[name].css
+                */
+                styles_chunk: String
+
+                /* Brotli compressed files filenames. Default is: [base].br */
+                brotli: String
+
+                /* GZIP compressed files filenames. Dedault is: [base].gz */
+                gzip: String
             }
         }
-
-        /* 
-            Enables ESlint
-            Default false
-        */
-        eslint: Boolean | ESLintWebpackPlugin::options | (defaultConfig) => eslintWebpackPluginOptions,
-
 
         /* Webpack aliases */
         aliases: Object,
@@ -182,7 +189,7 @@ Every default plugin has its own `plugin key`
 - mini-css-extract-plugin ( `cssExtract` ) - enabled if **runMode.isProd == true** or if **runMode.isServer == false**
 - html-webpack-plugin ( `html` ) - enabled if **config.build.input.html** is specified
 - clean-webpack-plugin ( `clean` )
-- EsLint ( `eslint` ) - Eslint plugin, Enabled if **config.build.esbuil == true**
+- EsLint ( `eslint` ) - Eslint plugin, disabled by default
 - webpack HHMR plugin (`hot`) - enabled if **runMode.isProd == false**
 - @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if **runMode.isProd == true**
 - <a href='#sw_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if **config.build.input.sw** is specified
@@ -199,38 +206,46 @@ import somePlugin from 'some_webpack_plugin'
 
 {
     plugins: {
-        compression: {
-            instances: {
-                br: {
-                    options: { /* plugin instance options */ }
-                },
+        defaultPlugins: {
+            compression: {
+                instances: {
+                    br: {
+                        options: defaultInstanceOptions => ({
+                            ...defaultInstanceOptions,
+                            compressionOptions: {
+                                level: 8
+                            }
+                        })
+                    },
+    
+                    gzip: false // to disable plugin instance
+                }
+            },
+    
+            sw: {
+                enabled: false // to disable plugin
+            },
 
-                gzip: false // to disable plugin instance
+            eslint: true, // another way to disable / enable plugin
+    
+            html: {
+                /* Function with default plugin options as a first parameter */
+                options: defaultOptions => ({
+                    ...defaultOptions,
+                    scriptLoading: 'defer'
+                })
             }
-        },
+        }
 
-        sw: {
-            enable: false // to disable plugin
-        },
-
-        html: {
-            options: { /* plugin options */ }
-
-            /* could be a function with default options as a first parameter */
-            options(defaultOptions) {
-                defaultOptions.scriptLoading = 'defer'
-                return defaultOptions
+        userPlugins: {
+            /*
+                If you want to add additional plugin then no special key is required.
+                At least it shouldn't overlap with existing ones.
+            */
+            your_plugin_key: {
+                plugin: somePlugin,
+                options: { /* plugin options */ }
             }
-        },
-
-        
-        /*
-            If you want to add additional plugin then no special key is required.
-            At least it shouldn't overlap with existing ones.
-        */
-        your_plugin_key: {
-            plugin: somePlugin,
-            options: { /* plugin options */ }
         }
     }
 }
@@ -253,7 +268,9 @@ const config = {
 
     plugins: {
         sw: {
-            options: 'path/to/source/sw.js'
+            options: {
+                swPath: 'path/to/source/sw.js'
+            }
         }
     }
 }

@@ -1,261 +1,87 @@
-import type { HotModuleReplacementPlugin } from 'webpack'
 import type {
-    Options as HTMLWebpackPluginOptions,
-    MinifyOptions as HTMLMinifyOptions
-} from 'html-webpack-plugin'
-import type { BasePluginOptions as CompressionWebpackPluginOptions } from 'compression-webpack-plugin'
+    BasePluginOptions, DefinedDefaultAlgorithmAndOptions, ZlibOptions
+} from 'compression-webpack-plugin'
 import type { PluginOptions as CopyWebpackPluginOptions } from 'copy-webpack-plugin'
+import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
 import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
-import type { Filenames, BuildConfig } from '../types'
-import type { SwPluginClassCtor, SwPluginOptions } from './plugin_sw'
+import type { PluginOptions as MiniCSSExtractPluginOptions } from 'mini-css-extract-plugin'
+import type { ReactRefreshPlugin } from '@pmmmwh/react-refresh-webpack-plugin'
+import type { SwPluginOptions } from './plugin_sw'
 
 
-type ReactRefreshPlugin = typeof import('@pmmmwh/react-refresh-webpack-plugin')
-type HtmlPlugin = typeof import('html-webpack-plugin')
-type CompressionPlugin = typeof import('compression-webpack-plugin')
-type CssExtractPlugin = typeof import('mini-css-extract-plugin')
-type CopyPlugin = typeof import('copy-webpack-plugin')
-type EslintPlugin = typeof import('eslint-webpack-plugin')
-
-
-//TODO typing?: review corectness
-type DeepExclude<O1, O2> =
-    {
-        [K in keyof O1 & keyof O2]?: O2[K] extends object
-            ?   O1[K] extends object
-                ?   DeepExclude<O1[K], O2[K]>
-                :   O2[K]
-            :   O2[K]
-    }
-    &
-    { [K in keyof Omit<O2, keyof O1>]: O2[K] }
-
-
-
-type AnyPlugin = new (...args: any) => any
-type AnyPluginInstance = Exclude<PluginConfigInstance<any, any>, boolean>
-type AnyPluginInstances = Record<string, AnyPluginInstance>
-type AllCaseUserPluginConfig = UserPlugin<AnyPlugin, object, object, AnyPluginInstances, object>
-type UserPluginConfigObject = Exclude<AllCaseUserPluginConfig, boolean>
-
-
-type PluginConfigBase<_Plugin, _DefaultOptions> = {
-    plugin: _Plugin
-    enabled?: boolean
-} & (_DefaultOptions extends null ? object : { rewrite?: boolean })
-
-type PluginConfigOptions<
-    _PluginOpts,
-    _DefaultOpts,
-    _Options
-> = {
-    options: (
-        _Options extends null
-            ?   (
-                    _DefaultOpts extends object
-                        ?   DeepExclude<_DefaultOpts, _PluginOpts>
-                        :   _PluginOpts
-                )   |   ((defaultOpions: _DefaultOpts) => _PluginOpts)
-            :   _Options
-    )
-    instances?: never
+type DefaultPluginOptions = {
+    compression: BasePluginOptions<ZlibOptions>
+        &   DefinedDefaultAlgorithmAndOptions<ZlibOptions>
+    copy: CopyWebpackPluginOptions
+    sw: SwPluginOptions
+    cssExtract: MiniCSSExtractPluginOptions
+    html: HTMLWebpackPluginOptions
+    hot: any
+    reactRefresh: DeepPartial<ReactRefreshPlugin['options']>
+    eslint: EslintWebpackPluginOptions
 }
 
-type PluginConfigInstances<
-    _PluginOpts extends Obj,
-    _DefaultInstances extends AnyPluginInstances | null
-> = _DefaultInstances extends null
-    ?   never
-    :   {
-            instances:
-                {
-                    [ K in keyof _DefaultInstances ]?:
-                        PluginConfigInstance<
-                            Exclude<_DefaultInstances, null>[K],
-                            _PluginOpts
-                        >
-                }
-                &
-                {
-                    [ key: string ]:
-                        PluginConfigInstance<
-                            PluginConfigOptions<_PluginOpts, Obj, Obj>,
-                            _PluginOpts
-                        >
-                }
-            options?: never
-        }
+type DefaultPlugins = ReturnType<(typeof import('./defaults'))['default']>
+type DefaultPluginsKeys = keyof DefaultPlugins
 
-type PluginConfigInstance<
-    _PluginInstance extends Exclude<PluginConfigInstance<any, any>, boolean>,
-    _PluginOpts extends Obj
-> = {
-    options?: DeepExclude<_PluginInstance['options'], _PluginOpts>
-    enabled?: boolean
-    rewrite?: boolean
-} | false
-
-
-type UserPlugin<
-    _Plugin extends AnyPlugin,
-    _DefaultOpts = null,
-    _Options = null,
-    _DefaultInstances extends AnyPluginInstances | null = null,
-    _PluginOpts extends Obj = NonNullable<ConstructorParameters<_Plugin>[0]>
-> = Partial<
-        PluginConfigBase<_Plugin, _DefaultOpts>
-        &   (
-                PluginConfigOptions<_PluginOpts, _DefaultOpts, _Options>
-                |
-                PluginConfigInstances<_PluginOpts, _DefaultInstances>
-            )
-    > | boolean
-
-
-//TODO typing: user plugin options
-type Plugins = {
-    compression?: UserPlugin<CompressionPlugin, null, null, DefaultPlugins['compression']['instances']>
-
-    copy?: UserPlugin<CopyPlugin, DefaultPlugins['copy']['options']>
-
-    sw?: UserPlugin<SwPluginClassCtor, DefaultPlugins['sw']['options']>
-
-    cssExtract?: UserPlugin<CssExtractPlugin, DefaultPlugins['cssExtract']['options']>
-
-    html?: UserPlugin<
-        HtmlPlugin,
-        DefaultHtmlPluginOptions,
-        HTMLWebpackPluginOptions | HTMLWebpackPluginOptions['template']
-    >
-
-    hot?: UserPlugin<typeof HotModuleReplacementPlugin>
-
-    reactRefresh?: UserPlugin<ReactRefreshPlugin>
-
-    eslint?: UserPlugin<EslintPlugin, DefaultEslintPluginOptions>
-
-}
- & Obj<
-    MakeRequiredFields<
-        Exclude<AllCaseUserPluginConfig, boolean>,
-        'plugin'
-    > | boolean
+type DefaultPluginsWithInstancesKeys = keyof NarrowObjectToValueTypes<DefaultPlugins, PluginInstances>
+type DefaultPluginsWithOptionsKeys = keyof NarrowObjectToValueTypes<DefaultPlugins, PluginOptions>
+type DefaultPluginsWithoutConfigKeys = Exclude<
+    DefaultPluginsKeys,
+    DefaultPluginsWithInstancesKeys | DefaultPluginsWithOptionsKeys
 >
 
-// type Plugins = {
-//     [K: string]: K extends keyof _Plugins
-//         ?   MakePartialFields<
-//                 Exclude<NonNullable<_Plugins[K]>, boolean>,
-//                 'plugin'
-//             > | boolean
-//         :   MakeRequiredFields<
-//                 Exclude<AllCaseUserPluginConfig, boolean>,
-//                 'plugin'
-//             > | boolean
-// }
 
-
-
-type CompressionInstanceCommonOptions = {
-    test: RegExp
-    threshold: Required<CompressionWebpackPluginOptions<any>>['threshold']
-    deleteOriginalAssets: boolean
+type AnyPluginCtor = new (...args: any) => any
+type PluginOptions = {
+    options?: Obj
+    instances?: never
 }
-
-type DefaultHtmlPluginOptions = {
-    template: NonNullable<HTMLWebpackPluginOptions['template']>
-    minify: {
-        collapseWhitespace: NonNullable<NonNullable<HTMLMinifyOptions>['collapseWhitespace']>
+type PluginInstances = {
+    instances?: {
+        [instanceKey: string]: PluginEnabled & PluginOptions
     }
+    options?: never
 }
+type PluginEnabled = {
+    enabled?: boolean
+}
+type Plugin = {
+    plugin: AnyPluginCtor
+} & PluginEnabled & (PluginOptions | PluginInstances)
 
-type DefaultEslintPluginOptions = {
-    extensions: string[]
-    emitWarning: boolean
-    configType: string
-} & Partial<EslintWebpackPluginOptions>
 
-type DefaultPlugins = {
-    compression: {
-        plugin: CompressionPlugin
-        enabled: boolean
-        instances: {
-            br: {
-                options: {
-                    filename: NonNullable<Filenames['brotli']>
-                    algorithm: string
-                    compressionOptions: {
-                        level: number
-                    }
-                } & CompressionInstanceCommonOptions
+
+type PluginsConfig = {
+    defaultPlugins?: {
+        [defaultPluginKey in DefaultPluginsWithoutConfigKeys]?: PluginEnabled | boolean
+
+    } & {
+        [defaultPluginKey in DefaultPluginsWithOptionsKeys]?: ({
+            options?(
+                defaultOptions: DefaultPlugins[defaultPluginKey]['options']
+            ): DefaultPluginOptions[defaultPluginKey]
+        } & PluginEnabled) | boolean
+
+    } & {
+        [defaultPluginKey in DefaultPluginsWithInstancesKeys]?: ({
+            instances?: {
+                [defaultPluginInstanceKey in keyof DefaultPlugins[DefaultPluginsWithInstancesKeys]['instances']]?: ({
+                    options?(
+                        defaultInstanceOptions: DefaultPlugins[defaultPluginKey]['instances'][defaultPluginInstanceKey]['options']
+                    ): DefaultPluginOptions[defaultPluginKey]
+                } & PluginEnabled) | boolean
             }
-            gzip: {
-                options: {
-                    filename: NonNullable<Filenames['gzip']>
-                } & CompressionInstanceCommonOptions
-            }
-        }
+        } & PluginEnabled) | boolean
     }
 
-    copy: {
-        plugin: CopyPlugin
-        enabled: boolean
-        options: {
-            patterns: Exclude<NonNullable<NonNullable<BuildConfig['input']>['copyFiles']>, string>
-        }
-    }
-
-    sw: {
-        plugin: SwPluginClassCtor
-        enabled: boolean
-        options: SwPluginOptions
-    }
-
-    cssExtract: {
-        plugin: CssExtractPlugin
-        enabled: boolean
-        options: {
-            experimentalUseImportModule: boolean
-            filename: NonNullable<Filenames['styles']>
-            chunkFilename: NonNullable<Filenames['styles_chunk']>
-        }
-    }
-
-    html: {
-        plugin: HtmlPlugin
-        enabled: boolean
-        options: DefaultHtmlPluginOptions | HTMLWebpackPluginOptions
-    }
-
-    hot: {
-        plugin: typeof HotModuleReplacementPlugin
-        enabled: boolean
-    }
-
-    reactRefresh: {
-        plugin: ReactRefreshPlugin
-        enabled: boolean
-        options: {
-            overlay: {
-                sockIntegration: string
-            }
-        }
-    }
-
-    eslint: {
-        plugin: EslintPlugin
-        enabled: boolean
-        options: DefaultEslintPluginOptions | EslintWebpackPluginOptions
+    userPlugins?: {
+        [pluginKey: string]: Plugin
     }
 }
-type DefaultPluginsKeys = keyof DefaultPlugins
-type DefaultPluginsIntersact = UnionToIntersection<DefaultPlugins[DefaultPluginsKeys]>
-
 
 
 export type {
-    CompressionInstanceCommonOptions, CopyWebpackPluginOptions,
-    DefaultPlugins, DefaultPluginsKeys, DefaultPluginsIntersact, Plugins,
-    AllCaseUserPluginConfig, UserPluginConfigObject,
-    DefaultEslintPluginOptions, DefaultHtmlPluginOptions
+    DefaultPlugins, DefaultPluginsKeys, DefaultPluginOptions,
+    Plugin, AnyPluginCtor, PluginsConfig
 }

@@ -243,12 +243,12 @@ type Props<
          * @param siblingCell - Sibling table head cell to resize
          * @param deltaX - Resized value in pixels
          */
-        onCellResize?: (
+        onCellResize?(
             event: MouseEvent,
             targetCell: HTMLTableCellElement,
             siblingCell: HTMLTableCellElement,
             deltaX: number
-        ) => void
+        ): void
     } | boolean
 
     /**

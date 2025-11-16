@@ -1,54 +1,46 @@
 import path from 'path'
 
-import isExists from '../../../common/is/exists'
 import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants.js'
 
-import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
-import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
 import type { ConfigObject } from '../../types'
-import type { CompressionInstanceCommonOptions, DefaultPlugins } from './types'
+import type { Plugin, DefaultPluginOptions } from './types'
 
 
 const {
     webpack,
     plugins: {
-        HTMLPlugin, fileCopyPlugin, compressionPlugin, miniCssExtract, reactRefresh,
-        serviceWorkerPlugin, eslint
+        HTMLPlugin, fileCopyPlugin, compressionPlugin, miniCssExtract,
+        reactRefresh, serviceWorkerPlugin, eslint
     }
 } = DEPENDENCIES
 
 const { ESLintExtensions } = COMMONS
 
 
-const resolvePluginDefaultOptions = <P extends Obj>(defaultOptions: Partial<P>, userOptions: any) => (
-    typeof userOptions == 'object'
-        ?   userOptions
-        :   typeof userOptions == 'function'
-            ?   userOptions(defaultOptions)
-            :   defaultOptions
-)
-
-
 function getDefaultPluginsConfig(config: ConfigObject) {
-    const { build, runMode, publicDir } = config
+    const { build, server, runMode, publicDir } = config
     const { isProd, isServer } = runMode!
-    const { eslint: eslintOptions, input, output } = build!
+    const { serveCompressionsPriority } = server!
+    const { input, output } = build!
     const outputFilenames = output!.filenames
 
 
+    const compressionTypesSet = new Set(serveCompressionsPriority)
 
-    const compressionInstanceCommonOptions: CompressionInstanceCommonOptions = {
+    const compressionInstanceCommonOptions = {
         test: /\.*$/,
         threshold: 10240,
         deleteOriginalAssets: false
-    }
+    } as const satisfies DefaultPluginOptions['compression']
 
-    const defaults: DefaultPlugins = {
+
+    return {
         [ pluginsKeysMap.compression ]: {
             plugin: compressionPlugin,
-            enabled: isProd!,
+            enabled: !!compressionTypesSet.size && isProd!,
             instances: {
                 br: {
+                    enabled: compressionTypesSet.has('br'),
                     options: {
                         ...compressionInstanceCommonOptions,
                         filename: outputFilenames!.brotli!,
@@ -56,13 +48,14 @@ function getDefaultPluginsConfig(config: ConfigObject) {
                         compressionOptions: {
                             level: 11
                         }
-                    }
+                    } satisfies DefaultPluginOptions['compression']
                 },
                 gzip: {
+                    enabled: compressionTypesSet.has('gzip'),
                     options: {
                         ...compressionInstanceCommonOptions,
                         filename: outputFilenames!.gzip!
-                    }
+                    } satisfies DefaultPluginOptions['compression']
                 }
             }
         },
@@ -71,33 +64,27 @@ function getDefaultPluginsConfig(config: ConfigObject) {
             plugin: fileCopyPlugin,
             enabled: !!input!.copyFiles,
             options: {
-                patterns:
-                    typeof input!.copyFiles == 'string'
-                        ?   [{
-                                from: input!.copyFiles,
-                                to: path.join(
-                                        publicDir!,
-                                        path.relative(
-                                            path.dirname(
-                                                isExists((input!.html as HTMLWebpackPluginOptions).template)
-                                                ||  typeof input!.html == 'string'
-                                                    ?   typeof input!.html == 'string'
-                                                        ?   input!.html
-                                                        :   (input!.html as HTMLWebpackPluginOptions).template!
-                                                    :   input!.js!
-                                            ),
-                                            input!.copyFiles
-                                        )
+                patterns: typeof input!.copyFiles == 'string'
+                    ?   [{
+                            from: input!.copyFiles,
+                            to: path.join(
+                                    publicDir!,
+                                    path.relative(
+                                        path.dirname(input!.html || input!.js!),
+                                        input!.copyFiles
                                     )
-                            }]
-                        :   input!.copyFiles!
-            }
+                                )
+                        }]
+                    :   input!.copyFiles!
+            } satisfies DefaultPluginOptions['copy']
         },
 
         [ pluginsKeysMap.sw ]: {
             plugin: serviceWorkerPlugin,
             enabled: !!input!.sw,
-            options: input!.sw!
+            options: {
+                swPath: input!.sw!
+            } satisfies DefaultPluginOptions['sw']
         },
 
         [ pluginsKeysMap.cssExtract ]: {
@@ -107,19 +94,19 @@ function getDefaultPluginsConfig(config: ConfigObject) {
                 experimentalUseImportModule: true,
                 filename: outputFilenames!.styles!,
                 chunkFilename: outputFilenames!.styles_chunk!
-            }
+            } satisfies DefaultPluginOptions['cssExtract']
         },
 
         [ pluginsKeysMap.html ]: {
             plugin: HTMLPlugin,
             enabled: !!input!.html,
-            options: resolvePluginDefaultOptions<HTMLWebpackPluginOptions>({
+            options: {
                 // scriptLoading: 'defer',
-                template: input!.html as NonNullable<HTMLWebpackPluginOptions['template']>,
+                template: input!.html,
                 minify: {
                     collapseWhitespace: true
                 }
-            }, input!.html)
+            } satisfies DefaultPluginOptions['html']
         },
 
         [ pluginsKeysMap.hot ]: {
@@ -134,23 +121,20 @@ function getDefaultPluginsConfig(config: ConfigObject) {
                 overlay: {
                     sockIntegration: 'whm'
                 }
-            }
+            } satisfies DefaultPluginOptions['reactRefresh']
         },
 
         [ pluginsKeysMap.eslint ]: {
             plugin: eslint,
-            enabled: !!eslintOptions,
-            options: resolvePluginDefaultOptions<EslintWebpackPluginOptions>({
+            enabled: false,
+            options: {
                 extensions: ESLintExtensions as unknown as string[],
-                emitWarning: true,
                 configType: 'flat',
+                emitWarning: true,
                 failOnError: false
-            }, eslintOptions)
+            } satisfies DefaultPluginOptions['eslint']
         }
-    }
-
-
-    return defaults
+    } as const satisfies Record<keyof DefaultPluginOptions, Plugin>
 }
 
 

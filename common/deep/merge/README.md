@@ -6,14 +6,15 @@ Receives **3** arguments:
 - **object_a** - **Object**. Object to merge
 - **object_b** - **Object**. Object to merge
 - **options** - **Optional**. **Object** that keeps some methods to apply merge strategies:<br />
-    - `mergeResolve` - Resolve two objects when both are special case objects,<br />
+    - `skipUndef` - **Boolean**, Prevents undefined values from obj_b to be written to result
+    - `mergeResolve` - Resolve merging iof special objects,<br />
         eg. **Set**, **Date**, **Array**
         - Has **3** arguments:
             - **object_a** - **Object**. Object to merge
             - **object_b** - **Object**. Object to merge
             - **key** - **String**. Prop name
         - Returns **any** - resolved value
-    - `resolveObject` - For the cases when there are simple objects you don't want to deep merge,<br />
+    - `resolveObject` - For the cases when there are objects you don't want to merge,<br />
         but resolve them in a special way
         - Has **3** arguments:
             - **object_a** - **Object**. Object to merge

@@ -114,7 +114,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     focusedValueOutsideUpdate?: boolean
 
     /** Triggered if NumberPicker string value is change */
-    onStringChange?: (
+    onStringChange?(
         changeParams: {
             /** New string value */
             value: string
@@ -128,7 +128,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
             /** NumberPicker props.payload */
             payload: _Payload
         }
-    ) => void
+    ): void
 
     /** Triggered if NumberPicker loses its focus */
     onBlur?: ComponentFocusEventHandler

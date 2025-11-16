@@ -89,9 +89,9 @@ const COMMANDS_TREE: CommanTree = {
                 flagLong: '--eslint',
                 flag: '-l',
                 description: 'Enables lintng with ESLint.',
-                defaultValue: DEFAULT_CONFIG.build.eslint,
+                defaultValue: DEFAULT_CONFIG.build.plugins.defaultPlugins.eslint.enabled,
                 paramAction({ result }) {
-                    result.config.build!.eslint = true
+                    result.config.build!.plugins!.defaultPlugins!.eslint = true
                 }
             },
             {

@@ -99,14 +99,14 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
     beforeRequest?: NonNullable<RequestSetupParams<_P>['beforeRequest']>
 
     /** Successful response callback */
-    onSuccess?: (res: _Res) => void
+    onSuccess?(res: _Res): void
 
     /**
      * Error response callback
      *
      * @param err - Error object that contains request parameters, response and error message and status
      */
-    onError?: (err: ReqError<_P>) => void
+    onError?(err: ReqError<_P>): void
 }
 
 

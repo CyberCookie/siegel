@@ -1,9 +1,7 @@
 import type { Configuration as WebpackConfig, StatsOptions } from 'webpack'
-import type { Options as HTMLWebpackPluginOptions } from 'html-webpack-plugin'
-import type { Options as EslintWebpackPluginOptions } from 'eslint-webpack-plugin'
 import type { PluginOptions as CopyWebpackPluginOptions } from 'copy-webpack-plugin'
 import type { ConfigObject } from '../types'
-import type { Plugins, DefaultEslintPluginOptions, DefaultHtmlPluginOptions } from './plugins/types'
+import type { PluginsConfig } from './plugins/types'
 import type { UserRulesData } from './module_rules/types'
 
 
@@ -11,25 +9,25 @@ type BuildConstants = typeof import('./constants.js')
 
 
 type Filenames = {
-    /** Assets filename */
+    /** Assets filenames */
     assets?: string
 
-    /** Main js filename */
+    /** App js entrypoint filename */
     js?: string
 
-    /** JS chunk filename */
+    /** JS chunk filenames */
     js_chunk?: string
 
-    /** Main styles filename */
+    /** Main style filename */
     styles?: string
 
-    /** Styles chunk filename */
+    /** Styles chunk filenames */
     styles_chunk?: string
 
-    /** Brotli compressed filename */
+    /** Brotli compressed files filenames */
     brotli?: string
 
-    /** GZIP compressed filename */
+    /** GZIP compressed files filenames */
     gzip?: string
 }
 
@@ -50,9 +48,7 @@ type BuildConfig = {
         sw?: string
 
         /** Path to site entrypoint */
-        html?: HTMLWebpackPluginOptions
-            |   NonNullable<HTMLWebpackPluginOptions['template']>
-            |   ((defaultOptions: DefaultHtmlPluginOptions) => HTMLWebpackPluginOptions)
+        html?: string
 
         /** CopyWebpackPlugin assets path */
         copyFiles?: CopyWebpackPluginOptions['patterns'] | string
@@ -80,15 +76,11 @@ type BuildConfig = {
         logging?: StatsOptions
     }
 
-    /** Enables ESlint */
-    eslint?: boolean
-        |   ((defaultOptions: DefaultEslintPluginOptions) => EslintWebpackPluginOptions)
-
     /** Webpack aliases */
     aliases?: Record<string, string>
 
     /** Webpack plugins config */
-    plugins?: Plugins
+    plugins?: PluginsConfig
 
     /** Webpack loaders config */
     module?: UserRulesData

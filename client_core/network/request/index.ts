@@ -92,9 +92,11 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
             if (contentType.startsWith(CONTENT_TYPE.JSON)) {
                 parseMethod = jsonParseMethod
 
-            } else if (contentType.startsWith(CONTENT_TYPE.FORM_DATA)
-                || contentType.startsWith(CONTENT_TYPE.X_FORM)) {
+            } else if (
+                    contentType.startsWith(CONTENT_TYPE.FORM_DATA)
+                ||  contentType.startsWith(CONTENT_TYPE.X_FORM)
 
+            ) {
                 parseMethod = 'formData'
             }
         }

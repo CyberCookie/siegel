@@ -126,16 +126,20 @@ describe('common/deep/merge', () => {
                     b: date_a,
                     c: {
                         ca: [ 1, 2, { a: 1 }]
-                    }
+                    },
+                    d: 20
                 },
                 {
                     a: new Set([ 3, 4 ]),
                     b: date_b,
                     c: {
                         ca: [ 2, [], { b: 1 }]
-                    }
+                    },
+                    d: undefined,
+                    e: undefined
                 },
                 {
+                    skipUndef: true,
                     mergeResolve(a, b) {
                         if (a.constructor == Set && b.constructor == Set) {
                             return new Set(Array.from(a).concat(Array.from(b)))
@@ -154,7 +158,8 @@ describe('common/deep/merge', () => {
             b: date_b,
             c: {
                 ca: [ 1, 2, { a: 1 }, 2, [], { b: 1 }]
-            }
+            },
+            d: 20
         })
     })
 })

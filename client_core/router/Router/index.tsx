@@ -132,11 +132,14 @@ function Router(props: RouterProps) {
 
 
             if (
-                prevChildrenArray.length
-                &&  (   !prevChildrenArray[i]
+                    prevChildrenArray.length
+                &&  (
+                            !prevChildrenArray[i]
                         ||  ( isDiffStates && !isHistoryAlreadyTransitioned )
-                        ||  ( prevChildrenArray[i].traversePath != childrenArray[i].traversePath
-                            && prevChildrenArray[i - 1].traversePath == childrenArray[i - 1].traversePath )
+                        ||  (
+                                    prevChildrenArray[i].traversePath != childrenArray[i].traversePath
+                                &&  prevChildrenArray[i - 1].traversePath == childrenArray[i - 1].traversePath
+                            )
                     )
             ) {
 

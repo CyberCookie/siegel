@@ -2,6 +2,7 @@ import mergePlugins from './merge.js'
 import getDefaultPlugins from './defaults.js'
 
 import type { ConfigObject } from '../../types'
+import type { PluginsConfig } from './types'
 
 
 const merge = (config: ConfigObject) => mergePlugins(
@@ -11,3 +12,4 @@ const merge = (config: ConfigObject) => mergePlugins(
 
 
 export default merge
+export type { PluginsConfig }

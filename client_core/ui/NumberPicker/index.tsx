@@ -118,7 +118,10 @@ const NumberPicker = component<Props, DefaultProps>(
             e.stopPropagation()
 
             const { relatedTarget } = e.nativeEvent
-            if (!relatedTarget || !((ref.current! as HTMLDivElement).contains(relatedTarget as Node))) {
+            if (
+                    !relatedTarget
+                ||  !((ref.current! as HTMLDivElement).contains(relatedTarget as Node))
+            ) {
 
                 onBlur?.(e)
                 e.defaultPrevented || setInputState({
@@ -234,7 +237,11 @@ const NumberPicker = component<Props, DefaultProps>(
             disabled: disabled || disabledInput,
             onBlur(event) {
                 const { relatedTarget } = event.nativeEvent
-                if (!relatedTarget || !(ref.current! as HTMLDivElement).contains(relatedTarget as Node)) {
+                if (
+                        !relatedTarget
+                    ||  !(ref.current! as HTMLDivElement).contains(relatedTarget as Node)
+                ) {
+
                     if (!event.defaultPrevented) {
 
                         let newNumberValue!: number
@@ -243,7 +250,11 @@ const NumberPicker = component<Props, DefaultProps>(
                         if (!isNaN(numberValue)) {
                             const newNumberValueRangeLimited = adjustWithRanges(numberValue, min, max)
 
-                            if ((newNumberValueRangeLimited != numberValue) || isValidNumberMissingDigits(stringValue)) {
+                            if ((
+                                newNumberValueRangeLimited != numberValue)
+                                ||  isValidNumberMissingDigits(stringValue)
+
+                            ) {
                                 newNumberValue = newNumberValueRangeLimited
 
                             } else shouldTriggerOnChange = false

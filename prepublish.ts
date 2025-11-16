@@ -33,7 +33,11 @@ function copyTypes(iterateOverDirPath: string) {
     const dirName = iterateOverDirPath.slice( iterateOverDirPath.lastIndexOf('/') + 1 )
 
     iterateFiles(iterateOverDirPath, fileNamePath => {
-        if (fileNamePath.endsWith('.d.ts') || fileNamePath.endsWith('.sass')) {
+        if (
+                fileNamePath.endsWith('.d.ts')
+            ||  fileNamePath.endsWith('.sass')
+        ) {
+
             const destinationFileName = fileNamePath.replace(
                 dirName,
                 `${LOC_NAMES.LIB_OUTPUT_DIRNAME}/${dirName}`

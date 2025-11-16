@@ -91,8 +91,8 @@ function getResizeHandler(resizeParams: InnerResizeParams) {
             const nextSiblingWidth = siblingCellWidth! - delta
 
             if (
-                (siblingCellMinWidth! <= nextSiblingWidth && nextSiblingWidth <= siblingCellMaxWidth!)
-                    &&  (targetCellMinWidth! <= nextCurWidth && nextCurWidth <= targetCellMaxWidth!)
+                    (siblingCellMinWidth! <= nextSiblingWidth && nextSiblingWidth <= siblingCellMaxWidth!)
+                &&  (targetCellMinWidth! <= nextCurWidth && nextCurWidth <= targetCellMaxWidth!)
             ) {
 
                 const suffix = resizeInPixel ? 'px' : '%'

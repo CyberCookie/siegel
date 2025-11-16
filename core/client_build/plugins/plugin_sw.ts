@@ -4,7 +4,9 @@ import webpack, { WebpackPluginInstance, Compiler } from 'webpack'
 import ts from 'typescript'
 
 
-type SwPluginOptions = string
+type SwPluginOptions = {
+    swPath: string
+}
 
 type SwPluginClassCtor = {
     new(options: SwPluginOptions): WebpackPluginInstance
@@ -16,9 +18,13 @@ const { sources, Compilation } = webpack
 
 const NAME = 'siegel-sw-plugin'
 
-const serviceWorkerPlugin = function(this: WebpackPluginInstance, entry: SwPluginOptions) {
-    const filename = path.basename(entry)
-    const swContent = fs.readFileSync(entry, 'utf8')
+const serviceWorkerPlugin = function(
+    this: WebpackPluginInstance,
+    { swPath }: SwPluginOptions
+) {
+
+    const filename = path.basename(swPath)
+    const swContent = fs.readFileSync(swPath, 'utf8')
 
 
     this.apply = function(compiler: Compiler) {
@@ -27,10 +33,12 @@ const serviceWorkerPlugin = function(this: WebpackPluginInstance, entry: SwPlugi
                 name: NAME,
                 stage: Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE
             }, assets => {
+
                 const SW_ASSETS = JSON.stringify(Object.keys(assets))
                 const isTS = filename.endsWith('.ts')
 
-                const SW_SOURCE = `const buildOutput=${SW_ASSETS};${isTS ? ts.transpile(swContent) : swContent}`
+                const swContentJS = isTS ? ts.transpile(swContent) : swContent
+                const SW_SOURCE = `const buildOutput=${SW_ASSETS};${swContentJS}`
 
                 compilation.emitAsset(
                     isTS ? filename.replace('.ts', '.js') : filename,

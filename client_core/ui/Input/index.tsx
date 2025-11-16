@@ -165,9 +165,11 @@ const Input = component<Props, DefaultProps>(
                                 Math.min(selectionEnd!, allowedSelectionEnd)
                             )
 
-                            if (newSelectionStart != selectionStart || newSelectionEnd != selectionEnd) {
-                                inputEl.setSelectionRange(newSelectionStart, newSelectionEnd)
-                            }
+                            if (
+                                    newSelectionStart != selectionStart
+                                ||  newSelectionEnd != selectionEnd
+
+                            ) inputEl.setSelectionRange(newSelectionStart, newSelectionEnd)
                         })
                     }
                 }

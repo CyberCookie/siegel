@@ -2,38 +2,16 @@ import path from 'path'
 import fs from 'fs'
 import { PATHS, IS_SELF_DEVELOPMENT } from './constants'
 
+import deepMerge from '../common/deep/merge'
 import isExists from '../common/is/exists'
 
 import type { Filenames } from './client_build/types'
 import type { ConfigObject, Config } from './types'
 
 
-function mergeConfigs(defaultConfig: Obj, userConfig: Obj) {
-    Object.entries(defaultConfig)
-        .forEach(([ defaultConfigKey, defaultConfigValue ]) => {
-            const userValue = userConfig[defaultConfigKey]
-
-            if (typeof defaultConfigValue == 'object' && typeof userValue == 'object') {
-                mergeConfigs(defaultConfigValue, userValue)
-
-            } else if (isExists(userValue)) {
-                defaultConfig[defaultConfigKey] = userValue
-            }
-        })
-
-
-    Object.entries(userConfig)
-        .forEach(([ userConfigKey, userConfigValue ]) => {
-            if (!Object.prototype.hasOwnProperty.call(defaultConfig, userConfigKey)) {
-                defaultConfig[userConfigKey] = userConfigValue
-            }
-        })
-}
-
-
 const getConfig = (userConfig?: Config) => {
 
-    type BuildConfigsMerged = NonNullable<ConfigObject['build'] & (typeof result)['build']>
+    type BuildConfigsMerged = NonNullable<ConfigObject['build'] & (typeof config)['build']>
 
 
     const prodFilenames: Filenames = {
@@ -55,7 +33,7 @@ const getConfig = (userConfig?: Config) => {
         gzip: '[base].gz'
     }
 
-    const result = {
+    const config = {
         runMode: {
             isServer: true,
             isBuild: true,
@@ -87,30 +65,26 @@ const getConfig = (userConfig?: Config) => {
                 }
             },
 
-            eslint: false,
+            aliases: {},
 
-            aliases: {}
+            plugins: {
+                defaultPlugins: {
+                    eslint: {
+                        enabled: false
+                    }
+                }
+            }
         }
     } satisfies ConfigObject
 
 
-
-
     if (userConfig) {
         if (typeof userConfig == 'string') {
-            result.build.input.js = userConfig
+            config.build.input.js = userConfig
 
         } else {
-            Object.assign(result.runMode, userConfig.runMode)
-            const { isBuild, isProd, isServer } = result.runMode
-
-
-            if (userConfig.publicDir) {
-                result.publicDir = userConfig.publicDir
-            }
-            userConfig.server && mergeConfigs(result.server, userConfig.server)
-            userConfig.build && mergeConfigs(result.build, userConfig.build)
-
+            Object.assign(config, deepMerge(config, userConfig, { skipUndef: true }))
+            const { isBuild, isProd, isServer } = config.runMode
 
             if (isServer) {
                 const { appServer } = userConfig.server!
@@ -121,10 +95,10 @@ const getConfig = (userConfig?: Config) => {
             }
 
             if (isBuild) {
-                const { input, output } = result.build as BuildConfigsMerged
+                const { input, output } = config.build as BuildConfigsMerged
 
                 if (isProd) {
-                    output.filenames = prodFilenames
+                    output.filenames = Object.assign(prodFilenames, output.filenames)
                 }
 
                 if (fs.existsSync(input.js)) {
@@ -140,14 +114,14 @@ const getConfig = (userConfig?: Config) => {
     }
 
     if (IS_SELF_DEVELOPMENT) {
-        const { input } = result.build as BuildConfigsMerged
+        const { input } = config.build as BuildConfigsMerged
         input.include
             ?   input.include.push(PATHS.clientCore, PATHS.sharedUtils)
             :   (input.include = [ PATHS.clientCore, PATHS.sharedUtils ])
     }
 
 
-    return result
+    return config
 }
 
 

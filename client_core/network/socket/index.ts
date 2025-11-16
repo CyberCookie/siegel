@@ -200,9 +200,14 @@ function createSocket(params: CreateSocketParams) {
 
         send(messageType: string, payload: any) {
             const { readyState } = socket
-            if (readyState != SOCKET_CONNECTION_STATE.CLOSING && readyState != SOCKET_CONNECTION_STATE.CLOSED) {
+            if (
+                    readyState != SOCKET_CONNECTION_STATE.CLOSING
+                &&  readyState != SOCKET_CONNECTION_STATE.CLOSED
+            ) {
 
-                const dataToSend = serializeOutcommingMsg({ messageTypeKey, messageType, payloadKey, payload })
+                const dataToSend = serializeOutcommingMsg({
+                    messageTypeKey, messageType, payloadKey, payload
+                })
                 readyState == SOCKET_CONNECTION_STATE.OPEN
                     ?   socket.send(dataToSend)
                     :   pendingDataToSend.push(dataToSend)
@@ -213,9 +218,11 @@ function createSocket(params: CreateSocketParams) {
 
         close() {
             const { readyState } = socket
-            if (readyState == SOCKET_CONNECTION_STATE.CONNECTING || readyState == SOCKET_CONNECTION_STATE.OPEN) {
-                socket.close()
-            }
+            if (
+                    readyState == SOCKET_CONNECTION_STATE.CONNECTING
+                ||  readyState == SOCKET_CONNECTION_STATE.OPEN
+
+            ) socket.close()
 
             return this
         },

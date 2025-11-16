@@ -18,12 +18,21 @@ const deepMerge = <
     obj_a: T,
     obj_b: K,
     options?: {
+        /** Prevents undefined values from obj_b to be written to result */
+        skipUndef?: boolean
+
+        /** Resolve merging iof special objects, eg. Set, Date */
         mergeResolve?(obj_a: Obj, obj_b: Obj, propName: string): any
+
+        /**
+        * For the cases when there are objects you don't want to merge,
+        * but resolve them in a special way
+        */
         resolveObject?(obj_a: Obj, obj_b: Obj, propName: string): Obj | symbol | undefined
     }
 ) => {
 
-    const { mergeResolve, resolveObject } = options || {}
+    const { mergeResolve, resolveObject, skipUndef } = options || {}
     const result: Obj = {}
 
     Object.entries(obj_a)
@@ -47,14 +56,20 @@ const deepMerge = <
                             :   b_value
                     }
 
-                } else result[a_key] = b_value
+                } else {
+                    result[a_key] = !skipUndef || isExists(b_value)
+                        ?   b_value
+                        :   a_value
+                }
             } else result[a_key] = a_value
         })
 
     Object.entries(obj_b)
         .forEach(([ b_key, b_value ]) => {
             if (!Object.prototype.hasOwnProperty.call(obj_a, b_key)) {
-                result[b_key] = b_value
+                if (!skipUndef || isExists(b_value)) {
+                    result[b_key] = b_value
+                }
             }
         })
 
