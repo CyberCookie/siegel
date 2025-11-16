@@ -27,7 +27,11 @@ const CLIENT_MAIN = join(CLIENT_APP, 'main')
 siegel({
     runMode: { isProd, isServer, isBuild },
 
-    server: { appServer },
+    server: {
+        appServer,
+        port: process.env.PORT,
+        host: process.env.HOST
+    },
 
     build: {
         input: {
