@@ -36,6 +36,8 @@ Dropdown options selector<br />
         - Title text option if `props.multiselect` is enabled
     - `title_text`
         - Title text element
+    - `title_text__placeholder`
+        - Title text selection placeholder
     - `input_wrapper`
         - Wraps `title_wrapper`, `options` and `error_text`, if label is applied
     - `reset`

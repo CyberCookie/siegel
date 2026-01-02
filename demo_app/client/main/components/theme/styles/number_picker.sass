@@ -12,35 +12,34 @@ $controls_width: 20px
     display: flex
     flex-direction: column
 
-    button
+    & > button
         background: none
         cursor: pointer
         height: 20px
 
-        &:hover:not(.button__disabled) i
+        &:hover:not(.button__disabled) > i
             color: $primary
+
+        &:first-child > i
+            transform: rotate(-90deg)
+        
+        &:last-child > i
+            transform: rotate(90deg)
+
+        & > i
+            transition: color $transition
+            font-size: 20px
+
+.button__disabled
+    cursor: default
+    pointer-events: none
     
-    i
-        transition: color $transition
-        font-size: 20px
-
-.value_increment_icon i
-    transform: rotate(-90deg)
-
-.value_decrement_icon i
-    transform: rotate(90deg)
+    & > i
+        color: $border_color_light
 
 
 .field
     padding-right: $controls_width + $gutter_sm
 
-
-._disabled_all .field
-    color: $border_color_light
-    
-button.button__disabled
-    cursor: default
-    pointer-events: none
-    
-    i
+    ._disabled_all &
         color: $border_color_light

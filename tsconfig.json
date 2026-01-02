@@ -8,7 +8,6 @@
         "module": "esnext",
 		"moduleResolution": "node",
         "allowJs": true,
-        "alwaysStrict": true,
         "strict": true,
         "declaration": true,
         "allowSyntheticDefaultImports": true,

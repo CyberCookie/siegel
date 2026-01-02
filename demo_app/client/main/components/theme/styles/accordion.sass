@@ -19,7 +19,7 @@ $item_height: 36px
 .item_title_wrapper
     +flex('', center)
 
-    i
+    & > i
         font-size: 30px
         transition: transform $transition
 
@@ -32,7 +32,7 @@ $item_height: 36px
     
 
 .item.item__expanded
-    & > .item_title_wrapper i
+    & > .item_title_wrapper > i
         transform: rotate(90deg)
 
     & > .nested_list

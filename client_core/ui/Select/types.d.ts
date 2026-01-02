@@ -70,6 +70,9 @@ type Theme = {
     /** Title text element */
     title_text?: string
 
+    /** Title text selection placeholder */
+    title_text__placeholder?: string
+
     /** Title text option if props.multiselect is enabled */
     multiselect_title_option?: string
 

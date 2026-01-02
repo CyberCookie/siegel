@@ -159,6 +159,11 @@ type MakeRequiredFields<
     K extends keyof O
 > = Omit<O, K> & Required<Pick<O, K>>
 
+type MakeReadonlyFields<
+    O extends Obj,
+    K extends keyof O
+> = Omit<O, K> & Readonly<Pick<O, K>>
+
 /**
  * Keeps only object properties thats are equal to a given value
  * @param O - Object

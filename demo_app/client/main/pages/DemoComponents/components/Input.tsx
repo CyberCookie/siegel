@@ -22,8 +22,8 @@ const Demo = () => {
 
         <h2 children='with error, label and extra content as icon, autofocus' />
         <Input { ...props } autofocus
-            errorMsg={ inputValue.length < 5 ? 'too short' : '' }
-            rootTagAttributes={{ children: icons.search }}
+            children={ icons.search }
+            errorMsg={ inputValue.length < 5 ? 'too short' : undefined }
             label='some_label' />
 
         <h2 children='textfield' />

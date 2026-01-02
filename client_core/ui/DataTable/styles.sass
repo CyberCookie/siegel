@@ -1,13 +1,13 @@
 .table
-    thead
+    & > thead
         z-index: 1
         position: relative
         transform: translateY(var(--data_table_virtualization_scrolltop))
 
-    th
-        &:first-child .resizer:first-child,
-        &:last-child .resizer:last-child
-            display: none
+        & > th
+            &:first-child .resizer:first-child,
+            &:last-child .resizer:last-child
+                display: none
 
 .table_resizer
     position: absolute

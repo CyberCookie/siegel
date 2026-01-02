@@ -88,7 +88,9 @@ function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = tr
                 :   notMinifiedJSFile
 
 
-            fs.writeFileSync(fileNamePath, resultCode)
+            resultCode
+                ?   fs.writeFileSync(fileNamePath, resultCode)
+                :   console.error('Failed to minify: ', fileNamePath)
         }
     })
 }

@@ -20,7 +20,7 @@ type Entities<Entity extends Obj = Obj> = {
      * Populate struct with multiple entities
      * Replaces entity if already exists
      */
-    addAll(
+    addOrUpdateAll(
         entities: Entity[],
         postProcessEach?: (entity: Entity, index: number) => void
     ): Entities<Entity>
@@ -40,6 +40,12 @@ type Entities<Entity extends Obj = Obj> = {
      * Breaks iteration if true is returned from callback
      */
     each(cb: (entity: Entity, index: number) => boolean | void): Entities<Entity>
+
+    /**
+     * Iterates over all entities, map each entity to a new type
+     * and returns an array of mapped entities
+     */
+    map<T>(cb: (entity: Entity, index: number) => T): T[]
 
     /**
      * Get entity by id
@@ -62,15 +68,20 @@ type Entities<Entity extends Obj = Obj> = {
     clone(): Entities<Entity>
 
     /**
-     * Last update occured timestamp
-     */
-    lastUpdated: number
-
-    /**
      * [ UNSAFE !!! ]
-     * Replaces existing entities with new ones
+     * Replaces existing entities with the new ones
      */
     setRaw(newState: State<Entity>): Entities<Entity>
+
+    /**
+     * Get last update occured timestamp
+     */
+    getLastUpdated(): number
+
+    /**
+     * Triggers last update occured timestamp update
+     */
+    setLastUpdated(): void
 }
 
 

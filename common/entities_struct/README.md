@@ -11,45 +11,71 @@ Receives **1** paremeter:
 
 Returns **Object** to perform CRUD operations with entities:
 - `addOrUpdate` - **Function** to populate struct with one entity<br />
-    Replaces entity if already exists (by checking **uniq field**)<br />
-    Receives **1** paramenter:
+    Replaces entity if already exists (by checking **uniq field**)
+    - Receives **1** paramenter:
         - **entity** - **Object**. Entity **Object** to add
+    - Returns **Entities** struct
 
-- `addAll` - **Function**. to populate struct with multiple entities<br />
+- `addOrUpdateAll` - **Function**. to populate struct with multiple entities
     - Receives **2** paramenters:
-        - **entities** - **Object[]**. Entities to populate<br />
-        - **postProcess** - **Function**. Callback to be called on each entity. Function has **2** arguments:
+        - **entities** - **Object[]**. Entities to populate
+        - **postProcess** - **Function**. Callback to be called on each entity<br />
+            Has **2** arguments:
             - **entity** - Entity to postprocess
             - **index** - Entity index
     - Returns **Entities** struct
 
-- `get` - **Function** to get an entity by given **uniq field**. Returns **Entity**
+- `get` - **Function** to get an entity by given **uniq field**
+    - Returns **Entity**
 
-- `remove` - **Function** to remove an entity from struct by given **uniq field**<br />
-    Returns **Entities** struct
+- `remove` - **Function** to remove an entity from struct by given **uniq field**
+    - Returns **Entities** struct
 
-- `len` - **Function** to get entities count. Returns **Number**
+- `len` - **Function** to get entities count
+    - Returns **Number**
 
 - `each` - **Function** to iterate over all entities. Has **3** arguments:
     - **callback** - **Function**. Callback that is triggered for each **Entity**
+        - Has **2** arguments:
+            - **entity** - **Entity**
+            - **index** - **Entity** index
+        - Returns **true** if break of cycle is needed, otherwise - **void**
     - **from** - **Number**. Index to start to iterate from
     - **to** - **Number**. Index to iterate to
 
+- `map` - **Function** to map entities into a new array of entities. Has **1** argument:
+    - **callback** - **Function** Callback that is triggered for each **Entity**
+        - Has **2** arguments:
+            - **entity** - **Entity**
+            - **index** - **Entity** index
+        - Returns mapped entity
+
 - `sort` - **Function** to sort entities. Has **1** argument:
     - **callback** - **Function**. Callback that is triggered for each **Entity**
-        Has **2** arguments:
+        - Has **2** arguments:
             - **entity_a** - Comparable **Entity**
             - **entity_b** - **Entity** to compare with
-        Returns comaprator value **-1 | 0 | 1**
+        - Returns comaprator value **-1 | 0 | 1**
 
 - `clear` - **Function** to delete all the entities from struct
+    - Returns **Entities** struct
 
-- `raw` - **Function** to receive all the entities. Returns **Object** with the next fields:
-    - `byID` - **Object** where key is **Entity**'s **uniq field**'s value and value is **Entity itself**
-    - `sorted` - **ID[]**
+- `raw` - **Function** to receive all the entities in raw form
+    - Returns **Object** with the next fields:
+        - `byID` - **Object** where key is **Entity**'s **uniq field**'s value and value is **Entity itself**
+        - `sorted` - **ID[]** - sorted array of entities IDs
 
-- `clone` - **Function** to copy **Entities** stuct
-Returns copied **Entities** struct
+- `setRaw` - **Function**. UNSAFE! Replaces existing entities with the new ones
+    - Has **1** argument:
+        - **Entities state** - raw entities **Object** with **byID** and **sorted** keys
+    - Returns **Entities** struct
+
+- `clone` - **Function** to copy **Entities** stuct. Returns copied **Entities** struct
+
+- `getLastUpdated` - **Function**. Get last update occured timestamp
+    - Returns **Number**
+
+- `setLastUpdated` - **Function**. Triggers last update occured timestamp update
 
 <br />
 

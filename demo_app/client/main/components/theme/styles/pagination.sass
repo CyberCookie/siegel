@@ -16,18 +16,17 @@
 
 
 .icon_prev, .goto_next
-    i
+    & > i
         +font(26px, '', $secondary)
-        pointer-events: none
 
-.goto_prev i
+.goto_prev > i
     transform: rotate(-180deg)
 
 .change__disabled
     border-color: $border_color_light
     cursor: default
 
-    i
+    & > i
         color: $border_color_light
 
 .page__active

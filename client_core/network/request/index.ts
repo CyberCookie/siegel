@@ -109,9 +109,13 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
                 )
 
             :   await res[parseMethod]()
-    } catch (err) { throw new Error(
-        `${err}. Failed to parse contentType: ${contentType} using ${parseMethod}() method.`
-    )}
+
+    } catch (err) {
+        throw new Error(
+            `${err}. Failed to parse contentType: ${contentType} using ${parseMethod}() method.`,
+            { cause: err }
+        )
+    }
 }
 
 async function isAllowedToProcess(

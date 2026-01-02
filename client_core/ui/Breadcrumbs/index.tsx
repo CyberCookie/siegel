@@ -4,6 +4,7 @@ import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import isExists from '../../../common/is/exists'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
+import applyClassName from '../_internals/apply_classname'
 
 import type {
     Component, MergedProps, DynamicCrumbsStore, Props,
@@ -36,6 +37,7 @@ function getBreadcrumbs(
 
 
     const breadcrumbsElements = []
+    const breadcrumbClassName = applyClassName(styles.link, [[ theme.crumb, true ]])
     let loocupScope = config
     let path = ''
     for (let i = 0, l = locationArray.length; i < l; i++) {
@@ -58,7 +60,8 @@ function getBreadcrumbs(
                             :   crumb
 
                 breadcrumbsElements.push(
-                    <a key={ newPath } className={ theme.crumb } href={ newPath || '/' }
+                    <a key={ newPath } className={ breadcrumbClassName }
+                        href={ newPath || '/' }
                         onClick={ linkClickPreventDefault }
                         onMouseDown={ e => {
                             onChange(newPath, loc, e)

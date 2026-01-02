@@ -28,8 +28,18 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) 
         onMouseDown(e) {
             onMouseDown?.(e)
             if (!e.defaultPrevented) {
+                let { page } = (e.target as HTMLDivElement).dataset
+                if (!page) {
+                    const elementsEventPath = e.nativeEvent.composedPath()
+                    for (let i = 0; i < elementsEventPath.length; i++) {
+                        const { dataset } = elementsEventPath[i] as HTMLElement
+                        if (dataset) {
+                            page = dataset.page
+                            if (page) break
+                        }
+                    }
+                }
 
-                const page = (e.target as HTMLDivElement).dataset.page
                 if (page) {
                     let newPage = curPage
                     if (page == tokenPrevPage && curPage != 1) {
@@ -123,12 +133,16 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
 
     return <>
         <div children={ iconPrev } data-page={ tokenPrevPage }
-            className={ applyClassName(theme.goto_prev, [[ theme.change__disabled, curPage == 1 ]]) } />
+            className={ applyClassName(theme.goto_prev, [
+                [ theme.change__disabled, curPage == 1 ]
+            ]) } />
 
         { result }
 
         <div children={ iconNext } data-page={ tokenNextPage }
-            className={ applyClassName(theme.goto_next, [[ theme.change__disabled, curPage == numberOfPages ]]) } />
+            className={ applyClassName(theme.goto_next, [
+                [ theme.change__disabled, curPage == numberOfPages ]
+            ]) } />
     </>
 }
 

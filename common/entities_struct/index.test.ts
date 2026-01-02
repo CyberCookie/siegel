@@ -1,5 +1,6 @@
 import entities from './'
 
+
 type TestEntity = {
     id: string
     data?: string
@@ -36,7 +37,7 @@ describe('common/entities', () => {
     })
 
     test('update mass', () => {
-        entitiesData.addAll(
+        entitiesData.addOrUpdateAll(
             [
                 { id: 'b', data: 'data_b' },
                 { id: 'c', data: 'data_c' },

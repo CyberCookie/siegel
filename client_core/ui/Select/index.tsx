@@ -3,8 +3,8 @@
 
 import React, { useState, useRef } from 'react'
 
-import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import isExists from '../../../common/is/exists'
+import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import * as keyCodes from '../_internals/key_codes'
@@ -46,6 +46,7 @@ const Select = component<Props, DefaultProps>(
             reset: _undef,
             title_wrapper: _undef,
             title_text: _undef,
+            title_text__placeholder: _undef,
             multiselect_title_option: _undef,
             error_text: _undef,
             input_wrapper: _undef,
@@ -165,20 +166,34 @@ const Select = component<Props, DefaultProps>(
         selectRootProps = resolveTagAttributes(selectRootProps, rootTagAttributes)
 
 
-        const displayValue = selectedOption
-            ?   getDisplayValue
-                ?   multiselect
+        let displayValue: React.ReactNode
+        let isPlaceholder = false
+        if (selectedOption) {
+            if (getDisplayValue) {
+                displayValue = multiselect
                     ?   getDisplayValue(selectedOption as Option[])
                     :   getDisplayValue(selectedOption as Option)
-                :   multiselect
-                    ?   (selectedOption as Option[]).length
-                        ?   (selectedOption as Option[]).map(({ title, value }) => (
-                                <div key={ value } className={ theme.multiselect_title_option }
-                                    children={ title } />
-                            ))
-                        :   placeholder
-                    :   (selectedOption as Option).title
-            :   placeholder
+
+            } else {
+                if (multiselect) {
+                    if ((selectedOption as Option[]).length) {
+                        displayValue = (selectedOption as Option[]).map(({ title, value }) => (
+                            <div key={ value } className={ theme.multiselect_title_option }
+                                children={ title } />
+                        ))
+
+                    } else {
+                        displayValue = placeholder
+                        isPlaceholder = true
+                    }
+
+                } else displayValue = (selectedOption as Option).title
+            }
+
+        } else {
+            displayValue = placeholder
+            isPlaceholder = true
+        }
 
         const selectInput = <>
             <div className={ theme.title_wrapper }
@@ -189,7 +204,8 @@ const Select = component<Props, DefaultProps>(
                     }
                 } }>
 
-                <div className={ theme.title_text } children={ displayValue } />
+                <div className={ applyClassName(theme.title_text, [[ theme.title_text__placeholder!, isPlaceholder ]]) }
+                    children={ displayValue } />
 
                 { !disabled && resetIcon && (
                     <div children={ resetIcon } className={ theme.reset }

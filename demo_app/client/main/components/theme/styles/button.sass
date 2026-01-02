@@ -4,10 +4,6 @@
     padding: $gutter
     border-radius: $radius
     transition: background $transition
-
-    i
-        +font(24px, '', $font_color)
-        margin-right: $gutter_sm
     
     &:not(:disabled)
         background: $primary
@@ -20,3 +16,7 @@
     &:disabled
         background: #c3c3c3
         cursor: default
+    
+    & > i
+        +font(24px, '', $font_color)
+        margin-right: $gutter_sm

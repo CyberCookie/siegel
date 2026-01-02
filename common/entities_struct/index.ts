@@ -1,4 +1,5 @@
-//TODO add clone entities
+// TODO: custom methods
+
 
 import rangeEach from '../array_range_each'
 
@@ -15,14 +16,15 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
     let byID: Obj<E> = {}
     let sorted: string[] = []
 
+    let lastUpdated: number
+
 
     const entityStruct: Entities<E> = {
         clear() {
             byID = {}
             sorted = []
 
-
-            entityStruct.lastUpdated = Date.now()
+            this.setLastUpdated()
             return entityStruct
         },
 
@@ -33,11 +35,11 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             byID[entityID] = entity
 
 
-            entityStruct.lastUpdated = Date.now()
+            this.setLastUpdated()
             return entityStruct
         },
 
-        addAll(entities, postProcessEach) {
+        addOrUpdateAll(entities, postProcessEach) {
             for (let i = 0, l = entities.length; i < l; i++) {
                 const entity = entities[i]
 
@@ -46,7 +48,6 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             }
 
 
-            entityStruct.lastUpdated = Date.now()
             return entityStruct
         },
 
@@ -59,7 +60,7 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             }
 
 
-            entityStruct.lastUpdated = Date.now()
+            this.setLastUpdated()
             return entityStruct
         },
 
@@ -75,6 +76,17 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             return entityStruct
         },
 
+        map(cb) {
+            const result: any[] = []
+            this.each((entity, index) => {
+                result.push(
+                    cb(entity, index)
+                )
+            })
+
+            return result
+        },
+
         get: entityID => byID[entityID],
 
         len: () => sorted.length,
@@ -85,6 +97,7 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             byID = newState.byID
             sorted = newState.sorted
 
+            this.setLastUpdated()
             return entityStruct
         },
 
@@ -97,7 +110,11 @@ function entities<E extends Obj>(uniq: keyof E = 'id') {
             return newEntites
         },
 
-        lastUpdated: Date.now()
+        setLastUpdated() {
+            lastUpdated = Date.now()
+        },
+
+        getLastUpdated: () => lastUpdated
     }
 
 

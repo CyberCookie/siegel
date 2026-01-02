@@ -3,8 +3,8 @@ import fs from 'fs'
 import { execSync as shell } from 'child_process'
 
 import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../core/constants.js'
-import getConfig from '../core/get_config.js'
 import { requireJSON, toPosixPath } from '../core/utils'
+import getConfig from '../core/get_config.js'
 
 import type { PackageJson } from './types'
 
