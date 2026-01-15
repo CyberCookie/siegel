@@ -1,6 +1,7 @@
 //TODO: server side paging
 //TODO: pin collumns
 //TODO: multi sorting
+//TODO?: share data between columns
 //TODO?: virtualization handle dynamic height
 
 

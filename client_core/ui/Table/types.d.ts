@@ -3,9 +3,16 @@ import type {
 } from '../_internals/types'
 
 
+type PatchStyleAttribute<T extends ReactTagAttributes> = {
+    style?: CSSWithVariables
+} & Omit<T, 'style'>
+
+
 type TableRow = {
     /** TR tag attributes */
-    attributes?: ReactTagAttributes<HTMLTableRowElement, React.TableHTMLAttributes<HTMLTableRowElement>>
+    attributes?: ReactTagAttributes<
+        HTMLTableRowElement, React.TableHTMLAttributes<HTMLTableRowElement>
+    >
 }
 
 type TableCell = {
@@ -16,7 +23,11 @@ type TableCell = {
 
 type TableTH = {
     /** TH tag attributes */
-    attributes?: ReactTagAttributes<HTMLTableHeaderCellElement, React.ThHTMLAttributes<HTMLTableHeaderCellElement>>
+    attributes?: PatchStyleAttribute<
+        ReactTagAttributes<
+            HTMLTableCellElement, React.ThHTMLAttributes<HTMLTableCellElement>
+        >
+    >
 } & TableCell
 type TableHeadRow = {
     /** TH row data */
@@ -25,7 +36,11 @@ type TableHeadRow = {
 
 type TableTD = {
     /** TD tag attributes */
-    attributes?: ReactTagAttributes<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>
+    attributes?: PatchStyleAttribute<
+        ReactTagAttributes<
+            HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>
+        >
+    >
 } & TableCell
 type TableBodyRow = {
     /** TD row data */

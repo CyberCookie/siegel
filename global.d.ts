@@ -212,7 +212,7 @@ type IsNullable<_V> = Extract<_V, undefined | null> extends never ? false : true
  * Represents all valid css properties
  */
 type CSSWithVariables = {
-    [key: `--${string}`]: string | number
+    [key: `--${string}`]: string | number | null | undefined
 } & React.CSSProperties
 
 
@@ -225,7 +225,7 @@ type ReactTagAttributes<
     E = HTMLElement,
     A = React.HTMLAttributes<E>
 > = {
-    [key: `data-${string}`]: string | boolean | number | undefined
+    [key: `data-${string}`]: any
 } & A & React.RefAttributes<E>
 
 /**

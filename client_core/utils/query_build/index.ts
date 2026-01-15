@@ -1,7 +1,8 @@
 import isNullable from '../../../common/is/nullable'
 
 
-type QueryValue = string | number | boolean
+type QueryValuePrimitives = string | number | boolean
+type QueryValue = QueryValuePrimitives | QueryValuePrimitives[]
 
 type BuildURLQuery = {
     (
@@ -12,9 +13,17 @@ type BuildURLQuery = {
 
 
 function buildQueryPart(query: URLSearchParams, key: string, value: QueryValue | undefined) {
-    isNullable(value)
-        ?   query.delete(key)
-        :   query.set(key, (value as string))
+    if (isNullable(value)) {
+        query.delete(key)
+
+    } else if (Array.isArray(value)) {
+        value.forEach(arrayValue => {
+            query.append(key, arrayValue)
+        })
+
+    } else {
+        query.set(key, (value as string))
+    }
 }
 
 /**
@@ -30,8 +39,10 @@ const buildURLQuery: BuildURLQuery = function(key, value) {
     const query = new URLSearchParams(search)
 
 
-    if (typeof key == 'string') buildQueryPart(query, key, value)
-    else {
+    if (typeof key == 'string') {
+        buildQueryPart(query, key, value)
+
+    } else {
         Object.entries(key)
             .forEach(([ searchKey, searchValue ]) => {
                 buildQueryPart(query, searchKey, searchValue)

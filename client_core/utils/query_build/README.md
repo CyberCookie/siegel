@@ -5,7 +5,7 @@ Updates URL query with new query parameters<br />
 Has **2** signatures:
 - Receives **2** parameters, to change one query paramenter:
     - **key** - **String**. Paramenter key
-    - **value** - **String**. Paramenter value
+    - **value** - **String | Number | Boolean | (String | Number | Boolean)[]**. Paramenter value
 - Receives **1** parameter, to change multiple parameters:
     - **paramenters** - **Object** where **key** is parameter key and **value** is paramenter value
 
@@ -30,10 +30,11 @@ console.log(
     buildURLQuery({
         paramKey: 123,
         anotherKey: false,
-        emptyValueKey: ''
+        emptyValueKey: '',
+        arrayValue: [ 4, false, '6' ]
     })
 )
-// '?paramKey=123&anotherKey=false&emptyValueKey='
+// '?paramKey=123&anotherKey=false&emptyValueKey=&arrayValue=4&arrayValue=false&arrayValue=6'
 
 
 

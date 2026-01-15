@@ -101,12 +101,9 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
     {
         ID: 'date',
         label: 'Date',
-        showValue({ date }) {
-            return {
-                value: (new Date(date)).toDateString(),
-                className: this.customParams!.className
-            }
-        },
+        showValue: ({ date }) => ({
+            value: (new Date(date)).toDateString()
+        }),
         onSort: sortValue,
         onFilter: filterValue,
         customParams: {
@@ -142,12 +139,9 @@ const columnsConfig: DemoDataTableProps['columnsConfig'] = [
     {
         ID: 'bool',
         label: 'Some boolean',
-        showValue({ bool }) {
-            return {
-                value: bool ? '+' : '-',
-                className: this.customParams!.className
-            }
-        },
+        showValue: ({ bool }) => ({
+            value: bool ? '+' : '-'
+        }),
         onSort: sortValue,
         onFilter: filterValue,
         customParams: {
