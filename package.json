@@ -1,6 +1,6 @@
 {
     "name": "siegel",
-    "version": "0.16.32",
+    "version": "0.16.33",
     "homepage": "https://siegel-qe3q.onrender.com",
     "repository": {
         "type": "git",
@@ -78,9 +78,9 @@
         "eslint-plugin-react": "7.37.5",
         "eslint-webpack-plugin": "5.0.2",
         "express": "5.2.1",
-        "html-webpack-plugin": "5.6.5",
+        "html-webpack-plugin": "5.6.6",
         "mime": "4.1.0",
-        "mini-css-extract-plugin": "2.9.4",
+        "mini-css-extract-plugin": "2.10.0",
         "postcss-loader": "8.2.0",
         "react": "18.3.1",
         "react-dom": "18.3.1",

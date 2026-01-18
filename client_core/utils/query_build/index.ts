@@ -17,6 +17,7 @@ function buildQueryPart(query: URLSearchParams, key: string, value: QueryValue |
         query.delete(key)
 
     } else if (Array.isArray(value)) {
+        query.delete(key)
         value.forEach(arrayValue => {
             query.append(key, arrayValue)
         })
@@ -34,10 +35,7 @@ function buildQueryPart(query: URLSearchParams, key: string, value: QueryValue |
  * @returns String query params
  */
 const buildURLQuery: BuildURLQuery = function(key, value) {
-    const { search } = location
-
-    const query = new URLSearchParams(search)
-
+    const query = new URLSearchParams(location.search)
 
     if (typeof key == 'string') {
         buildQueryPart(query, key, value)
