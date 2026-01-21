@@ -114,9 +114,10 @@ Receives **1** argument - **Object** wit the next fields:
 - `params` - **Object** where _key_ is parameter ID and _value_ is parameter value<br />
     URL params that will be included in `url`
 
-- `query` - **String | Object**<br />
-    If object provided then _key_ is query ID and _value_ is query value<br />
-    URL query params
+- `query` - **String | Object | URLSearchParams**<br />
+    URL query params<br />
+    If **Object** is provided then _key_ is query key and _value_ is query value<br />
+    If query value within provided **Object** is **Array** then multiple values will be applied: __?key=value1&key=value2__
 
 - `method` - **String** Default is **'GET'**<br />
     Request method

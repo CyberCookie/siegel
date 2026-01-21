@@ -42,11 +42,28 @@ function extractRequestData<_Payload>(request: RequestParams<any, any, _Payload>
 
 
     if (query) {
-        const queryToAdd = query instanceof String
-            ?   query
-            :   `?${(new URLSearchParams(query))}`
+        let queryToAdd: string
+        if (typeof query == 'string') {
+            queryToAdd = query
 
-        fetchURL += queryToAdd
+        } else if (query instanceof URLSearchParams) {
+            queryToAdd = query.toString()
+
+        } else {
+            const newQuery = new URLSearchParams()
+
+            Object.keys(query).forEach(queryKey => {
+                const queryPartValue = query[queryKey]
+
+                Array.isArray(queryPartValue)
+                    ?   queryPartValue.forEach(queryArrayValue => {
+                            newQuery.append(queryKey, queryArrayValue)
+                        })
+                    :   newQuery.set(queryKey, queryPartValue)
+            })
+        }
+
+        fetchURL += `?${queryToAdd!}`
     }
 
     credentials && (options.credentials = credentials)

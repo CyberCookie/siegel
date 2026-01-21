@@ -106,6 +106,7 @@ function applyVirtualization(params: UseVirtualizationParams) {
 
             return () => {
                 clearTimeout(virtualizationState.timeoutID)
+                virtualizationState.timeoutID = 0
             }
         }, [ scrollTop, showPerPage, newMaxItemsCount ])
     }

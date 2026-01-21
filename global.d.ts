@@ -15,6 +15,8 @@ interface URLSearchParams {
 
 type Fallish = undefined | null | false | 0 | ''
 
+type Primitive = string | number | bigint | boolean | symbol | undefined | null
+
 
 /**
  * Transforms values union into intersaction
@@ -212,7 +214,7 @@ type IsNullable<_V> = Extract<_V, undefined | null> extends never ? false : true
  * Represents all valid css properties
  */
 type CSSWithVariables = {
-    [key: `--${string}`]: string | number | null | undefined
+    [key: `--${string}`]: any
 } & React.CSSProperties
 
 

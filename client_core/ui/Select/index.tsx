@@ -1,4 +1,5 @@
 //TODO: add grouping
+//TODO: options attributes
 //TODO?: detect options position to handle options overflow
 
 import React, { useState, useRef } from 'react'

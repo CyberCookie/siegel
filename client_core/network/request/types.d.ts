@@ -37,7 +37,7 @@ type RequestParams<_Body = any, _Res = any, _P = any> = {
     params?: Record<string, any>
 
     /** URL query params */
-    query?: string | Record<string, any> | URLSearchParams
+    query?: string | URLSearchParams | Record<string, any>
 
     /** Request method */
     method?: RequestInit['method']
