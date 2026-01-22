@@ -61,6 +61,8 @@ function extractRequestData<_Payload>(request: RequestParams<any, any, _Payload>
                         })
                     :   newQuery.set(queryKey, queryPartValue)
             })
+
+            queryToAdd = newQuery.toString()
         }
 
         fetchURL += `?${queryToAdd!}`
