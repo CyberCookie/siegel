@@ -7,26 +7,24 @@ import path from 'path'
 import { LOC_NAMES, PATHS } from '../core/constants.js'
 import getConfig from '../core/get_config.js'
 import siegel, { nodeUtils, utils } from '../core'
-import initProject from './init_project.js'
-import initMiniProject from './init_minimal.js'
-import createSSLCerts from './create_SSL.js'
+import { initDemoProject, initMiniProject } from './init_project'
+import createSSLCerts from './create_ssl_certs.js'
 
 import type { ServerConfig } from '../core/server/types'
-import type { BuildConfig } from '../core/client_build/types'
 import type {
     Command, CommanTree, CommandsWithParams,
     PrintHelpFlagsMap, CommandExampleFn, ALlCommands
 } from './types'
 
 
-const { globalNodeModulesPath, requireJSON, parseCommandLineArgs } = nodeUtils
+const { requireJSON, parseCommandLineArgs } = nodeUtils
 
 const getColored = (color: number, str: string) => `\x1b[${color}m${str}\x1b[0m`
 const getColoredCommandStr = getColored.bind(null, 36)
 const getColoredCommandArgumentStr = getColored.bind(null, 32)
 const getColoredHighlightText = getColored.bind(null, 33)
 
-const resolvePath = (_path: string) => path.isAbsolute(_path) ? _path : `${PATHS.cwd}/${_path}`
+const resolvePath = (_path: string) => path.isAbsolute(_path) ? _path : `${PATHS.CWD}/${_path}`
 
 
 const DEFAULT_CONFIG = getConfig()
@@ -95,21 +93,6 @@ const COMMANDS_TREE: CommanTree = {
                 }
             },
             {
-                flagLong: '--resolve-globals',
-                flag: '-g',
-                description: 'Enable resolve global node modules imports.',
-                defaultValue: false,
-                paramAction({ result }) {
-                    (result.config.build as BuildConfig).postProcessWebpackConfig = webpackConfig => {
-                        webpackConfig.resolve!.modules!.push(
-                            globalNodeModulesPath()
-                        )
-
-                        return webpackConfig
-                    }
-                }
-            },
-            {
                 flagLong: '--client',
                 flag: '-C',
                 description: 'Path to client app entrypoint.',
@@ -153,31 +136,21 @@ const COMMANDS_TREE: CommanTree = {
                         \r\tMore about demo project read here: ${getColoredHighlightText(`https://github.com/CyberCookie/siegel/tree/master/${LOC_NAMES.DEMO_APP_DIR_NAME}`)}`,
         example: true,
         commandAction({ result }) {
-            const { isGlobal, isMini, isMiniServ } = result
+            const { isMini, isMiniServ } = result
             isMini
                 ?   initMiniProject(isMiniServ)
-                :   initProject(isGlobal)
+                :   initDemoProject()
         },
         prepareResult: () => ({
-            isGlobal: false,
             isMini: false,
             isMiniServ: false
         }),
         params: [
             {
-                flagLong: '--global',
-                flag: '-g',
-                defaultValue: false,
-                description: 'Updates Siegel related paths to global.',
-                paramAction({ result }) {
-                    result.isGlobal = true
-                }
-            },
-            {
                 flagLong: '--mini',
                 flag: '-m',
                 defaultValue: false,
-                description: 'Creates mini zero-config react TS project',
+                description: 'Creates zero-config mini react TS project',
                 paramAction({ result }) {
                     result.isMini = true
                 }
@@ -196,7 +169,7 @@ const COMMANDS_TREE: CommanTree = {
     },
 
 
-    'create-ssl': {
+    'create-ssl-certs': {
         example: true,
         description:    `Creates localhost ssl certificate to be used with NodeJS server;
                         \r\tCreates authority certificate to be imported in a web browser for testing purposes.`,
@@ -210,7 +183,7 @@ const COMMANDS_TREE: CommanTree = {
         description: 'Prints current Siegel version.',
         commandAction() {
             console.log(
-                requireJSON(PATHS.packageJSON).version
+                requireJSON(PATHS.PACKAGE_JSON).version
             )
         }
     }
@@ -234,14 +207,14 @@ if (commandConfig) {
         const { flag, flagLong, paramAction } = param
 
         if (paramAction) {
-            const paramValueData = CLIParamsValues[flagLong!] || CLIParamsValues[flag!]
+            const paramValueData = CLIParamsValues[flagLong] || CLIParamsValues[flag!]
             if (paramValueData) {
                 paramValueData.resolved = true
                 unresolvedParamsCount--
 
-                await paramAction({
-                    result: result as UnionToIntersection<ReturnType<CommandsWithParams['prepareResult']>>,
+                paramAction({
                     CLIParamsValues,
+                    result: result as UnionToIntersection<ReturnType<CommandsWithParams['prepareResult']>>,
                     value: paramValueData.value
                 })
             }

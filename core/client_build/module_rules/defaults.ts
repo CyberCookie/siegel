@@ -32,7 +32,7 @@ function getDefaultModulesConfig(config: ConfigObject) {
                 }
             },
             ruleOptions: {
-                include: [ PATHS.clientCoreOutput ]
+                include: [ PATHS.CLIENT_CORE_OUTPUT ]
             }
         },
 
@@ -129,7 +129,7 @@ function getDefaultModulesConfig(config: ConfigObject) {
                 ?   {}
                 :   {
                         ruleOptions: {
-                            include: [ PATHS.clientCoreOutput ]
+                            include: [ PATHS.CLIENT_CORE_OUTPUT ]
                         }
                     })
         },

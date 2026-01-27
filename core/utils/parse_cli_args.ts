@@ -11,7 +11,7 @@ function parseCommandLineArgs(args: string[]) {
         value: NonNullable<CLIParamsValuesType[string]>['value']
     ) {
         if (CLIParamsValues[key]) {
-            CLIParamsValues[key]!.value = value
+            CLIParamsValues[key].value = value
 
         } else {
             CLIParamsValues[key] = {

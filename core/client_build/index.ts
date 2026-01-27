@@ -22,8 +22,8 @@ function clientBuilder(config: ConfigObject) {
     const { input, aliases, postProcessWebpackConfig, output } = build!
     const { publicPath, filenames, logging } = output!
 
-    const nodeModulesPaths = [ PATHS.nodeModules ]
-    IS_SELF_DEVELOPMENT || nodeModulesPaths.push(PATHS.cwdNodeModules)
+    const nodeModulesPaths = [ PATHS.NODE_MODULES ]
+    IS_SELF_DEVELOPMENT || nodeModulesPaths.push(PATHS.USER_NODE_MODULES)
 
     const isDevServer = isServer && !isProd
 

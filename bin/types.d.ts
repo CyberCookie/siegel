@@ -7,8 +7,6 @@ type ActionParam<R> = {
     CLIParamsValues: CLIParamsValuesType
 }
 
-
-
 type CommanParam<R> = {
     description: string
     paramAction(
@@ -42,17 +40,15 @@ type CommandObj<R extends Obj | undefined> = {
     example?: boolean | string | CommandExampleFn
 } & (R extends undefined ? object : CommandWithParams<R>)
 
-
 type CommanTree = {
     run: CommandObj<{
         config: ConfigObject
     }>
     init: CommandObj<{
-        isGlobal: boolean
         isMini: boolean
         isMiniServ: boolean
     }>
-    'create-ssl': CommandObj<undefined>
+    'create-ssl-certs': CommandObj<undefined>
     version: CommandObj<undefined>
 }
 type Command = keyof CommanTree
@@ -60,20 +56,7 @@ type ALlCommands = CommanTree[Command]
 type CommandsWithParams = Extract<ALlCommands, CommandWithParams<any>>
 
 
-type PackageJson = {
-    name: string
-    type: string
-    config: {
-        boot: string
-    }
-    scripts: Obj<string>
-    engines: {
-        node: string
-        npm: string
-    }
-}
-
 export type {
-    PackageJson, ALlCommands, CommanTree, CommandsWithParams,
-    PrintHelpFlagsMap, CommandExampleFn, Command
+    Command, ALlCommands, CommanTree, CommandsWithParams,
+    PrintHelpFlagsMap, CommandExampleFn
 }

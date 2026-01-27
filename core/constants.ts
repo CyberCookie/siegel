@@ -17,7 +17,7 @@ const LOC_NAMES = {
     BIN_DIR_NAME: 'bin',
     LIB_OUTPUT_DIRNAME: 'lib',
 
-    DEMO_MINI_APP_DIR_NAME: 'demo_app_minimal',
+    DEMO_APP_MINI_DIR_NAME: 'demo_app_minimal',
     DEMO_APP_DIR_NAME: 'demo_app',
     DEMO_APP_OUTPUT_DIR_NAME: 'dist'
 } as const
@@ -25,36 +25,37 @@ const LOC_NAMES = {
 
 
 const __dirname = cjs__dirname(import.meta)
-const cwd = process.cwd()
+const CWD = process.cwd()
 
-let packageRoot = join(__dirname, '..')
-if (packageRoot.endsWith(`${sep}${LOC_NAMES.LIB_OUTPUT_DIRNAME}`)) {
-    packageRoot = join(packageRoot, '..')
+let PACKAGE_ROOT = join(__dirname, '..')
+if (PACKAGE_ROOT.endsWith(`${sep}${LOC_NAMES.LIB_OUTPUT_DIRNAME}`)) {
+    PACKAGE_ROOT = join(PACKAGE_ROOT, '..')
 }
 
 
-const libOutput = join(packageRoot, LOC_NAMES.LIB_OUTPUT_DIRNAME)
+const LIB_OUTPUT = join(PACKAGE_ROOT, LOC_NAMES.LIB_OUTPUT_DIRNAME)
 const PATHS = {
-    cwd, packageRoot,
-    cwdNodeModules:     join(cwd, LOC_NAMES.NODE_MODULES),
-    packageJSON:        join(packageRoot, LOC_NAMES.PACKAGE_JSON),
-    nodeModules:        join(packageRoot, LOC_NAMES.NODE_MODULES),
+    CWD,
+    PACKAGE_ROOT,
+    PACKAGE_JSON:           join(PACKAGE_ROOT, LOC_NAMES.PACKAGE_JSON),
+    NODE_MODULES:           join(PACKAGE_ROOT, LOC_NAMES.NODE_MODULES),
+    USER_NODE_MODULES:      join(CWD, LOC_NAMES.NODE_MODULES),
 
-    sharedUtils:        join(packageRoot, LOC_NAMES.UTILS_DIR_NAME),
-    sharedUtilsOutput:  join(libOutput, LOC_NAMES.UTILS_DIR_NAME),
-    clientCore:         join(packageRoot, LOC_NAMES.CLIENT_CORE_DIR_NAME),
-    clientCoreOutput:   join(libOutput, LOC_NAMES.CLIENT_CORE_DIR_NAME),
-    src:                join(packageRoot, LOC_NAMES.SRC_DIR_NAME),
-    srcOutput:          join(libOutput, LOC_NAMES.SRC_DIR_NAME),
-    binOutput:          join(libOutput, LOC_NAMES.BIN_DIR_NAME),
+    SHARED_UTILS:           join(PACKAGE_ROOT, LOC_NAMES.UTILS_DIR_NAME),
+    SHARED_UTILS_OUTPUT:    join(LIB_OUTPUT, LOC_NAMES.UTILS_DIR_NAME),
+    CLIENT_CORE:            join(PACKAGE_ROOT, LOC_NAMES.CLIENT_CORE_DIR_NAME),
+    CLIENT_CORE_OUTPUT:     join(LIB_OUTPUT, LOC_NAMES.CLIENT_CORE_DIR_NAME),
+    SRC:                    join(PACKAGE_ROOT, LOC_NAMES.SRC_DIR_NAME),
+    SRC_OUTPUT:             join(LIB_OUTPUT, LOC_NAMES.SRC_DIR_NAME),
+    BIN_OUTPUT:             join(LIB_OUTPUT, LOC_NAMES.BIN_DIR_NAME),
 
-    demoMiniProject:    join(packageRoot, LOC_NAMES.DEMO_MINI_APP_DIR_NAME),
-    demoProject:        join(packageRoot, LOC_NAMES.DEMO_APP_DIR_NAME),
-    demoProjectOutput:  join(cwd, LOC_NAMES.DEMO_APP_OUTPUT_DIR_NAME)
+    DEMO_MINI_PROJECT:      join(PACKAGE_ROOT, LOC_NAMES.DEMO_APP_MINI_DIR_NAME),
+    DEMO_PROJECT:           join(PACKAGE_ROOT, LOC_NAMES.DEMO_APP_DIR_NAME),
+    DEMO_PROJECT_OUTPUT:    join(CWD, LOC_NAMES.DEMO_APP_OUTPUT_DIR_NAME)
 }
 
 
-const IS_SELF_DEVELOPMENT = cwd == packageRoot
+const IS_SELF_DEVELOPMENT = CWD == LIB_OUTPUT
 
 
 export { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT }

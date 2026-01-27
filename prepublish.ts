@@ -100,13 +100,13 @@ function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = tr
 shell('npx tsc -p .')
 
 
-copyTypes(PATHS.clientCore)
-normalizeImportPathsAndMinify(PATHS.clientCoreOutput)
+copyTypes(PATHS.CLIENT_CORE)
+normalizeImportPathsAndMinify(PATHS.CLIENT_CORE_OUTPUT)
 
-copyTypes(PATHS.sharedUtils)
-normalizeImportPathsAndMinify(PATHS.sharedUtilsOutput)
+copyTypes(PATHS.SHARED_UTILS)
+normalizeImportPathsAndMinify(PATHS.SHARED_UTILS_OUTPUT)
 
-copyTypes(PATHS.src)
-normalizeImportPathsAndMinify(PATHS.srcOutput, false)
+copyTypes(PATHS.SRC)
+normalizeImportPathsAndMinify(PATHS.SRC_OUTPUT, false)
 
-normalizeImportPathsAndMinify(PATHS.binOutput, false)
+normalizeImportPathsAndMinify(PATHS.BIN_OUTPUT, false)

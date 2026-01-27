@@ -40,18 +40,6 @@ const parsed = utils.requireJSON('path/to/file.json')
 ```
 
 <br/>
-<h3>Global node modules path</h3>
-Returns location where global node modules are stored<br /> 
-<br/>
-
-```ts
-import { utils } from 'siegel'
-
-const parsed = utils.globalNodeModulesPath()
-// /home/user/.npm-packages/lib/node_modules
-```
-
-<br/>
 <h3>To posix path</h3>
 Converts any OS path to posix path<br /> 
 <br/>

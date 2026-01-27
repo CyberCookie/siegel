@@ -2,37 +2,18 @@ import https, { RequestOptions } from 'https'
 import path from 'path'
 import fs from 'fs'
 
-import { PATHS, LOC_NAMES } from '../core/constants.js'
-import { isRunDirectly, requireJSON } from '../core/utils'
+import { PATHS } from '../../../core/constants.js'
+import { isRunDirectly } from '../../../core/utils'
+import { siegelPackageJsonData } from '../constants.js'
 
-import type { PackageJson } from './types'
-
-
-type GitDir = {
-    type: 'dir'
-    download_url: null
-}
-type GitFile = {
-    type: 'file'
-    download_url: string
-}
-type GitEntityMetadata = ({
-    name: string
-    path: string
-    sha: string
-    size: number
-    html_url: string
-    git_url: string
-} & (GitDir | GitFile))
-type GitRepoMetadataResponse = GitEntityMetadata[]
-
+import type { GitRepoMetadataResponse, GitDownloadDirFilter } from './types'
 
 
 const gitHost = 'api.github.com'
 const repoUser = 'cybercookie'
-const repoName = (requireJSON(PATHS.packageJSON) as PackageJson).name
 
-const REPO_CONTENT_PATH = `https://${gitHost}/repos/${repoUser}/${repoName}/contents/`
+const REPO_CONTENT_PATH
+    = `https://${gitHost}/repos/${repoUser}/${siegelPackageJsonData.packageName}/contents/`
 
 
 function gitRequest<Res>(
@@ -73,41 +54,49 @@ function gitRequest<Res>(
 }
 
 
-function downloadAndSave(repoMetadata: GitRepoMetadataResponse, savePath: string) {
+function downloadAndSave(
+    repoMetadata: GitRepoMetadataResponse,
+    savePath: string,
+    filter: GitDownloadDirFilter | undefined
+) {
+
     repoMetadata.forEach(({ name, path: gitPath, type, download_url }) => {
         const newSavePath = path.join(savePath, name)
 
         if (type == 'dir') {
             fs.mkdirSync(newSavePath)
-            console.log('Created: ', newSavePath)
 
             gitRequest<GitRepoMetadataResponse>(
                 `${REPO_CONTENT_PATH}${gitPath}`,
                 true,
-                res => { downloadAndSave(res, newSavePath) })
+                res => { downloadAndSave(res, newSavePath, filter) })
 
-        } else {
+        } else if (!filter || filter(gitPath)) {
             gitRequest<string>(download_url, false, res => {
                 fs.writeFile(newSavePath, res, err => {
-                    err
-                        ?   console.error(err)
-                        :   console.log('Created: ', newSavePath)
+                    err && console.error(err)
                 })
             })
         }
     })
 }
 
-function main() {
+function main(
+    dirName: string,
+    filter?: GitDownloadDirFilter
+) {
+
     gitRequest<GitRepoMetadataResponse>(
-        `${REPO_CONTENT_PATH}${LOC_NAMES.DEMO_APP_DIR_NAME}`,
+        `${REPO_CONTENT_PATH}${dirName}`,
         true,
-        res => { downloadAndSave(res, PATHS.cwd) }
+        res => { downloadAndSave(res, PATHS.CWD, filter) }
     )
 }
 
 
-isRunDirectly(import.meta) && main()
+if (isRunDirectly(import.meta)) {
+    main('')
+}
 
 
 export default main

@@ -40,7 +40,7 @@ const getConfig = (userConfig?: Config) => {
             isProd: false
         },
 
-        publicDir: PATHS.demoProjectOutput,
+        publicDir: PATHS.DEMO_PROJECT_OUTPUT,
 
         server: {
             host: 'localhost',
@@ -50,8 +50,8 @@ const getConfig = (userConfig?: Config) => {
 
         build: {
             input: {
-                html: path.join(PATHS.demoProject, 'client/index.html'),
-                js: path.join(PATHS.cwd, 'app.ts')
+                html: path.join(PATHS.DEMO_PROJECT, 'client/index.html'),
+                js: path.join(PATHS.CWD, 'app.ts')
             },
 
             output: {
@@ -116,8 +116,8 @@ const getConfig = (userConfig?: Config) => {
     if (IS_SELF_DEVELOPMENT) {
         const { input } = config.build as BuildConfigsMerged
         input.include
-            ?   input.include.push(PATHS.clientCore, PATHS.sharedUtils)
-            :   (input.include = [ PATHS.clientCore, PATHS.sharedUtils ])
+            ?   input.include.push(PATHS.CLIENT_CORE, PATHS.SHARED_UTILS)
+            :   (input.include = [ PATHS.CLIENT_CORE, PATHS.SHARED_UTILS ])
     }
 
 

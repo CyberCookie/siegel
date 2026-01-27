@@ -25,10 +25,10 @@ function main() {
         'DNS.1 = localhost'
     ].join('\n')
 
-    const domainsPath = `${PATHS.cwd}/${filenames.domains}`
-    const rootCAPemPath = `${PATHS.cwd}/${filenames.rootCAPem}`
-    const localhostCSRPath = `${PATHS.cwd}/${filenames.localhostCsr}`
-    const rootCAKeyPath = `${PATHS.cwd}/${filenames.rootCAKey}`
+    const domainsPath = `${PATHS.CWD}/${filenames.domains}`
+    const rootCAPemPath = `${PATHS.CWD}/${filenames.rootCAPem}`
+    const localhostCSRPath = `${PATHS.CWD}/${filenames.localhostCsr}`
+    const rootCAKeyPath = `${PATHS.CWD}/${filenames.rootCAKey}`
 
     const days = '-days 1024'
     const rsa = '-newkey rsa:2048'

@@ -43,8 +43,6 @@
         "boot": "node --no-warnings=ExperimentalWarning --loader ts-node/esm demo_app/server/index.js"
     },
     "files": [
-        "demo_app",
-        "demo_app_minimal",
         "lib",
         "global.d.ts",
         "tsconfig.json",
