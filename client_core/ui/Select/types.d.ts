@@ -186,7 +186,7 @@ type Props<_Value = any, _Payload = any> = PropsComponentThemed<Theme, {
      *
      * @param selectedOption - Selected option
      */
-    getDisplayValue?(selectedOption: Option<_Value>): React.ReactNode
+    getDisplayValue?(selectedOptions: Option<_Value>): React.ReactNode
 } | {
     /** Allows options multiselect */
     multiselect: true

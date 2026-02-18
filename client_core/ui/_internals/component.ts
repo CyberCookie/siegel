@@ -45,7 +45,13 @@ function component
                 :   { ...mergedProps, ...defaultProps }
             )
         },
-        (prevProps, nextProps) => nextProps.memoDeps?.(prevProps as MergedProps, nextProps as MergedProps) || false
+
+        (prevProps, nextProps) => (
+            nextProps.memoDeps?.(
+                prevProps as MergedProps,
+                nextProps as MergedProps
+            )
+        ) || false
     )
 
     Component.ID = ID

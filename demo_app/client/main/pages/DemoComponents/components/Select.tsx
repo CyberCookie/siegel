@@ -40,7 +40,8 @@ const Demo = () => {
         <Select { ...singleOptionSelectProps } />
 
         <h2 children='with label and displayTitle processing' />
-        <Select { ...singleOptionSelectProps } label='some label' getDisplayValue={ getSelectDisplayValue } />
+        <Select { ...singleOptionSelectProps } label='some label'
+            getDisplayValue={ getSelectDisplayValue } />
 
         <h2 children='filter selected: false; with reset' />
         <Select { ...singleOptionSelectProps } listSelectedOption={ false } resetIcon={ icons.close } />
