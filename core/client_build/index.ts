@@ -1,9 +1,12 @@
+import path from 'path'
+
 import { PATHS, IS_SELF_DEVELOPMENT } from '../constants.js'
 import * as BUILD_CONSTANTS from './constants.js'
 import defaultModuleRulesResolve from './module_rules'
 import defaultPluginsResolve from './plugins'
 
 import type { Compiler, Configuration } from 'webpack'
+import type { Request, Response, NextFunction } from 'express'
 import type { ConfigObject } from '../types'
 
 
@@ -104,6 +107,7 @@ function clientBuilder(config: ConfigObject) {
         }
     }
 
+
     const moduleOptions = build!.module?.moduleOptions
     moduleOptions && Object.assign(webpackConfig.module!, moduleOptions)
 
@@ -133,8 +137,23 @@ function clientBuilder(config: ConfigObject) {
 
         getDevMiddlewares: () => ({
             dev: devMiddleware(webpackCompiller, {
-                stats: logging
+                stats: logging,
+                forwardError: true
             }),
+            indexFallback(req: Request, res: Response, next: NextFunction) {
+                const { method, headers } = req
+                if (method == 'GET' && headers.accept?.includes('text/html')) {
+                    const { outputPath, outputFileSystem } = webpackCompiller
+
+                    const filename = path.join(outputPath, 'index.html')
+
+                    outputFileSystem!.readFile(filename, (_, result) => {
+                        res.set('content-type', 'text/html')
+                        res.send(result)
+                        res.end()
+                    })
+                } else next()
+            },
             hot: hotMiddleware(webpackCompiller)
         })
     }

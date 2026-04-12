@@ -158,8 +158,8 @@ const NumberPicker = component<Props, DefaultProps>(
         let onPickerBlur: ComponentFocusEventHandler | undefined
         if (!disabled) {
             isFocused
-                ?   (onPickerBlur = _onBlur)
-                :   (onPickerFocus = _onFocus)
+                ?   onPickerBlur = _onBlur
+                :   onPickerFocus = _onFocus
         }
 
 
@@ -177,8 +177,8 @@ const NumberPicker = component<Props, DefaultProps>(
             numberpickerRootProps.tabIndex = 0
 
             isFocused
-                ?   (numberpickerRootProps.onBlur = _onBlur)
-                :   (numberpickerRootProps.onFocus = _onFocus)
+                ?   numberpickerRootProps.onBlur = _onBlur
+                :   numberpickerRootProps.onFocus = _onFocus
         }
 
         applyRefApi(numberpickerRootProps, props)

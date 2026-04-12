@@ -52,6 +52,9 @@ const getStepButtons: GetStepperButtons = params => {
     }
 
 
+    plusProps.type = minusProps.type = 'button'
+
+
     const stepperElement = (
         <div className={ theme.controls }>
             <button { ...plusProps } />

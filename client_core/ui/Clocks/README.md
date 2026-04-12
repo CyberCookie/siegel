@@ -30,6 +30,11 @@ It returns string by default<br />
     - Whether to tick backward
     - **Boolean**<br /><br />
 
+- `processAsTimer`
+    - Forces timer mode
+    - **Boolean**
+    - Default is `props.speedCoef != 1 || backward` <br />
+
 - `builder`
     - Callback to construct clocks display value
     - **Function**

@@ -26,6 +26,11 @@ type Props = Omit<
         /** Whether to tick backward */
         backward?: boolean
 
+        /** Forces timer mode
+         * By default props.speedCoef != 1 || props.backward
+         */
+        processAsTimer?: boolean
+
         /**
          * Callback to construct clocks display value
          *

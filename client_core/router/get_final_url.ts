@@ -13,7 +13,7 @@ const getFinalURL: GetFinalUrl = (curUrl, urlPart) => {
 
             const urlArray = curUrl.split(SLASH)
             newPathPart
-                ?   (urlArray[ urlArray.length - 1 ] = newPathPart)
+                ?   urlArray[ urlArray.length - 1 ] = newPathPart
                 :   urlArray.pop()
 
             result = urlArray.join(SLASH) || SLASH

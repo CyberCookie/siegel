@@ -18,8 +18,12 @@ function getMousePos(e: HTMLSwipeMouseEvent, xAxis: Props['xAxis']) {
     const { touches, x, y } = (e as MouseEvent & TouchEvent)
 
     return _isTouchScreen
-        ?   (xAxis ? touches[0].screenX : touches[0].screenY)
-        :   (xAxis ? x : y)
+        ?   xAxis
+            ?   touches[0].screenX
+            :   touches[0].screenY
+        :   xAxis
+            ?   x
+            :   y
 }
 
 const Swipe = component<Props, DefaultProps>(
@@ -34,8 +38,8 @@ const Swipe = component<Props, DefaultProps>(
 
         let swipeRootAttributes: DivTagAttributes = { className, children }
         _isTouchScreen
-            ?   (swipeRootAttributes.onTouchStart = onMouseDownInner)
-            :   (swipeRootAttributes.onMouseDown = onMouseDownInner)
+            ?   swipeRootAttributes.onTouchStart = onMouseDownInner
+            :   swipeRootAttributes.onMouseDown = onMouseDownInner
 
         applyRefApi(swipeRootAttributes, props)
         swipeRootAttributes = resolveTagAttributes(swipeRootAttributes, rootTagAttributes)

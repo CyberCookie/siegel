@@ -116,9 +116,9 @@ function getResizeHandler(resizeParams: InnerResizeParams) {
         mouseXAnchor = e.nativeEvent.x
         isLeftSide = resizerElement.nextSibling
 
-        siblingCell = (resizerElement.nextSibling as HTMLTableCellElement)
-            ?   (targetCell.previousSibling as HTMLTableCellElement)
-            :   (targetCell.nextSibling as HTMLTableCellElement)
+        siblingCell = resizerElement.nextSibling
+            ?   targetCell.previousSibling as HTMLTableCellElement
+            :   targetCell.nextSibling as HTMLTableCellElement
 
 
         if (siblingCell) {
@@ -154,11 +154,11 @@ function getHead(
     let resizeParams: InnerResizeParams = {}
     if (resizable) {
         typeof resizable == 'object'
-            ?   (resizeParams = resizable)
-            :   (resizeParams = {
+            ?   resizeParams = resizable
+            :   resizeParams = {
                     enabled: true,
                     resizeInPixel: false
-                })
+                }
     }
 
 

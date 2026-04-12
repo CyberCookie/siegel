@@ -82,8 +82,8 @@ function extractRequestData<_Payload>(request: RequestParams<any, any, _Payload>
         }
 
         options.headers
-            ?   (options.headers[HEADERS.CONTENT_TYPE] ||= CONTENT_TYPE.JSON)
-            :   (options.headers = jsonContentTypeHeaders)
+            ?   options.headers[HEADERS.CONTENT_TYPE] ||= CONTENT_TYPE.JSON
+            :   options.headers = jsonContentTypeHeaders
     }
 
     fetchOptionsPostprocess?.(options)
@@ -169,7 +169,7 @@ const createApi = <_Payload = any>(setupParams: RequestSetupParams<_Payload> = {
     const activeRequest = new Set()
 
 
-    return async <Res = any, Body = any>(req: RequestParams<Body, Res, _Payload>) => {
+    return async <Res = any, Body = any, ErrRes = any>(req: RequestParams<Body, Res, _Payload>) => {
 
         if (!isExists(req.json)) {
             req.json = json

@@ -53,8 +53,8 @@ function getTabsVisual(mergedProps: MergedProps) {
                     key: id
                 }
                 isSelected
-                    ?   (wrapperProps.className = getContentClassName(theme, contentClassName))
-                    :   (wrapperProps.style = { display: 'none' })
+                    ?   wrapperProps.className = getContentClassName(theme, contentClassName)
+                    :   wrapperProps.style = { display: 'none' }
 
                 tabContent = <div { ...wrapperProps } />
             }
