@@ -11,12 +11,13 @@ import * as utils from '../common'
 import * as nodeUtils from './utils'
 import getConfig from './get_config.js'
 import webpackBuilder, { BUILD_CONSTANTS } from './client_build'
-import {
-    bootServer, getStaticServingData, http2Server, httpServer, proxyReq,
-    extractSSL
-} from './server'
+// import {
+//     bootServer, getStaticServingData, http2Server, httpServer, proxyReq,
+//     extractSSL
+// } from './server'
+import { bootServer, getStaticServingData, extractSSL } from './server'
 
-import type { RequestHandler } from 'express'
+// import type { RequestHandler } from 'express'
 import type {
     Config, ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
 } from './types'
@@ -28,7 +29,7 @@ async function main(userConfig?: Config) {
     const { isBuild, isServer, isProd } = config.runMode
 
 
-    let devMiddlewares: RequestHandler[] = []
+    let devMiddlewares: any[] = []
     if (isBuild) {
         const { run, getDevMiddlewares } = webpackBuilder(config)
 
@@ -49,8 +50,8 @@ nodeUtils.isRunDirectly(import.meta) && main()
 export default main
 export {
     webpackBuilder, BUILD_CONSTANTS, getConfig,
-    bootServer, getStaticServingData, http2Server, httpServer, proxyReq, extractSSL,
-    nodeUtils, utils
+    bootServer, getStaticServingData, extractSSL,
+    nodeUtils, utils//, http2Server, httpServer, proxyReq
 }
 export type {
     Config, ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams

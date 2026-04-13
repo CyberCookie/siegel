@@ -6,7 +6,6 @@ import defaultModuleRulesResolve from './module_rules'
 import defaultPluginsResolve from './plugins'
 
 import type { Compiler, Configuration } from 'webpack'
-import type { Request, Response, NextFunction } from 'express'
 import type { ConfigObject } from '../types'
 
 
@@ -140,7 +139,7 @@ function clientBuilder(config: ConfigObject) {
                 stats: logging,
                 forwardError: true
             }),
-            indexFallback(req: Request, res: Response, next: NextFunction) {
+            indexFallback(req: any, res: any, next?: () => void) {
                 const { method, headers } = req
                 if (method == 'GET' && headers.accept?.includes('text/html')) {
                     const { outputPath, outputFileSystem } = webpackCompiller
@@ -148,11 +147,14 @@ function clientBuilder(config: ConfigObject) {
                     const filename = path.join(outputPath, 'index.html')
 
                     outputFileSystem!.readFile(filename, (_, result) => {
-                        res.set('content-type', 'text/html')
-                        res.send(result)
-                        res.end()
+                        // res.type('text/html')
+                        // res.send(result)
+
+                        res.statusCode = 200
+                        res.setHeader('Content-Type', 'text/html')
+                        res.end(result)
                     })
-                } else next()
+                } else next?.()
             },
             hot: hotMiddleware(webpackCompiller)
         })

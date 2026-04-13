@@ -2,24 +2,19 @@ import type {
     Http2Server, Http2SecureServer,
     Http2Stream, IncomingHttpHeaders, OutgoingHttpHeaders
 } from 'http2'
-import type { RequestHandler, Express, Request, Response } from 'express'
 import type { ConfigObject } from '../types'
 import type { StreamCB } from './http2/types'
 import type { GetStaticFileResponseParams } from './get_static_file_response_data/types'
 
 
-type ExpressExtenderParams = {
-    staticServer: Express
-    express: typeof import('express')
-    onStream?: never
-}
+
 type HTTP2ExtenderParams = {
     staticServer: Http2Server | Http2SecureServer
     onStream(cb: StreamCB): void
     express?: never
 }
 type ServerExtenderFn = (
-    params: ExpressExtenderParams | HTTP2ExtenderParams,
+    // params: ExpressExtenderParams | HTTP2ExtenderParams,
     config: ConfigObject
 ) => Promise<void> | void
 

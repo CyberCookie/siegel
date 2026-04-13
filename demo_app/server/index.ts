@@ -1,7 +1,7 @@
 import { join } from 'path'
 import siegel, { nodeUtils } from '../../core'
 
-import appServer from './app_server.js'
+// import appServer from './app_server.js'
 
 
 const { tsToWebpackAliases, cjs__dirname } = nodeUtils
@@ -28,7 +28,7 @@ siegel({
     runMode: { isProd, isServer, isBuild },
 
     server: {
-        appServer,
+        // appServer,
         port: process.env.PORT,
         host: process.env.HOST
     },
