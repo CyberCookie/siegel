@@ -6,6 +6,8 @@ import defaultModuleRulesResolve from './module_rules'
 import defaultPluginsResolve from './plugins'
 
 import type { Compiler, Configuration } from 'webpack'
+import type { IncomingMessage, ServerResponse } from 'http'
+// import type { Inc, FastifyRes } from 'fastify'
 import type { ConfigObject } from '../types'
 
 
@@ -24,13 +26,14 @@ function clientBuilder(config: ConfigObject) {
     const { input, aliases, postProcessWebpackConfig, output } = build!
     const { publicPath, filenames, logging } = output!
 
+
     const nodeModulesPaths = [ PATHS.NODE_MODULES ]
     IS_SELF_DEVELOPMENT || nodeModulesPaths.push(PATHS.USER_NODE_MODULES)
 
     const isDevServer = isServer && !isProd
 
-    let webpackCompiller: Compiler
 
+    let webpackCompiller: Compiler
 
     let webpackConfig: Configuration = {
         mode: isProd
@@ -139,7 +142,10 @@ function clientBuilder(config: ConfigObject) {
                 stats: logging,
                 forwardError: true
             }),
-            indexFallback(req: any, res: any, next?: () => void) {
+
+            hot: hotMiddleware(webpackCompiller),
+
+            indexFallback(req: IncomingMessage, res: ServerResponse, next: () => void) {
                 const { method, headers } = req
                 if (method == 'GET' && headers.accept?.includes('text/html')) {
                     const { outputPath, outputFileSystem } = webpackCompiller
@@ -147,20 +153,21 @@ function clientBuilder(config: ConfigObject) {
                     const filename = path.join(outputPath, 'index.html')
 
                     outputFileSystem!.readFile(filename, (_, result) => {
-                        // res.type('text/html')
-                        // res.send(result)
-
                         res.statusCode = 200
                         res.setHeader('Content-Type', 'text/html')
                         res.end(result)
                     })
-                } else next?.()
-            },
-            hot: hotMiddleware(webpackCompiller)
+
+                } else next()
+            }
         })
     }
 }
 
 
 export default clientBuilder
+export type WebpackMiddlewares = ReturnType<
+    ReturnType<typeof clientBuilder>['getDevMiddlewares']
+>
+
 export { BUILD_CONSTANTS }

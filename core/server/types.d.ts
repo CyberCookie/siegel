@@ -1,21 +1,21 @@
+import type { Server } from 'http'
 import type {
-    Http2Server, Http2SecureServer,
-    Http2Stream, IncomingHttpHeaders, OutgoingHttpHeaders
+    Http2Server, Http2Stream, IncomingHttpHeaders, OutgoingHttpHeaders
 } from 'http2'
-import type { ConfigObject } from '../types'
-import type { StreamCB } from './http2/types'
+import type { FastifyInstance } from 'fastify'
+import type { ConfigObject, WebpackMiddlewares } from '../types'
 import type { GetStaticFileResponseParams } from './get_static_file_response_data/types'
 
 
 
-type HTTP2ExtenderParams = {
-    staticServer: Http2Server | Http2SecureServer
-    onStream(cb: StreamCB): void
-    express?: never
-}
+type FastifyHTTPServer = FastifyInstance<Server>
+type FastifyHTTP2Server = FastifyInstance<Http2Server>
+
+
 type ServerExtenderFn = (
-    // params: ExpressExtenderParams | HTTP2ExtenderParams,
-    config: ConfigObject
+    staticServer: FastifyHTTPServer | FastifyHTTP2Server,
+    config: ConfigObject,
+    fastify: typeof import('fastify')
 ) => Promise<void> | void
 
 type StaticServingData = ReturnType<GetStaticFileResponseParams>
@@ -78,11 +78,12 @@ type ServerConfig = {
 
 type ServerBootParams = {
     config: ConfigObject
-    devMiddlewares: RequestHandler[]
+    devMiddlewares: WebpackMiddlewares
 }
 
 
 export type {
     ServerConfig,
-    ServerBootParams, ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
+    FastifyHTTPServer, FastifyHTTP2Server,
+    ServerBootParams, ServerExtenderFn//, ExpressExtenderParams, HTTP2ExtenderParams
 }

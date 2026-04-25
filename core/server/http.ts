@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import https, { Server } from 'https'
 import express, { Express, RequestHandler } from 'express'
 

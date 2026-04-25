@@ -1,5 +1,5 @@
 import type { RequestOptions, IncomingMessage } from 'http'
-import type { RequestHandler } from 'express'
+import type { RouteHandlerMethod, FastifyRequest } from 'fastify'
 
 
 type ProxyParams = {
@@ -26,21 +26,21 @@ type ProxyParams = {
 
     /**
      * You should specify ws connection endpoints for this destination
-     * if you proxy to multiple backends using same express server
+     * if you proxy to multiple backends using same fastify server
      */
     wsEndpoints?: Array<string>
 
     /** Called after proxy request options is formed giving full controll over the proxy request options */
     postProcessReq?(
         /** Request from origin */
-        clientReq: Parameters<RequestHandler>[0] | IncomingMessage,
+        clientReq: FastifyRequest | IncomingMessage,
 
         /** Mutable proxy request options */
         options: RequestOptions
     ): void
 }
 
-type Proxy = (params: ProxyParams) => RequestHandler
+type Proxy = (params: ProxyParams) => RouteHandlerMethod
 
 
 export type { Proxy, ProxyParams }

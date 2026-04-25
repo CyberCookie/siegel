@@ -1,7 +1,7 @@
 import type { BuildConfig } from './client_build/types'
+import type { WebpackMiddlewares } from './client_build/'
 import type {
-    ServerConfig,
-    ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
+    ServerConfig, ServerExtenderFn, FastifyHTTPServer, FastifyHTTP2Server
 } from './server/types'
 
 
@@ -32,5 +32,5 @@ type Config = ConfigObject | string
 
 export type {
     Config, ConfigObject,
-    ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
+    WebpackMiddlewares, ServerExtenderFn, FastifyHTTPServer, FastifyHTTP2Server
 }

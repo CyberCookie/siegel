@@ -1,11 +1,11 @@
-import http, { Server, IncomingHttpHeaders, IncomingMessage, RequestOptions } from 'http'
+import http, { Server, IncomingHttpHeaders, RequestOptions, IncomingMessage } from 'http'
 import https from 'https'
 
 import isEmptyObject from '../../../common/is/empty_obj'
 import populateURLParams from '../../../common/populate_url_params'
 
 import type { Socket } from 'net'
-import type { RequestHandler } from 'express'
+import type { RouteHandlerMethod, FastifyRequest } from 'fastify'
 import type { Proxy, ProxyParams } from './types'
 
 
@@ -38,7 +38,7 @@ function updateSocket(socket: Socket, head: Buffer<ArrayBufferLike>) {
 
 function getProxyRequestOptions(
     proxyParams: ProxyParams,
-    clientReq: Parameters<RequestHandler>[0] | IncomingMessage,
+    clientReq: FastifyRequest | IncomingMessage,
     isWS?: boolean
 ) {
 
@@ -48,11 +48,11 @@ function getProxyRequestOptions(
     let finalPath: string
     if (isWS) finalPath = url!
     else {
-        const { query, params, path } = clientReq as Parameters<RequestHandler>[0]
+        const { query, params, url } = clientReq as FastifyRequest
 
         const proxyQuery = proxyParams.query || query
-        const proxyPath = proxyParams.path || path
-        finalPath = isEmptyObject(proxyQuery)
+        const proxyPath = proxyParams.path || (new URL(url)).pathname
+        finalPath = isEmptyObject(proxyQuery as Obj)
             ?   proxyPath
             :   `${proxyPath}?${new URLSearchParams(proxyQuery as NonNullableProps<Obj<string>>)}`
 
@@ -85,7 +85,7 @@ const proxy: Proxy = proxyParams => {
     const proxyId = `${host}:${port}`
     const wsEndpointsSet = wsEndpoints && new Set(wsEndpoints)
 
-    const proxyRequest: RequestHandler = (clientReq, clientRes) => {
+    const proxyRequest: RouteHandlerMethod = (clientReq, clientRes) => {
         const { body, socket } = clientReq
 
 
@@ -152,13 +152,13 @@ const proxy: Proxy = proxyParams => {
             getProxyRequestOptions(proxyParams, clientReq),
             proxyRes => {
                 const { statusCode, headers } = proxyRes
-                if (statusCode !== 200) {
-                    console.error(clientReq.path, statusCode)
+                if (statusCode != 200) {
+                    console.error(clientReq.url, statusCode)
                     proxyRes.resume()
                 }
 
-                clientRes.writeHead(statusCode!, headers)
-                proxyRes.pipe(clientRes)
+                clientRes.raw.writeHead(statusCode!, headers)
+                proxyRes.pipe(clientRes.raw)
             })
         body && proxyReq.write(
             body.constructor == Object
@@ -169,7 +169,7 @@ const proxy: Proxy = proxyParams => {
         proxyReq.on('error', console.error)
 
 
-        clientReq.pipe(proxyReq)
+        clientReq.raw.pipe(proxyReq)
     }
 
 

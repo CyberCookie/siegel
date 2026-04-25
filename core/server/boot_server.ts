@@ -1,20 +1,12 @@
-// import httpServer, { Server } from './http.js'
-// import http2Server, { Http2Server } from './http2'
-import fastify, { FastifyInstance } from 'fastify'
+import fastify from 'fastify'
 
-import type { Server } from 'http'
-import type { Http2Server } from 'http2'
-import type { ServerBootParams } from './types'
-
-
-type FastifyHTTPServer = FastifyInstance<Server>
-type FastifyHTTP2Server = FastifyInstance<Http2Server>
+import type { ServerBootParams, FastifyHTTPServer, FastifyHTTP2Server } from './types'
 
 
 const server = {
     async run(params: ServerBootParams) {
-        const { devMiddlewares } = params
-        const { http2, host, port } = params.config.server!
+        const { devMiddlewares, config } = params
+        const { http2, host, port, appServer } = config.server!
 
         let server: FastifyHTTP2Server | FastifyHTTPServer
         if (http2) {
@@ -23,15 +15,23 @@ const server = {
         } else {
             server = fastify() as FastifyHTTPServer
 
-            server.get('*', {}, (req, res) => {
+            const { dev, hot, indexFallback } = devMiddlewares
+            server.addHook('onRequest', (req, res, next) => {
+                const rawReq = req.raw
+                const rawRes = res.raw
 
-                devMiddlewares[0](req.raw, res.raw, () => {})
+                indexFallback(rawReq, rawRes, () => {
 
-                devMiddlewares[1](req.raw, res.raw, () => {})
+                    dev(rawReq, rawRes, err => {
+                        if (err) return next(err)
 
-                devMiddlewares[2](req.raw, res.raw, () => {})
+                        else hot(rawReq, rawRes, err => err ? next(err) : next())
+                    })
+                })
             })
         }
+
+        appServer && await appServer(server, config, fastify)
 
         const serverInstance = await server.listen({
             port: +port!,

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import http2, { Http2Server } from 'http2'
 
 import { HEADER_ACCEPT_INDEX } from '../constants.js'

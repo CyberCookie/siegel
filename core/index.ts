@@ -11,15 +11,11 @@ import * as utils from '../common'
 import * as nodeUtils from './utils'
 import getConfig from './get_config.js'
 import webpackBuilder, { BUILD_CONSTANTS } from './client_build'
-// import {
-//     bootServer, getStaticServingData, http2Server, httpServer, proxyReq,
-//     extractSSL
-// } from './server'
-import { bootServer, getStaticServingData, extractSSL } from './server'
+import { bootServer, getStaticServingData, extractSSL, proxyReq } from './server'
 
-// import type { RequestHandler } from 'express'
 import type {
-    Config, ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
+    Config, WebpackMiddlewares,
+    ServerExtenderFn, FastifyHTTP2Server, FastifyHTTPServer
 } from './types'
 
 
@@ -29,19 +25,22 @@ async function main(userConfig?: Config) {
     const { isBuild, isServer, isProd } = config.runMode
 
 
-    let devMiddlewares: any[] = []
+    let devMiddlewares: Partial<WebpackMiddlewares> = {}
     if (isBuild) {
         const { run, getDevMiddlewares } = webpackBuilder(config)
 
         await run()
 
         if (isServer && !isProd) {
-            devMiddlewares = Object.values(getDevMiddlewares())
+            devMiddlewares = getDevMiddlewares()
         }
     }
 
 
-    isServer && bootServer.run({ devMiddlewares, config })
+    isServer && bootServer.run({
+        devMiddlewares: devMiddlewares as WebpackMiddlewares,
+        config
+    })
 }
 
 nodeUtils.isRunDirectly(import.meta) && main()
@@ -51,8 +50,9 @@ export default main
 export {
     webpackBuilder, BUILD_CONSTANTS, getConfig,
     bootServer, getStaticServingData, extractSSL,
-    nodeUtils, utils//, http2Server, httpServer, proxyReq
+    nodeUtils, utils, proxyReq//, http2Server, httpServer
 }
 export type {
-    Config, ServerExtenderFn, ExpressExtenderParams, HTTP2ExtenderParams
+    Config, ServerExtenderFn, WebpackMiddlewares,
+    FastifyHTTP2Server, FastifyHTTPServer
 }
