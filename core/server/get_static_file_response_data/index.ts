@@ -41,9 +41,9 @@ const getStaticFileResponseParams: GetStaticFileResponseParams = params => {
         (acceptEncodingFinal || '').split(', ')
     )
 
+
     let encoding = ''
     let pathToFile = pathAbsolute
-
     if (serveCompressionsPriority) {
         for (let i = 0, l = serveCompressionsPriority.length; i < l; i++) {
             const encodingPrefecence = serveCompressionsPriority[i]
@@ -60,7 +60,7 @@ const getStaticFileResponseParams: GetStaticFileResponseParams = params => {
 
     return {
         pathToFile, encoding, contentType,
-        cacheControl: urlNormalized.includes('index.html') || cacheControl.includes('no-cache')
+        cacheControl: cacheControl.includes('no-cache')
             ?   ''
             :   'max-age=31536000, immutable'
     }

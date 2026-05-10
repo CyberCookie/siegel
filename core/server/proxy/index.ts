@@ -159,7 +159,8 @@ const proxy: Proxy = proxyParams => {
 
                 clientRes.raw.writeHead(statusCode!, headers)
                 proxyRes.pipe(clientRes.raw)
-            })
+            }
+        )
         body && proxyReq.write(
             body.constructor == Object
                 ?   JSON.stringify(body)

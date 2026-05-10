@@ -1,24 +1,37 @@
-import type { Server } from 'http'
+import type { Server as NodeHTTPServer } from 'http'
+import type { Server as NodeHTTPServerSecure } from 'https'
 import type {
-    Http2Server, Http2Stream, IncomingHttpHeaders, OutgoingHttpHeaders
+    Http2Server as NodeHTTP2Server,
+    Http2SecureServer as NodeHTTP2ServerSecure
 } from 'http2'
-import type { FastifyInstance } from 'fastify'
+import type {
+    FastifyInstance, FastifyRequest, FastifyReply,
+    FastifyServerOptions, FastifyHttpsOptions,
+    FastifyHttp2Options, FastifyHttp2SecureOptions
+} from 'fastify'
 import type { ConfigObject, WebpackMiddlewares } from '../types'
-import type { GetStaticFileResponseParams } from './get_static_file_response_data/types'
 
 
 
-type FastifyHTTPServer = FastifyInstance<Server>
-type FastifyHTTP2Server = FastifyInstance<Http2Server>
+type FastifyHTTPServer = FastifyInstance<NodeHTTPServer>
+
+type FastifyHTTPServerSecure = FastifyInstance<NodeHTTPServerSecure>
+type FastifyHTTPSOptions = FastifyHttpsOptions<NodeHTTPServerSecure>
+
+type FastifyHTTP2Server = FastifyInstance<NodeHTTP2Server>
+type FastifyHTTP2Options = FastifyHttp2Options<NodeHTTP2Server>
+
+type FastifyHTTP2ServerSecure = FastifyInstance<NodeHTTP2ServerSecure>
+type FastifyHTTP2SOptions = FastifyHttp2SecureOptions<NodeHTTP2ServerSecure>
+
+type FastifyAllServerOptions = FastifyServerOptions | FastifyHTTPSOptions | FastifyHTTP2Options | FastifyHTTP2SOptions
 
 
 type ServerExtenderFn = (
-    staticServer: FastifyHTTPServer | FastifyHTTP2Server,
+    staticServer: FastifyHTTPServer | FastifyHTTPServerSecure | FastifyHTTP2Server | FastifyHTTP2ServerSecure,
     config: ConfigObject,
     fastify: typeof import('fastify')
 ) => Promise<void> | void
-
-type StaticServingData = ReturnType<GetStaticFileResponseParams>
 
 
 type ServerConfig = {
@@ -48,30 +61,13 @@ type ServerConfig = {
 
     /** Executes right before file send
      *
-     * @param req - Express.js request
-     * @param res - Express.js response
-     * @param staticServingData - File serving params
-     * @returns true to prevent default file send handler
+     * @param req - Fastify request
+     * @param res - Fastify response
+     * @returns true to prevent default file response handling
     */
-    HTTP1PreFileSend?(
-        req: Request,
-        res: Response,
-        staticServingData: StaticServingData
-    ): boolean
-
-    /** Executes right before file send
-     *
-     * @param stream - Node http2 stream
-     * @param headers - Node http2 request headers
-     * @param resHeaders - Node http2 response headers
-     * @param staticServingData - File serving params
-     * @returns true to prevent default file send handler
-    */
-    HTTP2PreFileSend?(
-        stream: Http2Stream,
-        reqHeaders: IncomingHttpHeaders,
-        resHeaders: OutgoingHttpHeaders,
-        staticServingData: StaticServingData
+    handleResourceRequest?(
+        req: FastifyRequest,
+        res: FastifyReply
     ): boolean
 }
 
@@ -83,7 +79,8 @@ type ServerBootParams = {
 
 
 export type {
-    ServerConfig,
-    FastifyHTTPServer, FastifyHTTP2Server,
-    ServerBootParams, ServerExtenderFn//, ExpressExtenderParams, HTTP2ExtenderParams
+    ServerConfig, ServerBootParams, ServerExtenderFn,
+    FastifyHTTPServer, FastifyServerOptions, FastifyHTTPServerSecure, FastifyHTTPSOptions,
+    FastifyHTTP2Server, FastifyHTTP2Options, FastifyHTTP2ServerSecure, FastifyHTTP2SOptions,
+    FastifyAllServerOptions
 }

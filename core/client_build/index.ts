@@ -137,6 +137,8 @@ function clientBuilder(config: ConfigObject) {
             }
         }),
 
+        getWebpackCompiller: () => webpackCompiller,
+
         getDevMiddlewares: () => ({
             dev: devMiddleware(webpackCompiller, {
                 stats: logging,
@@ -151,7 +153,6 @@ function clientBuilder(config: ConfigObject) {
                     const { outputPath, outputFileSystem } = webpackCompiller
 
                     const filename = path.join(outputPath, 'index.html')
-
                     outputFileSystem!.readFile(filename, (_, result) => {
                         res.statusCode = 200
                         res.setHeader('Content-Type', 'text/html')

@@ -1,3 +1,6 @@
+//TODO: export typeof merged configs
+
+
 import path from 'path'
 import fs from 'fs'
 import { PATHS, IS_SELF_DEVELOPMENT } from './constants'
@@ -87,7 +90,7 @@ const getConfig = (userConfig?: Config) => {
             const { isBuild, isProd, isServer } = config.runMode
 
             if (isServer) {
-                const { appServer } = userConfig.server!
+                const { appServer } = (config as ConfigObject).server!
 
                 if (isExists(appServer) && !(appServer instanceof Function)) {
                     console.error('[config.server.appServer] ->> export type is not a function.')

@@ -1,5 +1,5 @@
-import type { ServerConfig } from '../types'
 import type { Mime } from 'mime'
+import type { ServerConfig } from '../types'
 
 
 type HeaderValue = string | string[] | undefined

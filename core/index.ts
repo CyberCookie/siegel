@@ -13,10 +13,7 @@ import getConfig from './get_config.js'
 import webpackBuilder, { BUILD_CONSTANTS } from './client_build'
 import { bootServer, getStaticServingData, extractSSL, proxyReq } from './server'
 
-import type {
-    Config, WebpackMiddlewares,
-    ServerExtenderFn, FastifyHTTP2Server, FastifyHTTPServer
-} from './types'
+import type { Config, WebpackMiddlewares } from './types'
 
 
 async function main(userConfig?: Config) {
@@ -50,9 +47,10 @@ export default main
 export {
     webpackBuilder, BUILD_CONSTANTS, getConfig,
     bootServer, getStaticServingData, extractSSL,
-    nodeUtils, utils, proxyReq//, http2Server, httpServer
+    nodeUtils, utils, proxyReq
 }
+export type { Config, WebpackMiddlewares }
 export type {
-    Config, ServerExtenderFn, WebpackMiddlewares,
-    FastifyHTTP2Server, FastifyHTTPServer
-}
+    ServerExtenderFn,
+    FastifyHTTPServer, FastifyHTTPServerSecure, FastifyHTTP2Server, FastifyHTTP2ServerSecure
+} from './types'
