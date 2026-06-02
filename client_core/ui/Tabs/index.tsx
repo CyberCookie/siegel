@@ -1,4 +1,4 @@
-//TODO?: no render labels when only one
+// TODO?: no render labels when only one
 
 import React from 'react'
 

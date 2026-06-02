@@ -1,5 +1,5 @@
-//TODO add label
-//TODO merge with Select
+// TODO: add label
+// TODO: merge with Select
 
 import React from 'react'
 
@@ -19,7 +19,7 @@ const _undef = undefined
 const componentID = '-ui-radio'
 
 function getOptions(mergedProps: MergedProps) {
-    const { options, theme, onChange, multiple, selected, disabled } = mergedProps
+    const { options, theme, onChange, multiselect, selected, disabled } = mergedProps
 
 
     return options.map((option: MergedProps['options'][number]) => {
@@ -27,7 +27,7 @@ function getOptions(mergedProps: MergedProps) {
 
         const optionClassName = applyClassName(theme.option, [
             [ className, true ],
-            [ theme.option__selected, multiple ? selected.has(id) : selected == id ]
+            [ theme.option__selected, multiselect ? selected.has(id) : selected == id ]
         ])
 
 

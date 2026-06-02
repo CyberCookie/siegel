@@ -25,7 +25,7 @@ const Demo = () => {
         <Radio { ...props } />
 
         <h2 children='multiple select' />
-        <Radio options={ options } multiple
+        <Radio options={ options } multiselect
             selected={ selectedMultiple.selected }
             onChange={ value => {
                 selectedMultiple.selected.has(value)

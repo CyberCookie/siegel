@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-//TODO?: console output: checkboxes, progress, timings
+// TODO?: console output: checkboxes, progress, timings
 
 import path from 'path'
 
@@ -159,7 +159,7 @@ const COMMANDS_TREE: CommanTree = {
                 flagLong: '--mini-serv',
                 flag: '-s',
                 defaultValue: false,
-                description: 'Creates mini zero-config react TS project with preconfigured TS express server',
+                description: 'Creates mini zero-config react TS project with preconfigured TS Fastify server',
                 paramAction({ result }) {
                     result.isMini = true
                     result.isMiniServ = true

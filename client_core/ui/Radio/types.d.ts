@@ -8,11 +8,11 @@ type MultiSelectProps = {
     selected: Set<string>
 
     /** Allows to select multiple options */
-    multiple: true
+    multiselect: true
 }
 type SingleSelectProps = {
     selected: string
-    multiple?: false
+    multiselect?: false
 }
 
 

@@ -9,10 +9,12 @@ Only `HTTP1.1` is suitable for development purposes<br />
 
 ### Server returns an object with the only method `run`:
 
-Receives **3** parameters:
+Receives **2** parameters:
 - **config** - Siegel config
-- **middlewares** - **ExpressMiddleware[]** - ExpressJS middlewares. Thus affects only http(s) server
-- **serverExtend** - function to extend this server
+- **devMiddlewares** - **Object** - Webpack dev middlewares
+    - `dev` - webpack dev middleware
+    - `hot` - webpack hot middleware
+    - `indexFallback` - webpack dev middleware index fallback
 
 <br/>
 
@@ -21,16 +23,11 @@ Receives **3** parameters:
 ```ts
 
 type AppServer = (
-    params: ({
-        staticServer: ExpressApp,
-        express: ExpressModule
-    } | {
-        staticServer: Http2Server | Http2SecureServer,
-        onStream: (
-            cb: (stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number ) => void
-        ): void
-    }),
-    siegelConfig: ConfigFinal
+    params: {
+        staticServer: FastifyHTTPServer | FastifyHTTPServerSecure | FastifyHTTP2Server | FastifyHTTP2ServerSecure,
+        siegelConfig: ConfigObject
+        fastify: typeof import('fastify')
+    }
 ) => Promise<void> | void
 
 
@@ -84,19 +81,13 @@ type StaticServingData = {
         */
         serveCompressionsPriority: String[]
 
-        /* Executes right before file send */
-        HTTP1PreFileSend(
-            req: Express.Request,
-            res: Express.Response,
-            staticServingData: StaticServingData
-        ): boolean
-
-        /* Executes right before file send */
-        HTTP2PreFileSend(
-            stream: Http2Stream,
-            reqHeaders: IncomingHttpHeaders
-            resHeaders: OutgoingHttpHeaders
-            staticServingData: StaticServingData
+        /*
+            Custom handler when resource is requested
+            Return false to prevent default behaviour
+        */
+        handleResourceRequest(
+            req: FastifyRequest,
+            res: FastifyReply
         ): boolean
     }
 }
@@ -126,17 +117,10 @@ import myServer from './my_server.ts'
 
 Here we define path to User App entrypoint file - **user_app.ts**<br />
 User App must be a **Function** in order to call it during Siegel server initialization<br />
-The **Function**, both for HTTP1.1 and HTTP2 receives almost the same **2**** arguments:
-- **Static server data** - **Object**. Static server protocol related data<br />
-    - `HTTP1.1` static server made with `Express` has the next fields:
-        - `express` - **Express module**
-        - `staticServer` - **express()**. Static server created with express
-    - `HTTP2` static server made with `http2` node module, has the next fields:
-        - `onStream` - **Function** with the only argument
-            - **http2.ServerHttp2Stream**.<br />
-            Return `true` to prevent further request processing
-        - `staticServer` - Static server created with `http2` module
+The **Function** has **3** parameters:
+- **Static server** - **FastifyStaticServer**. Fastify static server. `HTTP\S` or `HTTP2\S`
 - **Siegel config** - Siegel config
+- **fastify**: **Fastify** 
 
 The User App function is called right before static server features was applied.<br />
 Static server caches resources by resource name, so you should always add hash to static files at build stage.<br />
@@ -145,21 +129,17 @@ Resources thats will be cached, response with `cache-control: max-age=31536000, 
 
 
 ```ts
-// user_app.js
-function appServer({ express, staticServer, onStream }, CONFIG) {
-    if (express) {
-        staticServer
-            .use(express.json())
+// siegel_server_extend.ts
+import type { ServerExtenderFn, FastifyHTTPServer } from 'siegel'
+import type { FastifyRequest } from 'fastify'
+import type { EchoReqBody } from '../dto/demo_api'
 
-            .post('/api/echo', ((req, res, next, err) => {
-                res.send(req.body)
-            }))
+const appServer: ServerExtenderFn = server => {
 
-    } else if (onStream) {
-        onStream((stream, headers, flags) => {
-            return true // prevent further processing
+    ;(server as FastifyHTTPServer)
+        .post('/api/echo', (req: FastifyRequest<{ Body: EchoReqBody }>, res) => {
+            res.send(req.body)
         })
-    }
 }
 
 export default appServer
@@ -175,17 +155,20 @@ export default appServer
 Siegel provides method to proxy server requests:
 
 ```ts
-import express from 'express'
-import { proxyReq } from 'siegel'
+// siegel_server_extend.ts
+import { proxyReq, ServerExtenderFn, FastifyHTTPServer } from '../../core'
 
+const appServer: ServerExtenderFn = server => {
 
-const app = express()
+    ;(server as FastifyHTTPServer)
+        .get('/api/proxy_get/:id', proxyReq({
+            host: 'jsonplaceholder.typicode.com',
+            path: '/todos/:id',
+            changeOrigin: true
+        }))
+}
 
-const apiProxy = proxyReq({
-    host: 'jsonplaceholder.typicode.com',
-    path: '/todos/:id',
-    changeOrigin: true
-})
+export default appServer
 
 // ...exoress code
 app.get('/api/proxy_get/:id', apiProxy)
@@ -197,7 +180,7 @@ Proxy receives **1** parameter - **Object** with the next fields:
 - `secure` **Boolean** - makes requests over https
 - `ws` **Boolean** - Enables web socket proxying
 - `wsEndpoints` **Array<string>** - You should specify ws connection endpoints for this destination<br />
-     if you proxy to multiple backends using the same express server
+     if you proxy to multiple backends using the same fastify server
 - `host` **String** - destination host
 - `port` **Number** - destination port
 - `path` **String** - Rewrites origin path [doesn't affect web socket subscription]

@@ -81,7 +81,7 @@ const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix = '', 
                 const { prop, value } = decl
 
                 if (pluginCssDeclarationsSet.has(prop)) {
-                    if (prop.endsWith('-common')) { //TODO:?
+                    if (prop.endsWith('-common')) { // TODO: ?
                         result.rootDecl = decl
 
                     } else {

@@ -1,4 +1,4 @@
-//TODO blocked by ts / eslint: zero config with ts / eslint
+// TODO blocked by ts / eslint: zero config with ts / eslint
 
 import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'

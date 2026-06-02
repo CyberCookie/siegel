@@ -1,6 +1,6 @@
 # Client build
 
-<p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares thats could be used in express app</p>
+<p>Provides API to bundle react applications using configurable abstraction around webpack's config and to retrieve dev middlewares thats could be used in Fastify app</p>
 
 The build exports object with two methods:
 - `run` - **(config)**. Creates webpack compiller and runs it to produce a bundle<br />

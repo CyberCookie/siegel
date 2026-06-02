@@ -1,8 +1,8 @@
-//TODO: server side paging
-//TODO: pin collumns
-//TODO: multi sorting
-//TODO?: share data between columns
-//TODO?: virtualization handle dynamic height
+// TODO: server side paging
+// TODO: pin collumns
+// TODO: multi sorting
+// TODO?: share data between columns
+// TODO?: virtualization handle dynamic height
 
 
 import React, { useState } from 'react'

@@ -45,9 +45,9 @@ nodeUtils.isRunDirectly(import.meta) && main()
 
 export default main
 export {
-    webpackBuilder, BUILD_CONSTANTS, getConfig,
-    bootServer, getStaticServingData, extractSSL,
-    nodeUtils, utils, proxyReq
+    BUILD_CONSTANTS, nodeUtils, utils,
+    getConfig, webpackBuilder,
+    bootServer, getStaticServingData, extractSSL, proxyReq
 }
 export type { Config, WebpackMiddlewares }
 export type {

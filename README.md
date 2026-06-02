@@ -34,7 +34,7 @@ Features:
     - Build and serve site assets compressed with `Brotli` or `GZIP`
     - `SVG icons to font` converter<br /><br />
 
-- `ExpressJS` static server:
+- `Fastify` static server:
     - Supports `HTTP/1.1` and `HTTP/2`, with a script for generating development certificates for local Chrome use<br /><br />
 
 - `Utils` and `modules` to use on client side:
@@ -61,7 +61,7 @@ Read more about each part following the links below:
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils) - Web related small utilities
 - Core
     - [Build](https://github.com/CyberCookie/siegel/tree/master/core/client_build) - Webpack abstraction to easily configure a build process
-    - [Server](https://github.com/CyberCookie/siegel/tree/master/core/server) - Minimalistic HTTP1.1(S) / HTTP2(S) servers built with ExpressJS 
+    - [Server](https://github.com/CyberCookie/siegel/tree/master/core/server) - Minimalistic HTTP1.1(S) / HTTP2(S) servers built with Fastify 
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/core/utils) - NodeJS related utils
 - [Cross env utils](https://github.com/CyberCookie/siegel/tree/master/common) - Basic utils to help you process data
 - [TS utils](https://github.com/CyberCookie/siegel/tree/master/global.d.ts) - Useful TypeScript generics
@@ -112,13 +112,13 @@ Create a **server.ts** file with the following content:
 ```ts
 // server.ts
 
-import type { ServerExtenderFn, ExpressExtenderParams } from 'siegel'
+import type { ServerExtenderFn, FastifyHTTPServer } from '../core'
 
-const appServer: ServerExtenderFn = params => {
-    const { express, staticServer } = params as ExpressExtenderParams
-
-    staticServer
-        .use(express.json())
+const appServer: ServerExtenderFn = server => {
+    (server as FastifyHTTPServer)
+        .get('/hello', (_, res) => {
+            res.send('hello world')
+        })
 }
 
 export default appServer

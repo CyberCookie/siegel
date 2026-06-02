@@ -1,4 +1,4 @@
-//TODO?: process with mask applied
+// TODO?: process with mask applied
 
 
 import { useState, useEffect } from 'react'

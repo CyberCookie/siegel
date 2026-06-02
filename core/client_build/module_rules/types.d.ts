@@ -71,7 +71,7 @@ type LoaderOptionsFn<
 
 type LoaderObj<_DefaultLoader extends Loader | null = null> = {
     enabled?: boolean
-    options?: WebpackLoaderObjOptions | LoaderOptionsFn<_DefaultLoader> //TODO typing: loader options
+    options?: WebpackLoaderObjOptions | LoaderOptionsFn<_DefaultLoader> // TODO typing: loader options
 } & Exclude<WebpackLoaderObj, 'options'>
 
 type Loader<

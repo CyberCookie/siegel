@@ -1,3 +1,6 @@
+// TODO: keyboard navigation
+// TODO?: Rewrite to native (habr.com/ru/articles/1034960)
+
 import React, { useState, useLayoutEffect } from 'react'
 
 import isExists from '../../../common/is/exists'

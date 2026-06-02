@@ -1,4 +1,4 @@
-//TODO: export typeof merged configs
+// TODO typings: export typeof merged configs
 
 
 import path from 'path'

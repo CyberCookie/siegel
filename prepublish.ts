@@ -1,4 +1,4 @@
-//TODO: support '..' / '.' paths (fetchModule/index)
+// TODO: support '..' / '.' paths (fetchModule/index)
 
 
 'use strict'

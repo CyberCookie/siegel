@@ -25,7 +25,7 @@ Radio buttons allows you to select one or few options out of given group<br />
 
 - `selected`
     - Selected option(s)
-    - **String | Set<String>**. Depends on **props.multiple**<br /><br />
+    - **String | Set<String>**. Depends on **props.multiselect**<br /><br />
 
 - `onChange`
     - **Required**
@@ -56,7 +56,7 @@ Radio buttons allows you to select one or few options out of given group<br />
             - Extra value to be passed to callback along with option value
             - **Any**<br /><br />
 
-- `multiple`
+- `multiselect`
     - **Required** if type of **props.selected** is **Set**
     - Allows to select multiple options
     - **Boolean**<br /><br />

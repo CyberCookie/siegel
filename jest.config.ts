@@ -3,7 +3,7 @@
 import type { JestConfigWithTsJest } from 'ts-jest'
 
 
-//TODO typing blocked by https://github.com/facebook/jest/issues/12952
+// TODO typing blocked by https://github.com/facebook/jest/issues/12952
 // console.log(import.meta)
 
 const jestOptions: JestConfigWithTsJest = {

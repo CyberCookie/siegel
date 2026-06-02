@@ -59,10 +59,7 @@ const actions: Actions = {
 
     getLastErrorMsgByID(store, ID) {
         const errorsById = store.state.errRes[ID]
-
-        return errorsById && errorsById.length
-            ?   errorsById.at(-1)!.message
-            :   ''
+        return errorsById?.at(-1)?.message || ''
     }
 }
 
