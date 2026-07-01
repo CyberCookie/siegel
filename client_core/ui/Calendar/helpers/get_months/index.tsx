@@ -18,7 +18,7 @@ function getMonths(mergedProps: MergedProps, store: Store) {
     } = mergedProps
     const state = store[0]
 
-    const stringValues = typeof strings == 'function'
+    const stringValues = typeof strings === 'function'
         ?   strings()
         :   strings
 
@@ -37,7 +37,7 @@ function getMonths(mergedProps: MergedProps, store: Store) {
 
     const start = new Date(state.beginOfMonth)
 
-    let monthTitleWrapper = styles.month_title_wrapper
+    let monthTitleWrapper = styles.__siegel_ui_month_title_wrapper
     theme.month_title_wrapper && (monthTitleWrapper += ` ${theme.month_title_wrapper}`)
 
     const months = []

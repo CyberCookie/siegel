@@ -1,4 +1,7 @@
-import '../../../global.d'
+// @ts-nocheck
+
+import { describe, test, expect } from 'bun:test'
+
 import deepMerge, { resolveAsUndefSymbol } from './'
 
 
@@ -67,7 +70,7 @@ describe('common/deep/merge', () => {
                 {
                     a: {
                         __aa: 'some_string-__aa',
-                        b: 20
+                        b: 30
                     },
                     b: {
                         $$qwerty: 'some_string-$$qwerty',
@@ -93,7 +96,7 @@ describe('common/deep/merge', () => {
                 {
                     resolveObject: (obj_a, obj_b) => (
                         obj_a.__aa && obj_b.__aa
-                            ?   obj_b
+                            ?   obj_a
                             :   obj_a.$$qwerty && obj_b.$$qwerty
                                 ?   resolveAsUndefSymbol
                                 :   undefined
@@ -102,14 +105,19 @@ describe('common/deep/merge', () => {
             )
         ).toEqual({
             a: {
-                __aa: 'another_string',
-                b: 20
+                __aa: 'some_string-__aa',
+                b: 30
             },
+
+            // @ts-expect-error due to untyped resolveObject
             b: undefined,
+
             c: {
                 d: [ 1, 2, 3 ],
                 ca: false
-            }
+            },
+
+            asd: false
         })
     })
 
@@ -141,13 +149,13 @@ describe('common/deep/merge', () => {
                 {
                     skipUndef: true,
                     mergeResolve(a, b) {
-                        if (a.constructor == Set && b.constructor == Set) {
+                        if (a.constructor === Set && b.constructor === Set) {
                             return new Set(Array.from(a).concat(Array.from(b)))
 
-                        } else if (a.constructor == Array && b.constructor == Array) {
+                        } else if (a.constructor === Array && b.constructor === Array) {
                             return (a as any[]).concat(b)
 
-                        } else if (a.constructor == Date && b.constructor == Date) {
+                        } else if (a.constructor === Date && b.constructor === Date) {
                             return (a as Date).valueOf() > (b as Date).valueOf() ? a : b
                         }
                     }
@@ -157,6 +165,7 @@ describe('common/deep/merge', () => {
             a: new Set([ 1, 2, 3, 4 ]),
             b: date_b,
             c: {
+                // @ts-ignore due to untyped mergeResolve
                 ca: [ 1, 2, { a: 1 }, 2, [], { b: 1 }]
             },
             d: 20

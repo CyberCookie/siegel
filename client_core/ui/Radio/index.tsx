@@ -27,7 +27,7 @@ function getOptions(mergedProps: MergedProps) {
 
         const optionClassName = applyClassName(theme.option, [
             [ className, true ],
-            [ theme.option__selected, multiselect ? selected.has(id) : selected == id ]
+            [ theme.option__selected, multiselect ? selected.has(id) : selected === id ]
         ])
 
 

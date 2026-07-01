@@ -24,7 +24,7 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) 
     } = mergedProps
 
     let result: DivTagAttributes = {
-        className: applyClassName(className, [[ theme._single, numberOfPages == 1 ]]),
+        className: applyClassName(className, [[ theme._single, numberOfPages === 1 ]]),
         onMouseDown(e) {
             onMouseDown?.(e)
             if (!e.defaultPrevented) {
@@ -42,15 +42,17 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) 
 
                 if (page) {
                     let newPage = curPage
-                    if (page == tokenPrevPage && curPage != 1) {
+                    if (page === tokenPrevPage && curPage !== 1) {
                         newPage--
-                    } else if (page == tokenNextPage && curPage != numberOfPages) {
+
+                    } else if (page === tokenNextPage && curPage !== numberOfPages) {
                         newPage++
+
                     } else if (0 < +page && +page <= numberOfPages) {
                         newPage = +page
                     }
 
-                    curPage != newPage && onChange(newPage, e, payload)
+                    curPage !== newPage && onChange(newPage, e, payload)
                 }
             }
         },
@@ -64,14 +66,14 @@ function getPaginatorRootProps(mergedProps: MergedProps, numberOfPages: number) 
 }
 
 const getPageElement: GetPageElement = (page: number, { curPage, theme }) => (
-    <div className={ applyClassName(theme.page, [[ theme.page__active, page == curPage ]]) }
+    <div className={ applyClassName(theme.page, [[ theme.page__active, page === curPage ]]) }
         key={ page } data-page={ page } children={ page } />
 )
 
 function fillGap(start: number, end: number, result: React.JSX.Element[], props: MergedProps, isLastGap?: boolean) {
     const { theme, separator } = props
 
-    const elementToPush = (start - end) == 1
+    const elementToPush = (start - end) === 1
         ?   getPageElement(isLastGap ? start : end, props)
         :   <div key={ isLastGap ? tokenNextPage : tokenPrevPage } className={ theme.separator }
                 children={ separator } />
@@ -134,14 +136,14 @@ function getPaginationVisuals(mergedProps: MergedProps, numberOfPages: number) {
     return <>
         <div children={ iconPrev } data-page={ tokenPrevPage }
             className={ applyClassName(theme.goto_prev, [
-                [ theme.change__disabled, curPage == 1 ]
+                [ theme.change__disabled, curPage === 1 ]
             ]) } />
 
         { result }
 
         <div children={ iconNext } data-page={ tokenNextPage }
             className={ applyClassName(theme.goto_next, [
-                [ theme.change__disabled, curPage == numberOfPages ]
+                [ theme.change__disabled, curPage === numberOfPages ]
             ]) } />
     </>
 }

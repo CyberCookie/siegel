@@ -71,7 +71,7 @@ const DropdownSearch = component<Props, DefaultProps>(
 
         const onSelect: onSelectInner = (option, e) => {
             const { value } = option
-            if (value != selected) {
+            if (value !== selected) {
                 setState( getDefaultState() )
                 onChange(value, e)
             }
@@ -98,7 +98,7 @@ const DropdownSearch = component<Props, DefaultProps>(
             } = getSearchOptionsElements(props, state, onSelect))
 
         } else if (selected) {
-            selectedOption = searchOptions.find(({ value }) => value == selected)
+            selectedOption = searchOptions.find(({ value }) => value === selected)
         }
 
 
@@ -114,7 +114,7 @@ const DropdownSearch = component<Props, DefaultProps>(
                 onRootBlur?.(e)
 
                 if (!e.defaultPrevented && e.relatedTarget !== e.currentTarget) {
-                    if (searchString == '') onChange(_undef, e)
+                    if (searchString === '') onChange(_undef, e)
                     else setState( getDefaultState() )
                 }
             }
@@ -147,7 +147,7 @@ const DropdownSearch = component<Props, DefaultProps>(
             rootTagAttributes: inputRootTagAttributes,
             memoDeps: inputMemoDeps,
             store: _inputStore,
-            className: styles.input,
+            className: styles.__siegel_ui_input,
             onChange(value, e) {
                 onSearch?.(value, e)
                 if (!e.defaultPrevented) {

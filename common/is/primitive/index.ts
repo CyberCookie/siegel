@@ -11,10 +11,10 @@ const isPrimitive = (val: any) => {
     if (isNullable(val)) return true
 
     const { constructor } = val as object
-    return constructor == Number ||
-        constructor == String ||
-        constructor == Boolean ||
-        constructor == BigInt
+    return constructor === Number ||
+        constructor === String ||
+        constructor === Boolean ||
+        constructor === BigInt
 }
 
 

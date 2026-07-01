@@ -30,7 +30,7 @@ function memo(
     } else {
         const { depValue } = resultData
 
-        if (depValue != dependencyValue) {
+        if (depValue !== dependencyValue) {
             resultData.result = cb()
             resultData.depValue = dependencyValue
         }

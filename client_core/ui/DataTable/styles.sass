@@ -1,15 +1,15 @@
-.table
+.__siegel_ui_table
     & > thead
         z-index: 1
         position: relative
         transform: translateY(var(--data_table_virtualization_scrolltop))
 
         & > th
-            &:first-child .resizer:first-child,
-            &:last-child .resizer:last-child
+            &:first-child .__siegel_ui_resizer:first-child,
+            &:last-child .__siegel_ui_resizer:last-child
                 display: none
 
-.table_resizer
+.__siegel_ui_table_resizer
     position: absolute
     height: 100%
     width: 10px

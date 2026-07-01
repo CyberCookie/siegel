@@ -14,7 +14,7 @@ function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
     } = modifyParams
 
     let SIEGEL_RELATIVE_PATH = relative(PATHS.CWD, PATHS.PACKAGE_ROOT)
-    SIEGEL_RELATIVE_PATH[0] != '.' && (SIEGEL_RELATIVE_PATH = `./${SIEGEL_RELATIVE_PATH}`)
+    SIEGEL_RELATIVE_PATH[0] !== '.' && (SIEGEL_RELATIVE_PATH = `./${SIEGEL_RELATIVE_PATH}`)
 
 
 

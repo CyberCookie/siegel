@@ -11,7 +11,7 @@ const options = ([ 1, 2, 3 ]).map(i => ({
 const Demo = () => {
     const [ selected, setSelected ] = useState('')
     const [ selectedMultiple, setSelectedMultiple ] = useState({
-        selected: new Set() as Set<string>
+        selected: new Set<string>()
     })
 
     const props: RadioProps = {

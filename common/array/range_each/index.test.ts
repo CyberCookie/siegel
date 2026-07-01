@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'bun:test'
+
 import rangeEach from './'
 
 
@@ -16,7 +18,7 @@ describe('common/parse_jwt', () => {
         let counter = 0
         rangeEach(someArr, 0, someArr.length, (_, index) => {
             counter++
-            return index == 10
+            return index === 10
         })
 
         expect(counter).toBe(11)

@@ -27,9 +27,9 @@ function parseCommandLineArgs(args: string[]) {
     let unresolvedParamsCount = 0
     for (let i = 0, l = args.length, prevCLIParam; i < l; i++) {
         const arg = args[i]
-        const isValue = arg[0] != '-'
+        const isValue = arg[0] !== '-'
 
-        if (isValue || arg[1] == '-') {
+        if (isValue || arg[1] === '-') {
             if (isValue) {
                 prevCLIParam
                     ?   addValueToCLIParams(prevCLIParam, arg)

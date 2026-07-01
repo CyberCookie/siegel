@@ -6,17 +6,15 @@
         "outDir": "./lib",
 		"target": "esnext",
         "module": "esnext",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
         "allowJs": true,
         "strict": true,
         "declaration": true,
         "allowSyntheticDefaultImports": true,
-        "isolatedModules": true
+        "isolatedModules": true,
+        "paths": {
+            "@types/node": [""]
+        }
     },
-    "ts-node": {
-        "files": true,
-        "logError": true,
-        "experimentalSpecifierResolution": "node"
-    },
-    "include": [ "bin", "client_core", "core", "common", "*.ts", "renderer.js" ]
+    "include": [ "bin", "client_core", "core", "common", "*.ts" ]
 }

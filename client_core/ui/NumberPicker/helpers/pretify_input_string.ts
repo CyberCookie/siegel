@@ -11,29 +11,29 @@ const pretifyInputString = (value: string) => {
 
     let numberPrefix = ''
     let startFrom = 0
-    if (firstChar == '-') {
+    if (firstChar === '-') {
         numberPrefix = firstChar
         startFrom = 1
     }
 
 
-    if (value[startFrom] == CHAR_ZERO) {
+    if (value[startFrom] === CHAR_ZERO) {
         const nextChar = value[startFrom + 1]
-        if (nextChar == CHAR_DOT || !isExists(nextChar)) {
+        if (nextChar === CHAR_DOT || !isExists(nextChar)) {
             return stringCommaReplaced
 
         } else {
             let replaceString = ''
             let suffix = ''
             for (let i = startFrom, l = stringCommaReplaced.length; i < l; i++) {
-                if (stringCommaReplaced[i] == CHAR_ZERO) replaceString += CHAR_ZERO
+                if (stringCommaReplaced[i] === CHAR_ZERO) replaceString += CHAR_ZERO
                 else {
                     suffix = stringCommaReplaced[i]
                     break
                 }
             }
 
-            return suffix == CHAR_DOT || !suffix
+            return suffix === CHAR_DOT || !suffix
                 ?   numberPrefix + CHAR_ZERO + suffix
                 :   stringCommaReplaced.replace(
                         numberPrefix + replaceString + suffix,

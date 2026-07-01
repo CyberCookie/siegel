@@ -30,10 +30,10 @@ const getDays = (props: ChildProps) => {
 
     const className = applyClassName(theme.month_days_wrapper, [[ theme._in_progress, inProgress ]])
 
-    let rowClassName = styles.row
+    let rowClassName = styles.__siegel_ui_row
     theme.row && (rowClassName += ` ${rowClassName}`)
 
-    const hiddenDateClassName = applyClassName(styles.day__hidden, [
+    const hiddenDateClassName = applyClassName(styles.__siegel_ui_day__hidden, [
         [ theme.day, true ],
         [ theme.day__hidden, true ]
     ])!
@@ -98,7 +98,7 @@ const getDays = (props: ChildProps) => {
                         innerRangeStart: rangeDateStart,
                         inProgress: rangePick as boolean,
                         anchor: rangeDateStart,
-                        beginOfMonth: rangePick || curMonthSelected == parentState.beginOfMonth.getMonth()
+                        beginOfMonth: rangePick || curMonthSelected === parentState.beginOfMonth.getMonth()
                             ?   parentState.beginOfMonth
                             :   getFirstMonthDate(rangeDateStart, monthsBefore)
                     })

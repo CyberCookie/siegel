@@ -33,7 +33,7 @@ function getInputString(params: Params) {
 
 
 
-        let result = typeof value == 'string' && numberMask.test(value)
+        let result = typeof value === 'string' && numberMask.test(value)
             ?   pretifyInputString(value)
             :   isNumberNaN ? '' : `${numberValue}`
 
@@ -56,12 +56,12 @@ function getInputString(params: Params) {
 
             if (!isFocused) {
                 const lastChar = result.at(-1)
-                lastChar == CHAR_DOT && (result = result.substring(0, result.length - 1))
+                lastChar === CHAR_DOT && (result = result.substring(0, result.length - 1))
 
 
                 if (zeroesPadLeft! > 0) {
                     const firstChar = result[0]
-                    const isNegative = firstChar == '-'
+                    const isNegative = firstChar === '-'
 
                     const zeroPadIndexOfDot = isExists(indexOfDot)
                         ?   indexOfDot

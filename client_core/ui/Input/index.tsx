@@ -78,7 +78,7 @@ const Input = component<Props, DefaultProps>(
         }
 
         const isReadonly = !disabled && !onChange
-        const isTextarea = type == 'textarea'
+        const isTextarea = type === 'textarea'
         const isError = isExists(errorMsg)
         const prefixOrSuffix = prefix || suffix
 
@@ -166,8 +166,8 @@ const Input = component<Props, DefaultProps>(
                             )
 
                             if (
-                                    newSelectionStart != selectionStart
-                                ||  newSelectionEnd != selectionEnd
+                                    newSelectionStart !== selectionStart
+                                ||  newSelectionEnd !== selectionEnd
 
                             ) inputEl.setSelectionRange(newSelectionStart, newSelectionEnd)
                         })
@@ -183,7 +183,7 @@ const Input = component<Props, DefaultProps>(
                     const { selectionStart } = inputEl
 
                     const { inputType } = e.nativeEvent as InputEvent
-                    if (inputType == 'deleteByDrag' || inputType == 'insertFromDrop') return
+                    if (inputType === 'deleteByDrag' || inputType === 'insertFromDrop') return
 
                     const newData = (e.nativeEvent as InputEvent).data
                     const newDataLength = newData?.length || 0
@@ -193,7 +193,7 @@ const Input = component<Props, DefaultProps>(
                     const prevValueLength = props.value?.length || 0
 
 
-                    const isDelete = inputType == INPUT_TYPE.DELETE_BACKWARD || inputType == INPUT_TYPE.DELETE_FORWARD
+                    const isDelete = inputType === INPUT_TYPE.DELETE_BACKWARD || inputType === INPUT_TYPE.DELETE_FORWARD
 
 
                     if (isDelete) {

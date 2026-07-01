@@ -48,7 +48,7 @@ function extractMaskData(
         isExists(LAST_FILLED_INDEX) && (charData.prevFilled = LAST_FILLED_INDEX)
 
 
-        if (maskChar == patternValueChar) {
+        if (maskChar === patternValueChar) {
             charData.index = maxLength
             maxLength = placeholderCharsOrdered.push(i)
 
@@ -127,7 +127,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         const timeoutID = setCaretPos(ref as InputRef, maskState.caretPos)
 
         return () => {
-            if (maskState.historyPos == maskState.history.length - 1) {
+            if (maskState.historyPos === maskState.history.length - 1) {
                 maskState.history.push(value)
                 maskState.historyPos++
             }
@@ -149,9 +149,11 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
         let newValue = ''
         if (newValueArray.length) {
             for (let i = 0; i < maxLength; i++) {
+
                 const charToAdd = newValueArray[ placeholderCharsOrdered[i] ]
+
                 if (formatterMode && !isExists(charToAdd)) break
-                else if (charToAdd != valuePlaceholderChar) newValue += charToAdd
+                else if (charToAdd !== valuePlaceholderChar) newValue += charToAdd
             }
         }
 
@@ -160,7 +162,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
     }
 
     function shiftRight(valueArray: string[], startingFromIndex: number, count = 1) {
-        const decrementFromIndex = LAST_FILLED_INDEX == LAST_PLACEHOLDER_INDEX
+        const decrementFromIndex = LAST_FILLED_INDEX === LAST_PLACEHOLDER_INDEX
             ?   maxLength - 2
             :   placeholdersIndexesMap[ LAST_FILLED_INDEX! ].index
 
@@ -275,7 +277,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
 
         _inputAttr.onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const { inputType } = e.nativeEvent as InputEvent
-            if (inputType == INSERT_PASTE) return
+            if (inputType === INSERT_PASTE) return
 
             const { selectionStart, value: inputValue } = (e.target as InputTarget)
 
@@ -286,7 +288,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             let removedChars = newValue.length - inputLength
             let nextCaretPos
 
-            if (inputType == INSERT_TEXT) {
+            if (inputType === INSERT_TEXT) {
                 const prevCaretPos = selectionStart - 1
                 const { data } = e.nativeEvent as InputEvent
 
@@ -295,9 +297,9 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                     :   insert(e, prevCaretPos, data!)
 
             } else {
-                const isBackwardDelete = inputType == DELETE_BACKWARD || inputType == DELETE_CUT
+                const isBackwardDelete = inputType === DELETE_BACKWARD || inputType === DELETE_CUT
 
-                if ((isBackwardDelete || inputType == DELETE_FORWARD) && valueLength) {
+                if ((isBackwardDelete || inputType === DELETE_FORWARD) && valueLength) {
                     if (removedChars > 1) replace(e, selectionStart, removedChars)
 
                     else {
@@ -360,25 +362,25 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
             const { history, historyPos } = maskState
 
             let newValue: string | undefined
-            if (code == keyCodes.UNDO) {
+            if (code === keyCodes.UNDO) {
                 if (historyPos > -1) {
-                    ((historyPos + 1) == history.length) && history.push(value)
+                    ((historyPos + 1) === history.length) && history.push(value)
 
                     newValue = history[ historyPos ]
                     maskState.historyPos--
                 }
 
-            } else if (code == keyCodes.REDO) {
+            } else if (code === keyCodes.REDO) {
                 if (historyPos < history.length - 2) {
                     newValue = history[ historyPos + 2 ]
                     maskState.historyPos++
                 }
 
             } else {
-                const isLeft = code == keyCodes.LEFT
-                const isRight = code == keyCodes.RIGHT
-                const isUp = code == keyCodes.UP
-                const isDown = code == keyCodes.DOWN
+                const isLeft = code === keyCodes.LEFT
+                const isRight = code === keyCodes.RIGHT
+                const isUp = code === keyCodes.UP
+                const isDown = code === keyCodes.DOWN
 
                 if (isDown || isUp || isLeft || isRight) {
                     e.preventDefault()
@@ -413,7 +415,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                                 if (shiftKey) {
                                     if (maskState.caretPos > selectionStart) {
                                         let prevFromSelectionEnd = placeholdersIndexesMap[ selectionEnd ].prevFilled
-                                        if ((selectionEnd - prevFromSelectionEnd!) == 1) {
+                                        if ((selectionEnd - prevFromSelectionEnd!) === 1) {
                                             prevFromSelectionEnd = placeholdersIndexesMap[ prevFromSelectionEnd! ].prevFilled! + 1
                                         }
 
@@ -421,7 +423,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                                         caretPosTo = caretPos = prevFromSelectionEnd
 
                                     } else {
-                                        caretPosTo = selectionStart == selectionEnd
+                                        caretPosTo = selectionStart === selectionEnd
                                             ?   caretPosFrom! + 1
                                             :   selectionEnd
 
@@ -440,7 +442,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
                                 if (!isExists(caretPosFrom)) return
 
                                 if (shiftKey) {
-                                    if (selectionStart == selectionEnd) {
+                                    if (selectionStart === selectionEnd) {
                                         caretPosTo = caretPosFrom! + 1
 
                                     } else if (maskState.caretPos < selectionEnd) {
@@ -479,7 +481,7 @@ const maskProcessor: MaskProcessor = (mask, _inputAttr) => {
 
                 const newValLength = newValue.length
                 maskState.caretPos = newValLength
-                    ?   newValLength == maxLength
+                    ?   newValLength === maxLength
                         ?   LAST_PLACEHOLDER_INDEX + 1
                         :   placeholderCharsOrdered[ newValLength - 1 ] + 1
                     :   FIRST_PLACEHOLDER_INDEX

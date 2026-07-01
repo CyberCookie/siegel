@@ -272,9 +272,9 @@ if (commandConfig) {
 
             if (example) {
                 const exampleType = typeof example
-                const logString = exampleType == 'function'
+                const logString = exampleType === 'function'
                     ?   (example as CommandExampleFn)(commandConfigKey, flagsMap)
-                    :   exampleType == 'string'
+                    :   exampleType === 'string'
                         ?   example
                         :   `siegel ${commandConfigKey}`
 

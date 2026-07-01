@@ -1,4 +1,5 @@
 import { join } from 'path'
+import { FastSet } from '../../common'
 import siegel, { nodeUtils } from '../../core'
 
 import appServer from './app_server.js'
@@ -7,7 +8,7 @@ import appServer from './app_server.js'
 const { tsToWebpackAliases, cjs__dirname } = nodeUtils
 
 
-const RUN_ARGUMENTS = new Set(process.argv)
+const RUN_ARGUMENTS = new FastSet(process.argv)
 
 const isServer = RUN_ARGUMENTS.has('-s')
 const isBuild = RUN_ARGUMENTS.has('-b')

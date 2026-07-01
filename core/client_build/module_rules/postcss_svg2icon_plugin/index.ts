@@ -2,6 +2,7 @@ import path from 'path'
 import { createHash } from 'crypto'
 import postcss, { Declaration } from 'postcss'
 
+import { FastSet } from '../../../../common'
 import iconToFont from './icons_to_font.js'
 
 import type { Svg2FontConverterPlugin, GetFontFaceNodeFn } from './types'
@@ -45,7 +46,7 @@ const cssPropValueMap = {
 }
 const cssFontEntries = Object.entries(cssPropValueMap)
 
-const pluginCssDeclarationsSet = new Set([
+const pluginCssDeclarationsSet = new FastSet([
     'font-icon', 'font-icon-orphan', 'font-icon-common'
 ])
 

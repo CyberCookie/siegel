@@ -94,7 +94,7 @@ const Clocks = component<Props, DefaultProps>(
             const firstTickChangeValue = deltaToFirstTick
 
 
-            const isNotNormalSpeed = speedCoef != 1
+            const isNotNormalSpeed = speedCoef !== 1
             let updateInterval = timeChangeValueMS
             if (isNotNormalSpeed) {
                 deltaToFirstTick /= speedCoef
@@ -112,7 +112,7 @@ const Clocks = component<Props, DefaultProps>(
 
 
             function workerTick({ data }: Pick<WorkerMessageOutcome, 'data'>) {
-                if (!processAsTimerFinal || data == workerIntervalId) {
+                if (!processAsTimerFinal || data === workerIntervalId) {
                     tick(timeChangeValueMS, dateStore, backward, processAsTimerFinal)
                 }
             }

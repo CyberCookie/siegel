@@ -1,4 +1,5 @@
-import '../../../global.d'
+import { describe, test, expect } from 'bun:test'
+
 import diff, { SYMBOL__OBJECT_FIELD_REMOVED, SYMBOL__VALUES_EQUAL } from './'
 
 
@@ -147,7 +148,7 @@ describe('common/deep/diff', () => {
                 {
                     complexTypesIsEqual(a, b) {
                         if (a instanceof Date) {
-                            return (a as Date).valueOf() == b.valueOf()
+                            return (a as Date).valueOf() === b.valueOf()
                         }
 
                         return false

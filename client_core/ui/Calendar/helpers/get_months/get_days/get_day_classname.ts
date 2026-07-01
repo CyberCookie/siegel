@@ -18,13 +18,13 @@ const getDayClassName: GetDayClass = getDayClassParams => {
     ])
 
 
-    if (innerRangeStart != innerRangeEnd) {
+    if (innerRangeStart !== innerRangeEnd) {
         const rangeEndZero = (new Date(innerRangeEnd)).setHours(0, 0, 0, 0)
 
         className = applyClassName(className, [
             [ theme.day__selected, innerRangeStart <= timestamp && timestamp <= rangeEndZero ],
-            [ theme.day__range_from, timestamp == innerRangeStart ],
-            [ theme.day__range_to, timestamp == rangeEndZero ]
+            [ theme.day__range_from, timestamp === innerRangeStart ],
+            [ theme.day__range_to, timestamp === rangeEndZero ]
         ])
     }
 

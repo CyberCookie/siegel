@@ -47,7 +47,7 @@ const Component = () => {
         { storeUpdateSomeKey, storeUpdateAnotherKey }
     ] = useStore(
         // Optional shouldUpdate callback to prevent unnecessary renders
-        (prevState, nextState => prevState.someKey != nextSate.someKey)
+        (prevState, nextState => prevState.someKey !== nextSate.someKey)
     )
     
     // reset store to inital state anytime you need

@@ -33,7 +33,7 @@ function filterValue(
 
     const { type } = this.customParams!
 
-    const isTextColumn = type == 'text'
+    const isTextColumn = type === 'text'
 
     let searchLowerCase: string
     isTextColumn && (searchLowerCase = (search as string).toLowerCase())
@@ -60,7 +60,7 @@ function filterValue(
 
     const filterFunc = isTextColumn
         ?   textFilterFunc
-        :   type == 'date'
+        :   type === 'date'
             ?   dateFilterFunc
             :   setFilterFunc
 

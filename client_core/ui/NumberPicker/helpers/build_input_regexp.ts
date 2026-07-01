@@ -10,7 +10,7 @@ function buildInputRegexp(
     providedRegExp: MergedProps['regexp']
 ) {
 
-    if (providedRegExp?.constructor == RegExp) return providedRegExp
+    if (providedRegExp?.constructor === RegExp) return providedRegExp
     else {
 
         let regexpTemplate = '^'
@@ -32,7 +32,7 @@ function buildInputRegexp(
         //     regexpTemplate += `{0,${regexpModificator}}`
         // } else regexpTemplate += '*'
 
-        if (precision != 0) {
+        if (precision !== 0) {
             regexpTemplate += '([.,]\\d'
                 +   (isExists(precision) ? `{0,${precision}}` : '*')
                 +   ')?'

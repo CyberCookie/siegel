@@ -63,14 +63,14 @@ const Ranger = component<Props, DefaultProps>(
 
         const valueValidated = value.sort().map(normalizeValue)
 
-        const isSingle = value.length == 1
+        const isSingle = value.length === 1
         const isReadonly = !disabled && !onChange
 
         let rootProps = {
             className: applyClassName(className, [
                 [ theme._single_picker, isSingle ],
                 [ theme._vertical, isVertical ],
-                [ styles._vertical, isVertical ],
+                [ styles.__siegel_ui__vertical, isVertical ],
                 [ theme._disabled, disabled ],
                 [ theme._readonly, isReadonly ]
             ])
@@ -80,7 +80,7 @@ const Ranger = component<Props, DefaultProps>(
 
 
         const rangeAreaProps: ReactTagAttributes<HTMLDivElement> = {
-            className: applyClassName(styles.range_area, [[ theme.range_area, true ]]),
+            className: applyClassName(styles.__siegel_ui_range_area, [[ theme.range_area, true ]]),
             children: getRangeAreaElements(props, valueValidated, isSingle),
             onMouseDown: !disabled && onChange ? onSlideStart : undefined
         }
@@ -111,7 +111,7 @@ const Ranger = component<Props, DefaultProps>(
             let activeSlider: HTMLDivElement
             if (isSingle) {
                 activeSlider = rangeAreaElement.children[1] as HTMLDivElement
-                valueValidated[0] != rangeAreaPosFraction && onChange!([ rangeAreaPosFraction ], e)
+                valueValidated[0] !== rangeAreaPosFraction && onChange!([ rangeAreaPosFraction ], e)
 
             } else {
                 let activeSliderArrValueIndex: number
@@ -129,7 +129,7 @@ const Ranger = component<Props, DefaultProps>(
                     } else break
                 }
 
-                if (valueValidated[activeSliderArrValueIndex!] != rangeAreaPosFraction) {
+                if (valueValidated[activeSliderArrValueIndex!] !== rangeAreaPosFraction) {
                     valueValidated[activeSliderArrValueIndex!] = rangeAreaPosFraction
                     onChange!(valueValidated, e)
                 }
@@ -158,11 +158,11 @@ const Ranger = component<Props, DefaultProps>(
                     anchorFraction + deltaPX / (isVertical ? clientHeight : clientWidth)
                 )
 
-                if (newValue != anchorFraction) {
+                if (newValue !== anchorFraction) {
                     if (isSingle) onChange!([ newValue ], e)
                     else {
-                        const isStopRangerBehavior = rangersCrossBehavior == rangerCrossTypesMap.stop
-                        if (isStopRangerBehavior || rangersCrossBehavior == rangerCrossTypesMap.cross) {
+                        const isStopRangerBehavior = rangersCrossBehavior === rangerCrossTypesMap.stop
+                        if (isStopRangerBehavior || rangersCrossBehavior === rangerCrossTypesMap.cross) {
                             const pairedArrValueIndex = activeSliderArrValueIndex! ^ 1 // flip first bit
                             const pairedArrValue = valueValidated[pairedArrValueIndex]
 

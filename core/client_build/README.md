@@ -183,15 +183,15 @@ All the fields are optional since many of them are already defined in core defau
 ### Plugins
 
 Every default plugin has its own `plugin key`
-- compression-webpack-plugin ( `compression` ) - Enabled if **runMode.isProd == true**<br />
+- compression-webpack-plugin ( `compression` ) - Enabled if **runMode.isProd === true**<br />
   May have several instances with these `instance keys` : brotli (`br`) and gzip (`gzip`)
 - copy-webpack-plugin ( `copy` ) - enabled if **config.build.input.copyFiles** is specified
-- mini-css-extract-plugin ( `cssExtract` ) - enabled if **runMode.isProd == true** or if **runMode.isServer == false**
+- mini-css-extract-plugin ( `cssExtract` ) - enabled if **runMode.isProd === true** or if **runMode.isServer === false**
 - html-webpack-plugin ( `html` ) - enabled if **config.build.input.html** is specified
 - clean-webpack-plugin ( `clean` )
 - EsLint ( `eslint` ) - Eslint plugin, disabled by default
-- webpack HHMR plugin (`hot`) - enabled if **runMode.isProd == false**
-- @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if **runMode.isProd == true**
+- webpack HHMR plugin (`hot`) - enabled if **runMode.isProd === false**
+- @pmmmwh/react-refresh-webpack-plugin ( `reactRefresh` ) - enabled if **runMode.isProd === true**
 - <a href='#sw_plugin'>(custom) service worker plugin</a> ( `sw` ) - enabled if **config.build.input.sw** is specified
     - the only option it accepts is a file path to your service worker. The only purpose of the plugin is to create an array called `buildOutput` in a service worker to hold all the output files webpack produces
 
@@ -359,7 +359,7 @@ const { loadersKeyMap, webpackModuleRulesRegExp } = BUILD_CONSTANTS
                     const newOrder = [ 'your_loader', ...defaultLoadersOrder ]
     
                     /* One of the ways to remove the loader. */
-                    const newOrder = defaultLoadersOrder.filter(l => l != loadersKeyMap.sassResources)
+                    const newOrder = defaultLoadersOrder.filter(l => l !== loadersKeyMap.sassResources)
 
     
                     return newOrder

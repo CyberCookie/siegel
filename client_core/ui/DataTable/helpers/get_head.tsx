@@ -153,7 +153,7 @@ function getHead(
 
     let resizeParams: InnerResizeParams = {}
     if (resizable) {
-        typeof resizable == 'object'
+        typeof resizable === 'object'
             ?   resizeParams = resizable
             :   resizeParams = {
                     enabled: true,
@@ -162,7 +162,7 @@ function getHead(
     }
 
 
-    let resizerClassName = styles.table_resizer
+    let resizerClassName = styles.__siegel_ui_table_resizer
     theme.table_resizer && (resizerClassName += ` ${theme.table_resizer}`)
 
 

@@ -1,10 +1,10 @@
-import createApi, { RequestParams } from 'siegel-network/request'
-import { store as fetchModuleStore } from 'siegel-store/fetch_module'
+import { setupRequests, RequestParams } from 'siegel-network'
+import { fetchModule } from 'siegel-store'
 
 
-const { addToReqQueue, addToErrRes, removeFromReqQueue } = fetchModuleStore.actions
+const { addToReqQueue, addToErrRes, removeFromReqQueue } = fetchModule.store.actions
 
-const request = createApi({
+const request = setupRequests({
     beforeRequest({ initialURL }) {
         addToReqQueue(initialURL)
     },

@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { FastSet } from '../../../../common'
 import applyClassName from '../../_internals/apply_classname'
 
 import type { SelectedOptionIndex } from '../../_internals/handle_keyboard_selection'
@@ -20,7 +21,7 @@ function getOptions(
 
     const optionElements = []
     let selectedOption: SelectedOption = multiselect ? [] : undefined
-    let selectedOptionIndex: SelectedOptionIndex = multiselect ? new Set<number>() : undefined
+    let selectedOptionIndex: SelectedOptionIndex = multiselect ? new FastSet() : undefined
 
     for (let i = 0; i < options.length; i++) {
         const option = options[i]
@@ -44,7 +45,7 @@ function getOptions(
         const optionProps: ReactTagAttributes<HTMLDivElement> = {
             children: title,
             className: applyClassName(theme.option, [
-                [ theme.option__active, isSelected || arrowSelectIndex == i ],
+                [ theme.option__active, isSelected || arrowSelectIndex === i ],
                 [ theme.option__disabled, disabled ],
                 [ className, true ]
             ]),

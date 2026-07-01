@@ -7,7 +7,6 @@ import defaultPluginsResolve from './plugins'
 
 import type { Compiler, Configuration } from 'webpack'
 import type { IncomingMessage, ServerResponse } from 'http'
-// import type { Inc, FastifyRes } from 'fastify'
 import type { ConfigObject } from '../types'
 
 
@@ -113,7 +112,7 @@ function clientBuilder(config: ConfigObject) {
     const moduleOptions = build!.module?.moduleOptions
     moduleOptions && Object.assign(webpackConfig.module!, moduleOptions)
 
-    if (typeof postProcessWebpackConfig == 'function') {
+    if (typeof postProcessWebpackConfig === 'function') {
         webpackConfig = postProcessWebpackConfig(webpackConfig, config, BUILD_CONSTANTS)
     }
 
@@ -149,7 +148,7 @@ function clientBuilder(config: ConfigObject) {
 
             indexFallback(req: IncomingMessage, res: ServerResponse, next: () => void) {
                 const { method, headers } = req
-                if (method == 'GET' && headers.accept?.includes('text/html')) {
+                if (method === 'GET' && headers.accept?.includes('text/html')) {
                     const { outputPath, outputFileSystem } = webpackCompiller
 
                     const filename = path.join(outputPath, 'index.html')
@@ -170,5 +169,4 @@ export default clientBuilder
 export type WebpackMiddlewares = ReturnType<
     ReturnType<typeof clientBuilder>['getDevMiddlewares']
 >
-
 export { BUILD_CONSTANTS }

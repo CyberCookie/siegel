@@ -1,4 +1,5 @@
 import toChar91 from '../math/to_char91'
+import FastSet from '../FastSet'
 
 
 type CreateJsonCoder = <_Keys extends string = string>(
@@ -16,7 +17,7 @@ const createJsonKeysCoder: CreateJsonCoder = keys => {
     const encodeKeysMap: Obj<string> = {}
 
     if (Array.isArray(keys)) {
-        const keysSet = new Set(keys)
+        const keysSet = new FastSet(keys)
 
         for (
             let i = 0,
@@ -34,7 +35,7 @@ const createJsonKeysCoder: CreateJsonCoder = keys => {
             } else {
                 const encodeKey = toChar91(i - duplicatedKeysCount + keysCollisionsCount)
 
-                if (keysSet.has(encodeKey as (typeof keys)[number])) {
+                if (keysSet.has(encodeKey)) {
                     i--
                     keysCollisionsCount++
                     continue

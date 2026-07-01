@@ -1,4 +1,5 @@
-import '../../../global.d.ts'
+import { describe, test, expect } from 'bun:test'
+
 import deepGet from './'
 
 
@@ -9,7 +10,8 @@ describe('common/deep/get', () => {
                 {
                     a: {
                         b: {
-                            a: { val: 'val' }                        }
+                            a: { val: 'val' }
+                        }
                     }
                 },
                 [ 'a', 'b', 'a', 'val' ]

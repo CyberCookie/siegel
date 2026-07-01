@@ -23,7 +23,7 @@ const cacheURLRegExp = /^http.*\.(woff2|png|jpg|ico|css|js|json)/
 const cacheMethod = 'GET'
 const isCachable = (req: Request) => {
     const { url, method } = req
-    return method == cacheMethod && cacheURLRegExp.test(url)
+    return method === cacheMethod && cacheURLRegExp.test(url)
 }
 
 async function processRequest(req: Request) {

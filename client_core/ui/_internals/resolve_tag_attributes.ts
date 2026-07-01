@@ -16,7 +16,7 @@ const resolveTagAttributes: MergeReactTagAttributes = (defaultAttributes, newAtt
 
 
     return newAttributes
-        ?   newAttributes.constructor == Function
+        ?   newAttributes.constructor === Function
             ?   (newAttributes as NewAttrFuncCb)(defaultAttributes) as ExpectedResult
             :   Object.assign(defaultAttributes, newAttributes)
         :   defaultAttributes

@@ -63,7 +63,7 @@ function downloadAndSave(
     repoMetadata.forEach(({ name, path: gitPath, type, download_url }) => {
         const newSavePath = path.join(savePath, name)
 
-        if (type == 'dir') {
+        if (type === 'dir') {
             fs.mkdirSync(newSavePath)
 
             gitRequest<GitRepoMetadataResponse>(

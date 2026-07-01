@@ -66,7 +66,7 @@ const Stepper = component<Props, DefaultProps>(
         const optionsCount = options.length
         let rangerChildren
         if (optionsCount > 2) {
-            const isSingle = value.length == 1
+            const isSingle = value.length === 1
             const percentsPerAnchor = 100 / ((optionsCount - 1) * 100)
 
             const valuesCounter: Obj<number> = {}
@@ -93,7 +93,7 @@ const Stepper = component<Props, DefaultProps>(
                 const valuesCount = valuesCounter[value]
                 if (valuesCount) {
                     isAnchorActive = true
-                    anchorInRange = !(isSingle || anchorInRange || (valuesCount == 2))
+                    anchorInRange = !(isSingle || anchorInRange || (valuesCount === 2))
                 }
 
                 const _className = applyClassName(theme.anchor, [
@@ -154,7 +154,7 @@ const Stepper = component<Props, DefaultProps>(
                 }
             })
 
-            rangerValuesString != newRangerValuesString && onChange(stepperValues, e)
+            rangerValuesString !== newRangerValuesString && onChange(stepperValues, e)
         })
 
 

@@ -47,7 +47,7 @@ function merge(
             const userDefaultPluginRewrite = defaultPlugins[innerDefaultPluginKey]
             if (isExists(userDefaultPluginRewrite)) {
 
-                const isRewriteWithObjConfig = typeof userDefaultPluginRewrite != 'boolean'
+                const isRewriteWithObjConfig = typeof userDefaultPluginRewrite !== 'boolean'
                 const isEnabled = isRewriteWithObjConfig
                     ?   userDefaultPluginRewrite.enabled
                     :   userDefaultPluginRewrite
@@ -66,7 +66,7 @@ function merge(
                                 const userDefaultPluginInstanceRewrite = instances[userRewriteInstanceKey]
                                 if (isExists(userDefaultPluginInstanceRewrite)) {
 
-                                    const isRewriteWithObjConfig = typeof userDefaultPluginInstanceRewrite != 'boolean'
+                                    const isRewriteWithObjConfig = typeof userDefaultPluginInstanceRewrite !== 'boolean'
                                     const isEnabled = isRewriteWithObjConfig
                                         ?   userDefaultPluginInstanceRewrite.enabled
                                         :   userDefaultPluginInstanceRewrite
@@ -96,7 +96,7 @@ function merge(
                             result.push({
                                 plugin,
                                 options: OPTIONS_KEY in innerDefaultPluginConfig
-                                    ?   OPTIONS_KEY in userDefaultPluginRewrite && typeof userDefaultPluginRewrite.options == 'function'
+                                    ?   OPTIONS_KEY in userDefaultPluginRewrite && typeof userDefaultPluginRewrite.options === 'function'
                                         ?   userDefaultPluginRewrite.options(
                                                 innerDefaultPluginConfig
                                                     .options as UnionToIntersection<typeof innerDefaultPluginConfig.options>

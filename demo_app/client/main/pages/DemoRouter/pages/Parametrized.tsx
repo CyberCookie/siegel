@@ -1,6 +1,6 @@
 import React from 'react'
 
-import type { Page as PageType } from 'siegel-router/types'
+import type { PageType } from 'siegel-router'
 
 
 const Parametrized: PageType = ({ urlParams }) => (

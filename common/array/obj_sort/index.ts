@@ -8,11 +8,11 @@
  * @param object_b - Object to compare
  * @returns sortValue
  */
-function arrayObjSort(
+function objSort(
     primaryKey: string, secondaryKey: string, sortValue = 1,
     object_a: Obj, object_b: Obj
 ) {
-    const isBigger_a = object_a[primaryKey] == object_b[primaryKey]
+    const isBigger_a = object_a[primaryKey] === object_b[primaryKey]
         ?   object_a[secondaryKey] >= object_b[secondaryKey]
         :   object_a[primaryKey] > object_b[primaryKey]
 
@@ -20,4 +20,4 @@ function arrayObjSort(
 }
 
 
-export default arrayObjSort
+export default objSort

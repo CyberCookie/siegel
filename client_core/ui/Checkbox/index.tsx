@@ -74,7 +74,7 @@ const Checkbox = component<Props, DefaultProps>(
         } = props
 
 
-        let _className = styles.checkbox
+        let _className = styles.__siegel_ui_checkbox
         theme.checkbox && (_className += ` ${theme.checkbox}`)
 
         let checkboxInputProps: CheckboxInnerProps = {

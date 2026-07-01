@@ -21,13 +21,13 @@ function deepClone<T>(value: T, opts: Options = {}): T {
             result[i] = deepClone(value[i])
         }
 
-    } else if ((value as Record<string, unknown>).constructor == Object) {
+    } else if ((value as Record<string, unknown>).constructor === Object) {
         result = {}
         for (const i in value) {
             result[i] = deepClone(value[i])
         }
 
-    } else if ((value as unknown as AnyFunc).constructor == Function) {
+    } else if ((value as unknown as AnyFunc).constructor === Function) {
         result = opts.funcClone?.(value as unknown as AnyFunc) || value as AnyFunc
 
     } else result = new (value as any).constructor(value)

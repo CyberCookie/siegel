@@ -18,7 +18,7 @@ function getSearchOptions(props: MergedProps, state: State, onSelect: onSelectIn
 
         if (!listDisabledOptions && disabled) continue
 
-        const isSelected = value == selected
+        const isSelected = value === selected
         if (isSelected) {
             selectedOption = option
             selectedOptionIndex = i
@@ -31,7 +31,7 @@ function getSearchOptions(props: MergedProps, state: State, onSelect: onSelectIn
             const optionProps: ReactTagAttributes<HTMLDivElement> = {
                 className: applyClassName(theme.option, [
                     [ className, true ],
-                    [ theme.option__selected, isSelected || arrowSelectIndex == i ],
+                    [ theme.option__selected, isSelected || arrowSelectIndex === i ],
                     [ theme.option__disabled, disabled ]
                 ]),
                 children: title || inputValue,

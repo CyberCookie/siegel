@@ -24,7 +24,7 @@ type Theme = {
     /** Root tag state if component is disabled */
     _disabled?: string
 
-    /** Root tag state if there is only one picker (props.value.length == 1) */
+    /** Root tag state if there is only one picker (props.value.length === 1) */
     _single_picker?: string
 
     /** Root tag state if props.isVertical is true */

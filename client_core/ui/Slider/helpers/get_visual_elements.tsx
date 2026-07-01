@@ -31,7 +31,7 @@ function getVisualElements(params: GetSliderVisualsParams) {
     const controls = []
     if (withControls) {
         for (let i = 0; i < slidesLength; i++) {
-            const className = applyClassName(theme.control, [[ theme.control__active, i == curSlide ]])
+            const className = applyClassName(theme.control, [[ theme.control__active, i === curSlide ]])
             controls.push( <div key={ i } data-page={ i } className={ className } /> )
         }
     }

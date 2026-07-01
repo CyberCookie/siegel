@@ -1,5 +1,4 @@
-import populateURLParams from '../../../common/populate_url_params'
-import isExists from '../../../common/is/exists'
+import { populateURLParams, isExists, FastSet } from '../../../common'
 
 import type { RequestParamsProcessed, ReqError, RequestParams, RequestSetupParams } from './types'
 
@@ -43,7 +42,7 @@ function extractRequestData<_Payload>(request: RequestParams<any, any, _Payload>
 
     if (query) {
         let queryToAdd: string
-        if (typeof query == 'string') {
+        if (typeof query === 'string') {
             queryToAdd = query
 
         } else if (query instanceof URLSearchParams) {
@@ -122,7 +121,7 @@ async function extractResponseData(req: RequestParams, res: Response): Promise<a
     }
 
     try {
-        return jsonParsePreprocess && parseMethod == jsonParseMethod
+        return jsonParsePreprocess && parseMethod === jsonParseMethod
             ?   JSON.parse(
                     jsonParsePreprocess(await res.text())
                 )
@@ -146,7 +145,7 @@ async function isAllowedToProcess(
     let isAllowedToProcess: boolean | void = true
 
     if (isExists(currentBeforeReqResult)) {
-        if (typeof currentBeforeReqResult == 'object') {
+        if (typeof currentBeforeReqResult === 'object') {
             await currentBeforeReqResult.then(shouldProcess => {
                 isAllowedToProcess = shouldProcess
             })
@@ -166,7 +165,7 @@ const createApi = <_Payload = any>(setupParams: RequestSetupParams<_Payload> = {
         beforeParse, beforeRequest, afterRequest, errorHandler,
         json, jsonParsePreprocess, jsonStringifyPostprocess
     } = setupParams
-    const activeRequest = new Set()
+    const activeRequest = new FastSet()
 
 
     return async <Res = any, Body = any, ErrRes = any>(req: RequestParams<Body, Res, _Payload>) => {
@@ -193,7 +192,7 @@ const createApi = <_Payload = any>(setupParams: RequestSetupParams<_Payload> = {
             const { isFullRes, preventSame } = req
             const { options, url } = reqData
 
-            const isSameReqPrevent = preventSame != false && (preventSame || preventSameGlobal)
+            const isSameReqPrevent = preventSame !== false && (preventSame || preventSameGlobal)
 
             let reqKey
             isSameReqPrevent && (reqKey = `${url}_${options.method}_${options.body}`)
@@ -201,19 +200,19 @@ const createApi = <_Payload = any>(setupParams: RequestSetupParams<_Payload> = {
 
             try {
                 if (isSameReqPrevent) {
-                    if (activeRequest.has(reqKey)) {
+                    if (activeRequest.has(reqKey!)) {
                         throw {
                             err: new Error('Same request is already processing...'),
                             canceled: true
                         }
-                    } else activeRequest.add(reqKey)
+                    } else activeRequest.add(reqKey!)
                 }
 
                 const res = await fetch(url, options)
                 const { headers, status, statusText, ok } = res
 
                 let parsedRes = await extractResponseData(req, res)
-                isSameReqPrevent && activeRequest.delete(reqKey)
+                isSameReqPrevent && activeRequest.delete(reqKey!)
 
                 isFullRes && (parsedRes = {
                     status, statusText, headers,
@@ -240,7 +239,7 @@ const createApi = <_Payload = any>(setupParams: RequestSetupParams<_Payload> = {
                 type _ReqErr = ReqError<_Payload>
 
 
-                isSameReqPrevent && activeRequest.delete(reqKey)
+                isSameReqPrevent && activeRequest.delete(reqKey!)
 
                 ;(err as _ReqErr).req = reqData
 

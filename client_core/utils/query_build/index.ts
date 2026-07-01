@@ -37,7 +37,7 @@ function buildQueryPart(query: URLSearchParams, key: string, value: QueryValue |
 const buildURLQuery: BuildURLQuery = function(key, value) {
     const query = new URLSearchParams(location.search)
 
-    if (typeof key == 'string') {
+    if (typeof key === 'string') {
         buildQueryPart(query, key, value)
 
     } else {

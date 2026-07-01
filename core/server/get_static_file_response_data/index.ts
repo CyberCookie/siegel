@@ -2,6 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import mime from 'mime'
 
+import { FastSet } from '../../../common'
+
 import type { GetStaticFileResponseParams, HeaderValue } from './types'
 
 
@@ -10,7 +12,7 @@ const CHARSET_CONTENT_TYPES_REGEXP = /^text\/|^application\/(javascript|json)/
 
 
 const finalizeHeaderValue = (value: NonNullable<HeaderValue>) => (
-    value?.constructor == String
+    value?.constructor === String
         ?   value
         :   `${value}`
 )
@@ -37,7 +39,7 @@ const getStaticFileResponseParams: GetStaticFileResponseParams = params => {
 
 
     const acceptEncodingFinal = finalizeHeaderValue(acceptEncoding)
-    const browserEncodings = new Set(
+    const browserEncodings = new FastSet(
         (acceptEncodingFinal || '').split(', ')
     )
 

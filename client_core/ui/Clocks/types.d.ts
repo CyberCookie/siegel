@@ -27,7 +27,7 @@ type Props = Omit<
         backward?: boolean
 
         /** Forces timer mode
-         * By default props.speedCoef != 1 || props.backward
+         * By default props.speedCoef !== 1 || props.backward
          */
         processAsTimer?: boolean
 

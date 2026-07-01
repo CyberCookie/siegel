@@ -60,10 +60,10 @@ function Router(props: RouterProps) {
         routerState.pathname = newPathname
 
         if (
-            pathname != newPathname
+                pathname !== newPathname
             ||  ( isNullable(newHistoryState) || isNullable(history.state)
                     ?   newHistoryState !== history.state
-                    :   deepEqual(newHistoryState, history.state) != SYMBOL__VALUES_EQUAL )
+                    :   deepEqual(newHistoryState, history.state) !== SYMBOL__VALUES_EQUAL )
         ) {
 
             cb(result)
@@ -78,7 +78,7 @@ function Router(props: RouterProps) {
         childrenArray, newHistoryState, newPathname, urlParams, transitionData
     } = prevPathnameParseResult || parsePathname(props, pathname, history.state)
 
-    if (newPathname != pathname) {
+    if (newPathname !== pathname) {
         routerState.pathname = pathname = newPathname
         history.replaceState(newHistoryState, '', newPathname)
     }
@@ -95,7 +95,7 @@ function Router(props: RouterProps) {
 
     if (transitionData && prevChildrenArray.length > childrenDepth) {
         const lastIndex = childrenDepth - 1
-        if (prevChildrenArray[lastIndex].traversePath == childrenArray[lastIndex].traversePath) {
+        if (prevChildrenArray[lastIndex].traversePath === childrenArray[lastIndex].traversePath) {
             childrenArray.push({
                 El: () => '' as unknown as React.JSX.Element,
                 traversePath: `${childrenArray[lastIndex].traversePath}/`,
@@ -128,7 +128,7 @@ function Router(props: RouterProps) {
 
             const isDiffStates = performOnHistoryStateChange
                 &&  prevChildrenArray.length
-                &&  prevChildrenArray[i]?.historyState != childrenArray[i].historyState
+                &&  prevChildrenArray[i]?.historyState !== childrenArray[i].historyState
 
 
             if (
@@ -137,8 +137,8 @@ function Router(props: RouterProps) {
                             !prevChildrenArray[i]
                         ||  ( isDiffStates && !isHistoryAlreadyTransitioned )
                         ||  (
-                                    prevChildrenArray[i].traversePath != childrenArray[i].traversePath
-                                &&  prevChildrenArray[i - 1].traversePath == childrenArray[i - 1].traversePath
+                                    prevChildrenArray[i].traversePath !== childrenArray[i].traversePath
+                                &&  prevChildrenArray[i - 1].traversePath === childrenArray[i - 1].traversePath
                             )
                     )
             ) {

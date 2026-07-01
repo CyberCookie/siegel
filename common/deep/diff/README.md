@@ -119,7 +119,7 @@ diff(
         valueForRemovedObjField: '__REMOVED__',
         complexTypesIsEqual(a, b) {
             if (a instanceof Date) {
-                return a.valueOf() != b.valueOf()
+                return a.valueOf() !== b.valueOf()
             }
     
             return false // mark unsupported types as equal 

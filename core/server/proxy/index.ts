@@ -1,8 +1,7 @@
 import http, { Server, IncomingHttpHeaders, RequestOptions, IncomingMessage } from 'http'
 import https from 'https'
 
-import isEmptyObject from '../../../common/is/empty_obj'
-import populateURLParams from '../../../common/populate_url_params'
+import { isEmptyObject, populateURLParams, FastSet } from '../../../common'
 
 import type { Socket } from 'net'
 import type { RouteHandlerMethod, FastifyRequest } from 'fastify'
@@ -83,7 +82,7 @@ const proxy: Proxy = proxyParams => {
     const { secure, ws, wsEndpoints, host, port } = proxyParams
     const client = secure ? https : http
     const proxyId = `${host}:${port}`
-    const wsEndpointsSet = wsEndpoints && new Set(wsEndpoints)
+    const wsEndpointsSet = wsEndpoints && new FastSet(wsEndpoints)
 
     const proxyRequest: RouteHandlerMethod = (clientReq, clientRes) => {
         const { body, socket } = clientReq
@@ -101,11 +100,11 @@ const proxy: Proxy = proxyParams => {
                             ?   url!.substring(0, endpointIndexOfQuery)
                             :   url!
 
-                        isAllowed = wsEndpointsSet?.has(endpoint)
+                        isAllowed = wsEndpointsSet.has(endpoint)
                     }
 
                     if (isAllowed) {
-                        if (method !== 'GET' || headers.upgrade?.toLowerCase() != 'websocket') {
+                        if (method !== 'GET' || headers.upgrade?.toLowerCase() !== 'websocket') {
                             socket.destroy()
                             return
                         }
@@ -152,7 +151,7 @@ const proxy: Proxy = proxyParams => {
             getProxyRequestOptions(proxyParams, clientReq),
             proxyRes => {
                 const { statusCode, headers } = proxyRes
-                if (statusCode != 200) {
+                if (statusCode !== 200) {
                     console.error(clientReq.url, statusCode)
                     proxyRes.resume()
                 }
@@ -162,7 +161,7 @@ const proxy: Proxy = proxyParams => {
             }
         )
         body && proxyReq.write(
-            body.constructor == Object
+            body.constructor === Object
                 ?   JSON.stringify(body)
                 :   body
         )

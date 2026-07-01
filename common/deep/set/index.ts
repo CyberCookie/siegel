@@ -15,7 +15,7 @@
 //     for (let i = 0, l = path.length; i < l; i++) {
 //         const pathPart = path[i] as keyof _Obj
 
-//         if (i == l - 1) link[pathPart] = value
+//         if (i === l - 1) link[pathPart] = value
 //         else {
 //             link[pathPart] ||= {} as _Obj[keyof _Obj]
 //             link = link[pathPart]
@@ -67,7 +67,7 @@ function deepSet<
     for (let i = 0, l = path.length; i < l; i++) {
         const pathPart = path[i] as keyof _Obj
         //// @ts-expect-error
-        if (i == l - 1) link[pathPart] = value// _Obj[keyof _Obj]
+        if (i === l - 1) link[pathPart] = value// _Obj[keyof _Obj]
         else {
             link[pathPart] ||= {} as _Obj[keyof _Obj]
             link = link[pathPart]

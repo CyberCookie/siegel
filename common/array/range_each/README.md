@@ -19,9 +19,9 @@ Receives **4** parameters:
 <br />
 
 ```ts
-import rangeEach from 'siegel/lib/common/array_range_each'
+import rangeEach from 'siegel/lib/common/array/range_each'
 
 const mock = (new Array(10)).fill(1)
 
-rangeEach(mock, 2, 5, (elem, index) => index == 3)
+rangeEach(mock, 2, 5, (elem, index) => index === 3)
 ```

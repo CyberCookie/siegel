@@ -1,4 +1,4 @@
-// TODO typings: export typeof merged configs
+// TODO typing: export typeof merged configs
 
 
 import path from 'path'
@@ -82,7 +82,7 @@ const getConfig = (userConfig?: Config) => {
 
 
     if (userConfig) {
-        if (typeof userConfig == 'string') {
+        if (typeof userConfig === 'string') {
             config.build.input.js = userConfig
 
         } else {

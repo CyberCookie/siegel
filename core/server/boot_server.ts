@@ -45,7 +45,7 @@ const server = {
             fastifyServer.addHook('onRequest', (req, res, next) => {
                 const { method, headers, url, protocol, host } = req
 
-                if (method == 'GET') {
+                if (method === 'GET') {
                     const isResourceResolved = server!.handleResourceRequest?.(req, res)
 
                     if (!isResourceResolved) {

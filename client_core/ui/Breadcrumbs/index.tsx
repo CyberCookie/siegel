@@ -30,14 +30,14 @@ function getBreadcrumbs(
     const { theme, separator, config, onChange } = props
 
     const { pathname } = location
-    const locationArray = pathname == '/' ? [ '' ] : pathname.split('/')
-    if (locationArray.at(-1) == '') {
+    const locationArray = pathname === '/' ? [ '' ] : pathname.split('/')
+    if (locationArray.at(-1) === '') {
         locationArray[ locationArray.length - 1 ] = '/'
     }
 
 
     const breadcrumbsElements = []
-    const breadcrumbClassName = applyClassName(styles.link, [[ theme.crumb, true ]])
+    const breadcrumbClassName = applyClassName(styles.__siegel_ui_link, [[ theme.crumb, true ]])
     let loocupScope = config
     let path = ''
     for (let i = 0, l = locationArray.length; i < l; i++) {
@@ -55,7 +55,7 @@ function getBreadcrumbs(
             if (crumb || dynamicCrumb) {
                 const name = dynamicCrumb && hasDynamicCrumbs
                     ?   dynamicCrumbsState![dynamicCrumb] || dynamicCrumb
-                    :   typeof crumb == 'function'
+                    :   typeof crumb === 'function'
                             ?   crumb(newPath, loc)
                             :   crumb
 
@@ -91,7 +91,7 @@ const checkHasDynamicCrumb: (config: Props['config']) => boolean | undefined = c
 const Breadcrumbs: Component = component(
     componentID,
     {
-        className: styles.root,
+        className: styles.__siegel_ui_root,
         separator: '',
         theme: {
             root: '',
@@ -116,7 +116,7 @@ const Breadcrumbs: Component = component(
                 const setDynamicCrumbsHandler = (function({ detail }: CustomEvent<DynamicCrumbsCustomEventPayload>) {
                     const { crumbs, componentDynamicCrumbsID = componentID } = detail
 
-                    dynamicCrumbsID == componentDynamicCrumbsID
+                    dynamicCrumbsID === componentDynamicCrumbsID
                         &&  setState({ ...state, ...crumbs })
                 } as EventListener)
 

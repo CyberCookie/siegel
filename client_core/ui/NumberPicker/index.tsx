@@ -52,7 +52,7 @@ function getValueState(
 const NumberPicker = component<Props, DefaultProps>(
     componentID,
     {
-        className: styles.root,
+        className: styles.__siegel_ui_root,
         theme: {
             root: _undef,
             label_wrapper: _undef,
@@ -83,7 +83,7 @@ const NumberPicker = component<Props, DefaultProps>(
         let { min, max } = props
         min > max && ([ min, max ] = [ max, min ])
 
-        const numberValue = typeof value == 'number'
+        const numberValue = typeof value === 'number'
             ?   value
             :   parseFloat(value)
 
@@ -103,11 +103,11 @@ const NumberPicker = component<Props, DefaultProps>(
         const { prevValidNumber, stringValue } = editState
 
         useDidUpdate(() => {
-            (disabled || !isFocused || (focusedValueOutsideUpdate && numberValue != +stringValue!))
+            (disabled || !isFocused || (focusedValueOutsideUpdate && numberValue !== +stringValue!))
                 &&  setEditState(
                         getValueState(
                             props, numberValue, numberMask,
-                            document.activeElement?.nodeName == 'INPUT' ? isFocused : false
+                            document.activeElement?.nodeName === 'INPUT' ? isFocused : false
                         )
                     )
         }, [ focusedValueOutsideUpdate, isFocused, value, disabled ])
@@ -216,7 +216,7 @@ const NumberPicker = component<Props, DefaultProps>(
                 numberValue: +result
             })
 
-            if (event.type != 'click' || !event.defaultPrevented) {
+            if (event.type !== 'click' || !event.defaultPrevented) {
                 editState.stringValue = `${result}`
                 setEditState({ ...editState })
             }
@@ -251,7 +251,7 @@ const NumberPicker = component<Props, DefaultProps>(
                             const newNumberValueRangeLimited = adjustWithRanges(numberValue, min, max)
 
                             if ((
-                                newNumberValueRangeLimited != numberValue)
+                                    newNumberValueRangeLimited !== numberValue)
                                 ||  isValidNumberMissingDigits(stringValue)
 
                             ) {
@@ -278,13 +278,13 @@ const NumberPicker = component<Props, DefaultProps>(
             },
             onChange(value, event) {
                 const newValueString = pretifyInputString(value)
-                if (stringValue != newValueString) {
+                if (stringValue !== newValueString) {
 
                     const newNumberValue = parseFloat(value)
                     const newNumberRangeAdjusted = adjustWithRanges(newNumberValue, min, max)
                     const isValidStringNumber = isValidNumberString(newValueString)
 
-                    isValidStringNumber && newNumberRangeAdjusted == newNumberValue && onChange({
+                    isValidStringNumber && newNumberRangeAdjusted === newNumberValue && onChange({
                         event, payload,
                         numberValue: newNumberValue
                     })
@@ -321,7 +321,7 @@ const NumberPicker = component<Props, DefaultProps>(
                 if (!event.defaultPrevented) {
                     const keyCode = event.key
 
-                    if (keyCode == keyCodes.DELETE) {
+                    if (keyCode === keyCodes.DELETE) {
                         editState.stringValue = ''
                         setEditState({ ...editState })
 
@@ -332,8 +332,8 @@ const NumberPicker = component<Props, DefaultProps>(
                         }
 
                     } else {
-                        const isKeyUp = keyCode == keyCodes.UP
-                        const isKeyDown = keyCode == keyCodes.DOWN
+                        const isKeyUp = keyCode === keyCodes.UP
+                        const isKeyDown = keyCode === keyCodes.DOWN
 
                         const isAllowedAction = isKeyUp && !isDisabledUp
                             ||  (isKeyDown && !isDisabledDown)

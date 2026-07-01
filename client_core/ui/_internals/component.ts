@@ -1,7 +1,6 @@
 import { memo } from 'react'
 
-import isExists from '../../../common/is/exists'
-import isEmptyObj from '../../../common/is/empty_obj'
+import { isExists, isEmptyObject } from '../../../common'
 import extractProps from './props_extract'
 
 import type { CoreUIComponent, PropsComponentThemed } from './types'
@@ -40,9 +39,9 @@ function component
 
 
             return cb(
-                isEmptyObj(defaultProps)
-                ?   mergedProps
-                :   { ...mergedProps, ...defaultProps }
+                isEmptyObject(defaultProps)
+                    ?   mergedProps
+                    :   { ...mergedProps, ...defaultProps }
             )
         },
 

@@ -67,10 +67,10 @@ type Theme = {
     /** Selected day state */
     day__selected?: string
 
-    /** First day of a currently selected month if props.hideSiblingMonthsDays == true */
+    /** First day of a currently selected month if props.hideSiblingMonthsDays === true */
     day__first?: string
 
-    /** Last day of a currently selected month if props.hideSiblingMonthsDays == true */
+    /** Last day of a currently selected month if props.hideSiblingMonthsDays === true */
     day__last?: string
 
     /** Today day */
@@ -78,7 +78,7 @@ type Theme = {
 
     /**
      * Applied to a side months days of a currently selected month,
-     * if props.hideSiblingMonthsDays == true
+     * if props.hideSiblingMonthsDays === true
      */
     day__hidden?: string
 

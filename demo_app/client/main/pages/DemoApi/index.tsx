@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
-import fetchModule from 'siegel-store/fetch_module'
+import { fetchModule } from 'siegel-store'
 
 import { Button, Input } from 'app/components'
 import { demoApiModule } from 'app/modules'
 
-import type { Page } from 'siegel-router/types'
+import type { PageType } from 'siegel-router'
 
 import styles from './styles.sass'
 
 
-const DemoApi: Page = () => {
-    const { requests, errRes } = fetchModule()[0]
+const DemoApi: PageType = () => {
+    const { requests, errRes } = fetchModule.useStore()[0]
     const [
         { received, counter, proxyRes },
         { api_echo, updateCounter, api_proxyGet }
@@ -37,7 +37,7 @@ const DemoApi: Page = () => {
                     value={ requestString }
                     rootTagAttributes={{
                         onKeyDown(e) {
-                            !isDisabledSend && e.key == 'Enter' && sendData()
+                            !isDisabledSend && e.key === 'Enter' && sendData()
                         }
                     }}
                     onChange={ value => { setRequestString(value) } } />

@@ -182,7 +182,7 @@ import type { HistoryChangeCustomEventPayload } from 'siegel-router/types'
 const Component = () => {
     useLayoutEffect(() => {
         const historyChangeHandler = (function(e: CustomEvent<HistoryChangeCustomEventPayload>) {
-            if (e.detail.newPathname == 'some_path') {
+            if (e.detail.newPathname === 'some_path') {
                 e.preventDefault()
             }
         } as EventListener)

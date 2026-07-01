@@ -1,4 +1,4 @@
-import isExists from '../../../common/is/exists'
+import { isExists, FastSet } from '../../../common'
 import * as keyCodes from './key_codes'
 
 
@@ -13,7 +13,8 @@ type Options = {
     disabled?: boolean
 }[]
 
-type SelectedOptionIndex = number | Set<number> | undefined
+type SelectedSingleOptionIndex = number | undefined
+type SelectedOptionIndex = SelectedSingleOptionIndex | FastSet
 
 
 function getKeyboardOptionIndex(
@@ -26,12 +27,12 @@ function getKeyboardOptionIndex(
 ) {
 
     const { options, selectedOptionIndex, arrowSelectIndex, isUp } = commonParams
-    const isMultiselect = selectedOptionIndex?.constructor.name == 'Set'
+    const isMultiselect = selectedOptionIndex?.constructor.name === 'Set'
 
     const { length } = options
     const maxIndex = length - 1
     const incrementValue = isUp ? -1 : 1
-    const passedValuesSet = new Set<number>([])
+    const passedValuesSet = new FastSet()
 
     let startFrom = isExists(arrowSelectIndex)
         ?   arrowSelectIndex + incrementValue
@@ -43,17 +44,17 @@ function getKeyboardOptionIndex(
 
     for (let i = startFrom; 0 <= i && i < length; i += incrementValue) {
         const isIndexSelected = isMultiselect
-            ?   (selectedOptionIndex as Set<number>).has(i)
-            :   selectedOptionIndex == i
+            ?   (selectedOptionIndex as FastSet).has(i)
+            :   (selectedOptionIndex as SelectedSingleOptionIndex) === i
 
         if (!isIndexSelected && !options[i].disabled) return i
 
         passedValuesSet.add(i)
 
-        if (isUp) i == 0 && (i = maxIndex)
-        else i == maxIndex && (i = -1)
+        if (isUp) i === 0 && (i = maxIndex)
+        else i === maxIndex && (i = -1)
 
-        if (passedValuesSet.size == maxIndex) return undefined
+        if (passedValuesSet.size() === maxIndex) return undefined
     }
 }
 
@@ -73,16 +74,16 @@ function handleKeyboardSelect(
     const [ state, setState ] = selectStore
     const { arrowSelectIndex } = state
 
-    const isUp = keyCode == keyCodes.UP
-    if (isUp || keyCode == keyCodes.DOWN) {
+    const isUp = keyCode === keyCodes.UP
+    if (isUp || keyCode === keyCodes.DOWN) {
         state.arrowSelectIndex = getKeyboardOptionIndex({
             options, selectedOptionIndex, arrowSelectIndex, isUp
         })
         isExists(state.arrowSelectIndex) && setState({ ...state })
 
-    } else if (keyCode == keyCodes.DELETE) onDelete()
+    } else if (keyCode === keyCodes.DELETE) onDelete()
 
-    else if (isExists(arrowSelectIndex) && keyCode == keyCodes.ENTER) onEnter()
+    else if (isExists(arrowSelectIndex) && keyCode === keyCodes.ENTER) onEnter()
 }
 
 

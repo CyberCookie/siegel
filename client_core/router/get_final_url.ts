@@ -8,7 +8,7 @@ const getFinalURL: GetFinalUrl = (curUrl, urlPart) => {
     if (urlPart) {
         const firstCharUrlPart = urlPart[0]
 
-        if (firstCharUrlPart == '!') {
+        if (firstCharUrlPart === '!') {
             const newPathPart = urlPart.substring(1)
 
             const urlArray = curUrl.split(SLASH)
@@ -19,7 +19,7 @@ const getFinalURL: GetFinalUrl = (curUrl, urlPart) => {
             result = urlArray.join(SLASH) || SLASH
 
         } else {
-            result = firstCharUrlPart == SLASH
+            result = firstCharUrlPart === SLASH
                 ?   urlPart
                 :   `${curUrl}${SLASH}${urlPart}`
         }
@@ -29,7 +29,7 @@ const getFinalURL: GetFinalUrl = (curUrl, urlPart) => {
 
     const { basename } = history
     if (basename && !result.startsWith(basename)) {
-        result = `${basename}${ result == SLASH ? '' : result }`
+        result = `${basename}${ result === SLASH ? '' : result }`
     }
 
 

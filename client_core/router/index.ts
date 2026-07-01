@@ -7,5 +7,7 @@ export {
 
 export type {
     HistoryChangeCustomEventPayload, URLparams,
-    RouterProps, RoutesConfig, Page, Layout
+    RouterProps, RoutesConfig,
+    Page as PageType,
+    Layout as LayoutType
 } from './types'

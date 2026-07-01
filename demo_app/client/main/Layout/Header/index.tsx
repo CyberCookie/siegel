@@ -1,5 +1,5 @@
 import React from 'react'
-import NavLink from 'siegel-router/Link'
+import { NavLink } from 'siegel-router'
 
 import { Breadcrumbs, linkTheme } from 'app/components'
 import { pagePathMap } from 'app/Router/config'

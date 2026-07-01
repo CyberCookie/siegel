@@ -15,7 +15,7 @@ const _undef = undefined
 const componentID = '-ui-tabs'
 
 const getContent = (content: Tab['content']) => (
-    content?.constructor == Function
+    content?.constructor === Function
         ?   (content as Extract<Tab['content'], AnyFunc>)()
         :   (content as Exclude<Tab['content'], AnyFunc>)
 )
@@ -39,10 +39,8 @@ function getTabsVisual(mergedProps: MergedProps) {
     const tabsContent: React.ReactNode[] = []
     let tabContentClassName
     const labels = tabs.map(tab => {
-        const {
-            label, id, payload, content, contentClassName, labelClassName, prerender
-        } = tab
-        const isSelected = activeTab == id
+        const { label, id, payload, content, contentClassName, labelClassName, prerender } = tab
+        const isSelected = activeTab === id
 
         if (prerender || isSelected) {
             let tabContent = getContent(content)

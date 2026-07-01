@@ -25,7 +25,7 @@ function stripSearchParams(pathname: string) {
 }
 
 const checkPermissions = (urlParams: URLparams, permissions: ConfigPermissions) => (
-    typeof permissions == 'function'
+    typeof permissions === 'function'
         ?   permissions(urlParams)
         :   permissions
 )
@@ -33,12 +33,12 @@ const checkPermissions = (urlParams: URLparams, permissions: ConfigPermissions) 
 const extractRedirectData = (redirecTo: NonNullable<ConfigRedirectTo>) => {
     const typeofRedirect = typeof redirecTo
 
-    if (typeofRedirect == 'string') {
+    if (typeofRedirect === 'string') {
         return {
             path: redirecTo as RedirectToPath
         }
 
-    } else if (typeofRedirect == 'function') {
+    } else if (typeofRedirect === 'function') {
         return {
             path: (redirecTo as RedirectToPathGetter)()
         }
@@ -46,8 +46,8 @@ const extractRedirectData = (redirecTo: NonNullable<ConfigRedirectTo>) => {
     } else {
         const { path, state } = redirecTo as RedirectToPathObj
         return {
-            path: typeof path == 'function' ? path() : path,
-            state: typeof state == 'function' ? state() : state
+            path: typeof path === 'function' ? path() : path,
+            state: typeof state === 'function' ? state() : state
         }
     }
 }
@@ -123,7 +123,7 @@ const parsePathname: ParsePathname = (props, pathname, newHistoryState = null) =
             paramName && (urlParams[paramName] = pathPart)
 
             if (Page || Layout || children) {
-                const isLast = i == pathArray.length - 1
+                const isLast = i === pathArray.length - 1
 
                 if ((Page && isLast) || Layout) {
                     childrenArray.push({
@@ -147,7 +147,9 @@ const parsePathname: ParsePathname = (props, pathname, newHistoryState = null) =
                     ({ newPathname, newHistoryState } = handleNotFound(traversePath, pathname, childrenLevel))
                     break
                 }
+
             } else break
+
         } else {
             ({ newPathname, newHistoryState } = handleNotFound(traversePath, pathname, childrenLevel))
             break
@@ -155,7 +157,7 @@ const parsePathname: ParsePathname = (props, pathname, newHistoryState = null) =
     }
 
 
-    return newPathname != pathname
+    return newPathname !== pathname
         ?   parsePathname(props, newPathname, newHistoryState)
         :   {
                 newPathname, newHistoryState, transitionData,

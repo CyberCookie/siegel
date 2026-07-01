@@ -11,7 +11,7 @@ const patchHistory: PatchHistory = (basename, onHistoryChange) => {
 
     history.push = (url, state, replaceURL) => {
         const finalURL = getFinalURL(
-            typeof replaceURL == 'string' ? replaceURL : pathname,
+            typeof replaceURL === 'string' ? replaceURL : pathname,
             url
         )
 
@@ -68,7 +68,7 @@ const patchHistory: PatchHistory = (basename, onHistoryChange) => {
             }
 
             const { basename } = history
-            if (newBasename != basename) {
+            if (newBasename !== basename) {
                 history.basename = newBasename
 
                 history.push!(

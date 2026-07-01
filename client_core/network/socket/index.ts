@@ -2,7 +2,7 @@ import intervalWorker, {
     MessageIncome as WorkerMessageIncome,
     MessageOutcome as WorkerMessageOutcome
 } from '../../intervals__worker'
-import getUniqId from '../../../common/get_uniq_id'
+import { getUniqId, FastSet } from '../../../common'
 
 import type { CreateSocketParams, Handler, SocketState, SocketInit } from './types'
 
@@ -16,7 +16,7 @@ const SOCKET_CONNECTION_STATE = {
     CLOSED: 3
 } as const
 
-const connectionsInProgress = new Set<string>()
+const connectionsInProgress = new FastSet()
 
 const messageParseDefault = ({ data }: MessageEvent) => JSON.parse(data)
 
@@ -134,10 +134,10 @@ function createSocket(params: CreateSocketParams) {
     worker.addEventListener('message', workerIntervalHandle)
 
     function workerIntervalHandle({ data }: WorkerMessageOutcome) {
-        if (data == workerPingMessageId) {
+        if (data === workerPingMessageId) {
             socket.send(ping!.payload)
 
-        } else if (data == workerReconnectMessageId) {
+        } else if (data === workerReconnectMessageId) {
             socket = init(initParams) || socket
         }
     }
@@ -201,14 +201,14 @@ function createSocket(params: CreateSocketParams) {
         send(messageType: string, payload: any) {
             const { readyState } = socket
             if (
-                    readyState != SOCKET_CONNECTION_STATE.CLOSING
-                &&  readyState != SOCKET_CONNECTION_STATE.CLOSED
+                    readyState !== SOCKET_CONNECTION_STATE.CLOSING
+                &&  readyState !== SOCKET_CONNECTION_STATE.CLOSED
             ) {
 
                 const dataToSend = serializeOutcommingMsg({
                     messageTypeKey, messageType, payloadKey, payload
                 })
-                readyState == SOCKET_CONNECTION_STATE.OPEN
+                readyState === SOCKET_CONNECTION_STATE.OPEN
                     ?   socket.send(dataToSend)
                     :   pendingDataToSend.push(dataToSend)
             }
@@ -219,8 +219,8 @@ function createSocket(params: CreateSocketParams) {
         close() {
             const { readyState } = socket
             if (
-                    readyState == SOCKET_CONNECTION_STATE.CONNECTING
-                ||  readyState == SOCKET_CONNECTION_STATE.OPEN
+                    readyState === SOCKET_CONNECTION_STATE.CONNECTING
+                ||  readyState === SOCKET_CONNECTION_STATE.OPEN
 
             ) socket.close()
 

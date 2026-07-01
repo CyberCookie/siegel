@@ -2,7 +2,7 @@ import React from 'react'
 
 import Header from './Header'
 
-import type { Layout as LayoutType } from 'siegel-router/types'
+import type { LayoutType } from 'siegel-router'
 
 import './styles.sass'
 

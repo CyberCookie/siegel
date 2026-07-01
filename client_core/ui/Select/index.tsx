@@ -113,7 +113,7 @@ const Select = component<Props, DefaultProps>(
         let selectedOptionIndex: SelectedOptionIndex
 
         if (disabled) {
-            isSelectionExists && (selectedOption = options.find(option => option.value == selected))
+            isSelectionExists && (selectedOption = options.find(option => option.value === selected))
 
         } else {
             ({
@@ -141,7 +141,7 @@ const Select = component<Props, DefaultProps>(
 
                     if (!e.defaultPrevented) {
                         const keyCode = e.key
-                        if (keyCode != keyCodes.TAB) {
+                        if (keyCode !== keyCodes.TAB) {
                             e.preventDefault()
 
                             handleKeyboardSelect(

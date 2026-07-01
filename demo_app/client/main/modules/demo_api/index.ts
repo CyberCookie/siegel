@@ -1,9 +1,9 @@
-import createStore from 'siegel-store/index'
+import { createHookStore } from 'siegel-store'
 import {
     componentID as breadcrumbsComponentID,
     DynamicCrumbsCustomEventPayload
 } from 'siegel-ui/Breadcrumbs'
-import createJsonKeysReplacer from 'siegel-utils/json_keys_replace'
+import { createJsonKeysReplacer } from 'siegel-utils'
 
 import request from 'app/network'
 import { dynamicCrumbsMap } from 'app/Router'
@@ -75,7 +75,7 @@ const actions: Actions = {
 
 
 
-const { useStore, store, reset } = createStore(getInitialState, actions)
+const { useStore, store, reset } = createHookStore(getInitialState, actions)
 
 
 export default useStore

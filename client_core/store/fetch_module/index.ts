@@ -1,4 +1,4 @@
-import createStore from '../index'
+import { createHookStore } from '../hook_store'
 
 import type { State, Actions, AnyError, StoreInitialized } from './types'
 
@@ -64,9 +64,8 @@ const actions: Actions = {
 }
 
 
-const { useStore, store, reset } = createStore(getInitState, actions)
+const { useStore, store, reset } = createHookStore(getInitState, actions)
 
 
-export default useStore
-export { store, reset }
+export { useStore, store, reset }
 export type { State, AnyError, Actions, StoreInitialized }

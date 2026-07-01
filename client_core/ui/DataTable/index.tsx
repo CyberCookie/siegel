@@ -100,7 +100,7 @@ const DataTable = component<Props, DefaultProps>(
             body,
             head: getHead(props, state, resultIDs, from, to),
             className: applyClassName(
-                styles.table,
+                styles.__siegel_ui_table,
                 [[ theme.table, true ]]
             )!
         }

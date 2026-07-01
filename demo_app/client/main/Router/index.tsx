@@ -1,5 +1,5 @@
 import React from 'react'
-import Router from 'siegel-router/Router'
+import { Router } from 'siegel-router'
 
 import { localStorageKeys } from 'app/constants'
 import Layout from 'app/Layout'

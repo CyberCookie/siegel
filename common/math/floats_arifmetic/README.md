@@ -1,6 +1,6 @@
 ## Floats arifmetic
 
-In JS just like in many other languages **0.2 + 0.1 != 0.3**<br />
+In JS just like in many other languages **0.2 + 0.1 !== 0.3**<br />
 This function is to perform _add_ and _subtract_ math operations with float numbers to always get correct result<br />
 
 Function receives **unlimited** parameters count:

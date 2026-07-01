@@ -2,7 +2,7 @@ process.on('warning', console.warn)
 process.on('uncaughtException', console.error)
 
 const { INIT_CWD, PWD } = process.env
-if (INIT_CWD && INIT_CWD != PWD) {
+if (INIT_CWD && INIT_CWD !== PWD) {
     process.chdir(INIT_CWD)
 }
 

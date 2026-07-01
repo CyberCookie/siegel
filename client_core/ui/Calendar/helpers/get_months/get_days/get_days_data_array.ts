@@ -38,7 +38,7 @@ function getPreviousMonthDays(params: PrevNextDaysParams) {
     }
 
     const result: AllDaysData[] = []
-    const isFullRow = (dateTo - (dateFrom - 1)) == DAYS_IN_WEEK
+    const isFullRow = (dateTo - (dateFrom - 1)) === DAYS_IN_WEEK
     if (!(hideSiblingMonthsDays && isFullRow)) {
         date.setDate(dateFrom)
 
@@ -63,9 +63,9 @@ function fillCurrentMonth(result: AllDaysData[], beginOfMonth: Date) {
             timestamp,
             date: dateOfMonth
         }
-        dateOfMonth == 1 && (dayData.isFirst = true)
-        dateOfMonth == lastDayinCurrentMonth && (dayData.isLast = true)
-        timestamp == todayTimestamp && (dayData.isToday = true)
+        dateOfMonth === 1 && (dayData.isFirst = true)
+        dateOfMonth === lastDayinCurrentMonth && (dayData.isLast = true)
+        timestamp === todayTimestamp && (dayData.isToday = true)
 
         result.push(dayData)
 
@@ -80,7 +80,7 @@ function fillNextMonth(result: AllDaysData[], params: PrevNextDaysParams) {
     const firstDay = date.getDay()
 
     let dateTo = 0
-    if (!(hideSiblingMonthsDays && firstDay == weekStartsFrom)) {
+    if (!(hideSiblingMonthsDays && firstDay === weekStartsFrom)) {
         date.setMonth(date.getMonth() + 1)
         dateTo = DAYS_IN_WEEK - (result.length % DAYS_IN_WEEK)
 

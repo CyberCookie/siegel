@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'bun:test'
+
 import getUniqId from '../get_uniq_id'
 import memo, { clearState } from './'
 

@@ -22,7 +22,7 @@ const getValueConstructor = (value: any) => (
  * @returns true if values have the same type
  */
 const isSameType = (a: any, b: any) => (
-    getValueConstructor(a) == getValueConstructor(b)
+    getValueConstructor(a) === getValueConstructor(b)
 )
 
 

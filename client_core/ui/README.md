@@ -191,7 +191,7 @@ import React from 'react'
 import Button from 'siegel/lib/client_core/ui/Button'
 
 <Button value={Date.now()} disabled={false}
-    memoDeps={(prevProps, nextProps) => prevProps.value == nextProps.value}
+    memoDeps={(prevProps, nextProps) => prevProps.value === nextProps.value}
 />
 ```
 

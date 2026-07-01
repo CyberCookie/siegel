@@ -15,7 +15,7 @@ Receives **5** parameters:
 <br />
 
 ```ts
-import objectsSort from 'siegel/lib/common/array_obj_sort'
+import objectsSort from 'siegel/lib/common/array/obj_sort'
 
 const mock = [
     { id: 1, name: 'qwerty', birth: 2020 },

@@ -1,5 +1,6 @@
 import path from 'path'
 
+import { FastSet } from '../../../common'
 import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants.js'
 
 import type { ConfigObject } from '../../types'
@@ -25,7 +26,7 @@ function getDefaultPluginsConfig(config: ConfigObject) {
     const outputFilenames = output!.filenames
 
 
-    const compressionTypesSet = new Set(serveCompressionsPriority)
+    const compressionTypesSet = new FastSet(serveCompressionsPriority)
 
     const compressionInstanceCommonOptions = {
         test: /\.*$/,
@@ -64,7 +65,7 @@ function getDefaultPluginsConfig(config: ConfigObject) {
             plugin: fileCopyPlugin,
             enabled: !!input!.copyFiles,
             options: {
-                patterns: typeof input!.copyFiles == 'string'
+                patterns: typeof input!.copyFiles === 'string'
                     ?   [{
                             from: input!.copyFiles,
                             to: path.join(

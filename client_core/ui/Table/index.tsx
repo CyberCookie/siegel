@@ -29,7 +29,7 @@ function getTableCell(cell: TableTH | TableTD, cellIndex: number) {
 }
 
 function getTableSection(data: (TableHeadRow | TableBodyRow)[], SectionHTMLTag: React.ElementType) {
-    CellHTMLTag = SectionHTMLTag == 'thead' ? 'th' : 'td'
+    CellHTMLTag = SectionHTMLTag === 'thead' ? 'th' : 'td'
 
     return <SectionHTMLTag children={ data.map(getTableRow) } />
 }

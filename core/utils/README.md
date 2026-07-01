@@ -19,7 +19,7 @@ const __dirname = utils.cjs__dirname(import.meta)
 <br/>
 <h3>is run directly</h3>
 Returns true if module were run directly from CLI<br />
-In CommonJS were made with **require.main == module** check.
+In CommonJS were made with **require.main === module** check.
 <br/>
 
 ```ts

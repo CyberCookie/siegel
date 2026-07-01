@@ -1,4 +1,5 @@
-import '../../../global.d.ts'
+import { describe, test, expect } from 'bun:test'
+
 import deepSet from './'
 
 

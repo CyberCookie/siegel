@@ -33,7 +33,7 @@ It returns string by default<br />
 - `processAsTimer`
     - Forces timer mode
     - **Boolean**
-    - Default is `props.speedCoef != 1 || backward` <br />
+    - Default is `props.speedCoef !== 1 || backward` <br />
 
 - `builder`
     - Callback to construct clocks display value

@@ -19,7 +19,7 @@ const getRangePicker: GetRangePickerElement = (key, { theme, rangePickIcon, isVe
             ?   { top: `${left}%` }
             :   { left: `${left}%` }
         }
-        className={ `${theme.range_slider} ${styles.range_slider}` } />
+        className={ `${theme.range_slider} ${styles.__siegel_ui_range_slider}` } />
 )
 
 function getRangeAreaElements(

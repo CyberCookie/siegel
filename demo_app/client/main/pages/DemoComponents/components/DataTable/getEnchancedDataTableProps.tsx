@@ -52,7 +52,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
     const { activeColID } = postProcessData
 
     const { label, customParams, ID } = config
-    const isActiveLabelMenu = activeColID == ID
+    const isActiveLabelMenu = activeColID === ID
     const { type, valuePath } = customParams!
 
 
@@ -70,7 +70,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
             const intValue = +sortvalue!
 
             dataGridHookState.sortByField = {
-                ID: curID == sortid && value == intValue ? undefined : sortid,
+                ID: curID === sortid && value === intValue ? undefined : sortid,
                 value: intValue as StateSortValues
             }
 
@@ -81,7 +81,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
             const searchByField = dataGridHookState.searchByField
             let searchElement: React.JSX.Element | React.JSX.Element[]
 
-            if (type == 'set') {
+            if (type === 'set') {
                 const resultCheckbox: React.JSX.Element[] = []
                 const searchSet = searchByField[ID] || new Set()
                 const uniqValues = new Set()
@@ -112,7 +112,7 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
 
                 searchElement = resultCheckbox
 
-            } else if (type == 'date') {
+            } else if (type === 'date') {
                 const { dateStart, dateEnd } = searchByField[ID] || {}
                 const rangeDateStart = dateStart || nowTimestamp
 

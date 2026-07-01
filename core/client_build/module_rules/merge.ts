@@ -9,7 +9,7 @@ import type {
 
 
 const mergeLoaders: MergeLoadersFn = (userLoader, defaultLoader) => {
-    const result = typeof userLoader == 'string'
+    const result = typeof userLoader === 'string'
         ?   userLoader
 
         :   isExists(defaultLoader) && userLoader === true
@@ -21,7 +21,7 @@ const mergeLoaders: MergeLoadersFn = (userLoader, defaultLoader) => {
                 ?   {
                         ...defaultLoader,
                         ...userLoader as LoaderObj,
-                        options: typeof (userLoader as LoaderObj).options == 'function'
+                        options: typeof (userLoader as LoaderObj).options === 'function'
                             ?   ((userLoader as LoaderObj).options as LoaderOptionsFn)(defaultLoader!.options)
                             :   (userLoader as LoaderObj).options
                     }
@@ -29,7 +29,7 @@ const mergeLoaders: MergeLoadersFn = (userLoader, defaultLoader) => {
                 :   undefined
 
 
-    if (isExists(result) && typeof result != 'string') delete result['enabled']
+    if (isExists(result) && typeof result !== 'string') delete result['enabled']
 
 
     return result
@@ -47,7 +47,7 @@ const addRule: AddRuleFn = (rules, ruleParams) => {
     const use: NonNullable<RuleSetRule['use']> = []
     loadersOrder.forEach(loaderKey => {
         const userLoader = loaders[loaderKey]
-        if (userLoader != false) {
+        if (userLoader !== false) {
             const mergedLoaders = mergeLoaders(
                 userLoader || true,
                 defaultLoaders[loaderKey] as AnyDefaultLoader | undefined
@@ -76,11 +76,11 @@ function addWithoutMerge(
         {
             regExpString, loaders,
 
-            loadersOrder: typeof loadersOrder == 'function'
+            loadersOrder: typeof loadersOrder === 'function'
                 ?   loadersOrder([])
                 :   loadersOrder || [],
 
-            ruleOptions: typeof ruleOptions == 'function'
+            ruleOptions: typeof ruleOptions === 'function'
                 ?   ruleOptions({})
                 :   ruleOptions || {}
         }
@@ -102,7 +102,7 @@ function merge(defaultModules: DefaultRulesData, userModules: UserRulesData = { 
     } = defaultModules
 
     const rulesOrder = userRulesOrder
-        ?   typeof userRulesOrder == 'function'
+        ?   typeof userRulesOrder === 'function'
             ?   userRulesOrder(defaultRulesOrder)
             :   userRulesOrder
         :   defaultRulesOrder
@@ -115,7 +115,7 @@ function merge(defaultModules: DefaultRulesData, userModules: UserRulesData = { 
 
 
         if (userRule && defaultRule) {
-            if (userRule.enabled != false) {
+            if (userRule.enabled !== false) {
                 const { ruleOptions, loaders, loadersOrder, rewriteRegExp } = userRule
                 const {
                     ruleOptions: defaultRuleOptions = {},
@@ -131,13 +131,13 @@ function merge(defaultModules: DefaultRulesData, userModules: UserRulesData = { 
                         regExpString: rewriteRegExp || regExpModuleKey,
 
                         loadersOrder: loadersOrder
-                            ?   typeof loadersOrder == 'function'
+                            ?   typeof loadersOrder === 'function'
                                 ?   loadersOrder(defaultLoadersOrder as LoadersOrder)
                                 :   loadersOrder
                             :   defaultLoadersOrder as LoadersOrder,
 
                         ruleOptions: ruleOptions
-                            ?   typeof ruleOptions == 'function'
+                            ?   typeof ruleOptions === 'function'
                                 ?   ruleOptions(defaultRuleOptions as RuleOptions)
                                 :   { ...defaultRuleOptions, ...ruleOptions }
                             :   defaultRuleOptions as RuleOptions

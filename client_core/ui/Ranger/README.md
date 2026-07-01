@@ -21,7 +21,7 @@ Provides sliding point(s) to specify some range values from 0 to 1<br />
     - `_disabled`
         - Root tag state if component is disabled
     - `_single_picker`
-        - Root tag state if there is only one picker (`props.value`.length == **1**)
+        - Root tag state if there is only one picker (`props.value`.length === **1**)
     - `_vertical`
         - Root tag state if `props.isVertical` is true
     - `children`

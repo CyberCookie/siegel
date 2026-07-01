@@ -1,4 +1,4 @@
-import type { HookStore } from '../index'
+import type { HookStore } from '../hook_store'
 
 
 type AnyError<_E = Obj> = {

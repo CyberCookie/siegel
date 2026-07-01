@@ -16,7 +16,7 @@ const componentID = '-ui-popup'
 const Popup = component<Props, DefaultProps>(
     componentID,
     {
-        className: styles.root,
+        className: styles.__siegel_ui_root,
         theme: {
             root: _undef,
             content: _undef,
@@ -42,7 +42,7 @@ const Popup = component<Props, DefaultProps>(
         applyRefApi(popupRootAttributes, props)
         popupRootAttributes = resolveTagAttributes(popupRootAttributes, rootTagAttributes)
 
-        let closeElemClassName = styles.close
+        let closeElemClassName = styles.__siegel_ui_close
         theme.close && (closeElemClassName += ` ${theme.close}`)
 
 

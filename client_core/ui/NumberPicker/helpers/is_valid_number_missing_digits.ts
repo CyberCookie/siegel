@@ -7,7 +7,7 @@ const isValidNumberMissingDigits = (value: MergedProps['value']) => {
     const stringValue = isExists(value) ? `${value}` : ''
     const [ firstChar, secondChar ] = stringValue
 
-    return firstChar == '.' || (firstChar == '-' && secondChar == '.') || stringValue!.at(-1) == '.'
+    return firstChar === '.' || (firstChar === '-' && secondChar === '.') || stringValue!.at(-1) === '.'
 }
 
 

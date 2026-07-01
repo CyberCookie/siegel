@@ -10,7 +10,7 @@ const options: DemoDropdownSearchProps['searchOptions'] = ([ 1, 2, 3, 4, 5 ])
     .map((i: number) => ({
         inputValue: 'option ' + i,
         value: i,
-        ...( i == 2 ? {
+        ...( i === 2 ? {
             disabled: true
         } : {})
     }))

@@ -1,4 +1,4 @@
-import isExists from '../../../../common/is/exists'
+import { arrayDeduplicate, isExists, FastSet } from '../../../../common'
 import { getExpanderRow, SlideWindowRange } from '../helpers/apply_virtualization'
 
 import type { TableBodyRow, TableTD } from '../../Table/types'
@@ -47,7 +47,7 @@ function getBody(
         const { value, ID } = sortByField
         const columnIndex = idToIndexMap!
             ?   idToIndexMap[ ID ]!
-            :   columnsConfig.findIndex(config => config.ID == ID)
+            :   columnsConfig.findIndex(config => config.ID === ID)
 
         const config = columnsConfig[columnIndex]
         if (isExists(config.onSort)) {
@@ -97,7 +97,7 @@ function getBody(
             .splice(0, from)
             .concat(pinnedEntitiesSorted!, processedList)
 
-        resultIDs = Array.from(new Set(processedList))
+        resultIDs = arrayDeduplicate(processedList)
 
         withFooter && (to += pinnedEntitiesSorted!.length)
 
@@ -109,7 +109,7 @@ function getBody(
         getExpanderRow(true, theme.virtualization_expander_cell)
     )
 
-    const processedIDs = new Set<string>()
+    const processedIDs = new FastSet()
     for (let i = from; i < to; i++) {
 
         const entityID = processedList[i]

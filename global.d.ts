@@ -206,7 +206,7 @@ type Tail<T extends any[]> = ((...t: T) => void) extends ((h: any, ...r: infer R
  * Checks whether a _V is null | undefined
  * @return {true} if _V ex null | undefined
  */
-type IsNullable<_V> = Extract<_V, undefined | null> extends never ? false : true
+type IsNullable<_V> = [Extract<_V, undefined | null>] extends [never] ? false : true
 
 
 
