@@ -94,6 +94,17 @@ function clientBuilder(config: ConfigObject) {
                 minimizer: [
                     new TerserWebpackPlugin({
                         minify: swcMinify
+                        // terserOptions: {
+                        //     'compress': {
+                        //         'topLevel': true,
+                        //         'passes': 3,
+                        //         'reduce_vars': false,
+                        //         'drop_console': true
+                        //     },
+                        //     'mangle': {
+                        //         'topLevel': true
+                        //     }
+                        // }
                     })
                 ]
             } : {})

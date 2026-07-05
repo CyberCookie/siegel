@@ -1,7 +1,7 @@
 // TODO: custom methods
 
 
-import rangeEach from '../array_range_each'
+import rangeEach from '../array/range_each'
 
 import type { Entities } from './types'
 

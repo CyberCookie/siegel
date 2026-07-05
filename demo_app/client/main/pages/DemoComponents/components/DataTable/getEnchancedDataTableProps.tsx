@@ -148,7 +148,11 @@ function getHeadLabelMenuTableCell<T extends Parameters<NonNullable<DemoDataTabl
 
 
         return (
-            <div className={ styles.grid_col_menu } onMouseDown={ e => e.stopPropagation() }>
+            <div className={ styles.grid_col_menu }
+                onMouseDown={ e => {
+                    e.stopPropagation()
+                } }>
+
                 <div className={ styles.grid_col_menu_sort } onMouseDown={ onSort }
                     data-sortvalue='-1' data-sortid={ ID }>
 

@@ -46,22 +46,23 @@ function getMonths(mergedProps: MergedProps, store: Store) {
         const month = start.getMonth()
         const monthName = stringValues.months[month]
 
-        const monthWraperTitle = constructCalendarTitle?.({
-            monthName, year, prevMonthIcon, nextMonthIcon, nextYearIcon, prevYearIcon
-        })
-        ||
-        <>
-            { prevMonthIconEl }
-            { prevYearIconEl }
+        const monthWraperTitle =
+                constructCalendarTitle?.({
+                    monthName, year, prevMonthIcon, nextMonthIcon, nextYearIcon, prevYearIcon
+                })
+            ||
+                <>
+                    { prevMonthIconEl }
+                    { prevYearIconEl }
 
-            <div className={ theme.month_title }>
-                { monthName }&nbsp;
-                { year }
-            </div>
+                    <div className={ theme.month_title }>
+                        { monthName }&nbsp;
+                        { year }
+                    </div>
 
-            { nextYearIconEl }
-            { nextMonthIconEl }
-        </>
+                    { nextYearIconEl }
+                    { nextMonthIconEl }
+                </>
 
 
         months.push(

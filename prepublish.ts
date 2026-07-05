@@ -83,6 +83,14 @@ function normalizeImportPathsAndMinify(iterateOverDirPath: string, isMinify = tr
                         undefined,
                         {
                             module: true
+                            // compress: {
+                            //     reduce_vars: false,
+                            //     hoist_props: false
+                            // },
+                            // mangle: {
+                            //     keep_classnames: true,
+                            //     keep_fnames: true
+                            // }
                         } satisfies JsMinifyOptions
                     )).code
                 :   notMinifiedJSFile
