@@ -6,11 +6,11 @@ import path from 'path'
 
 import { LOC_NAMES, PATHS } from '../core/constants.js'
 import getConfig from '../core/get_config.js'
-import siegel, { nodeUtils, utils } from '../core'
-import { initDemoProject, initMiniProject } from './init_project'
+import siegel, { nodeUtils, utils, ConfigObject } from '../core'
+import { initDemoProject, initMiniProject, PackageJson } from './init_project'
 import createSSLCerts from './create_ssl_certs.js'
 
-import type { ServerConfig } from '../core/server/types'
+// import type { ServerConfig } from '../core/server/types'
 import type {
     Command, CommanTree, CommandsWithParams,
     PrintHelpFlagsMap, CommandExampleFn, ALlCommands
@@ -77,8 +77,8 @@ const COMMANDS_TREE: CommanTree = {
                     const resolvedPath = resolvePath(value as string)
 
                     const config = (value as string).endsWith('.json')
-                        ?   requireJSON(resolvedPath)
-                        :   (await import(resolvedPath)).default
+                        ?   await requireJSON<ConfigObject>(resolvedPath)
+                        :   (await import(resolvedPath)).default as ConfigObject
 
                     result.config = getConfig(config)
                 }
@@ -107,7 +107,7 @@ const COMMANDS_TREE: CommanTree = {
                 description: 'Path to server app entrypoint.',
                 async paramAction({ value, result }) {
                     const appServer = await import(resolvePath(value as string))
-                    ;(result.config.server as ServerConfig).appServer = appServer.default
+                    result.config.server!.appServer = appServer.default
                 }
             },
             {
@@ -181,9 +181,9 @@ const COMMANDS_TREE: CommanTree = {
 
     version: {
         description: 'Prints current Siegel version.',
-        commandAction() {
+        async commandAction() {
             console.log(
-                requireJSON(PATHS.PACKAGE_JSON).version
+                (await requireJSON<PackageJson>(PATHS.PACKAGE_JSON)).version
             )
         }
     }

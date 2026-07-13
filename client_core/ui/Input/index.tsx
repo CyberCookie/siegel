@@ -286,7 +286,7 @@ const Input = component<Props, DefaultProps>(
 
                         setDebounceState({
                             debounceValue: value,
-                            debounceTimeoutID: (setTimeout as Window['setTimeout'])(() => {
+                            debounceTimeoutID: setTimeout(() => {
                                 setDebounceState( getDefaultDebounceState({}) )
                                 onChange(value, e, payload)
                             }, debounceMs)

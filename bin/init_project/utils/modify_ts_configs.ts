@@ -5,10 +5,23 @@ import { LOC_NAMES, PATHS } from '../../../core/constants.js'
 import { requireJSON } from '../../../core/utils'
 import toJSON from './to_json'
 
-import type { TSConfig, ModifyTSConfigsParams } from './types'
+
+import type { CompilerOptions } from 'typescript'
 
 
-function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
+type TSConfig = {
+    extends: string
+    compilerOptions: CompilerOptions
+    include: string[]
+}
+type ModifyTSConfigsParams = {
+    DEMO_APP_PATH_SHIFT: string
+    USER_TS_CONFIG_PATH: string
+    USER_SERVER_PATH?: string
+}
+
+
+async function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
     const {
         DEMO_APP_PATH_SHIFT, USER_TS_CONFIG_PATH, USER_SERVER_PATH
     } = modifyParams
@@ -18,7 +31,7 @@ function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
 
 
 
-    const clientTSConfig = requireJSON<TSConfig>(USER_TS_CONFIG_PATH)
+    const clientTSConfig = await requireJSON<TSConfig>(USER_TS_CONFIG_PATH)
     const { compilerOptions, include } = clientTSConfig
 
     clientTSConfig.extends
@@ -49,7 +62,7 @@ function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
         const USER_SERVER_TS_CONFIG_PATH = join(USER_SERVER_PATH, LOC_NAMES.TS_JSON)
         const USER_TS_GlOBALS = join(PATHS.CWD, LOC_NAMES.TS_GLOBAL_TYPES)
 
-        const serverTSConfig = requireJSON<TSConfig>(USER_SERVER_TS_CONFIG_PATH)
+        const serverTSConfig = await requireJSON<TSConfig>(USER_SERVER_TS_CONFIG_PATH)
         const { include } = serverTSConfig
 
         serverTSConfig.include[ include.length - 1 ]
@@ -61,3 +74,4 @@ function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
 
 
 export default modifyTSConfigs
+export type { TSConfig }

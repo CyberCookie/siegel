@@ -79,7 +79,7 @@ function applyVirtualization(params: UseVirtualizationParams) {
         if (!(e.defaultPrevented || virtualizationState.timeoutID)) {
             const rootElement = e.target as HTMLDivElement
 
-            virtualizationState.timeoutID = (setTimeout as Window['setTimeout'])(() => {
+            virtualizationState.timeoutID = setTimeout(() => {
                 setVirtualizationState({
                     scrollTop: rootElement.scrollTop,
                     timeoutID: 0

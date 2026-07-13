@@ -1,6 +1,6 @@
 # Server
 
-Server could be runned in `HTTP1.1` / `HTTP2` mode with or without secure layer depending on a server config you passed.<br />
+Server could be runned in `HTTP1.1` / `HTTP/2` mode with or without secure layer depending on a server config you passed.<br />
 Static server is already configured to serve brotli and gzip compressed files and always responses with index.html as a SPA application.<br />
 Only `HTTP1.1` is suitable for development purposes<br />
 
@@ -59,11 +59,11 @@ type StaticServingData = {
         */
         port: Number,
 
-        /* Whether to use HTTP2 protocol */
+        /* Whether to use HTTP/2 protocol */
         http2: Boolean,
 
         /*
-            SSL params to establish secure connection (HTTPS HTTP2S)
+            SSL params to establish secure connection (HTTPS HTTP/2(S))
             Use Siegel's 'create_ssl' script to create localhost certificate
         */
         ssl: {
@@ -118,7 +118,7 @@ import myServer from './my_server.ts'
 Here we define path to User App entrypoint file - **user_app.ts**<br />
 User App must be a **Function** in order to call it during Siegel server initialization<br />
 The **Function** has **3** parameters:
-- **Static server** - **FastifyStaticServer**. Fastify static server. `HTTP\S` or `HTTP2\S`
+- **Static server** - **FastifyStaticServer**. Fastify static server. `HTTP\S` or `HTTP/2\S`
 - **Siegel config** - Siegel config
 - **fastify**: **Fastify** 
 
@@ -196,7 +196,7 @@ giving you full controll over the proxy request options<br />
 <br /><hr />
 <details>
     <summary>TODO</summary>
-    - Compatible HTTP1.1 and HTTP2 static servers<br />
+    - Compatible HTTP1.1 and HTTP/2 static servers<br />
     - SEO for crawlers (pages prebuild or build on the fly)<br />
     - Protobuf
 </details>

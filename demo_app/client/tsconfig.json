@@ -1,8 +1,7 @@
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
-        "lib": [ "esnext" ],
-        "outDir": "../server_dist"
+        "types": []
     },
     "include": [ "**/*", "../../global.d.ts" ]
 }

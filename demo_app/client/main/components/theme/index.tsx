@@ -83,7 +83,7 @@ const Checkbox = withDefaults(_Checkbox, {
 })
 
 
-const dataTableTheme: DataTableProps<any>['theme'] = Object.assign(_dataTableTheme, {
+const dataTableTheme = Object.assign(_dataTableTheme, {
     table: `${tableTheme.table} ${_dataTableTheme.table}`
 } satisfies DataTableProps['theme'])
 const DataTable = withDefaults(_DataTable, {
@@ -91,7 +91,7 @@ const DataTable = withDefaults(_DataTable, {
 })
 
 
-const dropdownSearchTheme: DropdownSearchProps['theme'] = {
+const dropdownSearchTheme = {
     root: _dropdownSearchTheme.root,
     _with_suggestions: _dropdownSearchTheme._with_suggestions,
     _error: _dropdownSearchTheme._error,
@@ -101,7 +101,7 @@ const dropdownSearchTheme: DropdownSearchProps['theme'] = {
     option: _selectTheme.option,
     option__selected: _selectTheme.option__active,
     option__disabled: _selectTheme.option__disabled
-}
+} satisfies DropdownSearchProps['theme']
 const DropdownSearch = withDefaults(_DropdownSearch, {
     theme: dropdownSearchTheme,
     inputTheme: {
@@ -125,11 +125,11 @@ const numberPickerTheme = Object.assign(_numberPickerTheme, {
     _focused: inputTheme._focused,
     label_text: inputTheme.label_text
 })
-const numberPickerInputTheme: NonNullable<InputProps['theme']> = {
+const numberPickerInputTheme = {
     ...inputTheme,
     root: `${inputTheme.root} ${numberPickerTheme.root}`,
     field: `${inputTheme.field} ${numberPickerTheme.field}`
-}
+} satisfies InputProps['theme']
 const NumberPicker = withDefaults(_NumberPicker, {
     theme: numberPickerTheme,
     inputTheme: numberPickerInputTheme,
@@ -160,7 +160,7 @@ const Ranger = withDefaults(_Ranger, {
 })
 
 
-const selectTheme: SelectProps['theme'] = Object.assign(_selectTheme, {
+const selectTheme = Object.assign(_selectTheme, {
     _multiselect: _selectTheme._multiselect,
     _error: `${inputTheme._error} ${_selectTheme._error}`,
     title_wrapper: `${inputTheme.field} ${_selectTheme.title_wrapper}`,

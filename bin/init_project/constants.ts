@@ -6,7 +6,7 @@ import { requireJSON, toPosixPath } from '../../core/utils'
 import type { PackageJson } from './types'
 
 
-const siegelPackageJson = requireJSON(PATHS.PACKAGE_JSON) as PackageJson
+const siegelPackageJson = await requireJSON<PackageJson>(PATHS.PACKAGE_JSON)
 const {
     name: packageName,
     scripts: packageScripts,

@@ -45,7 +45,7 @@ const init: SocketInit = args => {
     function setServerTimeout() {
         if (serverTimeout) {
             clearTimeout(keepAliveTimeoutId)
-            keepAliveTimeoutId = (setTimeout as Window['setTimeout'])(() => {
+            keepAliveTimeoutId = setTimeout(() => {
                 socket.close()
                 onError()
             }, serverTimeout)

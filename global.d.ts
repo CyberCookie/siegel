@@ -2,6 +2,10 @@ declare module '*.sass'
 
 declare module 'picomatch'
 
+declare module 'worker_threads' {
+    export type TransferListItem = ArrayBuffer | MessagePort
+}
+
 
 declare function isNaN(value: any): boolean
 declare function isFinite(value: any): boolean
@@ -34,66 +38,11 @@ type UnionToIntersection<U> = (
  * Recursively iterates over given object and makes its properties optional
  * @param T - Object to iterate over
  */
-type DeepPartial<T> = T extends object
+type DeepPartial<T> = T extends Obj
     ?   T extends AnyFunc
         ?   T
         :   { [P in keyof T]?: DeepPartial<T[P]> }
     :   T
-
-
-
-// type __ExtractKeysWithOptionalValueObject<O extends Record<string, any>> = keyof ExcludeObjectValueTypes<
-//     {
-//         [K in keyof NarrowObjectToValueTypes<
-//             ExcludeObjectValueTypes<
-//                 Required<O>,
-//                 undefined
-//             >,
-//             object
-//         >]: undefined extends O[K] ? O[K] : never
-//     },
-//     never
-// >
-// /**
-//  * Recursively merges two objects
-//  * @param O1 - Object
-//  * @param O2 - Object
-//  */
-// type DeepMerge<
-//     O1 extends Record<string, any>,
-//     O2 extends Record<string, any>,
-//     BothObjectKeys = keyof NarrowObjectToValueTypes<Required<O1>, object> & keyof NarrowObjectToValueTypes<Required<O2>, object>
-// > =
-//     {
-//         [K in (
-//             RequiredKeys<NarrowObjectToValueTypes<O1, object>> & RequiredKeys<NarrowObjectToValueTypes<O2, object>>
-//         )]: DeepMerge<O1[K], O2[K]>
-//     } &
-
-//     {
-//         [K in (
-//             __ExtractKeysWithOptionalValueObject<O1> & __ExtractKeysWithOptionalValueObject<O2>
-//         )]?: DeepMerge<Partial<NonNullable<O1[K]>>, Partial<NonNullable<O2[K]>>>
-//     } &
-
-//     {
-//         [K in (
-//             RequiredKeys<NarrowObjectToValueTypes<O1, object>> & __ExtractKeysWithOptionalValueObject<O2>
-//         )]: DeepMerge<O1[K], Partial<NonNullable<O2[K]>>>
-//     } &
-
-//     {
-//         [K in (
-//             __ExtractKeysWithOptionalValueObject<O1> & RequiredKeys<NarrowObjectToValueTypes<O2, object>>
-//         )]: DeepMerge<Partial<NonNullable<O1[K]>>, O2[K]>
-//     } &
-
-
-//     { [K in Exclude<RequiredKeys<O1> & OptionalKeys<O2>, BothObjectKeys>]: Exclude<O1[K] | O2[K], undefined> } &
-//     { [K in Exclude<RequiredKeys<O2>, BothObjectKeys>]: O2[K] } &
-//     { [K in Exclude<OptionalKeys<O1> & OptionalKeys<O2>, BothObjectKeys>]?: O1[K] | O2[K] } &
-//     { [K in keyof Omit<O1, keyof O2>]: O1[K] } &
-//     { [K in keyof Omit<O2, keyof O1>]: O2[K] }
 
 
 

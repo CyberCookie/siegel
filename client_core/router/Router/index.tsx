@@ -144,7 +144,7 @@ function Router(props: RouterProps) {
             ) {
 
                 if (!transitionTimeoutID) {
-                    routerState.transitionTimeoutID = (setTimeout as Window['setTimeout'])(() => {
+                    routerState.transitionTimeoutID = setTimeout(() => {
                         setRouterState({ ...toDefaultTransitionState(routerState) })
                     }, duration)
 

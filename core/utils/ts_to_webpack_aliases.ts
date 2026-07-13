@@ -3,17 +3,17 @@ import { join } from 'path'
 import { LOC_NAMES } from '../constants'
 import requireJSON from './require_json'
 
-import type { CompilerOptions } from 'typescript'
+import type { TSConfig } from '../../bin/init_project'
 
 
-function tsToWebpackAliases(tsConfigDirPath: string, tsConfigFileName = LOC_NAMES.TS_JSON) {
+async function tsToWebpackAliases(tsConfigDirPath: string, tsConfigFileName = LOC_NAMES.TS_JSON) {
     const tsConfigPath =  join(tsConfigDirPath, tsConfigFileName)
 
-    let paths: CompilerOptions['paths'] = {}
+    let paths: TSConfig['compilerOptions']['paths'] = {}
     try {
-        const tsConfig = requireJSON(tsConfigPath)
+        const tsConfig = await requireJSON<TSConfig>(tsConfigPath)
 
-        const compilerOptions = tsConfig?.compilerOptions as CompilerOptions
+        const compilerOptions = tsConfig?.compilerOptions
         if (compilerOptions) {
             if (compilerOptions?.paths) {
                 paths = compilerOptions!.paths

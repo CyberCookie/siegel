@@ -3,10 +3,31 @@ import path from 'path'
 import fs from 'fs'
 
 import { PATHS } from '../../../core/constants.js'
-import { isRunDirectly } from '../../../core/utils'
 import { siegelPackageJsonData } from '../constants.js'
 
-import type { GitRepoMetadataResponse, GitDownloadDirFilter } from './types'
+
+
+type GitDir = {
+    type: 'dir'
+    download_url: null
+}
+type GitFile = {
+    type: 'file'
+    download_url: string
+}
+type GitEntityMetadata = ({
+    name: string
+    path: string
+    sha: string
+    size: number
+    html_url: string
+    git_url: string
+} & (GitDir | GitFile))
+
+type GitRepoMetadataResponse = GitEntityMetadata[]
+
+type GitDownloadDirFilter = (path: GitEntityMetadata['path']) => boolean
+
 
 
 const gitHost = 'api.github.com'
@@ -94,9 +115,7 @@ function main(
 }
 
 
-if (isRunDirectly(import.meta)) {
-    main('')
-}
+import.meta.main && main('')
 
 
 export default main

@@ -5,7 +5,11 @@ import { PATHS } from '../../../core/constants'
 import { toPosixPath } from '../../../core/utils'
 import { siegelPackageJsonData } from '../constants'
 
-import type { ModifyServerPathsParams } from './types'
+
+type ModifyServerPathsParams = {
+    DEMO_PROJECT_SERVER_PATH: string
+    PATHS_TO_UPDATE: string[]
+}
 
 
 const { packageName } = siegelPackageJsonData

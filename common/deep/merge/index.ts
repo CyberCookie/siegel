@@ -1,74 +1,78 @@
 import isExists from '../../is/exists'
 
 
-type Expand<T> = T extends object
-    ?   { [K in keyof T]: Expand<T[K]> }
-    :   T
+// type Expand<T> = T extends object
+//     ?   { [K in keyof T]: Expand<T[K]> }
+//     :   T
 
-type NormalizeOptions<O> = O extends { skipUndef: true } ? true : false
-
-
-type BuiltInNonPlainObjects =
-    |   any[]
-    |   RegExp
-    |   Date
-    |   AnyFunc
-    |   Map<any, any> | Set<any> | WeakMap<any, any> | WeakSet<any>
-    |   Promise<any>
-    |   Error
-    |   ArrayBuffer | SharedArrayBuffer | DataView
-    |   Int8Array | Uint8Array | Uint8ClampedArray
-        |   Int16Array | Uint16Array
-        |   Int32Array | Uint32Array
-        |   Float32Array | Float64Array
-        |   BigInt64Array | BigUint64Array
-
-type IsPlainObject<T> = T extends object
-    ?   T extends BuiltInNonPlainObjects
-        ?   false
-        :   Obj extends T
-            ?   true
-            :   T extends Obj
-                ?   true
-                :   false
-    :   false
+// type NormalizeOptions<O> = O extends { skipUndef: true } ? true : false
 
 
-type ResolveOverwrite<X, Y, SkipUndef extends boolean> = SkipUndef extends true
-    ?   undefined extends Y
-        ?   [Exclude<Y, undefined>] extends [never]
-            ?   X
-            :   Exclude<Y, undefined> | X
-        :   Y
-    :   Y
+// type BuiltInNonPlainObjects =
+//     |   any[]
+//     |   RegExp
+//     |   Date
+//     |   AnyFunc
+//     |   Map<any, any> | Set<any> | WeakMap<any, any> | WeakSet<any>
+//     |   Promise<any>
+//     |   Error
+//     |   ArrayBuffer | SharedArrayBuffer | DataView
+//     |   Int8Array | Uint8Array | Uint8ClampedArray
+//         |   Int16Array | Uint16Array
+//         |   Int32Array | Uint32Array
+//         |   Float32Array | Float64Array
+//         |   BigInt64Array | BigUint64Array
 
-type DeepMerge<X, Y, SkipUndef extends boolean> = IsPlainObject<X> extends true
-    ?   IsPlainObject<Y> extends true
-        ?       { [K in keyof X as K extends keyof Y ? never : K]: X[K] }
-            &   {
-                    [K in keyof Y as K extends keyof X
-                        ?   never
-                        :   SkipUndef extends true
-                            ?   [Exclude<Y[K], undefined>] extends [never] ? never : K
-                            :   K
-                    ]: SkipUndef extends true ? Exclude<Y[K], undefined> : Y[K]
-                }
-            &   {
-                    [K in keyof X & keyof Y]: SkipUndef extends true
-                        ?   [Exclude<Y[K], undefined>] extends [never]
-                            ?   X[K]
-                            :   undefined extends Y[K]
-                                ?   DeepMerge<X[K], Exclude<Y[K], undefined>, true> | X[K]
-                                :   DeepMerge<X[K], Y[K], true>
+// type IsPlainObject<T> = T extends object
+//     ?   T extends BuiltInNonPlainObjects
+//         ?   false
+//         :   Obj extends T
+//             ?   true
+//             :   T extends Obj
+//                 ?   true
+//                 :   false
+//     :   false
 
-                        :   IsPlainObject<X[K]> extends true
-                            ?   IsPlainObject<Y[K]> extends true
-                                ?   DeepMerge<X[K], Y[K], false>
-                                :   Y[K]
-                            :   Y[K]
-                }
-        :   ResolveOverwrite<X, Y, SkipUndef>
-    :   ResolveOverwrite<X, Y, SkipUndef>
+
+// type ResolveOverwrite<X, Y, SkipUndef extends boolean> = SkipUndef extends true
+//     ?   undefined extends Y
+//         ?   [Exclude<Y, undefined>] extends [never]
+//             ?   X
+//             :   Exclude<Y, undefined> | X
+//         :   Y
+//     :   Y
+
+// type DeepMerge<X, Y, SkipUndef extends boolean> = IsPlainObject<X> extends true
+//     ?   IsPlainObject<Y> extends true
+//         ?       { [K in keyof X as K extends keyof Y ? never : K]: X[K] }
+//             &   {
+//                     [K in keyof Y as K extends keyof X
+//                         ?   never
+//                         :   SkipUndef extends true
+//                             ?   [Exclude<Y[K], undefined>] extends [never] ? never : K
+//                             :   K
+//                     ]: SkipUndef extends true ? Exclude<Y[K], undefined> : Y[K]
+//                 }
+//             &   {
+//                     [K in keyof X & keyof Y]: SkipUndef extends true
+//                         ?   [Exclude<Y[K], undefined>] extends [never]
+//                             ?   X[K]
+//                             :   undefined extends Y[K]
+//                                 ?   DeepMerge<X[K], Exclude<Y[K], undefined>, true> | X[K]
+//                                 :   DeepMerge<X[K], Y[K], true>
+
+//                         :   IsPlainObject<X[K]> extends true
+//                             ?   IsPlainObject<Y[K]> extends true
+//                                 ?   DeepMerge<X[K], Y[K], false>
+//                                 :   Y[K]
+//                             :   Y[K]
+//                 }
+//         :   ResolveOverwrite<X, Y, SkipUndef>
+//     :   ResolveOverwrite<X, Y, SkipUndef>
+
+
+
+
 
 
 
@@ -213,7 +217,7 @@ const deepMerge = <
 
 export default deepMerge
 export { resolveAsUndefSymbol }
-export type { DeepMerge }
+// export type { DeepMerge }
 
 
 

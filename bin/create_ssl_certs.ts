@@ -1,7 +1,6 @@
 import fs from 'fs'
 import { execSync as shell } from 'child_process'
 
-import isRunDirectly from '../core/utils/is_run_directly.js'
 import { PATHS } from '../core/constants.js'
 
 
@@ -58,7 +57,7 @@ Import ${filenames.rootCACrt} into your chrome browser SSL settings -> Authoriti
     `)
 }
 
-isRunDirectly(import.meta) && main()
+import.meta.main && main()
 
 
 export default main

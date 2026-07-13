@@ -12,7 +12,7 @@ onmessage = ({ data }: MessageEvent<MessageIncome>) => {
     const { ms, id } = data
 
     if (ms) {
-        activeIntervalsById[id] = (setInterval as Window['setInterval'])(() => {
+        activeIntervalsById[id] = setInterval(() => {
             postMessage(id)
         }, ms)
 

@@ -1,5 +1,3 @@
-import isExists from '../../../common/is/exists'
-
 import type { RouterProps } from '../types'
 
 
@@ -9,9 +7,7 @@ const parseBasename = (
 ) => {
 
     const historyBasename = history.basename
-    const actualBasename = isExists(historyBasename)
-        ?   historyBasename
-        :   basename
+    const actualBasename = historyBasename ?? basename
 
 
     return {

@@ -1,9 +1,6 @@
-import fs from 'fs'
-
-
-function requireJSON<O extends Obj = Obj>(path: string): O {
-    const jsonFileContent = fs.readFileSync(path, 'utf8')
-    return JSON.parse(jsonFileContent)
+async function requireJSON<O extends Obj = Obj>(path: string): Promise<O> {
+    const jsonFileContent: O = await Bun.file(path).json()
+    return jsonFileContent
 }
 
 

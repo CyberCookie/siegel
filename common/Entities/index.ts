@@ -1,4 +1,3 @@
-import isExists from '../is/exists'
 import rangeEach from '../array/range_each'
 
 
@@ -22,9 +21,7 @@ class Entities<E extends Obj> {
 
         const [ uniqField ] = args
 
-        this.uniqField = isExists(uniqField)
-            ?   uniqField
-            :   DEFAULT_UNIQ_KEY
+        this.uniqField = uniqField ?? DEFAULT_UNIQ_KEY
 
         this.lastUpdated = Date.now()
     }
@@ -126,7 +123,7 @@ class Entities<E extends Obj> {
      * Deletes all the entities from struct
      */
     clear() {
-        this.byId = {}
+        this.byId = Object.create(null)
         this.sorted = []
 
         this.setLastUpdated()

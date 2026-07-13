@@ -6,8 +6,8 @@ import extractSSL from './extract_ssl_key'
 import getStaticFileResponseParams from './get_static_file_response_data'
 
 import type {
-    ServerBootParams, FastifyAllServerOptions,
-    FastifyHTTPSOptions, FastifyHTTP2Options, FastifyHTTP2SOptions
+    ServerBootParams,
+    FastifyAllServerOptions, FastifyHTTPSOptions, FastifyHTTP2Options, FastifyHTTP2SOptions
 } from './types'
 
 
@@ -101,6 +101,29 @@ const server = {
 
         return serverInstance
     }
+
+    // run(params: ServerBootParams) {
+    //     const { config, devMiddlewares } = params
+    //     const { publicDir, runMode, server, build } = config
+    //     const { isBuild } = runMode!
+    //     const { http3, host, port, appServer, serveCompressionsPriority, ssl } = server!
+
+
+    //     const serverOptions: Parameters<typeof Bun['serve']>[0] = {
+    //         port, http3,
+    //         hostname: host,
+    //         fetch(req) {
+    //             return new Response('404')
+    //         }
+    //     }
+
+    //     ssl && (serverOptions.tls = extractSSL(ssl))
+
+
+
+    //     Bun.serve(serverOptions)
+    //     console.info('Starting server on %s:%s.', host, port)
+    // }
 }
 
 

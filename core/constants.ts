@@ -1,7 +1,5 @@
 import { join, sep } from 'path'
 
-import cjs__dirname from './utils/cjs__dirname.js'
-
 
 const LOC_NAMES = {
     PACKAGE_JSON: 'package.json',
@@ -24,7 +22,7 @@ const LOC_NAMES = {
 
 
 
-const __dirname = cjs__dirname(import.meta)
+const __dirname = import.meta.dirname
 const CWD = process.cwd()
 
 let PACKAGE_ROOT = join(__dirname, '..')

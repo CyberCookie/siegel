@@ -5,7 +5,7 @@ import siegel, { nodeUtils } from '../../core'
 import appServer from './app_server.js'
 
 
-const { tsToWebpackAliases, cjs__dirname } = nodeUtils
+const { tsToWebpackAliases } = nodeUtils
 
 
 const RUN_ARGUMENTS = new FastSet(process.argv)
@@ -17,7 +17,7 @@ const isProd = RUN_ARGUMENTS.has('-p')
 isProd && (process.env.NODE_ENV = 'production')
 
 
-const __dirname = cjs__dirname(import.meta)
+const __dirname = import.meta.dirname
 const rootPath = join(__dirname, '..')
 
 const CLIENT_APP = join(rootPath, 'client')
@@ -44,6 +44,6 @@ siegel({
             iconsRoot: join(CLIENT_MAIN, 'components', 'icons', 'svg_sources')
         },
 
-        aliases: tsToWebpackAliases(rootPath)
+        aliases: await tsToWebpackAliases(rootPath)
     }
 })

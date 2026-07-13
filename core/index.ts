@@ -7,13 +7,12 @@ if (INIT_CWD && INIT_CWD !== PWD) {
 }
 
 
-import * as utils from '../common'
-import * as nodeUtils from './utils'
 import getConfig from './get_config.js'
-import webpackBuilder, { BUILD_CONSTANTS } from './client_build'
-import { bootServer, getStaticServingData, extractSSL, proxyReq } from './server'
+import webpackBuilder from './client_build'
+import { bootServer } from './server'
 
 import type { Config, WebpackMiddlewares } from './types'
+
 
 
 async function main(userConfig?: Config) {
@@ -40,16 +39,18 @@ async function main(userConfig?: Config) {
     })
 }
 
-nodeUtils.isRunDirectly(import.meta) && main()
+import.meta.main && main()
+
 
 
 export default main
-export {
-    BUILD_CONSTANTS, nodeUtils, utils,
-    getConfig, webpackBuilder,
-    bootServer, getStaticServingData, extractSSL, proxyReq
-}
-export type { Config, WebpackMiddlewares }
+export { getConfig }
+export * from './client_build'
+export * from './server'
+export * as utils from '../common'
+export * as nodeUtils from './utils'
+
+export type * from './types'
 export type {
     ServerExtenderFn,
     FastifyHTTPServer, FastifyHTTPServerSecure, FastifyHTTP2Server, FastifyHTTP2ServerSecure

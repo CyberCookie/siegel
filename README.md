@@ -61,7 +61,7 @@ Read more about each part following the links below:
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/client_core/utils) - Web related small utilities
 - Core
     - [Build](https://github.com/CyberCookie/siegel/tree/master/core/client_build) - Webpack abstraction to easily configure a build process
-    - [Server](https://github.com/CyberCookie/siegel/tree/master/core/server) - Minimalistic HTTP1.1(S) / HTTP2(S) servers built with Fastify 
+    - [Server](https://github.com/CyberCookie/siegel/tree/master/core/server) - Minimalistic HTTP1.1(S) / HTTP/2(S) servers built with Fastify 
     - [Utils](https://github.com/CyberCookie/siegel/tree/master/core/utils) - NodeJS related utils
 - [Cross env utils](https://github.com/CyberCookie/siegel/tree/master/common) - Basic utils to help you process data
 - [TS utils](https://github.com/CyberCookie/siegel/tree/master/global.d.ts) - Useful TypeScript generics

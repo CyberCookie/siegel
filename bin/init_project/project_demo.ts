@@ -5,7 +5,7 @@ import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
 import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../../core/constants.js'
-import { isRunDirectly, requireJSON } from '../../core/utils'
+import { requireJSON } from '../../core/utils'
 import { siegelPackageJsonData, INIT_COMMON_LOC_NAMES, INIT_COMMON_PATHS } from './constants.js'
 import { toJSON, downloadGitDir, modifyServerPaths, modifyTsConfigs } from './utils'
 
@@ -17,7 +17,7 @@ const {
 } = siegelPackageJsonData
 
 
-function main() {
+async function main() {
     if (IS_SELF_DEVELOPMENT) {
         throw new Error('Attempt to initialize demo_app inside siegel pckg')
     }
@@ -51,7 +51,7 @@ function main() {
     }
 
 
-    function modifyPackageJson() {
+    async function modifyPackageJson() {
         existsSync(INIT_COMMON_PATHS.USER_PACKAGE_JSON) || shell('npm init -y')
 
         const scriptsToRemove = [ 'prepublishOnly', '__validate', '__transpile', 'start_mini' ]
@@ -70,7 +70,7 @@ function main() {
         packageScripts[buildNodeCommand] = `npx tsc -p ./${DEMO_APP_SERVER_DIR_NAME}`
 
 
-        const clientPackageJson = requireJSON(INIT_COMMON_PATHS.USER_PACKAGE_JSON) as PackageJson
+        const clientPackageJson = await requireJSON<PackageJson>(INIT_COMMON_PATHS.USER_PACKAGE_JSON)
 
         clientPackageJson.type = packageType
         clientPackageJson.engines = packageEngines
@@ -101,16 +101,16 @@ function main() {
         ]
     })
 
-    modifyTsConfigs({
+    await modifyTsConfigs({
         DEMO_APP_PATH_SHIFT, USER_SERVER_PATH,
         USER_TS_CONFIG_PATH: join(PATHS.CWD, LOC_NAMES.TS_JSON)
     })
 
     modifyESLintConfig()
-    modifyPackageJson()
+    await modifyPackageJson()
 }
 
-isRunDirectly(import.meta) && main()
+import.meta.main && await main()
 
 
 export default main

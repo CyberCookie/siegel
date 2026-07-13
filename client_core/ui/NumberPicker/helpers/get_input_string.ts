@@ -63,9 +63,7 @@ function getInputString(params: Params) {
                     const firstChar = result[0]
                     const isNegative = firstChar === '-'
 
-                    const zeroPadIndexOfDot = isExists(indexOfDot)
-                        ?   indexOfDot
-                        :   result.indexOf(CHAR_DOT)
+                    const zeroPadIndexOfDot = indexOfDot ?? result.indexOf(CHAR_DOT)
 
                     const padStartIndex = isNegative ? 1 : 0
                     const padEndIndex = zeroPadIndexOfDot! >= 0

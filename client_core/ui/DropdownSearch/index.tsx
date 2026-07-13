@@ -155,11 +155,7 @@ const DropdownSearch = component<Props, DefaultProps>(
                     setState({ ...state })
                 }
             },
-            value: isExists(searchString)
-                ?   searchString
-                :   selectedOption
-                    ?   selectedOption.inputValue
-                    :   ''
+            value: searchString ?? selectedOption?.inputValue ?? ''
         }
         inputClassName && (inputInnerProps.className += ` ${inputClassName}`)
 

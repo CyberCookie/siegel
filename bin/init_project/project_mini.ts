@@ -2,7 +2,7 @@ import { relative, join } from 'path'
 import { writeFileSync } from 'fs'
 
 import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../../core/constants.js'
-import { requireJSON, isRunDirectly, parseCommandLineArgs } from '../../core/utils'
+import { requireJSON, parseCommandLineArgs } from '../../core/utils'
 import { siegelPackageJsonData, INIT_COMMON_LOC_NAMES, INIT_COMMON_PATHS } from './constants.js'
 import { toJSON, downloadGitDir, modifyServerPaths, modifyTsConfigs } from './utils'
 
@@ -77,7 +77,7 @@ function main(isMiniServ: boolean) {
     modifyPackageJson()
 }
 
-if (isRunDirectly(import.meta)) {
+if (import.meta.main) {
     const { CLIParamsValues } = parseCommandLineArgs(process.argv)
     main(
         !!(CLIParamsValues['-s'] || CLIParamsValues['--server'])

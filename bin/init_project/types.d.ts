@@ -1,7 +1,5 @@
-import type { CompilerOptions } from 'typescript'
-
-
 type PackageJson = {
+    version: string
     name: string
     type: string
     config: {
@@ -14,11 +12,6 @@ type PackageJson = {
     }
 }
 
-type TSConfig = {
-    extends: string
-    compilerOptions: CompilerOptions
-    include: string[]
-}
 
-
-export type { PackageJson, TSConfig }
+export type { PackageJson }
+export type { TSConfig } from './utils/modify_ts_configs'

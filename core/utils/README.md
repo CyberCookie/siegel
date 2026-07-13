@@ -5,30 +5,6 @@
 
 
 <br/>
-<h3>CJS __dirname</h3>
-Retrieves dirname in CommonJS manner<br />
-It accessible through global variable **__dirname** in CommonJS.
-<br/>
-
-```ts
-import { utils } from 'siegel'
-
-const __dirname = utils.cjs__dirname(import.meta)
-```
-
-<br/>
-<h3>is run directly</h3>
-Returns true if module were run directly from CLI<br />
-In CommonJS were made with **require.main === module** check.
-<br/>
-
-```ts
-import { utils } from 'siegel'
-
-utils.isRunDirectly(import.meta)
-```
-
-<br/>
 <h3>Require json</h3>
 Returns parsed JSON by json file pathname<br /> 
 <br/>

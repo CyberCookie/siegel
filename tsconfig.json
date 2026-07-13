@@ -1,8 +1,7 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
         "jsx": "react",
-        "lib": [ "dom", "esnext" ],
+        "lib": [ "esnext", "dom" ],
         "outDir": "./lib",
 		"target": "esnext",
         "module": "esnext",
@@ -12,10 +11,7 @@
         "strict": true,
         "declaration": true,
         "allowSyntheticDefaultImports": true,
-        "isolatedModules": true,
-        "paths": {
-            "@types/node": [""]
-        }
+        "isolatedModules": true
     },
     "include": [ "bin", "client_core", "core", "common", "*.ts" ]
 }

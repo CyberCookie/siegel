@@ -125,7 +125,7 @@ const Clocks = component<Props, DefaultProps>(
                     worker.postMessage({ id: workerIntervalId, ms: updateInterval } as WorkerMessageIncome)
 
                 } else {
-                    tickInterval = (setInterval as Window['setInterval'])(() => {
+                    tickInterval = setInterval(() => {
                         workerTick({ data: '' })
                     }, updateInterval)
                 }

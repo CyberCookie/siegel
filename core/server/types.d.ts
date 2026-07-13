@@ -44,8 +44,11 @@ type ServerConfig = {
     /** Static server port. Default is 3000 */
     port?: string | number
 
-    /** Whether to use HTTP2 protocol */
+    /** Enable HTTP2 */
     http2?: boolean
+
+    /** Enable HTTP/3 (QUIC) */
+    http3?: boolean
 
     /** SSL params to establish secure connection */
     ssl?: {
@@ -70,6 +73,16 @@ type ServerConfig = {
         res: FastifyReply
     ): boolean
 }
+// & ({
+//         /** Enable HTTP2 */
+//         http2: boolean
+//         http3?: never
+//     } | {
+//         http2?: never
+//         /** Enable HTTP/3 (QUIC) */
+//         http3: boolean
+//     }
+// )
 
 
 type ServerBootParams = {
