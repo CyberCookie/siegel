@@ -22,7 +22,6 @@ const LOC_NAMES = {
 
 
 
-const __dirname = import.meta.dirname
 const CWD = process.cwd()
 
 let PACKAGE_ROOT = join(__dirname, '..')
@@ -45,6 +44,7 @@ const PATHS = {
     CLIENT_CORE_OUTPUT:     join(LIB_OUTPUT, LOC_NAMES.CLIENT_CORE_DIR_NAME),
     SRC:                    join(PACKAGE_ROOT, LOC_NAMES.SRC_DIR_NAME),
     SRC_OUTPUT:             join(LIB_OUTPUT, LOC_NAMES.SRC_DIR_NAME),
+    BIN:                    join(PACKAGE_ROOT, LOC_NAMES.BIN_DIR_NAME),
     BIN_OUTPUT:             join(LIB_OUTPUT, LOC_NAMES.BIN_DIR_NAME),
 
     DEMO_MINI_PROJECT:      join(PACKAGE_ROOT, LOC_NAMES.DEMO_APP_MINI_DIR_NAME),

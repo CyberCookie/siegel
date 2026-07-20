@@ -17,7 +17,6 @@ const isProd = RUN_ARGUMENTS.has('-p')
 isProd && (process.env.NODE_ENV = 'production')
 
 
-const __dirname = import.meta.dirname
 const rootPath = join(__dirname, '..')
 
 const CLIENT_APP = join(rootPath, 'client')

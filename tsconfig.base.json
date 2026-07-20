@@ -1,14 +1,19 @@
 {
     "compilerOptions": {
-        "lib": [ "esnext" ],
 		"target": "esnext",
         "module": "esnext",
+        "moduleResolution": "bundler",
+        "types": [],
+        "outDir": "${configDir}../lib",
         "noEmit": true,
+        "declaration": true,
         "allowJs": true,
         "strict": true,
-        "declaration": true,
         "allowSyntheticDefaultImports": true,
         "isolatedModules": true
     },
-    "include": [ "*.ts" ]
+    "include": [
+        "${configDir}/**/*",
+        "${configDir}/../globals.d.ts"
+    ]
 }

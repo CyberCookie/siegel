@@ -1,3 +1,6 @@
+/// <reference types='react' />
+
+
 declare module '*.sass'
 
 declare module 'picomatch'

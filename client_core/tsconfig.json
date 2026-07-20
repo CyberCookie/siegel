@@ -1,7 +1,7 @@
 {
-    "extends": "../tsconfig.json",
+    "extends": "../tsconfig.base.json",
     "compilerOptions": {
-        "types": [],
+        "jsx": "react",
         "plugins": [{
 			"name": "typescript-plugin-css-modules",
             "options": {
@@ -9,6 +9,5 @@
                 "additionalData": "@use 'sass:math'\n"
 			}
 		}]
-    },
-    "include": [ "**/*", "../global.d.ts" ]
+    }
 }

@@ -7,7 +7,7 @@ import { PATHS } from './core/constants'
 const app = await td.Application.bootstrapWithPlugins(
     {
         entryPoints: [
-            path.join(PATHS.SHARED_UTILS, 'Entities', 'index.ts')
+            path.join(PATHS.SHARED_UTILS)
         ],
         out: 'docs',
         entryPointStrategy: 'resolve'
