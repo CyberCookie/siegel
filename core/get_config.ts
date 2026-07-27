@@ -98,7 +98,8 @@ const getConfig = (userConfig?: Config) => {
                 const { input, output } = config.build as BuildConfigsMerged
 
                 if (isProd) {
-                    output.filenames = Object.assign(prodFilenames, output.filenames)
+                    const userFilenames = (userConfig as ConfigObject).build?.output?.filenames
+                    output.filenames = Object.assign({}, prodFilenames, userFilenames)
                 }
 
                 if (fs.existsSync(input.js)) {
