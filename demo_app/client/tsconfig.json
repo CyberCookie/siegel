@@ -1,8 +1,7 @@
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
-        "jsx": "react",
-        "types": []
+        "jsx": "react"
     },
-    "include": [ "**/*", "../../global.d.ts" ]
+    "include": [ "**/*", "../../globals.d.ts" ]
 }

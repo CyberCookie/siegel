@@ -1,6 +1,6 @@
 import React from 'react'
-import isExists from '../../../common/is/exists'
 
+import { isExists } from 'siegel-utils'
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'

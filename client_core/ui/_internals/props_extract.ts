@@ -1,7 +1,7 @@
 // TODO: themeExtend prop
 
 import { isValidElement } from 'react'
-import deepMerge from '../../../common/deep/merge'
+import { deepMerge } from 'siegel-utils'
 
 import type { PropsComponentThemed } from './types'
 

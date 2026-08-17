@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FastSet } from '../../../../common'
+import { FastSet } from 'siegel-utils'
 import applyClassName from '../../_internals/apply_classname'
 
 import type { SelectedOptionIndex } from '../../_internals/handle_keyboard_selection'

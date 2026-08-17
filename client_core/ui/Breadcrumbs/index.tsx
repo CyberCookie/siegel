@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useLayoutEffect } from 'react'
 
+import { isExists } from 'siegel-utils'
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
-import isExists from '../../../common/is/exists'
 import component from '../_internals/component'
 import applyRefApi from '../_internals/ref_apply'
 import applyClassName from '../_internals/apply_classname'

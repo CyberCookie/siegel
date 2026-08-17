@@ -155,7 +155,7 @@ function clientBuilder(config: ConfigObject) {
                 forwardError: true
             }),
 
-            hot: hotMiddleware(webpackCompiller),
+            hot: hotMiddleware(webpackCompiller as any),
 
             indexFallback(req: IncomingMessage, res: ServerResponse, next: () => void) {
                 const { method, headers } = req
@@ -176,8 +176,7 @@ function clientBuilder(config: ConfigObject) {
 }
 
 
-export default clientBuilder
+export { BUILD_CONSTANTS, clientBuilder }
 export type WebpackMiddlewares = ReturnType<
     ReturnType<typeof clientBuilder>['getDevMiddlewares']
 >
-export { BUILD_CONSTANTS }

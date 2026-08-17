@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 
-import isExists from '../../../common/is/exists'
+import { isExists } from 'siegel-utils'
 import component from '../../ui/_internals/component'
 import applyRefApi from '../../ui/_internals/ref_apply'
 import { BASENAME_UPDATE_EVENT_TYPE } from '../constants'

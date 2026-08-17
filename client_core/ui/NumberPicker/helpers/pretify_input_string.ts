@@ -1,4 +1,4 @@
-import isExists from '../../../../common/is/exists'
+import { isExists } from 'siegel-utils'
 
 
 const CHAR_ZERO = '0'

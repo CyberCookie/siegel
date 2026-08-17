@@ -124,7 +124,7 @@ type MakeReadonlyFields<
  * @param V - Value
  */
 type NarrowObjectToValueTypes<O extends Obj, V> = {
-    [K in keyof O as O[K] extends V ? K : never]: V
+    [K in keyof O as O[K] extends V ? K : never]: O[K]
 }
 
 /**

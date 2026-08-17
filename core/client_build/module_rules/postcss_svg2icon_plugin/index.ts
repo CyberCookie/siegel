@@ -2,7 +2,7 @@ import path from 'path'
 import { createHash } from 'crypto'
 import postcss, { Declaration } from 'postcss'
 
-import { FastSet } from '../../../../common'
+import { FastSet } from 'siegel-utils'
 import iconToFont from './icons_to_font.js'
 
 import type { Svg2FontConverterPlugin, GetFontFaceNodeFn } from './types'

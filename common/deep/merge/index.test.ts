@@ -115,9 +115,7 @@ describe('common/deep/merge', () => {
             c: {
                 d: [ 1, 2, 3 ],
                 ca: false
-            },
-
-            asd: false
+            }
         })
     })
 

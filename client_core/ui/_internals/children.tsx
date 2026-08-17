@@ -1,6 +1,6 @@
 import React from 'react'
 
-import isExists from '../../../common/is/exists'
+import { isExists } from 'siegel-utils'
 
 
 type ThemeWithChildren = {

@@ -1,5 +1,4 @@
-import isExists from '../../../../common/is/exists'
-
+import { isExists } from 'siegel-utils'
 import pretifyInputString from './pretify_input_string'
 
 import type { MergedProps } from '../types'

@@ -7,7 +7,9 @@ import isExists from '../exists'
  * @param val - Value to check
  * @returns true if value is undefined or null
  */
-const isNullable = (val: any) => !isExists(val) || val === null
+const isNullable = <T = any>(value: T): value is Extract<T, undefined | null> => (
+    !isExists(value) || value === null
+)
 
 
 export default isNullable

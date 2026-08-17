@@ -1,4 +1,4 @@
-import { isExists, FastSet } from '../../../common'
+import { isExists, FastSet } from 'siegel-utils'
 import * as keyCodes from './key_codes'
 
 

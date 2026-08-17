@@ -1,4 +1,4 @@
-import { arrayDeduplicate, isExists, FastSet } from '../../../../common'
+import { arrayDeduplicate, isExists, FastSet } from 'siegel-utils'
 import { getExpanderRow, SlideWindowRange } from '../helpers/apply_virtualization'
 
 import type { TableBodyRow, TableTD } from '../../Table/types'
@@ -92,14 +92,14 @@ function getBody(
 
 
     let resultIDs: string[]
-    if (pinnedEntitiesSorted?.length! > 0) {
+    if (pinnedEntitiesSorted?.length) {
         processedList = processedList
             .splice(0, from)
-            .concat(pinnedEntitiesSorted!, processedList)
+            .concat(pinnedEntitiesSorted, processedList)
 
         resultIDs = arrayDeduplicate(processedList)
 
-        withFooter && (to += pinnedEntitiesSorted!.length)
+        withFooter && (to += pinnedEntitiesSorted.length)
 
     } else resultIDs = processedList
 

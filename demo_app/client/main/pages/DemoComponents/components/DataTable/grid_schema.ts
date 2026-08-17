@@ -47,7 +47,7 @@ function filterValue(
         const { dateStart, dateEnd } = search as DateSearchFilter
         const { value } = this.showValue(byID[ID]!)
         const timestamp = value
-            ?   (new Date(value as string)).getTime()
+            ?   +(new Date(value as string))
             :   Date.now()
 
         return dateStart <= timestamp && timestamp < dateEnd

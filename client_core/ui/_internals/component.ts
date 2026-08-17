@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import { isExists, isEmptyObject } from '../../../common'
+import { isExists, isEmptyObject } from 'siegel-utils'
 import extractProps from './props_extract'
 
 import type { CoreUIComponent, PropsComponentThemed } from './types'

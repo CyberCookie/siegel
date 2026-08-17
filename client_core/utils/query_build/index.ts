@@ -1,4 +1,4 @@
-import isNullable from '../../../common/is/nullable'
+import { isNullable } from 'siegel-utils'
 
 
 type QueryValuePrimitives = string | number | boolean

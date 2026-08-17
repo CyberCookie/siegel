@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useLayoutEffect, useState } from 'react'
 
-import isExists from '../../../common/is/exists'
+import { isExists } from 'siegel-utils'
+import useDidUpdate from '../../hooks/did_update'
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
@@ -76,6 +77,13 @@ const Input = component<Props, DefaultProps>(
                 debounceTimeoutID
             ])
         }
+
+        useDidUpdate(() => {
+            if (disabled && isFocused) {
+                state.isFocused = false
+                setState({ ...state })
+            }
+        }, [ disabled ])
 
         const isReadonly = !disabled && !onChange
         const isTextarea = type === 'textarea'

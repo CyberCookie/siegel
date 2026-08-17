@@ -3,7 +3,7 @@
 
 import React, { useState, useLayoutEffect } from 'react'
 
-import isExists from '../../../common/is/exists'
+import { isExists } from 'siegel-utils'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
 import addChildren from '../_internals/children'

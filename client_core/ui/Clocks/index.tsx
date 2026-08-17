@@ -1,8 +1,6 @@
 import { useState, useLayoutEffect } from 'react'
 
-import getUniqId from '../../../common/get_uniq_id'
-import dateParse from '../../../common/date/parse'
-import msIn from '../../../common/date/constants'
+import { getUniqId, dateParse, msIn } from 'siegel-utils'
 import intervalWorker, {
     MessageIncome as WorkerMessageIncome,
     MessageOutcome as WorkerMessageOutcome

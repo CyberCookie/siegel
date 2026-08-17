@@ -26,5 +26,5 @@
 			}
 		}]
 	},
-	"include": [ "client", "server", "dto", "../global.d.ts" ]
+	"include": [ "client", "server", "dto", "../globals.d.ts" ]
 }

@@ -4,7 +4,7 @@
 
 import React, { useState, useRef } from 'react'
 
-import isExists from '../../../common/is/exists'
+import { isExists } from 'siegel-utils'
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'

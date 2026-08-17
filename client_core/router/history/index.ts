@@ -1,4 +1,4 @@
-import isExists from '../../../common/is/exists'
+import { isExists } from 'siegel-utils'
 import { BASENAME_UPDATE_EVENT_TYPE, NAVIGATION_UPDATE_EVENT_TYPE } from '../constants'
 import getFinalURL from '../get_final_url'
 import parseBasename from './parse_basename'

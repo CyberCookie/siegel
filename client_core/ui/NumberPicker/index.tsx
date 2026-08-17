@@ -1,8 +1,10 @@
+// TODO: cycle mode. for ex: After 59 goes 0. onChange fires cycleOverflowUp || cycleOverflowDown
+
+
 import React, { useState, useRef } from 'react'
 
+import { isExists, floatsArifmetic } from 'siegel-utils'
 import useDidUpdate from '../../hooks/did_update'
-import floatMath from '../../../common/math/floats_arifmetic'
-import isExists from '../../../common/is/exists'
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
 import applyClassName from '../_internals/apply_classname'
 import component from '../_internals/component'
@@ -103,15 +105,15 @@ const NumberPicker = component<Props, DefaultProps>(
         const { prevValidNumber, stringValue } = editState
 
         useDidUpdate(() => {
-            (disabled || !isFocused || (focusedValueOutsideUpdate && numberValue !== +stringValue!))
-                &&  setEditState(
-                        getValueState(
-                            props, numberValue, numberMask,
-                            document.activeElement?.nodeName === 'INPUT' ? isFocused : false
-                        )
+            if (disabled || !isFocused || (focusedValueOutsideUpdate && numberValue !== +stringValue!)) {
+                setEditState(
+                    getValueState(
+                        props, numberValue, numberMask,
+                        document.activeElement?.nodeName === 'INPUT' ? isFocused : false
                     )
+                )
+            }
         }, [ focusedValueOutsideUpdate, isFocused, value, disabled ])
-
 
 
         const _onBlur: ComponentFocusEventHandler = e => {
@@ -120,7 +122,7 @@ const NumberPicker = component<Props, DefaultProps>(
             const { relatedTarget } = e.nativeEvent
             if (
                     !relatedTarget
-                ||  !((ref.current! as HTMLDivElement).contains(relatedTarget as Node))
+                ||  !(ref.current! as HTMLDivElement).contains(relatedTarget as Node)
             ) {
 
                 onBlur?.(e)
@@ -201,7 +203,7 @@ const NumberPicker = component<Props, DefaultProps>(
 
                 if (stepPrecision || numberValuePrecision) {
                     const presision = Math.max(stepPrecision, numberValuePrecision)
-                    result = floatMath(presision, numberValue, step)
+                    result = floatsArifmetic(presision, numberValue, step)
 
                 } else result = numberValue + step
 
@@ -250,8 +252,8 @@ const NumberPicker = component<Props, DefaultProps>(
                         if (!isNaN(numberValue)) {
                             const newNumberValueRangeLimited = adjustWithRanges(numberValue, min, max)
 
-                            if ((
-                                    newNumberValueRangeLimited !== numberValue)
+                            if (
+                                    (newNumberValueRangeLimited !== numberValue)
                                 ||  isValidNumberMissingDigits(stringValue)
 
                             ) {
@@ -339,8 +341,6 @@ const NumberPicker = component<Props, DefaultProps>(
                             ||  (isKeyDown && !isDisabledDown)
 
                         if (isAllowedAction) {
-                            // event.preventDefault()
-
                             let _step = step
                             isKeyUp || (_step *= -1)
 

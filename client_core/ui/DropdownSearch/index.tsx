@@ -4,8 +4,8 @@
 
 import React, { useState } from 'react'
 
+import { isExists } from 'siegel-utils'
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'
-import isExists from '../../../common/is/exists'
 import applyClassName from '../_internals/apply_classname'
 import getInputLabeled from '../_internals/label'
 import handleKeyboardSelect, {

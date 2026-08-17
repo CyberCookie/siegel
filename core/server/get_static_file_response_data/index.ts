@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import mime from 'mime'
 
-import { FastSet } from '../../../common'
+import { FastSet } from 'siegel-utils'
 
 import type { GetStaticFileResponseParams, HeaderValue } from './types'
 

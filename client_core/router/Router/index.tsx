@@ -1,7 +1,6 @@
 import React, { Suspense, useState, useLayoutEffect } from 'react'
 
-import isNullable from '../../../common/is/nullable'
-import deepEqual, { SYMBOL__VALUES_EQUAL } from '../../../common/deep/diff'
+import { isNullable, deepDiff, SYMBOL__VALUES_EQUAL } from 'siegel-utils'
 import patchHistory from '../history'
 import parsePathname from './get_children_array'
 
@@ -63,7 +62,7 @@ function Router(props: RouterProps) {
                 pathname !== newPathname
             ||  ( isNullable(newHistoryState) || isNullable(history.state)
                     ?   newHistoryState !== history.state
-                    :   deepEqual(newHistoryState, history.state) !== SYMBOL__VALUES_EQUAL )
+                    :   deepDiff(newHistoryState, history.state) !== SYMBOL__VALUES_EQUAL )
         ) {
 
             cb(result)

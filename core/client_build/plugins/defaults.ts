@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { FastSet } from '../../../common'
+import { FastSet } from 'siegel-utils'
 import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants.js'
 
 import type { ConfigObject } from '../../types'

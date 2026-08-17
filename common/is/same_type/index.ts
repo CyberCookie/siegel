@@ -11,7 +11,7 @@ const getValueConstructor = (value: any) => (
         ?   isExists(value)
             ?   SYMBOL_NULL_CONSTRUCTOR
             :   SYMBOL_UNDEF_CONSTRUCTOR
-        :   value.constructor.name
+        :   (value as Obj).constructor.name
 )
 
 /**

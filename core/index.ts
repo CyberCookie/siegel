@@ -8,7 +8,7 @@ if (INIT_CWD && INIT_CWD !== PWD) {
 
 
 import getConfig from './get_config.js'
-import webpackBuilder from './client_build'
+import { clientBuilder } from './client_build'
 import { bootServer } from './server'
 
 import type { Config, WebpackMiddlewares } from './types'
@@ -23,7 +23,7 @@ async function main(userConfig?: Config) {
 
     let devMiddlewares: Partial<WebpackMiddlewares> = {}
     if (isBuild) {
-        const { run, getDevMiddlewares } = webpackBuilder(config)
+        const { run, getDevMiddlewares } = clientBuilder(config)
 
         await run()
 
@@ -45,10 +45,10 @@ import.meta.main && main()
 
 export default main
 export { getConfig }
-export * from './client_build'
-export * from './server'
-export * as utils from '../common'
+export * as utils from 'siegel-utils'
 export * as nodeUtils from './utils'
+export * as clientBuildUtils from './client_build'
+export * as serverUtils from './server'
 
 export type * from './types'
 export type {

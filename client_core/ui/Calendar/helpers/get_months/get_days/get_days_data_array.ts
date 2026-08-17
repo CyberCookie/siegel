@@ -8,7 +8,7 @@ const DAYS_IN_WEEK = 7
 function fillWithDateRange(params: FillWithDateRangeParams) {
     const { result, dateFrom, dateTo, date, hidden } = params
 
-    let timestamp = date.getTime()
+    let timestamp = +date
     for (let i = dateFrom; i <= dateTo; i++) {
         result.push({
             hidden, timestamp,
@@ -57,7 +57,7 @@ function fillCurrentMonth(result: AllDaysData[], beginOfMonth: Date) {
     const lastDayinCurrentMonth = (new Date(beginOfMonth.getFullYear(), beginOfMonth.getMonth() + 1, 0)).getDate()
     const todayTimestamp = (new Date()).setHours(0, 0, 0, 0)
 
-    let timestamp = date.getTime()
+    let timestamp = +date
     for (let dateOfMonth = 1; dateOfMonth <= lastDayinCurrentMonth; dateOfMonth++) {
         const dayData: AllDaysData = {
             timestamp,

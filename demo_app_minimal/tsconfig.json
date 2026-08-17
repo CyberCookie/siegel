@@ -2,7 +2,7 @@
 	"extends": "../tsconfig.base.json",
     "compilerOptions": {
 		"declaration": false,
-		"skipDefaultLibCheck": true
-	},
-	"include": [ "**/*.ts", "**/*.tsx", "../global.d.ts" ]
+		"skipDefaultLibCheck": true,
+		"types": [ "bun" ]
+	}
 }

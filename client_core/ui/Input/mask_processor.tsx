@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react'
 
-import isExists from '../../../common/is/exists'
+import { isExists } from 'siegel-utils'
 import * as keyCodes from '../_internals/key_codes'
 import { setCaretPos, INPUT_TYPE } from './utils'
 

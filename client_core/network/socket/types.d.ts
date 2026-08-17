@@ -1,4 +1,4 @@
-type MessageType = string | Blob | ArrayBufferLike | ArrayBufferView
+type MessagePayload = Parameters<WebSocket['send']>[0]
 
 type CreateSocketParams = {
     /** Socket connection URL */
@@ -31,7 +31,7 @@ type CreateSocketParams = {
         interval: number
 
         /** Ping message payload */
-        payload: MessageType
+        payload: MessagePayload
     }
 
     /** Different events thats are fired during a socket connection lifecycle you may subscribe to */
@@ -99,7 +99,7 @@ type CreateSocketParams = {
             /** Socket message payload */
             payload: any
         }
-    ): MessageType
+    ): MessagePayload
 }
 
 type Handler<_Payload = any> = (payload?: _Payload) => void

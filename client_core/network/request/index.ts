@@ -1,4 +1,4 @@
-import { populateURLParams, isExists, FastSet } from '../../../common'
+import { populateURLParams, isExists, FastSet } from 'siegel-utils'
 
 import type { RequestParamsProcessed, ReqError, RequestParams, RequestSetupParams } from './types'
 

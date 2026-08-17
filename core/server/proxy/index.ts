@@ -1,7 +1,7 @@
 import http, { Server, IncomingHttpHeaders, RequestOptions, IncomingMessage } from 'http'
 import https from 'https'
 
-import { isEmptyObject, populateURLParams, FastSet } from '../../../common'
+import { isEmptyObject, populateURLParams, FastSet } from 'siegel-utils'
 
 import type { Socket } from 'net'
 import type { RouteHandlerMethod, FastifyRequest } from 'fastify'

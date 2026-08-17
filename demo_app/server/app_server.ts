@@ -1,4 +1,4 @@
-import { proxyReq, ServerExtenderFn, FastifyHTTPServer } from '../../core'
+import { serverUtils, ServerExtenderFn, FastifyHTTPServer } from '../../core'
 
 import type { FastifyRequest } from 'fastify'
 import type { EchoReqBody } from '../dto/demo_api'
@@ -10,7 +10,7 @@ const appServer: ServerExtenderFn = server => {
             res.send(req.body)
         })
 
-        .get('/api/proxy_get/:id', proxyReq({
+        .get('/api/proxy_get/:id', serverUtils.proxyReq({
             host: 'jsonplaceholder.typicode.com',
             path: '/todos/:id',
             changeOrigin: true

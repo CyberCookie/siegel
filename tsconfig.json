@@ -1,12 +1,11 @@
 {
     "compilerOptions": {
         "lib": [ "esnext" ],
-		"target": "esnext",
         "module": "esnext",
+        "moduleResolution": "bundler",
+        "target": "esnext",
         "noEmit": true,
-        "allowJs": true,
         "strict": true,
-        "declaration": true,
         "allowSyntheticDefaultImports": true,
         "isolatedModules": true
     },

@@ -1,7 +1,10 @@
+// @ts-nocheck
+
 import path from 'path'
 import * as td from 'typedoc'
 
 import { PATHS } from './core/constants'
+// import { PATHS } from 'siegel'
 
 
 const app = await td.Application.bootstrapWithPlugins(

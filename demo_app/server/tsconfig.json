@@ -1,8 +1,10 @@
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
+        "jsx": "react",
         "lib": [ "esnext" ],
+        "types": [ "bun" ],
         "outDir": "../server_dist"
     },
-    "include": [ "**/*", "../../global.d.ts" ]
+    "include": [ "**/*", "../../globals.d.ts" ]
 }

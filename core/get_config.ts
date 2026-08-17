@@ -3,10 +3,9 @@
 
 import path from 'path'
 import fs from 'fs'
-import { PATHS, IS_SELF_DEVELOPMENT } from './constants'
 
-import deepMerge from '../common/deep/merge'
-import isExists from '../common/is/exists'
+import { deepMerge, isExists } from 'siegel-utils'
+import { PATHS, IS_SELF_DEVELOPMENT } from './constants'
 
 import type { Filenames } from './client_build/types'
 import type { ConfigObject, Config } from './types'
@@ -36,7 +35,7 @@ const getConfig = (userConfig?: Config) => {
         gzip: '[base].gz'
     }
 
-    const config = {
+    let config = {
         runMode: {
             isServer: true,
             isBuild: true,
@@ -86,23 +85,26 @@ const getConfig = (userConfig?: Config) => {
             config.build.input.js = userConfig
 
         } else {
-            Object.assign(config, deepMerge(config, userConfig, { skipUndef: true }))
+            delete (config as ConfigObject).build!.output!.filenames
+
+            config = deepMerge(config, userConfig, { skipUndef: true })
             const { isBuild, isProd, isServer } = config.runMode
 
             if (isServer) {
                 const { appServer } = (config as ConfigObject).server!
 
                 if (isExists(appServer) && !(appServer instanceof Function)) {
-                    console.error('[config.server.appServer] ->> export type is not a function.')
+                    console.error('[config.server.appServer] ->> export value is not a function.')
                 }
             }
 
             if (isBuild) {
                 const { input, output } = config.build as BuildConfigsMerged
 
-                if (isProd) {
-                    output.filenames = Object.assign(prodFilenames, output.filenames)
-                }
+                output.filenames = Object.assign(
+                    isProd ? prodFilenames : devFilenames,
+                    output.filenames
+                )
 
                 if (fs.existsSync(input.js)) {
                     const userJSEntryDirName = path.dirname(input.js)
@@ -111,7 +113,7 @@ const getConfig = (userConfig?: Config) => {
                         ?   input.include.push( userJSEntryDirName )
                         :   (input.include = [ userJSEntryDirName ])
 
-                } else throw `config.build.input.js ->> [${input.js}] file doesn't exists.`
+                } else throw `config.build.input.js ->> [${input.js}] file doesn't exist.`
             }
         }
     }

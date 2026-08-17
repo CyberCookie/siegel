@@ -2,9 +2,11 @@ import intervalWorker, {
     MessageIncome as WorkerMessageIncome,
     MessageOutcome as WorkerMessageOutcome
 } from '../../intervals__worker'
-import { getUniqId, FastSet } from '../../../common'
+import { getUniqId, FastSet } from 'siegel-utils'
 
-import type { CreateSocketParams, Handler, SocketState, SocketInit } from './types'
+import type {
+    CreateSocketParams, Handler, SocketState, SocketInit
+} from './types'
 
 
 const worker = intervalWorker()

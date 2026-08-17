@@ -1,3 +1,6 @@
+// TODO: entities.find()
+
+
 import rangeEach from '../array/range_each'
 
 
@@ -149,6 +152,23 @@ class Entities<E extends Obj> {
         )
 
         return this
+    }
+
+    find(cb: (entity: E, index: number) => boolean | void) {
+        let result
+        this.each((entity, index) => {
+            if (cb(entity, index)) {
+                result = entity
+                return true
+            }
+        })
+
+
+        return result
+    }
+
+    filter(cb: (entity: E, index: number) => boolean) {
+
     }
 
     /**
