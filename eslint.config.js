@@ -37,7 +37,7 @@ const config = typeScriptEslintCreateConfig(
         plugins: { typeScriptPlugin, reactPlugin },
         settings: {
             react: {
-                version: 'detect'
+                version: '18'
             }
         },
         rules: {
@@ -82,6 +82,7 @@ const config = typeScriptEslintCreateConfig(
             'react/jsx-no-useless-fragment': 1,
             'react/jsx-props-no-multi-spaces': 1,
             'react/jsx-fragments': [ 1, 'syntax' ],
+            'react/no-direct-mutation-state': 0,
             '@typescript-eslint/no-unused-expressions': 0,
             '@typescript-eslint/no-unused-vars': 1,
             '@typescript-eslint/no-non-null-asserted-optional-chain' : 0,
