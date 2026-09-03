@@ -43,7 +43,7 @@ function createHookStore
             const prevState = store.state
             prevState.__updated = prevUpdated
 
-            newState.__updated ||= prevUpdated
+            newState.__updated ??= prevUpdated
             newState.__updated++
 
             store.state = { ...newState as Required<State> }

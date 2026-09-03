@@ -53,8 +53,8 @@ function gitRequest<Res>(
     }
 
     https.get({
-        hostname, headers,
-        path: pathname
+        path: pathname,
+        hostname, headers
     }, res => {
 
         let result = ''
@@ -102,20 +102,13 @@ function downloadAndSave(
     })
 }
 
-function main(
-    dirName: string,
-    filter?: GitDownloadDirFilter
-) {
-
+function main(dirName: string, filter?: GitDownloadDirFilter) {
     gitRequest<GitRepoMetadataResponse>(
         `${REPO_CONTENT_PATH}${dirName}`,
         true,
         res => { downloadAndSave(res, PATHS.CWD, filter) }
     )
 }
-
-
-import.meta.main && main('')
 
 
 export default main

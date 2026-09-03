@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import Router from 'app/Router'
 
-import './styles'
+import './styles.sass'
 
 
 const rootComponent = document.getElementById('root')

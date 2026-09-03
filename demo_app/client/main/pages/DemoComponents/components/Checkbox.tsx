@@ -17,7 +17,7 @@ const Demo = () => {
     return <>
         <h2 children='simple' />
         <h3 children={ `checked: ${isChecked}` } />
-        <Checkbox { ...{ ...props, icon: false } } />
+        <Checkbox { ...props } icon={ undefined } />
 
         <h2 children='with label' />
         <Checkbox { ...{ ...props, icon: false } } disabled label='Some label' />

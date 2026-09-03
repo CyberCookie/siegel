@@ -41,7 +41,9 @@ function clientBuilder(config: ConfigObject) {
 
         cache: isDevServer,
 
-        devtool: !isProd && 'eval-cheap-module-source-map',
+        devtool: isProd
+            ?   'hidden-source-map'
+            :   'eval-cheap-module-source-map',
 
         resolve: {
             unsafeCache: true,

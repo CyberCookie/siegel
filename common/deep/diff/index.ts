@@ -151,8 +151,8 @@ const compare = (a: Comparable, b: Comparable, options: Options) => (
 function diff(a: Comparable, b: Comparable, options = {} as Options) {
     if (a.constructor === b.constructor) {
         if (isIterable(a)) {
-            options.valueForEqualArrElement ||= SYMBOL__VALUES_EQUAL
-            options.valueForRemovedObjField ||= SYMBOL__OBJECT_FIELD_REMOVED
+            options.valueForEqualArrElement ??= SYMBOL__VALUES_EQUAL
+            options.valueForRemovedObjField ??= SYMBOL__OBJECT_FIELD_REMOVED
 
             const { result, updatesCount } = compare(a, b, options)
             return updatesCount ? result : SYMBOL__VALUES_EQUAL

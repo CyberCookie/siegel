@@ -17,7 +17,7 @@
 
 //         if (i === l - 1) link[pathPart] = value
 //         else {
-//             link[pathPart] ||= {} as _Obj[keyof _Obj]
+//             link[pathPart] ??= {} as _Obj[keyof _Obj]
 //             link = link[pathPart]
 //         }
 //     }
@@ -69,7 +69,7 @@ function deepSet<
         //// @ts-expect-error
         if (i === l - 1) link[pathPart] = value// _Obj[keyof _Obj]
         else {
-            link[pathPart] ||= {} as _Obj[keyof _Obj]
+            link[pathPart] ??= {} as _Obj[keyof _Obj]
             link = link[pathPart]
         }
     }

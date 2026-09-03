@@ -31,9 +31,9 @@ function extractRequestData<_Payload>(request: RequestParams<any, any, _Payload>
 
     if (body) {
         options.body = body
-        options.method ||= 'POST'
+        options.method ??= 'POST'
     }
-    options.method ||= 'GET'
+    options.method ??= 'GET'
 
     let fetchURL = params
         ?   populateURLParams(url, params)
@@ -81,7 +81,7 @@ function extractRequestData<_Payload>(request: RequestParams<any, any, _Payload>
         }
 
         options.headers
-            ?   options.headers[HEADERS.CONTENT_TYPE] ||= CONTENT_TYPE.JSON
+            ?   options.headers[HEADERS.CONTENT_TYPE] ??= CONTENT_TYPE.JSON
             :   options.headers = jsonContentTypeHeaders
     }
 
@@ -174,9 +174,9 @@ const createApi = <_Payload = any>(setupParams: RequestSetupParams<_Payload> = {
             req.json = json
         }
 
-        req.jsonStringifyPostprocess ||= jsonStringifyPostprocess
-        req.jsonParsePreprocess ||= jsonParsePreprocess
-        req.fetchOptionsPostprocess ||= fetchOptionsPostprocess
+        req.jsonStringifyPostprocess ??= jsonStringifyPostprocess
+        req.jsonParsePreprocess ??= jsonParsePreprocess
+        req.fetchOptionsPostprocess ??= fetchOptionsPostprocess
 
 
         const ifAsync = beforeParse?.(req)

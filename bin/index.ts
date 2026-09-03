@@ -2,13 +2,14 @@
 
 // TODO?: console output: checkboxes, progress, timings
 
-import path from 'path'
-
 import { LOC_NAMES, PATHS } from '../core/constants.js'
 import getConfig from '../core/get_config.js'
 import siegel, { nodeUtils, utils, ConfigObject } from '../core'
 import { initDemoProject, initMiniProject, PackageJson } from './init_project'
 import createSSLCerts from './create_ssl_certs.js'
+import {
+    resolvePath, getColoredCommandStr, getColoredCommandArgumentStr, getColoredHighlightText
+} from './utils.js'
 
 // import type { ServerConfig } from '../core/server/types'
 import type {
@@ -18,14 +19,6 @@ import type {
 
 
 const { requireJSON, parseCommandLineArgs } = nodeUtils
-
-const getColored = (color: number, str: string) => `\x1b[${color}m${str}\x1b[0m`
-const getColoredCommandStr = getColored.bind(null, 36)
-const getColoredCommandArgumentStr = getColored.bind(null, 32)
-const getColoredHighlightText = getColored.bind(null, 33)
-
-const resolvePath = (_path: string) => path.isAbsolute(_path) ? _path : `${PATHS.CWD}/${_path}`
-
 
 const DEFAULT_CONFIG = getConfig()
 

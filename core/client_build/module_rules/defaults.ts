@@ -144,7 +144,7 @@ function getDefaultModulesConfig(config: ConfigObject) {
     Object.values(defaultRules)
         .forEach(defaultRule => {
 
-            (defaultRule as DefaultsWithRuleOptions).ruleOptions ||= {}
+            (defaultRule as DefaultsWithRuleOptions).ruleOptions ??= {}
             const { ruleOptions } = defaultRule as DefaultsWithRuleOptions
 
             const {

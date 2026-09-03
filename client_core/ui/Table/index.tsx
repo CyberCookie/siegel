@@ -16,14 +16,14 @@ let CellHTMLTag: React.ElementType
 
 function getTableRow(row: TableHeadRow | TableBodyRow, rowIndex: number) {
     const { children, attributes = {} } = row
-    attributes.key ||= rowIndex
+    attributes.key ??= rowIndex
 
     return <tr { ...attributes } children={ (children as (TableTH | TableTD)[]).map(getTableCell) } />
 }
 
 function getTableCell(cell: TableTH | TableTD, cellIndex: number) {
     const { value, attributes = {} } = cell
-    attributes.key ||= cellIndex
+    attributes.key ??= cellIndex
 
     return <CellHTMLTag { ...attributes } children={ value } />
 }

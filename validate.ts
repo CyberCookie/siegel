@@ -4,10 +4,13 @@ import path from 'path'
 import childProcess from 'child_process'
 import TerserWebpackPlugin from 'terser-webpack-plugin'
 
-import { LOC_NAMES, PATHS } from './core/constants'
+import { PATHS } from './core/constants'
+import { getColored } from './bin/utils'
 
 import type { JsMinifyOptions } from '@swc/core'
 
+
+const IS_TRANSPILE = process.argv.includes('-t')
 
 const { swcMinify } = TerserWebpackPlugin
 
@@ -15,28 +18,37 @@ const {
     BIN, SRC, LIB_OUTPUT,
     CLIENT_CORE, CLIENT_CORE_OUTPUT,
     SHARED_UTILS, SHARED_UTILS_OUTPUT,
-    DEMO_PROJECT, DEMO_MINI_PROJECT
+    DEMO_MINI_PROJECT, DEMO_PROJECT
 } = PATHS
 
 const LIB_FOLDERS_TO_MINIFY = [ CLIENT_CORE_OUTPUT, SHARED_UTILS_OUTPUT ]
 const LIB_FOLDERS = [ BIN, CLIENT_CORE, SRC, SHARED_UTILS ]
-const DEMO_FOLDERS = [ DEMO_MINI_PROJECT ]
+const DEMO_FOLDERS = [
+    DEMO_MINI_PROJECT,
+    DEMO_PROJECT + '/client',
+    DEMO_PROJECT + '/server'
+]
 
-const isMinify = false
-
-
+const getCommand = (folderName: string, modifiers: string) => (
+    `npx tsc -p ${path.relative(__dirname, folderName)} ${modifiers}`
+)
 const foldersToTSCCommands = () => {
-    let folders = LIB_FOLDERS
-    let modifiers = '--pretty'
+    const modifiers = '--pretty'
+    const resultCommands = DEMO_FOLDERS.map(demoFolderName => getCommand(demoFolderName, modifiers))
 
-    if (isMinify) {
-        folders = folders.concat(DEMO_FOLDERS)
-        modifiers += ' --noEmit false'
-    }
 
-    return folders.map(folderName => (
-        `npx tsc -p ${path.relative(__dirname, folderName)}/${LOC_NAMES.TS_JSON} ${modifiers}`
-    ))
+    const libModifiers = IS_TRANSPILE
+        ?   `${modifiers} --noEmit false`
+        :   modifiers
+
+    LIB_FOLDERS.forEach(folderName => {
+        resultCommands.push(
+            getCommand(folderName, libModifiers)
+        )
+    })
+
+
+    return resultCommands
 }
 
 async function iterateFiles(dirPath: string, cb: (nextDir: string, curDir: string) => void) {
@@ -94,7 +106,7 @@ async function runMinifier() {
 
 
 
-    isMinify
+    IS_TRANSPILE
 &&  fs.existsSync(LIB_OUTPUT)
 &&  await fs.promises.rm(LIB_OUTPUT, {
         recursive: true,
@@ -108,14 +120,14 @@ Promise.all(
             childProcess.exec(command, (error, stdout) => {
 
                 if (error) {
-                    console.log(`COMMAND ${command} FAILED:`)
+                    console.log(`COMMAND ${command} ${getColored(31, 'FAILED')}`)
                     console.error(stdout)
                     process.exitCode = 1
 
                     rej(new Error)
 
                 } else {
-                    console.log(`COMMAND ${command} SUCCESS`)
+                    console.log(`COMMAND ${command} ${getColored(32, 'SUCCESS')}`)
                     res(true)
                 }
             })
@@ -123,7 +135,7 @@ Promise.all(
     ))
 )
 .then(async () => {
-    isMinify && await runMinifier()
+    IS_TRANSPILE && await runMinifier()
 })
 .finally(() => {
     process.exit()

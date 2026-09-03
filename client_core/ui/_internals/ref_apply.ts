@@ -12,7 +12,7 @@ function applyRefApi<
 
     if (refApi) {
         const { getRef, getOnPropsUpdate } = refApi
-        rootProps.ref ||= useRef(null)
+        rootProps.ref ??= useRef(null)
 
         const trackDependencies = getOnPropsUpdate
             ?   getOnPropsUpdate(mergedProps)

@@ -53,7 +53,7 @@ const NavLink: Component = component(
             href: finalHref
         }
         if (activeClassName && pathname === finalHref) {
-            finalProps.className ||= ''
+            finalProps.className ??= ''
             finalProps.className += ` ${activeClassName}`
         }
         delete finalProps['activeClassName']

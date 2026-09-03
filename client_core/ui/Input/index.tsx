@@ -67,6 +67,7 @@ const Input = component<Props, DefaultProps>(
         const [ state, setState ] = innerStore
         const { isFocused, isTouched } = state
 
+        const ref = useRef(null)
 
         let debounceStore: DebounceStore
         if (debounceMs) {
@@ -83,7 +84,7 @@ const Input = component<Props, DefaultProps>(
                 state.isFocused = false
                 setState({ ...state })
             }
-        }, [ disabled ])
+        }, [ disabled ], false, ref)
 
         const isReadonly = !disabled && !onChange
         const isTextarea = type === 'textarea'
@@ -99,7 +100,7 @@ const Input = component<Props, DefaultProps>(
                 :   value
         }
         if (autofocus || mask || prefixOrSuffix) {
-            inputProps.ref = useRef(null)
+            inputProps.ref = ref
 
             autofocus && useEffect(() => {
                 disabled || (inputProps.ref as InputRef).current!.focus()

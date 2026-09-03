@@ -38,9 +38,6 @@
     "engines": {
         "bun": ">= 1.3.14"
     },
-    "config": {
-        "boot": "bun run demo_app/server/index.ts"
-    },
     "files": [
         "lib",
         "globals.d.ts",
@@ -51,12 +48,15 @@
     "types": "lib/core/index.d.ts",
     "main": "lib/core/index.ts",
     "bin": "lib/bin/index.ts",
+    "config": {
+        "boot": "bun run demo_app/server/index.ts"
+    },
     "scripts": {
-        "__transpile": "bun run prepublish.ts",
-        "__docs_gen": "bun run mdcreate.ts",
-        "__validate": "npm run validate && npx tsc -p demo_app && npx jest",
-        "__update": "rm -rf ./node_modules ./package-lock.json && bun install",
-        "prepublishOnly": "npm run __validate && npm run __transpile",
+        "__docs_gen": "bun mdcreate.ts",
+        "__validate": "bun validate.ts && npx jest",
+        "__transpile": "bun validate.ts -t",
+        "__update": "rm -rf ./node_modules ./bun-lock.json && bun install",
+        "prepublishOnly": "npm run __transpile",
         "start": "$npm_package_config_boot -b -s",
         "start_mini": "bun run --server demo_app_minimal/server.ts --client demo_app_minimal/app.ts",
         "build": "$npm_package_config_boot -b -p",
@@ -67,17 +67,17 @@
     },
     "dependencies": {
         "@eslint/js": "9.39.2",
-        "@swc/core": "1.16.0",
-        "@pmmmwh/react-refresh-webpack-plugin": "0.6.2",
+        "@swc/core": "1.16.1",
+        "@pmmmwh/react-refresh-webpack-plugin": "0.6.3",
         "autoprefixer": "10.5.4",
         "compression-webpack-plugin": "12.0.0",
         "copy-webpack-plugin": "14.0.0",
-        "css-loader": "7.1.4",
+        "css-loader": "7.1.5",
         "eslint": "9.39.2",
         "eslint-plugin-react": "7.37.5",
         "eslint-webpack-plugin": "6.0.0",
-        "fastify": "5.12.0",
-        "globals": "^17.11.0",
+        "fastify": "5.12.1",
+        "globals": "17.12.0",
         "html-webpack-plugin": "5.6.8",
         "mime": "4.1.0",
         "mini-css-extract-plugin": "2.10.2",
@@ -85,8 +85,8 @@
         "react": "18.3.1",
         "react-dom": "18.3.1",
         "react-refresh": "0.18.0",
-        "sass": "1.102.0",
-        "sass-loader": "17.0.0",
+        "sass": "1.103.1",
+        "sass-loader": "17.0.1",
         "sass-resources-loader": "2.2.5",
         "style-loader": "4.0.0",
         "svg2ttf": "6.1.0",
@@ -99,8 +99,8 @@
         "typescript": "6.0.3",
         "typescript-eslint": "8.67.0",
         "typescript-plugin-css-modules": "5.2.0",
-        "webpack": "5.109.2",
-        "webpack-dev-middleware": "8.1.1",
+        "webpack": "5.110.3",
+        "webpack-dev-middleware": "8.3.0",
         "webpack-hot-middleware": "2.26.1",
         "worker-loader": "3.0.8"
     },
