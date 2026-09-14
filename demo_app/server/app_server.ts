@@ -1,4 +1,4 @@
-import { serverUtils, ServerExtenderFn, FastifyHTTPServer } from '../../core'
+import { serverUtils, ServerExtenderFn, FastifyHTTPServer } from 'siegel'
 
 import type { FastifyRequest } from 'fastify'
 import type { EchoReqBody } from '../dto/demo_api'

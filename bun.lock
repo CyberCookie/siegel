@@ -32,7 +32,6 @@
         "svgicons2svgfont": "16.0.0",
         "swc-loader": "0.2.7",
         "terser-webpack-plugin": "5.6.1",
-        "ttf2woff": "3.0.0",
         "ttf2woff2": "8.0.1",
         "type-fest": "^4.41.0",
         "typescript": "6.0.3",
@@ -52,7 +51,6 @@
         "@types/react": "18.3.12",
         "@types/react-dom": "18.3.1",
         "@types/svg2ttf": "5.0.3",
-        "@types/ttf2woff": "2.0.4",
         "@types/webpack-env": "1.18.8",
         "@types/webpack-hot-middleware": "2.25.12",
       },
@@ -254,8 +252,6 @@
     "@types/sax": ["@types/sax@1.2.7", "", { "dependencies": { "@types/node": "*" } }, "sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A=="],
 
     "@types/svg2ttf": ["@types/svg2ttf@5.0.3", "", {}, "sha512-hL+/A4qMISvDbDTtdY73R0zuvsdc7YRYnV5FyAfKVGk8OsluXu/tCFxop7IB5Sgr+ZCS0hHtFxylD0REmm+abA=="],
-
-    "@types/ttf2woff": ["@types/ttf2woff@2.0.4", "", { "dependencies": { "@types/node": "*" } }, "sha512-pD66iwSkU5lIMWWTz5sxIMjwM7/qs/EYgE01vqu5C3S1izONHiF1GRy2dWvlKMlC39TfZszP7+OVXgVk3BccOg=="],
 
     "@types/unist": ["@types/unist@3.0.3", "", {}, "sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q=="],
 
@@ -911,8 +907,6 @@
 
     "package-json-from-dist": ["package-json-from-dist@1.0.1", "", {}, "sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw=="],
 
-    "pako": ["pako@1.0.11", "", {}, "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw=="],
-
     "param-case": ["param-case@3.0.4", "", { "dependencies": { "dot-case": "^3.0.4", "tslib": "^2.0.3" } }, "sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A=="],
 
     "parent-module": ["parent-module@1.0.1", "", { "dependencies": { "callsites": "^3.0.0" } }, "sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g=="],
@@ -1172,8 +1166,6 @@
     "tsconfig-paths": ["tsconfig-paths@4.2.0", "", { "dependencies": { "json5": "^2.2.2", "minimist": "^1.2.6", "strip-bom": "^3.0.0" } }, "sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg=="],
 
     "tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
-
-    "ttf2woff": ["ttf2woff@3.0.0", "", { "dependencies": { "argparse": "^2.0.1", "pako": "^1.0.0" }, "bin": { "ttf2woff": "ttf2woff.js" } }, "sha512-OvmFcj70PhmAsVQKfC15XoKH55cRWuaRzvr2fpTNhTNer6JBpG8n6vOhRrIgxMjcikyYt88xqYXMMVapJ4Rjvg=="],
 
     "ttf2woff2": ["ttf2woff2@8.0.1", "", { "dependencies": { "bindings": "^1.5.0", "bufferstreams": "^4.0.0", "debug": "^4.4.1", "nan": "^2.22.2", "node-gyp": "^11.2.0", "yerror": "^8.0.0" }, "bin": { "ttf2woff2": "bin/ttf2woff2.js" } }, "sha512-nWSZLaXOgYtvgY6G0SFI8dVHsGWIchlnNMNRglT3Amp2WGy0GSPd9kLAkFd+HvEOzZ/aY6EUrpOF66QaPbipgg=="],
 

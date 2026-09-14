@@ -17,13 +17,27 @@ type TSConfig = {
 type ModifyTSConfigsParams = {
     DEMO_APP_PATH_SHIFT: string
     USER_TS_CONFIG_PATH: string
-    USER_SERVER_PATH?: string
+    USER_SERVER_TS_PATH?: string
+    USER_CLIENT_TS_PATH?: string
 }
 
 
+
+async function modifyGlobalsPathAndSave(TS_CONFIG_PATH: string, content?: TSConfig) {
+    const USER_TS_GlOBALS = join(PATHS.CWD, LOC_NAMES.TS_GLOBAL_TYPES)
+
+    const serverTSConfig = content || await requireJSON<TSConfig>(TS_CONFIG_PATH)
+    const { include } = serverTSConfig
+
+    serverTSConfig.include[ include.length - 1 ]
+        = relative(TS_CONFIG_PATH, USER_TS_GlOBALS)
+
+    writeFileSync(TS_CONFIG_PATH, toJSON(serverTSConfig))
+}
+
 async function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
     const {
-        DEMO_APP_PATH_SHIFT, USER_TS_CONFIG_PATH, USER_SERVER_PATH
+        DEMO_APP_PATH_SHIFT, USER_TS_CONFIG_PATH, USER_SERVER_TS_PATH, USER_CLIENT_TS_PATH
     } = modifyParams
 
     let SIEGEL_RELATIVE_PATH = relative(PATHS.CWD, PATHS.PACKAGE_ROOT)
@@ -32,7 +46,7 @@ async function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
 
 
     const clientTSConfig = await requireJSON<TSConfig>(USER_TS_CONFIG_PATH)
-    const { compilerOptions, include } = clientTSConfig
+    const { compilerOptions } = clientTSConfig
 
     clientTSConfig.extends
         = clientTSConfig.extends.replace(DEMO_APP_PATH_SHIFT, SIEGEL_RELATIVE_PATH)
@@ -49,27 +63,10 @@ async function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
             })
     }
 
-    if (DEMO_APP_PATH_SHIFT) {
-        include[ include.length - 1 ] = include.at(-1)!
-            .replace(`${DEMO_APP_PATH_SHIFT}/`, '')
-    }
 
-    writeFileSync(USER_TS_CONFIG_PATH, toJSON(clientTSConfig))
-
-
-
-    if (USER_SERVER_PATH) {
-        const USER_SERVER_TS_CONFIG_PATH = join(USER_SERVER_PATH, LOC_NAMES.TS_JSON)
-        const USER_TS_GlOBALS = join(PATHS.CWD, LOC_NAMES.TS_GLOBAL_TYPES)
-
-        const serverTSConfig = await requireJSON<TSConfig>(USER_SERVER_TS_CONFIG_PATH)
-        const { include } = serverTSConfig
-
-        serverTSConfig.include[ include.length - 1 ]
-            = relative(USER_SERVER_PATH, USER_TS_GlOBALS)
-
-        writeFileSync(USER_SERVER_TS_CONFIG_PATH, toJSON(serverTSConfig))
-    }
+    await modifyGlobalsPathAndSave(USER_TS_CONFIG_PATH, clientTSConfig)
+    USER_SERVER_TS_PATH && await modifyGlobalsPathAndSave(USER_SERVER_TS_PATH)
+    USER_CLIENT_TS_PATH && await modifyGlobalsPathAndSave(USER_CLIENT_TS_PATH)
 }
 
 

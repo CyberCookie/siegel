@@ -1,5 +1,5 @@
 import React from 'react'
-import { entities, msIn } from 'siegel-utils'
+import { Entities, msIn } from 'siegel-utils'
 
 import { DataTable, Checkbox } from 'app/components'
 import getEnchancedDataTableProps from './getEnchancedDataTableProps'
@@ -11,7 +11,7 @@ import styles from './styles.sass'
 
 
 function getMockEntities(count: number) {
-    const entitiesStruct = entities<Entity>('id')
+    const entitiesStruct = new Entities<Entity>()
 
     ;(new Array(count))
         .fill(1)

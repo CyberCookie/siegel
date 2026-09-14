@@ -4,7 +4,6 @@ import type { Plugin, Root } from 'postcss'
 type Svg2FontConverterPluginOptions = {
     iconsRoot: string
     fontNamePrefix?: string
-    isWoff2?: boolean
 }
 
 type Svg2FontConverterPlugin = (options: Svg2FontConverterPluginOptions) => Plugin
@@ -12,7 +11,6 @@ type Svg2FontConverterPlugin = (options: Svg2FontConverterPluginOptions) => Plug
 type ConvertSvgToFontFn = (params: {
     fontName: string
     svgs: string[]
-    isWoff2: boolean | undefined
 }) => Promise<ArrayBuffer | SharedArrayBuffer | Buffer>
 
 
@@ -20,7 +18,6 @@ type GetFontFaceNodeFn = (
     opts: {
         svgs: string[]
         fontNamePrefix: Svg2FontConverterPluginOptions['fontNamePrefix']
-        isWoff2: Svg2FontConverterPluginOptions['isWoff2']
     },
     handlers: {
         onFontName(fontName: string): void

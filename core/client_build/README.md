@@ -523,8 +523,7 @@ const config = {
                         options(defaultOptions) {
                             // our plugin is a second in a postcss plugins array
                             defaultOptions.postcssOptions.plugins[1] = loaders.postCssSVG2Font({
-                                fontNamePrefix: 'font_prefix',
-                                isWoff2: true
+                                fontNamePrefix: 'font_prefix'
                             })
     
                             return defaultOptions

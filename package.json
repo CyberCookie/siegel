@@ -53,9 +53,10 @@
     },
     "scripts": {
         "__docs_gen": "bun mdcreate.ts",
-        "__validate": "bun validate.ts && npx jest",
+        "__validate": "bun validate.ts",
+        "__test": "npx jest",
         "__transpile": "bun validate.ts -t",
-        "__update": "rm -rf ./node_modules ./bun-lock.json && bun install",
+        "update": "rm -rf ./node_modules ./bun-lock.json && bun install",
         "prepublishOnly": "npm run __transpile",
         "start": "$npm_package_config_boot -b -s",
         "start_mini": "bun run --server demo_app_minimal/server.ts --client demo_app_minimal/app.ts",
@@ -67,8 +68,8 @@
     },
     "dependencies": {
         "@eslint/js": "9.39.2",
-        "@swc/core": "1.16.1",
         "@pmmmwh/react-refresh-webpack-plugin": "0.6.3",
+        "@swc/core": "1.16.1",
         "autoprefixer": "10.5.4",
         "compression-webpack-plugin": "12.0.0",
         "copy-webpack-plugin": "14.0.0",
@@ -93,7 +94,6 @@
         "svgicons2svgfont": "16.0.0",
         "swc-loader": "0.2.7",
         "terser-webpack-plugin": "5.6.1",
-        "ttf2woff": "3.0.0",
         "ttf2woff2": "8.0.1",
         "type-fest": "^4.41.0",
         "typescript": "6.0.3",
@@ -113,7 +113,6 @@
         "@types/react": "18.3.12",
         "@types/react-dom": "18.3.1",
         "@types/svg2ttf": "5.0.3",
-        "@types/ttf2woff": "2.0.4",
         "@types/webpack-env": "1.18.8",
         "@types/webpack-hot-middleware": "2.25.12"
     }

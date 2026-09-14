@@ -7,7 +7,8 @@ const clearState = (id: string) => { delete results[id] }
  * whenever called until dependencies have changed
  *
  * @param cb - Result to memoize
- * @param dependencyValue - Value to compare with one from previous callback execution in order to determine whether to return memoized value
+ * @param dependencyValue - Value to compare with one from previous callback execution
+ * in order to determine whether to return memoized value
  * @param id - Memoization ID
  * @returns memoized result
  */

@@ -27,7 +27,7 @@ function getKeyboardOptionIndex(
 ) {
 
     const { options, selectedOptionIndex, arrowSelectIndex, isUp } = commonParams
-    const isMultiselect = selectedOptionIndex?.constructor.name === 'Set'
+    const isMultiselect = selectedOptionIndex instanceof FastSet
 
     const { length } = options
     const maxIndex = length - 1
@@ -44,7 +44,7 @@ function getKeyboardOptionIndex(
 
     for (let i = startFrom; 0 <= i && i < length; i += incrementValue) {
         const isIndexSelected = isMultiselect
-            ?   (selectedOptionIndex as FastSet).has(i)
+            ?   selectedOptionIndex.has(i)
             :   (selectedOptionIndex as SelectedSingleOptionIndex) === i
 
         if (!isIndexSelected && !options[i].disabled) return i

@@ -4,7 +4,7 @@ import { writeFileSync } from 'fs'
 import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../../core/constants.js'
 import { requireJSON, parseCommandLineArgs } from '../../core/utils'
 import { siegelPackageJsonData, INIT_COMMON_LOC_NAMES, INIT_COMMON_PATHS } from './constants.js'
-import { toJSON, downloadGitDir, modifyServerPaths, modifyTsConfigs } from './utils'
+import { toJSON, downloadGitDir, modifyTsConfigs } from './utils'
 
 import type { PackageJson } from './types'
 
@@ -19,9 +19,6 @@ function main(isMiniServ: boolean) {
         throw new Error('Attempt to initialize demo_app inside siegel pckg')
     }
 
-    const DEMO_APP_PATH_SHIFT =     relative(PATHS.DEMO_MINI_PROJECT, PATHS.PACKAGE_ROOT)
-
-
 
     function createDemoApp() {
         downloadGitDir(
@@ -31,10 +28,14 @@ function main(isMiniServ: boolean) {
                 :   filePath => filePath.endsWith(INIT_COMMON_LOC_NAMES.DEMO_APP_SERVER_EXTENDER)
         )
 
-        const tsGlobalsImportString = `import '${INIT_COMMON_PATHS.SIEGEL_TS_GLOBALS_PATH}/${INIT_COMMON_LOC_NAMES.TS_GLOBALS_FILENAME}'`
-        writeFileSync(INIT_COMMON_PATHS.USER_TS_GlOBALS, tsGlobalsImportString)
-
-        writeFileSync(INIT_COMMON_PATHS.USER_GIT_IGNORE, `${LOC_NAMES.NODE_MODULES}\n${LOC_NAMES.DEMO_APP_OUTPUT_DIR_NAME}`)
+        writeFileSync(
+            INIT_COMMON_PATHS.USER_TS_GlOBALS,
+            `import '${INIT_COMMON_PATHS.SIEGEL_TS_GLOBALS_PATH}/${INIT_COMMON_LOC_NAMES.TS_GLOBALS_FILENAME}'`
+        )
+        writeFileSync(
+            INIT_COMMON_PATHS.USER_GIT_IGNORE,
+            `${LOC_NAMES.NODE_MODULES}\n${LOC_NAMES.DEMO_APP_OUTPUT_DIR_NAME}`
+        )
     }
 
 
@@ -62,15 +63,15 @@ function main(isMiniServ: boolean) {
 
     createDemoApp()
 
-    isMiniServ && modifyServerPaths({
-        DEMO_PROJECT_SERVER_PATH: PATHS.DEMO_MINI_PROJECT,
-        PATHS_TO_UPDATE: [
-            join(PATHS.CWD, INIT_COMMON_LOC_NAMES.DEMO_APP_SERVER_EXTENDER)
-        ]
-    })
+    // isMiniServ && modifyServerPaths({
+    //     DEMO_PROJECT_SERVER_PATH: PATHS.DEMO_MINI_PROJECT,
+    //     PATHS_TO_UPDATE: [
+    //         join(PATHS.CWD, INIT_COMMON_LOC_NAMES.DEMO_APP_SERVER_EXTENDER)
+    //     ]
+    // })
 
     modifyTsConfigs({
-        DEMO_APP_PATH_SHIFT,
+        DEMO_APP_PATH_SHIFT: relative(PATHS.DEMO_MINI_PROJECT, PATHS.PACKAGE_ROOT),
         USER_TS_CONFIG_PATH: join(PATHS.CWD, LOC_NAMES.TS_JSON)
     })
 

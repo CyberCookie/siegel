@@ -9,7 +9,7 @@ import type { Svg2FontConverterPlugin, GetFontFaceNodeFn } from './types'
 
 
 const getFontFaceNode: GetFontFaceNodeFn = (opts, handlers) => {
-    const { isWoff2, svgs, fontNamePrefix } = opts
+    const { svgs, fontNamePrefix } = opts
     const { onFontName, onFinish } = handlers
 
     const checksum = createHash('md5')
@@ -21,11 +21,11 @@ const getFontFaceNode: GetFontFaceNodeFn = (opts, handlers) => {
     onFontName(fontName)
 
 
-    return iconToFont({ fontName, isWoff2, svgs })
+    return iconToFont({ fontName, svgs })
         .then(font => {
             const base64Font = Buffer.from(font as ArrayBuffer).toString('base64')
             const fontURL = `src:url('data:application/x-font-woff;charset=utf-8;base64,${base64Font}')`
-            const fontFormat = `format('woff${isWoff2 ? 2 : ''}')`
+            const fontFormat = 'format(\'woff2\')'
 
             onFinish(
                 postcss.parse(
@@ -61,7 +61,7 @@ const applyFontDeclarations = (decl: Declaration, fontName: string) => {
     })
 }
 
-const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix = '', isWoff2, iconsRoot }) => ({
+const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix = '', iconsRoot }) => ({
     postcssPlugin: 'postcss-svg2icon',
     prepare() {
         cssPropValueMap['font-family'] = ''
@@ -111,7 +111,7 @@ const svgToFontConvertPlugin: Svg2FontConverterPlugin = ({ fontNamePrefix = '', 
                 if (absolute.length) {
                     return getFontFaceNode(
                         {
-                            isWoff2, fontNamePrefix,
+                            fontNamePrefix,
                             svgs: absolute
                         },
                         {

@@ -99,7 +99,6 @@ function getDefaultModulesConfig(config: ConfigObject) {
 
                                 ...( input!.iconsRoot ? [
                                     postCssSVG2Font({
-                                        isWoff2: isProd,
                                         iconsRoot: input!.iconsRoot
                                     })
                                 ] : [])

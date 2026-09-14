@@ -7,7 +7,7 @@ import { execSync as shell } from 'child_process'
 import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../../core/constants.js'
 import { requireJSON } from '../../core/utils'
 import { siegelPackageJsonData, INIT_COMMON_LOC_NAMES, INIT_COMMON_PATHS } from './constants.js'
-import { toJSON, downloadGitDir, modifyServerPaths, modifyTsConfigs } from './utils'
+import { toJSON, downloadGitDir, modifyTsConfigs } from './utils'
 
 import type { PackageJson } from './types'
 
@@ -23,6 +23,7 @@ async function main() {
     }
 
     const DEMO_APP_SERVER_DIR_NAME =    'server'
+    const DEMO_APP_CLIENT_DIR_NAME =    'client'
     const DEMO_APP_PATH_SHIFT =         relative(PATHS.DEMO_PROJECT, PATHS.PACKAGE_ROOT)
     const USER_SERVER_PATH =            join(PATHS.CWD, DEMO_APP_SERVER_DIR_NAME)
 
@@ -31,11 +32,14 @@ async function main() {
     function createDemoApp() {
         downloadGitDir(LOC_NAMES.DEMO_APP_DIR_NAME)
 
-        const tsGlobalsImportString
-            = `import '${INIT_COMMON_PATHS.SIEGEL_TS_GLOBALS_PATH}/${INIT_COMMON_LOC_NAMES.TS_GLOBALS_FILENAME}'`
-        writeFileSync(INIT_COMMON_PATHS.USER_TS_GlOBALS, tsGlobalsImportString)
-
-        writeFileSync(INIT_COMMON_PATHS.USER_GIT_IGNORE, `${LOC_NAMES.NODE_MODULES}\n${LOC_NAMES.DEMO_APP_OUTPUT_DIR_NAME}`)
+        writeFileSync(
+            INIT_COMMON_PATHS.USER_TS_GlOBALS,
+            `import '${INIT_COMMON_PATHS.SIEGEL_TS_GLOBALS_PATH}/${INIT_COMMON_LOC_NAMES.TS_GLOBALS_FILENAME}'`
+        )
+        writeFileSync(
+            INIT_COMMON_PATHS.USER_GIT_IGNORE,
+            `${LOC_NAMES.NODE_MODULES}\n${LOC_NAMES.DEMO_APP_OUTPUT_DIR_NAME}`
+        )
     }
 
 
@@ -54,7 +58,10 @@ async function main() {
     async function modifyPackageJson() {
         existsSync(INIT_COMMON_PATHS.USER_PACKAGE_JSON) || shell('npm init -y')
 
-        const scriptsToRemove = [ 'prepublishOnly', '__validate', '__transpile', 'start_mini' ]
+        const scriptsToRemove = [
+            'prepublishOnly',
+            'start_mini', '__docs_gen', '__validate', '__test', '__transpile'
+        ]
         scriptsToRemove.forEach(script => {
             delete packageScripts[script]
         })
@@ -93,20 +100,15 @@ async function main() {
 
     createDemoApp()
 
-    modifyServerPaths({
-        DEMO_PROJECT_SERVER_PATH: join(PATHS.DEMO_PROJECT, DEMO_APP_SERVER_DIR_NAME),
-        PATHS_TO_UPDATE: [
-            join(USER_SERVER_PATH, 'index.ts'),
-            join(USER_SERVER_PATH, INIT_COMMON_LOC_NAMES.DEMO_APP_SERVER_EXTENDER)
-        ]
-    })
-
     await modifyTsConfigs({
-        DEMO_APP_PATH_SHIFT, USER_SERVER_PATH,
-        USER_TS_CONFIG_PATH: join(PATHS.CWD, LOC_NAMES.TS_JSON)
+        USER_CLIENT_TS_PATH: join(PATHS.CWD, DEMO_APP_CLIENT_DIR_NAME, LOC_NAMES.TS_JSON),
+        USER_SERVER_TS_PATH: join(USER_SERVER_PATH, LOC_NAMES.TS_JSON),
+        USER_TS_CONFIG_PATH: join(PATHS.CWD, LOC_NAMES.TS_JSON),
+        DEMO_APP_PATH_SHIFT
     })
 
     modifyESLintConfig()
+
     await modifyPackageJson()
 }
 

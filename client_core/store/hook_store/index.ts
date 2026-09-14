@@ -2,17 +2,17 @@ import { useState, useLayoutEffect } from 'react'
 
 import type {
     StoreShouldUpdate, StateWithUpdater, StoreListenerWithPrevState,
-    ActionsUnbinded, ActionsBinded, HookStore
+    ActionsUnbound, ActionsBound, HookStore
 } from './types'
 
 
-function bindActions(store: HookStore<any, any>, actions: ActionsUnbinded<any>) {
+function bindActions(store: HookStore<any, any>, actions: ActionsUnbound<any>) {
     Object.keys(actions)
         .forEach(actionKey => {
             actions[actionKey] = actions[actionKey].bind(actions, store)
         })
 
-    return actions as ActionsBinded<typeof actions>
+    return actions as ActionsBound<typeof actions>
 }
 
 const getInitialState = <S extends Obj>(defaultStateResolve: () => S) => {
@@ -26,7 +26,7 @@ const getInitialState = <S extends Obj>(defaultStateResolve: () => S) => {
 
 
 function createHookStore
-<S extends Obj, A extends ActionsUnbinded<S>>
+<S extends Obj, A extends ActionsUnbound<S>>
 (initialStateResolver: () => S, actions: A) {
 
     type Store = HookStore<S, A>
@@ -57,7 +57,7 @@ function createHookStore
             }
         }
     }
-    store.actions = bindActions(store as Store, actions) as ActionsBinded<A>
+    store.actions = bindActions(store as Store, actions) as ActionsBound<A>
 
 
     return {
@@ -100,4 +100,4 @@ function createHookStore
 
 
 export { createHookStore }
-export type { HookStore, ActionsBinded, StateWithUpdater }
+export type { HookStore, ActionsBound, StateWithUpdater }

@@ -9,11 +9,11 @@ type StateWithUpdater<State extends Obj> = State & StateUpdater
 
 type HookStore<
     State extends Obj,
-    Actions extends ActionsUnbinded<State>,
+    Actions extends ActionsUnbound<State>,
 > = {
     state: StateWithUpdater<State>
     setState(newState: State & PartialUpdater): void
-    actions: ActionsBinded<Actions>
+    actions: ActionsBound<Actions>
     listeners: (
         React.Dispatch<
             React.SetStateAction<
@@ -39,16 +39,16 @@ type StoreListenerWithPrevState<State = StateWithUpdater<Obj>> = {
 
 
 type ActionBinded<_Action extends (...args: any[]) => void> = (...args: Tail<Parameters<_Action>>) => ReturnType<_Action>
-type ActionsBinded<A extends ActionsUnbinded<any>> = {
+type ActionsBound<A extends ActionsUnbound<any>> = {
     [action in keyof A]: ActionBinded<A[action]>
 }
 
-type ActionsUnbinded<State extends Obj> = {
+type ActionsUnbound<State extends Obj> = {
     [actions: string]: (store: HookStore<State, any>, ...args: any[]) => void
 }
 
 
 export type {
     StoreShouldUpdate, StateWithUpdater, StoreListenerWithPrevState,
-    ActionsUnbinded, ActionsBinded, HookStore
+    ActionsUnbound, ActionsBound, HookStore
 }

@@ -6,6 +6,7 @@
 			"app/*": [ "client/main/*" ],
 			"assets/*": [ "client/assets/*" ],
 			"dto/*": [ "dto/*" ],
+			"siegel": ["../core"],
 			"siegel-utils": [ "../common" ],
 			"siegel-network": [ "../client_core/network" ],
 			"siegel-store": [ "../client_core/store" ],
@@ -15,16 +16,7 @@
 			"siegel-router": [ "../client_core/router" ]
 		},
 		"declaration": false,
-		"skipLibCheck": true,
-		"skipDefaultLibCheck": true,
-		"plugins": [{
-			"name": "typescript-plugin-css-modules",
-			"options": {
-                "customMatcher": "\\.sass$",
-                "additionalData":
-					"@use 'sass:math'\n@use 'app/styles/variables' as *\n@use 'siegel-ui/utils' as *\n"
-			}
-		}]
+		"skipDefaultLibCheck": true
 	},
 	"include": [ "client", "server", "dto", "../globals.d.ts" ]
 }

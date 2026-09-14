@@ -1,6 +1,6 @@
 import { join } from 'path'
+import siegel, { nodeUtils } from 'siegel'
 import { FastSet } from 'siegel-utils'
-import siegel, { nodeUtils } from '../../core'
 
 import appServer from './app_server.js'
 
