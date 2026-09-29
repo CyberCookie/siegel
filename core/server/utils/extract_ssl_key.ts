@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-import type { ConfigObject } from '../types'
+import type { ConfigObject } from '../../types'
 
 
 type Params = NonNullable<

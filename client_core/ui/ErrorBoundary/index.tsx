@@ -29,7 +29,7 @@ class ErrorBoundary extends React.Component<Props, State> {
 
 
         return err
-            ?   getUIErrorText?.(err) || `Error has occured: ${err.message}`
+            ?   getUIErrorText?.(err) || ('Error has occured: ' + err.message)
             :   children
     }
 }

@@ -1,7 +1,3 @@
-import type { RequestOptions, IncomingMessage } from 'http'
-import type { RouteHandlerMethod, FastifyRequest } from 'fastify'
-
-
 type ProxyParams = {
     /** Destination host */
     host: string
@@ -32,15 +28,13 @@ type ProxyParams = {
 
     /** Called after proxy request options is formed giving full controll over the proxy request options */
     postProcessReq?(
-        /** Request from origin */
-        clientReq: FastifyRequest | IncomingMessage,
+        /** Proxy target URL */
+        targetUrl: string,
 
         /** Mutable proxy request options */
-        options: RequestOptions
-    ): void
+        options: BunFetchRequestInit
+    ): string | undefined
 }
 
-type Proxy = (params: ProxyParams) => RouteHandlerMethod
 
-
-export type { Proxy, ProxyParams }
+export type { ProxyParams }

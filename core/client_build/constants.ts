@@ -11,7 +11,7 @@ import eslint from 'eslint-webpack-plugin'
 import postCssAutoprefix from 'autoprefixer'
 import TerserWebpackPlugin from 'terser-webpack-plugin'
 
-import serviceWorkerPlugin from './plugins/plugin_sw.js'
+import serviceWorkerPlugin from './plugins/plugin_sw'
 import postCssSVG2Font from './module_rules/postcss_svg2icon_plugin'
 
 

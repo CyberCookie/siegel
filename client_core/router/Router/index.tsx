@@ -97,7 +97,7 @@ function Router(props: RouterProps) {
         if (prevChildrenArray[lastIndex].traversePath === childrenArray[lastIndex].traversePath) {
             childrenArray.push({
                 El: () => '' as unknown as React.JSX.Element,
-                traversePath: `${childrenArray[lastIndex].traversePath}/`,
+                traversePath: childrenArray[lastIndex].traversePath + '/',
                 historyState: null
             })
             childrenDepth++
@@ -152,7 +152,7 @@ function Router(props: RouterProps) {
 
                 resultElement = (
                     <div className={ wrapperClassName }
-                        style={{ '--ui-route_transition_duration': `${duration}ms` } as CSSWithVariables}>
+                        style={{ '--ui-route_transition_duration': duration + 'ms' } as CSSWithVariables}>
 
                         <div children={ prevChildrenArray![i]?.resultElement } />
                         <div children={ resultElement } />

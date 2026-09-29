@@ -25,7 +25,7 @@ const LOC_NAMES = {
 const CWD = process.cwd()
 
 let PACKAGE_ROOT = join(__dirname, '..')
-if (PACKAGE_ROOT.endsWith(`${sep}${LOC_NAMES.LIB_OUTPUT_DIRNAME}`)) {
+if (PACKAGE_ROOT.endsWith(sep + LOC_NAMES.LIB_OUTPUT_DIRNAME)) {
     PACKAGE_ROOT = join(PACKAGE_ROOT, '..')
 }
 

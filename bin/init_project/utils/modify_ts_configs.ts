@@ -1,7 +1,7 @@
 import { join, relative } from 'path'
 import { writeFileSync } from 'fs'
 
-import { LOC_NAMES, PATHS } from '../../../core/constants.js'
+import { LOC_NAMES, PATHS } from '../../../core/constants'
 import { requireJSON } from '../../../core/utils'
 import toJSON from './to_json'
 
@@ -41,7 +41,7 @@ async function modifyTSConfigs(modifyParams: ModifyTSConfigsParams) {
     } = modifyParams
 
     let SIEGEL_RELATIVE_PATH = relative(PATHS.CWD, PATHS.PACKAGE_ROOT)
-    SIEGEL_RELATIVE_PATH[0] !== '.' && (SIEGEL_RELATIVE_PATH = `./${SIEGEL_RELATIVE_PATH}`)
+    SIEGEL_RELATIVE_PATH[0] !== '.' && (SIEGEL_RELATIVE_PATH = ('./' + SIEGEL_RELATIVE_PATH))
 
 
 

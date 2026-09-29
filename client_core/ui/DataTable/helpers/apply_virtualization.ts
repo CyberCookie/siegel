@@ -100,8 +100,8 @@ function applyVirtualization(params: UseVirtualizationParams) {
                 .firstChild as HTMLTableElement)
                 .tBodies[0]
 
-            rows[0].cells[0].style.height = `${from * itemHeight}px`
-            rows[rows.length - 1].cells[0].style.height = `${(newMaxItemsCount - to) * itemHeight}px`
+            rows[0].cells[0].style.height = (from * itemHeight) + 'px'
+            rows[rows.length - 1].cells[0].style.height = ((newMaxItemsCount - to) * itemHeight) + 'px'
 
 
             return () => {

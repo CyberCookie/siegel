@@ -147,14 +147,14 @@ describe('common/deep/merge', () => {
                 {
                     skipUndef: true,
                     mergeResolve(a, b) {
-                        if (a.constructor === Set && b.constructor === Set) {
+                        if (a instanceof Set && b instanceof Set) {
                             return new Set(Array.from(a).concat(Array.from(b)))
 
-                        } else if (a.constructor === Array && b.constructor === Array) {
-                            return (a as any[]).concat(b)
+                        } else if (Array.isArray(a) && Array.isArray(b)) {
+                            return a.concat(b)
 
-                        } else if (a.constructor === Date && b.constructor === Date) {
-                            return (a as Date).valueOf() > (b as Date).valueOf() ? a : b
+                        } else if (a instanceof Date && b instanceof Date) {
+                            return a.valueOf() > b.valueOf() ? a : b
                         }
                     }
                 }

@@ -146,8 +146,8 @@ const Input = component<Props, DefaultProps>(
         }
 
         if (prefixOrSuffix) {
-            prefix && (inputProps.value = `${prefix}${inputProps.value}`)
-            suffix && (inputProps.value += `${suffix}`)
+            prefix && (inputProps.value = (prefix + inputProps.value))
+            suffix && (inputProps.value += suffix)
         }
 
         if (!disabled && onChange) {

@@ -52,9 +52,9 @@ const extractRedirectData = (redirecTo: NonNullable<ConfigRedirectTo>) => {
     }
 }
 
-function handleNotFound(traversePath: string, pathname: string, children: ConfigChildren) {
-    const redirecTo = children?.['*']?.redirectTo
-        || (children![''] ? '/' : `/${Object.keys(children!)[0]}`)
+function handleNotFound(traversePath: string, pathname: string, children: ConfigChildren = {}) {
+    const redirecTo = children['*']?.redirectTo
+        ||  ('/' + (children[''] ? '' : Object.keys(children)[0]))
 
     const { path } = extractRedirectData(redirecTo)
 
@@ -95,7 +95,7 @@ const parsePathname: ParsePathname = (props, pathname, newHistoryState = null) =
     let childrenLevel = children
     for (; i < pathArray.length; i++) {
         const pathPart = pathArray[i]
-        traversePath += `/${pathPart}`
+        traversePath += ('/' + pathPart)
 
         const pageParams = childrenLevel[pathPart] || childrenLevel['*']
         if (pageParams) {

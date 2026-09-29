@@ -56,7 +56,7 @@ const Demo = () => {
                 itemHeight: 68
             },
             withFooter: undefined
-        }
+        } as DemoDataTableProps
     )
 
 

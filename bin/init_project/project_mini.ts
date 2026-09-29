@@ -1,9 +1,9 @@
 import { relative, join } from 'path'
 import { writeFileSync } from 'fs'
 
-import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../../core/constants.js'
+import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../../core/constants'
 import { requireJSON, parseCommandLineArgs } from '../../core/utils'
-import { siegelPackageJsonData, INIT_COMMON_LOC_NAMES, INIT_COMMON_PATHS } from './constants.js'
+import { siegelPackageJsonData, INIT_COMMON_LOC_NAMES, INIT_COMMON_PATHS } from './constants'
 import { toJSON, downloadGitDir, modifyTsConfigs } from './utils'
 
 import type { PackageJson } from './types'
@@ -50,7 +50,7 @@ function main(isMiniServ: boolean) {
                     LOC_NAMES.BIN_DIR_NAME,
                     relative(PATHS.CWD, PATHS.BIN_OUTPUT)
                 )
-                .replace(`${LOC_NAMES.DEMO_APP_MINI_DIR_NAME}/`, '')
+                .replace(LOC_NAMES.DEMO_APP_MINI_DIR_NAME + '/', '')
                 .replace(/\s--c.*$/g, ''),
 
             start_client: 'npx siegel run'

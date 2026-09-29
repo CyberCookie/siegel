@@ -22,25 +22,24 @@ function getBody(
 
     let idToIndexMap: Obj<number>
     let processedList = sorted
-    Object.entries(searchByField)
-        .forEach(([ configurationID, searchData ]) => {
-            if (!idToIndexMap!) {
-                idToIndexMap = {}
-                columnsConfig.forEach(({ ID }, index) => {
-                    idToIndexMap[ ID ] = index
-                })
-            }
+    for (let i = 0, keys = Object.keys(searchByField), l = keys.length; i < l; i++) {
+        if (!idToIndexMap!) {
+            idToIndexMap = {}
+            columnsConfig.forEach(({ ID }, index) => {
+                idToIndexMap[ ID ] = index
+            })
+        }
 
-            const columnIndex = idToIndexMap[configurationID]
-
-            if (isExists(columnIndex)) { // Handle unexisted ID within searchByField prop
-                const config = columnsConfig[ columnIndex ]
-                if (isExists(config.onFilter)) {
-                    // leave attached to config to keep 'this'
-                    processedList = config.onFilter(processedList, byID, searchData)
-                }
+        const configurationID = searchByField[i]
+        const columnIndex = idToIndexMap[configurationID]
+        if (isExists(columnIndex)) { // Handle unexisted ID within searchByField prop
+            const config = columnsConfig[ columnIndex ]
+            if (isExists(config.onFilter)) {
+                // leave attached to config to keep 'this'
+                processedList = config.onFilter(processedList, byID, searchByField[configurationID])
             }
-        })
+        }
+    }
 
 
     if (isExists(sortByField.ID)) {
@@ -94,8 +93,8 @@ function getBody(
     let resultIDs: string[]
     if (pinnedEntitiesSorted?.length) {
         processedList = processedList
-            .splice(0, from)
-            .concat(pinnedEntitiesSorted, processedList)
+            .slice(0, from)
+            .concat(pinnedEntitiesSorted, processedList.slice(from))
 
         resultIDs = arrayDeduplicate(processedList)
 

@@ -1,7 +1,7 @@
 import path from 'path'
 
 import { FastSet } from 'siegel-utils'
-import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants.js'
+import { COMMONS, DEPENDENCIES, pluginsKeysMap } from '../constants'
 
 import type { ConfigObject } from '../../types'
 import type { Plugin, DefaultPluginOptions } from './types'
@@ -50,14 +50,14 @@ function getDefaultPluginsConfig(config: ConfigObject) {
                             level: 11
                         }
                     } satisfies DefaultPluginOptions['compression']
-                },
-                gzip: {
-                    enabled: compressionTypesSet.has('gzip'),
-                    options: {
-                        ...compressionInstanceCommonOptions,
-                        filename: outputFilenames!.gzip!
-                    } satisfies DefaultPluginOptions['compression']
                 }
+                // gzip: {
+                //     enabled: compressionTypesSet.has('gzip'),
+                //     options: {
+                //         ...compressionInstanceCommonOptions,
+                //         filename: outputFilenames!.gzip!
+                //     } satisfies DefaultPluginOptions['compression']
+                // }
             }
         },
 

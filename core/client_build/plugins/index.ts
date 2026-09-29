@@ -1,5 +1,5 @@
-import mergePlugins from './merge.js'
-import getDefaultPlugins from './defaults.js'
+import mergePlugins from './merge'
+import getDefaultPlugins from './defaults'
 
 import type { ConfigObject } from '../../types'
 import type { PluginsConfig } from './types'

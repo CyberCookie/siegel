@@ -1,11 +1,11 @@
 import { join } from 'path'
-import siegel, { nodeUtils } from 'siegel'
+import siegel, { clientBuildUtils } from 'siegel'
 import { FastSet } from 'siegel-utils'
 
-import appServer from './app_server.js'
+import appServer from './app_server'
 
 
-const { tsToWebpackAliases } = nodeUtils
+const { tsToWebpackAliases } = clientBuildUtils
 
 
 const RUN_ARGUMENTS = new FastSet(process.argv)

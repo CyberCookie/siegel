@@ -5,7 +5,7 @@ import type { PluginsConfig } from './plugins/types'
 import type { UserRulesData } from './module_rules/types'
 
 
-type BuildConstants = typeof import('./constants.js')
+type BuildConstants = typeof import('./constants')
 
 
 type Filenames = {

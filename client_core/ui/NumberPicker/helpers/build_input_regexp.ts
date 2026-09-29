@@ -10,7 +10,7 @@ function buildInputRegexp(
     providedRegExp: MergedProps['regexp']
 ) {
 
-    if (providedRegExp?.constructor === RegExp) return providedRegExp
+    if (providedRegExp instanceof RegExp) return providedRegExp
     else {
 
         let regexpTemplate = '^'

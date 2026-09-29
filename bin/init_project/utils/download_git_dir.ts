@@ -2,8 +2,8 @@ import https, { RequestOptions } from 'https'
 import path from 'path'
 import fs from 'fs'
 
-import { PATHS } from '../../../core/constants.js'
-import { siegelPackageJsonData } from '../constants.js'
+import { PATHS } from '../../../core/constants'
+import { siegelPackageJsonData } from '../constants'
 
 
 
@@ -88,7 +88,7 @@ function downloadAndSave(
             fs.mkdirSync(newSavePath)
 
             gitRequest<GitRepoMetadataResponse>(
-                `${REPO_CONTENT_PATH}${gitPath}`,
+                REPO_CONTENT_PATH + gitPath,
                 true,
                 res => { downloadAndSave(res, newSavePath, filter) })
 
@@ -104,7 +104,7 @@ function downloadAndSave(
 
 function main(dirName: string, filter?: GitDownloadDirFilter) {
     gitRequest<GitRepoMetadataResponse>(
-        `${REPO_CONTENT_PATH}${dirName}`,
+        REPO_CONTENT_PATH + dirName,
         true,
         res => { downloadAndSave(res, PATHS.CWD, filter) }
     )

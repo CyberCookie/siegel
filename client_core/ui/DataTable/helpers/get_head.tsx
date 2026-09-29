@@ -188,8 +188,8 @@ function getHead(
 
                     { tableHeadCellToPush.value }
 
-                    { i < columnsConfig.length - 1
-                        &&  <div className={ resizerClassName } onMouseDown={ resizeHandler } /> }
+                    { i < columnsConfig.length - 1 &&
+                        <div className={ resizerClassName } onMouseDown={ resizeHandler } /> }
                 </>
             }
 

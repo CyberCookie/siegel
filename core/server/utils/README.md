@@ -4,6 +4,7 @@
 <h3>These utils where made to save some backward compatibility with common js node</h3>
 
 
+
 <br/>
 <h3>Require json</h3>
 Returns parsed JSON by json file pathname<br /> 
@@ -14,6 +15,7 @@ import { utils } from 'siegel'
 
 const parsed = utils.requireJSON('path/to/file.json')
 ```
+
 
 <br/>
 <h3>To posix path</h3>
@@ -26,6 +28,7 @@ import { utils } from 'siegel'
 const posixPath = utils.toPosixPath('some\\directory\\path')
 // 'some/directory/path'
 ```
+
 
 <br/>
 <h3>Parse CLI args</h3>
@@ -102,3 +105,46 @@ const webpackAliases = utils.tsToWebpackAliases(pathToTSConfigDir)
 */
 
 ```
+
+
+<br/>
+<h3>Proxy request</h3>
+Siegel provides method to proxy server requests<br /> 
+<br/>
+
+```ts
+// siegel_server_extend.ts
+import { proxyReq, ServerExtenderFn, FastifyHTTPServer } from '../../core'
+
+const appServer: ServerExtenderFn = server => {
+
+    ;(server as FastifyHTTPServer)
+        .get('/api/proxy_get/:id', proxyReq({
+            host: 'jsonplaceholder.typicode.com',
+            path: '/todos/:id',
+            changeOrigin: true
+        }))
+}
+
+export default appServer
+
+// ...exoress code
+app.get('/api/proxy_get/:id', apiProxy)
+// exoress code...
+```
+
+Proxy receives **1** parameter - **Object** with the next fields:
+- `secure` **Boolean** - makes requests over https
+- `ws` **Boolean** - Enables web socket proxying
+- `wsEndpoints` **Array<string>** - You should specify ws connection endpoints for this destination<br />
+     if you proxy to multiple backends using the same fastify server
+- `host` **String** - destination host
+- `port` **Number** - destination port
+- `path` **String** - Rewrites origin path [doesn't affect web socket subscription]
+- `query` **Object** - Rewrites origin query params
+- `changeOrigin` - **Boolean** - Replaces origin host header with target host
+- `postProcessReq` **Function** - Called after proxy request options is formed<br />
+giving you full controll over the proxy request options<br />
+    Has **2** arguments:
+    - **client request** - **Request | IncomingMessage**. Request from origin
+    - **options** - **RequestOptions**. Mutable proxy request options

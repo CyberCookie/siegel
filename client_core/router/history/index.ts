@@ -32,7 +32,7 @@ const patchHistory: PatchHistory = (basename, onHistoryChange) => {
         })
     }
     history.setURLQuery = query => {
-        history.replaceState(history.state, '', `${pathname}?${query}`)
+        history.replaceState(history.state, '', pathname + '?' + query)
     }
     window.onpopstate = () => {
         const { pathname, search } = location

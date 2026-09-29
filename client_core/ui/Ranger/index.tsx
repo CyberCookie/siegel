@@ -184,8 +184,8 @@ const Ranger = component<Props, DefaultProps>(
                                     state.activeSlider = (activeSlider!.parentNode as HTMLDivElement)
                                         .querySelector(`[data-slider='${pairedArrValueIndex}']`)
 
-                                    theme.range_slider__active
-                                        &&  (state.activeSlider as HTMLDivElement).classList.add(theme.range_slider__active)
+                                    theme.range_slider__active &&
+                                        (state.activeSlider as HTMLDivElement).classList.add(theme.range_slider__active)
                                 }
                             }
                         }

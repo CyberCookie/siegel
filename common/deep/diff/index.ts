@@ -20,7 +20,7 @@ type ComparsionCallBacks = {
 const SYMBOL__VALUES_EQUAL = Symbol.for('equal')
 const SYMBOL__OBJECT_FIELD_REMOVED = Symbol.for('removed')
 
-const isIterable = (val: Comparable) => Array.isArray(val) || val.constructor === Object
+const isIterable = (val: Comparable) => Array.isArray(val) || val instanceof Object
 
 function comparsionCallBacks(
     a_val: any,
@@ -96,34 +96,36 @@ function compareObjects(a: Obj, b: Obj, options: Options) {
     const result: Obj = {}
     let updatesCount = 0
 
-    Object.entries(a)
-        .forEach(([ a_key, a_value ]) => {
-            if (Object.prototype.hasOwnProperty.call(b, a_key)) {
-                const b_value = b[a_key]
+    for (let i = 0, keys = Object.keys(a), l = keys.length; i < l; i++) {
+        const a_key = keys[i]
+        const a_value = a[a_key]
+        if (Object.prototype.hasOwnProperty.call(b, a_key)) {
+            const b_value = b[a_key]
 
-                comparsionCallBacks(a_value, b_value, options, {
-                    valuesIterable(nestedResult) {
-                        if (nestedResult.updatesCount) {
-                            result[a_key] = nestedResult.result
-                            updatesCount++
-                        }
-                    },
-                    valuesNotEqual() {
-                        result[a_key] = b_value
+            comparsionCallBacks(a_value, b_value, options, {
+                valuesIterable(nestedResult) {
+                    if (nestedResult.updatesCount) {
+                        result[a_key] = nestedResult.result
                         updatesCount++
                     }
-                })
-            } else {
-                result[a_key] = valueForRemovedObjField
-                updatesCount++
-            }
-        })
+                },
+                valuesNotEqual() {
+                    result[a_key] = b_value
+                    updatesCount++
+                }
+            })
+        } else {
+            result[a_key] = valueForRemovedObjField
+            updatesCount++
+        }
+    }
 
-    for (const key in b) {
-        if (Object.prototype.hasOwnProperty.call(b, key)) {
-            if (Object.prototype.hasOwnProperty.call(a, key)) continue
+    for (let i = 0, keys = Object.keys(b), l = keys.length; i < l; i++) {
+        const b_key = keys[i]
+        if (Object.prototype.hasOwnProperty.call(b, b_key)) {
+            if (Object.prototype.hasOwnProperty.call(a, b_key)) continue
             else {
-                result[key] = b[key]
+                result[b_key] = b[b_key]
                 updatesCount++
             }
         }

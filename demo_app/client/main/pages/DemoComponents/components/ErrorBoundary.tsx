@@ -18,7 +18,7 @@ const Demo = () => {
         </h2>
 
         <h3>
-            Error is not handling in dev mode. You should press <b>close</b> on error screen to observe the result
+            Error can't be handled in dev mode. You should press <b>close</b> on error screen to observe the result
         </h3>
 
         { isShowErrorComponent &&

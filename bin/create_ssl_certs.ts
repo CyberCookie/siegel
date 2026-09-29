@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { PATHS } from '../core/constants.js'
+import { PATHS } from '../core/constants'
 
 
 function main() {
@@ -24,10 +24,10 @@ function main() {
         'DNS.1 = localhost'
     ].join('\n')
 
-    const domainsPath = `${PATHS.CWD}/${filenames.domains}`
-    const rootCAPemPath = `${PATHS.CWD}/${filenames.rootCAPem}`
-    const localhostCSRPath = `${PATHS.CWD}/${filenames.localhostCsr}`
-    const rootCAKeyPath = `${PATHS.CWD}/${filenames.rootCAKey}`
+    const domainsPath =         PATHS.CWD + '/' + filenames.domains
+    const rootCAPemPath =       PATHS.CWD + '/' + filenames.rootCAPem
+    const localhostCSRPath =    PATHS.CWD + '/' + filenames.localhostCsr
+    const rootCAKeyPath =       PATHS.CWD + '/' + filenames.rootCAKey
 
     const days = '-days 1024'
     const rsa = '-newkey rsa:2048'

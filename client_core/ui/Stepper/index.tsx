@@ -118,7 +118,7 @@ const Stepper = component<Props, DefaultProps>(
             const rangerValue = state.valueToAnchorMap[optionValue]!
 
             state.rangerValues.push(rangerValue)
-            state.rangerValuesString += `-${rangerValue}`
+            state.rangerValuesString += String(-rangerValue)
         })
 
 
@@ -146,7 +146,7 @@ const Stepper = component<Props, DefaultProps>(
                 const { value, index } = anchorToOptionData[anchorValue]!
 
                 newAnchoredRangerValue.push(anchorValue)
-                newRangerValuesString += `-${anchorValue}`
+                newRangerValuesString += String(-anchorValue)
 
                 return {
                     value,

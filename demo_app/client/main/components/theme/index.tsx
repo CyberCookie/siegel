@@ -124,7 +124,7 @@ const Link = withDefaults(_Link, {
 const numberPickerTheme = Object.assign(_numberPickerTheme, {
     _focused: inputTheme._focused,
     label_text: inputTheme.label_text
-})
+} satisfies NumberPickerProps['theme'])
 const numberPickerInputTheme = {
     ...inputTheme,
     root: `${inputTheme.root} ${numberPickerTheme.root}`,

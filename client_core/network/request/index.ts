@@ -64,7 +64,7 @@ function extractRequestData<_Payload>(request: RequestParams<any, any, _Payload>
             queryToAdd = newQuery.toString()
         }
 
-        fetchURL += `?${queryToAdd!}`
+        fetchURL += ('?' + queryToAdd!)
     }
 
     credentials && (options.credentials = credentials)

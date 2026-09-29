@@ -271,7 +271,7 @@ class Entities<
             return this
 
         } else {
-            const clonnedArray = [ ...this.sorted ]
+            const clonnedArray = this.sorted.slice()
             return clonnedArray.sort(sortCB)
         }
     }

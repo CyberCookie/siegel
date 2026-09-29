@@ -21,7 +21,7 @@ const getFinalURL: GetFinalUrl = (curUrl, urlPart) => {
         } else {
             result = firstCharUrlPart === SLASH
                 ?   urlPart
-                :   `${curUrl}${SLASH}${urlPart}`
+                :   (curUrl + SLASH + urlPart)
         }
 
     } else result = SLASH
@@ -29,7 +29,7 @@ const getFinalURL: GetFinalUrl = (curUrl, urlPart) => {
 
     const { basename } = history
     if (basename && !result.startsWith(basename)) {
-        result = `${basename}${ result === SLASH ? '' : result }`
+        result = (basename + (result === SLASH ? '' : result))
     }
 
 

@@ -146,57 +146,9 @@ export default appServer
 ```
 
 
-<br /><br />
-
-## Proxy request
-
-<br/>
-
-Siegel provides method to proxy server requests:
-
-```ts
-// siegel_server_extend.ts
-import { proxyReq, ServerExtenderFn, FastifyHTTPServer } from '../../core'
-
-const appServer: ServerExtenderFn = server => {
-
-    ;(server as FastifyHTTPServer)
-        .get('/api/proxy_get/:id', proxyReq({
-            host: 'jsonplaceholder.typicode.com',
-            path: '/todos/:id',
-            changeOrigin: true
-        }))
-}
-
-export default appServer
-
-// ...exoress code
-app.get('/api/proxy_get/:id', apiProxy)
-// exoress code...
-```
-
-
-Proxy receives **1** parameter - **Object** with the next fields:
-- `secure` **Boolean** - makes requests over https
-- `ws` **Boolean** - Enables web socket proxying
-- `wsEndpoints` **Array<string>** - You should specify ws connection endpoints for this destination<br />
-     if you proxy to multiple backends using the same fastify server
-- `host` **String** - destination host
-- `port` **Number** - destination port
-- `path` **String** - Rewrites origin path [doesn't affect web socket subscription]
-- `query` **Object** - Rewrites origin query params
-- `changeOrigin` - **Boolean** - Replaces origin host header with target host
-- `postProcessReq` **Function** - Called after proxy request options is formed<br />
-giving you full controll over the proxy request options<br />
-    Has **2** arguments:
-    - **client request** - **Request | IncomingMessage**. Request from origin
-    - **options** - **RequestOptions**. Mutable proxy request options
-
-
 <br /><hr />
 <details>
     <summary>TODO</summary>
-    - Compatible HTTP1.1 and HTTP/2 static servers<br />
     - SEO for crawlers (pages prebuild or build on the fly)<br />
     - Protobuf
 </details>

@@ -34,16 +34,15 @@ const dateParse: DateParse = (date, zeroPrefix) => {
     }
 
     if (zeroPrefix) {
-        Object.entries(result)
-            .forEach(([ dateParseKey, dateParseValue ]) => {
-                const datePartStringified = `${dateParseValue}`
-                const maxLength = resultMaxLength[dateParseKey as keyof DateParsed] || 2
+        for (let i = 0, keys = Object.keys(result), l = keys.length; i < l; i++) {
+            const dateParseKey = keys[i] as keyof DateParsed
 
-                if (datePartStringified.length < maxLength) {
-                    result[dateParseKey as DateKeys] = datePartStringified
-                        .padStart(maxLength, '0')
-                }
-            })
+            const datePartStringified = String(result[dateParseKey])
+            const maxLength = resultMaxLength[dateParseKey] || 2
+            if (datePartStringified.length < maxLength) {
+                result[dateParseKey] = datePartStringified.padStart(maxLength, '0')
+            }
+        }
     }
 
 

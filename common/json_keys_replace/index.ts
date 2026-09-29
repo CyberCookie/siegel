@@ -12,22 +12,22 @@ type CreateJsonCoder = <_Keys extends string = string>(
 
 const keysMatchRegExp = /[{|,]\s*?"(.*?)":/g
 
-const createJsonKeysCoder: CreateJsonCoder = keys => {
+const createJsonKeysCoder: CreateJsonCoder = jsonKeysObj => {
     const decodeKeysMap: Obj<string> = {}
     const encodeKeysMap: Obj<string> = {}
 
-    if (Array.isArray(keys)) {
-        const keysSet = new FastSet(keys)
+    if (Array.isArray(jsonKeysObj)) {
+        const keysSet = new FastSet(jsonKeysObj)
 
         for (
             let i = 0,
                 duplicatedKeysCount = 0,
                 keysCollisionsCount = 0;
-            i < keys.length;
+            i < jsonKeysObj.length;
             i++
         ) {
 
-            const key = keys[i]
+            const key = jsonKeysObj[i]
             if (encodeKeysMap[key]) {
                 duplicatedKeysCount++
                 continue
@@ -47,12 +47,12 @@ const createJsonKeysCoder: CreateJsonCoder = keys => {
             }
         }
 
-    } else {
-        Object.entries(keys)
-            .forEach(([ keyToEncode, keyToDecode ]) => {
-                decodeKeysMap[keyToDecode!] = keyToEncode
-                encodeKeysMap[keyToEncode] = keyToDecode
-            })
+    } else for (let i = 0, keys = Object.keys(jsonKeysObj), l = keys.length; i < l; i++) {
+        const keyToEncode = keys[i]
+        const keyToDecode = jsonKeysObj[keyToEncode]
+
+        decodeKeysMap[keyToDecode!] = keyToEncode
+        encodeKeysMap[keyToEncode] = keyToDecode
     }
 
 

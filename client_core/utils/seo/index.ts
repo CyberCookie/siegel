@@ -37,15 +37,16 @@ const paramFlowMap = {
  * @param seoParams - SEO params
  */
 function updateSEOParams(seoParams: SEOParams) {
-    Object.entries(seoParams)
-        .forEach(([ seoParamKey, seoParamValue ]) => {
-            const { selector, prop } = paramFlowMap[seoParamKey as SEOParamKeys]
+    for (let i = 0, keys = Object.keys(seoParams), l = keys.length; i < l; i++) {
+        const seoParamKey = keys[i] as keyof SEOParams
 
-            const seoElement: SEOHeadHTMLTags | null = document.querySelector(selector)
-            if (seoElement) {
-                (seoElement as UnionToIntersection<SEOHeadHTMLTags>)[prop] = seoParamValue
-            }
-        })
+        const { selector, prop } = paramFlowMap[seoParamKey as SEOParamKeys]
+
+        const seoElement: UnionToIntersection<SEOHeadHTMLTags> | null = document.querySelector(selector)
+        if (seoElement) {
+            seoElement[prop] = seoParams[seoParamKey]!
+        }
+    }
 }
 
 

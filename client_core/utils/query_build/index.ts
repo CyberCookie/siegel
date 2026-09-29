@@ -40,11 +40,9 @@ const buildURLQuery: BuildURLQuery = function(key, value) {
     if (typeof key === 'string') {
         buildQueryPart(query, key, value)
 
-    } else {
-        Object.entries(key)
-            .forEach(([ searchKey, searchValue ]) => {
-                buildQueryPart(query, searchKey, searchValue)
-            })
+    } else for (let i = 0, keys = Object.keys(key), l = keys.length; i < l; i++) {
+        const searchKey = keys[i]
+        buildQueryPart(query, searchKey, key[searchKey])
     }
 
 

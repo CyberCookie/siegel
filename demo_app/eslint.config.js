@@ -1,16 +1,14 @@
 //// @ts-check
 
-import siegelEslintConfig from '../eslint.config.js'
+import siegelEslintConfig from '../eslint.config'
 import {
     config as typeScriptEslintCreateConfig
 } from 'typescript-eslint'
 
 
-const config = typeScriptEslintCreateConfig(
-    {
-        extends: [ ...siegelEslintConfig ]
-    }
-)
+const config = typeScriptEslintCreateConfig({
+    extends: siegelEslintConfig.slice()
+})
 
 
 export default config

@@ -239,7 +239,7 @@ If you've installed Siegel globally then you should run:<br />
 siegel init -g
 ```
 
-> Keep in mind that Eslint is not working in projects initialized with `-g` flag so far.<br />
+> Keep in mind that Eslint doesn`t work in projects initialized with `-g` flag so far.<br />
 
 <br /><br /> -->
 

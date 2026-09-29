@@ -2,14 +2,14 @@
 
 // TODO?: console output: checkboxes, progress, timings
 
-import { LOC_NAMES, PATHS } from '../core/constants.js'
-import getConfig from '../core/get_config.js'
-import siegel, { nodeUtils, utils, ConfigObject } from '../core'
+import siegel, { serverUtils, utils, ConfigObject } from '../core'
+import { LOC_NAMES, PATHS } from '../core/constants'
+import getConfig from '../core/get_config'
 import { initDemoProject, initMiniProject, PackageJson } from './init_project'
-import createSSLCerts from './create_ssl_certs.js'
+import createSSLCerts from './create_ssl_certs'
 import {
     resolvePath, getColoredCommandStr, getColoredCommandArgumentStr, getColoredHighlightText
-} from './utils.js'
+} from './utils'
 
 // import type { ServerConfig } from '../core/server/types'
 import type {
@@ -18,7 +18,7 @@ import type {
 } from './types'
 
 
-const { requireJSON, parseCommandLineArgs } = nodeUtils
+const { requireJSON, parseCommandLineArgs } = serverUtils
 
 const DEFAULT_CONFIG = getConfig()
 
@@ -152,7 +152,7 @@ const COMMANDS_TREE: CommanTree = {
                 flagLong: '--mini-serv',
                 flag: '-s',
                 defaultValue: false,
-                description: 'Creates mini zero-config react TS project with preconfigured TS Fastify server',
+                description: 'Creates mini zero-config react TS project with server extension',
                 paramAction({ result }) {
                     result.isMini = true
                     result.isMiniServ = true
@@ -217,10 +217,10 @@ if (commandConfig) {
 
     if (unresolvedParamsCount) {
         const notSupportedParams: string[] = []
-        Object.entries(CLIParamsValues)
-            .forEach(([ CLIParam, CLIParamValue ]) => {
-                CLIParamValue!.resolved || notSupportedParams.push(CLIParam)
-            })
+        for (let i = 0, keys = Object.keys(CLIParamsValues), l = keys.length; i < l; i++) {
+            const CLIParam = keys[i]
+            CLIParamsValues[CLIParam]!.resolved || notSupportedParams.push(CLIParam)
+        }
 
         if (notSupportedParams.length) {
             throw Error(`
@@ -235,45 +235,47 @@ if (commandConfig) {
 } else {
     COMMAND && console.log(`Command ${getColoredCommandStr(COMMAND)} doesn't exist.\n`)
 
-    Object.entries(COMMANDS_TREE)
-        .forEach(([ commandConfigKey, COMMAND ]) => {
-            const { description, example } = COMMAND
-            const { params } = COMMAND as Partial<CommandsWithParams>
+    for (let i = 0, keys = Object.keys(COMMANDS_TREE), l = keys.length; i < l; i++) {
+        const commandConfigKey = keys[i] as keyof CommanTree
+        const COMMAND = COMMANDS_TREE[commandConfigKey]
 
-            console.log(`\n  ${getColoredCommandStr(commandConfigKey)} - ${description}`)
+        const { description, example } = COMMAND
+        const { params } = COMMAND as Partial<CommandsWithParams>
 
-            const flagsMap: PrintHelpFlagsMap = {}
-            params?.forEach(paramConfg => {
-                const { description, defaultValue, flag, flagLong } = paramConfg
+        console.log(`\n  ${getColoredCommandStr(commandConfigKey)} - ${description}`)
 
-                let logString = '\n\t'
+        const flagsMap: PrintHelpFlagsMap = {}
+        params?.forEach(paramConfg => {
+            const { description, defaultValue, flag, flagLong } = paramConfg
 
-                flag && (logString += getColoredCommandArgumentStr(flag))
-                flag && flagLong && (logString += ' ')
-                flagLong && (logString += getColoredCommandArgumentStr(flagLong))
+            let logString = '\n\t'
 
-                logString += ` - ${description}`
+            flag && (logString += getColoredCommandArgumentStr(flag))
+            flag && flagLong && (logString += ' ')
+            flagLong && (logString += getColoredCommandArgumentStr(flagLong))
 
-                if (utils.isExists(defaultValue)) {
-                    logString += `\n\r\t\t${getColoredHighlightText(` Default value: ${defaultValue}`)}`
-                }
+            logString += ` - ${description}`
 
-                console.log(logString)
-
-                flagsMap[flagLong.substring(2)] = { flag, flagLong }
-            })
-
-            if (example) {
-                const exampleType = typeof example
-                const logString = exampleType === 'function'
-                    ?   (example as CommandExampleFn)(commandConfigKey, flagsMap)
-                    :   exampleType === 'string'
-                        ?   example
-                        :   `siegel ${commandConfigKey}`
-
-                console.log(`\n\tExample: ${getColoredHighlightText(logString as string)}\n`)
+            if (utils.isExists(defaultValue)) {
+                logString += `\n\r\t\t${getColoredHighlightText(` Default value: ${defaultValue}`)}`
             }
+
+            console.log(logString)
+
+            flagsMap[flagLong.substring(2)] = { flag, flagLong }
         })
+
+        if (example) {
+            const exampleType = typeof example
+            const logString = exampleType === 'function'
+                ?   (example as CommandExampleFn)(commandConfigKey, flagsMap)
+                :   exampleType === 'string'
+                    ?   example
+                    :   `siegel ${commandConfigKey}`
+
+            console.log(`\n\tExample: ${getColoredHighlightText(logString as string)}\n`)
+        }
+    }
 
     console.log('\n')
 }

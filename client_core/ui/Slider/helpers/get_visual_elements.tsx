@@ -45,7 +45,7 @@ function getVisualElements(params: GetSliderVisualsParams) {
 
 
     const slidePages = [
-        <div key={ `${prevSlideIndex}p` }
+        <div key={ prevSlideIndex + 'p' }
             children={ getSideSlide(slides[prevSlideIndex]) }
             className={ applyClassName(theme.slide, [[ theme.slide__prev, true ]]) } />,
 
@@ -57,7 +57,7 @@ function getVisualElements(params: GetSliderVisualsParams) {
             }
             className={ applyClassName(theme.slide, [[ theme.slide__active, true ]]) } />,
 
-        <div key={ `${nextSlideIndex}n` }
+        <div key={ nextSlideIndex + 'n' }
             children={ getSideSlide(slides[nextSlideIndex]) }
             className={ applyClassName(theme.slide, [[ theme.slide__next, true ]]) } />
     ]

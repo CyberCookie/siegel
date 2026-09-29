@@ -1,4 +1,4 @@
-import type { ServerExtenderFn, FastifyHTTPServer } from 'siegel'
+import type { ServerExtenderFn } from 'siegel'
 
 
 const appServer: ServerExtenderFn = server => {

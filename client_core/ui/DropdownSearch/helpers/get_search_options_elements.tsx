@@ -24,8 +24,8 @@ function getSearchOptions(props: MergedProps, state: State, onSelect: onSelectIn
             selectedOptionIndex = i
         }
 
-        const canPush = alwaysVisible || showAll
-            ||  (!searchLower || inputValue.toLowerCase().includes(searchLower))
+        const canPush = alwaysVisible || showAll ||
+            (!searchLower || inputValue.toLowerCase().includes(searchLower))
 
         if (canPush) {
             const optionProps: ReactTagAttributes<HTMLDivElement> = {

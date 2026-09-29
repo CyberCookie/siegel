@@ -37,9 +37,8 @@ const foldersToTSCCommands = () => {
     const resultCommands = DEMO_FOLDERS.map(demoFolderName => getCommand(demoFolderName, modifiers))
 
 
-    const libModifiers = IS_TRANSPILE
-        ?   `${modifiers} --noEmit false`
-        :   modifiers
+    let libModifiers = modifiers
+    IS_TRANSPILE && (libModifiers += ' --noEmit false')
 
     LIB_FOLDERS.forEach(folderName => {
         resultCommands.push(
@@ -60,7 +59,7 @@ async function iterateFiles(dirPath: string, cb: (nextDir: string, curDir: strin
 
         dirent.isDirectory()
             ?   await iterateFiles(nextDirPath, cb)
-            :   nextDirPath.endsWith('.js') && await cb(nextDirPath, dirPath)
+            :   nextDirPath.endsWith('.js') && cb(nextDirPath, dirPath)
     }
 }
 
@@ -99,7 +98,7 @@ async function runMinifier() {
 
             result
                 ?   await Bun.write(fileName, result)
-                :   console.log(`No minify result for ${fileName}`)
+                :   console.log('No minify result for: ', fileName)
         })
     }
 }

@@ -125,8 +125,8 @@ function createSocket(params: CreateSocketParams) {
     const { messageHandlers, pendingDataToSend } = state
 
     let connectURL = `${wss ? 'wss' : 'ws'}://${url}`
-    port && (connectURL += `:${port}`)
-    path && (connectURL += `/${path}`)
+    port && (connectURL += (':' + port))
+    path && (connectURL += ('/' + path))
 
 
     const messageIdPrefix = `${connectURL}_${getUniqId()}`

@@ -1,5 +1,5 @@
 function getValuePrecision(value: number) {
-    const stringValue = `${value}`
+    const stringValue = String(value)
     const indexOfDot = stringValue.indexOf('.')
 
     return indexOfDot >= 0

@@ -11,13 +11,12 @@ type MergeReactTagAttributes = <
 
 
 const resolveTagAttributes: MergeReactTagAttributes = (defaultAttributes, newAttributes) => {
-    type NewAttrFuncCb = Extract<NonNullable<typeof newAttributes>, AnyFunc>
     type ExpectedResult = typeof defaultAttributes
 
 
     return newAttributes
-        ?   newAttributes.constructor === Function
-            ?   (newAttributes as NewAttrFuncCb)(defaultAttributes) as ExpectedResult
+        ?   newAttributes instanceof Function
+            ?   newAttributes(defaultAttributes) as ExpectedResult
             :   Object.assign(defaultAttributes, newAttributes)
         :   defaultAttributes
 }

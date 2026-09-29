@@ -1,3 +1,5 @@
+// TODO: add labels to both sides inside of toggle:   <(y) x>   <y (x)>
+
 import React from 'react'
 
 import resolveTagAttributes from '../_internals/resolve_tag_attributes'

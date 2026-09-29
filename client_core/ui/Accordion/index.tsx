@@ -127,7 +127,7 @@ const Accordion = component<Props, DefaultProps>(
                     } else {
                         if (soloOpen) {
                             expandedPathsKeys.forEach(expandedPath => {
-                                if (!`${path}`.startsWith(expandedPath)) {
+                                if (!String(path).startsWith(expandedPath)) {
                                     delete expandedPaths[expandedPath]
                                 }
                             })

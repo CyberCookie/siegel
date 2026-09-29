@@ -1,5 +1,5 @@
-import { PATHS, IS_SELF_DEVELOPMENT } from '../../constants.js'
-import { loadersKeyMap, webpackModuleRulesRegExp, DEPENDENCIES } from '../constants.js'
+import { PATHS, IS_SELF_DEVELOPMENT } from '../../constants'
+import { loadersKeyMap, webpackModuleRulesRegExp, DEPENDENCIES } from '../constants'
 
 import type { ConfigObject } from '../../types'
 import type { DefaultRulesData, DefaultsWithRuleOptions } from './types'

@@ -1,7 +1,7 @@
 import path from 'path'
 
-import { PATHS, IS_SELF_DEVELOPMENT } from '../constants.js'
-import * as BUILD_CONSTANTS from './constants.js'
+import { PATHS, IS_SELF_DEVELOPMENT } from '../constants'
+import * as BUILD_CONSTANTS from './constants'
 import defaultModuleRulesResolve from './module_rules'
 import defaultPluginsResolve from './plugins'
 
@@ -157,18 +157,21 @@ function clientBuilder(config: ConfigObject) {
                 forwardError: true
             }),
 
-            hot: hotMiddleware(webpackCompiller as any),
+            hot: hotMiddleware(webpackCompiller as unknown as Parameters<typeof hotMiddleware>[0]),
 
-            indexFallback(req: IncomingMessage, res: ServerResponse, next: () => void) {
+            indexFallback(req: IncomingMessage, res: ServerResponse, next: (err?: any) => void) {
                 const { method, headers } = req
                 if (method === 'GET' && headers.accept?.includes('text/html')) {
                     const { outputPath, outputFileSystem } = webpackCompiller
 
                     const filename = path.join(outputPath, 'index.html')
-                    outputFileSystem!.readFile(filename, (_, result) => {
-                        res.statusCode = 200
-                        res.setHeader('Content-Type', 'text/html')
-                        res.end(result)
+                    outputFileSystem!.readFile(filename, (err, result) => {
+                        if (err) next(err)
+                        else {
+                            res.statusCode = 200
+                            res.setHeader('Content-Type', 'text/html')
+                            res.end(result)
+                        }
                     })
 
                 } else next()
@@ -182,3 +185,4 @@ export { BUILD_CONSTANTS, clientBuilder }
 export type WebpackMiddlewares = ReturnType<
     ReturnType<typeof clientBuilder>['getDevMiddlewares']
 >
+export { default as tsToWebpackAliases } from './ts_to_webpack_aliases'

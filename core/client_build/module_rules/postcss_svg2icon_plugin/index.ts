@@ -3,7 +3,7 @@ import { createHash } from 'crypto'
 import postcss, { Declaration } from 'postcss'
 
 import { FastSet } from 'siegel-utils'
-import iconToFont from './icons_to_font.js'
+import iconToFont from './icons_to_font'
 
 import type { Svg2FontConverterPlugin, GetFontFaceNodeFn } from './types'
 
@@ -44,7 +44,7 @@ const cssPropValueMap = {
     'font-style': 'normal',
     'font-family': ''
 }
-const cssFontEntries = Object.entries(cssPropValueMap)
+const cssFontKeys = Object.keys(cssPropValueMap)
 
 const pluginCssDeclarationsSet = new FastSet([
     'font-icon', 'font-icon-orphan', 'font-icon-common'
@@ -56,7 +56,8 @@ const applyFontDeclarations = (decl: Declaration, fontName: string) => {
         prop: 'font-family',
         value: fontName
     })
-    cssFontEntries.forEach(([ prop, value ]) => {
+    cssFontKeys.forEach(prop => {
+        const value = cssPropValueMap[prop as keyof typeof cssPropValueMap]
         decl.cloneBefore({ prop, value })
     })
 }

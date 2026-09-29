@@ -34,7 +34,7 @@ function getInputString(params: Params) {
 
         let result = typeof value === 'string' && numberMask.test(value)
             ?   pretifyInputString(value)
-            :   isNumberNaN ? '' : `${numberValue}`
+            :   isNumberNaN ? '' : String(numberValue)
 
 
         if (result) {
@@ -48,7 +48,7 @@ function getInputString(params: Params) {
 
                 if (isPrecisionAdjust) {
                     result = numberValue.toFixed(precision)
-                    isFocused && (result = `${+result}`)
+                    isFocused && (result = String(+result))
                 }
             }
 
@@ -76,8 +76,8 @@ function getInputString(params: Params) {
                         result = result.replace(
                             firstChar,
                             isNegative
-                                ?   `${firstChar}${extraZeroes}`
-                                :   `${extraZeroes}${firstChar}`
+                                ?   (firstChar + extraZeroes)
+                                :   (extraZeroes + firstChar)
                         )
                     }
                 }

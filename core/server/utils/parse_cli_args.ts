@@ -43,7 +43,7 @@ function parseCommandLineArgs(args: string[]) {
         } else if (arg.length > 2) {
             arg.split('')
                 .forEach((flag, index) => (
-                    index && addValueToCLIParams(`-${flag}`, true)
+                    index && addValueToCLIParams('-' + flag, true)
                 ))
 
         } else {

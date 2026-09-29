@@ -47,7 +47,7 @@ const getConfig = (userConfig?: Config) => {
         server: {
             host: 'localhost',
             port: 3000,
-            serveCompressionsPriority: [ 'br', 'gzip' ]
+            serveCompressionsPriority: [ 'br' /*, 'gzip'*/ ]
         },
 
         build: {

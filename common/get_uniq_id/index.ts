@@ -5,7 +5,7 @@ let id = 0n
  *
  * @returns uniq number
  */
-const getUniqId = () => `${++id}`
+const getUniqId = () => String(++id)
 
 
 export default getUniqId

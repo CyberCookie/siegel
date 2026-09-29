@@ -36,7 +36,7 @@ const convertSvgToFont: ConvertSvgToFontFn = ({ fontName, svgs }) => (
                 if (err) return reject(err)
 
                 // prevent svgs with fill="none" from being translated into an empty symbol
-                const svgCode = `${svgBuffer}`.replace(/\sfill\s*=\s*["']?none['"]?/ig, '')
+                const svgCode = String(svgBuffer).replace(/\sfill\s*=\s*["']?none['"]?/ig, '')
                 glyph.push(svgCode)
                 glyph.push(null)
             })

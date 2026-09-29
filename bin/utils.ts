@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { PATHS } from '../core/constants.js'
+import { PATHS } from '../core/constants'
 
 
 const getColored = (color: number, str: string) => `\x1b[${color}m${str}\x1b[0m`
@@ -10,7 +10,11 @@ const getColoredCommandArgumentStr = getColored.bind(null, 32)
 const getColoredHighlightText = getColored.bind(null, 33)
 
 
-const resolvePath = (_path: string) => path.isAbsolute(_path) ? _path : `${PATHS.CWD}/${_path}`
+const resolvePath = (_path: string) => (
+    path.isAbsolute(_path)
+        ?   _path
+        :   (PATHS.CWD + '/' + _path)
+)
 
 
 export {

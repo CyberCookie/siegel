@@ -219,7 +219,7 @@ const NumberPicker = component<Props, DefaultProps>(
             })
 
             if (event.type !== 'click' || !event.defaultPrevented) {
-                editState.stringValue = `${result}`
+                editState.stringValue = String(result)
                 setEditState({ ...editState })
             }
         }
@@ -294,8 +294,8 @@ const NumberPicker = component<Props, DefaultProps>(
                     onStringChange?.({ value, event, isValidStringNumber, payload })
 
 
-                    const shouldPrevent = event.defaultPrevented
-                        ||  (precision === 0 && isExists(max) && newNumberValue > max)
+                    const shouldPrevent = event.defaultPrevented ||
+                        (precision === 0 && isExists(max) && newNumberValue > max)
 
                     if (!shouldPrevent) {
                         editState.stringValue = newValueString
@@ -337,8 +337,8 @@ const NumberPicker = component<Props, DefaultProps>(
                         const isKeyUp = keyCode === keyCodes.UP
                         const isKeyDown = keyCode === keyCodes.DOWN
 
-                        const isAllowedAction = isKeyUp && !isDisabledUp
-                            ||  (isKeyDown && !isDisabledDown)
+                        const isAllowedAction = (isKeyUp && !isDisabledUp) ||
+                            (isKeyDown && !isDisabledDown)
 
                         if (isAllowedAction) {
                             let _step = step

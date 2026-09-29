@@ -1,5 +1,5 @@
-import mergeModuleRules from './merge.js'
-import getDefaultModuleRules from './defaults.js'
+import mergeModuleRules from './merge'
+import getDefaultModuleRules from './defaults'
 
 import type { ConfigObject } from '../../types'
 

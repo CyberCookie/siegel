@@ -4,9 +4,9 @@ import { relative, join } from 'path'
 import { existsSync, writeFileSync, readFileSync } from 'fs'
 import { execSync as shell } from 'child_process'
 
-import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../../core/constants.js'
+import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../../core/constants'
 import { requireJSON } from '../../core/utils'
-import { siegelPackageJsonData, INIT_COMMON_LOC_NAMES, INIT_COMMON_PATHS } from './constants.js'
+import { siegelPackageJsonData, INIT_COMMON_LOC_NAMES, INIT_COMMON_PATHS } from './constants'
 import { toJSON, downloadGitDir, modifyTsConfigs } from './utils'
 
 import type { PackageJson } from './types'

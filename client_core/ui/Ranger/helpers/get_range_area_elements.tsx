@@ -8,16 +8,17 @@ import styles from '../styles.sass'
 
 const getRange: GetRangeElement = (key, className, width, isVertival) => (
     <div key={ key } className={ className }
-        style={ isVertival
-            ?   { height: `${width}%` }
-            :   { width: `${width}%` }
+        style={
+            isVertival
+                ?   { height: width + '%' }
+                :   { width: width + '%' }
         } />
 )
 const getRangePicker: GetRangePickerElement = (key, { theme, rangePickIcon, isVertical }, left) => (
     <div key={ key } children={ rangePickIcon } data-slider={ key[1] || '' }
         style={ isVertical
-            ?   { top: `${left}%` }
-            :   { left: `${left}%` }
+            ?   { top: (left + '%') }
+            :   { left: (left + '%') }
         }
         className={ `${theme.range_slider} ${styles.__siegel_ui_range_slider}` } />
 )
@@ -47,10 +48,10 @@ function getRangeAreaElements(
             const toPercent = valueValidated[i + 1] * 100
 
             result.push(
-                getRange(`u${i}`, theme.range__unselected, fromPercent - lastMaxSize, isVertical),
-                getRangePicker(`r${i}`, mergedProps, fromPercent),
-                getRange(`s${i}`, theme.range__selected, toPercent - fromPercent, isVertical),
-                getRangePicker(`r${i + 1}`, mergedProps, toPercent)
+                getRange('u' + i, theme.range__unselected, fromPercent - lastMaxSize, isVertical),
+                getRangePicker('r' + i, mergedProps, fromPercent),
+                getRange('s' + i, theme.range__selected, toPercent - fromPercent, isVertical),
+                getRangePicker('r' + (i + 1), mergedProps, toPercent)
             )
 
             lastMaxSize = toPercent
