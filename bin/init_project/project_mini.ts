@@ -2,16 +2,15 @@ import { relative, join } from 'path'
 import { writeFileSync } from 'fs'
 
 import { PATHS, LOC_NAMES, IS_SELF_DEVELOPMENT } from '../../core/constants'
-import { requireJSON, parseCommandLineArgs } from '../../core/utils'
+import { serverUtils } from '../../core'
 import { siegelPackageJsonData, INIT_COMMON_LOC_NAMES, INIT_COMMON_PATHS } from './constants'
 import { toJSON, downloadGitDir, modifyTsConfigs } from './utils'
 
 import type { PackageJson } from './types'
 
 
-const {
-    packageType, packageEngines, packageScripts
-} = siegelPackageJsonData
+const { requireJSON, parseCommandLineArgs } = serverUtils
+const { packageType, packageEngines, packageScripts } = siegelPackageJsonData
 
 
 function main(isMiniServ: boolean) {

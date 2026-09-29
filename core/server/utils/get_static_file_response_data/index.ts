@@ -1,13 +1,13 @@
 import path from 'node:path'
 import mime from 'mime'
 
-import type { GetStaticFileResponseParams } from './types'
+import type { GetStaticFileResponseDataParams } from './types'
 
 
 const CHARSET_CONTENT_TYPES_REGEXP = /^text\/|^application\/(javascript|json)/
 
 
-const getStaticFileResponseParams: GetStaticFileResponseParams = params => {
+const getStaticFileResponseData = (params: GetStaticFileResponseDataParams) => {
     const {
         req: { url, headers },
         htmlFileName, publicDir, serverConfig
@@ -68,4 +68,4 @@ const getStaticFileResponseParams: GetStaticFileResponseParams = params => {
 }
 
 
-export default getStaticFileResponseParams
+export default getStaticFileResponseData

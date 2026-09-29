@@ -1,7 +1,7 @@
 import path from 'node:path'
 
 import { isEmptyObject } from 'siegel-utils'
-import { extractSSL, runMiddleware, handleHmrStream, getStaticServingData } from './utils'
+import { extractSSL, runMiddleware, handleHmrStream, getStaticFileResponseData } from './utils'
 
 import type { ServerBootParams } from './types'
 
@@ -52,7 +52,7 @@ function runServer(params: ServerBootParams) {
                     )
                     if (safeFilePath.startsWith(publicDir!)) {
 
-                        const { file, headers } = getStaticServingData({
+                        const { file, headers } = getStaticFileResponseData({
                             serverConfig: server,
                             publicDir, htmlFileName, req
                         })

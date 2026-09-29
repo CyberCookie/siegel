@@ -2,11 +2,11 @@ import { join, relative } from 'path'
 import { writeFileSync } from 'fs'
 
 import { LOC_NAMES, PATHS } from '../../../core/constants'
-import { requireJSON } from '../../../core/utils'
+import { serverUtils } from '../../../core'
 import toJSON from './to_json'
 
-
 import type { CompilerOptions } from 'typescript'
+
 
 
 type TSConfig = {
@@ -21,6 +21,9 @@ type ModifyTSConfigsParams = {
     USER_CLIENT_TS_PATH?: string
 }
 
+
+
+const { requireJSON } = serverUtils
 
 
 async function modifyGlobalsPathAndSave(TS_CONFIG_PATH: string, content?: TSConfig) {

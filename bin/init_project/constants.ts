@@ -1,9 +1,12 @@
 import { parse, relative, join } from 'path'
 
 import { LOC_NAMES, PATHS } from '../../core/constants'
-import { requireJSON, toPosixPath } from '../../core/utils'
+import { serverUtils } from '../../core'
 
 import type { PackageJson } from './types'
+
+
+const { requireJSON, toPosixPath } = serverUtils
 
 
 const siegelPackageJson = await requireJSON<PackageJson>(PATHS.PACKAGE_JSON)

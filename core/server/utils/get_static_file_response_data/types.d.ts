@@ -1,17 +1,12 @@
 import type { ConfigObject } from '../../../types'
 
 
-type GetStaticFileResponseParams = (
-    params: {
-        serverConfig: ConfigObject['server']
-        req: Request
-        htmlFileName: string
-        publicDir: ConfigObject['publicDir']
-    }
-) => {
-    file: Bun.BunFile
-    headers: HeadersInit
+type GetStaticFileResponseDataParams = {
+    serverConfig: ConfigObject['server']
+    req: Request
+    htmlFileName: string
+    publicDir: ConfigObject['publicDir']
 }
 
 
-export type { GetStaticFileResponseParams }
+export type { GetStaticFileResponseDataParams }

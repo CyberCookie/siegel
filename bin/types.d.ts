@@ -1,4 +1,4 @@
-import type { CLIParamsValuesType } from '../core/utils/parse_cli_args'
+import type { CLIParamsValuesType } from '../core/server/utils'
 import type { ConfigObject } from '../core/types'
 
 
