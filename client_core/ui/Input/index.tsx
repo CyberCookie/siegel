@@ -12,8 +12,7 @@ import { setCaretPos, INPUT_TYPE } from './utils'
 
 import type { DivTagAttributes } from '../_internals/types'
 import type {
-    Component, Props, DefaultProps, InputRef, DebounceStore,
-    InnerInputAttributes
+    Props, DefaultProps, InputRef, DebounceStore, InnerInputAttributes
 } from './types'
 
 
@@ -340,4 +339,4 @@ const Input = component<Props, DefaultProps>(
 
 export default Input
 export { componentID, getDefaultState }
-export type { Component, Props }
+export type { Component, Props, Theme } from './types'

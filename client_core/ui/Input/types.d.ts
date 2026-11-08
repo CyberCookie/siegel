@@ -178,5 +178,6 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, DefaultProps, Component, InputRef, DebounceStore, InnerInputAttributes
+    Theme, Props, DefaultProps, Component,
+    InputRef, DebounceStore, InnerInputAttributes
 }

@@ -1,8 +1,17 @@
+// TODO: spread css variables approach accross all the themes
+
+    
 $width: 200px
 
     
 .root
-    width: $width
+    --primary_color: $primary
+    --secondary_color: $secondary
+    --disabled_color: $border_color_light
+    --error_color: $red
+    --border_redius: $radius
+
+    width: 200px
     position: relative
 
     &._active
@@ -10,8 +19,8 @@ $width: 200px
             display: block
         
         .title_wrapper
-            border-color: $primary
-            border-radius: $radius $radius 0 0
+            border-color: var(--primary_color)
+            border-radius: var(--border_redius) var(--border_redius) 0 0
 
             & > i
                 transform: rotate(90deg)
@@ -50,13 +59,14 @@ $width: 200px
 .title_text
     flex-grow: 1
     height: 100%
+    word-wrap: anywhere
 
 .reset
     padding-right: $gutter_sm
     transition: color $transition
     
     &:hover
-        color: $primary
+        color: var(--primary_color)
 
     & + i
         flex-grow: 0
@@ -68,10 +78,10 @@ $width: 200px
     width: 100%
     margin-top: -1px
     padding: 0 $gutter $gutter-sm
-    border: 1px solid $primary
+    border: 1px solid var(--primary_color)
     border-top-color: transparent
     background: $white
-    border-radius: 0 0 $radius $radius
+    border-radius: 0 0 var(--border_redius) var(--border_redius)
     z-index: 1
 
 .option
@@ -81,25 +91,25 @@ $width: 200px
         cursor: pointer
 
         &:hover
-            color: $secondary
+            color: var(--secondary_color)
 
 ._disabled .title_wrapper
-    color: $border_color_light
-    border-color: $border_color_light
+    color: var(--disabled_color)
+    border-color: var(--disabled_color)
 
 ._error
     .options
-        border-color: transparent $red_2 $red_2
+        border-color: transparent var(--error_color) var(--error_color)
     
     &._active .title_wrapper
-        border-color: $red_2
+        border-color: var(--error_color)
 
 .option__active
-    color: $primary
+    color: var(--primary_color)
 
 .option__disabled
     cursor: default
-    color: $border_color_light
+    color: var(--disabled_color)
 
 ._active .label_text
-    color: $primary
+    color: var(--primary_color)

@@ -109,6 +109,11 @@ Input for numbers with various validations built on top of `Input` component<br 
     - **Boolean**
     - Default is **true**<br /><br />
 
+- `focusedValueTruncateZeroes`
+    - Keeps fractial zeroes of props.value when focus the input
+    - **Boolean**
+    - Default is **true**<br /><br />
+
 - `onStringChange`
     - Triggered if NumberPicker string value is change
     - **Function** Has **1** argument - **Object** with the next props:

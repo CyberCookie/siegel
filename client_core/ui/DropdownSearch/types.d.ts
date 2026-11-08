@@ -1,7 +1,10 @@
 import type {
     PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes
 } from '../_internals/types'
-import type { Props as InputProps } from '../Input/types'
+import type {
+    Props as InputProps,
+    Theme as InputTheme
+} from '../Input/types'
 
 
 type onSelectInner = (
@@ -157,7 +160,7 @@ type Props<_Value = any> = PropsComponentThemed<Theme, {
     disabled?: InputProps['disabled']
 
     /** Underlaying Input theme */
-    inputTheme?: Omit<InputProps['theme'], 'label' | 'label_text'>
+    inputTheme?: InputTheme
 
     /** Underlaying Input label */
     label?: InputProps['label']

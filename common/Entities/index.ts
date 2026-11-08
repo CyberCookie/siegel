@@ -1,3 +1,6 @@
+// TODO: custom actions cache result
+
+
 import rangeEach from '../array/range_each'
 
 

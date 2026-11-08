@@ -1,7 +1,10 @@
 import type {
     PropsComponentThemed, CoreUIComponent, CoreUIReactTagAttributes
 } from '../_internals/types'
-import type { Props as InputProps } from '../Input/types'
+import type {
+    Props as InputProps,
+    Theme as InputTheme
+} from '../Input'
 
 
 type ComponentFocusEventHandler = React.FocusEventHandler<HTMLDivElement | HTMLButtonElement>
@@ -113,6 +116,9 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     /** Rewrites editable value if props.value is changed by outside events. Default is true */
     focusedValueOutsideUpdate?: boolean
 
+    /** Keeps fractial zeroes of props.value when focus the input */
+    focusedValueTruncateZeroes?: boolean
+
     /** Triggered if NumberPicker string value is change */
     onStringChange?(
         changeParams: {
@@ -146,7 +152,7 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
     inputClassName?: InputProps['className']
 
     /** Underlaying Input theme */
-    inputTheme?: InputProps['theme']
+    inputTheme?: InputTheme
 
     /** Underlaying Input inner store */
     inputStore?: InputProps['store']
@@ -159,7 +165,10 @@ type Props<_Payload = any> = PropsComponentThemed<Theme, {
 
     /** Underlaying Input component change debounce */
     debounceMs?: InputProps['debounceMs']
-}> & Omit<InputProps, 'value' | 'label' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' | 'onFocus' | 'onChange' | 'store' | 'regexp'>
+}> & Omit<
+        InputProps,
+        'value' | 'label' | 'theme' | 'type' | 'rootTagAttributes' | 'payload' | 'onBlur' |
+        'onFocus' | 'onChange' | 'store' | 'regexp'>
 
 type DefaultProps = NonNullableProps<{
     className: Props['className']
@@ -167,7 +176,8 @@ type DefaultProps = NonNullableProps<{
     min: Props['min']
     max: Props['max']
     focusedValueOutsideUpdate: Props['focusedValueOutsideUpdate']
-    inputTheme: Partial<NonNullable<InputProps['theme']>>
+    focusedValueTruncateZeroes: Props['focusedValueTruncateZeroes']
+    inputTheme: InputTheme
 }>
 
 type MergedProps = Props & DefaultProps

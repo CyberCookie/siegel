@@ -114,5 +114,6 @@ type Component = CoreUIComponent<Props, DefaultProps>
 
 
 export type {
-    Props, DefaultProps, MergedProps, Component, State, RangeCrossTypeMap
+    Theme, Props, DefaultProps, MergedProps, Component, State,
+    RangeCrossTypeMap
 }

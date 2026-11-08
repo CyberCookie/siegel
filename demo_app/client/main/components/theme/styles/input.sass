@@ -1,10 +1,12 @@
-$height: 40px
-$width: 300px
-
-
 .root
+    --primary_color: $primary
+    --disabled_color: $border_color_light
+    --error_color: $red
+    --border_redius: $radius
+    --inout_height: 40px
+
     position: relative
-    width: $width
+    width: 300px
 
 .root, .label
     display: flex
@@ -14,15 +16,15 @@ $width: 300px
     transition: color $transition
 
 .field
-    +font(18px, $height)
+    +font(18px, var(--inout_height))
     width: 100%
-    height: $height
-    border-radius: $radius
+    height: var(--inout_height)
+    border-radius: var(--border_redius)
     border: $border
     padding: 0 $gutter_lg 0 $gutter
 
     &::placeholder
-        color: $border_color_light
+        color: var(--disabled_color)
 
 
 .label_text, .error_text
@@ -37,7 +39,7 @@ $width: 300px
     transform: translateY(100%)
 
 .children
-    +absolute('', $gutter, math.div($height, 2))
+    +absolute('', $gutter, math.div(var(--inout_height), 2))
     display: flex
     transform: translateY(50%)
 
@@ -46,29 +48,24 @@ $width: 300px
 
 
 ._error
-    .label_text, .error_text
-        color: $red_2
+    .label_text, .error_text, .children > i
+        color: var(--error_color)
     
     .error_text
         visibility: visible
         
     .field
-        border-color: $red_2
-
-    .children > i
-        color: $red_2
+        border-color: var(--error_color)
     
 
 
 ._focused
-    .error_text, .label_text
-        color: $primary
+    .error_text, .label_text, .children > i
+        color: var(--primary_color)
     
     .field
-        border-color: $primary
-    
-    .children > i
-        color: $primary
+        border-color: var(--primary_color)
+
 
 
 ._textarea .field

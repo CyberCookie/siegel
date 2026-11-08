@@ -17,14 +17,13 @@ import Input, {
 } from '../Input'
 import { setCaretPos } from '../Input/utils'
 import {
-    buildInputRegexp, getInputString, getValuePrecision, getStepButtons,
+    buildInputRegexp, getInputString, getValuePrecision, getStepButtons, getValueState,
     adjustWithRanges, pretifyInputString, isValidNumberString, isValidNumberMissingDigits
 } from './helpers'
 
 import type { DivTagAttributes } from '../_internals/types'
 import type {
-    DefaultProps, Props, MergedProps, Component,
-    ComponentFocusEventHandler, OnNumberPickerChange
+    DefaultProps, Props, Component, ComponentFocusEventHandler, OnNumberPickerChange
 } from './types'
 
 import styles from './styles.sass'
@@ -32,23 +31,6 @@ import styles from './styles.sass'
 
 const _undef = undefined
 const componentID = '-ui-number_picker'
-
-
-function getValueState(
-    props: MergedProps,
-    numberValue: number,
-    numberMask: RegExp,
-    isFocused: boolean
-) {
-
-    const prevValidNumber = isValidNumberString(props.value) ? numberValue : undefined
-    return {
-        prevValidNumber,
-        stringValue: getInputString({
-            props, numberValue, numberMask, isFocused, prevValidNumber
-        })
-    }
-}
 
 
 const NumberPicker = component<Props, DefaultProps>(
@@ -70,7 +52,8 @@ const NumberPicker = component<Props, DefaultProps>(
         inputTheme: {},
         min: -Infinity,
         max: Infinity,
-        focusedValueOutsideUpdate: true
+        focusedValueOutsideUpdate: true,
+        focusedValueTruncateZeroes: true
     },
     props => {
 

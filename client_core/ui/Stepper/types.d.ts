@@ -1,7 +1,10 @@
 import React from 'react'
 
 import type { PropsComponentThemed, CoreUIComponent } from '../_internals/types'
-import type { Props as RangerProps } from '../Ranger'
+import type {
+    Props as RangerProps,
+    Theme as RangerTheme
+} from '../Ranger'
 
 
 type State = {
@@ -66,7 +69,7 @@ type Props = PropsComponentThemed<Theme, {
     children?: React.ReactNode
 
     /** Underlaying Ranger component props.theme */
-    rangerTheme?: RangerProps['theme']
+    rangerTheme?: RangerTheme
 
     /** Underlaying Ranger component props.memoDeps */
     rangerMemoDeps?: RangerProps['memoDeps']

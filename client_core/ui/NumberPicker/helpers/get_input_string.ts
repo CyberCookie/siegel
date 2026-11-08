@@ -19,7 +19,7 @@ const CHAR_DOT = '.'
 function getInputString(params: Params) {
     if (isExists(params.props.value)) {
         const {
-            props: { value, precision, zeroesPadLeft },
+            props: { value, precision, zeroesPadLeft, focusedValueTruncateZeroes },
             isFocused, numberMask, prevValidNumber
         } = params
 
@@ -31,10 +31,11 @@ function getInputString(params: Params) {
         }
 
 
-
         let result = typeof value === 'string' && numberMask.test(value)
             ?   pretifyInputString(value)
-            :   isNumberNaN ? '' : String(numberValue)
+            :   isNumberNaN
+                ?   ''
+                :   String(focusedValueTruncateZeroes ? numberValue : value)
 
 
         if (result) {
@@ -43,12 +44,17 @@ function getInputString(params: Params) {
                 let isPrecisionAdjust = true
                 if (isFocused) {
                     indexOfDot = result.indexOf(CHAR_DOT)
-                    isPrecisionAdjust = indexOfDot >= 0 && ((result.length - 1) - indexOfDot) > precision
+                    isPrecisionAdjust = indexOfDot >= 0 &&
+                        ((result.length - 1) - indexOfDot) > precision
                 }
 
                 if (isPrecisionAdjust) {
                     result = numberValue.toFixed(precision)
-                    isFocused && (result = String(+result))
+                    if (isFocused) {
+                        result = focusedValueTruncateZeroes
+                            ?   String(+result)
+                            :   result
+                    }
                 }
             }
 

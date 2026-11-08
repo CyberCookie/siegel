@@ -1,17 +1,20 @@
 .root
+    --error_color: $red
+    --border_redius: $radius
+
+    +font(20px, 100%)
     position: relative
     width: 300px
-    +font(20px, 100%)
 
 ._with_suggestions .field
-    border-radius: $radius $radius 0 0 
+    border-radius: var(--border_redius) var(--border_redius) 0 0 
 
 .options
     display: block !important
     z-index: 1
 
     ._error &
-        border-color: transparent $red_2 $red_2
+        border-color: transparent var(--error_color) var(--error_color)
 
 .reset
     +absolute(50%, 0)

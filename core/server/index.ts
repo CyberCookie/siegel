@@ -47,10 +47,10 @@ function runServer(params: ServerBootParams) {
                     }
 
 
-                    const safeFilePath = path.resolve(
-                        path.join(publicDir!, pathname)
-                    )
-                    if (safeFilePath.startsWith(publicDir!)) {
+                    const isSafeFilePath = path
+                        .resolve( path.join(publicDir!, pathname) )
+                        .startsWith(publicDir!)
+                    if (isSafeFilePath) {
 
                         const { file, headers } = getStaticFileResponseData({
                             serverConfig: server,
